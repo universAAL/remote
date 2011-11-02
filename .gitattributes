@@ -1,9 +1,4 @@
 * text=auto !eol
-ri.servicegateway/.classpath -text
-ri.servicegateway/.project -text
-ri.servicegateway/.settings/org.eclipse.jdt.core.prefs -text
-ri.servicegateway/.settings/org.eclipse.jdt.ui.prefs -text
-ri.servicegateway/.settings/org.maven.ide.eclipse.prefs -text
 ri.servicegateway/LICENSE -text
 ri.servicegateway/LICENSE-CPL-JUnit -text
 ri.servicegateway/LICENSE-JGCL -text
@@ -15,6 +10,3 @@ ri.servicegateway/src/main/java/org/universAAL/ri/servicegateway/GatewayPort.jav
 ri.servicegateway/src/main/java/org/universAAL/ri/servicegateway/GatewayPortTracker.java -text
 ri.servicegateway/src/main/java/org/universAAL/ri/servicegateway/impl/Base64.java -text
 ri.servicegateway/src/test/java/org/unversAAL/ri/servicegateway/LoginServletTest.java -text
-ri.servicegateway/target/ri.servicegateway-0.3.5.jar -text
-ri.servicegateway/target/surefire-reports/TEST-org.unversAAL.ri.servicegateway.LoginServletTest.xml -text
-ri.servicegateway/target/surefire-reports/org.unversAAL.ri.servicegateway.LoginServletTest.txt -text

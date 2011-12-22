@@ -1,4 +1,6 @@
 * text=auto !eol
+pom/.project -text svneol=unset#text/plain
+pom/.settings/org.eclipse.m2e.core.prefs -text svneol=unset#text/plain
 pom/pom.xml -text
 ri.servicegateway/LICENSE -text
 ri.servicegateway/LICENSE-CPL-JUnit -text

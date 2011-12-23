@@ -1,5 +1,5 @@
 #external libraries:
-scan-bundel:mvn:org.apache.felix/javax.servlet/1.0.0
+scan-bundle:mvn:org.apache.felix/javax.servlet/1.0.0
 scan-bundle:mvn:org.ops4j.pax.web/pax-web-jetty-bundle/1.0.3
 scan-bundle:wrap:mvn:org.ops4j.pax.web/pax-web-api/1.0.3
 #uAAL Dependencies:

@@ -5,7 +5,7 @@
 
 	<groupId>org.universAAL.remote-interoperability</groupId>
 	<artifactId>ri.pom</artifactId>
-	<version>1.0.0</version>
+	<version>1.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	
 	<name></name>
@@ -74,7 +74,42 @@
 				<version>1.0.1</version>
 				<scope>provided</scope>
 			</dependency>
-		</dependencies>
+			<dependency>
+				<groupId>org.universAAL.middleware</groupId>
+				<artifactId>mw.container.osgi</artifactId>
+				<version>1.0.0</version>
+			</dependency>
+			<dependency>
+				<groupId>org.universAAL.middleware</groupId>
+				<artifactId>mw.data.representation</artifactId>
+				<version>1.0.0</version>
+			</dependency>
+			<dependency>
+				<groupId>org.universAAL.middleware</groupId>
+				<artifactId>mw.bus.service</artifactId>
+				<version>1.0.0</version>
+			</dependency>
+			<dependency>
+				<groupId>org.universAAL.middleware</groupId>
+				<artifactId>mw.bus.io</artifactId>
+				<version>1.0.0</version>
+			</dependency>
+			<dependency>
+				<groupId>org.universAAL.middleware</groupId>
+				<artifactId>mw.bus.context</artifactId>
+				<version>1.0.0</version>
+			</dependency>
+			<dependency>
+				<groupId>org.universAAL.ontology</groupId>
+				<artifactId>ont.profile</artifactId>
+				<version>1.0.0</version>
+			</dependency>
+			<dependency>
+				<groupId>org.universAAL.ontology</groupId>
+				<artifactId>ont.phWorld</artifactId>
+				<version>1.0.0</version>
+			</dependency>
+		</dependencies>	
 	</dependencyManagement>
 
 	<repositories>
@@ -147,8 +182,7 @@
 					<version>2.3.2</version>
 					<inherited>true</inherited>
 					<configuration>
-						<testSource>1.5</testSource>
-						<testTarget>1.5</testTarget>
+						<showWarnings>true</showWarnings>
 						<source>${maven.compile.source}</source>
 						<target>${maven.compile.target}</target>
 					</configuration>
@@ -187,7 +221,7 @@
 					<version>1.7</version>
 					<executions>
 						<execution>
-							<id>attach-artifacts</id>
+							<id>attach-composite</id>
 							<phase>package</phase>
 							<goals>
 								<goal>attach-artifact</goal>
@@ -207,7 +241,6 @@
 		</pluginManagement>
 	</build>
 
-
 	<reporting>
 		<plugins>
 			<plugin>
@@ -221,9 +254,8 @@
 				<version>2.7</version>
 				<!-- Default Checkstyle configuration is the Sun Microsystems Definition. 
 					As defined in D2.3 -->
-				<!-- <configuration> 
-						<configLocation>http://svn.apache.org/repos/asf/maven/plugins/trunk/maven-checkstyle-plugin/src/main/resources/config/maven_checks.xml</configLocation> 
-						<headerLocation>http://svn.apache.org/repos/asf/maven/plugins/trunk/maven-checkstyle-plugin/src/main/resources/config/maven-header.txt</headerLocation> 
+				<!-- <configuration> <configLocation>http://svn.apache.org/repos/asf/maven/plugins/trunk/maven-checkstyle-plugin/src/main/resources/config/maven_checks.xml</configLocation> 
+					<headerLocation>http://svn.apache.org/repos/asf/maven/plugins/trunk/maven-checkstyle-plugin/src/main/resources/config/maven-header.txt</headerLocation> 
 					</configuration> -->
 			</plugin>
 			<plugin>
@@ -239,10 +271,10 @@
 				<version>2.3</version>
 			</plugin>
 			<plugin>
-  				<groupId>org.codehaus.mojo</groupId> 
-  				<artifactId>javancss-maven-plugin</artifactId> 
-  				<version>2.0-beta-2</version> 
-  			</plugin>			
+	        	<groupId>org.codehaus.mojo</groupId>
+		        <artifactId>javancss-maven-plugin</artifactId>
+		        <version>2.0-beta-2</version>
+		      </plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>

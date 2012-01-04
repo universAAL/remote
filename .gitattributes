@@ -5,6 +5,7 @@ ri.servicegateway/LICENSE-CPL-JUnit -text
 ri.servicegateway/LICENSE-JGCL -text
 ri.servicegateway/LICENSE-MIT11-httpunit -text
 ri.servicegateway/NOTICE -text
+ri.servicegateway/artifact.composite -text
 ri.servicegateway/pom.xml -text
 ri.servicegateway/src/main/java/org/universAAL/ri/servicegateway/Activator.java -text
 ri.servicegateway/src/main/java/org/universAAL/ri/servicegateway/GatewayPort.java -text

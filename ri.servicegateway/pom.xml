@@ -5,13 +5,13 @@
 	<parent>
 		<groupId>org.universAAL.remote-interoperability</groupId>
 		<artifactId>ri.pom</artifactId>
-		<version>1.0.1-SNAPSHOT</version>
+		<version>1.0.2-SNAPSHOT</version>
 		<relativePath>../pom/pom.xml</relativePath>
 	</parent>
 
 	<packaging>bundle</packaging>
 	<artifactId>ri.servicegateway</artifactId>
-	<version>1.0.1-SNAPSHOT</version>
+	<version>1.0.2-SNAPSHOT</version>
 	<name>Platform component servicegateway</name>
 	<description>This is an HTTP Gateway for handling HTTP request</description>
 

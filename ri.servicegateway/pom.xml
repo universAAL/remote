@@ -117,8 +117,8 @@
 	</build>
 
 	<scm>
-		<connection>${svn.trunk}/servicegateway</connection>
-		<developerConnection>${svn.trunk}/servicegateway</developerConnection>
-		<url>${gforge.base}/scmsvn/?path=%2Ftrunk%2Fservicegateway</url>
+		<connection>${svn.base}/servicegateway</connection>
+		<developerConnection>${svn.base}/servicegateway</developerConnection>
+		<url>${svn.base.url}servicegateway</url>
 	</scm>
 </project>

@@ -1,2 +1,6 @@
 pom-1.0.1-SNAPSHOT/*.project
 pom-1.0.1-SNAPSHOT/*.settings
+ri.servicegateway-1.0.1-SNAPSHOT/.classpath
+ri.servicegateway-1.0.1-SNAPSHOT/.project
+ri.servicegateway-1.0.1-SNAPSHOT/.settings
+ri.servicegateway-1.0.1-SNAPSHOT/target

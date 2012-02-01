@@ -32,8 +32,6 @@
 		<maven.compile.source>1.5</maven.compile.source>
 		<maven.compile.target>1.5</maven.compile.target>
 		<gforge.project.name>rinterop</gforge.project.name>
-		<release.previous>1.0.0</release.previous>
-		<release.next>1.1.0</release.next>
 	</properties>
 
 	<dependencyManagement>
@@ -55,7 +53,7 @@
 			<dependency>
 				<groupId>org.universAAL.remote-interoperability</groupId>
 				<artifactId>ri.servicegateway</artifactId>
-				<version>(${release.previous} , ${release.next}]</version>
+				<version>1.0.2-SNAPSHOT</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>

@@ -33,40 +33,41 @@ import org.universAAL.middleware.container.osgi.uAALBundleContainer;
  * GatewayPort.
  * 
  * @author Mario Latronico
+ * @author eandgrg
  * 
  */
 
 public class Activator implements BundleActivator {
 
-	public static BundleContext context;
-	/**
-	 * {@link ModuleContext}
-	 */
-	private static ModuleContext mcontext;
+    public static BundleContext context;
+    /**
+     * universAAL {@link ModuleContext}
+     */
+    protected static ModuleContext mcontext;
 
-	GatewayPortTracker gatewayPortTracker;
-	ServiceTracker profileServiceTracker;
+    GatewayPortTracker gatewayPortTracker;
+    ServiceTracker profileServiceTracker;
 
-	public void start(BundleContext context) {
+    public void start(BundleContext context) {
 
-		Activator.context = context;
-		BundleContext[] bc = { context };
-		Activator.mcontext = uAALBundleContainer.THE_CONTAINER
-				.registerModule(bc);
+	Activator.context = context;
+	BundleContext[] bc = { context };
+	Activator.mcontext = uAALBundleContainer.THE_CONTAINER
+		.registerModule(bc);
 
-		// start the tracker on the GatewayPort name
-		gatewayPortTracker = new GatewayPortTracker(context, mcontext,
-				GatewayPort.class.getName(), null); // no service tracker
-		// customization
-		gatewayPortTracker.open();
-		// testWithAuthWithoutCookies();
+	// start the tracker on the GatewayPort name
+	gatewayPortTracker = new GatewayPortTracker(context, mcontext,
+		GatewayPort.class.getName(), null); // no service tracker
+	// customization
+	gatewayPortTracker.open();
+	// testWithAuthWithoutCookies();
 
-	}
+    }
 
-	public void stop(BundleContext context) throws Exception {
+    public void stop(BundleContext context) throws Exception {
 
-		gatewayPortTracker.close();
-	}
+	gatewayPortTracker.close();
+    }
 
 } // end class
 

@@ -3,8 +3,8 @@ scan-bundle:mvn:org.apache.felix/javax.servlet/1.0.0
 scan-bundle:mvn:org.ops4j.pax.web/pax-web-jetty-bundle/1.0.3
 scan-bundle:wrap:mvn:org.ops4j.pax.web/pax-web-api/1.0.3
 #uAAL Dependencies:
-scan-composite:mvn:org.universAAL.middleware/mw.container.osgi/1.0.0/composite
-scan-composite:mvn:org.universAAL.middleware/mw.bus.io/1.0.0/composite
-scan-composite:mvn:org.universAAL.ontology/ont.profile/1.0.0/composite
+scan-composite:mvn:org.universAAL.middleware/mw.container.osgi/1.0.1-SNAPSHOT/composite
+scan-composite:mvn:org.universAAL.middleware/mw.bus.ui/1.0.1-SNAPSHOT/composite
+scan-composite:mvn:org.universAAL.ontology/ont.profile/1.0.1-SNAPSHOT/composite
 ## Self:
-scan-bundle:mvn:org.universAAL.remote-interoperability/ri.servicegateway/1.0.1-SNAPSHOT
+scan-bundle:mvn:org.universAAL.remote-interoperability/ri.servicegateway/1.0.2-SNAPSHOT

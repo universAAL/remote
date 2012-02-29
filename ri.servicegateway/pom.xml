@@ -62,12 +62,17 @@
 			<artifactId>junit</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.universAAL.ontology</groupId>
-			<artifactId>ont.profile</artifactId>
+			<groupId>org.universAAL.middleware</groupId>
+			<artifactId>mw.bus.service</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.universAAL.middleware</groupId>
 			<artifactId>mw.bus.ui</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.universAAL.ui</groupId>
+			<artifactId>security.authorizator</artifactId>
+			<version>1.0.2-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
 

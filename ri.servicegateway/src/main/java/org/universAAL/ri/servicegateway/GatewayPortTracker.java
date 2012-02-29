@@ -52,6 +52,8 @@ public class GatewayPortTracker extends ServiceTracker implements Runnable {
     private ServiceTracker httpTracker;
     private Set<String> urlSet, dataDirSet;
 
+    
+    
     private class GatewayHttpContext implements HttpContext {
 
 	private ServiceReference reference;

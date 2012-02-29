@@ -29,17 +29,12 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.universAAL.middleware.container.ModuleContext;
 import org.universAAL.middleware.container.utils.LogUtils;
-import org.universAAL.middleware.owl.MergedRestriction;
-import org.universAAL.middleware.rdf.PropertyPath;
-import org.universAAL.middleware.service.CallStatus;
 import org.universAAL.middleware.service.DefaultServiceCaller;
 import org.universAAL.middleware.service.ServiceCaller;
-import org.universAAL.middleware.service.ServiceRequest;
-import org.universAAL.middleware.service.ServiceResponse;
 import org.universAAL.middleware.service.owls.process.ProcessOutput;
-import org.universAAL.ontology.profile.User;
-import org.universAAL.ontology.profile.service.ProfilingService;
 import org.universAAL.ri.servicegateway.impl.Base64;
+import org.universAAL.ui.security.authorization.AuthorizatorImpl;
+import org.universAAL.ui.security.authorization.IAuthorizator;
 
 public abstract class GatewayPort extends javax.servlet.http.HttpServlet {
     private static final long serialVersionUID = -513978908843447270L;
@@ -47,13 +42,10 @@ public abstract class GatewayPort extends javax.servlet.http.HttpServlet {
     private Hashtable<String, String> userTable;
     protected Hashtable<String, String> userURIs;// NEW stores user´s URIs for
 
-    // used to call the profiling service
-    private ServiceCaller caller;
-    private static final String PROFILE_CLIENT_NAMESPACE = "http://ontology.universAAL/ProfileClient.owl#";
-    private static final String OUTPUT_USER = PROFILE_CLIENT_NAMESPACE
-	    + "oUser";
+    private static ModuleContext mcontext;
+
     // the realm is used for HTTP Authentication
-    //public final static String REALM = "Help when outside";
+    // public final static String REALM = "Help when outside";
     public final static String REALM = "Enter universAAL remote login data";
 
     /**
@@ -80,39 +72,6 @@ public abstract class GatewayPort extends javax.servlet.http.HttpServlet {
 	resp.setStatus(401);
     }
 
-    private Object getReturnValue(List outputs, String expectedOutput) {
-	Object returnValue = null;
-	int testCount = 0;
-	if (outputs == null)
-	    LogUtils.logInfo(Activator.mcontext, this.getClass(),
-		    "getReturnValue",
-		    new Object[] { "ProfileConsumer: No info found!" }, null);
-	else
-	    for (Iterator i = outputs.iterator(); i.hasNext();) {
-		testCount++;
-		ProcessOutput output = (ProcessOutput) i.next();
-		if (output.getURI().equals(expectedOutput))
-		    if (returnValue == null)
-			returnValue = output.getParameterValue();
-		    else
-			LogUtils
-				.logInfo(
-					Activator.mcontext,
-					this.getClass(),
-					"getReturnValue",
-					new Object[] { "ProfileConsumer: redundant return value!" },
-					null);
-
-		else
-		    LogUtils.logInfo(Activator.mcontext, this.getClass(),
-			    "getReturnValue", new Object[] {
-				    "ProfileConsumer: - output ignored: {}!",
-				    output.getURI() }, null);
-
-	    }
-	return returnValue;
-    }
-
     /**
      * 
      * @param auth
@@ -121,7 +80,7 @@ public abstract class GatewayPort extends javax.servlet.http.HttpServlet {
      * @return A String array of two elements containing the user and pass as
      *         first and second element
      */
-    protected String[] getUserPass(String auth) {
+    protected String[] getUserAndPass(String auth) {
 	if (auth == null || auth.isEmpty())
 	    return null;
 	StringTokenizer authTokenizer = new StringTokenizer(auth, " ");
@@ -147,99 +106,6 @@ public abstract class GatewayPort extends javax.servlet.http.HttpServlet {
     }
 
     /**
-     * Allows or denies the authorization to use the servlets by the requesting
-     * user. Using the profiling service it queries the profiling database to
-     * search a valid user
-     * 
-     * @param user
-     *            The username entered in the authentication box
-     * @param pass
-     *            The password entered in the authentication box
-     * @return returns the user URI if authorized or null if not authorized
-     */
-    private String allowedCredentials(String user, String pass) {
-
-	ServiceRequest getUserByCredentials = new ServiceRequest(
-		new ProfilingService(null), null);
-
-	MergedRestriction resUsername = MergedRestriction.getFixedValueRestriction(
-		User.PROP_USERNAME, user);
-	MergedRestriction resPassword = MergedRestriction.getFixedValueRestriction(
-		User.PROP_PASSWORD, pass);
-	getUserByCredentials.getRequestedService().addInstanceLevelRestriction(
-		resUsername,
-		new String[] { ProfilingService.PROP_CONTROLS,
-			User.PROP_USERNAME });
-	getUserByCredentials.getRequestedService().addInstanceLevelRestriction(
-		resPassword,
-		new String[] { ProfilingService.PROP_CONTROLS,
-			User.PROP_PASSWORD });
-
-	ProcessOutput outUser = new ProcessOutput(OUTPUT_USER);
-	PropertyPath ppUser = new PropertyPath(null, true,
-		new String[] { ProfilingService.PROP_CONTROLS });
-	getUserByCredentials.addSimpleOutputBinding(outUser, ppUser
-		.getThePath());
-
-	try {
-	    if (caller == null)
-		throw new Exception("Default Service Caller not initialized");
-	    ServiceResponse sr = caller.call(getUserByCredentials);
-
-	    if (sr.getCallStatus() == CallStatus.succeeded) {
-		try {
-
-		    Object o = getReturnValue(sr.getOutputs(), OUTPUT_USER);
-		    if (o instanceof User) {
-			User userObject = (User) o;
-			LogUtils
-				.logInfo(
-					Activator.mcontext,
-					this.getClass(),
-					"getReturnValue",
-					new Object[] {
-						"Authentication succeed. User URI: {}!",
-						userObject.getURI() }, null);
-
-			// user authorized: return URI
-			return userObject.getURI();
-		    } else {
-			LogUtils
-				.logInfo(
-					Activator.mcontext,
-					this.getClass(),
-					"getReturnValue",
-					new Object[] { "Authentication failed. No such user!" },
-					null);
-
-		    }
-		} catch (Exception e) {
-		    LogUtils.logError(Activator.mcontext, this.getClass(),
-			    "getReturnValue", new Object[] { "Exception {}!",
-				    e.getMessage() }, null);
-
-		}
-	    } else {
-		LogUtils
-			.logInfo(
-				Activator.mcontext,
-				this.getClass(),
-				"getReturnValue",
-				new Object[] {
-					"List of parameters has not been retrieved {}!",
-					sr.getCallStatus().toString() }, null);
-
-	    }
-
-	} catch (Exception e) {
-	    e.printStackTrace();
-	}
-	// user not authorized: return NULL
-	return null;
-
-    }
-
-    /**
      * Handle the login phase
      * 
      * @param req
@@ -255,11 +121,11 @@ public abstract class GatewayPort extends javax.servlet.http.HttpServlet {
 	String authHeader = req.getHeader("Authorization");
 	// if the authorization is not present, requires the credential
 	// first element is username, second is password
-	String[] userPass = getUserPass(authHeader);
+	String[] userPass = getUserAndPass(authHeader);
 	if (userPass == null) {
 	    // if the authorization is missing, require again the credentials
 	    requireCredentials(req, resp);
-	    return false;
+	    //return false;
 	} else {
 
 	    // first check if it is already authorized
@@ -268,13 +134,12 @@ public abstract class GatewayPort extends javax.servlet.http.HttpServlet {
 		return true;
 	    // no password already stored for the username
 	    if (tablePass == null) {
-		// check the credentials //NEW gets the user URI
-		String allowedURI = allowedCredentials(userPass[0], userPass[1]);
-		if (allowedURI != null)// NEW instead of allowed==true
+		// check the credentials 
+		AuthorizatorImpl authorizator = new AuthorizatorImpl(getContext());
+		if (authorizator.isAuthorized(userPass[0], userPass[1]) == true)
 		{
-		    // add the entry on the table
 		    userTable.put(userPass[0], userPass[1]);
-		    userURIs.put(userPass[0], allowedURI);// NEW also add the
+		    userURIs.put(userPass[0], authorizator.getAllowedUserURI());// NEW also add the
 		    // user URI
 		    // resp.sendRedirect(url());// removed for the web handler
 		    return true;
@@ -286,18 +151,12 @@ public abstract class GatewayPort extends javax.servlet.http.HttpServlet {
 	return false;
     }
 
-    /**
-     * Set the context from the bundle where this class belongs. The
-     * BundleContext is a parameter of the service caller for the profiling
-     * service
-     * 
-     * @param bundleContext
-     *            The bundle context from the bundle where this class belongs
-     */
-
     public void setContext(ModuleContext mcontext) {
+	GatewayPort.mcontext = mcontext;
+    }
 
-	caller = new DefaultServiceCaller(mcontext);
+    public ModuleContext getContext() {
+	return mcontext;
     }
 
     /**

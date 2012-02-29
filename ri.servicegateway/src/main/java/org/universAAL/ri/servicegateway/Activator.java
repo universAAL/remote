@@ -21,7 +21,6 @@ package org.universAAL.ri.servicegateway;
 
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
-import org.osgi.util.tracker.ServiceTracker;
 import org.universAAL.middleware.container.ModuleContext;
 import org.universAAL.middleware.container.osgi.uAALBundleContainer;
 
@@ -46,7 +45,6 @@ public class Activator implements BundleActivator {
     protected static ModuleContext mcontext;
 
     GatewayPortTracker gatewayPortTracker;
-    ServiceTracker profileServiceTracker;
 
     public void start(BundleContext context) {
 
@@ -60,12 +58,10 @@ public class Activator implements BundleActivator {
 		GatewayPort.class.getName(), null); // no service tracker
 	// customization
 	gatewayPortTracker.open();
-	// testWithAuthWithoutCookies();
 
     }
 
     public void stop(BundleContext context) throws Exception {
-
 	gatewayPortTracker.close();
     }
 

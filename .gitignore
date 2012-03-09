@@ -1,2 +1,6 @@
 pom/*.project
 pom/*.settings
+servicegateway/.classpath
+servicegateway/.project
+servicegateway/.settings
+servicegateway/target

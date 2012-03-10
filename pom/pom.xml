@@ -49,16 +49,6 @@
       </dependency>
     </dependencies>
   </dependencyManagement>
-  <repositories>
-    <repository>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
-      <id>uaal</id>
-      <name>universAAL Repositories</name>
-      <url>http://depot.universaal.org/maven-repo/releases/</url>
-    </repository>
-  </repositories>
   <build>
     <plugins>
       <plugin>
@@ -69,7 +59,7 @@
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>build-helper-maven-plugin</artifactId>
         <configuration>
-          <skipAttach>true</skipAttach>
+          <skipAttach>false</skipAttach>
         </configuration>
       </plugin>
     </plugins>

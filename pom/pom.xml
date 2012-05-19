@@ -43,10 +43,15 @@
         <scope>import</scope>
       </dependency>
       <dependency>
+      	<groupId>org.universAAL.ui</groupId>
+      	<artifactId>security.authorizator</artifactId>
+        <version>1.1.1-SNAPSHOT</version>
+      </dependency>
+      <dependency>
         <groupId>org.universAAL.remote-interoperability</groupId>
         <artifactId>ri.servicegateway</artifactId>
         <version>1.1.1-SNAPSHOT</version>
-      </dependency>
+      </dependency>   
     </dependencies>
   </dependencyManagement>
   <repositories>

@@ -5,11 +5,11 @@
   <parent>
     <groupId>org.universAAL.remote</groupId>
     <artifactId>ri.pom</artifactId>
-    <version>1.1.1-SNAPSHOT</version>
+    <version>1.1.2-SNAPSHOT</version>
     <relativePath>../pom/pom.xml</relativePath>
   </parent>
   <artifactId>ri.servicegateway</artifactId>
-  <version>1.1.1-SNAPSHOT</version>
+  <version>1.1.2-SNAPSHOT</version>
   <packaging>bundle</packaging>
   <name>Platform component servicegateway</name>
   <description>This is an HTTP Gateway for handling HTTP request</description>
@@ -70,11 +70,11 @@
     </dependency>
     <dependency>
       <groupId>org.universAAL.middleware</groupId>
-      <artifactId>mw.bus.service</artifactId>
+      <artifactId>mw.bus.service.osgi</artifactId>
     </dependency>
     <dependency>
       <groupId>org.universAAL.middleware</groupId>
-      <artifactId>mw.bus.ui</artifactId>
+      <artifactId>mw.bus.ui.osgi</artifactId>
     </dependency>
     <dependency>
       <groupId>org.universAAL.ui</groupId>

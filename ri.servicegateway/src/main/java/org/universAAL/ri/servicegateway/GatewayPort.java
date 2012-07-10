@@ -20,21 +20,14 @@
 package org.universAAL.ri.servicegateway;
 
 import java.util.Hashtable;
-import java.util.Iterator;
-import java.util.List;
 import java.util.StringTokenizer;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.universAAL.middleware.container.ModuleContext;
-import org.universAAL.middleware.container.utils.LogUtils;
-import org.universAAL.middleware.service.DefaultServiceCaller;
-import org.universAAL.middleware.service.ServiceCaller;
-import org.universAAL.middleware.service.owls.process.ProcessOutput;
 import org.universAAL.ri.servicegateway.impl.Base64;
 import org.universAAL.ui.security.authorization.AuthorizatorImpl;
-import org.universAAL.ui.security.authorization.IAuthorizator;
 
 public abstract class GatewayPort extends javax.servlet.http.HttpServlet {
     private static final long serialVersionUID = -513978908843447270L;

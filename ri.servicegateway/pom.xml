@@ -13,11 +13,6 @@
   <packaging>bundle</packaging>
   <name>Platform component servicegateway</name>
   <description>This is an HTTP Gateway for handling HTTP request</description>
-  <scm>
-    <connection>${svn.base}/servicegateway</connection>
-    <developerConnection>${svn.base}/servicegateway</developerConnection>
-    <url>${svn.base.url}servicegateway</url>
-  </scm>
   <build>
     <pluginManagement />
     <plugins>

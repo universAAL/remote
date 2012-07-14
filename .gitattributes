@@ -1,5 +1,4 @@
 * text=auto !eol
-pom/pom.xml -text
 ri.servicegateway/LICENSE -text
 ri.servicegateway/LICENSE-CPL-JUnit -text
 ri.servicegateway/LICENSE-JGCL -text

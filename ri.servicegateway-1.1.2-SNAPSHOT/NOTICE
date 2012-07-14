@@ -1,0 +1,43 @@
+PERSONA Platform Service Gateway
+
+Copyright 2008-2010 Vodafone Italy, http://www.vodafone.it
+Vodafone Omnitel N.V.
+
+
+I. Included Software
+
+This product includes software developed by
+Robert Harder (http://iharder.net/base64).
+Released as Public Domain.
+
+
+II. Used Software
+
+This product uses software developed at
+The Apache Software Foundation (http://www.apache.org/).
+Licensed under the Apache License 2.0.
+
+This product uses software developed at
+The OPS4J (http://www.ops4j.org)
+Licensed under the Apache License 2.0.
+
+This product uses software developed at
+Junit (http://www.junit.org/).
+Licensed under Common Public License 1.0.
+
+This product uses software developed at
+HttpUnit (http://httpunit.sourceforge.net/).
+Licensed under modified MIT X11 License.
+
+This product uses software developed at
+Information-technology Promotion Agency, (http://www.ipa.go.jp/)
+& Precision Modeling Laboratory, Inc., (http://www.pml.co.jp/)
+Copyright 2000 Software Research Associates, Inc., Tokyo, Japan.
+Licensed under specific JGCL License.
+
+
+III. License Summary
+- Apache License 2.0
+- Common Public License 1.0
+- Modified MIT X11 License
+- JGCL - Java Geometry Class Library License

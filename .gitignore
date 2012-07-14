@@ -1,3 +1,6 @@
+ri.pom/*.project
+ri.pom/*.settings
+ri.pom/target
 ri.servicegateway/*.log
 ri.servicegateway/.classpath
 ri.servicegateway/.project

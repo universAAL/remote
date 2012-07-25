@@ -35,6 +35,7 @@
   </build>
   <modules>
     <module>../ri.servicegateway/</module>
+    <module>../ri.internetgateway/</module>
   </modules>
   <repositories>
     <repository>

@@ -64,6 +64,10 @@ public class Activator implements BundleActivator {
     public void stop(BundleContext context) throws Exception {
 	gatewayPortTracker.close();
     }
+    
+    public static ModuleContext getModuleContext() {
+	return mcontext;
+    }
 
 } // end class
 

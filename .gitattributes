@@ -33,10 +33,11 @@ ri.servicegateway/LICENSE-JGCL -text
 ri.servicegateway/LICENSE-MIT11-httpunit -text
 ri.servicegateway/NOTICE -text
 ri.servicegateway/artifact_manual.composite -text
+ri.servicegateway/old[!!-~]test/LoginServletTest.java -text
 ri.servicegateway/pom.xml -text
 ri.servicegateway/src/main/java/org/universAAL/ri/servicegateway/Activator.java -text
 ri.servicegateway/src/main/java/org/universAAL/ri/servicegateway/GatewayPort.java -text
 ri.servicegateway/src/main/java/org/universAAL/ri/servicegateway/GatewayPortTracker.java -text
 ri.servicegateway/src/main/java/org/universAAL/ri/servicegateway/impl/Base64.java -text
-ri.servicegateway/src/test/java/org/unversAAL/ri/servicegateway/LoginServletTest.java -text
-ri.servicegateway/src/test/java/org/unversAAL/ri/servicegateway/test/ArtifactIntegrationTest.java -text
+ri.servicegateway/src/test/java/org/universAAL/ri/servicegateway/test/ArtifactIntegrationTest.java -text
+ri.servicegateway/src/test/java/org/universAAL/ri/servicegateway/test/GatewayPortTestImpl.java -text

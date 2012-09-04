@@ -58,7 +58,7 @@ public abstract class GatewayPort extends javax.servlet.http.HttpServlet {
      *            The response from doGet method, used to set the header to
      *            WWW-Authenticate and the status to 401
      */
-    private void requireCredentials(HttpServletRequest req,
+    protected void requireCredentials(HttpServletRequest req,
 	    HttpServletResponse resp) {
 	String s = "Basic realm=\"" + REALM + "\"";
 	resp.setHeader("WWW-Authenticate", s);
@@ -73,7 +73,7 @@ public abstract class GatewayPort extends javax.servlet.http.HttpServlet {
      * @return A String array of two elements containing the user and pass as
      *         first and second element
      */
-    protected String[] getUserAndPass(String auth) {
+    public String[] getUserAndPass(String auth) {
 	if (auth == null || auth.isEmpty())
 	    return null;
 	StringTokenizer authTokenizer = new StringTokenizer(auth, " ");

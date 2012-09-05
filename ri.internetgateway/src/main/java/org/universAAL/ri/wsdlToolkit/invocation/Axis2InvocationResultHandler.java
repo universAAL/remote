@@ -5,19 +5,19 @@
 package org.universAAL.ri.wsdlToolkit.invocation;
 
 
-
 import java.util.Iterator;
 import java.util.Vector;
 import javax.xml.namespace.QName;
-
+import javax.xml.soap.SOAPElement;
+import org.apache.axiom.om.OMAttribute;
+import org.apache.axiom.om.OMNode;
 import org.apache.axiom.om.impl.llom.OMElementImpl;
-
+import org.apache.axiom.om.impl.llom.OMNamespaceImpl;
+import org.apache.axiom.om.impl.llom.OMNodeImpl;
 import org.apache.axiom.om.impl.llom.OMTextImpl;
 import org.apache.axiom.soap.SOAPBody;
 import org.apache.axiom.soap.SOAPEnvelope;
 import org.apache.axis2.context.MessageContext;
-
-import org.universAAL.ri.wsdlToolkit.ioApi.AlignmentInformation;
 import org.universAAL.ri.wsdlToolkit.ioApi.ComplexObject;
 import org.universAAL.ri.wsdlToolkit.ioApi.NativeObject;
 import org.universAAL.ri.wsdlToolkit.ioApi.WSOperation;
@@ -130,7 +130,7 @@ public class Axis2InvocationResultHandler {
                         no.setObjectName(new QName(omElement2.getLocalName()));
                         no.setHasParent(co);
                         no.setObjectType(new QName("String"));
-                        no.setHasAlignmentInformation(new AlignmentInformation());
+                        
                         no.setHasValue(omElement2.getText());
                         co.getHasNativeObjects().add(no);
                     }
@@ -211,7 +211,7 @@ public class Axis2InvocationResultHandler {
                         no.setHasParent(co);
                         no.setHasValue(omElement.getText());
                         no.setObjectType(new QName("String"));
-                        no.setHasAlignmentInformation(new AlignmentInformation());
+                        
                         co.getHasNativeObjects().add(no);
                     }
                 } else {
@@ -221,7 +221,7 @@ public class Axis2InvocationResultHandler {
                     no.setHasParent(co);
                     no.setObjectType(new QName("String"));
                     no.setHasValue(omElement.getText());
-                    no.setHasAlignmentInformation(new AlignmentInformation());
+                    
                     co.getHasNativeObjects().add(no);
                 }
             } catch (Exception ex) {
@@ -497,7 +497,7 @@ public class Axis2InvocationResultHandler {
                                         if (parsedOutObj.getClass().getName().contains("NativeObject")) {
                                             NativeObject no1 = (NativeObject) parsedOutObj;
                                             if (no1.getObjectName().getLocalPart().equals(elem2.getLocalName())) {
-                                                no1.setHasValue(elem2.getText());
+                                                no1.setHasValue(elem2.getTrimmedText());
                                                 result.add(no1);
                                                 return result;
                                             }

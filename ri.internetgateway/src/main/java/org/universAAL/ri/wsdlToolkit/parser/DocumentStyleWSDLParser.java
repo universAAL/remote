@@ -8,8 +8,6 @@ package org.universAAL.ri.wsdlToolkit.parser;
 import com.ibm.wsdl.extensions.schema.SchemaImpl;
 import com.ibm.wsdl.extensions.schema.SchemaImportImpl;
 import com.ibm.wsdl.extensions.schema.SchemaReferenceImpl;
-
-
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;

@@ -5,7 +5,6 @@
 package org.universAAL.ri.wsdlToolkit.invocation;
 
 
-
 import java.net.URL;
 import java.util.Iterator;
 import java.util.Vector;
@@ -45,12 +44,10 @@ public class Axis2WebServiceInvoker {
             MessageContext outMsgCtx = new MessageContext();
             Options opts = outMsgCtx.getOptions();
 
-            //opts.setTo(new EndpointReference("http://iti-181/WebServices/Service.asmx"));
-            //opts.setAction("http://www.iti.gr/webservices/test1/EstimateSum");
+            
             opts.setTimeOutInMilliSeconds(100000);
             opts.setTo(new EndpointReference(theDefinition.getServiceURL()));
-            opts.setAction(theParsedOperation.getHasBindingSoapAction());
-            //opts.setAction("http://www.iti.gr/webservices/test1/EstimateSum");
+            opts.setAction(theParsedOperation.getHasBindingSoapAction());           
 
             System.out.println(theDefinition.getOperationsUse());
             System.out.println(theDefinition.getbindingStyle());
@@ -78,7 +75,6 @@ public class Axis2WebServiceInvoker {
                 res = Axis2InvocationResultHandler.parseResult(inMsgCtx, theParsedOperation);
             }
 
-
             result.setHasResponseInString(inMsgCtx.getEnvelope().toString());
             if (res != null) {
                 result.setResponseHasNativeOrComplexObjects(res.getResponseHasNativeOrComplexObjects());
@@ -92,17 +88,19 @@ public class Axis2WebServiceInvoker {
             theServiceClient.cleanupTransport();
             return null;
         }
+
     }
 
     
     
-    public static InvocationResult invokeWebService(URL wsdlURL, String namespaceURI, String operationName, WSOperationInput operationInput,
+    public static InvocationResult invokeWebService( 
             WSOperation theParsedOperation, ParsedWSDLDefinition theDefinition) throws Exception {
         ServiceClient theServiceClient = null;
 
         try {
-
-        	
+        	URL wsdlURL=theDefinition.getWsdlURL();
+        	String namespaceURI=theDefinition.getTargetNamespaceURI();
+        	String operationName=theParsedOperation.getOperationName();
             InvocationResult result = new InvocationResult();
             theServiceClient = new ServiceClient();
 
@@ -123,9 +121,9 @@ public class Axis2WebServiceInvoker {
             System.out.println(theDefinition.getbindingStyle());
 
             if (theDefinition.getbindingStyle().equals("RPC") && theDefinition.getOperationsUse().equals("ENCODED")) {
-                outMsgCtx.setEnvelope(Axis2_RpcEncodedMessageBuilder.createSOAPEnvelope_RPC_Encoded(new QName(namespaceURI, operationName), operationInput, theDefinition));
+                outMsgCtx.setEnvelope(Axis2_RpcEncodedMessageBuilder.createSOAPEnvelope_RPC_Encoded(new QName(namespaceURI, operationName), theParsedOperation.getHasInput(), theDefinition));
             } else {
-                outMsgCtx.setEnvelope(createSOAPEnvelope(new QName(namespaceURI, operationName), operationInput));
+                outMsgCtx.setEnvelope(createSOAPEnvelope(new QName(namespaceURI, operationName), theParsedOperation.getHasInput()));
             }
 
             operationClient.addMessageContext(outMsgCtx);
@@ -160,6 +158,9 @@ public class Axis2WebServiceInvoker {
             return null;
         }
     }
+    
+    
+    
     
     
     

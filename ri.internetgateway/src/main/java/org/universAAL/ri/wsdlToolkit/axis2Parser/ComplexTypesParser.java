@@ -5,7 +5,6 @@
 package org.universAAL.ri.wsdlToolkit.axis2Parser;
 
 
-
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Vector;
@@ -45,8 +44,7 @@ public class ComplexTypesParser {
             if (parsedComplexObjectsHashmap.containsKey(complexTypeName)) {
                 ComplexObject co1 = (ComplexObject) (parsedComplexObjectsHashmap.get(complexTypeName));
                 co.setObjectType(co1.getObjectType());
-                co.setAdditionalInfo(co1.getAdditionalInfo());
-                co.setHasAlignmentInformation(co1.getHasAlignmentInformation());
+                co.setAdditionalInfo(co1.getAdditionalInfo());               
                 co.setHasParent(co1.getHasParent());
                 co.setIsAbstract(co1.isIsAbstract());
                 co.setIsArrayType(co1.isIsArrayType());

@@ -10,7 +10,6 @@ import com.ibm.wsdl.ServiceImpl;
 import com.ibm.wsdl.extensions.schema.SchemaImpl;
 import com.ibm.wsdl.extensions.schema.SchemaImportImpl;
 
-
 import java.net.URL;
 import java.util.Collection;
 import java.util.Enumeration;

@@ -26,7 +26,7 @@ public class ComplexObject /*implements Cloneable*/ {
     private boolean isOptional=false;
     
 
-    private AlignmentInformation hasAlignmentInformation=new AlignmentInformation();
+   
 
     private Object hasParent; //mporei na einai ComplexObject i Operation
     private boolean isInput=true;
@@ -35,14 +35,7 @@ public class ComplexObject /*implements Cloneable*/ {
     //public String hasMaxOccurs;
 
 
-    public void setHasAlignmentInformation(AlignmentInformation v){
-        this.hasAlignmentInformation=v;
-    }
-
-    public AlignmentInformation getHasAlignmentInformation(){
-        return this.hasAlignmentInformation;
-    }
-
+   
 
     public ComplexObject cloneTheCO(){
         ComplexObject newCO=new ComplexObject();
@@ -114,15 +107,6 @@ public class ComplexObject /*implements Cloneable*/ {
                         extCO.isArrayType=inExtCO.isArrayType;
                         extCO.additionalInfo=inExtCO.additionalInfo;
                         extCO.isOptional=inExtCO.isOptional;
-                        if(inExtCO.hasAlignmentInformation!=null){
-                            extCO.hasAlignmentInformation=new AlignmentInformation();
-                            if(inExtCO.hasAlignmentInformation.getHasOntologicalPath()!=null){
-                                extCO.getHasAlignmentInformation().setHasOntologicalPath(inExtCO.hasAlignmentInformation.getHasOntologicalPath().clone());
-                            }
-                            if(co.hasAlignmentInformation.getHasParserPath()!=null){
-                                extCO.getHasAlignmentInformation().setHasParserPath(inExtCO.hasAlignmentInformation.getHasParserPath().clone());
-                            }
-                        }
                         co1.hasExtendedObjects.add(extCO);
                     }else{//NativeObject
                         NativeObject inExtNO=(NativeObject)obj;
@@ -131,15 +115,7 @@ public class ComplexObject /*implements Cloneable*/ {
                     }
                 }
 
-                if(co.hasAlignmentInformation!=null){
-                    co1.hasAlignmentInformation=new AlignmentInformation();
-                    if(co.hasAlignmentInformation.getHasOntologicalPath()!=null){
-                        co1.getHasAlignmentInformation().setHasOntologicalPath(co.hasAlignmentInformation.getHasOntologicalPath().clone());
-                    }
-                    if(co.hasAlignmentInformation.getHasParserPath()!=null){
-                        co1.getHasAlignmentInformation().setHasParserPath(co.hasAlignmentInformation.getHasParserPath().clone());
-                    }
-                }
+
                 newCO.hasComplexObjects.add(co1);
                 System.out.println();
 
@@ -228,15 +204,7 @@ public class ComplexObject /*implements Cloneable*/ {
                             extCO.isArrayType=inExtCO.isArrayType;
                             extCO.additionalInfo=inExtCO.additionalInfo;
                             extCO.isOptional=inExtCO.isOptional;
-                            if(inExtCO.hasAlignmentInformation!=null){
-                                extCO.hasAlignmentInformation=new AlignmentInformation();
-                                if(inExtCO.hasAlignmentInformation.getHasOntologicalPath()!=null){
-                                    extCO.getHasAlignmentInformation().setHasOntologicalPath(inExtCO.hasAlignmentInformation.getHasOntologicalPath().clone());
-                                }
-                                if(co.hasAlignmentInformation.getHasParserPath()!=null){
-                                    extCO.getHasAlignmentInformation().setHasParserPath(inExtCO.hasAlignmentInformation.getHasParserPath().clone());
-                                }
-                            }
+
                             co1.hasExtendedObjects.add(extCO);
                         }else{//NativeObject
                             NativeObject inExtNO=(NativeObject)obj1;
@@ -246,15 +214,7 @@ public class ComplexObject /*implements Cloneable*/ {
                         }
                     }
 
-                    if(co.hasAlignmentInformation!=null){
-                        co1.hasAlignmentInformation=new AlignmentInformation();
-                        if(co.hasAlignmentInformation.getHasOntologicalPath()!=null){
-                            co1.getHasAlignmentInformation().setHasOntologicalPath(co.hasAlignmentInformation.getHasOntologicalPath().clone());
-                        }
-                        if(co.hasAlignmentInformation.getHasParserPath()!=null){
-                            co1.getHasAlignmentInformation().setHasParserPath(co.hasAlignmentInformation.getHasParserPath().clone());
-                        }
-                    }
+
                     newCO.hasExtendedObjects.add(co1);
                     System.out.println();
 
@@ -293,15 +253,7 @@ public class ComplexObject /*implements Cloneable*/ {
         newCO.additionalInfo=this.additionalInfo;
         //newCO.hasExtendedObjects=(Vector)this.hasExtendedObjects.clone();
 
-        if(this.hasAlignmentInformation!=null){
-            newCO.hasAlignmentInformation=new AlignmentInformation();
-            if(this.hasAlignmentInformation.getHasOntologicalPath()!=null){
-                newCO.getHasAlignmentInformation().setHasOntologicalPath(this.hasAlignmentInformation.getHasOntologicalPath().clone());
-            }
-            if(this.hasAlignmentInformation.getHasParserPath()!=null){
-                newCO.getHasAlignmentInformation().setHasParserPath(this.hasAlignmentInformation.getHasParserPath().clone());
-            }
-        }
+
         return newCO;
     }
 
@@ -354,15 +306,7 @@ public class ComplexObject /*implements Cloneable*/ {
                         extCO.isArrayType=inExtCO.isArrayType;
                         extCO.additionalInfo=inExtCO.additionalInfo;
 
-                        if(inExtCO.hasAlignmentInformation!=null){
-                            extCO.hasAlignmentInformation=new AlignmentInformation();
-                            if(inExtCO.hasAlignmentInformation.getHasOntologicalPath()!=null){
-                                extCO.getHasAlignmentInformation().setHasOntologicalPath(inExtCO.hasAlignmentInformation.getHasOntologicalPath().clone());
-                            }
-                            if(co.hasAlignmentInformation.getHasParserPath()!=null){
-                                extCO.getHasAlignmentInformation().setHasParserPath(inExtCO.hasAlignmentInformation.getHasParserPath().clone());
-                            }
-                        }
+
                         co1.hasExtendedObjects.add(extCO);
                     }else{//NativeObject
                         NativeObject inExtNO=(NativeObject)obj;
@@ -371,15 +315,7 @@ public class ComplexObject /*implements Cloneable*/ {
                     }
                 }
 
-                if(co.hasAlignmentInformation!=null){
-                    co1.hasAlignmentInformation=new AlignmentInformation();
-                    if(co.hasAlignmentInformation.getHasOntologicalPath()!=null){
-                        co1.getHasAlignmentInformation().setHasOntologicalPath(co.hasAlignmentInformation.getHasOntologicalPath().clone());
-                    }
-                    if(co.hasAlignmentInformation.getHasParserPath()!=null){
-                        co1.getHasAlignmentInformation().setHasParserPath(co.hasAlignmentInformation.getHasParserPath().clone());
-                    }
-                }
+
                 newCO.hasComplexObjects.add(co1);
                 System.out.println();
 
@@ -443,15 +379,7 @@ public class ComplexObject /*implements Cloneable*/ {
                             extCO.isArrayType=inExtCO.isArrayType;
                             extCO.additionalInfo=inExtCO.additionalInfo;
 
-                            if(inExtCO.hasAlignmentInformation!=null){
-                                extCO.hasAlignmentInformation=new AlignmentInformation();
-                                if(inExtCO.hasAlignmentInformation.getHasOntologicalPath()!=null){
-                                    extCO.getHasAlignmentInformation().setHasOntologicalPath(inExtCO.hasAlignmentInformation.getHasOntologicalPath().clone());
-                                }
-                                if(co.hasAlignmentInformation.getHasParserPath()!=null){
-                                    extCO.getHasAlignmentInformation().setHasParserPath(inExtCO.hasAlignmentInformation.getHasParserPath().clone());
-                                }
-                            }
+
                             co1.hasExtendedObjects.add(extCO);
                         }else{//NativeObject
                             NativeObject inExtNO=(NativeObject)obj1;
@@ -460,15 +388,7 @@ public class ComplexObject /*implements Cloneable*/ {
                         }
                     }
 
-                    if(co.hasAlignmentInformation!=null){
-                        co1.hasAlignmentInformation=new AlignmentInformation();
-                        if(co.hasAlignmentInformation.getHasOntologicalPath()!=null){
-                            co1.getHasAlignmentInformation().setHasOntologicalPath(co.hasAlignmentInformation.getHasOntologicalPath().clone());
-                        }
-                        if(co.hasAlignmentInformation.getHasParserPath()!=null){
-                            co1.getHasAlignmentInformation().setHasParserPath(co.hasAlignmentInformation.getHasParserPath().clone());
-                        }
-                    }
+
                     newCO.hasExtendedObjects.add(co1);
                     System.out.println();
 
@@ -491,15 +411,7 @@ public class ComplexObject /*implements Cloneable*/ {
         newCO.additionalInfo=this.additionalInfo;
         //newCO.hasExtendedObjects=(Vector)this.hasExtendedObjects.clone();
 
-        if(this.hasAlignmentInformation!=null){
-            newCO.hasAlignmentInformation=new AlignmentInformation();
-            if(this.hasAlignmentInformation.getHasOntologicalPath()!=null){
-                newCO.getHasAlignmentInformation().setHasOntologicalPath(this.hasAlignmentInformation.getHasOntologicalPath().clone());
-            }
-            if(this.hasAlignmentInformation.getHasParserPath()!=null){
-                newCO.getHasAlignmentInformation().setHasParserPath(this.hasAlignmentInformation.getHasParserPath().clone());
-            }
-        }
+
         return newCO;
     }
 

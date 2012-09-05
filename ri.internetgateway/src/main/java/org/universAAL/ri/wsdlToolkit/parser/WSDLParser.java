@@ -7,8 +7,11 @@ package org.universAAL.ri.wsdlToolkit.parser;
 
 import com.ibm.wsdl.ServiceImpl;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.InputStreamReader;
 import java.io.PrintStream;
+import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
@@ -31,9 +34,7 @@ import javax.wsdl.factory.WSDLFactory;
 import javax.wsdl.xml.WSDLReader;
 import javax.xml.namespace.QName;
 
-
 import org.universAAL.ri.wsdlToolkit.axis2Parser.Axis2ParserWrapper;
-import org.universAAL.ri.wsdlToolkit.ioApi.AlignmentInformation;
 import org.universAAL.ri.wsdlToolkit.ioApi.ComplexObject;
 import org.universAAL.ri.wsdlToolkit.ioApi.NativeObject;
 import org.universAAL.ri.wsdlToolkit.ioApi.ParsedWSDLDefinition;
@@ -41,23 +42,16 @@ import org.universAAL.ri.wsdlToolkit.ioApi.WSOperation;
 import org.universAAL.ri.wsdlToolkit.ioApi.WSOperationInput;
 import org.universAAL.ri.wsdlToolkit.ioApi.WSOperationOutput;
 import org.w3c.dom.Element;
+import java.net.URLConnection;
 
-
-public class ITIWSDLParser {
+public class WSDLParser {
 
     //private static boolean changeUserDirDuringParsing=false;
     //public static HashMap clonedTypes;
     public static ParsedWSDLDefinition parseWSDLwithAxis(String wsdlURL, boolean Axis2Enabled, boolean Axis1Enabled) {
-
+    	if(pingURL(wsdlURL, "")){
 
         try {
-
-
-
-
-
-
-
             //String styleAndUse="";//getWSDLStyleAndUse(wsdlURL);
             String styleAndUse = getWSDLStyleAndUse(wsdlURL);
             String style = styleAndUse.substring(0, styleAndUse.indexOf("#"));
@@ -98,7 +92,7 @@ public class ITIWSDLParser {
                         }
                     } catch (Exception e) {
                     }
-                    
+                  
                     return parsedDef;
 
                 } else {
@@ -126,7 +120,7 @@ public class ITIWSDLParser {
                             }
                         } catch (Exception e) {
                         }
-                       
+                        
                         return parsedDef;
 
                     } else {
@@ -147,7 +141,7 @@ public class ITIWSDLParser {
                             }
                         } catch (Exception e) {
                         }
-                       
+                        
                         return parsedDef;
                     }
                 }
@@ -156,7 +150,27 @@ public class ITIWSDLParser {
                 //return parsedDef;
 
                 if (styleAndUse.equals("rpc#encoded")) {
-                  
+                    //Use ONLY MITSOS Parser (and/or Axis1)
+                    System.out.println("RPC/ENCODED!!!!!!!");
+                    ParsedWSDLDefinition parsedDef = Axis1ParserWrapper.parseWSDLwithAxis1(wsdlURL);
+                    if (parsedDef != null) {
+                        parsedDef.setParsingTool("Axis1");
+
+                        parsedDef.setBindingStyle(style);
+                        parsedDef.setOperationsUse(use);
+                    }
+                    fixTheParserPaths(parsedDef);
+                    parsedDef.setDocumentation(getDocumentation(wsdlURL));
+
+                    try {
+                        if (wsdlURL != null && wsdlURL.startsWith("file:")) {
+                            System.setProperty("user.dir", previousUserDir);
+                            System.out.println(System.getProperty("user.dir", "."));
+                        }
+                    } catch (Exception e) {
+                    }
+                    
+                    return parsedDef;
 
                 } else {
                     //Use Axis2, if it fails (use Axis1, if it fails) use MITSOS
@@ -165,7 +179,14 @@ public class ITIWSDLParser {
                         ParsedWSDLDefinition parsedDef = Axis2ParserWrapper.parseWSDLwithAxis2(wsdlURL);
 
                         if (parsedDef == null) {
-                           
+                            //try to call MitsosParser
+                            System.out.println("\n\nTrying to Parse WSDL with Axis 1...");
+                            parsedDef = Axis1ParserWrapper.parseWSDLwithAxis1(wsdlURL);
+                            if (parsedDef != null) {
+                                parsedDef.setParsingTool("Axis1");
+                                parsedDef.setBindingStyle(style);
+                                parsedDef.setOperationsUse(use);
+                            }
                         } else {
                             parsedDef.setParsingTool("Axis2");
                             parsedDef.setBindingStyle(style);
@@ -182,7 +203,7 @@ public class ITIWSDLParser {
                             }
                         } catch (Exception e) {
                         }
-                       
+                        
                         return parsedDef;
 
                     } else {
@@ -207,11 +228,13 @@ public class ITIWSDLParser {
             }
         } catch (Exception e) {
             e.printStackTrace();
-           
+            
             return null;
         }
-		return null;
-
+    	}
+    	else{
+    		return null;
+    	}
 
 
     }
@@ -351,30 +374,30 @@ public class ITIWSDLParser {
     //kgiannou
     public static String getDocumentation(String wsdlURL) {
         String res = new String();
-//        try {
-//            WSDLFactory wsdlFactory = WSDLFactory.newInstance();
-//            WSDLReader wsdlReader = wsdlFactory.newWSDLReader();
-//
-//            wsdlReader.setFeature("javax.wsdl.verbose", false);
-//            wsdlReader.setFeature("javax.wsdl.importDocuments", true);
-//
-//
-//            Definition definition = wsdlReader.readWSDL(wsdlURL);
-//            Element element = definition.getDocumentationElement();
-//            try {
-//                String documentation = element.getTextContent();
-//                if (documentation != null) {
-//                    //efi
-//                    documentation = removeHTMLTags(documentation);
-//                    res = documentation;
-//                }
-//            } catch (Exception ex) {
-//                System.out.println("No Documentation Found");
-//            }
-//
-//        } catch (Exception ex) {
-//            ex.printStackTrace();
-//        }
+        try {
+            WSDLFactory wsdlFactory = WSDLFactory.newInstance();
+            WSDLReader wsdlReader = wsdlFactory.newWSDLReader();
+
+            wsdlReader.setFeature("javax.wsdl.verbose", false);
+            wsdlReader.setFeature("javax.wsdl.importDocuments", true);
+
+
+            Definition definition = wsdlReader.readWSDL(wsdlURL);
+            Element element = definition.getDocumentationElement();
+            try {
+                String documentation = element.getTextContent();
+                if (documentation != null) {
+                    //efi
+                    documentation = removeHTMLTags(documentation);
+                    res = documentation;
+                }
+            } catch (Exception ex) {
+                System.out.println("No Documentation Found");
+            }
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
         return res;
     }
 
@@ -558,14 +581,13 @@ public class ITIWSDLParser {
             WSOperation oper = (WSOperation) operIter.next();
             inQNamesSoFar.add(new QName(theDefinition.getServiceURL(), oper.getOperationName()));
 
-            AlignmentInformation operAI = new AlignmentInformation();
+           
             QName[] operQNarray = new QName[inQNamesSoFar.size() + 1];
             for (int i = 0; i < inQNamesSoFar.size(); i++) {
                 operQNarray[i] = (QName) inQNamesSoFar.get(i);
             }
             operQNarray[operQNarray.length - 1] = new QName(oper.getOperationName());
-            operAI.setHasParserPath(operQNarray);
-            oper.setHasAlignmentInformation(operAI);
+           
 
 
             inQNamesSoFar.add(new QName("INPUTS"));
@@ -578,28 +600,26 @@ public class ITIWSDLParser {
                     NativeObject no = (NativeObject) obj;
                     no.setHasParent(oper);
 
-                    AlignmentInformation ai = new AlignmentInformation();
+                    
                     QName[] qNarray = new QName[inQNamesSoFar.size() + 1];
                     for (int i = 0; i < inQNamesSoFar.size(); i++) {
                         qNarray[i] = (QName) inQNamesSoFar.get(i);
                     }
                     qNarray[qNarray.length - 1] = no.getObjectName();
-                    ai.setHasParserPath(qNarray);
-                    no.setHasAlignmentInformation(ai);
+                   
 
                 } else if (obj.getClass().getName().contains("ComplexObject")) {
                     ComplexObject co = (ComplexObject) obj;
                     co.setHasParent(oper);
 
-                    AlignmentInformation ai = new AlignmentInformation();
+                    
                     QName[] qNarray = new QName[inQNamesSoFar.size() + 1];
                     for (int i = 0; i < inQNamesSoFar.size(); i++) {
                         qNarray[i] = (QName) inQNamesSoFar.get(i);
                     }
                     qNarray[qNarray.length - 1] = co.getObjectName();
-                    ai.setHasParserPath(qNarray);
-                    co.setHasAlignmentInformation(ai);
-
+                   
+                   
                     Vector newQNamesVector = (Vector) inQNamesSoFar.clone();
                     newQNamesVector.add(qNarray[qNarray.length - 1]);
 
@@ -614,27 +634,25 @@ public class ITIWSDLParser {
                     NativeObject no = (NativeObject) obj;
                     no.setHasParent(oper);
 
-                    AlignmentInformation ai = new AlignmentInformation();
+                    
                     QName[] qNarray = new QName[inQNamesSoFar.size() + 1];
                     for (int i = 0; i < inQNamesSoFar.size(); i++) {
                         qNarray[i] = (QName) inQNamesSoFar.get(i);
                     }
                     qNarray[qNarray.length - 1] = no.getObjectName();
-                    ai.setHasParserPath(qNarray);
-                    no.setHasAlignmentInformation(ai);
+                   
 
                 } else if (obj.getClass().getName().contains("ComplexObject")) {
                     ComplexObject co = (ComplexObject) obj;
                     co.setHasParent(oper);
 
-                    AlignmentInformation ai = new AlignmentInformation();
+                    
                     QName[] qNarray = new QName[inQNamesSoFar.size() + 1];
                     for (int i = 0; i < inQNamesSoFar.size(); i++) {
                         qNarray[i] = (QName) inQNamesSoFar.get(i);
                     }
                     qNarray[qNarray.length - 1] = co.getObjectName();
-                    ai.setHasParserPath(qNarray);
-                    co.setHasAlignmentInformation(ai);
+                   
 
                     Vector newQNamesVector = (Vector) inQNamesSoFar.clone();
                     newQNamesVector.add(qNarray[qNarray.length - 1]);
@@ -657,28 +675,26 @@ public class ITIWSDLParser {
                     no.setHasParent(oper);
                     no.setIsInput(false);
 
-                    AlignmentInformation ai = new AlignmentInformation();
+                    
                     QName[] qNarray = new QName[outQNamesSoFar.size() + 1];
                     for (int i = 0; i < outQNamesSoFar.size(); i++) {
                         qNarray[i] = (QName) outQNamesSoFar.get(i);
                     }
                     qNarray[qNarray.length - 1] = no.getObjectName();
-                    ai.setHasParserPath(qNarray);
-                    no.setHasAlignmentInformation(ai);
+                    
 
                 } else if (obj.getClass().getName().contains("ComplexObject")) {
                     ComplexObject co = (ComplexObject) obj;
                     co.setHasParent(oper);
                     co.setIsInput(false);
 
-                    AlignmentInformation ai = new AlignmentInformation();
+                    
                     QName[] qNarray = new QName[outQNamesSoFar.size() + 1];
                     for (int i = 0; i < outQNamesSoFar.size(); i++) {
                         qNarray[i] = (QName) outQNamesSoFar.get(i);
                     }
                     qNarray[qNarray.length - 1] = co.getObjectName();
-                    ai.setHasParserPath(qNarray);
-                    co.setHasAlignmentInformation(ai);
+                   
 
                     Vector newQNamesVector = (Vector) outQNamesSoFar.clone();
                     newQNamesVector.add(qNarray[qNarray.length - 1]);
@@ -695,28 +711,26 @@ public class ITIWSDLParser {
                     no.setHasParent(oper);
                     no.setIsInput(false);
 
-                    AlignmentInformation ai = new AlignmentInformation();
+                    
                     QName[] qNarray = new QName[outQNamesSoFar.size() + 1];
                     for (int i = 0; i < outQNamesSoFar.size(); i++) {
                         qNarray[i] = (QName) outQNamesSoFar.get(i);
                     }
                     qNarray[qNarray.length - 1] = no.getObjectName();
-                    ai.setHasParserPath(qNarray);
-                    no.setHasAlignmentInformation(ai);
+                    
 
                 } else if (obj.getClass().getName().contains("ComplexObject")) {
                     ComplexObject co = (ComplexObject) obj;
                     co.setHasParent(oper);
                     co.setIsInput(false);
 
-                    AlignmentInformation ai = new AlignmentInformation();
+                    
                     QName[] qNarray = new QName[outQNamesSoFar.size() + 1];
                     for (int i = 0; i < outQNamesSoFar.size(); i++) {
                         qNarray[i] = (QName) outQNamesSoFar.get(i);
                     }
                     qNarray[qNarray.length - 1] = co.getObjectName();
-                    ai.setHasParserPath(qNarray);
-                    co.setHasAlignmentInformation(ai);
+                   
 
                     Vector newQNamesVector = (Vector) outQNamesSoFar.clone();
                     newQNamesVector.add(qNarray[qNarray.length - 1]);
@@ -730,140 +744,7 @@ public class ITIWSDLParser {
 
     }
 
-    /*
-     * Returns null if object is not found
-     * */
-    public static Object getTheObjectWithTheSpecificPath(ParsedWSDLDefinition theDefinition, QName[] parserPathOfObject) {
-
-        Iterator operIter = theDefinition.getWsdlOperations().iterator();
-        while (operIter.hasNext()) {
-
-            WSOperation oper = (WSOperation) operIter.next();
-
-            WSOperationInput input = oper.getHasInput();
-            Iterator inObjsIter = input.getHasNativeOrComplexObjects().iterator();
-            while (inObjsIter.hasNext()) {
-                Object obj = inObjsIter.next();
-                if (obj.getClass().getName().contains("NativeObject")) {
-                    NativeObject no = (NativeObject) obj;
-                    if (Arrays.deepEquals(no.getHasAlignmentInformation().getHasParserPath(), parserPathOfObject)) {
-                        return no;
-                    }
-
-
-                } else if (obj.getClass().getName().contains("ComplexObject")) {
-                    ComplexObject co = (ComplexObject) obj;
-                    if (Arrays.deepEquals(co.getHasAlignmentInformation().getHasParserPath(), parserPathOfObject)) {
-                        return co;
-                    } else {
-                        Object retObj = findParserPathAmongContainedOfComplexObject_ITERATIVE(co, parserPathOfObject);
-                        if (retObj != null) {
-                            return retObj;
-                        }
-                    }
-                }
-            }
-
-            Iterator inHeaderObjsIter = input.getHasSoapHeaders().iterator();
-            while (inHeaderObjsIter.hasNext()) {
-                Object obj = inHeaderObjsIter.next();
-                if (obj.getClass().getName().contains("NativeObject")) {
-                    NativeObject no = (NativeObject) obj;
-                    if (Arrays.deepEquals(no.getHasAlignmentInformation().getHasParserPath(), parserPathOfObject)) {
-                        return no;
-                    }
-
-                } else if (obj.getClass().getName().contains("ComplexObject")) {
-                    ComplexObject co = (ComplexObject) obj;
-                    if (Arrays.deepEquals(co.getHasAlignmentInformation().getHasParserPath(), parserPathOfObject)) {
-                        return co;
-                    } else {
-                        Object retObj = findParserPathAmongContainedOfComplexObject_ITERATIVE(co, parserPathOfObject);
-                        if (retObj != null) {
-                            return retObj;
-                        }
-                    }
-                }
-            }
-
-
-            WSOperationOutput output = oper.getHasOutput();
-            Iterator outObjsIter = output.getHasNativeOrComplexObjects().iterator();
-            while (outObjsIter.hasNext()) {
-                Object obj = outObjsIter.next();
-                if (obj.getClass().getName().contains("NativeObject")) {
-                    NativeObject no = (NativeObject) obj;
-                    if (Arrays.deepEquals(no.getHasAlignmentInformation().getHasParserPath(), parserPathOfObject)) {
-                        return no;
-                    }
-
-                } else if (obj.getClass().getName().contains("ComplexObject")) {
-                    ComplexObject co = (ComplexObject) obj;
-                    if (Arrays.deepEquals(co.getHasAlignmentInformation().getHasParserPath(), parserPathOfObject)) {
-                        return co;
-                    } else {
-                        Object retObj = findParserPathAmongContainedOfComplexObject_ITERATIVE(co, parserPathOfObject);
-                        if (retObj != null) {
-                            return retObj;
-                        }
-                    }
-                }
-            }
-
-            Iterator outHeaderObjsIter = output.getHasSoapHeaders().iterator();
-            while (outHeaderObjsIter.hasNext()) {
-                Object obj = outHeaderObjsIter.next();
-                if (obj.getClass().getName().contains("NativeObject")) {
-                    NativeObject no = (NativeObject) obj;
-                    if (Arrays.deepEquals(no.getHasAlignmentInformation().getHasParserPath(), parserPathOfObject)) {
-                        return no;
-                    }
-
-                } else if (obj.getClass().getName().contains("ComplexObject")) {
-                    ComplexObject co = (ComplexObject) obj;
-                    if (Arrays.deepEquals(co.getHasAlignmentInformation().getHasParserPath(), parserPathOfObject)) {
-                        return co;
-                    } else {
-                        Object retObj = findParserPathAmongContainedOfComplexObject_ITERATIVE(co, parserPathOfObject);
-                        if (retObj != null) {
-                            return retObj;
-                        }
-                    }
-                }
-            }
-
-        }
-
-        return null;
-    }
-
-    private static Object findParserPathAmongContainedOfComplexObject_ITERATIVE(ComplexObject co, QName[] parserPathToFind) {
-        if (co == null) {
-            return null;
-        }
-
-        Iterator iter1 = co.getHasNativeObjects().iterator();
-        while (iter1.hasNext()) {
-            NativeObject no1 = (NativeObject) iter1.next();
-            if (Arrays.deepEquals(no1.getHasAlignmentInformation().getHasParserPath(), parserPathToFind)) {
-                return no1;
-            }
-        }
-
-        Iterator iter2 = co.getHasComplexObjects().iterator();
-        while (iter2.hasNext()) {
-            ComplexObject co1 = (ComplexObject) iter2.next();
-            if (Arrays.deepEquals(co1.getHasAlignmentInformation().getHasParserPath(), parserPathToFind)) {
-                return co1;
-            } else {
-                Object retObj = findParserPathAmongContainedOfComplexObject_ITERATIVE(co1, parserPathToFind);
-                if (retObj != null) {
-                    return retObj;
-                }
-            }
-        }
-        return null;
-    }
+ 
 
     private static void fixComplexObjectPathIterative(ComplexObject co, Vector qNamesSoFar, int count) {
         if (co == null) {
@@ -876,7 +757,7 @@ public class ITIWSDLParser {
             no1.setHasParent(co);
             no1.setIsInput(co.isIsInput());
 
-            AlignmentInformation ai = new AlignmentInformation();
+            
             QName[] qNarray = new QName[qNamesSoFar.size() + 1];
             for (int i = 0; i < qNamesSoFar.size(); i++) {
                 //qNarray[i] = (QName) qNamesSoFar.get(i);
@@ -889,8 +770,7 @@ public class ITIWSDLParser {
                 }
             }
             qNarray[qNarray.length - 1] = no1.getObjectName();
-            ai.setHasParserPath(qNarray);
-            no1.setHasAlignmentInformation(ai);
+           
         }
 
         Iterator iter2 = co.getHasComplexObjects().iterator();
@@ -899,7 +779,7 @@ public class ITIWSDLParser {
             co1.setHasParent(co);
             co1.setIsInput(co.isIsInput());
 
-            AlignmentInformation ai = new AlignmentInformation();
+            
             QName[] qNarray = new QName[qNamesSoFar.size() + 1];
             for (int i = 0; i < qNamesSoFar.size(); i++) {
                 if (qNamesSoFar.get(i) != null) {
@@ -911,8 +791,7 @@ public class ITIWSDLParser {
                 }
             }
             qNarray[qNarray.length - 1] = co1.getObjectName();
-            ai.setHasParserPath(qNarray);
-            co1.setHasAlignmentInformation(ai);
+         
 
             Vector newQNamesVector = (Vector) qNamesSoFar.clone();
             newQNamesVector.add(qNarray[qNarray.length - 1]);//isws prepei ki edw na tou dwsw to kainourgio ftiaxnontas kainourio QName
@@ -932,7 +811,7 @@ public class ITIWSDLParser {
                     no1.setHasParent(co);
                     no1.setIsInput(co.isIsInput());
 
-                    AlignmentInformation ai = new AlignmentInformation();
+                    
                     QName[] qNarray = new QName[qNamesSoFar.size() + 1];
                     for (int i = 0; i < qNamesSoFar.size(); i++) {
                         //qNarray[i] = (QName) qNamesSoFar.get(i);
@@ -945,14 +824,13 @@ public class ITIWSDLParser {
                         }
                     }
                     qNarray[qNarray.length - 1] = no1.getObjectName();
-                    ai.setHasParserPath(qNarray);
-                    no1.setHasAlignmentInformation(ai);
+                   
                 } else if (obj != null && obj.getClass().getName().contains("ComplexObject")) {
                     ComplexObject co1 = (ComplexObject) obj;
                     co1.setHasParent(co);
                     co1.setIsInput(co.isIsInput());
 
-                    AlignmentInformation ai = new AlignmentInformation();
+                    
                     QName[] qNarray = new QName[qNamesSoFar.size() + 1];
                     for (int i = 0; i < qNamesSoFar.size(); i++) {
                         if (qNamesSoFar.get(i) != null) {
@@ -964,8 +842,7 @@ public class ITIWSDLParser {
                         }
                     }
                     qNarray[qNarray.length - 1] = co1.getObjectName();
-                    ai.setHasParserPath(qNarray);
-                    co1.setHasAlignmentInformation(ai);
+                  
 
                     Vector newQNamesVector = (Vector) qNamesSoFar.clone();
                     newQNamesVector.add(qNarray[qNarray.length - 1]);//isws prepei ki edw na tou dwsw to kainourgio ftiaxnontas kainourio QName
@@ -978,5 +855,28 @@ public class ITIWSDLParser {
             }
         }
 
+    }
+    
+    
+    public static boolean pingURL(String endpoint, String requestParameters) {
+
+    	if (endpoint.startsWith("http://")) {
+            try {
+                StringBuffer data = new StringBuffer();
+                String urlStr = endpoint;
+                if (requestParameters != null && requestParameters.length() > 0) {
+                    urlStr += "?" + requestParameters;
+                }
+                URL url = new URL(urlStr);
+                URLConnection conn = url.openConnection();
+                conn.setReadTimeout(5000);
+                BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                rd.close();
+                return true;
+            } catch (Exception e) {
+                return false;
+            }
+        }
+        return false;
     }
 }

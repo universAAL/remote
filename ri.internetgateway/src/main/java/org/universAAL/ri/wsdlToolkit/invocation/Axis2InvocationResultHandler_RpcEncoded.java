@@ -6,7 +6,6 @@
 package org.universAAL.ri.wsdlToolkit.invocation;
 
 
-
 import java.util.Iterator;
 import java.util.Vector;
 import javax.xml.namespace.QName;

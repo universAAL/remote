@@ -18,7 +18,7 @@ public class NativeObject {
     private Vector hasAllowedValues = new Vector();
     private String hasValue = "";
     private boolean isOptional = false;
-    private AlignmentInformation hasAlignmentInformation = new AlignmentInformation();
+  
     private Object hasParent; //mporei na einai ComplexObject i Operation
     private boolean isInput = true;
 
@@ -40,16 +40,7 @@ public class NativeObject {
         no.setHasValue(this.getHasValue());
         no.setHasAllowedValues((Vector) this.hasAllowedValues.clone());
 
-        if (this.hasAlignmentInformation != null) {
-            AlignmentInformation ai = new AlignmentInformation();
-            if (this.hasAlignmentInformation.getHasOntologicalPath() != null) {
-                ai.setHasOntologicalPath(this.hasAlignmentInformation.getHasOntologicalPath().clone());
-            }
-            if (this.hasAlignmentInformation.getHasParserPath() != null) {
-                ai.setHasParserPath(this.hasAlignmentInformation.getHasParserPath());
-            }
-            no.setHasAlignmentInformation(ai);
-        }
+
 
         no.setAdditionalInfo(this.additionalInfo);
         no.hasParent = this.hasParent;
@@ -58,13 +49,7 @@ public class NativeObject {
         return no;
     }
 
-    public void setHasAlignmentInformation(AlignmentInformation v) {
-        this.hasAlignmentInformation = v;
-    }
 
-    public AlignmentInformation getHasAlignmentInformation() {
-        return this.hasAlignmentInformation;
-    }
 
     public void setHasValue(String v) {
         this.hasValue = v;

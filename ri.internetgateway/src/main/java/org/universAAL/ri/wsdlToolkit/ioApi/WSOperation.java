@@ -9,7 +9,7 @@ public class WSOperation {
 	private String hasStyle; // rpc or document
 	private ParsedWSDLDefinition belongsToDefinition; // mporei na einai
 	private String hasBindingSoapAction;
-	 private AlignmentInformation hasAlignmentInformation;
+
 	// public String hasSoapVersion;
 
 	public WSOperationInput getHasInput() {
@@ -67,7 +67,5 @@ public class WSOperation {
 	public void setHasBindingSoapAction(String hasBindingSoapAction) {
 		this.hasBindingSoapAction = hasBindingSoapAction;
 	}
-    public void setHasAlignmentInformation(AlignmentInformation hasAlignmentInformation) {
-        this.hasAlignmentInformation = hasAlignmentInformation;
-    }
+
 }

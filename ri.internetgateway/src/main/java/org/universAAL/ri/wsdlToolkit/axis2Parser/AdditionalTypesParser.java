@@ -6,7 +6,6 @@
 package org.universAAL.ri.wsdlToolkit.axis2Parser;
 
 
-
 import java.util.ArrayList;
 import java.util.Iterator;
 import javax.xml.namespace.QName;

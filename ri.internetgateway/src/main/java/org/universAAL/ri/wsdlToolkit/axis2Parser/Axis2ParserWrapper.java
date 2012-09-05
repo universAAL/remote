@@ -5,8 +5,6 @@
 package org.universAAL.ri.wsdlToolkit.axis2Parser;
 
 import com.ibm.wsdl.PartImpl;
-
-
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -136,9 +134,7 @@ public class Axis2ParserWrapper {
 
 
                     WSOperation parsedOperation = new WSOperation();
-if(oper.getName().getLocalPart().equalsIgnoreCase("Getmyevents")){
-    System.out.println();
-}
+
                     //-System.out.prinln("\n\n#########     OPERATION      ########");
                     System.out.println(oper.getName() + "      [style: " + oper.getStyle() + "]");
                     System.out.println(oper.getSoapAction());

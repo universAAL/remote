@@ -1,10 +1,16 @@
-PERSONA Platform Service Gateway
+Service gateway
 
-Copyright 2008-2010 Vodafone Italy, http://www.vodafone.it
+Copyright by
+
+2008-2010 Vodafone Italy, http://www.vodafone.it
 Vodafone Omnitel N.V.
+
+2012 Ericsson Nikola Tesla d.d., www.ericsson.com/hr
 
 
 I. Included Software
+
+PERSONA Platform Service Gateway
 
 This product includes software developed by
 Robert Harder (http://iharder.net/base64).
@@ -40,4 +46,5 @@ III. License Summary
 - Apache License 2.0
 - Common Public License 1.0
 - Modified MIT X11 License
+- MIT License
 - JGCL - Java Geometry Class Library License

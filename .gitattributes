@@ -29,7 +29,6 @@ ri.internetgateway/src/main/java/org/universAAL/ri/wsdlToolkit/parser/WSDLParser
 ri.internetgateway/src/main/java/org/universAAL/ri/wsdlToolkit/parser/WSDL_XSD_SchemaToolkit.java -text
 ri.pom/pom.xml -text
 ri.servicegateway/ASL2.0.txt -text
-ri.servicegateway/LICENSE -text
 ri.servicegateway/LICENSE-CPL-JUnit -text
 ri.servicegateway/LICENSE-JGCL -text
 ri.servicegateway/LICENSE-MIT11-httpunit -text

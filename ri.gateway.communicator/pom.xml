@@ -12,7 +12,7 @@
 	<packaging>bundle</packaging>
 	<artifactId>ri.gateway.communicator</artifactId>
 	<groupId>org.universAAL.remote</groupId>
-	<name>universAAL AALSpace Gateway Communicator</name>
+	<name>universAAL Remote Interoperability AALSpace Gateway</name>
 	<description>Module for inter-AALSpace communication</description>
 	<version>1.2.1-SNAPSHOT</version>
 

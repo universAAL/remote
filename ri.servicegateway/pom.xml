@@ -12,7 +12,7 @@
 	<artifactId>ri.servicegateway</artifactId>
 	<version>1.2.1-SNAPSHOT</version>
 	<packaging>bundle</packaging>
-	<name>Service gateway</name>
+	<name>universAAL Remote Interoperability Service Gateway</name>
 	<description>This is an HTTP Gateway for handling HTTP request</description>
 	<build>
 		<pluginManagement />

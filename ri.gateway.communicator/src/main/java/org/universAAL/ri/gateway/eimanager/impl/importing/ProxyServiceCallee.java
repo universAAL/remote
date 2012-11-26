@@ -3,11 +3,9 @@ package org.universAAL.ri.gateway.eimanager.impl.importing;
 import java.io.IOException;
 
 import org.universAAL.middleware.container.ModuleContext;
-import org.universAAL.middleware.service.CallStatus;
 import org.universAAL.middleware.service.ServiceCall;
 import org.universAAL.middleware.service.ServiceCallee;
 import org.universAAL.middleware.service.ServiceResponse;
-import org.universAAL.middleware.service.owls.process.ProcessOutput;
 import org.universAAL.middleware.service.owls.profile.ServiceProfile;
 import org.universAAL.ri.gateway.eimanager.impl.ProxyBusMember;
 

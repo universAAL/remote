@@ -1,0 +1,2 @@
+* text=auto !eol
+ri.pom/pom.xml -text

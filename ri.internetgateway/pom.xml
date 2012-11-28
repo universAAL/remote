@@ -94,9 +94,4 @@
     <version>1.4</version>
 </dependency>
 	</dependencies>
-	<scm>
-		<connection>${svn.base}/internetgateway</connection>
-		<developerConnection>${svn.base}/internetgateway</developerConnection>
-		<url>${svn.base.url}internetgateway</url>
-	</scm>
 </project>

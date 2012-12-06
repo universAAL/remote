@@ -55,6 +55,9 @@ ri.gateway.communicator/src/main/java/org/universAAL/ri/gateway/eimanager/impl/r
 ri.gateway.communicator/src/main/java/org/universAAL/ri/gateway/eimanager/impl/registry/RegistryEntry.java -text
 ri.gateway.communicator/src/main/java/org/universAAL/ri/gateway/eimanager/impl/registry/RepoOperation.java -text
 ri.gateway.communicator/src/test/java/org/universAAL/ri/gateway/communicator/ArtifactTest.java -text
+ri.internetgateway/ASL2.0.txt -text
+ri.internetgateway/MITX.txt -text
+ri.internetgateway/NOTICE.txt -text
 ri.internetgateway/pom.xml -text
 ri.internetgateway/src/main/java/org/universAAL/ri/internetgateway/Activator.java -text
 ri.internetgateway/src/main/java/org/universAAL/ri/wsdlToolkit/axis2Parser/AdditionalTypesParser.java -text
@@ -68,7 +71,6 @@ ri.internetgateway/src/main/java/org/universAAL/ri/wsdlToolkit/invocation/Axis2I
 ri.internetgateway/src/main/java/org/universAAL/ri/wsdlToolkit/invocation/Axis2InvocationResultHandler_RpcEncoded.java -text
 ri.internetgateway/src/main/java/org/universAAL/ri/wsdlToolkit/invocation/Axis2WebServiceInvoker.java -text
 ri.internetgateway/src/main/java/org/universAAL/ri/wsdlToolkit/invocation/Axis2_RpcEncodedMessageBuilder.java -text
-ri.internetgateway/src/main/java/org/universAAL/ri/wsdlToolkit/invocation/ITIWebServiceInvocator.java -text
 ri.internetgateway/src/main/java/org/universAAL/ri/wsdlToolkit/invocation/InvocationResult.java -text
 ri.internetgateway/src/main/java/org/universAAL/ri/wsdlToolkit/ioApi/ComplexObject.java -text
 ri.internetgateway/src/main/java/org/universAAL/ri/wsdlToolkit/ioApi/NativeObject.java -text

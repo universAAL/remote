@@ -1,7 +1,8 @@
 /*
-	Copyright 2008-2010 Vodafone Italy, http://www.vodafone.it
-	Vodafone Omnitel N.V.
-	
+	Copyright 2007-2014 CERTH-ITI, http://www.iti.gr
+	Centre of Research and Technology Hellas 
+	Information Technologies Institute
+
 	See the NOTICE file distributed with this work for additional 
 	information regarding copyright ownership
 	
@@ -22,38 +23,30 @@ package org.universAAL.ri.internetgateway;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 
-
 /**
- * Main class for HTTP Services Gateway. It handles the registration of servlets
- * which provides different services based on URI. It register a Login servlet
- * and uses a Service Tracker to track for {@link GatewayPort} objects and
- * register them using the <code>url</code> and <code>dataDir</code> methods of
- * GatewayPort.
+ * Main class for Internet Gateway.
  * 
- * @author Mario Latronico
- * @author eandgrg
+ * @author Konstantinos Giannoutakis
  * 
  */
 
 public class Activator implements BundleActivator {
 
-    public static BundleContext context;
-    /**
-     * universAAL {@link ModuleContext}
-     */
- 
+	public static BundleContext context;
 
-   
-    public void start(BundleContext context) {
+	/**
+	 * universAAL {@link ModuleContext}
+	 */
 
-	Activator.context = context;
-	org.apache.axiom.om.util.StAXUtils.setFactoryPerClassLoader(false); 
+	public void start(BundleContext context) {
 
-    }
+		Activator.context = context;
+		org.apache.axiom.om.util.StAXUtils.setFactoryPerClassLoader(false);
 
-    public void stop(BundleContext context) throws Exception {
-	
-    }
+	}
 
-} // end class
+	public void stop(BundleContext context) throws Exception {
 
+	}
+
+}

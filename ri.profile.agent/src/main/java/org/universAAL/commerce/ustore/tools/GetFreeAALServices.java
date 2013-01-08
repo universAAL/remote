@@ -27,7 +27,7 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "getFreeAALServices", propOrder = {
+@XmlType(name = "getFreeAALServicesMsg", propOrder = {
     "sessionKey",
     "isFitToUser"
 })

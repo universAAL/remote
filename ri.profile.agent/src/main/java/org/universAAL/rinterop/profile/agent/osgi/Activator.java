@@ -84,13 +84,13 @@ public class Activator implements BundleActivator {
 		createOnlineStoreManagerClient();
 		// createDynamicDeploymentManagerClient();
 
-		System.out
-				.println("Is  ContextProvider registered:"
-						+ OntologyManagement
-								.getInstance()
-								.isRegisteredClass(
-										"http://ontology.universAAL.org/Context.owl#ContextProvider",
-										true));
+//		System.out
+//				.println("Is  ContextProvider registered:"
+//						+ OntologyManagement
+//								.getInstance()
+//								.isRegisteredClass(
+//										"http://ontology.universAAL.org/Context.owl#ContextProvider",
+//										true));
 		// context.addServiceListener(this);
 		// // context.addBundleListener(new uAALBundleExtender(context));
 

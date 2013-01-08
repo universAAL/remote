@@ -206,10 +206,10 @@ ri.profile.agent/src/main/java/org/universAAL/rinterop/profile/agent/ProfileProv
 ri.profile.agent/src/main/java/org/universAAL/rinterop/profile/agent/ServiceInfo.java -text
 ri.profile.agent/src/main/java/org/universAAL/rinterop/profile/agent/impl/ContextHistoryProfileAgent.java -text
 ri.profile.agent/src/main/java/org/universAAL/rinterop/profile/agent/osgi/Activator.java -text
-ri.profile.agent/src/main/java/org/universAAL/rinterop/profile/ws/AALuisExecutor.java -text
 ri.profile.agent/src/main/java/org/universAAL/rinterop/profile/ws/InInterceptor.java -text
 ri.profile.agent/src/main/java/org/universAAL/rinterop/profile/ws/OutInterceptor.java -text
 ri.profile.agent/src/main/java/org/universAAL/rinterop/profile/ws/SoapExportServlet.java -text
+ri.profile.agent/src/main/java/org/universAAL/rinterop/profile/ws/UniversAALExecutor.java -text
 ri.servicegateway/ASL2.0.txt -text
 ri.servicegateway/LICENSE-CPL-JUnit -text
 ri.servicegateway/LICENSE-JGCL -text

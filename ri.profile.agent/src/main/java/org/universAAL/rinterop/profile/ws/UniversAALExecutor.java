@@ -9,7 +9,7 @@ import java.util.concurrent.Executor;
  * 
  * @author Ivailo Bakalov
  */
-public class AALuisExecutor implements Executor {
+public class UniversAALExecutor implements Executor {
 
   public void execute(Runnable command) {
 //    if (SessionContext.getSessionContext() != null) {

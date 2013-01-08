@@ -96,7 +96,7 @@ public class SoapExportServlet extends CXFNonSpringServlet {
     factory.setAddress("/");
     factory.create();
     
-    factory.getServer().getEndpoint().getService().setExecutor(new AALuisExecutor());    
+    factory.getServer().getEndpoint().getService().setExecutor(new UniversAALExecutor());    
   }
 
   private static void setExtensions(Bus bus) throws BusException {

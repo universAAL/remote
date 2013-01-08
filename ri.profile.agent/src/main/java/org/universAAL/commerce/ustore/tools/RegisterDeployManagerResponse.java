@@ -27,7 +27,7 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "registerDeployManagerResponse", propOrder = {
+@XmlType(name = "registerDeployManagerResponseMsg", propOrder = {
     "_return"
 })
 public class RegisterDeployManagerResponse {

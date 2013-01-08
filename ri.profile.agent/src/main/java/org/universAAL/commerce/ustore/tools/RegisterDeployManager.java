@@ -29,7 +29,7 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "registerDeployManager", propOrder = {
+@XmlType(name = "registerDeployManagerMsg", propOrder = {
     "userName",
     "password",
     "ipAddress",

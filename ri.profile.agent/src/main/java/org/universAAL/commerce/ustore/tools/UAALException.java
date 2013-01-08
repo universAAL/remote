@@ -26,7 +26,7 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "uAALException", propOrder = {
+@XmlType(name = "uAALExceptionMsg", propOrder = {
     "message"
 })
 public class UAALException {

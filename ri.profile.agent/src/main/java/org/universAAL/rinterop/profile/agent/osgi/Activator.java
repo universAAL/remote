@@ -33,14 +33,12 @@ import org.apache.cxf.jaxws.JaxWsProxyFactoryBean;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 import org.osgi.service.http.HttpService;
-import org.universAAL.commerce.ustore.tools.OnlineStoreManager;
 import org.universAAL.middleware.container.ModuleContext;
 import org.universAAL.middleware.container.osgi.uAALBundleContainer;
-import org.universAAL.middleware.owl.OntologyManagement;
-import org.universAAL.middleware.service.ServiceResponse;
-//import org.universAAL.rinterop.profile.agent.IDeployManager;
 import org.universAAL.ucc.deploymanagerservice.DeployManagerService;
-import org.universAAL.rinterop.profile.agent.ProfileProvider;
+import org.universAAL.commerce.ustore.tools.OnlineStoreManager;
+import org.universAAL.rinterop.profile.agent.ProfileCHEProvider;
+import org.universAAL.rinterop.profile.agent.impl.ContextHistoryProfileAgent;
 import org.universAAL.rinterop.profile.ws.SoapExportServlet;
 
 /**
@@ -58,13 +56,11 @@ public class Activator implements BundleActivator {
 
 	private ModuleContext moduleContext = null;
 
-	// private ServiceTracker httpServiceTracker;
-
 	private HttpService httpService;
 	private boolean profileProviderRegistered = false;
 	private boolean deployManagerRegistered = false;
 
-	private ProfileProvider provider;
+	private ProfileCHEProvider profileCHEProvider;
 
 	private DeployManagerService deployManager;
 
@@ -82,7 +78,6 @@ public class Activator implements BundleActivator {
 				.registerModule(new BundleContext[] { context });
 
 		createOnlineStoreManagerClient();
-		// createDynamicDeploymentManagerClient();
 
 //		System.out
 //				.println("Is  ContextProvider registered:"
@@ -91,22 +86,15 @@ public class Activator implements BundleActivator {
 //								.isRegisteredClass(
 //										"http://ontology.universAAL.org/Context.owl#ContextProvider",
 //										true));
-		// context.addServiceListener(this);
-		// // context.addBundleListener(new uAALBundleExtender(context));
 
-		// count_activator++;
-		// System.out.println("count_activator: " + count_activator);
+		profileCHEProvider = new ContextHistoryProfileAgent(moduleContext);
 
-		provider = new ProfileProvider(moduleContext);
-
-		String userURI = "http://ontology.universAAL.org/ContextHistoryHTLImpl.owl#dummyUser";
-
+		// String userURI = "http://ontology.universAAL.org/ContextHistoryHTLImpl.owl#dummyUser";
 		// UserProfile userProfile = new UserProfile(userURI);
 		// ProfileOntology userProfileOnt = new ProfileOntology();
 		// OntologyManagement.getInstance().register(userProfileOnt);
-
 		/*test*/
-		ServiceResponse sr = provider.getAllUserProfiles(userURI);
+		//profileCHEProvider.getAllUserProfiles(userURI);
 		
 		Object httpServiceObj = moduleContext.getContainer().fetchSharedObject(
 				moduleContext, new Object[] { HttpService.class.getName() });
@@ -118,25 +106,11 @@ public class Activator implements BundleActivator {
 				.fetchSharedObject(moduleContext,
 						new Object[] { DeployManagerService.class.getName() });
 
-		// callback = new
-		// ContextHistoryProfileAgent(uAALBundleContainer.THE_CONTAINER
-		// .registerModule(new BundleContext[] { context }));
-		// TaskEndpointServlet.checkSessions = true;
-		// new Thread(TaskEndpointServlet.runableObj).start();
-
-		// httpServiceTracker = new ServiceTracker(context,
-		// HttpService.class.getName(), this);
-		// httpServiceTracker.open();
-
-		// transformerTracker = new ServiceTracker(context,
-		// UITransformer.class.getName(), null);
-		// transformerTracker.open();
-
 		if (httpService != null) {
 			httpService.createDefaultHttpContext();
 
 			if (!profileProviderRegistered) {
-				registerProfileProvider(httpService, provider);
+				registerProfileCHEProvider(httpService, profileCHEProvider);
 				profileProviderRegistered = true;
 			}
 
@@ -144,22 +118,7 @@ public class Activator implements BundleActivator {
 				registerDeployManagerService(httpService, deployManager);
 				deployManagerRegistered = true;
 			}
-
-			// create AALuisTask customizer class and tracker
-			// AALuisTaskTrackerCustomizer taskCustomizer = new
-			// AALuisTaskTrackerCustomizer(
-			// this, context, httpService, httpContext);
-			// taskCustomizers.put(httpService, taskCustomizer);
-			// ServiceTracker taskServiceTracker = new ServiceTracker(context,
-			// AALuisTask.class.getName(), taskCustomizer);
-			// taskServiceTracker.open();
-			// taskTrackers.put(httpService, taskServiceTracker);
 		}
-
-		// callbackReg =
-		// context.registerService(ProfileProvider.class.getName(),
-		// provider, null);// ProfileCHEProvider -> ProfileProvider,
-		// // callback -> provider
 	}
 
 	// class JQuerySevlet extends HttpServlet {
@@ -189,41 +148,15 @@ public class Activator implements BundleActivator {
 	 * org.osgi.framework.BundleActivator#stop(org.osgi.framework.BundleContext)
 	 */
 	public void stop(BundleContext context) throws Exception {
-		// TaskEndpointServlet.checkSessions = false;
-
-		// callbackReg.unregister();
-		// callbackReg = null;
 		if (httpService != null) {
 			unregisterProfileProvider(httpService);
 			unregisterDeployManager(httpService);
 		}
 
-		// unregister all task endpoints servlets
-		// if (taskCustomizers != null) {
-		// Set<HttpService> customizers = taskCustomizers.keySet();
-		// for (HttpService hs : customizers) {
-		// taskCustomizers.get(hs).unregisterAllTaskEndpoints();
-		// }
-		// taskCustomizers.clear();
-		// }
-
-		// close all task trackers
-		// if (taskTrackers != null) {
-		// Set<HttpService> trackers = taskTrackers.keySet();
-		// for (HttpService hs : trackers) {
-		// taskTrackers.get(hs).close();
-		// }
-		// taskTrackers.clear();
-		// }
-
-		// httpServiceTracker.close();
-		// httpServiceTracker = null;
-
 		httpService = null;
-		// callback = null;
 		context = null;
-
-		provider = null;
+		profileCHEProvider = null;
+		deployManager = null;
 	}
 
 	private void createOnlineStoreManagerClient() {
@@ -263,91 +196,17 @@ public class Activator implements BundleActivator {
 	// }
 	// }
 
-	// ******* ServiceTrackerCustomizer methods *******//
-
-	// public Object addingService(ServiceReference reference) {
-	//
-	// HttpService service = (HttpService) context.getService(reference);
-	//
-	// if (service != null) {
-	// httpContext = service.createDefaultHttpContext();
-	//
-	// if (!registered) {
-	// registerCallback(service, provider);// callback -> provider
-	// // HttpServlet jqueryServlet = new JQuerySevlet();
-	// // try {
-	// // service.registerServlet("/jquery-1.7.1.js", jqueryServlet,
-	// // null, httpContext);
-	// // } catch (ServletException e) {
-	// // e.printStackTrace();
-	// // } catch (NamespaceException e) {
-	// // e.printStackTrace();
-	// // }
-	// registered = true;
-	// }
-	//
-	// // Set<HttpService> httpServices = taskTrackers.keySet();
-	// // boolean containHttpService = false;
-	// // if (httpServices != null) {
-	// // for (HttpService hs : httpServices) {
-	// // if (service.equals(hs)) {
-	// // containHttpService = true;
-	// // break;
-	// // }
-	// // }
-	// // }
-	// // if (!containHttpService) {
-	// // AALuisTaskTrackerCustomizer taskCustomizer = new
-	// // AALuisTaskTrackerCustomizer(this, context, service, httpContext);
-	// // taskCustomizers.put(service, taskCustomizer);
-	// // debug("HttpCustomizer" + taskCustomizers.get(service));
-	// // ServiceTracker taskServiceTracker = new ServiceTracker(context,
-	// // ProfileCHEProvider.class.getName(), taskCustomizer);
-	// // taskServiceTracker.open();
-	// // taskTrackers.put(service, taskServiceTracker);
-	// // }
-	// }
-	// return service;
-	// }
-	//
-	// public void modifiedService(ServiceReference reference, Object service) {
-	// }
-	//
-	// public void removedService(ServiceReference reference, Object o) {
-	// HttpService service = (HttpService) context.getService(reference);
-	//
-	// if (service != null) {
-	// debug("Removed HttpService method!");
-	// // if (taskCustomizers.get(service) != null) {
-	// // taskCustomizers.get(service).unregisterAllTaskEndpoints();
-	// // taskCustomizers.remove(service);
-	// // }
-	// // if (taskTrackers.get(service) != null) {
-	// // taskTrackers.get(service).close();
-	// // taskTrackers.remove(service);
-	// // }
-	//
-	// unregisterCallback(service);
-	// context.ungetService(reference);
-	// }
-	// }
-
-	private void registerProfileProvider(HttpService httpService,
-			ProfileProvider provider) { // ProfileCHEProvider callback ->
-										// ProfileProvider provider
+	private void registerProfileCHEProvider(HttpService httpService,
+			ProfileCHEProvider provider) {
 		try {
-			HttpServlet servlet = new SoapExportServlet(ProfileProvider.class,
-					provider); // ProfileCHEProvider -> ProfileProvider,
-								// callback -> provider
-								// httpService.registerServlet(PROFILE_PROVIDER_ALIAS,
-								// servlet, null,
-			// httpContext); // smenq se konstantata
+			HttpServlet servlet = new SoapExportServlet(ProfileCHEProvider.class,
+					provider); 
 			httpService.registerServlet(PROFILE_PROVIDER_ALIAS, servlet, null,
 					null);
-			debug("Registered ProfileProvider web service at alias '"
+			debug("Registered ProfileCHEProvider web service at alias '"
 					+ PROFILE_PROVIDER_ALIAS + "'.");
 		} catch (Throwable ex) {
-			log("Failed to register ProfileProvider web service at alias '"
+			log("Failed to register ProfileCHEProvider web service at alias '"
 					+ PROFILE_PROVIDER_ALIAS + "'!", ex);
 		}
 	}
@@ -395,10 +254,6 @@ public class Activator implements BundleActivator {
 				"[ProfileAgent][WARNING]" + msg);
 		System.out.println("[ProfileAgent][WARNING]" + msg);
 	}
-
-	// public UITransformer getUITransformer() {
-	// return (UITransformer)transformerTracker.getService();
-	// }
 
 	public static BundleContext getBundleContext() {
 		return context;

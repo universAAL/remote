@@ -22,13 +22,8 @@
  */
 package org.universAAL.rinterop.profile.agent.impl;
 
-import java.net.URI;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
-import org.universAAL.commerce.ustore.tools.OnlineStoreManager;
 import org.universAAL.middleware.container.ModuleContext;
 import org.universAAL.middleware.container.utils.LogUtils;
 import org.universAAL.middleware.context.ContextEvent;
@@ -37,16 +32,9 @@ import org.universAAL.middleware.context.ContextPublisher;
 import org.universAAL.middleware.context.DefaultContextPublisher;
 import org.universAAL.middleware.context.owl.ContextProvider;
 import org.universAAL.middleware.context.owl.ContextProviderType;
-import org.universAAL.middleware.interfaces.PeerCard;
-import org.universAAL.middleware.interfaces.aalspace.AALSpaceCard;
-import org.universAAL.middleware.interfaces.mpa.MPACard;
-import org.universAAL.middleware.interfaces.mpa.MPAStatus;
-import org.universAAL.middleware.interfaces.mpa.Pair;
-import org.universAAL.middleware.interfaces.mpa.model.Part;
 import org.universAAL.middleware.managers.api.AALSpaceEventHandler;
 import org.universAAL.middleware.managers.api.AALSpaceManager;
 import org.universAAL.middleware.managers.api.DeployManager;
-import org.universAAL.middleware.managers.api.InstallationResults;
 import org.universAAL.middleware.owl.MergedRestriction;
 import org.universAAL.middleware.rdf.PropertyPath;
 import org.universAAL.middleware.rdf.Resource;
@@ -60,8 +48,8 @@ import org.universAAL.ontology.che.ContextHistoryService;
 import org.universAAL.ontology.profile.AALSpaceProfile;
 import org.universAAL.ontology.profile.Profile;
 import org.universAAL.ontology.profile.UserProfile;
+import org.universAAL.commerce.ustore.tools.OnlineStoreManager;
 import org.universAAL.rinterop.profile.agent.ProfileCHEProvider;
-import org.universAAL.rinterop.profile.agent.ServiceInfo;
 
 /**
  * This class actually implements the

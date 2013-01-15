@@ -160,11 +160,11 @@
       <artifactId>org.apache.servicemix.specs.stax-api-1.0</artifactId>
       <version>${servicemix.specs.version}</version>
     </dependency>
-    <dependency>
+    <!--<dependency>
       <groupId>org.apache.servicemix.specs</groupId>
       <artifactId>org.apache.servicemix.specs.jaxb-api-2.1</artifactId>
       <version>${servicemix.specs.version}</version>
-    </dependency>
+    </dependency>-->
     <dependency>
       <groupId>org.apache.servicemix.specs</groupId>
       <artifactId>org.apache.servicemix.specs.jaxws-api-2.1</artifactId>
@@ -200,11 +200,11 @@
        <artifactId>org.apache.servicemix.bundles.xmlsec</artifactId> 
        <version>${xmlsec.bundle.version}</version>
     </dependency>  
-    <dependency>
+    <!--<dependency>
        <groupId>org.apache.servicemix.bundles</groupId> 
        <artifactId>org.apache.servicemix.bundles.jaxb-impl</artifactId> 
        <version>${jaxbimpl.bundle.version}</version> 
-    </dependency> 
+    </dependency> -->
 
     <dependency>
        <groupId>org.apache.servicemix.bundles</groupId> 
@@ -399,6 +399,10 @@
               org.osgi.jmx.*,
               org.osgi.service.*,
               org.osgi.util.*,
+			  javax.wsdl.*,
+			  javax.wsdl.extensions.*,
+			  javax.wsdl.extensions.mime.*,
+			  javax.wsdl.factory.*,
               !*
             </_exportcontents> 
             <DynamicImport-Package>*</DynamicImport-Package>

@@ -1,10 +1,11 @@
 package org.universAAL.rinterop.profile.agent;
 
-import java.util.List;
 import javax.jws.WebParam;
 import javax.jws.WebService;
 
-import org.universAAL.ontology.profile.Profile;
+import org.universAAL.ontology.profile.AALSpaceProfile;
+import org.universAAL.ontology.profile.User;
+import org.universAAL.ontology.profile.UserProfile;
 
 /**
  * Interface for the actual profile storage and retrieval.
@@ -19,93 +20,106 @@ import org.universAAL.ontology.profile.Profile;
  */
 @WebService(serviceName = "ProfileCHEProvider", portName = "ProfileCHEProviderPort")
 public interface ProfileCHEProvider {
-	/**
-	 * Returns a {@java.util.List} of all user profiles in the
-	 * profile log that are associated with the given user.
-	 * 
-	 * @param userURI
-	 *            The URI of the user who performed the profiles
-	 * 
-	 * @return All profiles that were performed by the user
-	 */
-	@SuppressWarnings("rawtypes")
-	public List getAllUserProfiles(@WebParam(name = "userURI") String userURI);
 
-	/**
-	 * Returns a {@java.util.List} of all user profiles in the
-	 * profile log that are associated with the given user and are between the
-	 * given timestamps.
-	 * 
-	 * @param userURI
-	 *            The URI of the user who performed the treatments
-	 * @param timestampFrom
-	 *            The lower bound of the period
-	 * @param timestampTo
-	 *            The upper bound of the period
-	 * 
-	 * @return all user profiles that were performed by the user in a specific
-	 *         period of time
-	 */
-	@SuppressWarnings("rawtypes")
-	public List getUserProfilesBetweenTimestamps(
-			@WebParam(name = "userURI") String userURI,
-			@WebParam(name = "timestampFrom") long timestampFrom,
-			@WebParam(name = "timestampTo") long timestampTo);
+	public UserProfile getUserProfile(@WebParam(name = "user") User user);
 
-	/**
-	 * Stores the new profile that was performed by the user.
-	 * 
-	 * @param userURI
-	 *            The URI of the user who performed this profile
-	 * @param profile
-	 *            The profile that was performed by the user
-	 */
-	public void userProfileDone(@WebParam(name = "userURI") String userURI,
-			@WebParam(name = "profile") Profile profile);
+	public void addUserProfile(@WebParam(name = "user") User user,
+			@WebParam(name = "userProfile") UserProfile userProfile);
 
-	/**
-	 * Returns a {@java.util.List} of all AALSpace profiles in
-	 * the profile log that are associated with the given user.
-	 * 
-	 * @param userURI
-	 *            The URI of the user who performed the profiles
-	 * 
-	 * @return All AALSpace profiles that were performed by the user
-	 */
-	@SuppressWarnings("rawtypes")
-	public List getAllAALSpaceProfiles(
-			@WebParam(name = "userURI") String userURI);
+	public AALSpaceProfile getAALSpaceProfile(@WebParam(name = "user") User user);
 
-	/**
-	 * Returns a {@java.util.List} of all AALSpace profiles in
-	 * the profile log that are associated with the given user and are between
-	 * the given timestamps.
-	 * 
-	 * @param userURI
-	 *            The URI of the user who performed the treatments
-	 * @param timestampFrom
-	 *            The lower bound of the period
-	 * @param timestampTo
-	 *            The upper bound of the period
-	 * 
-	 * @return All AALSpace profiles that were performed by the user in a
-	 *         specific period of time
-	 */
-	@SuppressWarnings("rawtypes")
-	public List getAALSpaceProfilesBetweenTimestamps(
-			@WebParam(name = "userURI") String userURI,
-			@WebParam(name = "timestampFrom") long timestampFrom,
-			@WebParam(name = "timestampTo") long timestampTo);
+	public void addAALSpaceProfile(@WebParam(name = "user") User user,
+			@WebParam(name = "aalSpaceProfile") AALSpaceProfile aalSpaceProfile);
 
-	/**
-	 * Stores the new ALLSpace profile that was performed by the user.
-	 * 
-	 * @param userURI
-	 *            The URI of the user who performed this profile
-	 * @param profile
-	 *            The profile that was performed by the user
-	 */
-	public void ALLSpaceProfileDone(@WebParam(name = "userURI") String userURI,
-			@WebParam(name = "profile") Profile profile);
+	// /**
+	// * Returns a {@java.util.List} of all user profiles in the
+	// * profile log that are associated with the given user.
+	// *
+	// * @param userURI
+	// * The URI of the user who performed the profiles
+	// *
+	// * @return All profiles that were performed by the user
+	// */
+	// @SuppressWarnings("rawtypes")
+	// public List getAllUserProfiles(@WebParam(name = "userURI") String
+	// userURI);
+	//
+	// /**
+	// * Returns a {@java.util.List} of all user profiles in the
+	// * profile log that are associated with the given user and are between the
+	// * given timestamps.
+	// *
+	// * @param userURI
+	// * The URI of the user who performed the treatments
+	// * @param timestampFrom
+	// * The lower bound of the period
+	// * @param timestampTo
+	// * The upper bound of the period
+	// *
+	// * @return all user profiles that were performed by the user in a specific
+	// * period of time
+	// */
+	// @SuppressWarnings("rawtypes")
+	// public List getUserProfilesBetweenTimestamps(
+	// @WebParam(name = "userURI") String userURI,
+	// @WebParam(name = "timestampFrom") long timestampFrom,
+	// @WebParam(name = "timestampTo") long timestampTo);
+	//
+	// /**
+	// * Stores the new profile that was performed by the user.
+	// *
+	// * @param userURI
+	// * The URI of the user who performed this profile
+	// * @param profile
+	// * The profile that was performed by the user
+	// */
+	// public void userProfileDone(@WebParam(name = "userURI") String userURI,
+	// @WebParam(name = "profile") Profile profile);
+	//
+	// /**
+	// * Returns a {@java.util.List} of all AALSpace profiles in
+	// * the profile log that are associated with the given user.
+	// *
+	// * @param userURI
+	// * The URI of the user who performed the profiles
+	// *
+	// * @return All AALSpace profiles that were performed by the user
+	// */
+	// @SuppressWarnings("rawtypes")
+	// public List getAllAALSpaceProfiles(
+	// @WebParam(name = "userURI") String userURI);
+	//
+	// /**
+	// * Returns a {@java.util.List} of all AALSpace profiles in
+	// * the profile log that are associated with the given user and are between
+	// * the given timestamps.
+	// *
+	// * @param userURI
+	// * The URI of the user who performed the treatments
+	// * @param timestampFrom
+	// * The lower bound of the period
+	// * @param timestampTo
+	// * The upper bound of the period
+	// *
+	// * @return All AALSpace profiles that were performed by the user in a
+	// * specific period of time
+	// */
+	// @SuppressWarnings("rawtypes")
+	// public List getAALSpaceProfilesBetweenTimestamps(
+	// @WebParam(name = "userURI") String userURI,
+	// @WebParam(name = "timestampFrom") long timestampFrom,
+	// @WebParam(name = "timestampTo") long timestampTo);
+	//
+	// /**
+	// * Stores the new ALLSpace profile that was performed by the user.
+	// *
+	// * @param userURI
+	// * The URI of the user who performed this profile
+	// * @param profile
+	// * The profile that was performed by the user
+	// */
+	// public void ALLSpaceProfileDone(@WebParam(name = "userURI") String
+	// userURI,
+	// @WebParam(name = "profile") Profile profile);
 
 }

@@ -19,18 +19,18 @@ import javax.xml.ws.ResponseWrapper;
 public interface OnlineStoreManager {
 
     @WebResult(name = "return", targetNamespace = "")
-    @RequestWrapper(localName = "getUserProfile", targetNamespace = "http://tools.ustore.commerce.universaal.org/", className = "org.universaal.commerce.ustore.tools.GetUserProfile")
+    @RequestWrapper(localName = "getUserProfile", targetNamespace = "http://tools.ustore.commerce.universaal.org/", className = "org.universAAL.commerce.ustore.tools.GetUserProfile")
     @WebMethod
-    @ResponseWrapper(localName = "getUserProfileResponse", targetNamespace = "http://tools.ustore.commerce.universaal.org/", className = "org.universaal.commerce.ustore.tools.GetUserProfileResponse")
+    @ResponseWrapper(localName = "getUserProfileResponse", targetNamespace = "http://tools.ustore.commerce.universaal.org/", className = "org.universAAL.commerce.ustore.tools.GetUserProfileResponse")
     public java.lang.String getUserProfile(
         @WebParam(name = "sessionKey", targetNamespace = "")
         java.lang.String sessionKey
     ) throws UAALException_Exception;
 
     @WebResult(name = "return", targetNamespace = "")
-    @RequestWrapper(localName = "getFreeAALServices", targetNamespace = "http://tools.ustore.commerce.universaal.org/", className = "org.universaal.commerce.ustore.tools.GetFreeAALServices")
+    @RequestWrapper(localName = "getFreeAALServices", targetNamespace = "http://tools.ustore.commerce.universaal.org/", className = "org.universAAL.commerce.ustore.tools.GetFreeAALServices")
     @WebMethod
-    @ResponseWrapper(localName = "getFreeAALServicesResponse", targetNamespace = "http://tools.ustore.commerce.universaal.org/", className = "org.universaal.commerce.ustore.tools.GetFreeAALServicesResponse")
+    @ResponseWrapper(localName = "getFreeAALServicesResponse", targetNamespace = "http://tools.ustore.commerce.universaal.org/", className = "org.universAAL.commerce.ustore.tools.GetFreeAALServicesResponse")
     public java.lang.String getFreeAALServices(
         @WebParam(name = "sessionKey", targetNamespace = "")
         java.lang.String sessionKey,
@@ -39,18 +39,18 @@ public interface OnlineStoreManager {
     ) throws UAALException_Exception;
 
     @WebResult(name = "return", targetNamespace = "")
-    @RequestWrapper(localName = "getPurchasedAALServices", targetNamespace = "http://tools.ustore.commerce.universaal.org/", className = "org.universaal.commerce.ustore.tools.GetPurchasedAALServices")
+    @RequestWrapper(localName = "getPurchasedAALServices", targetNamespace = "http://tools.ustore.commerce.universaal.org/", className = "org.universAAL.commerce.ustore.tools.GetPurchasedAALServices")
     @WebMethod
-    @ResponseWrapper(localName = "getPurchasedAALServicesResponse", targetNamespace = "http://tools.ustore.commerce.universaal.org/", className = "org.universaal.commerce.ustore.tools.GetPurchasedAALServicesResponse")
+    @ResponseWrapper(localName = "getPurchasedAALServicesResponse", targetNamespace = "http://tools.ustore.commerce.universaal.org/", className = "org.universAAL.commerce.ustore.tools.GetPurchasedAALServicesResponse")
     public java.lang.String getPurchasedAALServices(
         @WebParam(name = "sessionKey", targetNamespace = "")
         java.lang.String sessionKey
     ) throws UAALException_Exception;
 
     @WebResult(name = "return", targetNamespace = "")
-    @RequestWrapper(localName = "registerDeployManager", targetNamespace = "http://tools.ustore.commerce.universaal.org/", className = "org.universaal.commerce.ustore.tools.RegisterDeployManager")
+    @RequestWrapper(localName = "registerDeployManager", targetNamespace = "http://tools.ustore.commerce.universaal.org/", className = "org.universAAL.commerce.ustore.tools.RegisterDeployManager")
     @WebMethod
-    @ResponseWrapper(localName = "registerDeployManagerResponse", targetNamespace = "http://tools.ustore.commerce.universaal.org/", className = "org.universaal.commerce.ustore.tools.RegisterDeployManagerResponse")
+    @ResponseWrapper(localName = "registerDeployManagerResponse", targetNamespace = "http://tools.ustore.commerce.universaal.org/", className = "org.universAAL.commerce.ustore.tools.RegisterDeployManagerResponse")
     public java.lang.String registerDeployManager(
         @WebParam(name = "userName", targetNamespace = "")
         java.lang.String userName,

@@ -24,6 +24,7 @@ package org.universAAL.rinterop.profile.agent.impl;
 
 import java.util.List;
 
+import org.universAAL.commerce.ustore.tools.OnlineStoreManager;
 import org.universAAL.middleware.container.ModuleContext;
 import org.universAAL.middleware.container.utils.LogUtils;
 import org.universAAL.middleware.context.ContextEvent;
@@ -36,19 +37,17 @@ import org.universAAL.middleware.managers.api.AALSpaceEventHandler;
 import org.universAAL.middleware.managers.api.AALSpaceManager;
 import org.universAAL.middleware.managers.api.DeployManager;
 import org.universAAL.middleware.owl.MergedRestriction;
-import org.universAAL.middleware.rdf.PropertyPath;
 import org.universAAL.middleware.rdf.Resource;
 import org.universAAL.middleware.service.CallStatus;
 import org.universAAL.middleware.service.DefaultServiceCaller;
 import org.universAAL.middleware.service.ServiceCaller;
 import org.universAAL.middleware.service.ServiceRequest;
 import org.universAAL.middleware.service.ServiceResponse;
-import org.universAAL.middleware.service.owls.process.ProcessOutput;
-import org.universAAL.ontology.che.ContextHistoryService;
 import org.universAAL.ontology.profile.AALSpaceProfile;
-import org.universAAL.ontology.profile.Profile;
+import org.universAAL.ontology.profile.Profilable;
+import org.universAAL.ontology.profile.User;
 import org.universAAL.ontology.profile.UserProfile;
-import org.universAAL.commerce.ustore.tools.OnlineStoreManager;
+import org.universAAL.ontology.profile.service.ProfilingService;
 import org.universAAL.rinterop.profile.agent.ProfileCHEProvider;
 
 /**
@@ -80,8 +79,6 @@ public class ContextHistoryProfileAgent implements ProfileCHEProvider {
 	 * Needed for publishing context events
 	 */
 	private ContextPublisher cp = null;
-
-	
 
 	/**
 	 * Needed for making service requests
@@ -124,382 +121,90 @@ public class ContextHistoryProfileAgent implements ProfileCHEProvider {
 		// the DefaultServiceCaller will be used to make ServiceRequest
 		caller = new DefaultServiceCaller(context);
 	}
+	
+	public UserProfile getUserProfile(User user) {
+	    ServiceResponse sr = caller.call(userProfileRequest(user));
 
-	/**
-	 * Returns a {@java.util.List} of all User profiles in the
-	 * profile log that are associated to the given user.
-	 * 
-	 * @param userURI
-	 *            The URI of the user who performed the profiles
-	 * 
-	 * @return All the User profiles that were performed by the user
-	 */
-	@SuppressWarnings("rawtypes")
-	public List getAllUserProfiles(String userURI) {
+	    if (sr.getCallStatus() == CallStatus.succeeded) {
+	      try
+	      {
+	        List outputAsList = sr.getOutput(OUTPUT_QUERY_RESULT, true);
 
-		ServiceResponse sr = caller.call(allUserProfileLogRequest(userURI));
+	        if ((outputAsList == null) || (outputAsList.size() == 0)) {
+	          return null;
+	        }
+	        return (UserProfile)outputAsList.get(0);
+	      }
+	      catch (Exception e) {
+	        return null;
+	      }
+	    }
+	    return null;
+	  }
 
-		if (sr.getCallStatus() == CallStatus.succeeded) {
+	  public void addUserProfile(User user, UserProfile userProfile)
+	  {
+	    ServiceRequest req = new ServiceRequest(new ProfilingService(), null);
+	    req.addValueFilter(new String[] { ProfilingService.PROP_CONTROLS }, user);
 
-			try {
-				List userProfileList = sr.getOutput(OUTPUT_QUERY_RESULT, true);
+	    req.addAddEffect(new String[] { ProfilingService.PROP_CONTROLS, Profilable.PROP_HAS_PROFILE }, userProfile);
 
-				if (userProfileList == null || userProfileList.size() == 0) {
-					// LogUtils.logInfo(Activator.mc,
-					// ContextHistoryProfileLogger.class,
-					// "getAllProfileLog",
-					// new Object[] { "there are no profiles in the log" },
-					// null);
-					return null;
-				}
-				return userProfileList;
+	    caller.call(req);
+	  }
 
-			} catch (Exception e) {
-				// LogUtils.logError(Activator.mc,
-				// ContextHistoryProfileLogger.class,
-				// "getAllProfileLog", new Object[] { "got exception",
-				// e.getMessage() }, e);
-				return null;
-			}
-		} else {
-			// LogUtils.logWarn(Activator.mc,
-			// ContextHistoryProfileLogger.class,
-			// "getAllProfileLog",
-			// new Object[] { "callstatus is not succeeded" }, null);
-			return null;
-		}
-	}
+	  public ServiceRequest userProfileRequest(User user) {
+	    ServiceRequest req = new ServiceRequest(new ProfilingService(), null);
+	    req.addValueFilter(new String[] { ProfilingService.PROP_CONTROLS }, user);
 
-	/**
-	 * Returns a {@java.util.List} of all User profiles in the
-	 * profile log that are associated to the given user and are between the
-	 * given timestamps.
-	 * 
-	 * @param userURI
-	 *            The URI of the user who performed the profiles
-	 * @param timestampFrom
-	 *            The lower bound of the period
-	 * @param timestampTo
-	 *            The upper bound of the period
-	 * 
-	 * @return The User profiles that were performed by the user in a specific
-	 *         period of time
-	 */
-	@SuppressWarnings("rawtypes")
-	public List getUserProfilesBetweenTimestamps(String userURI,
-			long timestampFrom, long timestampTo) {
+	    req.addTypeFilter(new String[] { ProfilingService.PROP_CONTROLS, Profilable.PROP_HAS_PROFILE }, UserProfile.MY_URI);
 
-		ServiceResponse sr = caller
-				.call(userProfileLogBetweenTimestampsRequest(userURI,
-						timestampFrom, timestampTo));
+	    req.addRequiredOutput(OUTPUT_QUERY_RESULT, new String[] { ProfilingService.PROP_CONTROLS, Profilable.PROP_HAS_PROFILE });
 
-		if (sr.getCallStatus() == CallStatus.succeeded) {
-			try {
-				List userProfileList = sr.getOutput(OUTPUT_QUERY_RESULT, true);
+	    return req;
+	  }
 
-				if (userProfileList == null || userProfileList.size() == 0) {
-					// LogUtils.logInfo(Activator.mc,
-					// ContextHistoryProfileLogger.class,
-					// "getProfileLogBetweenTimestamps",
-					// new Object[] { "there are no profiles in the log" },
-					// null);
-					return null;
-				}
-				return userProfileList;
+	  public AALSpaceProfile getAALSpaceProfile(User user) {
+	    ServiceResponse sr = caller.call(aalSpaceProfileRequest(user));
 
-			} catch (Exception e) {
-				// LogUtils.logError(Activator.mc,
-				// ContextHistoryProfileLogger.class,
-				// "getAllProfileLog", new Object[] { "got exception",
-				// e.getMessage() }, e);
-				return null;
-			}
-		} else {
-			// LogUtils.logWarn(Activator.mc,
-			// ContextHistoryProfileLogger.class,
-			// "getAllProfileLog",
-			// new Object[] { "callstatus is not succeeded" }, null);
-			return null;
-		}
-	}
+	    if (sr.getCallStatus() == CallStatus.succeeded) {
+	      try
+	      {
+	        List outputAsList = sr.getOutput(OUTPUT_QUERY_RESULT, true);
 
-	/**
-	 * Stores the new User profile that was performed by the user in the context
-	 * history.
-	 * 
-	 * @param userURI
-	 *            The URI of the user who performed this profile
-	 * @param profile
-	 *            The User profile that was performed by the user
-	 */
-	public void userProfileDone(String userURI, Profile profile) {
+	        if ((outputAsList == null) || (outputAsList.size() == 0)) {
+	          return null;
+	        }
+	        return (AALSpaceProfile)outputAsList.get(0);
+	      }
+	      catch (Exception e) {
+	        return null;
+	      }
+	    }
+	    return null;
+	  }
 
-		UserProfile userProfile = new UserProfile(
-				CONTEXT_HISTORY_HTL_IMPL_NAMESPACE + "UserProfile");
+	  public void addAALSpaceProfile(User user, AALSpaceProfile aalSpaceProfile)
+	  {
+	    ServiceRequest req = new ServiceRequest(new ProfilingService(), null);
+	    req.addValueFilter(new String[] { ProfilingService.PROP_CONTROLS }, user);
 
-		userProfile.setProperty(Profile.PROP_HAS_SUB_PROFILE, profile);
-		cp.publish(new ContextEvent(userProfile, Profile.PROP_HAS_SUB_PROFILE));
-		// userProfile.setProperty(UserProfile.PROP_HAS_SUB_PROFILE, profile);
-		// cp.publish(new ContextEvent(userProfile,
-		// UserProfile.PROP_HAS_SUB_PROFILE));
-	}
+	    req.addAddEffect(new String[] { ProfilingService.PROP_CONTROLS, Profilable.PROP_HAS_PROFILE }, aalSpaceProfile);
 
-	/**
-	 * Creates a ServiceRequest to retrieve all User profiles that were
-	 * performed by the given user.
-	 * 
-	 * @param userURI
-	 *            The URI of the user that performed these profiles
-	 * 
-	 * @return The User profiles that were performed
-	 */
-	public ServiceRequest allUserProfileLogRequest(String userURI) {// userURI
-																		// is
-																		// not
-																		// used
+	    caller.call(req);
+	  }
 
-		String query = null;
-//		ServiceRequest request = new ServiceRequest(new ContextHistoryService(null), null);
+	  public ServiceRequest aalSpaceProfileRequest(User user) {
+	    ServiceRequest req = new ServiceRequest(new ProfilingService(), null);
+	    req.addValueFilter(new String[] { ProfilingService.PROP_CONTROLS }, user);
 
-		Resource involvedHumanUser = new Resource(userURI);
+	    req.addTypeFilter(new String[] { ProfilingService.PROP_CONTROLS, Profilable.PROP_HAS_PROFILE }, AALSpaceProfile.MY_URI);
 
-		ServiceRequest request = new ServiceRequest(new ContextHistoryService(// new
-																				// ContextHistoryService(userURI)
-				userURI), involvedHumanUser);// second parameter Resource
-												// involvedHumanUser can be
-												// userURI
+	    req.addRequiredOutput(OUTPUT_QUERY_RESULT, new String[] { ProfilingService.PROP_CONTROLS, Profilable.PROP_HAS_PROFILE });
 
-		MergedRestriction r = MergedRestriction.getFixedValueRestriction(
-				ContextHistoryService.PROP_PROCESSES, query);// query is null =>
-																// getFixedValueRestriction
-																// returns
-																// null???
+	    return req;
+	  }
 
-		System.out.println("[ProfileAgent] The requested service uri is: "
-				+ request.getRequestedService().getURI());
-
-		request.getRequestedService().addInstanceLevelRestriction(r,
-				new String[] { ContextHistoryService.PROP_PROCESSES });// returns
-																		// false
-																		// and
-																		// do
-																		// nothing,
-																		// because
-																		// r is
-																		// null
-
-		request.addSimpleOutputBinding(new ProcessOutput(OUTPUT_QUERY_RESULT),
-				new PropertyPath(null, true,// PrepertyPath the first param is
-											// the uri of the object
-						new String[] { ContextHistoryService.PROP_RETURNS })
-						.getThePath());
-
-		return request;
-	}
-
-	/**
-	 * Creates a ServiceRequest to retrieve all the profiles that were performed
-	 * by the given user between the given timestamps.
-	 * 
-	 * @param userURI
-	 *            The URI of the user that perfomed these profiles
-	 * @param timestampFrom
-	 *            The lower bound of the period
-	 * @param timestampTo
-	 *            The upper bound of the period
-	 * 
-	 * @return The profiles that were performed
-	 */
-	public ServiceRequest userProfileLogBetweenTimestampsRequest(
-			String userURI, long timestampFrom, long timestampTo) {//???
-
-		String query = null;
-
-		ServiceRequest request = new ServiceRequest(new ContextHistoryService(
-				null), null);
-
-		MergedRestriction r = MergedRestriction.getFixedValueRestriction(
-				ContextHistoryService.PROP_PROCESSES, query);
-
-		request.getRequestedService().addInstanceLevelRestriction(r,
-				new String[] { ContextHistoryService.PROP_PROCESSES });
-
-		request.addSimpleOutputBinding(new ProcessOutput(OUTPUT_QUERY_RESULT),
-				new PropertyPath(null, true,
-						new String[] { ContextHistoryService.PROP_RETURNS })
-						.getThePath());
-
-		return request;
-	}
-
-	@SuppressWarnings("rawtypes")
-	public List getAllAALSpaceProfiles(String userURI) {
-		ServiceResponse sr = caller.call(allAALSpaceProfileLogRequest(userURI));
-
-		if (sr.getCallStatus() == CallStatus.succeeded) {
-
-			try {
-				List spaceProfileList = sr.getOutput(OUTPUT_QUERY_RESULT, true);
-
-				if (spaceProfileList == null || spaceProfileList.size() == 0) {
-					// LogUtils.logInfo(Activator.mc,
-					// ContextHistoryProfileLogger.class,
-					// "getAllProfileLog",
-					// new Object[] { "there are no profiles in the log" },
-					// null);
-					return null;
-				}
-				return spaceProfileList;
-
-			} catch (Exception e) {
-				// LogUtils.logError(Activator.mc,
-				// ContextHistoryProfileLogger.class,
-				// "getAllProfileLog", new Object[] { "got exception",
-				// e.getMessage() }, e);
-				return null;
-			}
-		} else {
-			// LogUtils.logWarn(Activator.mc,
-			// ContextHistoryProfileLogger.class,
-			// "getAllProfileLog",
-			// new Object[] { "callstatus is not succeeded" }, null);
-			return null;
-		}
-	}
-
-	@SuppressWarnings("rawtypes")
-	public List getAALSpaceProfilesBetweenTimestamps(String userURI,
-			long timestampFrom, long timestampTo) {
-		ServiceResponse sr = caller
-				.call(AALSpaceProfileLogBetweenTimestampsRequest(userURI,
-						timestampFrom, timestampTo));
-
-		if (sr.getCallStatus() == CallStatus.succeeded) {
-			try {
-				List spaceProfileList = sr.getOutput(OUTPUT_QUERY_RESULT, true);
-
-				if (spaceProfileList == null || spaceProfileList.size() == 0) {
-					// LogUtils.logInfo(Activator.mc,
-					// ContextHistoryProfileLogger.class,
-					// "getProfileLogBetweenTimestamps",
-					// new Object[] { "there are no profiles in the log" },
-					// null);
-					return null;
-				}
-				return spaceProfileList;
-
-			} catch (Exception e) {
-				// LogUtils.logError(Activator.mc,
-				// ContextHistoryProfileLogger.class,
-				// "getAllProfileLog", new Object[] { "got exception",
-				// e.getMessage() }, e);
-				return null;
-			}
-		} else {
-			// LogUtils.logWarn(Activator.mc,
-			// ContextHistoryProfileLogger.class,
-			// "getAllProfileLog",
-			// new Object[] { "callstatus is not succeeded" }, null);
-			return null;
-		}
-	}
-
-	public void ALLSpaceProfileDone(String userURI, Profile profile) {
-		AALSpaceProfile spaceProfile = new AALSpaceProfile(
-				CONTEXT_HISTORY_HTL_IMPL_NAMESPACE + "AALSpaceProfile");
-		spaceProfile.setProperty(Profile.PROP_HAS_SUB_PROFILE, profile);
-		cp.publish(new ContextEvent(spaceProfile, Profile.PROP_HAS_SUB_PROFILE));
-	}
-
-	/**
-	 * Creates a ServiceRequest to retrieve all AAL space profiles that were
-	 * performed by the given user.
-	 * 
-	 * @param userURI
-	 *            The URI of the user that performed these profiles
-	 * 
-	 * @return The AAL space profiles that were performed
-	 */
-	public ServiceRequest allAALSpaceProfileLogRequest(String userURI) {// userURI
-																			// is
-																			// not
-																			// used
-
-		String query = null;
-		
-//		ServiceRequest request = new ServiceRequest(new ContextHistoryService(null), null);
-
-		Resource involvedHumanUser = new Resource(userURI);//tova az sym go pisala
-
-		ServiceRequest request = new ServiceRequest(new ContextHistoryService(// new
-																				// ContextHistoryService(userURI)
-				userURI), involvedHumanUser);// second parameter Resource
-												// involvedHumanUser can be
-												// userURI
-
-		MergedRestriction r = MergedRestriction.getFixedValueRestriction(
-				ContextHistoryService.PROP_PROCESSES, query);// query is null =>
-																// getFixedValueRestriction
-																// returns
-																// null???
-
-		System.out.println("[ProfileAgent] The requested service uri is: "
-				+ request.getRequestedService().getURI());
-
-		request.getRequestedService().addInstanceLevelRestriction(r,
-				new String[] { ContextHistoryService.PROP_PROCESSES });// returns
-																		// false
-																		// and
-																		// do
-																		// nothing,
-																		// because
-																		// r is
-																		// null
-
-		request.addSimpleOutputBinding(new ProcessOutput(OUTPUT_QUERY_RESULT),
-				new PropertyPath(null, true,// PrepertyPath the first param is
-											// the uri of the object
-						new String[] { ContextHistoryService.PROP_RETURNS })
-						.getThePath());
-
-		return request;
-	}
-
-	/**
-	 * Creates a ServiceRequest to retrieve all ALLSpace profiles that were
-	 * performed by the given user between the given timestamps.
-	 * 
-	 * @param userURI
-	 *            The URI of the user that perfomed these profiles
-	 * @param timestampFrom
-	 *            The lower bound of the period
-	 * @param timestampTo
-	 *            The upper bound of the period
-	 * 
-	 * @return The AALSpace profiles that were performed
-	 */
-	public ServiceRequest AALSpaceProfileLogBetweenTimestampsRequest(
-			String userURI, long timestampFrom, long timestampTo) {
-
-		String query = null;
-
-		ServiceRequest request = new ServiceRequest(new ContextHistoryService(
-				null), null);
-
-		MergedRestriction r = MergedRestriction.getFixedValueRestriction(
-				ContextHistoryService.PROP_PROCESSES, query);
-
-		request.getRequestedService().addInstanceLevelRestriction(r,
-				new String[] { ContextHistoryService.PROP_PROCESSES });
-
-		request.addSimpleOutputBinding(new ProcessOutput(OUTPUT_QUERY_RESULT),
-				new PropertyPath(null, true,
-						new String[] { ContextHistoryService.PROP_RETURNS })
-						.getThePath());
-
-		return request;
-	}
-
+	
 	public AALSpaceManager getAALSpaceManager() {
 		LogUtils.logDebug(context, ContextHistoryProfileAgent.class,
 				"contextHistoryProfileAgent",
@@ -575,4 +280,379 @@ public class ContextHistoryProfileAgent implements ProfileCHEProvider {
 		} else
 			return storeManager;
 	}
+
+//	/**
+//	 * Returns a {@java.util.List} of all User profiles in the
+//	 * profile log that are associated to the given user.
+//	 * 
+//	 * @param userURI
+//	 *            The URI of the user who performed the profiles
+//	 * 
+//	 * @return All the User profiles that were performed by the user
+//	 */
+//	@SuppressWarnings("rawtypes")
+//	public List getAllUserProfiles(String userURI) {
+//
+//		ServiceResponse sr = caller.call(allUserProfileLogRequest(userURI));
+//
+//		if (sr.getCallStatus() == CallStatus.succeeded) {
+//
+//			try {
+//				List userProfileList = sr.getOutput(OUTPUT_QUERY_RESULT, true);
+//
+//				if (userProfileList == null || userProfileList.size() == 0) {
+//					// LogUtils.logInfo(Activator.mc,
+//					// ContextHistoryProfileLogger.class,
+//					// "getAllProfileLog",
+//					// new Object[] { "there are no profiles in the log" },
+//					// null);
+//					return null;
+//				}
+//				return userProfileList;
+//
+//			} catch (Exception e) {
+//				// LogUtils.logError(Activator.mc,
+//				// ContextHistoryProfileLogger.class,
+//				// "getAllProfileLog", new Object[] { "got exception",
+//				// e.getMessage() }, e);
+//				return null;
+//			}
+//		} else {
+//			// LogUtils.logWarn(Activator.mc,
+//			// ContextHistoryProfileLogger.class,
+//			// "getAllProfileLog",
+//			// new Object[] { "callstatus is not succeeded" }, null);
+//			return null;
+//		}
+//	}
+
+//	/**
+//	 * Returns a {@java.util.List} of all User profiles in the
+//	 * profile log that are associated to the given user and are between the
+//	 * given timestamps.
+//	 * 
+//	 * @param userURI
+//	 *            The URI of the user who performed the profiles
+//	 * @param timestampFrom
+//	 *            The lower bound of the period
+//	 * @param timestampTo
+//	 *            The upper bound of the period
+//	 * 
+//	 * @return The User profiles that were performed by the user in a specific
+//	 *         period of time
+//	 */
+//	@SuppressWarnings("rawtypes")
+//	public List getUserProfilesBetweenTimestamps(String userURI,
+//			long timestampFrom, long timestampTo) {
+//
+//		ServiceResponse sr = caller
+//				.call(userProfileLogBetweenTimestampsRequest(userURI,
+//						timestampFrom, timestampTo));
+//
+//		if (sr.getCallStatus() == CallStatus.succeeded) {
+//			try {
+//				List userProfileList = sr.getOutput(OUTPUT_QUERY_RESULT, true);
+//
+//				if (userProfileList == null || userProfileList.size() == 0) {
+//					// LogUtils.logInfo(Activator.mc,
+//					// ContextHistoryProfileLogger.class,
+//					// "getProfileLogBetweenTimestamps",
+//					// new Object[] { "there are no profiles in the log" },
+//					// null);
+//					return null;
+//				}
+//				return userProfileList;
+//
+//			} catch (Exception e) {
+//				// LogUtils.logError(Activator.mc,
+//				// ContextHistoryProfileLogger.class,
+//				// "getAllProfileLog", new Object[] { "got exception",
+//				// e.getMessage() }, e);
+//				return null;
+//			}
+//		} else {
+//			// LogUtils.logWarn(Activator.mc,
+//			// ContextHistoryProfileLogger.class,
+//			// "getAllProfileLog",
+//			// new Object[] { "callstatus is not succeeded" }, null);
+//			return null;
+//		}
+//	}
+
+//	/**
+//	 * Stores the new User profile that was performed by the user in the context
+//	 * history.
+//	 * 
+//	 * @param userURI
+//	 *            The URI of the user who performed this profile
+//	 * @param profile
+//	 *            The User profile that was performed by the user
+//	 */
+//	public void userProfileDone(String userURI, Profile profile) {
+//
+//		UserProfile userProfile = new UserProfile(
+//				CONTEXT_HISTORY_HTL_IMPL_NAMESPACE + "UserProfile");
+//
+//		userProfile.setProperty(Profile.PROP_HAS_SUB_PROFILE, profile);
+//		cp.publish(new ContextEvent(userProfile, Profile.PROP_HAS_SUB_PROFILE));
+//		// userProfile.setProperty(UserProfile.PROP_HAS_SUB_PROFILE, profile);
+//		// cp.publish(new ContextEvent(userProfile,
+//		// UserProfile.PROP_HAS_SUB_PROFILE));
+//	}
+
+//	/**
+//	 * Creates a ServiceRequest to retrieve all User profiles that were
+//	 * performed by the given user.
+//	 * 
+//	 * @param userURI
+//	 *            The URI of the user that performed these profiles
+//	 * 
+//	 * @return The User profiles that were performed
+//	 */
+//	public ServiceRequest allUserProfileLogRequest(String userURI) {// userURI
+//																		// is
+//																		// not
+//																		// used
+//
+//		String query = null;
+////		ServiceRequest request = new ServiceRequest(new ContextHistoryService(null), null);
+//
+//		Resource involvedHumanUser = new Resource(userURI);
+//
+//		ServiceRequest request = new ServiceRequest(new ContextHistoryService(// new
+//																				// ContextHistoryService(userURI)
+//				userURI), involvedHumanUser);// second parameter Resource
+//												// involvedHumanUser can be
+//												// userURI
+//
+//		MergedRestriction r = MergedRestriction.getFixedValueRestriction(
+//				ContextHistoryService.PROP_PROCESSES, query);// query is null =>
+//																// getFixedValueRestriction
+//																// returns
+//																// null???
+//
+//		System.out.println("[ProfileAgent] The requested service uri is: "
+//				+ request.getRequestedService().getURI());
+//
+//		request.getRequestedService().addInstanceLevelRestriction(r,
+//				new String[] { ContextHistoryService.PROP_PROCESSES });// returns
+//																		// false
+//																		// and
+//																		// do
+//																		// nothing,
+//																		// because
+//																		// r is
+//																		// null
+//
+//		request.addSimpleOutputBinding(new ProcessOutput(OUTPUT_QUERY_RESULT),
+//				new PropertyPath(null, true,// PrepertyPath the first param is
+//											// the uri of the object
+//						new String[] { ContextHistoryService.PROP_RETURNS })
+//						.getThePath());
+//
+//		return request;
+//	}
+
+//	/**
+//	 * Creates a ServiceRequest to retrieve all the profiles that were performed
+//	 * by the given user between the given timestamps.
+//	 * 
+//	 * @param userURI
+//	 *            The URI of the user that perfomed these profiles
+//	 * @param timestampFrom
+//	 *            The lower bound of the period
+//	 * @param timestampTo
+//	 *            The upper bound of the period
+//	 * 
+//	 * @return The profiles that were performed
+//	 */
+//	public ServiceRequest userProfileLogBetweenTimestampsRequest(
+//			String userURI, long timestampFrom, long timestampTo) {//???
+//
+//		String query = null;
+//
+//		ServiceRequest request = new ServiceRequest(new ContextHistoryService(
+//				null), null);
+//
+//		MergedRestriction r = MergedRestriction.getFixedValueRestriction(
+//				ContextHistoryService.PROP_PROCESSES, query);
+//
+//		request.getRequestedService().addInstanceLevelRestriction(r,
+//				new String[] { ContextHistoryService.PROP_PROCESSES });
+//
+//		request.addSimpleOutputBinding(new ProcessOutput(OUTPUT_QUERY_RESULT),
+//				new PropertyPath(null, true,
+//						new String[] { ContextHistoryService.PROP_RETURNS })
+//						.getThePath());
+//
+//		return request;
+//	}
+
+//	@SuppressWarnings("rawtypes")
+//	public List getAllAALSpaceProfiles(String userURI) {
+//		ServiceResponse sr = caller.call(allAALSpaceProfileLogRequest(userURI));
+//
+//		if (sr.getCallStatus() == CallStatus.succeeded) {
+//
+//			try {
+//				List spaceProfileList = sr.getOutput(OUTPUT_QUERY_RESULT, true);
+//
+//				if (spaceProfileList == null || spaceProfileList.size() == 0) {
+//					// LogUtils.logInfo(Activator.mc,
+//					// ContextHistoryProfileLogger.class,
+//					// "getAllProfileLog",
+//					// new Object[] { "there are no profiles in the log" },
+//					// null);
+//					return null;
+//				}
+//				return spaceProfileList;
+//
+//			} catch (Exception e) {
+//				// LogUtils.logError(Activator.mc,
+//				// ContextHistoryProfileLogger.class,
+//				// "getAllProfileLog", new Object[] { "got exception",
+//				// e.getMessage() }, e);
+//				return null;
+//			}
+//		} else {
+//			// LogUtils.logWarn(Activator.mc,
+//			// ContextHistoryProfileLogger.class,
+//			// "getAllProfileLog",
+//			// new Object[] { "callstatus is not succeeded" }, null);
+//			return null;
+//		}
+//	}
+
+//	@SuppressWarnings("rawtypes")
+//	public List getAALSpaceProfilesBetweenTimestamps(String userURI,
+//			long timestampFrom, long timestampTo) {
+//		ServiceResponse sr = caller
+//				.call(AALSpaceProfileLogBetweenTimestampsRequest(userURI,
+//						timestampFrom, timestampTo));
+//
+//		if (sr.getCallStatus() == CallStatus.succeeded) {
+//			try {
+//				List spaceProfileList = sr.getOutput(OUTPUT_QUERY_RESULT, true);
+//
+//				if (spaceProfileList == null || spaceProfileList.size() == 0) {
+//					// LogUtils.logInfo(Activator.mc,
+//					// ContextHistoryProfileLogger.class,
+//					// "getProfileLogBetweenTimestamps",
+//					// new Object[] { "there are no profiles in the log" },
+//					// null);
+//					return null;
+//				}
+//				return spaceProfileList;
+//
+//			} catch (Exception e) {
+//				// LogUtils.logError(Activator.mc,
+//				// ContextHistoryProfileLogger.class,
+//				// "getAllProfileLog", new Object[] { "got exception",
+//				// e.getMessage() }, e);
+//				return null;
+//			}
+//		} else {
+//			// LogUtils.logWarn(Activator.mc,
+//			// ContextHistoryProfileLogger.class,
+//			// "getAllProfileLog",
+//			// new Object[] { "callstatus is not succeeded" }, null);
+//			return null;
+//		}
+//	}
+
+//	public void ALLSpaceProfileDone(String userURI, Profile profile) {
+//		AALSpaceProfile spaceProfile = new AALSpaceProfile(
+//				CONTEXT_HISTORY_HTL_IMPL_NAMESPACE + "AALSpaceProfile");
+//		spaceProfile.setProperty(Profile.PROP_HAS_SUB_PROFILE, profile);
+//		cp.publish(new ContextEvent(spaceProfile, Profile.PROP_HAS_SUB_PROFILE));
+//	}
+
+//	/**
+//	 * Creates a ServiceRequest to retrieve all AAL space profiles that were
+//	 * performed by the given user.
+//	 * 
+//	 * @param userURI
+//	 *            The URI of the user that performed these profiles
+//	 * 
+//	 * @return The AAL space profiles that were performed
+//	 */
+//	public ServiceRequest allAALSpaceProfileLogRequest(String userURI) {// userURI
+//																			// is
+//																			// not
+//																			// used
+//
+//		String query = null;
+//		
+////		ServiceRequest request = new ServiceRequest(new ContextHistoryService(null), null);
+//
+//		Resource involvedHumanUser = new Resource(userURI);//tova az sym go pisala
+//
+//		ServiceRequest request = new ServiceRequest(new ContextHistoryService(// new
+//																				// ContextHistoryService(userURI)
+//				userURI), involvedHumanUser);// second parameter Resource
+//												// involvedHumanUser can be
+//												// userURI
+//
+//		MergedRestriction r = MergedRestriction.getFixedValueRestriction(
+//				ContextHistoryService.PROP_PROCESSES, query);// query is null =>
+//																// getFixedValueRestriction
+//																// returns
+//																// null???
+//
+//		System.out.println("[ProfileAgent] The requested service uri is: "
+//				+ request.getRequestedService().getURI());
+//
+//		request.getRequestedService().addInstanceLevelRestriction(r,
+//				new String[] { ContextHistoryService.PROP_PROCESSES });// returns
+//																		// false
+//																		// and
+//																		// do
+//																		// nothing,
+//																		// because
+//																		// r is
+//																		// null
+//
+//		request.addSimpleOutputBinding(new ProcessOutput(OUTPUT_QUERY_RESULT),
+//				new PropertyPath(null, true,// PrepertyPath the first param is
+//											// the uri of the object
+//						new String[] { ContextHistoryService.PROP_RETURNS })
+//						.getThePath());
+//
+//		return request;
+//	}
+
+//	/**
+//	 * Creates a ServiceRequest to retrieve all ALLSpace profiles that were
+//	 * performed by the given user between the given timestamps.
+//	 * 
+//	 * @param userURI
+//	 *            The URI of the user that perfomed these profiles
+//	 * @param timestampFrom
+//	 *            The lower bound of the period
+//	 * @param timestampTo
+//	 *            The upper bound of the period
+//	 * 
+//	 * @return The AALSpace profiles that were performed
+//	 */
+//	public ServiceRequest AALSpaceProfileLogBetweenTimestampsRequest(
+//			String userURI, long timestampFrom, long timestampTo) {
+//
+//		String query = null;
+//
+//		ServiceRequest request = new ServiceRequest(new ContextHistoryService(
+//				null), null);
+//
+//		MergedRestriction r = MergedRestriction.getFixedValueRestriction(
+//				ContextHistoryService.PROP_PROCESSES, query);
+//
+//		request.getRequestedService().addInstanceLevelRestriction(r,
+//				new String[] { ContextHistoryService.PROP_PROCESSES });
+//
+//		request.addSimpleOutputBinding(new ProcessOutput(OUTPUT_QUERY_RESULT),
+//				new PropertyPath(null, true,
+//						new String[] { ContextHistoryService.PROP_RETURNS })
+//						.getThePath());
+//
+//		return request;
+//	}
 }

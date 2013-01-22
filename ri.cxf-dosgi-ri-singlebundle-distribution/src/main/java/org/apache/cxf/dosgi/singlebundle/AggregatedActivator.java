@@ -46,7 +46,7 @@ public class AggregatedActivator implements BundleActivator {
 
 	static final String HTTP_SERVICE_ENABLED = "org.osgi.service.http.enabled";
 
-	static String DEFAULT_HTTP_PORT = "8080";
+	static String DEFAULT_HTTP_PORT = "8083";
 
 	private List<BundleActivator> activators = new ArrayList<BundleActivator>();
 

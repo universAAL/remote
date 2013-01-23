@@ -22,6 +22,13 @@ package org.universAAL.ri.wsdlToolkit.invocation;
 
 import java.util.Vector;
 
+/**
+ * 
+ * This class contains the result returned from a web service invocation
+ * 
+ * @author kgiannou
+ */
+
 public class InvocationResult {
 	private String hasRequestInString;
 	private String hasResponseInString;

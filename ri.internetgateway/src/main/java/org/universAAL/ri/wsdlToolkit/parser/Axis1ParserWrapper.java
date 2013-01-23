@@ -20,20 +20,14 @@
  */
 package org.universAAL.ri.wsdlToolkit.parser;
 
-import com.ibm.wsdl.BindingImpl;
-import com.ibm.wsdl.BindingInputImpl;
-import com.ibm.wsdl.BindingOperationImpl;
-import com.ibm.wsdl.BindingOutputImpl;
+
 import com.ibm.wsdl.InputImpl;
 import com.ibm.wsdl.MessageImpl;
 import com.ibm.wsdl.OperationImpl;
 import com.ibm.wsdl.OutputImpl;
-import com.ibm.wsdl.PartImpl;
-import com.ibm.wsdl.ServiceImpl;
 import java.net.URL;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 
 /*
@@ -59,6 +53,14 @@ import org.universAAL.ri.wsdlToolkit.ioApi.WSOperation;
 import org.universAAL.ri.wsdlToolkit.ioApi.WSOperationInput;
 import org.universAAL.ri.wsdlToolkit.ioApi.WSOperationOutput;
 import org.w3c.dom.Node;
+
+
+/**
+ * 
+ * Class used for parsing WSDL files of SOAP 1.1 protocol.
+ * 
+ * @author kgiannou
+ */
 
 public class Axis1ParserWrapper {
 

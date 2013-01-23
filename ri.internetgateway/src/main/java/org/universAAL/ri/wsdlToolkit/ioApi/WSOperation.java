@@ -20,6 +20,13 @@
  */
 package org.universAAL.ri.wsdlToolkit.ioApi;
 
+/**
+ * 
+ * Class used for storing a web service operation
+ * 
+ * @author kgiannou
+ */
+
 public class WSOperation {
 
 	private String operationName;
@@ -27,7 +34,7 @@ public class WSOperation {
 	private WSOperationOutput hasOutput;
 	private String hasDocumentation;
 	private String hasStyle; // rpc or document
-	private ParsedWSDLDefinition belongsToDefinition; // mporei na einai
+	private ParsedWSDLDefinition belongsToDefinition; 
 	private String hasBindingSoapAction;
 
 	// public String hasSoapVersion;

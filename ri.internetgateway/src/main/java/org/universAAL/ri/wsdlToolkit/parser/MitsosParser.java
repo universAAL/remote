@@ -20,22 +20,18 @@
  */
 package org.universAAL.ri.wsdlToolkit.parser;
 
-import com.ibm.wsdl.PortTypeImpl;
-import com.ibm.wsdl.ServiceImpl;
-import com.ibm.wsdl.extensions.schema.SchemaImpl;
-import com.ibm.wsdl.extensions.schema.SchemaImportImpl;
 
+import com.ibm.wsdl.ServiceImpl;
+import com.ibm.wsdl.extensions.schema.SchemaImportImpl;
 import java.net.URL;
 import java.util.Collection;
-import java.util.Enumeration;
 import java.util.HashMap;
-import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.Vector;
-import javax.swing.JOptionPane;
+
 //-import javax.swing.JTextArea;
 import javax.wsdl.Binding;
 import javax.wsdl.BindingOperation;
@@ -45,28 +41,20 @@ import javax.wsdl.Operation;
 import javax.wsdl.Part;
 import javax.wsdl.Port;
 import javax.wsdl.Types;
-import javax.wsdl.extensions.schema.Schema;
 import javax.wsdl.factory.WSDLFactory;
 import javax.wsdl.xml.WSDLReader;
 import javax.xml.namespace.QName;
-//import org.exolab.castor.xml.dtd.Attribute;
-//import org.exolab.castor.xml.schema.AttributeDecl;
-//import org.exolab.castor.xml.schema.ComplexType;
-//import org.exolab.castor.xml.schema.ElementDecl;
-//import org.exolab.castor.xml.schema.SimpleType;
-//import org.exolab.castor.xml.schema.XMLType;
 import org.universAAL.ri.wsdlToolkit.ioApi.ComplexObject;
 import org.universAAL.ri.wsdlToolkit.ioApi.NativeObject;
 import org.universAAL.ri.wsdlToolkit.ioApi.ParsedWSDLDefinition;
 import org.universAAL.ri.wsdlToolkit.ioApi.WSOperation;
 import org.universAAL.ri.wsdlToolkit.ioApi.WSOperationInput;
 import org.universAAL.ri.wsdlToolkit.ioApi.WSOperationOutput;
-import org.w3c.dom.Attr;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import java.util.ArrayList;
+
 
 public class MitsosParser {
 

@@ -26,7 +26,6 @@ import java.util.Iterator;
 import java.util.Vector;
 import javax.xml.namespace.QName;
 import org.apache.axiom.om.OMAbstractFactory;
-import org.apache.axiom.om.OMAttribute;
 import org.apache.axiom.om.OMElement;
 import org.apache.axiom.om.OMNamespace;
 import org.apache.axiom.soap.SOAPEnvelope;
@@ -36,7 +35,12 @@ import org.universAAL.ri.wsdlToolkit.ioApi.NativeObject;
 import org.universAAL.ri.wsdlToolkit.ioApi.ParsedWSDLDefinition;
 import org.universAAL.ri.wsdlToolkit.ioApi.WSOperationInput;
 
-
+/**
+ * 
+ * Class used for building rpc encoding SOAP envelope
+ * 
+ * @author kgiannou
+ */
 
 public class Axis2_RpcEncodedMessageBuilder {
 

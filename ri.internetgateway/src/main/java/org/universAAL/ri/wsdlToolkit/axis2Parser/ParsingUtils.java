@@ -21,7 +21,6 @@
 package org.universAAL.ri.wsdlToolkit.axis2Parser;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Vector;
 import javax.xml.namespace.QName;
@@ -37,6 +36,13 @@ import org.apache.ws.commons.schema.XmlSchemaType;
 import org.universAAL.ri.wsdlToolkit.ioApi.ComplexObject;
 import org.universAAL.ri.wsdlToolkit.ioApi.NativeObject;
 import org.universAAL.ri.wsdlToolkit.ioApi.ParsedWSDLDefinition;
+
+/**
+ * 
+ * This class provides some utilities for the parser mechanism
+ * 
+ * @author kgiannou
+ */
 
 public class ParsingUtils {
 

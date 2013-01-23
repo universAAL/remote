@@ -36,92 +36,18 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+
+/**
+ * 
+ * This class is used for parsing XSD schemas.
+ * 
+ * @author kgiannou
+ */
+
 public class WSDL_XSD_SchemaToolkit {
 
 	private static HashMap URIsAlreadyParsed;
 
-	/*
-	 * public static boolean nodeExistsInSchema(String nameOfNode,
-	 * javax.wsdl.extensions.schema.Schema theInputXSDSchema){ boolean
-	 * nodeExists=false;
-	 * 
-	 * if(nameOfNode==null||theInputXSDSchema==null)return false;
-	 * 
-	 * //-System.out.println("### Looking for node: '"+nameOfNode+"' in file: '"+
-	 * theInputXSDSchema.getDocumentBaseURI()+"'");
-	 * 
-	 * String theNodeNameAttValue=""; String theNodeNamespaceKey=null;
-	 * 
-	 * if(nameOfNode.contains(":")){ theNodeNamespaceKey=nameOfNode.substring(0,
-	 * nameOfNode.indexOf(":"));
-	 * theNodeNameAttValue=nameOfNode.substring(nameOfNode.indexOf(":")+1);
-	 * }else{ theNodeNamespaceKey=null; theNodeNameAttValue=nameOfNode; }
-	 * 
-	 * if(theInputXSDSchema!=null){ org.w3c.dom.Element
-	 * impSchElem=theInputXSDSchema.getElement();
-	 * 
-	 * //EDW NA LAVW YP'OPSIN KAI TA "group" elements NodeList
-	 * elementNodesList=impSchElem.getElementsByTagName("element"); NodeList
-	 * complexTypeNodesList=impSchElem.getElementsByTagName("complexType");
-	 * NodeList
-	 * simpleTypeNodesList=impSchElem.getElementsByTagName("simpleType");
-	 * NodeList groupTypeNodesList=impSchElem.getElementsByTagName("group");
-	 * //-System
-	 * .out.println(elementNodesList.getLength()+" "+complexTypeNodesList
-	 * .getLength()+" "+simpleTypeNodesList.getLength());
-	 * 
-	 * if(elementNodesList!=null){ for(int
-	 * i=0;i<elementNodesList.getLength();i++){ Node n=elementNodesList.item(i);
-	 * if(n.hasAttributes()&&n.getAttributes().getNamedItem("name")!=null){
-	 * if(n.getAttributes().getNamedItem("name").getNodeValue().equals(
-	 * theNodeNameAttValue)){ //-System.out.println("NODE EXISTS!: ELEMENT");
-	 * return true; } } } }
-	 * 
-	 * if(complexTypeNodesList!=null){ for(int
-	 * i=0;i<complexTypeNodesList.getLength();i++){ Node
-	 * n=complexTypeNodesList.item(i);
-	 * if(n.hasAttributes()&&n.getAttributes().getNamedItem("name")!=null){
-	 * if(n.getAttributes().getNamedItem("name").getNodeValue().equals(
-	 * theNodeNameAttValue)){
-	 * //-System.out.println("NODE EXISTS!: COMPLEX TYPE"); return true; } } } }
-	 * 
-	 * if(simpleTypeNodesList!=null){ for(int
-	 * i=0;i<simpleTypeNodesList.getLength();i++){ Node
-	 * n=simpleTypeNodesList.item(i);
-	 * if(n.hasAttributes()&&n.getAttributes().getNamedItem("name")!=null){
-	 * if(n.getAttributes().getNamedItem("name").getNodeValue().equals(
-	 * theNodeNameAttValue)){
-	 * //-System.out.println("NODE EXISTS!: SIMPLE TYPE"); return true; } } } }
-	 * 
-	 * if(groupTypeNodesList!=null){ for(int
-	 * i=0;i<groupTypeNodesList.getLength();i++){ Node
-	 * n=groupTypeNodesList.item(i);
-	 * if(n.hasAttributes()&&n.getAttributes().getNamedItem("name")!=null){
-	 * //-System
-	 * .out.println(n.getAttributes().getNamedItem("name").getNodeValue());
-	 * if(n.getAttributes().getNamedItem("name").getNodeValue().equals(
-	 * theNodeNameAttValue)){ //-System.out.println("NODE EXISTS!: GROUP");
-	 * return true; } } } }
-	 * 
-	 * List includesList=theInputXSDSchema.getIncludes();
-	 * if(includesList!=null){ Iterator includesIter=includesList.iterator();
-	 * while(includesIter.hasNext()){ SchemaReferenceImpl
-	 * schImpl=(SchemaReferenceImpl)includesIter.next(); Schema
-	 * includedSchema=schImpl.getReferencedSchema(); Node
-	 * n1=getNodeOfType(nameOfNode,includedSchema); if(n1!=null)return true; } }
-	 * 
-	 * Map importsMap=theInputXSDSchema.getImports(); if(importsMap!=null){
-	 * Collection col=importsMap.values(); Iterator importsIter=col.iterator();
-	 * while(importsIter.hasNext()){ SchemaImportImpl
-	 * schImpl=(SchemaImportImpl)importsIter.next(); Schema
-	 * includedSchema=schImpl.getReferencedSchema(); Node
-	 * n1=getNodeOfType(nameOfNode,includedSchema); if(n1!=null)return true; } }
-	 * }
-	 * 
-	 * //-System.out.println("Node DOES NOT Exist here..."); return nodeExists;
-	 * 
-	 * }
-	 */
 
 	public static Node getNodeOfType_ITERATIVE(String nameOfNode,
 			javax.wsdl.extensions.schema.Schema importedOrIncludedSchema,

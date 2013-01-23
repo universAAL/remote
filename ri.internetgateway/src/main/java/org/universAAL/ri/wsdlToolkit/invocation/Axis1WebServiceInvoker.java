@@ -21,26 +21,24 @@
 
 package org.universAAL.ri.wsdlToolkit.invocation;
 
-//import javax.xml.rpc.namespace.QName;
+
 
 import java.net.URL;
 import java.util.Iterator;
 import java.util.Vector;
 import javax.xml.namespace.QName;
-
-import org.apache.axis.client.Call;
-import org.apache.axis.client.Service;
-import org.apache.axis.encoding.TypeMapping;
-import org.apache.axis.encoding.XMLType;
-import org.apache.axis.message.MessageElement;
-import org.apache.axis.message.SOAPBodyElement;
-import org.apache.axis.message.SOAPEnvelope;
-import org.apache.axis.utils.Options;
 import org.universAAL.ri.wsdlToolkit.ioApi.ComplexObject;
 import org.universAAL.ri.wsdlToolkit.ioApi.NativeObject;
 import org.universAAL.ri.wsdlToolkit.ioApi.ParsedWSDLDefinition;
 import org.universAAL.ri.wsdlToolkit.ioApi.WSOperation;
 import org.universAAL.ri.wsdlToolkit.ioApi.WSOperationInput;
+
+/**
+ * 
+ * Class used for invoking web services with SOAP 1.1 protocol 
+ * 
+ * @author kgiannou
+ */
 
 public class Axis1WebServiceInvoker {
 

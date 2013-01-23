@@ -160,6 +160,9 @@ ri.internetgateway/MITX.txt -text
 ri.internetgateway/NOTICE.txt -text
 ri.internetgateway/pom.xml -text
 ri.internetgateway/src/main/java/org/universAAL/ri/internetgateway/Activator.java -text
+ri.internetgateway/src/main/java/org/universAAL/ri/internetgateway/InternetGateway.java -text
+ri.internetgateway/src/main/java/org/universAAL/ri/restToolkit/ClientHttpRequest.java -text
+ri.internetgateway/src/main/java/org/universAAL/ri/restToolkit/RestClient.java -text
 ri.internetgateway/src/main/java/org/universAAL/ri/wsdlToolkit/axis2Parser/AdditionalTypesParser.java -text
 ri.internetgateway/src/main/java/org/universAAL/ri/wsdlToolkit/axis2Parser/Axis2ParserWrapper.java -text
 ri.internetgateway/src/main/java/org/universAAL/ri/wsdlToolkit/axis2Parser/ComplexTypesParser.java -text

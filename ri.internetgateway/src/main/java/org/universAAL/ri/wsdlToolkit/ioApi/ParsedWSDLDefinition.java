@@ -24,6 +24,14 @@ import java.net.URL;
 import java.util.Vector;
 import javax.xml.namespace.QName;
 
+
+/**
+ * 
+ * Class used for storing the parsed definition of a WSDL file
+ * 
+ * @author kgiannou
+ */
+
 public class ParsedWSDLDefinition {
 	private URL wsdlURL;
 	private String serviceURL;

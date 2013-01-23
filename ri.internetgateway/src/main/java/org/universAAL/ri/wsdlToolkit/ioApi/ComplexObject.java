@@ -21,25 +21,30 @@
 
 package org.universAAL.ri.wsdlToolkit.ioApi;
 
-//import gr.iti.wsdl.wsdlToolkit.*;
-
 import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
 import javax.xml.namespace.QName;
 
-public class ComplexObject /* implements Cloneable */{
+/**
+ * 
+ * Class used for storing complex objects
+ * 
+ * @author kgiannou
+ */
+
+public class ComplexObject {
 	private QName objectName;
 	private QName objectType;
-	private Vector hasComplexObjects = new Vector();
-	private Vector hasNativeObjects = new Vector();
+	private Vector<ComplexObject> hasComplexObjects = new Vector<ComplexObject>();
+	private Vector<NativeObject> hasNativeObjects = new Vector<NativeObject>();
 	private String additionalInfo;
 	private boolean isAbstract = false;
 	private Vector hasExtendedObjects = new Vector();
 	private boolean isArrayType = false;
 	private boolean isOptional = false;
 
-	private Object hasParent; // mporei na einai ComplexObject i Operation
+	private Object hasParent; // ComplexObject or WSOperation
 	private boolean isInput = true;
 
 	// public String hasMinOccurs;

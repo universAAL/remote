@@ -44,6 +44,14 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+/**
+ * 
+ * This class is used for parsing the documentation of a WSDL file.
+ * 
+ * @author kgiannou
+ */
+
+
 public class DocumentStyleWSDLParser {
 
 	private static ComplexObject getExtendedTypeAsAComplexObject(

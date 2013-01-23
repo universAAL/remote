@@ -22,6 +22,13 @@ package org.universAAL.ri.wsdlToolkit.ioApi;
 
 import java.util.Vector;
 
+/**
+ * 
+ * Class used for storing the input of a web service operation
+ * 
+ * @author kgiannou
+ */
+
 public class WSOperationInput {
 	// public Vector hasComplexObjects;
 

@@ -26,7 +26,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 import java.util.Vector;
 import javax.xml.namespace.QName;
@@ -51,6 +50,14 @@ import org.universAAL.ri.wsdlToolkit.ioApi.ParsedWSDLDefinition;
 import org.universAAL.ri.wsdlToolkit.ioApi.WSOperation;
 import org.universAAL.ri.wsdlToolkit.ioApi.WSOperationInput;
 import org.universAAL.ri.wsdlToolkit.ioApi.WSOperationOutput;
+
+
+/**
+ * 
+ * This class is responsible for parsing a wsdl file
+ * 
+ * @author kgiannou
+ */
 
 public class Axis2ParserWrapper {
 

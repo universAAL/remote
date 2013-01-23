@@ -36,6 +36,13 @@ import org.universAAL.ri.wsdlToolkit.ioApi.ComplexObject;
 import org.universAAL.ri.wsdlToolkit.ioApi.NativeObject;
 import org.universAAL.ri.wsdlToolkit.ioApi.ParsedWSDLDefinition;
 
+/**
+ * 
+ * This class is used for parsing simple types of a wsdl document
+ * 
+ * @author kgiannou
+ */
+
 public class SimpleTypesParser {
 
 	public static ComplexObject parseSimpleType(XmlSchemaElement schElemOfType,

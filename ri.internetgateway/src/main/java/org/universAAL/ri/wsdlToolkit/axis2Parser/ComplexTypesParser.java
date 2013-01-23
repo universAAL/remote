@@ -41,6 +41,12 @@ import org.universAAL.ri.wsdlToolkit.ioApi.ComplexObject;
 import org.universAAL.ri.wsdlToolkit.ioApi.NativeObject;
 import org.universAAL.ri.wsdlToolkit.ioApi.ParsedWSDLDefinition;
 
+/**
+ * 
+ * This class is used for parsing complex elements of a wsdl document
+ * 
+ * @author kgiannou
+ */
 
 public class ComplexTypesParser {
 

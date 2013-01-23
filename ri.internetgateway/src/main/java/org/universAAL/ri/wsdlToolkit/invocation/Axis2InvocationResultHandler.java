@@ -23,12 +23,7 @@ package org.universAAL.ri.wsdlToolkit.invocation;
 import java.util.Iterator;
 import java.util.Vector;
 import javax.xml.namespace.QName;
-import javax.xml.soap.SOAPElement;
-import org.apache.axiom.om.OMAttribute;
-import org.apache.axiom.om.OMNode;
 import org.apache.axiom.om.impl.llom.OMElementImpl;
-import org.apache.axiom.om.impl.llom.OMNamespaceImpl;
-import org.apache.axiom.om.impl.llom.OMNodeImpl;
 import org.apache.axiom.om.impl.llom.OMTextImpl;
 import org.apache.axiom.soap.SOAPBody;
 import org.apache.axiom.soap.SOAPEnvelope;
@@ -36,6 +31,14 @@ import org.apache.axis2.context.MessageContext;
 import org.universAAL.ri.wsdlToolkit.ioApi.ComplexObject;
 import org.universAAL.ri.wsdlToolkit.ioApi.NativeObject;
 import org.universAAL.ri.wsdlToolkit.ioApi.WSOperation;
+
+/**
+ * 
+ * This class is used for parsing a web service operation response after invocation
+ * and cast it to the InvocationResult object
+ * 
+ * @author kgiannou
+ */
 
 public class Axis2InvocationResultHandler {
 

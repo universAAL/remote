@@ -25,6 +25,13 @@ import java.util.List;
 import java.util.Vector;
 import javax.xml.namespace.QName;
 
+/**
+ * 
+ * Class used for storing simple (native) objects
+ * 
+ * @author kgiannou
+ */
+
 public class NativeObject {
 
 	private QName objectName;
@@ -34,7 +41,7 @@ public class NativeObject {
 	private String hasValue = "";
 	private boolean isOptional = false;
 
-	private Object hasParent; // mporei na einai ComplexObject i Operation
+	private Object hasParent; // ComplexObject or WSOperation
 	private boolean isInput = true;
 
 	// public String hasMinOccurs;

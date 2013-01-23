@@ -27,8 +27,6 @@ import javax.xml.namespace.QName;
 import org.apache.axiom.om.OMAbstractFactory;
 import org.apache.axiom.om.OMElement;
 import org.apache.axiom.om.OMNamespace;
-import org.apache.axiom.om.OMNode;
-import org.apache.axiom.soap.SOAP12Constants;
 import org.apache.axiom.soap.SOAPEnvelope;
 import org.apache.axiom.soap.SOAPFactory;
 import org.apache.axis2.addressing.EndpointReference;
@@ -42,80 +40,17 @@ import org.universAAL.ri.wsdlToolkit.ioApi.ParsedWSDLDefinition;
 import org.universAAL.ri.wsdlToolkit.ioApi.WSOperation;
 import org.universAAL.ri.wsdlToolkit.ioApi.WSOperationInput;
 
+/**
+ * 
+ * This class provides the functionality for invoking a soap web service
+ * 
+ * @author kgiannou
+ */
+
+
 public class Axis2WebServiceInvoker {
 
-	public static InvocationResult invokeWebService(URL wsdlURL,
-			QName operationName, WSOperationInput operationInput,
-			WSOperation theParsedOperation, ParsedWSDLDefinition theDefinition)
-			throws Exception {
-		ServiceClient theServiceClient = null;
 
-		try {
-			InvocationResult result = new InvocationResult();
-			theServiceClient = new ServiceClient();
-
-			// OperationClient
-			// operationClient=theServiceClient.createClient(operationName);
-			OperationClient operationClient = theServiceClient
-					.createClient(ServiceClient.ANON_OUT_IN_OP);
-
-			MessageContext outMsgCtx = new MessageContext();
-			Options opts = outMsgCtx.getOptions();
-
-			opts.setTimeOutInMilliSeconds(100000);
-			opts.setTo(new EndpointReference(theDefinition.getServiceURL()));
-			opts.setAction(theParsedOperation.getHasBindingSoapAction());
-
-			System.out.println(theDefinition.getOperationsUse());
-			System.out.println(theDefinition.getbindingStyle());
-
-			if (theDefinition.getbindingStyle().equals("RPC")
-					&& theDefinition.getOperationsUse().equals("ENCODED")) {
-				outMsgCtx.setEnvelope(Axis2_RpcEncodedMessageBuilder
-						.createSOAPEnvelope_RPC_Encoded(operationName,
-								operationInput, theDefinition));
-			} else {
-				outMsgCtx.setEnvelope(createSOAPEnvelope(operationName,
-						operationInput));
-			}
-
-			operationClient.addMessageContext(outMsgCtx);
-
-			System.out.println(outMsgCtx.getEnvelope().toString());
-			result.setHasRequestInString(outMsgCtx.getEnvelope().toString());
-
-			operationClient.execute(true);
-
-			MessageContext inMsgCtx = operationClient.getMessageContext("In");
-			// Vector res=Axis2ResultHandler.parseInvocationOutput(inMsgCtx,
-			// theParsedOperation);
-
-			InvocationResult res = null;
-			if (theDefinition.getbindingStyle().equals("RPC")
-					&& theDefinition.getOperationsUse().equals("ENCODED")) {
-				res = Axis2InvocationResultHandler_RPC.parseResult(inMsgCtx,
-						theParsedOperation);
-			} else {
-				res = Axis2InvocationResultHandler.parseResult(inMsgCtx,
-						theParsedOperation);
-			}
-
-			result.setHasResponseInString(inMsgCtx.getEnvelope().toString());
-			if (res != null) {
-				result.setResponseHasNativeOrComplexObjects(res
-						.getResponseHasNativeOrComplexObjects());
-			}
-			theServiceClient.cleanup();
-			theServiceClient.cleanupTransport();
-			return result;
-		} catch (Exception ex) {
-			ex.printStackTrace();
-			theServiceClient.cleanup();
-			theServiceClient.cleanupTransport();
-			return null;
-		}
-
-	}
 
 	public static InvocationResult invokeWebService(
 			WSOperation theParsedOperation, ParsedWSDLDefinition theDefinition)
@@ -137,9 +72,7 @@ public class Axis2WebServiceInvoker {
 			MessageContext outMsgCtx = new MessageContext();
 			Options opts = outMsgCtx.getOptions();
 
-			// opts.setTo(new
-			// EndpointReference("http://iti-181/WebServices/Service.asmx"));
-			// opts.setAction("http://www.iti.gr/webservices/test1/EstimateSum");
+			
 			opts.setTimeOutInMilliSeconds(100000);
 			opts.setTo(new EndpointReference(theDefinition.getServiceURL()));
 			opts.setAction(theParsedOperation.getHasBindingSoapAction());

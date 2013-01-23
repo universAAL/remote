@@ -33,6 +33,14 @@ import org.universAAL.ri.wsdlToolkit.ioApi.ComplexObject;
 import org.universAAL.ri.wsdlToolkit.ioApi.NativeObject;
 import org.universAAL.ri.wsdlToolkit.ioApi.WSOperation;
 
+/**
+ * 
+ * This class is used for parsing a web service operation response after invocation
+ * and cast it to the InvocationResult object
+ * 
+ * @author kgiannou
+ */
+
 public class Axis2InvocationResultHandler_RpcEncoded {
 
 	public static InvocationResult parseRpc_EncodedResult(

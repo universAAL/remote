@@ -22,45 +22,45 @@ public interface ProfileCHEProvider {
    * Returns an {@link org.universAAL.ontology.profile.UserProfile} object from the
    * profile log that are associated with the given user.
    * 
-   * @param userURI
-   * The URI of the user who performed the user profile
+   * @param userID
+   * The ID of the user who performed the user profile
    * 
    * @return the user profile profile that were performed by the user
    */
-  public UserProfile getUserProfile(@WebParam(name = "userURI") String userURI);
+  public UserProfile getUserProfile(@WebParam(name = "userID") String userID);
 
   /**
    * Stores the new {@link org.universAAL.ontology.profile.UserProfile} that was performed by the user.
    * 
-   * @param userURI
-   * The URI of the user who performed the user profile
+   * @param userID
+   * The ID of the user who performed the user profile
    * 
    * @param userProfile
    * The user profile that was performed by the user
    */
-  public void addUserProfile(@WebParam(name = "userURI") String userURI, @WebParam(name = "userProfile") UserProfile userProfile);
+  public void addUserProfile(@WebParam(name = "userID") String userID, @WebParam(name = "userProfile") UserProfile userProfile);
 
   /**
    * Returns an {@link org.universAAL.ontology.profile.AALSpaceProfile} object from the
    * profile log that are associated with the given user.
    * 
-   * @param userURI
-   * The URI of the user who performed the AAL space profile
+   * @param userID
+   * The ID of the user who performed the AAL space profile
    * 
    * @return the AAL space profile profile that were performed by the user
    */
-  public AALSpaceProfile getAALSpaceProfile(@WebParam(name = "userURI") String userURI);
+  public AALSpaceProfile getAALSpaceProfile(@WebParam(name = "userID") String userID);
 
   /**
    * Stores the new {@link org.universAAL.ontology.profile.AALSpaceProfile} that was performed by the user.
    * 
-   * @param userURI
-   * The URI of the user who performed the AAL space profile
+   * @param userID
+   * The ID of the user who performed the AAL space profile
    * 
    * @param aalSpaceProfile
    * The AAL space profile that was performed by the user
    */
-  public void addAALSpaceProfile(@WebParam(name = "userURI") String userURI, @WebParam(name = "aalSpaceProfile") AALSpaceProfile aalSpaceProfile);
+  public void addAALSpaceProfile(@WebParam(name = "userID") String userID, @WebParam(name = "aalSpaceProfile") AALSpaceProfile aalSpaceProfile);
 
   // /**
   // * Returns a {@java.util.List} of all user profiles in the

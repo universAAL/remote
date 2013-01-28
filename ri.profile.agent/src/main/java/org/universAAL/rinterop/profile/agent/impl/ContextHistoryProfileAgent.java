@@ -61,6 +61,8 @@ public class ContextHistoryProfileAgent implements ProfileCHEProvider {
   private static final String CONTEXT_HISTORY_HTL_IMPL_NAMESPACE = "http://ontology.universAAL.org/ContextHistoryHTLImpl.owl#";
 
   private static final String OUTPUT_QUERY_RESULT = CONTEXT_HISTORY_HTL_IMPL_NAMESPACE + "queryResult";
+  
+  private static final String USER_URI_PREFIX = "urn:org.universAAL.aal_space:test_env#";
 
   private static final String TEST_PROVIDER = "http://ontology.universAAL.org/TestProfileProvider.owl#ProfileContextProvider";
 
@@ -116,8 +118,8 @@ public class ContextHistoryProfileAgent implements ProfileCHEProvider {
     caller = new DefaultServiceCaller(context);
   }
 
-  public UserProfile getUserProfile(String userURI) {
-
+  public UserProfile getUserProfile(String userID) {
+    String userURI = USER_URI_PREFIX + userID;
     User user = new User(userURI);
 
     ServiceResponse sr = caller.call(userProfileRequest(user));
@@ -137,7 +139,8 @@ public class ContextHistoryProfileAgent implements ProfileCHEProvider {
     return null;
   }
 
-  public void addUserProfile(String userURI, UserProfile userProfile) {
+  public void addUserProfile(String userID, UserProfile userProfile) {
+    String userURI = USER_URI_PREFIX + userID;
     User user = new User(userURI);
 
     ServiceRequest req = new ServiceRequest(new ProfilingService(), null);
@@ -158,8 +161,8 @@ public class ContextHistoryProfileAgent implements ProfileCHEProvider {
     return req;
   }
 
-  public AALSpaceProfile getAALSpaceProfile(String userURI) {
-
+  public AALSpaceProfile getAALSpaceProfile(String userID) {
+    String userURI = USER_URI_PREFIX + userID;
     User user = new User(userURI);
 
     ServiceResponse sr = caller.call(aalSpaceProfileRequest(user));
@@ -179,7 +182,8 @@ public class ContextHistoryProfileAgent implements ProfileCHEProvider {
     return null;
   }
 
-  public void addAALSpaceProfile(String userURI, AALSpaceProfile aalSpaceProfile) {
+  public void addAALSpaceProfile(String userID, AALSpaceProfile aalSpaceProfile) {
+    String userURI = USER_URI_PREFIX + userID;
     User user = new User(userURI);
 
     ServiceRequest req = new ServiceRequest(new ProfilingService(), null);

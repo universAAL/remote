@@ -70,7 +70,8 @@ public class ContextHistoryProfileAgent implements ProfileCHEProvider {
   public static String HAS_LOCATION = CONTEXT_HISTORY_HTL_IMPL_NAMESPACE + "hasLocation";
 
   private ModuleContext context;
-  private AALSpaceEventHandler aalSpaceManager;
+//  private AALSpaceEventHandler aalSpaceManager;
+  private AALSpaceManager aalSpaceManager;
   private DeployManager deployManager;
   private OnlineStoreManager storeManager;
   /**
@@ -90,7 +91,8 @@ public class ContextHistoryProfileAgent implements ProfileCHEProvider {
    */
   public ContextHistoryProfileAgent(ModuleContext context) {
     this.context = context;
-    aalSpaceManager = (AALSpaceEventHandler)getAALSpaceManager();
+//    aalSpaceManager = (AALSpaceEventHandler)getAALSpaceManager();
+    aalSpaceManager = getAALSpaceManager();
     deployManager = getDeployManager();
     storeManager = getOnlineStoreManagerClient();
 
@@ -205,17 +207,32 @@ public class ContextHistoryProfileAgent implements ProfileCHEProvider {
   }
 
   public AALSpaceManager getAALSpaceManager() {
-    LogUtils.logDebug(context, ContextHistoryProfileAgent.class, "contextHistoryProfileAgent", new Object[] {"Fetching the AALSpaceManager..."}, null);
-    Object ref = context.getContainer().fetchSharedObject(context, new Object[] {AALSpaceManager.class.getName().toString()});
-    if (ref != null) {
-      LogUtils.logDebug(context, ContextHistoryProfileAgent.class, "contextHistoryProfileAgent", new Object[] {"AALSpaceManager found!"}, null);
-      if ((AALSpaceManager)ref instanceof AALSpaceEventHandler)
-        aalSpaceManager = (AALSpaceEventHandler)ref;
-      LogUtils.logDebug(context, ContextHistoryProfileAgent.class, "contextHistoryProfileAgent", new Object[] {"AALSpaceManager fetched"}, null);
-    } else {
-      LogUtils.logDebug(context, ContextHistoryProfileAgent.class, "contextHistoryProfileAgent", new Object[] {"No AALSpaceManager found"}, null);
-    }
-    return aalSpaceManager;
+	LogUtils.logDebug(context, ContextHistoryProfileAgent.class, "contextHistoryProfileAgent", new Object[] {"Fetching the AALSpaceManager..."}, null);
+    if (aalSpaceManager == null) {
+      Object ref = context.getContainer().fetchSharedObject(context, new Object[] {AALSpaceManager.class.getName().toString()});
+      if (ref != null) {
+        LogUtils.logDebug(context, ContextHistoryProfileAgent.class, "contextHistoryProfileAgent", new Object[] {"AALSpaceManager found!"}, null);
+        aalSpaceManager = (AALSpaceManager)ref;
+        LogUtils.logDebug(context, ContextHistoryProfileAgent.class, "contextHistoryProfileAgent", new Object[] {"AALSpaceManager fetched"}, null);
+        return aalSpaceManager;
+      } else {
+        LogUtils.logWarn(context, ContextHistoryProfileAgent.class, "contextHistoryProfileAgent", new Object[] {"No AALSpaceManager found"}, null);
+        return null;
+      }
+    } else
+      return aalSpaceManager;
+    
+//    LogUtils.logDebug(context, ContextHistoryProfileAgent.class, "contextHistoryProfileAgent", new Object[] {"Fetching the AALSpaceManager..."}, null);
+//    Object ref = context.getContainer().fetchSharedObject(context, new Object[] {AALSpaceManager.class.getName().toString()});
+//    if (ref != null) {
+//      LogUtils.logDebug(context, ContextHistoryProfileAgent.class, "contextHistoryProfileAgent", new Object[] {"AALSpaceManager found!"}, null);
+//      if ((AALSpaceManager)ref instanceof AALSpaceEventHandler)
+//        aalSpaceManager = (AALSpaceEventHandler)ref;
+//      LogUtils.logDebug(context, ContextHistoryProfileAgent.class, "contextHistoryProfileAgent", new Object[] {"AALSpaceManager fetched"}, null);
+//    } else {
+//      LogUtils.logDebug(context, ContextHistoryProfileAgent.class, "contextHistoryProfileAgent", new Object[] {"No AALSpaceManager found"}, null);
+//    }
+//    return aalSpaceManager;
   }
 
   public DeployManager getDeployManager() {

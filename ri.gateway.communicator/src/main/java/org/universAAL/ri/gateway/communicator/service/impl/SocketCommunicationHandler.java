@@ -98,7 +98,9 @@ public class SocketCommunicationHandler implements CommunicationHandler {
 	try {
 	    Serializer.sendMessageToStream(toSend, socket.getOutputStream());
 	    // if the other side sends a Wrapper, we should read it
-	    resp = Serializer.unmarshalMessage(socket.getInputStream());
+	    if (!toSend.getType().equals(MessageType.Context) && !toSend.getType().equals(MessageType.UIResponse)){
+	    	resp = Serializer.unmarshalMessage(socket.getInputStream());
+	    }
 	} finally {
 	    if (socket != null && !socket.isClosed()) {
 		socket.close();

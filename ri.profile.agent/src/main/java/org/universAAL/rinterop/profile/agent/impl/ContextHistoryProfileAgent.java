@@ -1,9 +1,9 @@
 /*	
 	Copyright 2010-2014 UPM http://www.upm.es
-	Universidad Polit�cnica de Madrdid
+	Universidad Politï¿½cnica de Madrdid
 	
 	OCO Source Materials
-	� Copyright IBM Corp. 2011
+	ï¿½ Copyright IBM Corp. 2011
 	
 	See the NOTICE file distributed with this work for additional 
 	information regarding copyright ownership
@@ -22,6 +22,8 @@
  */
 package org.universAAL.rinterop.profile.agent.impl;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.universAAL.commerce.ustore.tools.OnlineStoreManager;
@@ -37,18 +39,26 @@ import org.universAAL.middleware.managers.api.AALSpaceEventHandler;
 import org.universAAL.middleware.managers.api.AALSpaceManager;
 import org.universAAL.middleware.managers.api.DeployManager;
 import org.universAAL.middleware.owl.MergedRestriction;
+import org.universAAL.middleware.owl.OntologyManagement;
+import org.universAAL.middleware.rdf.PropertyPath;
 import org.universAAL.middleware.rdf.Resource;
 import org.universAAL.middleware.service.CallStatus;
 import org.universAAL.middleware.service.DefaultServiceCaller;
 import org.universAAL.middleware.service.ServiceCaller;
 import org.universAAL.middleware.service.ServiceRequest;
 import org.universAAL.middleware.service.ServiceResponse;
+import org.universAAL.middleware.service.owls.process.ProcessOutput;
+import org.universAAL.ontology.che.ContextHistoryService;
+import org.universAAL.ontology.phThing.Device;
+import org.universAAL.ontology.profile.AALSpace;
 import org.universAAL.ontology.profile.AALSpaceProfile;
 import org.universAAL.ontology.profile.Profilable;
 import org.universAAL.ontology.profile.User;
 import org.universAAL.ontology.profile.UserProfile;
 import org.universAAL.ontology.profile.service.ProfilingService;
 import org.universAAL.rinterop.profile.agent.ProfileCHEProvider;
+import org.universAAL.rinterop.profile.agent.osgi.Activator;
+import org.universAAL.rinterop.profile.agent.impl.Queries;
 
 /**
  * This class actually implements the
@@ -58,10 +68,10 @@ import org.universAAL.rinterop.profile.agent.ProfileCHEProvider;
  */
 public class ContextHistoryProfileAgent implements ProfileCHEProvider {
 
-  private static final String CONTEXT_HISTORY_HTL_IMPL_NAMESPACE = "http://ontology.universAAL.org/ContextHistoryHTLImpl.owl#";
+  static final String CONTEXT_HISTORY_HTL_IMPL_NAMESPACE = "http://ontology.universAAL.org/ContextHistoryHTLImpl.owl#";
 
   private static final String OUTPUT_QUERY_RESULT = CONTEXT_HISTORY_HTL_IMPL_NAMESPACE + "queryResult";
-  
+
   private static final String USER_URI_PREFIX = "urn:org.universAAL.aal_space:test_env#";
 
   private static final String TEST_PROVIDER = "http://ontology.universAAL.org/TestProfileProvider.owl#ProfileContextProvider";
@@ -70,7 +80,7 @@ public class ContextHistoryProfileAgent implements ProfileCHEProvider {
   public static String HAS_LOCATION = CONTEXT_HISTORY_HTL_IMPL_NAMESPACE + "hasLocation";
 
   private ModuleContext context;
-//  private AALSpaceEventHandler aalSpaceManager;
+  // private AALSpaceEventHandler aalSpaceManager;
   private AALSpaceManager aalSpaceManager;
   private DeployManager deployManager;
   private OnlineStoreManager storeManager;
@@ -85,16 +95,22 @@ public class ContextHistoryProfileAgent implements ProfileCHEProvider {
   private static ServiceCaller caller = null;
 
   /**
+   * Actual SCaller that issues the calls.
+   */
+  private DefaultServiceCaller defaultCaller;
+
+  /**
    * Constructor.
    * 
    * @param context
    */
   public ContextHistoryProfileAgent(ModuleContext context) {
     this.context = context;
-//    aalSpaceManager = (AALSpaceEventHandler)getAALSpaceManager();
+    // aalSpaceManager = (AALSpaceEventHandler)getAALSpaceManager();
     aalSpaceManager = getAALSpaceManager();
     deployManager = getDeployManager();
     storeManager = getOnlineStoreManagerClient();
+    defaultCaller = new DefaultServiceCaller(context);
 
     // prepare for context publishing
     ContextProvider info = new ContextProvider(TEST_PROVIDER);
@@ -120,6 +136,7 @@ public class ContextHistoryProfileAgent implements ProfileCHEProvider {
     caller = new DefaultServiceCaller(context);
   }
 
+  @SuppressWarnings("rawtypes")
   public UserProfile getUserProfile(String userID) {
     String userURI = USER_URI_PREFIX + userID;
     User user = new User(userURI);
@@ -152,7 +169,7 @@ public class ContextHistoryProfileAgent implements ProfileCHEProvider {
     caller.call(req);
   }
 
-  public ServiceRequest userProfileRequest(User user) {
+  private ServiceRequest userProfileRequest(User user) {
     ServiceRequest req = new ServiceRequest(new ProfilingService(), null);
     req.addValueFilter(new String[] {ProfilingService.PROP_CONTROLS}, user);
 
@@ -163,51 +180,130 @@ public class ContextHistoryProfileAgent implements ProfileCHEProvider {
     return req;
   }
 
-  public AALSpaceProfile getAALSpaceProfile(String userID) {
+  @SuppressWarnings("rawtypes")
+  public ArrayList<AALSpaceProfile> getAALSpaceProfiles(String userID) {
+    ArrayList<AALSpaceProfile> aalSpaceProfiles = new ArrayList<>();
     String userURI = USER_URI_PREFIX + userID;
     User user = new User(userURI);
 
-    ServiceResponse sr = caller.call(aalSpaceProfileRequest(user));
-
-    if (sr.getCallStatus() == CallStatus.succeeded) {
-      try {
-        List outputAsList = sr.getOutput(OUTPUT_QUERY_RESULT, true);
-
-        if ((outputAsList == null) || (outputAsList.size() == 0)) {
-          return null;
+    ArrayList allAALSpaces = getAALSpaces();
+    if (allAALSpaces != null) {
+      for (Object aalSpaceObj : allAALSpaces) {
+        AALSpace aalSpace = (AALSpace)aalSpaceObj;
+        AALSpaceProfile aalSpaceProfile = (AALSpaceProfile)getAALSpaceProfile(aalSpace);
+        if (aalSpaceProfile != null) {
+          User owner = aalSpaceProfile.getOwner();
+          if(user.equals(owner)){
+            aalSpaceProfiles.add(aalSpaceProfile);
         }
-        return (AALSpaceProfile)outputAsList.get(0);
-      } catch (Exception e) {
+      }
+    }
+    return aalSpaceProfiles;
+  }
+
+  @SuppressWarnings("rawtypes")
+  private ArrayList getAALSpaces() {
+    return genericGetAll(Queries.GETALL.replace(Queries.ARGTYPE, AALSpace.MY_URI), Queries.GETALLXTRA.replace(Queries.ARGTYPE, AALSpace.MY_URI));
+  }
+
+  private Resource getAALSpaceProfile(Resource aalSpace) {
+    return genericGet(aalSpace, Queries.GET.replace(Queries.ARGTYPE, AALSpaceProfile.MY_URI));
+  }
+
+  private Resource genericGet(Resource input, String getquery) {
+    String result = getResult(defaultCaller.call(getDoSPARQLRequest(getquery.replace(Queries.ARG1, input.getURI()))));
+    return (Resource)Activator.parser.deserialize(result, input.getURI());
+  }
+
+  @SuppressWarnings("rawtypes")
+  private ArrayList genericGetAll(String queryall, String queryallxtra) {
+    // Or final choice: construct a bag with the results and a bag with the
+    // types. Then combine the RDF in a single string and deserialize. It�s
+    // cheating but it works. And it only uses 2 calls and a serialize.
+    String result = getResult(defaultCaller.call(getDoSPARQLRequest(queryall)));
+    String result2 = getResult(defaultCaller.call(getDoSPARQLRequest(queryallxtra)));
+    Resource bag = (Resource)Activator.parser.deserialize(result + " " + result2, Queries.AUXBAG);
+    return getResultFromBag(bag);
+  }
+
+  /**
+   * Gets all results from a RDF Bag resource and returns them as an ArrayList of uAAL ontologies.
+   * 
+   * @param bag
+   *          The RDF Bag Resource
+   * @return The ArrayList with results
+   */
+  @SuppressWarnings({"rawtypes", "unchecked"})
+  private ArrayList getResultFromBag(Resource bag) {
+    if (bag != null) {
+      Object content = bag.getProperty(Queries.AUXBAGPROP);
+      ArrayList list = new ArrayList();
+      OntologyManagement mng = OntologyManagement.getInstance();
+      if (content instanceof List) {
+        Iterator iter = ((ArrayList)content).iterator();
+        while (iter.hasNext()) {
+          Resource res = (Resource)iter.next();
+          list.add(mng.getResource(mng.getMostSpecializedClass(res.getTypes()), res.getURI()));
+        }
+      } else {
+        Resource res = (Resource)content;
+        list.add(mng.getResource(mng.getMostSpecializedClass(res.getTypes()), res.getURI()));
+      }
+      return list;
+    } else {
+      return null;
+    }
+  }
+
+  /**
+   * Helper method to get the result from the Service Response of CHE.
+   * 
+   * @param call
+   *          The service response
+   * @return the result SPARQL string
+   */
+  @SuppressWarnings("rawtypes")
+  private String getResult(ServiceResponse call) {
+    Object returnValue = null;
+    List outputs = call.getOutputs();
+    if (outputs == null) {
+      return null;
+    } else {
+      for (Iterator i = outputs.iterator(); i.hasNext();) {
+        ProcessOutput output = (ProcessOutput)i.next();
+        if (output.getURI().equals(OUTPUT_QUERY_RESULT)) {
+          if (returnValue == null) {
+            returnValue = output.getParameterValue();
+          }
+        }
+      }
+      if (returnValue instanceof String) {
+        return (String)returnValue;
+      } else {
         return null;
       }
     }
-    return null;
   }
 
-  public void addAALSpaceProfile(String userID, AALSpaceProfile aalSpaceProfile) {
-    String userURI = USER_URI_PREFIX + userID;
-    User user = new User(userURI);
+  /**
+   * Prepares the call to the Do SPARQL service of CHE.
+   * 
+   * @param query
+   *          The SPARQL query
+   * @return The prepared request
+   */
+  private ServiceRequest getDoSPARQLRequest(String query) {
+    ServiceRequest getQuery = new ServiceRequest(new ContextHistoryService(null), null);
+    MergedRestriction r = MergedRestriction.getFixedValueRestriction(ContextHistoryService.PROP_PROCESSES, query);
 
-    ServiceRequest req = new ServiceRequest(new ProfilingService(), null);
-    req.addValueFilter(new String[] {ProfilingService.PROP_CONTROLS}, user);
-    req.addAddEffect(new String[] {ProfilingService.PROP_CONTROLS, Profilable.PROP_HAS_PROFILE}, aalSpaceProfile);
-
-    caller.call(req);
-  }
-
-  public ServiceRequest aalSpaceProfileRequest(User user) {
-    ServiceRequest req = new ServiceRequest(new ProfilingService(), null);
-    req.addValueFilter(new String[] {ProfilingService.PROP_CONTROLS}, user);
-
-    req.addTypeFilter(new String[] {ProfilingService.PROP_CONTROLS, Profilable.PROP_HAS_PROFILE}, AALSpaceProfile.MY_URI);
-
-    req.addRequiredOutput(OUTPUT_QUERY_RESULT, new String[] {ProfilingService.PROP_CONTROLS, Profilable.PROP_HAS_PROFILE});
-
-    return req;
+    getQuery.getRequestedService().addInstanceLevelRestriction(r, new String[] {ContextHistoryService.PROP_PROCESSES});
+    getQuery.addSimpleOutputBinding(new ProcessOutput(OUTPUT_QUERY_RESULT),
+        new PropertyPath(null, true, new String[] {ContextHistoryService.PROP_RETURNS}).getThePath());
+    return getQuery;
   }
 
   public AALSpaceManager getAALSpaceManager() {
-	LogUtils.logDebug(context, ContextHistoryProfileAgent.class, "contextHistoryProfileAgent", new Object[] {"Fetching the AALSpaceManager..."}, null);
+    LogUtils.logDebug(context, ContextHistoryProfileAgent.class, "contextHistoryProfileAgent", new Object[] {"Fetching the AALSpaceManager..."}, null);
     if (aalSpaceManager == null) {
       Object ref = context.getContainer().fetchSharedObject(context, new Object[] {AALSpaceManager.class.getName().toString()});
       if (ref != null) {
@@ -221,18 +317,23 @@ public class ContextHistoryProfileAgent implements ProfileCHEProvider {
       }
     } else
       return aalSpaceManager;
-    
-//    LogUtils.logDebug(context, ContextHistoryProfileAgent.class, "contextHistoryProfileAgent", new Object[] {"Fetching the AALSpaceManager..."}, null);
-//    Object ref = context.getContainer().fetchSharedObject(context, new Object[] {AALSpaceManager.class.getName().toString()});
-//    if (ref != null) {
-//      LogUtils.logDebug(context, ContextHistoryProfileAgent.class, "contextHistoryProfileAgent", new Object[] {"AALSpaceManager found!"}, null);
-//      if ((AALSpaceManager)ref instanceof AALSpaceEventHandler)
-//        aalSpaceManager = (AALSpaceEventHandler)ref;
-//      LogUtils.logDebug(context, ContextHistoryProfileAgent.class, "contextHistoryProfileAgent", new Object[] {"AALSpaceManager fetched"}, null);
-//    } else {
-//      LogUtils.logDebug(context, ContextHistoryProfileAgent.class, "contextHistoryProfileAgent", new Object[] {"No AALSpaceManager found"}, null);
-//    }
-//    return aalSpaceManager;
+
+    // LogUtils.logDebug(context, ContextHistoryProfileAgent.class, "contextHistoryProfileAgent", new Object[]
+    // {"Fetching the AALSpaceManager..."}, null);
+    // Object ref = context.getContainer().fetchSharedObject(context, new Object[]
+    // {AALSpaceManager.class.getName().toString()});
+    // if (ref != null) {
+    // LogUtils.logDebug(context, ContextHistoryProfileAgent.class, "contextHistoryProfileAgent", new Object[]
+    // {"AALSpaceManager found!"}, null);
+    // if ((AALSpaceManager)ref instanceof AALSpaceEventHandler)
+    // aalSpaceManager = (AALSpaceEventHandler)ref;
+    // LogUtils.logDebug(context, ContextHistoryProfileAgent.class, "contextHistoryProfileAgent", new Object[]
+    // {"AALSpaceManager fetched"}, null);
+    // } else {
+    // LogUtils.logDebug(context, ContextHistoryProfileAgent.class, "contextHistoryProfileAgent", new Object[]
+    // {"No AALSpaceManager found"}, null);
+    // }
+    // return aalSpaceManager;
   }
 
   public DeployManager getDeployManager() {
@@ -271,387 +372,76 @@ public class ContextHistoryProfileAgent implements ProfileCHEProvider {
       return storeManager;
   }
 
-  // /**
-  // * Returns a {@java.util.List} of all User profiles in the
-  // * profile log that are associated to the given user.
-  // *
-  // * @param userURI
-  // * The URI of the user who performed the profiles
-  // *
-  // * @return All the User profiles that were performed by the user
-  // */
-  // @SuppressWarnings("rawtypes")
-  // public List getAllUserProfiles(String userURI) {
-  //
-  // ServiceResponse sr = caller.call(allUserProfileLogRequest(userURI));
-  //
-  // if (sr.getCallStatus() == CallStatus.succeeded) {
-  //
-  // try {
-  // List userProfileList = sr.getOutput(OUTPUT_QUERY_RESULT, true);
-  //
-  // if (userProfileList == null || userProfileList.size() == 0) {
-  // // LogUtils.logInfo(Activator.mc,
-  // // ContextHistoryProfileLogger.class,
-  // // "getAllProfileLog",
-  // // new Object[] { "there are no profiles in the log" },
-  // // null);
-  // return null;
-  // }
-  // return userProfileList;
-  //
-  // } catch (Exception e) {
-  // // LogUtils.logError(Activator.mc,
-  // // ContextHistoryProfileLogger.class,
-  // // "getAllProfileLog", new Object[] { "got exception",
-  // // e.getMessage() }, e);
-  // return null;
-  // }
-  // } else {
-  // // LogUtils.logWarn(Activator.mc,
-  // // ContextHistoryProfileLogger.class,
-  // // "getAllProfileLog",
-  // // new Object[] { "callstatus is not succeeded" }, null);
-  // return null;
-  // }
-  // }
+  public void close() {
+    defaultCaller.close();
+  }
 
-  // /**
-  // * Returns a {@java.util.List} of all User profiles in the
-  // * profile log that are associated to the given user and are between the
-  // * given timestamps.
-  // *
-  // * @param userURI
-  // * The URI of the user who performed the profiles
-  // * @param timestampFrom
-  // * The lower bound of the period
-  // * @param timestampTo
-  // * The upper bound of the period
-  // *
-  // * @return The User profiles that were performed by the user in a specific
-  // * period of time
-  // */
-  // @SuppressWarnings("rawtypes")
-  // public List getUserProfilesBetweenTimestamps(String userURI,
-  // long timestampFrom, long timestampTo) {
-  //
-  // ServiceResponse sr = caller
-  // .call(userProfileLogBetweenTimestampsRequest(userURI,
-  // timestampFrom, timestampTo));
-  //
-  // if (sr.getCallStatus() == CallStatus.succeeded) {
-  // try {
-  // List userProfileList = sr.getOutput(OUTPUT_QUERY_RESULT, true);
-  //
-  // if (userProfileList == null || userProfileList.size() == 0) {
-  // // LogUtils.logInfo(Activator.mc,
-  // // ContextHistoryProfileLogger.class,
-  // // "getProfileLogBetweenTimestamps",
-  // // new Object[] { "there are no profiles in the log" },
-  // // null);
-  // return null;
-  // }
-  // return userProfileList;
-  //
-  // } catch (Exception e) {
-  // // LogUtils.logError(Activator.mc,
-  // // ContextHistoryProfileLogger.class,
-  // // "getAllProfileLog", new Object[] { "got exception",
-  // // e.getMessage() }, e);
-  // return null;
-  // }
-  // } else {
-  // // LogUtils.logWarn(Activator.mc,
-  // // ContextHistoryProfileLogger.class,
-  // // "getAllProfileLog",
-  // // new Object[] { "callstatus is not succeeded" }, null);
-  // return null;
-  // }
-  // }
+  /** for testing purposes **/
 
-  // /**
-  // * Stores the new User profile that was performed by the user in the
-  // context
-  // * history.
-  // *
-  // * @param userURI
-  // * The URI of the user who performed this profile
-  // * @param profile
-  // * The User profile that was performed by the user
-  // */
-  // public void userProfileDone(String userURI, Profile profile) {
-  //
-  // UserProfile userProfile = new UserProfile(
-  // CONTEXT_HISTORY_HTL_IMPL_NAMESPACE + "UserProfile");
-  //
-  // userProfile.setProperty(Profile.PROP_HAS_SUB_PROFILE, profile);
-  // cp.publish(new ContextEvent(userProfile, Profile.PROP_HAS_SUB_PROFILE));
-  // // userProfile.setProperty(UserProfile.PROP_HAS_SUB_PROFILE, profile);
-  // // cp.publish(new ContextEvent(userProfile,
-  // // UserProfile.PROP_HAS_SUB_PROFILE));
-  // }
+  public void addAALSpaceProfile(String userID, AALSpaceProfile aalSpaceProfile) {
+    //TODO addProfileToSpace(AALSpace aalSpace, AALSpaceProfile profile)
+    String userURI = USER_URI_PREFIX + userID;
+    User user = new User(userURI);
+    // check user authorization
 
-  // /**
-  // * Creates a ServiceRequest to retrieve all User profiles that were
-  // * performed by the given user.
-  // *
-  // * @param userURI
-  // * The URI of the user that performed these profiles
-  // *
-  // * @return The User profiles that were performed
-  // */
-  // public ServiceRequest allUserProfileLogRequest(String userURI) {//
-  // userURI
-  // // is
-  // // not
-  // // used
-  //
-  // String query = null;
-  // // ServiceRequest request = new ServiceRequest(new
-  // ContextHistoryService(null), null);
-  //
-  // Resource involvedHumanUser = new Resource(userURI);
-  //
-  // ServiceRequest request = new ServiceRequest(new ContextHistoryService(//
-  // new
-  // // ContextHistoryService(userURI)
-  // userURI), involvedHumanUser);// second parameter Resource
-  // // involvedHumanUser can be
-  // // userURI
-  //
-  // MergedRestriction r = MergedRestriction.getFixedValueRestriction(
-  // ContextHistoryService.PROP_PROCESSES, query);// query is null =>
-  // // getFixedValueRestriction
-  // // returns
-  // // null???
-  //
-  // System.out.println("[ProfileAgent] The requested service uri is: "
-  // + request.getRequestedService().getURI());
-  //
-  // request.getRequestedService().addInstanceLevelRestriction(r,
-  // new String[] { ContextHistoryService.PROP_PROCESSES });// returns
-  // // false
-  // // and
-  // // do
-  // // nothing,
-  // // because
-  // // r is
-  // // null
-  //
-  // request.addSimpleOutputBinding(new ProcessOutput(OUTPUT_QUERY_RESULT),
-  // new PropertyPath(null, true,// PrepertyPath the first param is
-  // // the uri of the object
-  // new String[] { ContextHistoryService.PROP_RETURNS })
-  // .getThePath());
-  //
-  // return request;
-  // }
+    User owner = aalSpaceProfile.getOwner();
+    if(owner==null){
+      aalSpaceProfile.setOwner(user);
+    }
+    else{
+      if(owner!=user){//space can't have more than one owner
+      }
+    }
 
-  // /**
-  // * Creates a ServiceRequest to retrieve all the profiles that were
-  // performed
-  // * by the given user between the given timestamps.
-  // *
-  // * @param userURI
-  // * The URI of the user that perfomed these profiles
-  // * @param timestampFrom
-  // * The lower bound of the period
-  // * @param timestampTo
-  // * The upper bound of the period
-  // *
-  // * @return The profiles that were performed
-  // */
-  // public ServiceRequest userProfileLogBetweenTimestampsRequest(
-  // String userURI, long timestampFrom, long timestampTo) {//???
-  //
-  // String query = null;
-  //
-  // ServiceRequest request = new ServiceRequest(new ContextHistoryService(
-  // null), null);
-  //
-  // MergedRestriction r = MergedRestriction.getFixedValueRestriction(
-  // ContextHistoryService.PROP_PROCESSES, query);
-  //
-  // request.getRequestedService().addInstanceLevelRestriction(r,
-  // new String[] { ContextHistoryService.PROP_PROCESSES });
-  //
-  // request.addSimpleOutputBinding(new ProcessOutput(OUTPUT_QUERY_RESULT),
-  // new PropertyPath(null, true,
-  // new String[] { ContextHistoryService.PROP_RETURNS })
-  // .getThePath());
-  //
-  // return request;
-  // }
+    ServiceRequest req = new ServiceRequest(new ProfilingService(), null);
+    req.addValueFilter(new String[] {ProfilingService.PROP_CONTROLS}, user);
+    req.addAddEffect(new String[] {ProfilingService.PROP_CONTROLS, Profilable.PROP_HAS_PROFILE}, aalSpaceProfile);
 
-  // @SuppressWarnings("rawtypes")
-  // public List getAllAALSpaceProfiles(String userURI) {
-  // ServiceResponse sr = caller.call(allAALSpaceProfileLogRequest(userURI));
-  //
-  // if (sr.getCallStatus() == CallStatus.succeeded) {
-  //
-  // try {
-  // List spaceProfileList = sr.getOutput(OUTPUT_QUERY_RESULT, true);
-  //
-  // if (spaceProfileList == null || spaceProfileList.size() == 0) {
-  // // LogUtils.logInfo(Activator.mc,
-  // // ContextHistoryProfileLogger.class,
-  // // "getAllProfileLog",
-  // // new Object[] { "there are no profiles in the log" },
-  // // null);
-  // return null;
-  // }
-  // return spaceProfileList;
-  //
-  // } catch (Exception e) {
-  // // LogUtils.logError(Activator.mc,
-  // // ContextHistoryProfileLogger.class,
-  // // "getAllProfileLog", new Object[] { "got exception",
-  // // e.getMessage() }, e);
-  // return null;
-  // }
-  // } else {
-  // // LogUtils.logWarn(Activator.mc,
-  // // ContextHistoryProfileLogger.class,
-  // // "getAllProfileLog",
-  // // new Object[] { "callstatus is not succeeded" }, null);
-  // return null;
-  // }
-  // }
+    caller.call(req);
 
-  // @SuppressWarnings("rawtypes")
-  // public List getAALSpaceProfilesBetweenTimestamps(String userURI,
-  // long timestampFrom, long timestampTo) {
-  // ServiceResponse sr = caller
-  // .call(AALSpaceProfileLogBetweenTimestampsRequest(userURI,
-  // timestampFrom, timestampTo));
-  //
-  // if (sr.getCallStatus() == CallStatus.succeeded) {
-  // try {
-  // List spaceProfileList = sr.getOutput(OUTPUT_QUERY_RESULT, true);
-  //
-  // if (spaceProfileList == null || spaceProfileList.size() == 0) {
-  // // LogUtils.logInfo(Activator.mc,
-  // // ContextHistoryProfileLogger.class,
-  // // "getProfileLogBetweenTimestamps",
-  // // new Object[] { "there are no profiles in the log" },
-  // // null);
-  // return null;
-  // }
-  // return spaceProfileList;
-  //
-  // } catch (Exception e) {
-  // // LogUtils.logError(Activator.mc,
-  // // ContextHistoryProfileLogger.class,
-  // // "getAllProfileLog", new Object[] { "got exception",
-  // // e.getMessage() }, e);
-  // return null;
-  // }
-  // } else {
-  // // LogUtils.logWarn(Activator.mc,
-  // // ContextHistoryProfileLogger.class,
-  // // "getAllProfileLog",
-  // // new Object[] { "callstatus is not succeeded" }, null);
-  // return null;
-  // }
-  // }
+    String aalSpaceURI = aalSpaceProfile.getURI() + "_space";
+    AALSpace aalSpace = new AALSpace(aalSpaceURI);
+    addAALSpace(aalSpace);
+    addProfileToSpace(aalSpace, aalSpaceProfile);//TODO
+  }
 
-  // public void ALLSpaceProfileDone(String userURI, Profile profile) {
-  // AALSpaceProfile spaceProfile = new AALSpaceProfile(
-  // CONTEXT_HISTORY_HTL_IMPL_NAMESPACE + "AALSpaceProfile");
-  // spaceProfile.setProperty(Profile.PROP_HAS_SUB_PROFILE, profile);
-  // cp.publish(new ContextEvent(spaceProfile, Profile.PROP_HAS_SUB_PROFILE));
-  // }
+  private void addAALSpace(Resource input) {
+    genericAdd(input, Queries.ADD);
+  }
 
-  // /**
-  // * Creates a ServiceRequest to retrieve all AAL space profiles that were
-  // * performed by the given user.
-  // *
-  // * @param userURI
-  // * The URI of the user that performed these profiles
-  // *
-  // * @return The AAL space profiles that were performed
-  // */
-  // public ServiceRequest allAALSpaceProfileLogRequest(String userURI) {//
-  // userURI
-  // // is
-  // // not
-  // // used
-  //
-  // String query = null;
-  //
-  // // ServiceRequest request = new ServiceRequest(new
-  // ContextHistoryService(null), null);
-  //
-  // Resource involvedHumanUser = new Resource(userURI);//tova az sym go
-  // pisala
-  //
-  // ServiceRequest request = new ServiceRequest(new ContextHistoryService(//
-  // new
-  // // ContextHistoryService(userURI)
-  // userURI), involvedHumanUser);// second parameter Resource
-  // // involvedHumanUser can be
-  // // userURI
-  //
-  // MergedRestriction r = MergedRestriction.getFixedValueRestriction(
-  // ContextHistoryService.PROP_PROCESSES, query);// query is null =>
-  // // getFixedValueRestriction
-  // // returns
-  // // null???
-  //
-  // System.out.println("[ProfileAgent] The requested service uri is: "
-  // + request.getRequestedService().getURI());
-  //
-  // request.getRequestedService().addInstanceLevelRestriction(r,
-  // new String[] { ContextHistoryService.PROP_PROCESSES });// returns
-  // // false
-  // // and
-  // // do
-  // // nothing,
-  // // because
-  // // r is
-  // // null
-  //
-  // request.addSimpleOutputBinding(new ProcessOutput(OUTPUT_QUERY_RESULT),
-  // new PropertyPath(null, true,// PrepertyPath the first param is
-  // // the uri of the object
-  // new String[] { ContextHistoryService.PROP_RETURNS })
-  // .getThePath());
-  //
-  // return request;
-  // }
+  private void genericAdd(Resource input, String addquery) {
+    String serialized = Activator.parser.serialize(input);
+    String[] split = splitPrefixes(serialized);
+    defaultCaller.call(getDoSPARQLRequest(split[0] + " " + addquery.replace(Queries.ARGTURTLE, split[1])));
+  }
 
-  // /**
-  // * Creates a ServiceRequest to retrieve all ALLSpace profiles that were
-  // * performed by the given user between the given timestamps.
-  // *
-  // * @param userURI
-  // * The URI of the user that perfomed these profiles
-  // * @param timestampFrom
-  // * The lower bound of the period
-  // * @param timestampTo
-  // * The upper bound of the period
-  // *
-  // * @return The AALSpace profiles that were performed
-  // */
-  // public ServiceRequest AALSpaceProfileLogBetweenTimestampsRequest(
-  // String userURI, long timestampFrom, long timestampTo) {
-  //
-  // String query = null;
-  //
-  // ServiceRequest request = new ServiceRequest(new ContextHistoryService(
-  // null), null);
-  //
-  // MergedRestriction r = MergedRestriction.getFixedValueRestriction(
-  // ContextHistoryService.PROP_PROCESSES, query);
-  //
-  // request.getRequestedService().addInstanceLevelRestriction(r,
-  // new String[] { ContextHistoryService.PROP_PROCESSES });
-  //
-  // request.addSimpleOutputBinding(new ProcessOutput(OUTPUT_QUERY_RESULT),
-  // new PropertyPath(null, true,
-  // new String[] { ContextHistoryService.PROP_RETURNS })
-  // .getThePath());
-  //
-  // return request;
-  // }
+  /**
+   * Splits a Turtle serialized string into prefixes and content, so it can be used inside SPARQL queries.
+   * 
+   * @param serialized
+   *          The turtle string
+   * @return An array of length 2. The first item [0] is the string with the prefixes, and the second [1] is the string
+   *         with the triples content
+   */
+  private static String[] splitPrefixes(String serialized) {
+    int lastprefix = 0, lastprefixdot = 0, lastprefixuri = 0;
+    lastprefix = serialized.toLowerCase().lastIndexOf("@prefix");
+    if (lastprefix >= 0) {
+      lastprefixuri = serialized.substring(lastprefix).indexOf(">");
+      lastprefixdot = serialized.substring(lastprefix + lastprefixuri).indexOf(".");
+    }
+    String[] result = new String[2];
+    result[0] = serialized.substring(0, lastprefixuri + lastprefixdot + lastprefix + 1).replace("@", " ").replace(">.", "> ").replace(" .", " ")
+        .replace(". ", " ");
+    result[1] = serialized.substring(lastprefixuri + lastprefixdot + lastprefix + 1);
+    return result;
+  }
+
+  private void addProfileToSpace(Resource space, Resource profile) {
+    // TODO
+    String serialized = Activator.parser.serialize(profile);
+    String[] split = splitPrefixes(serialized);
+    defaultCaller.call(getDoSPARQLRequest(split[0] + " "
+        + Queries.Q_ADD_PRF_TO_SPACE.replace(Queries.ARG1, space.getURI()).replace(Queries.ARG2, profile.getURI()).replace(Queries.ARGTURTLE, split[1])));
+  }
 }

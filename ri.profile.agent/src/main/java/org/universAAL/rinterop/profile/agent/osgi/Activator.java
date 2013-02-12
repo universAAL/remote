@@ -301,8 +301,8 @@ public class Activator implements BundleActivator, ServiceListener {
     agent.addAALSpaceProfile(userID, aalSpaceProfile);
 
     System.out.println("[TEST] getting aalspace profile...");
-    ArrayList<AALSpaceProfile> gottenAALSpaceProfiles = agent.getAALSpaceProfiles(userID);
-    for (AALSpaceProfile pr : gottenAALSpaceProfiles) {
+    ArrayList gottenAALSpaceProfiles = agent.getAALSpaceProfiles(userID);
+    for (Object pr : gottenAALSpaceProfiles) {
       System.out.println("[TEST] gotten aalspace profile:" + pr);
     }
   }

@@ -36,6 +36,7 @@
 
   <properties>
     <topDirectoryLocation>../..</topDirectoryLocation>
+	<universaal.version>1.3.0</universaal.version>
 	<!--<Export-Package>org.apache.cxf.dosgi.singlebundle</Export-Package>-->
   </properties>
   
@@ -160,11 +161,11 @@
       <artifactId>org.apache.servicemix.specs.stax-api-1.0</artifactId>
       <version>${servicemix.specs.version}</version>
     </dependency>
-    <dependency>
+    <!--<dependency>
       <groupId>org.apache.servicemix.specs</groupId>
       <artifactId>org.apache.servicemix.specs.jaxb-api-2.1</artifactId>
       <version>${servicemix.specs.version}</version>
-    </dependency>
+    </dependency>-->
     <dependency>
       <groupId>org.apache.servicemix.specs</groupId>
       <artifactId>org.apache.servicemix.specs.jaxws-api-2.1</artifactId>
@@ -200,11 +201,11 @@
        <artifactId>org.apache.servicemix.bundles.xmlsec</artifactId> 
        <version>${xmlsec.bundle.version}</version>
     </dependency>  
-    <dependency>
+    <!--<dependency>
        <groupId>org.apache.servicemix.bundles</groupId> 
        <artifactId>org.apache.servicemix.bundles.jaxb-impl</artifactId> 
        <version>${jaxbimpl.bundle.version}</version> 
-    </dependency> 
+    </dependency> -->
 
     <dependency>
        <groupId>org.apache.servicemix.bundles</groupId> 
@@ -315,130 +316,150 @@
 	 <dependency>
       <groupId>org.universAAL.middleware</groupId>
       <artifactId>mw.container.xfaces.osgi</artifactId>
-      <version>1.2.0</version>
+      <version>${universaal.version}</version>
     </dependency>
 	 <dependency>
       <groupId>org.universAAL.middleware</groupId>
       <artifactId>mw.container.osgi</artifactId>
-      <version>1.2.0</version>
+      <version>${universaal.version}</version>
     </dependency>
 	 
   </dependencies>        
 	
 
   <build>	 
-	<plugins>
+    <plugins>
 		<!--<plugin>
-		<groupId>org.universaal.cxf.dosgi</groupId>
-		<artifactId>org-universaal-cxf-dosgi</artifactId>
-		<version>1.3.1</version>
-		<extensions>true</extensions>
-		<configuration>
-		<instructions>
-		<Export-Package>
-		org.apache.cxf.dosgi.singlebundle</Export-Package>
-		<Private-Package></Private-Package>
-		<Bundle-SymbolicName>
-		cxf-dosgi-ri-singlebundle-distribution</Bundle-SymbolicName>
-		<Bundle-Activator>
-		org.apache.cxf.dosgi.singlebundle.AggregatedActivator</Bundle-Activator>
-		<Export-Service></Export-Service>
-		</instructions>
-		</configuration>
-		</plugin>-->
-		<plugin>
-			<groupId>org.apache.felix</groupId>
-			<artifactId>maven-bundle-plugin</artifactId>
-			<configuration>
-				<instructions>
-					<Bundle-Name>Distributed OSGi Distribution Software
-						Single-Bundle Distribution</Bundle-Name>
-					<Bundle-SymbolicName>
-						cxf-dosgi-ri-singlebundle-distribution</Bundle-SymbolicName>
-					<Bundle-Vendor>The Apache Software Foundation</Bundle-Vendor>
-					<Bundle-Activator>
-						org.apache.cxf.dosgi.singlebundle.AggregatedActivator</Bundle-Activator>
-					<Include-Resource>
-						@cxf-bundle-minimal-${cxf.version}.jar!/META-INF/spring.*,
-						@cxf-bundle-minimal-${cxf.version}.jar!/META-INF/cxf/*,
-						{maven-resources} </Include-Resource>
-					<Import-Package>
-						javax.servlet.descriptor;resolution:=optional,
-						javax.servlet.*;version="[2.3.0,4.0)",
-						org.osgi.service.blueprint*;resolution:=optional,
-						org.osgi.service.event,
-						org.osgi.service.remoteserviceadmin, org.osgi.*,
-						</Import-Package>
-					<Export-Package> '=META-INF.cxf',
-						org.apache.cxf.dosgi.singlebundle;version="${project.version}"
-						</Export-Package>
-					<Embed-Dependency>
-						*;scope=compile;inline=false</Embed-Dependency>
-					<Embed-Directory>lib</Embed-Directory>
-					<_exportcontents> javax.xml.ws.*;version="2.1.0",
-						javax.ws.rs.*;version="1.0.0",
-						javax.jws.*;version="2.0.0",
-						javax.xml.bind.annotation.*;version="2.1",
-						javax.servlet.*;version="2.5.0",
-						org.apache.cxf.dosgi.*;version="${project.version}",
-						org.apache.cxf.*;version="${cxf.version}",
-						org.jdom.*;version="1.1.0", org.osgi.jmx.*,
-						org.osgi.service.*, org.osgi.util.*, !* </_exportcontents>
-					<DynamicImport-Package>*</DynamicImport-Package>
-					<_failok>true</_failok>
-					<_removeheaders> Ignore-Package, Include-Resource,
-						Private-Package, Embed-Dependency </_removeheaders>
-				</instructions>
-			</configuration>
-		</plugin>
-		
-		<plugin>
-			<artifactId>maven-antrun-plugin</artifactId>
+			<groupId>org.apache.cxf.dosgi</groupId>
+			<artifactId>cxf-dosgi-ri-distribution-parent</artifactId>
+			<version>1.3.1</version>
 			<executions>
 				<execution>
-					<phase>package</phase>
-					<configuration>
-						<target>
-							
-							<!-- removing this directory as it confuses Eclipse when importing the bundle as a plugin -->
-							<delete dir="target/classes"/>
-							
-							<fileset dir="target" id="single.bundle">
-								<include name="*.jar"/>
-							</fileset>
-							<pathconvert pathsep="" property="bundle"
-								refid="single.bundle"/>
-							
-							<!-- config.properties file for Felix -->
-							<echo file="target/felix.config.properties.append">
-								org.ops4j.pax.web.session.timeout=30
-								org.osgi.framework.startlevel=2
-								felix.auto.start.2= </echo>
-							<echo message="file:/${bundle}"
-								file="target/felix.config.properties.append"
-								append="true"/>
-							<replace file="target/felix.config.properties.append"
-								token="\" value="/"/>
-							
-							<!-- config.ini file for Equinox -->
-							<echo file="target/equinox.config.ini.append">
-								org.ops4j.pax.web.session.timeout=30
-								osgi.bundles=org.eclipse.osgi.services@start,
-								</echo>
-							<echo message="${bundle}@start"
-								file="target/equinox.config.ini.append"
-								append="true"/>
-							<replace file="target/equinox.config.ini.append"
-								token="\" value="/"/>
-						</target>
-					</configuration>
-					<goals>
-						<goal>run</goal>
-					</goals>
+					<id>attach-sources</id>
+					<phase>DISABLE_FORKED_LIFECYCLE_MSOURCES-13</phase>
 				</execution>
 			</executions>
-		</plugin>
-	</plugins>
+		</plugin>-->
+		
+		<!--<plugin>
+			<groupId>org.universaal.cxf.dosgi</groupId>
+			<artifactId>org-universaal-cxf-dosgi</artifactId>
+			<version>1.3.1</version>
+			<extensions>true</extensions>
+			<configuration>
+				<instructions>
+					<Export-Package>
+						org.apache.cxf.dosgi.singlebundle</Export-Package>
+					<Private-Package></Private-Package>
+					<Bundle-SymbolicName>
+						cxf-dosgi-ri-singlebundle-distribution</Bundle-SymbolicName>
+					<Bundle-Activator>
+						org.apache.cxf.dosgi.singlebundle.AggregatedActivator</Bundle-Activator>
+					<Export-Service></Export-Service>
+				</instructions>
+			</configuration>
+		</plugin>-->
+		
+	  <plugin>
+        <groupId>org.apache.felix</groupId>
+        <artifactId>maven-bundle-plugin</artifactId>
+        <configuration>
+          <instructions>
+            <Bundle-Name>Distributed OSGi Distribution Software Single-Bundle Distribution</Bundle-Name>
+            <Bundle-SymbolicName>cxf-dosgi-ri-singlebundle-distribution</Bundle-SymbolicName>
+            <Bundle-Vendor>The Apache Software Foundation</Bundle-Vendor>
+            <Bundle-Activator>org.apache.cxf.dosgi.singlebundle.AggregatedActivator</Bundle-Activator>
+            <Include-Resource>
+              @cxf-bundle-minimal-${cxf.version}.jar!/META-INF/spring.*,
+              @cxf-bundle-minimal-${cxf.version}.jar!/META-INF/cxf/*,
+              {maven-resources}
+            </Include-Resource>
+            <Import-Package>
+              javax.servlet.descriptor;resolution:=optional,
+              javax.servlet.*;version="[2.3.0,4.0)",
+              org.osgi.service.blueprint*;resolution:=optional,
+              org.osgi.service.event,
+              org.osgi.service.remoteserviceadmin,
+              org.osgi.*,
+            </Import-Package>
+            <Export-Package>
+              '=META-INF.cxf',
+              org.apache.cxf.dosgi.singlebundle;version="${project.version}"
+            </Export-Package>
+            <Embed-Dependency>*;scope=compile;inline=false</Embed-Dependency>
+            <Embed-Directory>lib</Embed-Directory>
+            <_exportcontents>
+              javax.xml.ws.*;version="2.1.0",
+              javax.ws.rs.*;version="1.0.0", 
+              javax.jws.*;version="2.0.0", 
+              javax.xml.bind.annotation.*;version="2.1",
+              javax.servlet.*;version="2.5.0",
+              org.apache.cxf.dosgi.*;version="${project.version}",
+              org.apache.cxf.*;version="${cxf.version}",
+              org.jdom.*;version="1.1.0",
+              org.osgi.jmx.*,
+              org.osgi.service.*,
+              org.osgi.util.*,
+			  javax.wsdl.*,
+			  javax.wsdl.extensions.*,
+			  javax.wsdl.extensions.mime.*,
+			  javax.wsdl.factory.*,
+              !*
+            </_exportcontents> 
+            <DynamicImport-Package>*</DynamicImport-Package>
+            <_failok>true</_failok>
+            <_removeheaders>
+              Ignore-Package,
+              Include-Resource,
+              Private-Package,
+              Embed-Dependency
+            </_removeheaders>
+          </instructions>
+        </configuration>
+      </plugin> 
+
+      
+      <plugin>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <configuration>
+              <target>
+                <!-- removing this directory as it confuses Eclipse when importing the bundle as a plugin -->
+                <delete dir="target/classes" />
+
+                <fileset dir="target" id="single.bundle">
+                  <include name="*.jar" />
+                </fileset>
+                <pathconvert pathsep="" property="bundle" refid="single.bundle" />
+
+                <!-- config.properties file for Felix -->
+                <echo file="target/felix.config.properties.append">
+org.ops4j.pax.web.session.timeout=30
+org.osgi.framework.startlevel=2
+felix.auto.start.2=
+                </echo>
+                <echo message="file:/${bundle}" file="target/felix.config.properties.append" append="true" />
+                <replace file="target/felix.config.properties.append" token="\" value="/" />
+
+                <!-- config.ini file for Equinox -->
+                <echo file="target/equinox.config.ini.append">
+org.ops4j.pax.web.session.timeout=30
+
+osgi.bundles=org.eclipse.osgi.services@start, 
+                </echo>
+                <echo message="${bundle}@start" file="target/equinox.config.ini.append" append="true" />
+                <replace file="target/equinox.config.ini.append" token="\" value="/" />
+              </target>
+            </configuration>
+            <goals>
+              <goal>run</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
 	  
 	  <resources>
       <resource>
@@ -451,6 +472,9 @@
 			<includes>
 				<include>activators.list</include>
 			</includes>
+			<!--<excludes>
+				<exclude>**/*.java</exclude>
+			</excludes>-->
 			<targetPath>org\apache\cxf\dosgi\singlebundle</targetPath>
 		</resource>
     </resources>

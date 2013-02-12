@@ -181,8 +181,8 @@ public class ContextHistoryProfileAgent implements ProfileCHEProvider {
   }
 
   @SuppressWarnings("rawtypes")
-  public ArrayList<AALSpaceProfile> getAALSpaceProfiles(String userID) {
-    ArrayList<AALSpaceProfile> aalSpaceProfiles = new ArrayList<>();
+  public ArrayList getAALSpaceProfiles(String userID) {
+    ArrayList aalSpaceProfiles = new ArrayList();
     String userURI = USER_URI_PREFIX + userID;
     User user = new User(userURI);
 
@@ -192,9 +192,10 @@ public class ContextHistoryProfileAgent implements ProfileCHEProvider {
         AALSpace aalSpace = (AALSpace)aalSpaceObj;
         AALSpaceProfile aalSpaceProfile = (AALSpaceProfile)getAALSpaceProfile(aalSpace);
         if (aalSpaceProfile != null) {
-          User owner = aalSpaceProfile.getOwner();
-          if(user.equals(owner)){
+//          User owner = aalSpaceProfile.getOwner();
+//          if(user.equals(owner)){
             aalSpaceProfiles.add(aalSpaceProfile);
+//          }
         }
       }
     }
@@ -384,14 +385,14 @@ public class ContextHistoryProfileAgent implements ProfileCHEProvider {
     User user = new User(userURI);
     // check user authorization
 
-    User owner = aalSpaceProfile.getOwner();
-    if(owner==null){
-      aalSpaceProfile.setOwner(user);
-    }
-    else{
-      if(owner!=user){//space can't have more than one owner
-      }
-    }
+//    User owner = aalSpaceProfile.getOwner();
+//    if(owner==null){
+//      aalSpaceProfile.setOwner(user);
+//    }
+//    else{
+//      if(owner!=user){//space can't have more than one owner
+//      }
+//    }
 
     ServiceRequest req = new ServiceRequest(new ProfilingService(), null);
     req.addValueFilter(new String[] {ProfilingService.PROP_CONTROLS}, user);

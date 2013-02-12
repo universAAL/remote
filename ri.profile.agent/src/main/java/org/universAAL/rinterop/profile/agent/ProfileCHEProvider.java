@@ -51,7 +51,7 @@ public interface ProfileCHEProvider {
    * 
    * @return list of AALSpace profiles, which owner is the given user
    */
-  public List<AALSpaceProfile> getAALSpaceProfiles(@WebParam(name = "userID") String userID);
+  public List getAALSpaceProfiles(@WebParam(name = "userID") String userID);
   
 
   /**for testing purposes**/

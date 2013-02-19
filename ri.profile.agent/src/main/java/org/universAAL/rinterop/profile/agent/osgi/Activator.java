@@ -132,7 +132,7 @@ public class Activator implements BundleActivator, ServiceListener {
       this.serviceChanged(new ServiceEvent(ServiceEvent.REGISTERED, references[i]));
     }
 
-    test();
+//    test();
   }
 
   // class JQuerySevlet extends HttpServlet {

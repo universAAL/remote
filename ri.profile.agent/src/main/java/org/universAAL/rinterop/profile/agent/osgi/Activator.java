@@ -282,28 +282,28 @@ public class Activator implements BundleActivator, ServiceListener {
   public void test() {
     ContextHistoryProfileAgent agent = new ContextHistoryProfileAgent(moduleContext);
 
-    String userID = "user444";
-    String userProfileURI = "urn:org.universAAL.aal_space:test_env#user_profile444";
-    String aalSpaceProfileURI = "urn:org.universAAL.aal_space:test_env#aal_space_profile444";
+    String userID = "some_user";
+    String userProfileURI = "urn:org.universAAL.aal_space:test_env#some_user_profile";
+    String aalSpaceProfileURI = "urn:org.universAAL.aal_space:test_env#some_space_profile";
     UserProfile userProfile = new UserProfile(userProfileURI);
     AALSpaceProfile aalSpaceProfile = new AALSpaceProfile(aalSpaceProfileURI);
 
     /*test add/get user profile*/
-    System.out.println("[TEST] adding user profile...");
-    agent.addUserProfile(userID, userProfile);
-
-    System.out.println("[TEST] getting user profile...");
-    UserProfile gottenUserProfile = agent.getUserProfile(userID);
-    System.out.println("[TEST] gotten user profile:" + gottenUserProfile);
+//    System.out.println("[TEST] adding user profile...");
+//    agent.addUserProfile(userID, userProfile);
+//
+//    System.out.println("[TEST] getting user profile...");
+//    UserProfile gottenUserProfile = agent.getUserProfile(userID);
+//    System.out.println("[TEST] gotten user profile:" + gottenUserProfile);
 
     /*test add/get space profile*/
     System.out.println("[TEST] adding aalspace profile...");
     agent.addAALSpaceProfile(userID, aalSpaceProfile);
 
-    System.out.println("[TEST] getting aalspace profile...");
+    System.out.println("[TEST] getting aalspace profiles...");
     ArrayList gottenAALSpaceProfiles = agent.getAALSpaceProfiles(userID);
     for (Object pr : gottenAALSpaceProfiles) {
       System.out.println("[TEST] gotten aalspace profile:" + pr);
-    }
+    }          
   }
 }

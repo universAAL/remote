@@ -31,11 +31,8 @@ import org.universAAL.middleware.container.ModuleContext;
 import org.universAAL.middleware.container.utils.LogUtils;
 import org.universAAL.middleware.context.ContextEvent;
 import org.universAAL.middleware.context.ContextEventPattern;
-import org.universAAL.middleware.context.ContextPublisher;
-import org.universAAL.middleware.context.DefaultContextPublisher;
 import org.universAAL.middleware.context.owl.ContextProvider;
 import org.universAAL.middleware.context.owl.ContextProviderType;
-import org.universAAL.middleware.managers.api.AALSpaceEventHandler;
 import org.universAAL.middleware.managers.api.AALSpaceManager;
 import org.universAAL.middleware.managers.api.DeployManager;
 import org.universAAL.middleware.owl.MergedRestriction;
@@ -49,7 +46,6 @@ import org.universAAL.middleware.service.ServiceRequest;
 import org.universAAL.middleware.service.ServiceResponse;
 import org.universAAL.middleware.service.owls.process.ProcessOutput;
 import org.universAAL.ontology.che.ContextHistoryService;
-import org.universAAL.ontology.phThing.Device;
 import org.universAAL.ontology.profile.AALSpace;
 import org.universAAL.ontology.profile.AALSpaceProfile;
 import org.universAAL.ontology.profile.Profilable;
@@ -84,10 +80,11 @@ public class ContextHistoryProfileAgent implements ProfileCHEProvider {
   private AALSpaceManager aalSpaceManager;
   private DeployManager deployManager;
   private OnlineStoreManager storeManager;
+  
   /**
    * Needed for publishing context events
    */
-  private ContextPublisher cp = null;
+//  private ContextPublisher cp = null;
 
   /**
    * Needed for making service requests
@@ -130,7 +127,7 @@ public class ContextHistoryProfileAgent implements ProfileCHEProvider {
 
     // System.out.println("Is well-formed: " + info.isWellFormed());
 
-    cp = new DefaultContextPublisher(context, info);
+//    cp = new DefaultContextPublisher(context, info);
 
     // the DefaultServiceCaller will be used to make ServiceRequest
     caller = new DefaultServiceCaller(context);
@@ -180,27 +177,53 @@ public class ContextHistoryProfileAgent implements ProfileCHEProvider {
     return req;
   }
 
-  @SuppressWarnings("rawtypes")
+  @SuppressWarnings({"rawtypes", "unchecked"})
   public ArrayList getAALSpaceProfiles(String userID) {
     ArrayList aalSpaceProfiles = new ArrayList();
     String userURI = USER_URI_PREFIX + userID;
-    User user = new User(userURI);
 
     ArrayList allAALSpaces = getAALSpaces();
     if (allAALSpaces != null) {
       for (Object aalSpaceObj : allAALSpaces) {
         AALSpace aalSpace = (AALSpace)aalSpaceObj;
-        AALSpaceProfile aalSpaceProfile = (AALSpaceProfile)getAALSpaceProfile(aalSpace);
-        if (aalSpaceProfile != null) {
-//          User owner = aalSpaceProfile.getOwner();
-//          if(user.equals(owner)){
-            aalSpaceProfiles.add(aalSpaceProfile);
-//          }
+        ArrayList ownersURIs = getOwnsOfSpace(aalSpace);
+        if (ownersURIs != null) {
+          for (Object ownerURIObj : ownersURIs) {
+            String ownerURI = ((User)ownerURIObj).getURI();
+            if (userURI.equals(ownerURI)) {
+              AALSpaceProfile aalSpaceProfile = (AALSpaceProfile)getAALSpaceProfile(aalSpace);
+              if (aalSpaceProfile != null) {
+                aalSpaceProfiles.add(aalSpaceProfile);
+              }
+            }
+          }
         }
       }
     }
     return aalSpaceProfiles;
   }
+  
+  @SuppressWarnings("rawtypes")
+  private ArrayList getOwnsOfSpace(Resource space){
+    return genericGetAllOf(
+      space,
+      Queries.GETALLOF.replace(Queries.ARG2,
+        AALSpaceProfile.PROP_SPACE_OWNER).replace(
+        Queries.ARGTYPE, User.MY_URI),
+      Queries.GETALLOFXTRA.replace(Queries.ARG2,
+        AALSpaceProfile.PROP_SPACE_OWNER).replace(
+        Queries.ARGTYPE, User.MY_URI));
+      }
+  
+  @SuppressWarnings("rawtypes")
+  private ArrayList genericGetAllOf(Resource input, String queryall, String queryallxtra) {
+    String result1 = getResult(defaultCaller
+      .call(getDoSPARQLRequest(queryall.replace(Queries.ARG1, input.getURI()))));
+    String result2 = getResult(defaultCaller
+      .call(getDoSPARQLRequest(queryallxtra.replace(Queries.ARG1, input.getURI()))));
+    Resource bag = (Resource) Activator.parser.deserialize(result1+" "+result2,Queries.AUXBAG);
+    return getResultFromBag(bag);
+      }
 
   @SuppressWarnings("rawtypes")
   private ArrayList getAALSpaces() {
@@ -208,12 +231,17 @@ public class ContextHistoryProfileAgent implements ProfileCHEProvider {
   }
 
   private Resource getAALSpaceProfile(Resource aalSpace) {
-    return genericGet(aalSpace, Queries.GET.replace(Queries.ARGTYPE, AALSpaceProfile.MY_URI));
-  }
-
-  private Resource genericGet(Resource input, String getquery) {
-    String result = getResult(defaultCaller.call(getDoSPARQLRequest(getquery.replace(Queries.ARG1, input.getURI()))));
-    return (Resource)Activator.parser.deserialize(result, input.getURI());
+    String resultx = getResult(defaultCaller
+        .call(getDoSPARQLRequest(Queries.Q_GET_PRF_OF_SPACE_XTRA.replace(
+          Queries.ARG1, aalSpace.getURI()))));
+      Object objx = Activator.parser.deserialize(resultx);
+      if (objx == null)
+          return null;
+      String result = getResult(defaultCaller
+        .call(getDoSPARQLRequest(Queries.Q_GET_PRF_OF_SPACE.replace(
+          Queries.ARG1, aalSpace.getURI()))));
+      String uri = ((Resource) objx).getURI();
+      return (Resource) Activator.parser.deserialize(result, uri);
   }
 
   @SuppressWarnings("rawtypes")
@@ -380,9 +408,8 @@ public class ContextHistoryProfileAgent implements ProfileCHEProvider {
   /** for testing purposes **/
 
   public void addAALSpaceProfile(String userID, AALSpaceProfile aalSpaceProfile) {
-    //TODO addProfileToSpace(AALSpace aalSpace, AALSpaceProfile profile)
     String userURI = USER_URI_PREFIX + userID;
-    User user = new User(userURI);
+    User owner = new User(userURI);
     // check user authorization
 
 //    User owner = aalSpaceProfile.getOwner();
@@ -393,22 +420,47 @@ public class ContextHistoryProfileAgent implements ProfileCHEProvider {
 //      if(owner!=user){//space can't have more than one owner
 //      }
 //    }
+    
+    addAALSpaceProfile(aalSpaceProfile);
+    
 
-    ServiceRequest req = new ServiceRequest(new ProfilingService(), null);
-    req.addValueFilter(new String[] {ProfilingService.PROP_CONTROLS}, user);
-    req.addAddEffect(new String[] {ProfilingService.PROP_CONTROLS, Profilable.PROP_HAS_PROFILE}, aalSpaceProfile);
+//    ServiceRequest req = new ServiceRequest(new ProfilingService(), null);
+//    req.addValueFilter(new String[] {ProfilingService.PROP_CONTROLS}, owner);
+//    req.addAddEffect(new String[] {ProfilingService.PROP_CONTROLS, Profilable.PROP_HAS_PROFILE}, aalSpaceProfile);
 
-    caller.call(req);
+//    caller.call(req);
 
-    String aalSpaceURI = aalSpaceProfile.getURI() + "_space";
+    String aalSpaceURI = aalSpaceProfile.getURI() + "_SPACE";
     AALSpace aalSpace = new AALSpace(aalSpaceURI);
     addAALSpace(aalSpace);
-    addProfileToSpace(aalSpace, aalSpaceProfile);//TODO
+    addProfToProfilable(aalSpace, aalSpaceProfile);
+    
+    addOwnToSpace(aalSpace, owner);
   }
 
+  private void addAALSpaceProfile(Resource input) {
+    genericAdd(input, Queries.ADD);
+      }
+  
   private void addAALSpace(Resource input) {
     genericAdd(input, Queries.ADD);
   }
+  
+  private void addOwnToSpace(Resource aalSpace, Resource owner) {
+    genericAddToSpace(aalSpace, owner, Queries.ADDTOPROFILABLE.replace(
+      Queries.ARGTYPE, AALSpaceProfile.PROP_SPACE_OWNER));
+      }
+  
+  private void genericAddToSpace(Resource input, Resource what, String queryadd) {
+    String serialized = Activator.parser.serialize(what);
+    String[] split = splitPrefixes(serialized);
+    defaultCaller.call(getDoSPARQLRequest(split[0]
+      + " "
+      + queryadd
+        .replace(Queries.ARG1, input.getURI())
+        .replace(Queries.ARG2, what.getURI())
+        .replace(Queries.ARGTURTLE, split[1])));
+      }
 
   private void genericAdd(Resource input, String addquery) {
     String serialized = Activator.parser.serialize(input);
@@ -438,11 +490,7 @@ public class ContextHistoryProfileAgent implements ProfileCHEProvider {
     return result;
   }
 
-  private void addProfileToSpace(Resource space, Resource profile) {
-    // TODO
-    String serialized = Activator.parser.serialize(profile);
-    String[] split = splitPrefixes(serialized);
-    defaultCaller.call(getDoSPARQLRequest(split[0] + " "
-        + Queries.Q_ADD_PRF_TO_SPACE.replace(Queries.ARG1, space.getURI()).replace(Queries.ARG2, profile.getURI()).replace(Queries.ARGTURTLE, split[1])));
-  }
+  private void addProfToProfilable(Resource input, Resource what) {
+    genericAddToSpace(input, what, Queries.ADDPROFTOPROFILABLE);
+      }
 }

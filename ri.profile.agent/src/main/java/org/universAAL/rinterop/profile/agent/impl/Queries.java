@@ -105,13 +105,34 @@ public class Queries {
         + "> <" 
         + Profilable.PROP_HAS_PROFILE
         + "> ?p}";
+
+    protected static final String ADDTOPROFILABLE = "INSERT { ?p <"
+        + ARGTYPE 
+        + "> <" 
+        + ARG2 
+        + "> . " + ARGTURTLE + " } WHERE {<" 
+        + ARG1 
+        + "> <" 
+        + Profilable.PROP_HAS_PROFILE
+        + "> ?p}";
     
-    protected static final String Q_ADD_PRF_TO_SPACE = "INSERT DATA { <"
+    protected static final String ADDPROFTOPROFILABLE = "INSERT DATA { <"
         + ARG1
         + "> <"
         + Profilable.PROP_HAS_PROFILE
         + "> <"
         + ARG2
         + "> . " + ARGTURTLE + " }";
+    
+  protected static final String Q_GET_PRF_OF_SPACE = "DESCRIBE ?p WHERE {<" 
+  + ARG1 
+  + "> <" 
+  + Profilable.PROP_HAS_PROFILE 
+  + "> ?p}";
+  
+  protected static final String Q_GET_PRF_OF_SPACE_XTRA = "CONSTRUCT { ?p a ?t } WHERE {<" 
+  + ARG1 
+  + "> <" 
+  + Profilable.PROP_HAS_PROFILE + "> ?p . ?p a ?t}";
 
 }

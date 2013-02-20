@@ -62,8 +62,8 @@
         <version>1.3.1-SNAPSHOT</version>
       </dependency>
       <dependency>
-        <groupId>ri.internetgateway</groupId>
-        <artifactId>org.universAAL.remote</artifactId>
+        <groupId>org.universAAL.remote</groupId>
+        <artifactId>ri.internetgateway</artifactId>
         <version>1.3.1-SNAPSHOT</version>
       </dependency>
     </dependencies>

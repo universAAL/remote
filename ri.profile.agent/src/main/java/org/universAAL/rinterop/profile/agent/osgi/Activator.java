@@ -120,8 +120,13 @@ public class Activator implements BundleActivator, ServiceListener {
       }
 
       if (!deployManagerRegistered) {
-        registerDeployManagerService(httpService, deployManager);
-        deployManagerRegistered = true;
+        if (deployManager != null) {
+          registerDeployManagerService(httpService, deployManager);
+          deployManagerRegistered = true;
+        } else {
+          warning("Failed to register DeployManagerService web service at alias '" + DEPLOY_MANAGER_ALIAS
+              + "'! No DeeployManagerService is shared in the container!");
+        }
       }
     }
 

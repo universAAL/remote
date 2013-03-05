@@ -14,9 +14,9 @@
   <name>universAAL Remote Interoperability Suite</name>
   <description></description>
   <modules>
-    <module>../ri.servicegateway/</module>
-    <module>../ri.internetgateway/</module>
-    <module>../ri.gateway.communicator/</module>
+    <module>../ri.servicegateway</module>
+    <module>../ri.internetgateway</module>
+    <module>../ri.gateway.communicator</module>
   </modules>
   <scm>
     <connection>${svn.base}/${project.artifactId}</connection>

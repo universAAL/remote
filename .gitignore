@@ -22,6 +22,10 @@ ri.internetgateway/target
 ri.pom/*.project
 ri.pom/*.settings
 ri.pom/target
+ri.profile.agent/.classpath
+ri.profile.agent/.project
+ri.profile.agent/.settings
+ri.profile.agent/target
 ri.servicegateway/*.log
 ri.servicegateway/.classpath
 ri.servicegateway/.project

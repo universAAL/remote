@@ -74,7 +74,7 @@ public class ExportedProxyManager extends AbstractProxyManager {
 		    Activator.mc, importRequest.getServerNamespace());
 	    
 	    ServiceBus serviceBus = ServiceBusFacade.fetchBus(Activator.mc);
-	    ServiceProfile[] profiles = serviceBus.getMatchingService("NOT_USED", importRequest.getServiceType());
+	    ServiceProfile[] profiles = serviceBus.getMatchingServices("NOT_USED", importRequest.getServiceType());
 	    proxyRegistration = new ProxyRegistration(member.getId(), profiles);
 	    break;
 	case ContextSubscriber:

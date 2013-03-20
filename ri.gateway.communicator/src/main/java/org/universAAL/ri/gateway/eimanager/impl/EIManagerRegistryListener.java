@@ -1,6 +1,6 @@
 package org.universAAL.ri.gateway.eimanager.impl;
 
-import org.universAAL.middleware.sodapop.BusMember;
+import org.universAAL.middleware.bus.member.BusMember;
 import org.universAAL.middleware.tracker.IBusMemberRegistry.BusType;
 import org.universAAL.middleware.tracker.IBusMemberRegistryListener;
 import org.universAAL.ri.gateway.eimanager.RepoEIManager;

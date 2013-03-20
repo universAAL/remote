@@ -2,7 +2,7 @@ package org.universAAL.ri.gateway.eimanager;
 
 import java.io.IOException;
 
-import org.universAAL.middleware.sodapop.BusMember;
+import org.universAAL.middleware.bus.member.BusMember;
 
 public interface ImportExecutor {
     public void internalImportRemoteService(String uuid, BusMember sourceMember, String targetMemberIdRegex, String serverNamespace) throws IOException, ClassNotFoundException;

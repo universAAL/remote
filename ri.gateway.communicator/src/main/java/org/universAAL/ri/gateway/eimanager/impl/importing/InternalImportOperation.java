@@ -2,7 +2,7 @@ package org.universAAL.ri.gateway.eimanager.impl.importing;
 
 import org.universAAL.middleware.context.owl.ContextProvider;
 import org.universAAL.middleware.service.owls.profile.ServiceProfile;
-import org.universAAL.middleware.sodapop.BusMember;
+import org.universAAL.middleware.bus.member.BusMember;
 import org.universAAL.middleware.ui.UIHandlerProfile;
 import org.universAAL.ri.gateway.eimanager.impl.InternalEIOperation;
 import org.universAAL.ri.gateway.eimanager.impl.registry.RepoOperation;

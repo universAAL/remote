@@ -1,6 +1,6 @@
 package org.universAAL.ri.gateway.eimanager.impl;
 
-import org.universAAL.middleware.sodapop.BusMember;
+import org.universAAL.middleware.bus.member.BusMember;
 
 public class EIConstraintEvaluator {
     public static boolean shouldExport(BusMember member, InternalEIOperation operation){

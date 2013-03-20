@@ -11,7 +11,7 @@ import java.util.concurrent.BlockingQueue;
 import org.universAAL.middleware.service.ServiceCall;
 import org.universAAL.middleware.service.ServiceRequest;
 import org.universAAL.middleware.service.ServiceResponse;
-import org.universAAL.middleware.sodapop.BusMember;
+import org.universAAL.middleware.bus.member.BusMember;
 import org.universAAL.middleware.tracker.IBusMemberRegistry.BusType;
 import org.universAAL.middleware.ui.UIRequest;
 import org.universAAL.middleware.ui.UIResponse;

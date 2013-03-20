@@ -4,7 +4,7 @@ import org.universAAL.middleware.context.ContextPublisher;
 import org.universAAL.middleware.context.ContextSubscriber;
 import org.universAAL.middleware.service.ServiceCallee;
 import org.universAAL.middleware.service.ServiceCaller;
-import org.universAAL.middleware.sodapop.BusMember;
+import org.universAAL.middleware.bus.member.BusMember;
 import org.universAAL.middleware.ui.UICaller;
 import org.universAAL.middleware.ui.UIHandler;
 import org.universAAL.ri.gateway.eimanager.impl.registry.RepoOperation;

@@ -13,7 +13,7 @@ import org.universAAL.middleware.context.ContextEventPattern;
 import org.universAAL.middleware.context.owl.ContextProvider;
 import org.universAAL.middleware.context.owl.ContextProviderType;
 import org.universAAL.middleware.service.owls.profile.ServiceProfile;
-import org.universAAL.middleware.sodapop.BusMember;
+import org.universAAL.middleware.bus.member.BusMember;
 import org.universAAL.middleware.ui.UIResponse;
 import org.universAAL.ri.gateway.communicator.Activator;
 import org.universAAL.ri.gateway.communicator.service.GatewayCommunicator;

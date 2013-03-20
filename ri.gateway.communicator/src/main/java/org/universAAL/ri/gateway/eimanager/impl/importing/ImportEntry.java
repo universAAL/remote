@@ -1,6 +1,6 @@
 package org.universAAL.ri.gateway.eimanager.impl.importing;
 
-import org.universAAL.middleware.sodapop.BusMember;
+import org.universAAL.middleware.bus.member.BusMember;
 import org.universAAL.ri.gateway.eimanager.impl.InternalEIOperation;
 import org.universAAL.ri.gateway.eimanager.impl.registry.RegistryEntry;
 

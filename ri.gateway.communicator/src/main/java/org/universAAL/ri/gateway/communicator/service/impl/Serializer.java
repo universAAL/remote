@@ -8,8 +8,8 @@ import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.io.Serializable;
 
-import org.universAAL.middleware.sodapop.msg.MessageContentSerializer;
-import org.universAAL.middleware.sodapop.msg.MessageContentSerializerEx;
+import org.universAAL.middleware.serialization.MessageContentSerializer;
+import org.universAAL.middleware.serialization.MessageContentSerializerEx;
 import org.universAAL.middleware.tracker.Activator;
 import org.universAAL.middleware.xsd.util.Base64;
 import org.universAAL.ri.gateway.communicator.service.Message;

@@ -104,12 +104,16 @@ ri.exportComponent/ri.soap.server/LICENSE.txt -text
 ri.exportComponent/ri.soap.server/MITX.txt -text
 ri.exportComponent/ri.soap.server/NOTICE.txt -text
 ri.exportComponent/ri.soap.server/pom.xml -text
+ri.exportComponent/ri.soap.server/src/main/java/org/universAAL/ri/soap/cxf/server/Activator.java -text
+ri.exportComponent/ri.soap.server/src/main/java/org/universAAL/ri/soap/cxf/server/ServiceImpl.java -text
 ri.exportComponent/ri.soap.server/src/main/java/org/universAAL/soap/cxf/server/Activator.java -text
 ri.exportComponent/ri.soap.server/src/main/java/org/universAAL/soap/cxf/server/ServiceImpl.java -text
 ri.exportComponent/ri.soap.service/LICENSE.txt -text
 ri.exportComponent/ri.soap.service/MITX.txt -text
 ri.exportComponent/ri.soap.service/NOTICE.txt -text
 ri.exportComponent/ri.soap.service/pom.xml -text
+ri.exportComponent/ri.soap.service/src/main/java/org/universAAL/ri/soap/cxf/service/Activator.java -text
+ri.exportComponent/ri.soap.service/src/main/java/org/universAAL/ri/soap/cxf/service/ServiceInterface.java -text
 ri.exportComponent/ri.soap.service/src/main/java/org/universAAL/soap/cxf/service/Activator.java -text
 ri.exportComponent/ri.soap.service/src/main/java/org/universAAL/soap/cxf/service/ServiceInterface.java -text
 ri.gateway.communicator/pom.xml -text

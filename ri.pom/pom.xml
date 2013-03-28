@@ -17,6 +17,8 @@
     <module>../ri.servicegateway</module>
     <module>../ri.internetgateway</module>
     <module>../ri.gateway.communicator</module>
+	<module>../ri.exportComponent/ri.soap.server</module>
+	<module>../ri.exportComponent/ri.soap.service</module>
   </modules>
   <scm>
     <connection>${svn.base}/${project.artifactId}</connection>

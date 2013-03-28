@@ -3,8 +3,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
 	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>org.universAAL.soap</groupId>
-	<artifactId>cxf.server</artifactId>
+	<artifactId>ri.cxf.server</artifactId>
 	<version>0.1.0-SNAPSHOT</version>
 	<packaging>bundle</packaging>
 	<name>SOAP Server</name>
@@ -24,9 +23,10 @@
 			<version>3.2.100.v20100503</version>
 		</dependency>
 		<dependency>
-			<groupId>org.universAAL.soap</groupId>
-			<artifactId>cxf.service</artifactId>
+			<groupId>org.universAAL.remote</groupId>
+			<artifactId>ri.cxf.service</artifactId>
 			<version>0.1.0-SNAPSHOT</version>
+			<type>bundle</type>
 		</dependency>
 	</dependencies>
 	<build>

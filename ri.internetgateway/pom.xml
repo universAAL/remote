@@ -5,11 +5,10 @@
   <parent>
     <groupId>org.universAAL.remote</groupId>
     <artifactId>ri.pom</artifactId>
-    <version>1.3.1-SNAPSHOT</version>
+    <version>1.3.2-SNAPSHOT</version>
     <relativePath>../ri.pom</relativePath>
   </parent>
   <artifactId>ri.internetgateway</artifactId>
-  <version>1.3.1-SNAPSHOT</version>
   <packaging>bundle</packaging>
   <name>universAAL Remote Interoperability Internet Gateway</name>
   <description>Internet Gateway</description>

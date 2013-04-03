@@ -22,7 +22,7 @@ import org.universAAL.middleware.context.ContextEvent;
 import org.universAAL.middleware.service.DefaultServiceCaller;
 import org.universAAL.middleware.service.ServiceCaller;
 import org.universAAL.middleware.service.ServiceResponse;
-import org.universAAL.middleware.sodapop.msg.MessageContentSerializer;
+import org.universAAL.middleware.serialization.MessageContentSerializer;
 import org.universAAL.ri.soap.cxf.service.ServiceInterface;
 
 public class ServiceImpl implements ServiceInterface {
@@ -39,7 +39,7 @@ public class ServiceImpl implements ServiceInterface {
 		sr = caller.call(turtleStr);
 		Object[] contentSerializerParams = new Object[] { MessageContentSerializer.class
 				.getName() };
-		MessageContentSerializer s = (org.universAAL.middleware.sodapop.msg.MessageContentSerializer) Activator.mc
+		MessageContentSerializer s = (org.universAAL.middleware.serialization.MessageContentSerializer) Activator.mc
 				.getContainer().fetchSharedObject(Activator.mc,
 						contentSerializerParams);
 		String serializedStr = s.serialize(sr);

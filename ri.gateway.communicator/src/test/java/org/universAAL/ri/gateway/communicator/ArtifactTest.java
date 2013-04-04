@@ -35,7 +35,7 @@ public class ArtifactTest extends IntegrationTest {
     /**
      * HTTP port.
      */
-    private static final int HTTP_PORT = 8080;
+    private static final int HTTP_PORT = 8182;
     /**
      * Timeout that should not elapse before tested invocations. Used no to let
      * the test hang.
@@ -107,48 +107,48 @@ public class ArtifactTest extends IntegrationTest {
 	if (true)
 		return;
 	// starting two instances of GatewatCommunicator
-	log("starting two gateway communicators");
-	import1 = createMock(ImportManager.class);
-	import2 = createMock(ImportManager.class);
-
-	export1 = createMock(ExportManager.class);
-	export2 = createMock(ExportManager.class);
-
-	System.setProperty(GatewayCommunicator.REMOTE_GATEWAYS_PROP,
-		"localhost:" + HTTP_PORT + ":" + "test1");
-	try {
-	    inst1 = new CommunicatorStarter(bundleContext, test1);
-	
-	    inst1.setManagers(import1, export1);
-	} catch (Exception e1) {
-	    // TODO Auto-generated catch block
-	    e1.printStackTrace();
-	}
-	System.setProperty(GatewayCommunicator.REMOTE_GATEWAYS_PROP,
-		"localhost:" + HTTP_PORT + ":" + "test2");
-	try {
-	    inst2 = new CommunicatorStarter(bundleContext, test2);
-	
-	    inst2.setManagers(import2, export2);
-	} catch (Exception e1) {
-	    // TODO Auto-generated catch block
-	    e1.printStackTrace();
-	}
-	// getting the two OSGi services
-	log("getting OSGi references of the two gateway communicators");
-	comm1 = inst1.getCommunicator();
-	comm2 = inst2.getCommunicator();
-
-	try {
-	    url1 = new URL(String.format("http://localhost:%d/%s-%s",
-		    HTTP_PORT, GatewayCommunicator.ALIAS_PREFIX, test1));
-	    url2 = new URL(String.format("http://localhost:%d/%s-%s",
-		    HTTP_PORT, GatewayCommunicator.ALIAS_PREFIX, test2));
-	} catch (MalformedURLException e) {
-	    assertTrue("Malformed test URLs", false);
-	}
-
-	log("====== start =======");
+//	log("starting two gateway communicators");
+//	import1 = createMock(ImportManager.class);
+//	import2 = createMock(ImportManager.class);
+//
+//	export1 = createMock(ExportManager.class);
+//	export2 = createMock(ExportManager.class);
+//
+//	System.setProperty(GatewayCommunicator.REMOTE_GATEWAYS_PROP,
+//		"localhost:" + HTTP_PORT + ":" + "test1");
+//	try {
+//	    inst1 = new CommunicatorStarter(bundleContext, test1);
+//	
+//	    inst1.setManagers(import1, export1);
+//	} catch (Exception e1) {
+//	    // TODO Auto-generated catch block
+//	    e1.printStackTrace();
+//	}
+//	System.setProperty(GatewayCommunicator.REMOTE_GATEWAYS_PROP,
+//		"localhost:" + HTTP_PORT + ":" + "test2");
+//	try {
+//	    inst2 = new CommunicatorStarter(bundleContext, test2);
+//	
+//	    inst2.setManagers(import2, export2);
+//	} catch (Exception e1) {
+//	    // TODO Auto-generated catch block
+//	    e1.printStackTrace();
+//	}
+//	// getting the two OSGi services
+//	log("getting OSGi references of the two gateway communicators");
+//	comm1 = inst1.getCommunicator();
+//	comm2 = inst2.getCommunicator();
+//
+//	try {
+//	    url1 = new URL(String.format("http://localhost:%d/%s-%s",
+//		    HTTP_PORT, GatewayCommunicator.ALIAS_PREFIX, test1));
+//	    url2 = new URL(String.format("http://localhost:%d/%s-%s",
+//		    HTTP_PORT, GatewayCommunicator.ALIAS_PREFIX, test2));
+//	} catch (MalformedURLException e) {
+//	    assertTrue("Malformed test URLs", false);
+//	}
+//
+//	log("====== start =======");
     }
 
     @Override

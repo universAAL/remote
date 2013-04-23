@@ -1,7 +1,7 @@
 package org.universAAL.ri.gateway.eimanager.impl.registry;
 
+import org.universAAL.ri.gateway.eimanager.ImportEntry;
 import org.universAAL.ri.gateway.eimanager.impl.exporting.ExportEntry;
-import org.universAAL.ri.gateway.eimanager.impl.importing.ImportEntry;
 
 
 public enum EIRepoAccessManager {
@@ -25,7 +25,7 @@ public enum EIRepoAccessManager {
 	registry.addImportInfo(ie);
     }
     
-    public void removeImportToRepo(ImportEntry ie) {
+    public void removeImportFromRepo(ImportEntry ie) {
 	registry.removeImportInfo(ie);
     }
     

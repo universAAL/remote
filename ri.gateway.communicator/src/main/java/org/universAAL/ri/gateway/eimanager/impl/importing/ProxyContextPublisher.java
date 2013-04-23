@@ -15,7 +15,7 @@ public class ProxyContextPublisher extends ProxyBusMember {
     
     public ProxyContextPublisher(ContextSubscriber subscriber, ContextProvider info, ImportedProxyManager manager, String targetId,
 	    ModuleContext mc) {
-	super(manager, targetId, mc);
+	super(manager, targetId,"", mc);
 	//TODO modify
 	//this.publisher = new DefaultContextPublisher(mc, info);
 	this.subscriber = subscriber;

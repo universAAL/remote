@@ -13,7 +13,7 @@ public class ProxyContextSubscriber extends ProxyBusMember {
     private ContextSubscriber subscriber;
     
     public ProxyContextSubscriber(ExportedProxyManager manager, ModuleContext mc, ContextEventPattern[] subscriptions) {
-	super(manager,"", mc);
+	super(manager,"","", mc);
 	subscriber = new ProxiedContextSubscriber(mc, subscriptions);
     }
 

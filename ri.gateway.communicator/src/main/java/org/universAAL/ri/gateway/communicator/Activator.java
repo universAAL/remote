@@ -6,10 +6,16 @@ import org.universAAL.middleware.container.ModuleContext;
 import org.universAAL.middleware.container.osgi.uAALBundleContainer;
 import org.universAAL.middleware.tracker.IBusMemberRegistry;
 import org.universAAL.middleware.tracker.IBusMemberRegistryListener;
+import org.universAAL.ri.gateway.communicator.service.RemoteSpacesManager;
 import org.universAAL.ri.gateway.communicator.service.impl.CommunicatorStarter;
+import org.universAAL.ri.gateway.eimanager.ExportOperationInterceptor;
+import org.universAAL.ri.gateway.eimanager.ImportOperationInterceptor;
 import org.universAAL.ri.gateway.eimanager.impl.EIManagerRegistryListener;
+import org.universAAL.ri.gateway.eimanager.impl.EIOperationManager;
 import org.universAAL.ri.gateway.eimanager.impl.ExportManagerImpl;
 import org.universAAL.ri.gateway.eimanager.impl.ImportManagerImpl;
+import org.universAAL.ri.gateway.eimanager.impl.security.ExportSecurityOperationInterceptor;
+import org.universAAL.ri.gateway.eimanager.impl.security.ImportSecurityOperationInterceptor;
 
 /**
  * Bundle's activator. Starts a default instance of the GatewayCommunicator
@@ -62,6 +68,15 @@ public class Activator implements BundleActivator {
 	
 	registry.addBusRegistryListener(exportRegistryListener, true);
 	registry.addBusRegistryListener(importRegistryListener, true);
+	
+	EIOperationManager.Instance.init();
+	
+	Activator.mc.getContainer().shareObject(Activator.mc, new ImportSecurityOperationInterceptor(),
+			new Object[] { ImportOperationInterceptor.class.getName() });
+	
+	Activator.mc.getContainer().shareObject(Activator.mc, new ExportSecurityOperationInterceptor(),
+			new Object[] { ExportOperationInterceptor.class.getName() });
+    
     }
 
     /**

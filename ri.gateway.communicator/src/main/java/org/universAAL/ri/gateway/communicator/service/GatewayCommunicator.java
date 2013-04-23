@@ -1,6 +1,5 @@
 package org.universAAL.ri.gateway.communicator.service;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
@@ -15,13 +14,41 @@ import java.util.concurrent.TimeoutException;
  */
 public interface GatewayCommunicator {
 
-    /**
+    
+	String HASH_KEY = "hash-key";
+	
+	/**
      * System property used for specifying remote AAL Space Gateways addresses
      * (host ip and port) in comma separated manner. Example: 192.168.192.1:8001,192.168.192.2.8001
      */
     String REMOTE_GATEWAYS_PROP = "remote-gateways";
 
     String LOCAL_SOCKET_PORT = "local-socket-port";
+    
+    /**
+     * Property used for specifying bus members that are allowed to be imported into this AAL Space.
+     * List of comma separated regular expressions related to service, context or ui URI.
+     */
+    String IMPORT_SECURITY_CONSTRAINT_ALLOW = "import-security-constraint-allow";
+    
+    /**
+     * Property used for specifying bus members that are allowed to be exported to remote AAL Spaces.
+     * List of comma separated regular expressions related to service, context or ui URI.
+     */
+    String EXPORT_SECURITY_CONSTRAINT_ALLOW = "export-security-constraint-allow";
+    
+    /**
+     * Property used for specifying bus members that are denied to be imported into this AAL Space.
+     * List of comma separated regular expressions related to service, context or ui URI.
+     */
+    String IMPORT_SECURITY_CONSTRAINT_DENY = "import-security-constraint-deny";
+    
+    /**
+     * Property used for specifying bus members that are denied to be exported to remote AAL Spaces.
+     * List of comma separated regular expressions related to service, context or ui URI.
+     */
+    String EXPORT_SECURITY_CONSTRAINT_DENY = "export-security-constraint-deny";
+    
     
     /**
      * Alias' prefix under which the HTTP servlet will be registered.
@@ -134,6 +161,10 @@ public interface GatewayCommunicator {
 
     Message sendImportRequest(Message message);
     
+    void sendImportRefresh(Message message, URL[] to);
+
+    void sendImportRefresh(Message message);
+
     void sendImportRemoval(Message message, URL[] to);
     
     void sendImportRemoval(Message message);

@@ -8,10 +8,10 @@ import java.util.Set;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
+import org.universAAL.middleware.bus.member.BusMember;
 import org.universAAL.middleware.service.ServiceCall;
 import org.universAAL.middleware.service.ServiceRequest;
 import org.universAAL.middleware.service.ServiceResponse;
-import org.universAAL.middleware.bus.member.BusMember;
 import org.universAAL.middleware.tracker.IBusMemberRegistry.BusType;
 import org.universAAL.middleware.ui.UIRequest;
 import org.universAAL.middleware.ui.UIResponse;
@@ -83,8 +83,8 @@ public class ExportManagerImpl implements ExportManager, ExportExecutor{
 	
     }
 
-    public ServiceResponse sendServiceRequest(String sourceId, ServiceRequest req) {
-	ServiceResponse response = manager.sendServiceRequest(sourceId, req);
+    public ServiceResponse sendServiceRequest(String sourceId, ServiceCall call, String memberId) {
+	ServiceResponse response = manager.sendServiceRequest(sourceId, call, memberId);
 	if (response == null){
 	    throw new RuntimeException("response == null");
 	}

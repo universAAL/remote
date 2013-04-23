@@ -22,6 +22,8 @@ public class Message implements Serializable {
     
     private String remoteProxyRegistrationId;
     
+    private String remoteMemberId;
+    
     /**
      * Initializes with a message to send.
      * 
@@ -77,5 +79,13 @@ public class Message implements Serializable {
     public void setRemoteProxyRegistrationId(String remoteProxyRegistrationId) {
 	this.remoteProxyRegistrationId = remoteProxyRegistrationId;
     }
+
+	public String getRemoteMemberId() {
+		return remoteMemberId;
+	}
+
+	public void setRemoteMemberId(String remoteMemberId) {
+		this.remoteMemberId = remoteMemberId;
+	}
 
 }

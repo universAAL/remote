@@ -6,15 +6,17 @@ public abstract class ProxyBusMember {
     
     protected ModuleContext mc;
     protected String targetId;
+    protected String remoteBusMemberId;
     private final AbstractProxyManager manager;
     
-    public ProxyBusMember(AbstractProxyManager manager, String targetId, ModuleContext mc){
+    public ProxyBusMember(AbstractProxyManager manager, String targetId, String remoteBusMemberId, ModuleContext mc){
 	this.mc = mc;
 	this.targetId = targetId;
 	this.manager = manager;
+	this.remoteBusMemberId = remoteBusMemberId;
     }
     
-    public String getTargetBusMember(){
+    public String getRemoteProxyBusMemberId(){
 	return targetId;
     }
     
@@ -25,4 +27,8 @@ public abstract class ProxyBusMember {
     }
     
     public abstract String getId();
+
+	public String getRemoteBusMemberId() {
+		return remoteBusMemberId;
+	}
 }

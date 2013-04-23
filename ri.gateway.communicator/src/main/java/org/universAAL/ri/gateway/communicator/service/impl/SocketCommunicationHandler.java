@@ -1,12 +1,16 @@
 package org.universAAL.ri.gateway.communicator.service.impl;
 
+import java.io.EOFException;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.URL;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
+import org.bouncycastle.crypto.CryptoException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.universAAL.ri.gateway.communicator.service.CommunicationHandler;
@@ -24,7 +28,7 @@ public class SocketCommunicationHandler implements CommunicationHandler {
     private ServerSocket server;
     private Thread serverThread;
 
-    public SocketCommunicationHandler(GatewayCommunicator communicator) {
+    public SocketCommunicationHandler(final GatewayCommunicator communicator) {
 	this.communicator = communicator;
 
 	final String localPort = CommunicatorStarter.properties
@@ -35,6 +39,11 @@ public class SocketCommunicationHandler implements CommunicationHandler {
 		    + GatewayCommunicator.LOCAL_SOCKET_PORT + "' property.");
 	}
 
+	final String hashKey = CommunicatorStarter.properties
+			.getProperty(GatewayCommunicator.HASH_KEY);
+	
+	SecurityUtils.Instance.initialize(hashKey);
+	
 	PORT = Integer.valueOf(localPort);
 
 	this.executor = Executors.newFixedThreadPool(NUM_THREADS);
@@ -47,6 +56,7 @@ public class SocketCommunicationHandler implements CommunicationHandler {
 	serverThread = new Thread(new Runnable() {
 	    public void run() {
 		log.info("TCP server started on port " + PORT);
+		Thread.currentThread().setName("Space Gateway :: Server");
 		while (!(Thread.currentThread().isInterrupted())) {
 		    try {
 			final Socket socket = server.accept();
@@ -67,11 +77,12 @@ public class SocketCommunicationHandler implements CommunicationHandler {
 
 	private Socket socket;
 
-	public Handler(Socket socket) {
+	public Handler(final Socket socket) {
 	    this.socket = socket;
 	}
 
 	public void run() {
+	    Thread.currentThread().setName("Space Gateway :: ClientHandler");
 	    try {
 		communicator.handleMessage(socket.getInputStream(),
 			socket.getOutputStream());
@@ -91,16 +102,21 @@ public class SocketCommunicationHandler implements CommunicationHandler {
 
     }
 
-    public MessageWrapper sendMessage(MessageWrapper toSend, URL target)
-	    throws IOException, ClassNotFoundException {
+    public MessageWrapper sendMessage(final MessageWrapper toSend, final URL target)
+	    throws IOException, ClassNotFoundException, CryptoException {
 	MessageWrapper resp = null;
 	Socket socket = new Socket(target.getHost(), target.getPort());
 	try {
-	    Serializer.sendMessageToStream(toSend, socket.getOutputStream());
+		InputStream is = socket.getInputStream();
+		OutputStream os = socket.getOutputStream();
+	    Serializer.sendMessageToStream(toSend, os);
 	    // if the other side sends a Wrapper, we should read it
 	    if (!toSend.getType().equals(MessageType.Context) && !toSend.getType().equals(MessageType.UIResponse)){
-	    	resp = Serializer.unmarshalMessage(socket.getInputStream());
+	    	resp = Serializer.unmarshalMessage(is);
 	    }
+	} catch (EOFException ex) {
+	    // no response (which is not an error) so we just return null
+	    return null;
 	} finally {
 	    if (socket != null && !socket.isClosed()) {
 		socket.close();

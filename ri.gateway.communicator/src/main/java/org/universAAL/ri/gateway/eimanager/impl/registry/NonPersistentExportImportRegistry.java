@@ -3,8 +3,8 @@ package org.universAAL.ri.gateway.eimanager.impl.registry;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.universAAL.ri.gateway.eimanager.ImportEntry;
 import org.universAAL.ri.gateway.eimanager.impl.exporting.ExportEntry;
-import org.universAAL.ri.gateway.eimanager.impl.importing.ImportEntry;
 
 
 public class NonPersistentExportImportRegistry extends AbstractRegistry{

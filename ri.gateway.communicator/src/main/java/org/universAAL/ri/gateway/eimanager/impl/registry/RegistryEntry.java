@@ -3,28 +3,29 @@ package org.universAAL.ri.gateway.eimanager.impl.registry;
 import org.universAAL.ri.gateway.eimanager.impl.InternalEIOperation;
 
 public abstract class RegistryEntry {
-    private String id;
-    private InternalEIOperation operation;
-    
-    public RegistryEntry(String id, InternalEIOperation operation){
-	this.id = id;
-	this.operation = operation;
-    }
+	private String id;
+	private InternalEIOperation operation;
 
-    public String getId() {
-	return id;
-    }
+	public RegistryEntry(String id, InternalEIOperation operation) {
+		this.id = id;
+		this.operation = operation;
+	}
 
-    public void setId(String id) {
-	this.id = id;
-    }
+	public String getId() {
+		return id;
+	}
 
-    public InternalEIOperation getOperation() {
-	return operation;
-    }
+	public void setId(String id) {
+		this.id = id;
+	}
 
-    public void setOperation(InternalEIOperation operation) {
-	this.operation = operation;
-    }
-    
+	public InternalEIOperation getOperation() {
+		return operation;
+	}
+
+	public void setOperation(InternalEIOperation operation) {
+		this.operation = operation;
+	}
 }
+
+

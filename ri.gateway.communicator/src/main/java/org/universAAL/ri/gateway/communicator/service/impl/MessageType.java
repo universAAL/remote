@@ -29,11 +29,15 @@ public enum MessageType {
      * an UI request.
      */
     UI,
-    
+
     /**
      * an UI response.
      */
-    UIResponse, 
-    ImportRequest,
-    ImportRemoval, ImportResponse;
+    UIResponse, ImportRequest, ImportRemoval, ImportResponse, ImportRefresh,
+    
+    Error,
+    
+    ServiceCall;
+    
+    
 }

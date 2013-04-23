@@ -1,10 +1,11 @@
 package org.universAAL.ri.gateway.eimanager.impl.importing;
 
 import java.io.Serializable;
+import java.util.Arrays;
 
 import org.universAAL.ri.gateway.eimanager.impl.BusMemberType;
 
-public class ImportRequest implements Serializable{
+public class ImportRequest implements Serializable {
     /**
      * 
      */
@@ -14,18 +15,21 @@ public class ImportRequest implements Serializable{
      */
     private String member;
     private String id;
-    
+
     /**
      * Service import fields
      */
     private String serviceType;
     private String serverNamespace;
-    
+
     /**
      * Context import fields
      */
+    private String[] subjectURI;
     private String[] cpe;
     
+    private String modalityRegex;
+
     public ImportRequest(final BusMemberType member, final String id) {
 	super();
 	this.member = member.toString();
@@ -60,7 +64,7 @@ public class ImportRequest implements Serializable{
 	return serverNamespace;
     }
 
-    public void setServerNamespace(String serverNamespace) {
+    public void setServerNamespace(final String serverNamespace) {
 	this.serverNamespace = serverNamespace;
     }
 
@@ -68,9 +72,37 @@ public class ImportRequest implements Serializable{
 	return cpe;
     }
 
-    public void setCpe(String[] cpe) {
+    public void setCpe(final String[] cpe) {
 	this.cpe = cpe;
     }
 
-   
+    @Override
+    public String toString() {
+	return "ImportRequest ["
+		+ (cpe != null ? "cpe=" + Arrays.toString(cpe) + ", " : "")
+		+ (id != null ? "id=" + id + ", " : "")
+		+ (member != null ? "member=" + member + ", " : "")
+		+ (serverNamespace != null ? "serverNamespace="
+			+ serverNamespace + ", " : "")
+		+ (serviceType != null ? "serviceType=" + serviceType : "")
+		+ (modalityRegex != null ? "modalityRegex=" + modalityRegex: "")
+		+ "]";
+    }
+
+	public String[] getSubjectURIs() {
+		return subjectURI;
+	}
+
+	public void setSubjectURIs(String[] subjectURI) {
+		this.subjectURI = subjectURI;
+	}
+
+	public String getModalityRegex() {
+		return modalityRegex;
+	}
+
+	public void setModalityRegex(String modalityRegex) {
+		this.modalityRegex = modalityRegex;
+	}
+
 }

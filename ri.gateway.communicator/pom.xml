@@ -32,6 +32,18 @@
     </dependency>
     <dependency>
       <groupId>org.universAAL.middleware</groupId>
+      <artifactId>mw.bus.context.osgi</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.universAAL.middleware</groupId>
+      <artifactId>mw.bus.service.osgi</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.universAAL.middleware</groupId>
+      <artifactId>mw.bus.ui.osgi</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.universAAL.middleware</groupId>
       <artifactId>mw.bus.tracker.osgi</artifactId>
     </dependency>
     <dependency>
@@ -39,8 +51,9 @@
       <artifactId>mw.data.serialization.osgi</artifactId>
     </dependency>
     <dependency>
-      <groupId>org.universAAL.middleware</groupId>
-      <artifactId>mw.data.representation.osgi</artifactId>
+      <groupId>org.bouncycastle</groupId>
+      <artifactId>jce.jdk13</artifactId>
+      <version>144</version>
     </dependency>
   </dependencies>
   <build>

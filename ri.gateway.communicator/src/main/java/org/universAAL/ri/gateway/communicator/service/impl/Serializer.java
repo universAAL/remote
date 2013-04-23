@@ -1,19 +1,17 @@
 package org.universAAL.ri.gateway.communicator.service.impl;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
-import java.io.Serializable;
 
-import org.universAAL.middleware.serialization.MessageContentSerializer;
+import org.bouncycastle.crypto.CryptoException;
 import org.universAAL.middleware.serialization.MessageContentSerializerEx;
 import org.universAAL.middleware.tracker.Activator;
-import org.universAAL.middleware.xsd.util.Base64;
 import org.universAAL.ri.gateway.communicator.service.Message;
-import org.universAAL.ri.gateway.eimanager.impl.importing.ImportRequest;
 
 public enum Serializer {
     Instance;
@@ -62,13 +60,18 @@ public enum Serializer {
      *            the stream
      * @throws IOException
      *             io exception
+     * @throws CryptoException 
      */
     public static void sendMessageToStream(final MessageWrapper wrp,
-	    final OutputStream out) throws IOException {
-	ObjectOutputStream oos = new ObjectOutputStream(out);
-	oos.writeObject(wrp);
+	    final OutputStream out) throws IOException, CryptoException {
+    
+    byte[] encrypted = SecurityUtils.Instance.encrypt(toByteArray(wrp));
+    
+    EncryptionWrapper enc = new EncryptionWrapper(encrypted);	
+    
+    ObjectOutputStream oos = new ObjectOutputStream(out);
+	oos.writeObject(enc);
 	oos.flush();
-//	oos.close();
     }
     
     /**
@@ -81,15 +84,41 @@ public enum Serializer {
      *             io exception
      * @throws ClassNotFoundException
      *             deserulization exception
+     * @throws CryptoException 
      */
     public static MessageWrapper unmarshalMessage(final InputStream is)
-	    throws IOException, ClassNotFoundException {
-	ObjectInputStream ois = new ObjectInputStream(is);
-	MessageWrapper wrap = (MessageWrapper) ois.readObject();
-//	if (ois.available() != 0) {
-//	    throw new IllegalArgumentException("more than one object sent");
-//	}
-//	ois.close();
+	    throws IOException, ClassNotFoundException, CryptoException {
+    
+    ObjectInputStream ois = new ObjectInputStream(is);
+    EncryptionWrapper enc = (EncryptionWrapper) ois.readObject();
+    
+    byte[] decrypted = SecurityUtils.Instance.decrypt(enc.getPayload());
+	MessageWrapper wrap = (MessageWrapper) toObject(decrypted);
+
+	//ois.close();
 	return wrap;
     }
+    
+    private static byte[] toByteArray (Object obj) throws IOException
+    {
+      byte[] bytes = null;
+      ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        ObjectOutputStream oos = new ObjectOutputStream(bos); 
+        oos.writeObject(obj);
+        oos.flush(); 
+        oos.close(); 
+        bos.close();
+        bytes = bos.toByteArray ();
+      return bytes;
+    }
+        
+    private static Object toObject (byte[] bytes) throws IOException, ClassNotFoundException
+    {
+      Object obj = null;
+        ByteArrayInputStream bis = new ByteArrayInputStream (bytes);
+        ObjectInputStream ois = new ObjectInputStream (bis);
+        obj = ois.readObject();
+      return obj;
+    }
+    
 }

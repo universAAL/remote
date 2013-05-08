@@ -116,10 +116,10 @@ public class ExportedProxyManager extends AbstractProxyManager implements
 			}
 			member = new ProxyContextSubscriber(this, Activator.mc, cpe);
 
-			ContextEventPattern[] matchedEvents = contextBus
-					.getAllProvisions(member.getId());
+			//ContextEventPattern[] matchedEvents = contextBus
+			//		.getAllProvisions(member.getId());
 			proxyRegistration = new ProxyRegistration(member.getId(),
-					matchedEvents);
+					cpe);
 			break;
 		case UICaller:
 			UIHandlerProfile[] uiProfiles = uiBus.getMatchingProfiles(importRequest.getModalityRegex());

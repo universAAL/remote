@@ -164,7 +164,6 @@ ri.gateway.communicator/src/main/java/org/universAAL/ri/gateway/eimanager/impl/e
 ri.gateway.communicator/src/main/java/org/universAAL/ri/gateway/eimanager/impl/exporting/ProxyRegistration.java -text
 ri.gateway.communicator/src/main/java/org/universAAL/ri/gateway/eimanager/impl/exporting/ProxyServiceCaller.java -text
 ri.gateway.communicator/src/main/java/org/universAAL/ri/gateway/eimanager/impl/exporting/ProxyUICaller.java -text
-ri.gateway.communicator/src/main/java/org/universAAL/ri/gateway/eimanager/impl/importing/ImportEntry.java -text
 ri.gateway.communicator/src/main/java/org/universAAL/ri/gateway/eimanager/impl/importing/ImportProcessExecutor.java -text
 ri.gateway.communicator/src/main/java/org/universAAL/ri/gateway/eimanager/impl/importing/ImportRequest.java -text
 ri.gateway.communicator/src/main/java/org/universAAL/ri/gateway/eimanager/impl/importing/ImportedProxyManager.java -text

@@ -74,6 +74,7 @@ public class ImportedProxyManager extends AbstractProxyManager {
 					op.getContextProvider(), this,
 					op.getRemoteRegisteredProxyId(), Activator.mc);
 			generatedProxies.get(op.getRemoteRegisteredProxyId()).add(proxy);
+			break;
 		case UICaller:
 			UIHandlerProfile[] profiles = op.getUiHandlerProfiles();
 			proxy = new ProxyUIHandler(profiles, this,
@@ -103,8 +104,10 @@ public class ImportedProxyManager extends AbstractProxyManager {
 
 	public void realizeLocalContextEventPublishment(final String sourceId,
 			final ContextEvent event) {
-		((ProxyContextPublisher) generatedProxies.get(sourceId))
-				.publishContextEvent(event);
+		List<ProxyBusMember> members = generatedProxies.get(sourceId);
+		for(ProxyBusMember member : members){
+			((ProxyContextPublisher) member).publishContextEvent(event);
+		}
 	}
 
 	public ServiceResponse realizeRemoteServiceRequest(final String targetId,
@@ -142,9 +145,12 @@ public class ImportedProxyManager extends AbstractProxyManager {
 		ProxyBusMember proxy = null;
 		List<ProxyBusMember> members = generatedProxies.get(proxyRegistration
 				.getId());
-		for (ProxyBusMember m : members) {
-			m.removeProxy();
+		if (members != null) {
+			for (ProxyBusMember m : members) {
+				m.removeProxy();
+			}
 		}
+		
 		generatedProxies.remove(proxyRegistration.getId());
 
 		Map<String, List<String>> serializedProfilesMap = (Map<String, List<String>>) proxyRegistration
@@ -174,7 +180,9 @@ public class ImportedProxyManager extends AbstractProxyManager {
 
 				proxy = new ProxyServiceCallee(new ServiceProfile[] { p },
 						this, proxyRegistration.getId(),key, Activator.mc);
-
+				if (generatedProxies.get(proxyRegistration.getId()) == null){
+					generatedProxies.put(proxyRegistration.getId(), new ArrayList<ProxyBusMember>());
+				}
 				generatedProxies.get(proxyRegistration.getId())
 						.add(proxy);
 			}

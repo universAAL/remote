@@ -248,11 +248,11 @@ public class ImportManagerImpl implements ImportManager, ImportExecutor,
 	for (int i = 0; i < cpe.length; i++) {
 	    serializedCpe[i] = (String) Serializer.Instance.marshallObject(
 		    cpe[i]).getContent();
-	    subjectURIS[i] = cpe[i].getIndices().getSubjects()[i];
+	    subjectURIS[i] = cpe[i].getIndices().getSubjectTypes()[i];
 	    System.out.println(serializedCpe[i]);
 	}
 	importRequest.setCpe(serializedCpe);
-
+	importRequest.setSubjectURIs(subjectURIS);
 	if (!performInterceptorChainExecution(uuid,importRequest, EIOperationManager.Type.Context)){
 		return;
 	}

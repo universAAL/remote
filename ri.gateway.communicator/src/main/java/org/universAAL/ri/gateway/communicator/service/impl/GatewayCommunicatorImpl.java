@@ -330,15 +330,10 @@ public class GatewayCommunicatorImpl implements GatewayCommunicator {
 		try {
 			resp = commHandler.sendMessage(w, to);
 		} catch (IOException e) {
-			e.printStackTrace();
 			throw new CommunicationException(e);
 		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 			throw new CommunicationException(e);
 		} catch (CryptoException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 			throw new CommunicationException(e);
 		}
 		return resp;

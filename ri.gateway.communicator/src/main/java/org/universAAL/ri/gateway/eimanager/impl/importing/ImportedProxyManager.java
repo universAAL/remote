@@ -5,12 +5,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.universAAL.middleware.context.ContextEvent;
 import org.universAAL.middleware.context.ContextSubscriber;
 import org.universAAL.middleware.service.ServiceCall;
-import org.universAAL.middleware.service.ServiceRequest;
 import org.universAAL.middleware.service.ServiceResponse;
 import org.universAAL.middleware.service.owls.profile.ServiceProfile;
 import org.universAAL.middleware.ui.UIHandlerProfile;

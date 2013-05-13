@@ -1,31 +1,23 @@
 package org.universAAL.ri.gateway.eimanager.impl;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
 import org.universAAL.middleware.bus.member.BusMember;
 import org.universAAL.middleware.service.ServiceCall;
-import org.universAAL.middleware.service.ServiceRequest;
 import org.universAAL.middleware.service.ServiceResponse;
-import org.universAAL.middleware.tracker.IBusMemberRegistry.BusType;
 import org.universAAL.middleware.ui.UIRequest;
-import org.universAAL.middleware.ui.UIResponse;
 import org.universAAL.ri.gateway.communicator.service.GatewayCommunicator;
 import org.universAAL.ri.gateway.eimanager.ExportExecutor;
 import org.universAAL.ri.gateway.eimanager.ExportManager;
 import org.universAAL.ri.gateway.eimanager.ExportPremise;
-import org.universAAL.ri.gateway.eimanager.ImportPremise;
 import org.universAAL.ri.gateway.eimanager.impl.exporting.ExportProcessExecutor;
 import org.universAAL.ri.gateway.eimanager.impl.exporting.ExportedProxyManager;
 import org.universAAL.ri.gateway.eimanager.impl.exporting.InternalExportOperation;
 import org.universAAL.ri.gateway.eimanager.impl.exporting.ProxyRegistration;
 import org.universAAL.ri.gateway.eimanager.impl.importing.ImportRequest;
-import org.universAAL.ri.gateway.eimanager.impl.registry.RepoOperation;
 
 public class ExportManagerImpl implements ExportManager, ExportExecutor{
     

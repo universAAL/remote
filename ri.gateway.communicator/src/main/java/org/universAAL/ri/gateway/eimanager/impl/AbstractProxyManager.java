@@ -4,8 +4,6 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.universAAL.ri.gateway.eimanager.impl.registry.IRegistryListener;
-
 public abstract class AbstractProxyManager implements ProxyManager{
     
     protected Map<String, ProxyBusMember> proxiedBusMembers;

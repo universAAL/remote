@@ -12,7 +12,6 @@ import java.util.Properties;
 import java.util.Set;
 
 import org.osgi.framework.BundleContext;
-import org.osgi.framework.ServiceReference;
 import org.universAAL.middleware.container.osgi.util.BundleConfigHome;
 import org.universAAL.ri.gateway.communicator.Activator;
 import org.universAAL.ri.gateway.communicator.service.GatewayCommunicator;

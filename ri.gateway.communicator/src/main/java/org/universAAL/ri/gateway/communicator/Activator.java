@@ -6,7 +6,6 @@ import org.universAAL.middleware.container.ModuleContext;
 import org.universAAL.middleware.container.osgi.uAALBundleContainer;
 import org.universAAL.middleware.tracker.IBusMemberRegistry;
 import org.universAAL.middleware.tracker.IBusMemberRegistryListener;
-import org.universAAL.ri.gateway.communicator.service.RemoteSpacesManager;
 import org.universAAL.ri.gateway.communicator.service.impl.CommunicatorStarter;
 import org.universAAL.ri.gateway.eimanager.ExportOperationInterceptor;
 import org.universAAL.ri.gateway.eimanager.ImportOperationInterceptor;

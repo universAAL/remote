@@ -14,14 +14,13 @@ import org.universAAL.middleware.context.ContextEventPattern;
 import org.universAAL.middleware.service.ServiceBus;
 import org.universAAL.middleware.service.ServiceBusFacade;
 import org.universAAL.middleware.service.ServiceCall;
-import org.universAAL.middleware.service.ServiceRequest;
 import org.universAAL.middleware.service.ServiceResponse;
 import org.universAAL.middleware.service.owls.profile.ServiceProfile;
 import org.universAAL.middleware.bus.member.BusMember;
 import org.universAAL.middleware.tracker.IBusMemberRegistry;
 import org.universAAL.middleware.tracker.IBusMemberRegistryListener;
 import org.universAAL.middleware.tracker.IBusMemberRegistry.BusType;
-import org.universAAL.middleware.ui.UIBus;
+import org.universAAL.middleware.ui.IUIBus;
 import org.universAAL.middleware.ui.UIBusFacade;
 import org.universAAL.middleware.ui.UIHandlerProfile;
 import org.universAAL.middleware.ui.UIRequest;
@@ -43,7 +42,7 @@ public class ExportedProxyManager extends AbstractProxyManager implements
 	private GatewayCommunicator communicator;
 	private ServiceBus serviceBus;
 	private ContextBus contextBus;
-	private UIBus uiBus;
+	private IUIBus uiBus;
 
 	public ExportedProxyManager(final GatewayCommunicator communicator) {
 		super();

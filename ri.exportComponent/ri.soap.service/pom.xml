@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 
-	<name>SOAP Service</name>
+	<name>universAAL Remote Interoperability SOAP Service</name>
 
 	<build>
 		<plugins>

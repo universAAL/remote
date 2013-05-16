@@ -1,5 +1,9 @@
 pom-1.0.1-SNAPSHOT/*.project
 pom-1.0.1-SNAPSHOT/*.settings
+ri.cxf.server-1.3.2-SNAPSHOT/.classpath
+ri.cxf.server-1.3.2-SNAPSHOT/.project
+ri.cxf.server-1.3.2-SNAPSHOT/.settings
+ri.cxf.server-1.3.2-SNAPSHOT/target
 ri.cxf.service-1.3.2-SNAPSHOT/.classpath
 ri.cxf.service-1.3.2-SNAPSHOT/.project
 ri.cxf.service-1.3.2-SNAPSHOT/.settings

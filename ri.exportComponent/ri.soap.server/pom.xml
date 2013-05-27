@@ -30,8 +30,6 @@
     <dependency>
       <groupId>org.universAAL.remote</groupId>
       <artifactId>ri.cxf.service</artifactId>
-      <version>1.3.2-SNAPSHOT</version>
-      <type>bundle</type>
     </dependency>
   </dependencies>
   <build>

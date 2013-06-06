@@ -240,7 +240,6 @@ ri.servicegateway/ASL2.0.txt -text
 ri.servicegateway/LICENSE-CPL-JUnit -text
 ri.servicegateway/LICENSE-JGCL -text
 ri.servicegateway/LICENSE-MIT11-httpunit -text
-ri.servicegateway/MITX.txt -text
 ri.servicegateway/NOTICE -text
 ri.servicegateway/artifact_manual.composite -text
 ri.servicegateway/old[!!-~]test/LoginServletTest.java -text

@@ -112,6 +112,9 @@ ri.exportComponent/ri.soap.service/NOTICE.txt -text
 ri.exportComponent/ri.soap.service/pom.xml -text
 ri.exportComponent/ri.soap.service/src/main/java/org/universAAL/ri/soap/cxf/service/Activator.java -text
 ri.exportComponent/ri.soap.service/src/main/java/org/universAAL/ri/soap/cxf/service/ServiceInterface.java -text
+ri.gateway.communicator/ASL2.0.txt -text
+ri.gateway.communicator/MITX.txt -text
+ri.gateway.communicator/NOTICE.txt -text
 ri.gateway.communicator/pom.xml -text
 ri.gateway.communicator/ri.gateway.communicator.properties -text
 ri.gateway.communicator/src/main/java/org/universAAL/ri/gateway/communicator/Activator.java -text

@@ -241,7 +241,6 @@ ri.profile.agent/src/main/java/org/universAAL/rinterop/profile/ws/SoapExportServ
 ri.profile.agent/src/main/java/org/universAAL/rinterop/profile/ws/UniversAALExecutor.java -text
 ri.servicegateway/ASL2.0.txt -text
 ri.servicegateway/LICENSE-CPL-JUnit -text
-ri.servicegateway/LICENSE-JGCL -text
 ri.servicegateway/LICENSE-MIT11-httpunit -text
 ri.servicegateway/NOTICE -text
 ri.servicegateway/artifact_manual.composite -text

@@ -418,25 +418,25 @@ public class Base64 {
      * delete this method (in fact you probably should) if you're embedding this
      * code into a larger program.</strong>
      */
-    public final static void main(String[] args) {
-	if (args.length < 3) {
-	    usage("Not enough arguments.");
-	} // end if: args.length < 3
-	else {
-	    String flag = args[0];
-	    String infile = args[1];
-	    String outfile = args[2];
-	    if (flag.equals("-e")) {
-		Base64.encodeFileToFile(infile, outfile);
-	    } // end if: encode
-	    else if (flag.equals("-d")) {
-		Base64.decodeFileToFile(infile, outfile);
-	    } // end else if: decode
-	    else {
-		usage("Unknown flag: " + flag);
-	    } // end else
-	} // end else
-    } // end main
+//    public final static void main(String[] args) {
+//	if (args.length < 3) {
+//	    usage("Not enough arguments.");
+//	} // end if: args.length < 3
+//	else {
+//	    String flag = args[0];
+//	    String infile = args[1];
+//	    String outfile = args[2];
+//	    if (flag.equals("-e")) {
+//		Base64.encodeFileToFile(infile, outfile);
+//	    } // end if: encode
+//	    else if (flag.equals("-d")) {
+//		Base64.decodeFileToFile(infile, outfile);
+//	    } // end else if: decode
+//	    else {
+//		usage("Unknown flag: " + flag);
+//	    } // end else
+//	} // end else
+//    } // end main
 
     /**
      * Prints command line usage.

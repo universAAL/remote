@@ -18,4 +18,3 @@ Licensed under Apache License 2.0
 
 III. License Summary
 - Apache License 2.0
-- MIT License

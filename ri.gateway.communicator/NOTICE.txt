@@ -27,10 +27,6 @@ The OSGi Alliance (http://www.osgi.org/).
 Copyright 2006-2008 The OSGi Alliance.
 Licensed under the Apache License 2.0.
 
-This product uses software developed at
-BouncyCastle (http://www.bouncycastle.org)
-Licensed under the MIT license.
 
 III. License Summary
 - Apache License 2.0
-- MIT License

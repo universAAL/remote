@@ -1697,9 +1697,6 @@ public class Axis1ParserWrapper {
 		return null;
 	}
 
-	public static void main(String[] args) {
-		// parseWSDLwithAxis1("http://160.40.50.84/superMarketWS/MySMarketWS.asmx?wsdl");
-		parseWSDLwithAxis1("http://www.verona.miz.it/mpk4/server?wsdl");
 
-	}
+
 }

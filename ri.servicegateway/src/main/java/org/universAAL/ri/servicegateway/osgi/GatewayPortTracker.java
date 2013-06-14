@@ -17,7 +17,7 @@
 	See the License for the specific language governing permissions and
 	limitations under the License.
  */
-package org.universAAL.ri.servicegateway;
+package org.universAAL.ri.servicegateway.osgi;
 
 import java.io.IOException;
 import java.net.URL;
@@ -40,6 +40,7 @@ import org.osgi.util.tracker.ServiceTrackerCustomizer;
 
 import org.universAAL.middleware.container.ModuleContext;
 import org.universAAL.middleware.container.utils.LogUtils;
+import org.universAAL.ri.servicegateway.GatewayPort;
 
 public class GatewayPortTracker extends ServiceTracker implements Runnable {
 

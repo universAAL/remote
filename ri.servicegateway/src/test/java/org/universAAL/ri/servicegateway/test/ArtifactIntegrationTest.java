@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.easymock.EasyMock;
 import org.universAAL.itests.IntegrationTest;
 import org.universAAL.middleware.container.utils.LogUtils;
-import org.universAAL.ri.servicegateway.Activator;
+import org.universAAL.ri.servicegateway.osgi.Activator;
 
 /**
  * 

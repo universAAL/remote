@@ -17,8 +17,8 @@
     <module>../ri.servicegateway</module>
     <module>../ri.internetgateway</module>
     <module>../ri.gateway.communicator</module>
-    <module>../ri.exportComponent/ri.soap.server</module>
-    <module>../ri.exportComponent/ri.soap.service</module>
+    <module>../ri.exportComponent/ri.soap.cxf.server</module>
+    <module>../ri.exportComponent/ri.soap.cxf.service</module>
 	<module>../ri.profile.agent</module>
 	<module>../ri.cxf-dosgi-ri-singlebundle-distribution</module>
   </modules>

@@ -8,7 +8,7 @@
     <version>1.3.3-SNAPSHOT</version>
     <relativePath>../../ri.pom</relativePath>
   </parent>
-  <artifactId>ri.cxf.server</artifactId>
+  <artifactId>ri.soap.cxf.server</artifactId>
   <version>1.3.3-SNAPSHOT</version>
   <packaging>bundle</packaging>
   <name>universAAL Remote Interoperability SOAP Server</name>

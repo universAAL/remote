@@ -1,0 +1,4 @@
+scan-bundle:mvn:org.eclipse.osgi/org.eclipse.osgi/3.6.0.v20100517
+scan-bundle:wrap:mvn:javax.servlet/servlet-api/2.5
+scan-bundle:wrap:mvn:org.apache.felix/org.osgi.foundation/1.2.0
+scan-bundle:mvn:org.eclipse.osgi/org.eclipse.osgi.services/3.2.100.v20100503

@@ -29,7 +29,7 @@
     </dependency>
     <dependency>
       <groupId>org.universAAL.remote</groupId>
-      <artifactId>ri.cxf.service</artifactId>
+      <artifactId>ri.soap.cxf.service</artifactId>
     </dependency>
   </dependencies>
   <build>

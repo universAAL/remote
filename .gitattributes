@@ -102,13 +102,11 @@ ri.cxf-dosgi-ri-singlebundle-distribution/src/main/java/org/apache/cxf/dosgi/sin
 ri.exportComponent/ri.soap.cxf.server/ASL2.0.txt -text
 ri.exportComponent/ri.soap.cxf.server/NOTICE.txt -text
 ri.exportComponent/ri.soap.cxf.server/pom.xml -text
-ri.exportComponent/ri.soap.cxf.server/src/main/java/org/universAAL/ri/soap/cxf/server/Activator.java -text
 ri.exportComponent/ri.soap.cxf.server/src/main/java/org/universAAL/ri/soap/cxf/server/ServiceImpl.java -text
 ri.exportComponent/ri.soap.cxf.server/src/main/java/org/universAAL/ri/soap/cxf/server/osgi/Activator.java -text
 ri.exportComponent/ri.soap.cxf.service/ASL2.0.txt -text
 ri.exportComponent/ri.soap.cxf.service/NOTICE.txt -text
 ri.exportComponent/ri.soap.cxf.service/pom.xml -text
-ri.exportComponent/ri.soap.cxf.service/src/main/java/org/universAAL/ri/soap/cxf/service/Activator.java -text
 ri.exportComponent/ri.soap.cxf.service/src/main/java/org/universAAL/ri/soap/cxf/service/ServiceInterface.java -text
 ri.exportComponent/ri.soap.cxf.service/src/main/java/org/universAAL/ri/soap/cxf/service/osgi/Activator.java -text
 ri.gateway.communicator/ASL2.0.txt -text

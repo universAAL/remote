@@ -101,19 +101,16 @@ ri.cxf-dosgi-ri-singlebundle-distribution/src/main/java/org/apache/cxf/dosgi/sin
 ri.cxf-dosgi-ri-singlebundle-distribution/src/main/java/org/apache/cxf/dosgi/singlebundle/activators.list -text
 ri.exportComponent/ri.soap.server/ASL2.0.txt -text
 ri.exportComponent/ri.soap.server/LICENSE.txt -text
-ri.exportComponent/ri.soap.server/MITX.txt -text
 ri.exportComponent/ri.soap.server/NOTICE.txt -text
 ri.exportComponent/ri.soap.server/pom.xml -text
 ri.exportComponent/ri.soap.server/src/main/java/org/universAAL/ri/soap/cxf/server/Activator.java -text
 ri.exportComponent/ri.soap.server/src/main/java/org/universAAL/ri/soap/cxf/server/ServiceImpl.java -text
 ri.exportComponent/ri.soap.service/LICENSE.txt -text
-ri.exportComponent/ri.soap.service/MITX.txt -text
 ri.exportComponent/ri.soap.service/NOTICE.txt -text
 ri.exportComponent/ri.soap.service/pom.xml -text
 ri.exportComponent/ri.soap.service/src/main/java/org/universAAL/ri/soap/cxf/service/Activator.java -text
 ri.exportComponent/ri.soap.service/src/main/java/org/universAAL/ri/soap/cxf/service/ServiceInterface.java -text
 ri.gateway.communicator/ASL2.0.txt -text
-ri.gateway.communicator/MITX.txt -text
 ri.gateway.communicator/NOTICE.txt -text
 ri.gateway.communicator/pom.xml -text
 ri.gateway.communicator/ri.gateway.communicator.properties -text
@@ -183,7 +180,6 @@ ri.gateway.communicator/src/main/java/org/universAAL/ri/gateway/eimanager/impl/r
 ri.gateway.communicator/src/main/java/org/universAAL/ri/gateway/eimanager/impl/security/ExportSecurityOperationInterceptor.java -text
 ri.gateway.communicator/src/main/java/org/universAAL/ri/gateway/eimanager/impl/security/ImportSecurityOperationInterceptor.java -text
 ri.internetgateway/ASL2.0.txt -text
-ri.internetgateway/MITX.txt -text
 ri.internetgateway/NOTICE.txt -text
 ri.internetgateway/pom.xml -text
 ri.internetgateway/src/main/java/org/universAAL/ri/internetgateway/Activator.java -text

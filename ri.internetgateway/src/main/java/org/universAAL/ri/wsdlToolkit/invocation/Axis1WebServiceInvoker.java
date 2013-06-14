@@ -216,9 +216,8 @@ public class Axis1WebServiceInvoker {
 	//
 	// }
 
-	public static void main(String[] args) {
-		// invokeService1();
-	}
+
+
 
 	private static InvocationResult invokeSimpleRPCService(
 			WSOperation theParsedOperation, WSOperationInput operationInput) {

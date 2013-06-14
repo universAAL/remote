@@ -87,11 +87,12 @@
         <configuration>
           <instructions>
             <Bundle-Name>${project.name}</Bundle-Name>
-            <Bundle-Activator>org.universAAL.ri.servicegateway.Activator</Bundle-Activator>
+            <Bundle-Activator>org.universAAL.ri.servicegateway.osgi.Activator</Bundle-Activator>
             <Bundle-Description>${project.description}</Bundle-Description>
             <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
             <Export-Package>org.universAAL.ri.servicegateway,
-							org.universAAL.ri.servicegateway.impl</Export-Package>
+							org.universAAL.ri.servicegateway.impl,
+							org.universAAL.ri.servicegateway.osgi</Export-Package>
             <Include-Resource>src/main/resources</Include-Resource>
           </instructions>
         </configuration>

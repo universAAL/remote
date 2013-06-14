@@ -17,12 +17,13 @@
 	See the License for the specific language governing permissions and
 	limitations under the License.
  */
-package org.universAAL.ri.servicegateway;
+package org.universAAL.ri.servicegateway.osgi;
 
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 import org.universAAL.middleware.container.ModuleContext;
 import org.universAAL.middleware.container.osgi.uAALBundleContainer;
+import org.universAAL.ri.servicegateway.GatewayPort;
 
 /**
  * Main class for HTTP Services Gateway. It handles the registration of servlets

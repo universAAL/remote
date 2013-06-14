@@ -7,8 +7,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.universAAL.middleware.container.utils.LogUtils;
-import org.universAAL.ri.servicegateway.Activator;
 import org.universAAL.ri.servicegateway.GatewayPort;
+import org.universAAL.ri.servicegateway.osgi.Activator;
 
 /**
  * 

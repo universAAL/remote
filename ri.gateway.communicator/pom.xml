@@ -53,8 +53,7 @@
     </dependency>
     <dependency>
       <groupId>org.bouncycastle</groupId>
-      <artifactId>jce.jdk13</artifactId>
-      <version>144</version>
+      <artifactId>jce.jdk13</artifactId>     
     </dependency>
   </dependencies>
   <build>

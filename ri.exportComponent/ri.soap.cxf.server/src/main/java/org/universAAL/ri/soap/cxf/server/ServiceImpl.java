@@ -23,6 +23,7 @@ import org.universAAL.middleware.service.DefaultServiceCaller;
 import org.universAAL.middleware.service.ServiceCaller;
 import org.universAAL.middleware.service.ServiceResponse;
 import org.universAAL.middleware.serialization.MessageContentSerializer;
+import org.universAAL.ri.soap.cxf.server.osgi.Activator;
 import org.universAAL.ri.soap.cxf.service.ServiceInterface;
 
 public class ServiceImpl implements ServiceInterface {

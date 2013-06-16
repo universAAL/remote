@@ -2,6 +2,13 @@ ri.cxf-dosgi-ri-singlebundle-distribution/.classpath
 ri.cxf-dosgi-ri-singlebundle-distribution/.project
 ri.cxf-dosgi-ri-singlebundle-distribution/.settings
 ri.cxf-dosgi-ri-singlebundle-distribution/target
+ri.exportComponent/ri.soap.cxf.server/.project
+ri.exportComponent/ri.soap.cxf.server/.settings
+ri.exportComponent/ri.soap.cxf.server/target
+ri.exportComponent/ri.soap.cxf.service/.classpath
+ri.exportComponent/ri.soap.cxf.service/.project
+ri.exportComponent/ri.soap.cxf.service/.settings
+ri.exportComponent/ri.soap.cxf.service/target
 ri.gateway.communicator/.classpath
 ri.gateway.communicator/.project
 ri.gateway.communicator/.settings

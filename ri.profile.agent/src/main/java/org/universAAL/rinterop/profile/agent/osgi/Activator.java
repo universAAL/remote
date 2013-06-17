@@ -40,7 +40,7 @@ import org.osgi.service.http.HttpService;
 import org.universAAL.commerce.ustore.tools.OnlineStoreManager;
 import org.universAAL.middleware.container.ModuleContext;
 import org.universAAL.middleware.container.osgi.uAALBundleContainer;
-import org.universAAL.middleware.sodapop.msg.MessageContentSerializerEx;
+import org.universAAL.middleware.serialization.MessageContentSerializerEx;
 import org.universAAL.ontology.profile.AALSpaceProfile;
 import org.universAAL.ontology.profile.UserProfile;
 import org.universAAL.rinterop.profile.agent.ProfileCHEProvider;

@@ -1,2 +1,15 @@
 * text=auto !eol
 ri.pom/pom.xml -text
+ri.servicegateway/ASL2.0.txt -text
+ri.servicegateway/LICENSE-CPL-JUnit -text
+ri.servicegateway/LICENSE-MIT11-httpunit -text
+ri.servicegateway/NOTICE.txt -text
+ri.servicegateway/artifact_manual.composite -text
+ri.servicegateway/old[!!-~]test/LoginServletTest.java -text
+ri.servicegateway/pom.xml -text
+ri.servicegateway/src/main/java/org/universAAL/ri/servicegateway/GatewayPort.java -text
+ri.servicegateway/src/main/java/org/universAAL/ri/servicegateway/impl/Base64.java -text
+ri.servicegateway/src/main/java/org/universAAL/ri/servicegateway/osgi/Activator.java -text
+ri.servicegateway/src/main/java/org/universAAL/ri/servicegateway/osgi/GatewayPortTracker.java -text
+ri.servicegateway/src/test/java/org/universAAL/ri/servicegateway/test/ArtifactIntegrationTest.java -text
+ri.servicegateway/src/test/java/org/universAAL/ri/servicegateway/test/GatewayPortTestImpl.java -text

@@ -1,3 +1,7 @@
+ri.exportComponent/ri.soap.cxf.service/.classpath
+ri.exportComponent/ri.soap.cxf.service/.project
+ri.exportComponent/ri.soap.cxf.service/.settings
+ri.exportComponent/ri.soap.cxf.service/target
 ri.gateway.communicator/.classpath
 ri.gateway.communicator/.project
 ri.gateway.communicator/.settings

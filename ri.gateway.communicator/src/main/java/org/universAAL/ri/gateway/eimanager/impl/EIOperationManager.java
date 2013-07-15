@@ -87,12 +87,14 @@ public enum EIOperationManager implements SharedObjectListener{
 	}
 
 	public void sharedObjectRemoved(Object removeHook) {
-		ServiceReference ref = (ServiceReference)removeHook;
-		Object removedService = Activator.bc.getService(ref);
-		if (removedService instanceof ImportOperationInterceptor){
-			importList.add((ImportOperationInterceptor) removedService);
-		}else if (removedService instanceof ExportOperationInterceptor){
-			exportList.add((ExportOperationInterceptor) removedService);
+		if (removeHook instanceof ServiceReference){
+			ServiceReference ref = (ServiceReference)removeHook;
+			Object removedService = Activator.bc.getService(ref);
+			if (removedService instanceof ImportOperationInterceptor){
+				importList.add((ImportOperationInterceptor) removedService);
+			}else if (removedService instanceof ExportOperationInterceptor){
+				exportList.add((ExportOperationInterceptor) removedService);
+			}
 		}
 	}
 }

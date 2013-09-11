@@ -3,7 +3,6 @@ ri.gateway.communicator/ASL2.0.txt -text
 ri.gateway.communicator/NOTICE.txt -text
 ri.gateway.communicator/pom.xml -text
 ri.gateway.communicator/ri.gateway.communicator.properties -text
-ri.gateway.communicator/src/main/java/org/universAAL/ri/gateway/communicator/Activator.java -text
 ri.gateway.communicator/src/main/java/org/universAAL/ri/gateway/communicator/service/CommunicationException.java -text
 ri.gateway.communicator/src/main/java/org/universAAL/ri/gateway/communicator/service/CommunicationHandler.java -text
 ri.gateway.communicator/src/main/java/org/universAAL/ri/gateway/communicator/service/GatewayCommunicator.java -text

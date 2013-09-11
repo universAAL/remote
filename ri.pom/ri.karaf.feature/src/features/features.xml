@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<features name="universAAL-Ontologies" xmlns="http://karaf.apache.org/xmlns/features/v1.0.0">
+
+	<!-- Change version of repository accordingly -->
+	<repository>mvn:org.universAAL.middleware/mw.karaf.feature/2.0.1-SNAPSHOT/xml/features</repository>
+	<repository>mvn:org.universAAL.ontology/ont.karaf.feature/2.0.1-SNAPSHOT/xml/features</repository>
+	<repository>mvn:org.universAAL.sevurity/security.karaf.feature/2.0.1-SNAPSHOT/xml/features</repository>
+
+	<!-- sample feature -->
+<!--
+	<feature name="uAAL-Ont.PhWorld" description="The Physical World Ontolgy."
+		version="${pom.version}" resolver='(obr)'>
+		<feature>uAAL-MW</feature> 
+		<bundle>wrap:mvn:jp.go.ipa/jgcl/1.0</bundle>
+		<bundle start-level='90' start='true'>mvn:org.universAAL.ri/ont.phWorld/2.0.1-SNAPSHOT</bundle>
+	</feature>
+-->
+	
+	<feature name="uAAL-RI.Service.Gateway" description="The Physical World Ontolgy."
+		version="${pom.version}" resolver='(obr)'>
+		<feature>uAAL-Security.Authorizatior</feature>
+		<feature>http</feature> 
+		<bundle start-level='90'>wrap:mvn:cglib/cglib-nodep/2.2.2</bundle>
+		<bundle start-level='91' start='true'>mvn:org.objenesis/objenesis/1.2</bundle>
+		<bundle start-level='92' start='true'>mvn:org.easymock/easymock/3.1</bundle>
+		<bundle start-level='96' start='true'>mvn:org.universAAL.ri/ri.servicegateway/2.0.1-SNAPSHOT</bundle>
+	</feature>
+</features>

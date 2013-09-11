@@ -211,6 +211,10 @@ ri.internetgateway/src/main/java/org/universAAL/ri/wsdlToolkit/parser/StdOutErrL
 ri.internetgateway/src/main/java/org/universAAL/ri/wsdlToolkit/parser/WSDLParser.java -text
 ri.internetgateway/src/main/java/org/universAAL/ri/wsdlToolkit/parser/WSDL_XSD_SchemaToolkit.java -text
 ri.pom/pom.xml -text
+ri.pom/ri.karaf.feature/ASL2.0.txt -text
+ri.pom/ri.karaf.feature/NOTICE.txt -text
+ri.pom/ri.karaf.feature/pom.xml -text
+ri.pom/ri.karaf.feature/src/features/features.xml -text
 ri.profile.agent/pom.xml -text
 ri.profile.agent/src/main/java/org/universAAL/commerce/ustore/tools/GetFreeAALServices.java -text
 ri.profile.agent/src/main/java/org/universAAL/commerce/ustore/tools/GetFreeAALServicesResponse.java -text

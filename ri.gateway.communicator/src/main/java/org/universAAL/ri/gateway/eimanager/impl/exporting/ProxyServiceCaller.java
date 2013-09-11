@@ -33,7 +33,8 @@ import org.universAAL.middleware.service.ServiceCall;
 import org.universAAL.middleware.service.ServiceCallee;
 import org.universAAL.middleware.service.ServiceResponse;
 import org.universAAL.middleware.service.owls.profile.ServiceProfile;
-import org.universAAL.ri.gateway.communicator.Activator;
+//import org.universAAL.ri.gateway.communicator.Activator;
+import org.universAAL.ri.gateway.communicator.service.impl.CommunicatorStarter;
 import org.universAAL.ri.gateway.eimanager.impl.ProxyBusMember;
 
 public class ProxyServiceCaller extends ProxyBusMember {
@@ -53,7 +54,8 @@ public class ProxyServiceCaller extends ProxyBusMember {
 		this.serverNamespace = serverNamespace;
 		this.serviceType = serviceType;
 		this.profiles = profiles;
-		bus = ServiceBusFacade.fetchBus(Activator.mc);
+//		bus = ServiceBusFacade.fetchBus(Activator.mc);
+		bus = ServiceBusFacade.fetchBus(CommunicatorStarter.mc);
 	}
 
 	public ServiceResponse invoke(final ServiceCall call, final String memberId) {

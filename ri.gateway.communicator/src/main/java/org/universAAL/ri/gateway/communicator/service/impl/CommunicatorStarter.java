@@ -20,10 +20,10 @@ limitations under the License.
 */
 package org.universAAL.ri.gateway.communicator.service.impl;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+//import java.io.File;
+//import java.io.FileInputStream;
+//import java.io.FileNotFoundException;
+//import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -31,9 +31,10 @@ import java.util.List;
 import java.util.Properties;
 import java.util.Set;
 
-import org.osgi.framework.BundleContext;
-import org.universAAL.middleware.container.osgi.util.BundleConfigHome;
-import org.universAAL.ri.gateway.communicator.Activator;
+//import org.osgi.framework.BundleContext;
+//import org.universAAL.middleware.container.osgi.util.BundleConfigHome;
+//import org.universAAL.ri.gateway.communicator.Activator;
+import org.universAAL.middleware.container.ModuleContext;
 import org.universAAL.ri.gateway.communicator.service.GatewayCommunicator;
 import org.universAAL.ri.gateway.eimanager.ExportManager;
 import org.universAAL.ri.gateway.eimanager.ImportManager;
@@ -58,7 +59,7 @@ public class CommunicatorStarter {
 	/**
 	 * context of a related bundle.
 	 */
-	private BundleContext context;
+//	public static BundleContext context;
 
 	private GatewayCommunicatorImpl communicator;
 
@@ -71,6 +72,8 @@ public class CommunicatorStarter {
 	 */
 	private final String alias;
 
+	public static ModuleContext mc;
+
 	public static Properties properties;
 
 	/**
@@ -78,18 +81,21 @@ public class CommunicatorStarter {
 	 * 
 	 * @param id
 	 *            ID
+	 * @param fileProperties 
 	 * @throws Exception
 	 * @throws RuntimeException
 	 */
-	public CommunicatorStarter(final BundleContext context, final String id)
+	public CommunicatorStarter(/*BundleContext ctxt,*/ ModuleContext mctxt, final String id, Properties fileProperties)
 			throws Exception {
 
-		loadConfiguration();
+//		loadConfiguration();
+	    properties=fileProperties;
 		loadSecurityConfiguration();
 
 		final List<GatewayAddress> remoteAddresses = extractRemoteGateways();
 
-		this.context = context;
+//		context = ctxt;
+		mc=mctxt;
 		this.id = id;
 		this.alias = createAlias(id);
 
@@ -103,13 +109,14 @@ public class CommunicatorStarter {
 
 	/**
 	 * Starts the worker with default ID: "".
+	 * @param fileProperties 
 	 * 
 	 * @param manager
 	 *            a ImportExportManager reference
 	 * @throws Exception
 	 */
-	public CommunicatorStarter(final BundleContext context) throws Exception {
-		this(context, null);
+	public CommunicatorStarter(/*final BundleContext context,  */ModuleContext mcontext, Properties fileProperties) throws Exception {
+		this(/*context, */mcontext, null, fileProperties);
 	}
 
 	/**
@@ -158,31 +165,31 @@ public class CommunicatorStarter {
 		this.communicator.start();
 	}
 
-	private void loadConfiguration() {
-		try {
-			properties = new Properties();
-			File confHome = new File(new BundleConfigHome(Activator.bc
-					.getBundle().getSymbolicName()).getAbsolutePath());
-			String dataDir = confHome.getPath();
-			String separator = System.getProperty("file.separator");
-
-			File dataDirFile = new File(dataDir);
-			if (!dataDirFile.exists()) {
-				dataDirFile.mkdirs();
-			}
-
-			properties
-					.load(new FileInputStream(new File(confHome + separator,
-							Activator.bc.getBundle().getSymbolicName()
-									+ ".properties")));
-
-		} catch (FileNotFoundException e) {
-			System.out.println(e.toString() + "\t" + e.getMessage());
-			throw new RuntimeException("Configuration file not found");
-		} catch (IOException e) {
-			throw new RuntimeException("Error reading configuration file");
-		}
-	}
+//	private void loadConfiguration() {
+//		try {
+//			properties = new Properties();
+//			File confHome = new File(new BundleConfigHome(Activator.bc
+//					.getBundle().getSymbolicName()).getAbsolutePath());
+//			String dataDir = confHome.getPath();
+//			String separator = System.getProperty("file.separator");
+//
+//			File dataDirFile = new File(dataDir);
+//			if (!dataDirFile.exists()) {
+//				dataDirFile.mkdirs();
+//			}
+//
+//			properties
+//					.load(new FileInputStream(new File(confHome + separator,
+//							Activator.bc.getBundle().getSymbolicName()
+//									+ ".properties")));
+//
+//		} catch (FileNotFoundException e) {
+//			System.out.println(e.toString() + "\t" + e.getMessage());
+//			throw new RuntimeException("Configuration file not found");
+//		} catch (IOException e) {
+//			throw new RuntimeException("Error reading configuration file");
+//		}
+//	}
 
 	private void loadSecurityConfiguration() {
 		try {

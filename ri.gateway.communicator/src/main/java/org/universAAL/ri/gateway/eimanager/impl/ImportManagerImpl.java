@@ -36,10 +36,11 @@ import org.universAAL.middleware.context.owl.ContextProviderType;
 import org.universAAL.middleware.service.owls.profile.ServiceProfile;
 import org.universAAL.middleware.bus.member.BusMember;
 import org.universAAL.middleware.ui.UIResponse;
-import org.universAAL.ri.gateway.communicator.Activator;
+//import org.universAAL.ri.gateway.communicator.Activator;
 import org.universAAL.ri.gateway.communicator.service.GatewayCommunicator;
 import org.universAAL.ri.gateway.communicator.service.Message;
 import org.universAAL.ri.gateway.communicator.service.RemoteSpacesManager;
+import org.universAAL.ri.gateway.communicator.service.impl.CommunicatorStarter;
 import org.universAAL.ri.gateway.communicator.service.impl.Serializer;
 import org.universAAL.ri.gateway.eimanager.ImportEntry;
 import org.universAAL.ri.gateway.eimanager.ImportExecutor;
@@ -82,7 +83,7 @@ public class ImportManagerImpl implements ImportManager, ImportExecutor,
 
 	EIRepoAccessManager.Instance.addListener(this);
 
-	Activator.mc.getContainer().shareObject(Activator.mc, this,
+	CommunicatorStarter.mc.getContainer().shareObject(CommunicatorStarter.mc, this,
 		new Object[] { RemoteSpacesManager.class.getName() });
     }
 
@@ -220,7 +221,7 @@ public class ImportManagerImpl implements ImportManager, ImportExecutor,
 		for(String serializedP : serializedProfilesMap.get(key)){
 			profilesMap.get(key).add( Serializer.Instance.unmarshallObject(
 		    ServiceProfile.class, serializedP,
-		    Activator.class.getClassLoader()));
+		    CommunicatorStarter.class.getClassLoader()));
 		}
 	}
 	/*
@@ -291,7 +292,7 @@ public class ImportManagerImpl implements ImportManager, ImportExecutor,
 	    System.out.println(serializedCEP[i]);
 	    patterns[i] = Serializer.Instance.unmarshallObject(
 		    ContextEventPattern.class, serializedCEP[i],
-		    Activator.class.getClassLoader());
+		    CommunicatorStarter.class.getClassLoader());
 	}
 
 	ContextProvider info = new ContextProvider(ContextProvider.MY_URI);

@@ -45,9 +45,10 @@ import org.universAAL.middleware.ui.UIBusFacade;
 import org.universAAL.middleware.ui.UIHandlerProfile;
 import org.universAAL.middleware.ui.UIRequest;
 import org.universAAL.middleware.ui.UIResponse;
-import org.universAAL.ri.gateway.communicator.Activator;
+//import org.universAAL.ri.gateway.communicator.Activator;
 import org.universAAL.ri.gateway.communicator.service.GatewayCommunicator;
 import org.universAAL.ri.gateway.communicator.service.Message;
+import org.universAAL.ri.gateway.communicator.service.impl.CommunicatorStarter;
 import org.universAAL.ri.gateway.communicator.service.impl.Serializer;
 import org.universAAL.ri.gateway.eimanager.impl.AbstractProxyManager;
 import org.universAAL.ri.gateway.eimanager.impl.BusMemberType;
@@ -68,12 +69,12 @@ public class ExportedProxyManager extends AbstractProxyManager implements
 		super();
 		generatedProxies = new HashMap<String, ProxyBusMember>();
 		this.communicator = communicator;
-		serviceBus = ServiceBusFacade.fetchBus(Activator.mc);
-		contextBus = ContextBusFacade.fetchBus(Activator.mc);
-		uiBus = UIBusFacade.fetchBus(Activator.mc);
+		serviceBus = ServiceBusFacade.fetchBus(CommunicatorStarter.mc);
+		contextBus = ContextBusFacade.fetchBus(CommunicatorStarter.mc);
+		uiBus = UIBusFacade.fetchBus(CommunicatorStarter.mc);
 
-		IBusMemberRegistry registry = (IBusMemberRegistry) Activator.mc
-				.getContainer().fetchSharedObject(Activator.mc,
+		IBusMemberRegistry registry = (IBusMemberRegistry) CommunicatorStarter.mc
+				.getContainer().fetchSharedObject(CommunicatorStarter.mc,
 						IBusMemberRegistry.busRegistryShareParams);
 		registry.addBusRegistryListener(this, false);
 	}
@@ -116,7 +117,7 @@ public class ExportedProxyManager extends AbstractProxyManager implements
 			Map<String,List<ServiceProfile>> profilesMap = (Map<String,List<ServiceProfile>>)serviceBus.getMatchingServices(importRequest.getServiceType());
 
 			member = new ProxyServiceCaller(this, importRequest.getId(),
-					Activator.mc, importRequest.getServerNamespace(),
+				CommunicatorStarter.mc, importRequest.getServerNamespace(),
 					importRequest.getServiceType(), profilesMap);
 			
 //			ServiceProfile[] profilesArray = profilesMap.values().toArray(new ServiceProfile[0]);
@@ -133,7 +134,7 @@ public class ExportedProxyManager extends AbstractProxyManager implements
 						ContextEventPattern.class, serializedCpe[i], Thread
 								.currentThread().getContextClassLoader());
 			}
-			member = new ProxyContextSubscriber(this, Activator.mc, cpe);
+			member = new ProxyContextSubscriber(this, CommunicatorStarter.mc, cpe);
 
 			//ContextEventPattern[] matchedEvents = contextBus
 			//		.getAllProvisions(member.getId());
@@ -144,7 +145,7 @@ public class ExportedProxyManager extends AbstractProxyManager implements
 			UIHandlerProfile[] uiProfiles = uiBus.getMatchingProfiles(importRequest.getModalityRegex());
 
 			member = new ProxyUICaller(this, importRequest.getId(),
-					Activator.mc, importRequest.getModalityRegex(), uiProfiles);
+				CommunicatorStarter.mc, importRequest.getModalityRegex(), uiProfiles);
 
 			proxyRegistration = new ProxyRegistration(member.getId(),
 					uiProfiles);

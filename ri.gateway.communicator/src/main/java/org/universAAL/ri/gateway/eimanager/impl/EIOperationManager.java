@@ -24,9 +24,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.osgi.framework.ServiceReference;
+//import org.osgi.framework.ServiceReference;
 import org.universAAL.middleware.container.SharedObjectListener;
-import org.universAAL.ri.gateway.communicator.Activator;
+//import org.universAAL.ri.gateway.communicator.Activator;
 import org.universAAL.ri.gateway.eimanager.ExportOperationInterceptor;
 import org.universAAL.ri.gateway.eimanager.ImportOperationInterceptor;
 import org.universAAL.ri.gateway.eimanager.exception.InterruptExecutionException;
@@ -48,15 +48,15 @@ public enum EIOperationManager implements SharedObjectListener{
 		exportList = new ArrayList<ExportOperationInterceptor>();
 	}
 	
-	public void init(){
-			Activator.mc.getContainer()
-					.fetchSharedObject(Activator.mc ,
-						new Object[] { ImportOperationInterceptor.class.getName() }, this);
-
-			Activator.mc.getContainer()
-					.fetchSharedObject(Activator.mc ,
-						new Object[] { ExportOperationInterceptor.class.getName() }, this);
-	}
+//	public void init(){
+//			Activator.mc.getContainer()
+//					.fetchSharedObject(Activator.mc ,
+//						new Object[] { ImportOperationInterceptor.class.getName() }, this);
+//
+//			Activator.mc.getContainer()
+//					.fetchSharedObject(Activator.mc ,
+//						new Object[] { ExportOperationInterceptor.class.getName() }, this);
+//	}
 	
 	public void executeExportOperationChain(ImportRequest request, Type type) throws InterruptExecutionException{
 		List<ExportOperationInterceptor> interceptors = exportList;
@@ -87,14 +87,16 @@ public enum EIOperationManager implements SharedObjectListener{
 	}
 
 	public void sharedObjectRemoved(Object removeHook) {
-		if (removeHook instanceof ServiceReference){
-			ServiceReference ref = (ServiceReference)removeHook;
-			Object removedService = Activator.bc.getService(ref);
-			if (removedService instanceof ImportOperationInterceptor){
-				importList.add((ImportOperationInterceptor) removedService);
-			}else if (removedService instanceof ExportOperationInterceptor){
-				exportList.add((ExportOperationInterceptor) removedService);
-			}
-		}
+	    //TODO
+//		if (removeHook instanceof ServiceReference){
+//			ServiceReference ref = (ServiceReference)removeHook;
+////			Object removedService = Activator.bc.getService(ref);
+//			Object removedService = CommunicatorStarter.context.getService(ref);
+//			if (removedService instanceof ImportOperationInterceptor){
+//				importList.add((ImportOperationInterceptor) removedService);
+//			}else if (removedService instanceof ExportOperationInterceptor){
+//				exportList.add((ExportOperationInterceptor) removedService);
+//			}
+//		}
 	}
 }

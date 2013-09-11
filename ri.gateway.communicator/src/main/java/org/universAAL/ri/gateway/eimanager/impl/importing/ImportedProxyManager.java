@@ -34,9 +34,10 @@ import org.universAAL.middleware.service.owls.profile.ServiceProfile;
 import org.universAAL.middleware.ui.UIHandlerProfile;
 import org.universAAL.middleware.ui.UIRequest;
 import org.universAAL.middleware.ui.UIResponse;
-import org.universAAL.ri.gateway.communicator.Activator;
+//import org.universAAL.ri.gateway.communicator.Activator;
 import org.universAAL.ri.gateway.communicator.service.GatewayCommunicator;
 import org.universAAL.ri.gateway.communicator.service.Message;
+import org.universAAL.ri.gateway.communicator.service.impl.CommunicatorStarter;
 import org.universAAL.ri.gateway.communicator.service.impl.Serializer;
 import org.universAAL.ri.gateway.eimanager.impl.AbstractProxyManager;
 import org.universAAL.ri.gateway.eimanager.impl.ProxyBusMember;
@@ -76,8 +77,10 @@ public class ImportedProxyManager extends AbstractProxyManager {
 						remoteBusMembersImportedProfiles.put(key, new ArrayList<ServiceProfile>());
 					}
 
+//					proxy = new ProxyServiceCallee(new ServiceProfile[] { p },
+//							this, op.getRemoteRegisteredProxyId(), key, Activator.mc);
 					proxy = new ProxyServiceCallee(new ServiceProfile[] { p },
-							this, op.getRemoteRegisteredProxyId(), key, Activator.mc);
+						this, op.getRemoteRegisteredProxyId(), key, CommunicatorStarter.mc);
 
 					generatedProxies.get(op.getRemoteRegisteredProxyId()).add(
 							proxy);
@@ -90,13 +93,13 @@ public class ImportedProxyManager extends AbstractProxyManager {
 			proxy = new ProxyContextPublisher(
 					(ContextSubscriber) op.getBusMember(),
 					op.getContextProvider(), this,
-					op.getRemoteRegisteredProxyId(), Activator.mc);
+					op.getRemoteRegisteredProxyId(), CommunicatorStarter.mc);
 			generatedProxies.get(op.getRemoteRegisteredProxyId()).add(proxy);
 			break;
 		case UICaller:
 			UIHandlerProfile[] profiles = op.getUiHandlerProfiles();
 			proxy = new ProxyUIHandler(profiles, this,
-					op.getRemoteRegisteredProxyId(), Activator.mc);
+					op.getRemoteRegisteredProxyId(), CommunicatorStarter.mc);
 			generatedProxies.get(op.getRemoteRegisteredProxyId()).add(proxy);
 			break;
 		}
@@ -184,7 +187,7 @@ public class ImportedProxyManager extends AbstractProxyManager {
 				profilesMap.get(key).add(
 						Serializer.Instance.unmarshallObject(
 								ServiceProfile.class, serializedP,
-								Activator.class.getClassLoader()));
+								CommunicatorStarter.class.getClassLoader()));
 			}
 		}
 
@@ -197,7 +200,7 @@ public class ImportedProxyManager extends AbstractProxyManager {
 				}
 
 				proxy = new ProxyServiceCallee(new ServiceProfile[] { p },
-						this, proxyRegistration.getId(),key, Activator.mc);
+						this, proxyRegistration.getId(),key, CommunicatorStarter.mc);
 				if (generatedProxies.get(proxyRegistration.getId()) == null){
 					generatedProxies.put(proxyRegistration.getId(), new ArrayList<ProxyBusMember>());
 				}

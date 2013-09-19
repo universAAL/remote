@@ -22,20 +22,35 @@ package org.universAAL.ri.servicegateway;
 import java.util.Hashtable;
 import java.util.StringTokenizer;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.osgi.service.http.HttpService;
+import org.osgi.service.http.NamespaceException;
+
 import org.universAAL.middleware.container.ModuleContext;
+import org.universAAL.middleware.container.utils.LogUtils;
 import org.universAAL.ri.servicegateway.impl.Base64;
 import org.universAAL.ui.security.authorization.AuthorizatorImpl;
 
+/**
+ * Base class for HTTP servlets. To create a servlet, create a subclass and
+ * overwrite one of the methods
+ * {@link #doGet(HttpServletRequest, HttpServletResponse)} or
+ * {@link #doPost(HttpServletRequest, HttpServletResponse)}. Then set the module
+ * context and call {@link #register()}. When done, call {@link #unregister()}.
+ * 
+ * @author
+ * @author Carsten Stockloew
+ */
 public abstract class GatewayPort extends javax.servlet.http.HttpServlet {
     private static final long serialVersionUID = -513978908843447270L;
     // table that store user -> password pairs
     private Hashtable<String, String> userTable;
-    protected Hashtable<String, String> userURIs;// NEW stores user´s URIs for
+    protected Hashtable<String, String> userURIs;// NEW stores userï¿½s URIs for
 
-    private static ModuleContext mcontext;
+    private ModuleContext mcontext;
 
     // the realm is used for HTTP Authentication
     // public final static String REALM = "Help when outside";
@@ -47,6 +62,11 @@ public abstract class GatewayPort extends javax.servlet.http.HttpServlet {
     public GatewayPort() {
 	userTable = new Hashtable<String, String>();
 	userURIs = new Hashtable<String, String>();
+    }
+
+    public GatewayPort(ModuleContext mcontext) {
+	this();
+	this.mcontext = mcontext;
     }
 
     /**
@@ -118,7 +138,7 @@ public abstract class GatewayPort extends javax.servlet.http.HttpServlet {
 	if (userPass == null) {
 	    // if the authorization is missing, require again the credentials
 	    requireCredentials(req, resp);
-	    //return false;
+	    // return false;
 	} else {
 
 	    // first check if it is already authorized
@@ -127,12 +147,15 @@ public abstract class GatewayPort extends javax.servlet.http.HttpServlet {
 		return true;
 	    // no password already stored for the username
 	    if (tablePass == null) {
-		// check the credentials 
-		AuthorizatorImpl authorizator = new AuthorizatorImpl(getContext());
-		if (authorizator.isAuthorized(userPass[0], userPass[1]) == true)
-		{
+		// check the credentials
+		AuthorizatorImpl authorizator = new AuthorizatorImpl(
+			getContext());
+		if (authorizator.isAuthorized(userPass[0], userPass[1]) == true) {
 		    userTable.put(userPass[0], userPass[1]);
-		    userURIs.put(userPass[0], authorizator.getAllowedUserURI());// NEW also add the
+		    userURIs.put(userPass[0], authorizator.getAllowedUserURI());// NEW
+										// also
+										// add
+										// the
 		    // user URI
 		    // resp.sendRedirect(url());// removed for the web handler
 		    return true;
@@ -145,7 +168,7 @@ public abstract class GatewayPort extends javax.servlet.http.HttpServlet {
     }
 
     public void setContext(ModuleContext mcontext) {
-	GatewayPort.mcontext = mcontext;
+	this.mcontext = mcontext;
     }
 
     public ModuleContext getContext() {
@@ -169,8 +192,8 @@ public abstract class GatewayPort extends javax.servlet.http.HttpServlet {
      * be :
      * <p>
      * <code>
-	 * &lt;script type="text/javascript" src="/myservicedir/script.js"&gt;
-	 * </code>
+     * &lt;script type="text/javascript" src="/myservicedir/script.js"&gt;
+     * </code>
      * </p>
      * 
      * @return The string representing the symbolic datadir, <em>null</em> if no
@@ -178,4 +201,73 @@ public abstract class GatewayPort extends javax.servlet.http.HttpServlet {
      */
     public abstract String dataDir();
 
+    public boolean register() {
+	Object sRef = mcontext.getContainer().fetchSharedObject(mcontext,
+		new Object[] { HttpService.class.getName() });
+	if (sRef != null) {
+	    HttpService httpService = (HttpService) sRef;
+
+	    try {
+		httpService.registerServlet(url(), this, null, null);
+	    } catch (ServletException e) {
+		LogUtils.logError(
+			mcontext,
+			this.getClass(),
+			"register",
+			new Object[] { "Exception while registering Servlet." },
+			e);
+		return false;
+	    } catch (NamespaceException e) {
+		LogUtils.logError(
+			mcontext,
+			this.getClass(),
+			"register",
+			new Object[] { "Servlet Namespace exception; alias (URI) is already in use." },
+			e);
+		return false;
+	    }
+	    LogUtils.logInfo(mcontext, this.getClass(), "register",
+		    new Object[] { "Servlet started." }, null);
+	    return true;
+
+	} else
+	    LogUtils.logInfo(
+		    mcontext,
+		    this.getClass(),
+		    "register",
+		    new Object[] { "Servlet cannot be registered: no http service available." },
+		    null);
+	return false;
+    }
+
+    public boolean unregister() {
+	Object sRef = mcontext.getContainer().fetchSharedObject(mcontext,
+		new Object[] { HttpService.class.getName() });
+	if (sRef != null) {
+	    HttpService httpService = (HttpService) sRef;
+
+	    try {
+		httpService.unregister(url());
+	    } catch (IllegalArgumentException e) {
+		LogUtils.logError(
+			mcontext,
+			this.getClass(),
+			"unregister",
+			new Object[] { "Servlet cannot be unregistered: illegal argument." },
+			e);
+		return false;
+	    }
+	    LogUtils.logInfo(mcontext, this.getClass(), "unregister",
+		    new Object[] { "Servlet stopped." }, null);
+	    return true;
+
+	} else
+	    LogUtils.logInfo(
+		    mcontext,
+		    this.getClass(),
+		    "unregister",
+		    new Object[] { "Servlet cannot be unregistered: no http service available." },
+		    null);
+	return false;
+    }
 }

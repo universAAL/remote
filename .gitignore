@@ -23,6 +23,7 @@ ri.pom/*.settings
 ri.pom/ri.karaf.feature/.classpath
 ri.pom/ri.karaf.feature/.project
 ri.pom/ri.karaf.feature/.settings
+ri.pom/ri.karaf.feature/target
 ri.pom/target
 ri.profile.agent/.classpath
 ri.profile.agent/.project

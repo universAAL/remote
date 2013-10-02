@@ -399,6 +399,10 @@ ri.internetgateway-2.0.1-SNAPSHOT/src/main/java/org/universAAL/ri/wsdlToolkit/pa
 ri.internetgateway-2.0.1-SNAPSHOT/src/main/java/org/universAAL/ri/wsdlToolkit/parser/StdOutErrLevel.java -text
 ri.internetgateway-2.0.1-SNAPSHOT/src/main/java/org/universAAL/ri/wsdlToolkit/parser/WSDLParser.java -text
 ri.internetgateway-2.0.1-SNAPSHOT/src/main/java/org/universAAL/ri/wsdlToolkit/parser/WSDL_XSD_SchemaToolkit.java -text
+ri.karaf.feature-2.0.1-SNAPSHOT/ASL2.0.txt -text
+ri.karaf.feature-2.0.1-SNAPSHOT/NOTICE.txt -text
+ri.karaf.feature-2.0.1-SNAPSHOT/pom.xml -text
+ri.karaf.feature-2.0.1-SNAPSHOT/src/features/features.xml -text
 ri.pom-1.0.2-SNAPSHOT/pom.xml -text
 ri.pom-1.1.2-SNAPSHOT/pom.xml -text
 ri.pom-1.2.1-SNAPSHOT/pom.xml -text

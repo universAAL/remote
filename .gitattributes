@@ -249,5 +249,5 @@ ri.servicegateway/src/main/java/org/universAAL/ri/servicegateway/GatewayPort.jav
 ri.servicegateway/src/main/java/org/universAAL/ri/servicegateway/impl/Base64.java -text
 ri.servicegateway/src/main/java/org/universAAL/ri/servicegateway/osgi/Activator.java -text
 ri.servicegateway/src/main/java/org/universAAL/ri/servicegateway/osgi/GatewayPortTracker.java -text
-ri.servicegateway/src/test/java/org/universAAL/ri/servicegateway/test/ArtifactIntegrationTest.java -text
+ri.servicegateway/src/test/java/org/universAAL/ri/servicegateway/test/ArtifactIT.java -text
 ri.servicegateway/src/test/java/org/universAAL/ri/servicegateway/test/GatewayPortTestImpl.java -text

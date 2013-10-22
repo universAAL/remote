@@ -16,11 +16,11 @@ import org.universAAL.ri.servicegateway.osgi.Activator;
  * @author eandgrg
  * 
  */
-public class ArtifactIntegrationTest extends IntegrationTest {
+public class ArtifactIT extends IntegrationTest {
 
     public final void testComposite() {
 	LogUtils.logInfo(Activator.getModuleContext(),
-		ArtifactIntegrationTest.class, "testComposite",
+		ArtifactIT.class, "testComposite",
 		new String[] { "Test 1 - log all bundles" }, null);
 	logAllBundles();
 
@@ -29,7 +29,7 @@ public class ArtifactIntegrationTest extends IntegrationTest {
     public final void testServletURLs() {
 
 	LogUtils.logInfo(Activator.getModuleContext(),
-		ArtifactIntegrationTest.class, "testServletURLs",
+		ArtifactIT.class, "testServletURLs",
 		new String[] { "Test 2 - testServletURLs" }, null);
 
 	GatewayPortTestImpl gp = new GatewayPortTestImpl();
@@ -44,7 +44,7 @@ public class ArtifactIntegrationTest extends IntegrationTest {
 	GatewayPortTestImpl servlet = new GatewayPortTestImpl();
 
 	LogUtils.logInfo(Activator.getModuleContext(),
-		ArtifactIntegrationTest.class, "testDoPost",
+		ArtifactIT.class, "testDoPost",
 		new String[] { "Test 3 - testDoPost" }, null);
 
 	HttpServletRequest request = EasyMock
@@ -91,7 +91,7 @@ public class ArtifactIntegrationTest extends IntegrationTest {
 	GatewayPortTestImpl servlet = new GatewayPortTestImpl();
 
 	LogUtils.logInfo(Activator.getModuleContext(),
-		ArtifactIntegrationTest.class, "testDoGet",
+		ArtifactIT.class, "testDoGet",
 		new String[] { "Test 4- testDoGet" }, null);
 
 	HttpServletRequest request = EasyMock

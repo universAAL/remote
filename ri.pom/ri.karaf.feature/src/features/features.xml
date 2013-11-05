@@ -8,7 +8,7 @@
 	
 	<feature name="uAAL-RI.Service.Gateway" description="The Physical World Ontolgy."
 		version="${pom.version}" resolver='(obr)'>
-		<feature>uAAL-Security.Authorizatior</feature>
+		<feature>uAAL-Security.Authenticator.UserPassword.Client</feature>
 		<feature>http</feature> 
 			<!-- These are only for testing of the artifact, they should not be here! -->
 <!-- 		<bundle start-level='70'>wrap:mvn:cglib/cglib-nodep/${cglib-nodep.version}</bundle> -->

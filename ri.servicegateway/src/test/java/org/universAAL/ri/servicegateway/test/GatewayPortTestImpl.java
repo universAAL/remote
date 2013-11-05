@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.universAAL.middleware.container.utils.LogUtils;
+import org.universAAL.ontology.profile.User;
 import org.universAAL.ri.servicegateway.GatewayPort;
 import org.universAAL.ri.servicegateway.osgi.Activator;
 
@@ -92,7 +93,7 @@ public class GatewayPortTestImpl extends GatewayPort {
 		"doPost", new Object[] { "obtained user: " + userAndPass[0]
 			+ " obtained pass: " + userAndPass[1] }, null);
 
-	String userURI = userURIs.get(userAndPass[0]);
+	User userURI = loggedUsers.get(userAndPass[0]);
 	// END AUTHENTICATION BLOCK, this block can be replaced by below
 	// hardcoded line/user for e.g. testing purposes
 	// String userURI = Constants.uAAL_MIDDLEWARE_LOCAL_ID_PREFIX

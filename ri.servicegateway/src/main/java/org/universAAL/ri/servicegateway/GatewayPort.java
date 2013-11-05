@@ -31,8 +31,9 @@ import org.osgi.service.http.NamespaceException;
 
 import org.universAAL.middleware.container.ModuleContext;
 import org.universAAL.middleware.container.utils.LogUtils;
+import org.universAAL.ontology.profile.User;
 import org.universAAL.ri.servicegateway.impl.Base64;
-import org.universAAL.ui.security.authorization.AuthorizatorImpl;
+import org.universAAL.security.authenticator.client.UserPaswordAuthenticatorClient;
 
 /**
  * Base class for HTTP servlets. To create a servlet, create a subclass and
@@ -46,27 +47,30 @@ import org.universAAL.ui.security.authorization.AuthorizatorImpl;
  */
 public abstract class GatewayPort extends javax.servlet.http.HttpServlet {
     private static final long serialVersionUID = -513978908843447270L;
-    // table that store user -> password pairs
-    private Hashtable<String, String> userTable;
-    protected Hashtable<String, String> userURIs;// NEW stores user�s URIs for
+    
+    /**
+     * Table that Associates usernames with {@link User}s.
+     */
+    protected Hashtable<String, User> loggedUsers;
 
     private ModuleContext mcontext;
 
     // the realm is used for HTTP Authentication
     // public final static String REALM = "Help when outside";
     public final static String REALM = "Enter universAAL remote login data";
+    
+    private UserPaswordAuthenticatorClient authenticator;
 
     /**
      * Simply initialize the logger and the user table for the security
      */
     public GatewayPort() {
-	userTable = new Hashtable<String, String>();
-	userURIs = new Hashtable<String, String>();
+	loggedUsers = new Hashtable<String, User>();
     }
 
     public GatewayPort(ModuleContext mcontext) {
 	this();
-	this.mcontext = mcontext;
+	setContext(mcontext);
     }
 
     /**
@@ -142,20 +146,18 @@ public abstract class GatewayPort extends javax.servlet.http.HttpServlet {
 	} else {
 
 	    // first check if it is already authorized
-	    String tablePass = userTable.get(userPass[0]);
-	    if (tablePass != null && userPass[1].equals(tablePass))
+	    if (loggedUsers.containsKey(userPass[0]))
 		return true;
-	    // no password already stored for the username
-	    if (tablePass == null) {
+	    // username not yet authenticated.
+	    else {
 		// check the credentials
-		AuthorizatorImpl authorizator = new AuthorizatorImpl(
-			getContext());
-		if (authorizator.isAuthorized(userPass[0], userPass[1]) == true) {
-		    userTable.put(userPass[0], userPass[1]);
-		    userURIs.put(userPass[0], authorizator.getAllowedUserURI());// NEW
-										// also
-										// add
-										// the
+		User u = authenticator.authenticate(userPass[0], userPass[1]);
+		if (u != null) {
+		    loggedUsers.put(userPass[0], u);
+		    // NEW
+		    // also
+		    // add
+		    // the
 		    // user URI
 		    // resp.sendRedirect(url());// removed for the web handler
 		    return true;
@@ -167,8 +169,15 @@ public abstract class GatewayPort extends javax.servlet.http.HttpServlet {
 	return false;
     }
 
+    public void logout(User usr){
+	loggedUsers.remove(usr);
+    }
+    
     public void setContext(ModuleContext mcontext) {
 	this.mcontext = mcontext;
+	if (authenticator != null)
+	    authenticator.close();
+	authenticator = new UserPaswordAuthenticatorClient(this.mcontext);
     }
 
     public ModuleContext getContext() {
@@ -257,6 +266,7 @@ public abstract class GatewayPort extends javax.servlet.http.HttpServlet {
 			e);
 		return false;
 	    }
+	    authenticator.close();
 	    LogUtils.logInfo(mcontext, this.getClass(), "unregister",
 		    new Object[] { "Servlet stopped." }, null);
 	    return true;

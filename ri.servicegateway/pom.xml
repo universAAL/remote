@@ -31,8 +31,12 @@
       <scope>provided</scope>
     </dependency>
     <dependency>
+    	<groupId>org.universAAL.middleware</groupId>
+    	<artifactId>mw.container.osgi</artifactId>
+    </dependency>
+    <dependency>
       <groupId>org.universAAL.security</groupId>
-      <artifactId>security.authorizator</artifactId>
+      <artifactId>security.authenticator.userPassword.client</artifactId>
     </dependency>
   </dependencies>
   <build>

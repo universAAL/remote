@@ -31,15 +31,12 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
 import org.bouncycastle.crypto.CryptoException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.universAAL.middleware.container.utils.LogUtils;
+import org.universAAL.ri.gateway.communicator.Activator;
 import org.universAAL.ri.gateway.communicator.service.CommunicationHandler;
 import org.universAAL.ri.gateway.communicator.service.GatewayCommunicator;
 
 public class SocketCommunicationHandler implements CommunicationHandler {
-
-    private final static Logger log = LoggerFactory
-	    .getLogger(SocketCommunicationHandler.class);
 
     private static final int NUM_THREADS = 1;
     private static int PORT;
@@ -67,20 +64,24 @@ public class SocketCommunicationHandler implements CommunicationHandler {
 	PORT = Integer.valueOf(localPort);
 
 	this.executor = Executors.newFixedThreadPool(NUM_THREADS);
-	log.info("Created " + SocketCommunicationHandler.class.getName());
+	log("Created " + SocketCommunicationHandler.class.getName());
+    }
+    
+    private void log(String msg) {
+	LogUtils.logInfo(Activator.mc, SocketCommunicationHandler.class, "log", msg);
     }
 
     public void start() throws IOException {
-	log.info("Starting TCP server on port " + PORT);
+	log("Starting TCP server on port " + PORT);
 	server = new ServerSocket(PORT);
 	serverThread = new Thread(new Runnable() {
 	    public void run() {
-		log.info("TCP server started on port " + PORT);
+		log("TCP server started on port " + PORT);
 		Thread.currentThread().setName("Space Gateway :: Server");
 		while (!(Thread.currentThread().isInterrupted())) {
 		    try {
 			final Socket socket = server.accept();
-			log.info("Got request ... processing ...");
+			log("Got request ... processing ...");
 			executor.execute(new Handler(socket));
 		    } catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -119,7 +120,6 @@ public class SocketCommunicationHandler implements CommunicationHandler {
 		}
 	    }
 	}
-
     }
 
     public MessageWrapper sendMessage(final MessageWrapper toSend, final URL target)
@@ -154,5 +154,4 @@ public class SocketCommunicationHandler implements CommunicationHandler {
 	}
 	serverThread.interrupt();
     }
-
 }

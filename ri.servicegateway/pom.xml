@@ -35,6 +35,12 @@
     	<artifactId>mw.container.osgi</artifactId>
     </dependency>
     <dependency>
+      <groupId>org.osgi</groupId>
+      <artifactId>osgi_R4_compendium</artifactId>
+      <version>1.0</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
       <groupId>org.universAAL.security</groupId>
       <artifactId>security.authenticator.userPassword.client</artifactId>
     </dependency>

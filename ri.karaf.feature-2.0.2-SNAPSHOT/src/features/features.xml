@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<features name="universAAL-RemoteInteroperability" xmlns="http://karaf.apache.org/xmlns/features/v1.0.0">
+
+	<!-- Change version of repository accordingly -->
+	<repository>mvn:org.universAAL.middleware/mw.karaf.feature/2.0.2-SNAPSHOT/xml/features</repository>
+	<repository>mvn:org.universAAL.ontology/ont.karaf.feature/2.0.2-SNAPSHOT/xml/features</repository>
+	<repository>mvn:org.universAAL.security/security.karaf.feature/2.0.2-SNAPSHOT/xml/features</repository>
+	
+	<feature name="uAAL-RI.Service.Gateway" description="The Physical World Ontolgy."
+		version="${pom.version}" resolver='(obr)'>
+		<feature>uAAL-Security.Authorizatior</feature>
+		<feature>http</feature> 
+		<bundle start-level='70'>wrap:mvn:cglib/cglib-nodep/2.2.2</bundle>
+		<bundle start-level='71' start='true'>mvn:org.objenesis/objenesis/1.2</bundle>
+		<bundle start-level='72' start='true'>mvn:org.easymock/easymock/3.1</bundle>
+		<bundle start-level='73' start='true'>mvn:org.universAAL.remote/ri.servicegateway/2.0.2-SNAPSHOT</bundle>
+	</feature>
+</features>

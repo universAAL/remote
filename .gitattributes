@@ -779,3 +779,8 @@ ri.soap.cxf.service-2.0.2-SNAPSHOT/NOTICE.txt -text
 ri.soap.cxf.service-2.0.2-SNAPSHOT/pom.xml -text
 ri.soap.cxf.service-2.0.2-SNAPSHOT/src/main/java/org/universAAL/ri/soap/cxf/service/ServiceInterface.java -text
 ri.soap.cxf.service-2.0.2-SNAPSHOT/src/main/java/org/universAAL/ri/soap/cxf/service/osgi/Activator.java -text
+ri.soap.cxf.service-2.0.3-SNAPSHOT/ASL2.0.txt -text
+ri.soap.cxf.service-2.0.3-SNAPSHOT/NOTICE.txt -text
+ri.soap.cxf.service-2.0.3-SNAPSHOT/pom.xml -text
+ri.soap.cxf.service-2.0.3-SNAPSHOT/src/main/java/org/universAAL/ri/soap/cxf/service/ServiceInterface.java -text
+ri.soap.cxf.service-2.0.3-SNAPSHOT/src/main/java/org/universAAL/ri/soap/cxf/service/osgi/Activator.java -text

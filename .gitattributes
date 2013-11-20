@@ -764,6 +764,11 @@ ri.soap.cxf.server-2.0.2-SNAPSHOT/NOTICE.txt -text
 ri.soap.cxf.server-2.0.2-SNAPSHOT/pom.xml -text
 ri.soap.cxf.server-2.0.2-SNAPSHOT/src/main/java/org/universAAL/ri/soap/cxf/server/ServiceImpl.java -text
 ri.soap.cxf.server-2.0.2-SNAPSHOT/src/main/java/org/universAAL/ri/soap/cxf/server/osgi/Activator.java -text
+ri.soap.cxf.server-2.0.3-SNAPSHOT/ASL2.0.txt -text
+ri.soap.cxf.server-2.0.3-SNAPSHOT/NOTICE.txt -text
+ri.soap.cxf.server-2.0.3-SNAPSHOT/pom.xml -text
+ri.soap.cxf.server-2.0.3-SNAPSHOT/src/main/java/org/universAAL/ri/soap/cxf/server/ServiceImpl.java -text
+ri.soap.cxf.server-2.0.3-SNAPSHOT/src/main/java/org/universAAL/ri/soap/cxf/server/osgi/Activator.java -text
 ri.soap.cxf.service-1.3.3-SNAPSHOT/ASL2.0.txt -text
 ri.soap.cxf.service-1.3.3-SNAPSHOT/NOTICE.txt -text
 ri.soap.cxf.service-1.3.3-SNAPSHOT/pom.xml -text

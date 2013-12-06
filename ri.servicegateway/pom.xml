@@ -52,18 +52,25 @@
         <groupId>org.apache.felix</groupId>
         <artifactId>maven-bundle-plugin</artifactId>
         <extensions>true</extensions>
-        <configuration>
-          <instructions>
-            <Bundle-Name>${project.name}</Bundle-Name>
-            <Bundle-Activator>org.universAAL.ri.servicegateway.osgi.Activator</Bundle-Activator>
-            <Bundle-Description>${project.description}</Bundle-Description>
-            <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
-            <Export-Package>org.universAAL.ri.servicegateway,
-							org.universAAL.ri.servicegateway.impl,
-							org.universAAL.ri.servicegateway.osgi</Export-Package>
-            <Include-Resource>src/main/resources</Include-Resource>
-          </instructions>
-        </configuration>
+	<configuration>
+		<instructions>
+			<Bundle-Name>${project.name}</Bundle-Name>
+			<Bundle-Activator>org.universAAL.ri.servicegateway.osgi.Activator</Bundle-Activator>
+			<Bundle-Description>${project.description}</Bundle-Description>
+			<Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
+			<Export-Package>org.universAAL.ri.servicegateway,
+				org.universAAL.ri.servicegateway.impl,
+				org.universAAL.ri.servicegateway.osgi</Export-Package>
+			<Import-Package>org.osgi.framework;version="[1,2)",javax.servlet, javax.servlet.http,
+				org.osgi.service.http, org.osgi.util.tracker;version="[1,2)",
+				org.universAAL.middleware.container,
+				org.universAAL.middleware.container.osgi,
+				org.universAAL.middleware.container.utils,
+				org.universAAL.ontology.profile,
+				org.universAAL.security.authenticator.client</Import-Package>
+			<Include-Resource>src/main/resources</Include-Resource>
+		</instructions>
+	</configuration>
       </plugin>
     </plugins>
   </build>

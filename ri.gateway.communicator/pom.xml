@@ -62,14 +62,30 @@
         <groupId>org.apache.felix</groupId>
         <artifactId>maven-bundle-plugin</artifactId>
         <extensions>true</extensions>
-        <configuration>
-          <instructions>
-            <Bundle-Name>${project.name}</Bundle-Name>
-            <Bundle-Activator>org.universAAL.ri.gateway.communicator.Activator</Bundle-Activator>
-            <Bundle-Description>${project.description}</Bundle-Description>
-            <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
-          </instructions>
-        </configuration>
+	<configuration>
+		<instructions>
+			<Bundle-Name>${project.name}</Bundle-Name>
+			<Bundle-Activator>org.universAAL.ri.gateway.communicator.Activator</Bundle-Activator>
+			<Bundle-Description>${project.description}</Bundle-Description>
+			<Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
+			<Import-Package>org.osgi.framework;version="[1,2)",org.bouncycastle.crypto,
+				org.bouncycastle.crypto.engines, org.bouncycastle.crypto.modes,
+				org.bouncycastle.crypto.paddings, org.bouncycastle.crypto.params,
+				org.universAAL.middleware.bus.member,
+				org.universAAL.middleware.bus.model,
+				org.universAAL.middleware.container,
+				org.universAAL.middleware.container.osgi,
+				org.universAAL.middleware.container.osgi.util,
+				org.universAAL.middleware.container.utils,
+				org.universAAL.middleware.context,
+				org.universAAL.middleware.context.owl,
+				org.universAAL.middleware.rdf,
+				org.universAAL.middleware.serialization,
+				org.universAAL.middleware.service,
+				org.universAAL.middleware.service.owls.profile,
+				org.universAAL.middleware.tracker, org.universAAL.middleware.ui</Import-Package>
+		</instructions>
+	</configuration>
       </plugin>
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>

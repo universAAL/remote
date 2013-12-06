@@ -31,9 +31,9 @@ import org.universAAL.middleware.context.ContextSubscriber;
 import org.universAAL.middleware.service.ServiceCall;
 import org.universAAL.middleware.service.ServiceResponse;
 import org.universAAL.middleware.service.owls.profile.ServiceProfile;
-import org.universAAL.middleware.ui.UIHandlerProfile;
-import org.universAAL.middleware.ui.UIRequest;
-import org.universAAL.middleware.ui.UIResponse;
+//import org.universAAL.middleware.ui.UIHandlerProfile;
+//import org.universAAL.middleware.ui.UIRequest;
+//import org.universAAL.middleware.ui.UIResponse;
 //import org.universAAL.ri.gateway.communicator.Activator;
 import org.universAAL.ri.gateway.communicator.service.GatewayCommunicator;
 import org.universAAL.ri.gateway.communicator.service.Message;
@@ -97,10 +97,10 @@ public class ImportedProxyManager extends AbstractProxyManager {
 			generatedProxies.get(op.getRemoteRegisteredProxyId()).add(proxy);
 			break;
 		case UICaller:
-			UIHandlerProfile[] profiles = op.getUiHandlerProfiles();
-			proxy = new ProxyUIHandler(profiles, this,
-					op.getRemoteRegisteredProxyId(), CommunicatorStarter.mc);
-			generatedProxies.get(op.getRemoteRegisteredProxyId()).add(proxy);
+//			UIHandlerProfile[] profiles = op.getUiHandlerProfiles();
+//			proxy = new ProxyUIHandler(profiles, this,
+//					op.getRemoteRegisteredProxyId(), CommunicatorStarter.mc);
+//			generatedProxies.get(op.getRemoteRegisteredProxyId()).add(proxy);
 			break;
 		}
 
@@ -148,18 +148,18 @@ public class ImportedProxyManager extends AbstractProxyManager {
 		return response;
 	}
 
-	public void realizeLocalUIResponsePublishment(final String sourceId,
-			final UIResponse response) {
-		// TODO implement
-		// ((ProxyUIHandler)generatedProxies.get(sourceId)).
-	}
+//	public void realizeLocalUIResponsePublishment(final String sourceId,
+//			final UIResponse response) {
+//		// TODO implement
+//		// ((ProxyUIHandler)generatedProxies.get(sourceId)).
+//	}
 
-	public void realizeRemoteUIRequest(final String targetId,
-			final UIRequest uiRequest) throws IOException {
-		Message toSend = Serializer.Instance.marshallObject(uiRequest);
-		toSend.setRemoteProxyRegistrationId(targetId);
-		communicator.sendUIRequest(toSend);
-	}
+//	public void realizeRemoteUIRequest(final String targetId,
+//			final UIRequest uiRequest) throws IOException {
+//		Message toSend = Serializer.Instance.marshallObject(uiRequest);
+//		toSend.setRemoteProxyRegistrationId(targetId);
+//		communicator.sendUIRequest(toSend);
+//	}
 
 	public void refreshProxy(final ProxyRegistration proxyRegistration) throws IOException, ClassNotFoundException {
 

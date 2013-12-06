@@ -25,8 +25,8 @@ import org.universAAL.middleware.context.ContextSubscriber;
 import org.universAAL.middleware.service.ServiceCallee;
 import org.universAAL.middleware.service.ServiceCaller;
 import org.universAAL.middleware.bus.member.BusMember;
-import org.universAAL.middleware.ui.UICaller;
-import org.universAAL.middleware.ui.UIHandler;
+//import org.universAAL.middleware.ui.UICaller;
+//import org.universAAL.middleware.ui.UIHandler;
 import org.universAAL.ri.gateway.eimanager.impl.registry.RepoOperation;
 
 public class InternalEIOperation {
@@ -51,12 +51,12 @@ public class InternalEIOperation {
 	}else if (member instanceof ContextSubscriber){
 	    type = BusMemberType.ContextSubscriber;
 	    memberId = ((ContextSubscriber)busMember).getMyID();
-	}else if (member instanceof UIHandler){
-	    type = BusMemberType.UIHandler;
-	    memberId = ((UIHandler)busMember).getMyID();
-	}else if (member instanceof UICaller){
-	    type = BusMemberType.UICaller;
-	    memberId = ((UICaller)busMember).getMyID();
+//	}else if (member instanceof UIHandler){
+//	    type = BusMemberType.UIHandler;
+//	    memberId = ((UIHandler)busMember).getMyID();
+//	}else if (member instanceof UICaller){
+//	    type = BusMemberType.UICaller;
+//	    memberId = ((UICaller)busMember).getMyID();
 	}
     }
 

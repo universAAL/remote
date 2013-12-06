@@ -26,7 +26,7 @@ import java.util.Map;
 import org.universAAL.middleware.context.owl.ContextProvider;
 import org.universAAL.middleware.service.owls.profile.ServiceProfile;
 import org.universAAL.middleware.bus.member.BusMember;
-import org.universAAL.middleware.ui.UIHandlerProfile;
+//import org.universAAL.middleware.ui.UIHandlerProfile;
 import org.universAAL.ri.gateway.eimanager.ImportEntry;
 import org.universAAL.ri.gateway.eimanager.impl.InternalEIOperation;
 import org.universAAL.ri.gateway.eimanager.impl.registry.RepoOperation;
@@ -40,7 +40,7 @@ public class InternalImportOperation extends InternalEIOperation {
 
     private ContextProvider contextProvider;
 
-    private UIHandlerProfile[] uiHandlerProfile;
+//    private UIHandlerProfile[] uiHandlerProfile;
 
     private ImportEntry importEntry;
 
@@ -74,13 +74,13 @@ public class InternalImportOperation extends InternalEIOperation {
 	this.contextProvider = contextProvider;
     }
 
-    public UIHandlerProfile[] getUiHandlerProfiles() {
-	return uiHandlerProfile;
-    }
-
-    public void setUiHandlerProfiles(final UIHandlerProfile uiHandlerProfile[]) {
-	this.uiHandlerProfile = uiHandlerProfile;
-    }
+//    public UIHandlerProfile[] getUiHandlerProfiles() {
+//	return uiHandlerProfile;
+//    }
+//
+//    public void setUiHandlerProfiles(final UIHandlerProfile uiHandlerProfile[]) {
+//	this.uiHandlerProfile = uiHandlerProfile;
+//    }
 
     public ImportEntry getImportEntry() {
 	return importEntry;

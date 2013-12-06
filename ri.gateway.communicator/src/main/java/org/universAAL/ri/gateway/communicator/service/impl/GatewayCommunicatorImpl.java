@@ -45,15 +45,17 @@ import org.universAAL.middleware.context.ContextEventPattern;
 import org.universAAL.middleware.service.ServiceCall;
 import org.universAAL.middleware.service.ServiceResponse;
 import org.universAAL.middleware.service.owls.profile.ServiceProfile;
-import org.universAAL.middleware.ui.UIRequest;
-import org.universAAL.middleware.ui.UIResponse;
+//import org.universAAL.middleware.ui.UIRequest;
+//import org.universAAL.middleware.ui.UIResponse;
 import org.universAAL.ri.gateway.communicator.service.CommunicationException;
 import org.universAAL.ri.gateway.communicator.service.CommunicationHandler;
 import org.universAAL.ri.gateway.communicator.service.GatewayCommunicator;
 import org.universAAL.ri.gateway.communicator.service.Message;
 import org.universAAL.ri.gateway.communicator.service.ResponseCallback;
 import org.universAAL.ri.gateway.eimanager.ExportManager;
+import org.universAAL.ri.gateway.eimanager.ExportOperationInterceptor;
 import org.universAAL.ri.gateway.eimanager.ImportManager;
+import org.universAAL.ri.gateway.eimanager.ImportOperationInterceptor;
 import org.universAAL.ri.gateway.eimanager.exception.InterruptExecutionException;
 import org.universAAL.ri.gateway.eimanager.impl.BusMemberType;
 import org.universAAL.ri.gateway.eimanager.impl.EIOperationManager;
@@ -69,7 +71,7 @@ import org.universAAL.ri.gateway.eimanager.impl.importing.ImportRequest;
  * @author skallz
  * 
  */
-public class GatewayCommunicatorImpl implements GatewayCommunicator {
+public class GatewayCommunicatorImpl implements GatewayCommunicator, ImportOperationInterceptor, ExportOperationInterceptor {
 
 	/**
      * 
@@ -615,10 +617,10 @@ public class GatewayCommunicatorImpl implements GatewayCommunicator {
 //				executor.execute(task);
 				break;
 			case UI:
-				this.exportManager.sendUIRequest(wrapIn.getSourceId(),
-						Serializer.Instance.unmarshallObject(UIRequest.class,
-								wrapIn.getMessage()));
-				logInfo("published ui request to the bus: %s", wrapIn);
+//				this.exportManager.sendUIRequest(wrapIn.getSourceId(),
+//						Serializer.Instance.unmarshallObject(UIRequest.class,
+//								wrapIn.getMessage()));
+//				logInfo("published ui request to the bus: %s", wrapIn);
 				break;
 			case ServiceResponseAsync:
 				ResponseCallback call = callbacks.get(wrapIn.getId());
@@ -638,11 +640,11 @@ public class GatewayCommunicatorImpl implements GatewayCommunicator {
 				break;
 
 			case UIResponse:
-				// send the request to the bus
-				this.importManager.sendUIResponse(wrapIn.getSourceId(),
-						Serializer.Instance.unmarshallObject(UIResponse.class,
-								wrapIn.getMessage()));
-				logInfo("published ui request to the bus: %s", wrapIn);
+//				// send the request to the bus
+//				this.importManager.sendUIResponse(wrapIn.getSourceId(),
+//						Serializer.Instance.unmarshallObject(UIResponse.class,
+//								wrapIn.getMessage()));
+//				logInfo("published ui request to the bus: %s", wrapIn);
 				break;
 			default:
 				throw new UnsupportedOperationException();
@@ -672,6 +674,53 @@ public class GatewayCommunicatorImpl implements GatewayCommunicator {
 
 	public void start() throws Exception {
 		commHandler.start();
+	}
+
+	public void process(ImportRequest importRequest)
+			throws InterruptExecutionException {
+		// It is easier this way
+		String[] uids = null;
+		String errorUid = "";
+		if (importRequest.getMember().equals(BusMemberType.ServiceCallee.toString()) || 
+				importRequest.getMember().equals(BusMemberType.ServiceCaller.toString())){
+			uids = new String[1];
+			uids[0] = importRequest.getServerNamespace();
+		}else if (importRequest.getMember().equals(BusMemberType.ContextPublisher.toString()) ||
+				importRequest.getMember().equals(BusMemberType.ContextSubscriber.toString())){
+			uids = importRequest.getSubjectURIs();
+		}
+		
+		boolean shouldPass = true;
+		for(SecurityEntry entry : SecurityManager.Instance.getDenyExportSecurityEntries()){
+			for(String uid : uids){
+				if (uid.matches(entry.getEntryRegex())){
+					shouldPass = false;
+					errorUid = uid;
+					break;
+				}
+			}
+		}
+		
+		if (!shouldPass){
+			throw new InterruptExecutionException("UID: " + errorUid + " was matched by one or more IM/EXPORT DENY security entries.");
+		}
+		
+		int passCount = 0;
+		for(SecurityEntry entry : SecurityManager.Instance.getAllowExportSecurityEntries()){
+			for(String uid : uids){
+				if (uid.matches(entry.getEntryRegex())){
+					passCount++;
+				}
+			}
+		}
+		if (passCount != uids.length){
+			throw new InterruptExecutionException("Not all provided uids (only " + passCount +" from " + uids.length +") was matched to IM/EXPORT ALLOW security entries.");
+		}
+	}
+
+	public int getPriority() {
+		// TODO Auto-generated method stub
+		return -1;
 	}
 
 }

@@ -255,7 +255,7 @@ public class CommunicatorStarter {
 		return ret;
 	}
 
-	private List<GatewayAddress> extractRemoteGateways() {
+	public static List<GatewayAddress> extractRemoteGateways() {
 		try {
 			final String remoteGateways = properties
 					.getProperty(GatewayCommunicator.REMOTE_GATEWAYS_PROP);

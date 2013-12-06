@@ -28,7 +28,8 @@ import java.util.concurrent.BlockingQueue;
 import org.universAAL.middleware.bus.member.BusMember;
 import org.universAAL.middleware.service.ServiceCall;
 import org.universAAL.middleware.service.ServiceResponse;
-import org.universAAL.middleware.ui.UIRequest;
+import org.universAAL.middleware.tracker.IBusMemberRegistry.BusType;
+//import org.universAAL.middleware.ui.UIRequest;
 import org.universAAL.ri.gateway.communicator.service.GatewayCommunicator;
 import org.universAAL.ri.gateway.eimanager.ExportExecutor;
 import org.universAAL.ri.gateway.eimanager.ExportManager;
@@ -103,9 +104,9 @@ public class ExportManagerImpl implements ExportManager, ExportExecutor{
 	return response;
     }
 
-    public void sendUIRequest(String sourceId, UIRequest request) {
-	manager.sendUIRequest(sourceId, request);
-    }
+//    public void sendUIRequest(String sourceId, UIRequest request) {
+//	manager.sendUIRequest(sourceId, request);
+//    }
 
     public ProxyRegistration registerProxies(ImportRequest request) throws IOException, ClassNotFoundException {
 	return manager.registerProxies(request);
@@ -114,4 +115,14 @@ public class ExportManagerImpl implements ExportManager, ExportExecutor{
     public void unregisterProxies(ImportRequest request) {
 	manager.unregisterProxies(request);
     }
+
+	public void busMemberAdded(BusMember member, BusType type) {
+		// Added because it is easier
+		memberAdded(member);
+	}
+
+	public void busMemberRemoved(BusMember member, BusType type) {
+		// Added because it is easier
+		memberRemoved(member);
+	}
 }

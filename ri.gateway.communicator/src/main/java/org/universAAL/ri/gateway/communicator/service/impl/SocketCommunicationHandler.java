@@ -123,8 +123,9 @@ public class SocketCommunicationHandler implements CommunicationHandler {
     }
 
     public MessageWrapper sendMessage(final MessageWrapper toSend, final URL target)
-	    throws IOException, ClassNotFoundException, CryptoException {
+	    throws ClassNotFoundException, CryptoException {
 	MessageWrapper resp = null;
+	try{
 	Socket socket = new Socket(target.getHost(), target.getPort());
 	try {
 		InputStream is = socket.getInputStream();
@@ -141,6 +142,10 @@ public class SocketCommunicationHandler implements CommunicationHandler {
 	    if (socket != null && !socket.isClosed()) {
 		socket.close();
 	    }
+	}
+	}catch(IOException ex){
+		System.out.println("Error when handling the socket, probably disconnected while creating.");
+		ex.printStackTrace();
 	}
 	return resp;
     }

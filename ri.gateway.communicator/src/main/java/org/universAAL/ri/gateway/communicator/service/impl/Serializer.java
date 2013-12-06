@@ -30,20 +30,20 @@ import java.io.OutputStream;
 
 import org.bouncycastle.crypto.CryptoException;
 import org.universAAL.middleware.serialization.MessageContentSerializerEx;
-import org.universAAL.middleware.tracker.Activator;
+//import org.universAAL.middleware.tracker.Activator;
 import org.universAAL.ri.gateway.communicator.service.Message;
 
 public enum Serializer {
     Instance;
 
-    private static MessageContentSerializerEx contentSerializer = null;
+    public static MessageContentSerializerEx contentSerializer = null;
 
     static {
-	contentSerializer = (MessageContentSerializerEx) Activator.mc
-		.getContainer()
-		.fetchSharedObject(
-			Activator.mc,
-			new Object[] { MessageContentSerializerEx.class.getName() });
+//	contentSerializer = (MessageContentSerializerEx) Activator.mc
+//		.getContainer()
+//		.fetchSharedObject(
+//			Activator.mc,
+//			new Object[] { MessageContentSerializerEx.class.getName() });
     }
 
     public Message marshallObject(final Object objectToMarshall) throws IOException {

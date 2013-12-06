@@ -34,8 +34,9 @@ import org.universAAL.middleware.context.ContextEventPattern;
 import org.universAAL.middleware.context.owl.ContextProvider;
 import org.universAAL.middleware.context.owl.ContextProviderType;
 import org.universAAL.middleware.service.owls.profile.ServiceProfile;
+import org.universAAL.middleware.tracker.IBusMemberRegistry.BusType;
 import org.universAAL.middleware.bus.member.BusMember;
-import org.universAAL.middleware.ui.UIResponse;
+//import org.universAAL.middleware.ui.UIResponse;
 //import org.universAAL.ri.gateway.communicator.Activator;
 import org.universAAL.ri.gateway.communicator.service.GatewayCommunicator;
 import org.universAAL.ri.gateway.communicator.service.Message;
@@ -105,9 +106,9 @@ public class ImportManagerImpl implements ImportManager, ImportExecutor,
 	manager.realizeLocalContextEventPublishment(sourceId, event);
     }
 
-    public void sendUIResponse(final String sourceId, final UIResponse response) {
-	manager.realizeLocalUIResponsePublishment(sourceId, response);
-    }
+//    public void sendUIResponse(final String sourceId, final UIResponse response) {
+//	manager.realizeLocalUIResponsePublishment(sourceId, response);
+//    }
 
     public void removeRemoteBusMember(final BusMember sourceMember,
 	    final String targetMemberIdRegex) {
@@ -397,4 +398,13 @@ public class ImportManagerImpl implements ImportManager, ImportExecutor,
     */
         }
     
+	public void busMemberAdded(BusMember member, BusType type) {
+		// Added because it is easier
+		memberAdded(member);
+	}
+
+	public void busMemberRemoved(BusMember member, BusType type) {
+		// Added because it is easier
+		memberRemoved(member);
+	}
 }

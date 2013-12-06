@@ -40,11 +40,11 @@ import org.universAAL.middleware.bus.member.BusMember;
 import org.universAAL.middleware.tracker.IBusMemberRegistry;
 import org.universAAL.middleware.tracker.IBusMemberRegistryListener;
 import org.universAAL.middleware.tracker.IBusMemberRegistry.BusType;
-import org.universAAL.middleware.ui.IUIBus;
-import org.universAAL.middleware.ui.UIBusFacade;
-import org.universAAL.middleware.ui.UIHandlerProfile;
-import org.universAAL.middleware.ui.UIRequest;
-import org.universAAL.middleware.ui.UIResponse;
+//import org.universAAL.middleware.ui.IUIBus;
+//import org.universAAL.middleware.ui.UIBusFacade;
+//import org.universAAL.middleware.ui.UIHandlerProfile;
+//import org.universAAL.middleware.ui.UIRequest;
+//import org.universAAL.middleware.ui.UIResponse;
 //import org.universAAL.ri.gateway.communicator.Activator;
 import org.universAAL.ri.gateway.communicator.service.GatewayCommunicator;
 import org.universAAL.ri.gateway.communicator.service.Message;
@@ -63,7 +63,7 @@ public class ExportedProxyManager extends AbstractProxyManager implements
 	private GatewayCommunicator communicator;
 	private ServiceBus serviceBus;
 	private ContextBus contextBus;
-	private IUIBus uiBus;
+//	private IUIBus uiBus;
 
 	public ExportedProxyManager(final GatewayCommunicator communicator) {
 		super();
@@ -71,7 +71,7 @@ public class ExportedProxyManager extends AbstractProxyManager implements
 		this.communicator = communicator;
 		serviceBus = ServiceBusFacade.fetchBus(CommunicatorStarter.mc);
 		contextBus = ContextBusFacade.fetchBus(CommunicatorStarter.mc);
-		uiBus = UIBusFacade.fetchBus(CommunicatorStarter.mc);
+//		uiBus = UIBusFacade.fetchBus(CommunicatorStarter.mc);
 
 		IBusMemberRegistry registry = (IBusMemberRegistry) CommunicatorStarter.mc
 				.getContainer().fetchSharedObject(CommunicatorStarter.mc,
@@ -96,17 +96,17 @@ public class ExportedProxyManager extends AbstractProxyManager implements
 		communicator.sendContextEvent(message);
 	}
 
-	public void handleUIResponse(final String targetId,
-			final UIResponse response) throws IOException {
-		communicator.sendUIResponse(Serializer.Instance
-				.marshallObject(response));
-	}
+//	public void handleUIResponse(final String targetId,
+//			final UIResponse response) throws IOException {
+//		communicator.sendUIResponse(Serializer.Instance
+//				.marshallObject(response));
+//	}
 
-	public void sendUIRequest(final String sourceId, final UIRequest request) {
-		if (generatedProxies.get(sourceId) != null) {
-			((ProxyUICaller) generatedProxies.get(sourceId)).invoke(request);
-		}
-	}
+//	public void sendUIRequest(final String sourceId, final UIRequest request) {
+//		if (generatedProxies.get(sourceId) != null) {
+//			((ProxyUICaller) generatedProxies.get(sourceId)).invoke(request);
+//		}
+//	}
 
 	public ProxyRegistration registerProxies(final ImportRequest importRequest)
 			throws IOException, ClassNotFoundException {
@@ -142,14 +142,14 @@ public class ExportedProxyManager extends AbstractProxyManager implements
 					cpe);
 			break;
 		case UICaller:
-			UIHandlerProfile[] uiProfiles = uiBus.getMatchingProfiles(importRequest.getModalityRegex());
-
-			member = new ProxyUICaller(this, importRequest.getId(),
-				CommunicatorStarter.mc, importRequest.getModalityRegex(), uiProfiles);
-
-			proxyRegistration = new ProxyRegistration(member.getId(),
-					uiProfiles);
-			break;
+//			UIHandlerProfile[] uiProfiles = uiBus.getMatchingProfiles(importRequest.getModalityRegex());
+//
+//			member = new ProxyUICaller(this, importRequest.getId(),
+//				CommunicatorStarter.mc, importRequest.getModalityRegex(), uiProfiles);
+//
+//			proxyRegistration = new ProxyRegistration(member.getId(),
+//					uiProfiles);
+//			break;
 		}
 		if (member != null) {
 			generatedProxies.put(member.getId(), member);
@@ -236,23 +236,23 @@ public class ExportedProxyManager extends AbstractProxyManager implements
 					}
 				}
 			} else if (p instanceof ProxyUICaller) {
-				ProxyUICaller member = (ProxyUICaller) p;
-				UIHandlerProfile[] profiles = uiBus.getMatchingProfiles(member.getModalityRegex());
-				if (!Arrays.equals(profiles, member.getHandlerProfiles())) {
-					try {
-						member.setHandlerProfiles(profiles);
-						String[] serialized = new String[profiles.length];
-						for (int i = 0; i < profiles.length; i++) {
-							serialized[i] = (String) Serializer.Instance
-									.marshallObject(profiles[i]).getContent();
-						}
-						Object reg = new ProxyRegistration(member.getId(),
-								serialized);
-						communicator.sendImportRefresh(new Message(reg));
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-				}
+//				ProxyUICaller member = (ProxyUICaller) p;
+//				UIHandlerProfile[] profiles = uiBus.getMatchingProfiles(member.getModalityRegex());
+//				if (!Arrays.equals(profiles, member.getHandlerProfiles())) {
+//					try {
+//						member.setHandlerProfiles(profiles);
+//						String[] serialized = new String[profiles.length];
+//						for (int i = 0; i < profiles.length; i++) {
+//							serialized[i] = (String) Serializer.Instance
+//									.marshallObject(profiles[i]).getContent();
+//						}
+//						Object reg = new ProxyRegistration(member.getId(),
+//								serialized);
+//						communicator.sendImportRefresh(new Message(reg));
+//					} catch (IOException e) {
+//						e.printStackTrace();
+//					}
+//				}
 			}
 		}
 	}

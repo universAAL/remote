@@ -186,6 +186,10 @@ ri.soap.cxf.server-2.0.3-SNAPSHOT/.classpath
 ri.soap.cxf.server-2.0.3-SNAPSHOT/.project
 ri.soap.cxf.server-2.0.3-SNAPSHOT/.settings
 ri.soap.cxf.server-2.0.3-SNAPSHOT/target
+ri.soap.cxf.server-2.0.4-SNAPSHOT/.classpath
+ri.soap.cxf.server-2.0.4-SNAPSHOT/.project
+ri.soap.cxf.server-2.0.4-SNAPSHOT/.settings
+ri.soap.cxf.server-2.0.4-SNAPSHOT/target
 ri.soap.cxf.service-1.3.3-SNAPSHOT/.classpath
 ri.soap.cxf.service-1.3.3-SNAPSHOT/.project
 ri.soap.cxf.service-1.3.3-SNAPSHOT/.settings

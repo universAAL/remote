@@ -83,6 +83,10 @@ ri.karaf.feature-2.0.3-SNAPSHOT/.classpath
 ri.karaf.feature-2.0.3-SNAPSHOT/.project
 ri.karaf.feature-2.0.3-SNAPSHOT/.settings
 ri.karaf.feature-2.0.3-SNAPSHOT/target
+ri.karaf.feature-2.0.4-SNAPSHOT/.classpath
+ri.karaf.feature-2.0.4-SNAPSHOT/.project
+ri.karaf.feature-2.0.4-SNAPSHOT/.settings
+ri.karaf.feature-2.0.4-SNAPSHOT/target
 ri.pom-1.0.2-SNAPSHOT/*.project
 ri.pom-1.0.2-SNAPSHOT/*.settings
 ri.pom-1.1.2-SNAPSHOT/*.project

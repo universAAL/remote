@@ -5,11 +5,11 @@
   <parent>
     <groupId>org.universAAL.remote</groupId>
     <artifactId>ri.pom</artifactId>
-    <version>3.0.0</version>
+    <version>3.0.1-SNAPSHOT</version>
     <relativePath>../../ri.pom</relativePath>
   </parent>
   <artifactId>ri.soap.cxf.service</artifactId>
-  <version>3.0.0</version>
+  <version>3.0.1-SNAPSHOT</version>
   <packaging>bundle</packaging>
   <name>universAAL Remote Interoperability SOAP Service</name>
   <dependencies>

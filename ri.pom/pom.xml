@@ -13,6 +13,12 @@
   <packaging>pom</packaging>
   <name>universAAL Remote Interoperability Suite</name>
   <description></description>
+	<distributionManagement>
+		<site>
+			<id>depot.universaal.org</id>
+			<url>${uaal.site.url}remote/ri.pom</url>
+		</site>
+	</distributionManagement>
   <modules>
     <module>../ri.servicegateway</module>
     <module>../ri.internetgateway</module>

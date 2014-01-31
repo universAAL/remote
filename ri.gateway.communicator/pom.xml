@@ -5,11 +5,11 @@
   <parent>
     <groupId>org.universAAL.remote</groupId>
     <artifactId>ri.pom</artifactId>
-    <version>2.0.1-SNAPSHOT</version>
+    <version>3.0.1-SNAPSHOT</version>
     <relativePath>../ri.pom</relativePath>
   </parent>
   <artifactId>ri.gateway.communicator.core</artifactId>
-  <version>2.0.1-SNAPSHOT</version>
+  <version>3.0.1-SNAPSHOT</version>
   <!-- <packaging>bundle</packaging>-->
   <name>universAAL Remote Interoperability AALSpace Gateway</name>
   <description>Module for inter-AALSpace communication</description>
@@ -19,11 +19,11 @@
       <artifactId>itests</artifactId>
     </dependency>
      <dependency>
-      <groupId>org.apache.felix</groupId>
+      <groupId>org.osgi</groupId>
       <artifactId>org.osgi.core</artifactId>
     </dependency>
     <dependency>
-      <groupId>org.apache.felix</groupId>
+      <groupId>org.osgi</groupId>
       <artifactId>org.osgi.compendium</artifactId>
     </dependency>
     <dependency>
@@ -73,6 +73,22 @@
             <Bundle-Activator>org.universAAL.ri.gateway.communicator.Activator</Bundle-Activator>
             <Bundle-Description>${project.description}</Bundle-Description>
             <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
+            <Import-Package>org.osgi.framework;version="[1,2)",org.bouncycastle.crypto,
+				org.bouncycastle.crypto.engines, org.bouncycastle.crypto.modes,
+				org.bouncycastle.crypto.paddings, org.bouncycastle.crypto.params,
+				org.universAAL.middleware.bus.member,
+				org.universAAL.middleware.bus.model,
+				org.universAAL.middleware.container,
+				org.universAAL.middleware.container.osgi,
+				org.universAAL.middleware.container.osgi.util,
+				org.universAAL.middleware.container.utils,
+				org.universAAL.middleware.context,
+				org.universAAL.middleware.context.owl,
+				org.universAAL.middleware.rdf,
+				org.universAAL.middleware.serialization,
+				org.universAAL.middleware.service,
+				org.universAAL.middleware.service.owls.profile,
+				org.universAAL.middleware.tracker, org.universAAL.middleware.ui</Import-Package>
           </instructions>
         </configuration>
       </plugin>-->

@@ -6,7 +6,7 @@
 	<repository>mvn:org.universAAL.ontology/ont.karaf.feature/${ont.karaf.feature.version}/xml/features</repository>
 	<repository>mvn:org.universAAL.security/security.karaf.feature/${security.karaf.feature.version}/xml/features</repository>
 	
-	<feature name="uAAL-RI.Service.Gateway" description="The Physical World Ontolgy."
+	<feature name="uAAL-RI.Service.Gateway" description="universAAL Service Gateway component"
 		version="${pom.version}" resolver='(obr)'>
 		<feature>uAAL-Security.Authenticator.UserPassword.Client</feature>
 		<feature>http</feature> 
@@ -15,5 +15,21 @@
 <!-- 		<bundle start-level='71' start='true'>mvn:org.objenesis/objenesis/${objenesis.version}</bundle> -->
 <!-- 		<bundle start-level='72' start='true'>mvn:org.easymock/easymock/${easymock.version}</bundle> -->
 		<bundle start-level='73' start='true'>mvn:org.universAAL.remote/ri.servicegateway/${ri.servicegateway.version}</bundle>
+	</feature>
+	
+	<feature name="uAAL-RI.Internet.Gateway" description="universAAL Internet Gateway component"
+		version="${pom.version}" resolver='(obr)'>
+		<feature>http</feature> 
+		<bundle start-level='73' start='true'>mvn:org.universAAL.remote/ri.internetgateway/${ri.internetgateway.version}</bundle>
+	</feature>
+	
+	<feature name="uAAL-RI.Gateway.Communicator" description="universAAL Gateway Communicator component"
+		version="${pom.version}" resolver='(obr)'>
+		<feature>http</feature> 
+		
+		<!-- Third parties -->
+        <bundle start-level='73' start='true'>wrap:mvn:org.easymock/easymock/3.1</bundle>
+		
+		<bundle start-level='73' start='true'>mvn:org.universAAL.remote/ri.gateway.communicator/${ri.gateway.communicator.version}</bundle>
 	</feature>
 </features>

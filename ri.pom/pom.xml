@@ -5,20 +5,14 @@
   <parent>
     <groupId>org.universAAL</groupId>
     <artifactId>uAAL.pom</artifactId>
-    <version>3.0.1-SNAPSHOT</version>
+    <version>3.1.0</version>
   </parent>
   <groupId>org.universAAL.remote</groupId>
   <artifactId>ri.pom</artifactId>
-  <version>3.0.1-SNAPSHOT</version>
+  <version>3.1.0</version>
   <packaging>pom</packaging>
   <name>universAAL Remote Interoperability Suite</name>
   <description></description>
-	<distributionManagement>
-		<site>
-			<id>depot.universaal.org</id>
-			<url>${uaal.site.url}remote/ri.pom</url>
-		</site>
-	</distributionManagement>
   <modules>
     <module>../ri.servicegateway</module>
     <module>../ri.internetgateway</module>
@@ -32,6 +26,12 @@
     <developerConnection>${svn.base}/${project.artifactId}</developerConnection>
     <url>${svn.base.url}${project.artifactId}</url>
   </scm>
+  <distributionManagement>
+    <site>
+      <id>depot.universaal.org</id>
+      <url>${uaal.site.url}remote/ri.pom</url>
+    </site>
+  </distributionManagement>
   <properties>
     <gforge.project.name>rinterop</gforge.project.name>
     <maven.compile.source>1.5</maven.compile.source>
@@ -42,53 +42,53 @@
       <dependency>
         <groupId>org.universAAL.middleware</groupId>
         <artifactId>mw.pom.osgi</artifactId>
-        <version>3.0.1-SNAPSHOT</version>
+        <version>3.1.0</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
       <dependency>
         <groupId>org.universAAL.ontology</groupId>
         <artifactId>ont.pom</artifactId>
-        <version>3.0.1-SNAPSHOT</version>
+        <version>3.1.0</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
       <dependency>
         <groupId>org.universAAL.security</groupId>
         <artifactId>security.pom</artifactId>
-        <version>3.0.1-SNAPSHOT</version>
+        <version>3.1.0</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
       <dependency>
         <groupId>org.universAAL.remote</groupId>
         <artifactId>ri.servicegateway</artifactId>
-        <version>3.0.1-SNAPSHOT</version>
+        <version>3.1.0</version>
       </dependency>
       <dependency>
         <groupId>org.universAAL.remote</groupId>
         <artifactId>ri.gateway.communicator</artifactId>
-        <version>3.0.1-SNAPSHOT</version>
+        <version>3.1.0</version>
       </dependency>
       <dependency>
         <groupId>org.universAAL.remote</groupId>
         <artifactId>ri.internetgateway</artifactId>
-        <version>3.0.1-SNAPSHOT</version>
+        <version>3.1.0</version>
       </dependency>
       <dependency>
         <groupId>org.universAAL.remote</groupId>
         <artifactId>ri.soap.cxf.service</artifactId>
-        <version>3.0.1-SNAPSHOT</version>
+        <version>3.1.0</version>
       </dependency>
       <dependency>
         <groupId>org.universAAL.remote</groupId>
         <artifactId>ri.soap.cxf.server</artifactId>
-        <version>3.0.1-SNAPSHOT</version>
+        <version>3.1.0</version>
       </dependency>
       <dependency>
         <groupId>org.universAAL.remote</groupId>
         <artifactId>ri.karaf.feature</artifactId>
-        <version>3.0.1-SNAPSHOT</version>
+        <version>3.1.0</version>
       </dependency>
     </dependencies>
   </dependencyManagement>

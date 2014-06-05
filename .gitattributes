@@ -1,4 +1,9 @@
 * text=auto !eol
+ri.exportComponent/ri.soap.cxf.service/ASL2.0.txt -text
+ri.exportComponent/ri.soap.cxf.service/NOTICE.txt -text
+ri.exportComponent/ri.soap.cxf.service/pom.xml -text
+ri.exportComponent/ri.soap.cxf.service/src/main/java/org/universAAL/ri/soap/cxf/service/ServiceInterface.java -text
+ri.exportComponent/ri.soap.cxf.service/src/main/java/org/universAAL/ri/soap/cxf/service/osgi/Activator.java -text
 ri.gateway.communicator/ASL2.0.txt -text
 ri.gateway.communicator/NOTICE.txt -text
 ri.gateway.communicator/pom.xml -text

@@ -242,7 +242,6 @@ ri.servicegateway/ASL2.0.txt -text
 ri.servicegateway/LICENSE-CPL-JUnit -text
 ri.servicegateway/LICENSE-MIT11-httpunit -text
 ri.servicegateway/NOTICE.txt -text
-ri.servicegateway/artifact_manual.composite -text
 ri.servicegateway/old[!!-~]test/LoginServletTest.java -text
 ri.servicegateway/pom.xml -text
 ri.servicegateway/src/main/java/org/universAAL/ri/servicegateway/GatewayPort.java -text

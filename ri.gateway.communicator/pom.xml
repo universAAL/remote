@@ -5,11 +5,11 @@
   <parent>
     <groupId>org.universAAL.remote</groupId>
     <artifactId>ri.pom</artifactId>
-    <version>3.0.1-SNAPSHOT</version>
-    <relativePath>../ri.pom</relativePath>
+    <version>3.1.1-SNAPSHOT</version>
+    <!-- <relativePath>../ri.pom</relativePath>-->
   </parent>
   <artifactId>ri.gateway.communicator.core</artifactId>
-  <version>3.0.1-SNAPSHOT</version>
+  <version>3.1.1-SNAPSHOT</version>
   <!-- <packaging>bundle</packaging>-->
   <name>universAAL Remote Interoperability AALSpace Gateway</name>
   <description>Module for inter-AALSpace communication</description>

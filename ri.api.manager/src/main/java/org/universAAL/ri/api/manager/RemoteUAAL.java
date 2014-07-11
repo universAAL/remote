@@ -1,4 +1,4 @@
-package org.universaal.ri.api.manager;
+package org.universAAL.ri.api.manager;
 
 import org.universAAL.middleware.container.ModuleContext;
 import org.universAAL.middleware.context.ContextEvent;
@@ -7,7 +7,7 @@ import org.universAAL.middleware.service.ServiceResponse;
 import org.universAAL.support.utils.ICListener;
 import org.universAAL.support.utils.ISListener;
 import org.universAAL.support.utils.UAAL;
-import org.universaal.ri.api.manager.server.CloudManager;
+import org.universAAL.ri.api.manager.server.CloudManager;
 
 /**
  * Extension of the Utility API UAAL helper class that adds a few small tweaks

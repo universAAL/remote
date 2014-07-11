@@ -1,4 +1,4 @@
-package org.universaal.ri.api.manager;
+package org.universAAL.ri.api.manager;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -14,9 +14,9 @@ import org.universAAL.middleware.container.ModuleContext;
 import org.universAAL.middleware.container.osgi.uAALBundleContainer;
 import org.universAAL.middleware.container.utils.LogUtils;
 import org.universAAL.middleware.serialization.MessageContentSerializerEx;
-import org.universaal.ri.api.manager.server.RemoteServlet;
-import org.universaal.ri.api.manager.server.persistence.Persistence;
-import org.universaal.ri.api.manager.server.persistence.PersistenceDerby;
+import org.universAAL.ri.api.manager.server.RemoteServlet;
+import org.universAAL.ri.api.manager.server.persistence.Persistence;
+import org.universAAL.ri.api.manager.server.persistence.PersistenceDerby;
 
 /**
  * OSGi Activator to start everything.

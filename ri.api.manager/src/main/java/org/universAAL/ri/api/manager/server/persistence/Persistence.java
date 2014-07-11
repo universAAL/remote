@@ -1,6 +1,6 @@
-package org.universaal.ri.api.manager.server.persistence;
+package org.universAAL.ri.api.manager.server.persistence;
 
-import org.universaal.ri.api.manager.RemoteAPI;
+import org.universAAL.ri.api.manager.RemoteAPI;
 
 /**
  * Database interface for persisting the calls from clients. This allows clients

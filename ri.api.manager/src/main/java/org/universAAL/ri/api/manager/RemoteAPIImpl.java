@@ -1,4 +1,4 @@
-package org.universaal.ri.api.manager;
+package org.universAAL.ri.api.manager;
 
 import java.util.Enumeration;
 import java.util.Hashtable;
@@ -43,7 +43,7 @@ public class RemoteAPIImpl implements RemoteAPI {
     }
 
     /* (non-Javadoc)
-     * @see org.universaal.ri.api.manager.RemoteAPI#register(java.lang.String, java.lang.String)
+     * @see org.universAAL.ri.api.manager.RemoteAPI#register(java.lang.String, java.lang.String)
      */
     public void register(String id, String remote) throws Exception{
 	Activator.logI("RemoteAPIImpl.register()", "Received call from remote node > REGISTER, sender: "+id);//TODO Log IDs?
@@ -55,7 +55,7 @@ public class RemoteAPIImpl implements RemoteAPI {
     }
 
     /* (non-Javadoc)
-     * @see org.universaal.ri.api.manager.RemoteAPI#sendC(java.lang.String, java.lang.String)
+     * @see org.universAAL.ri.api.manager.RemoteAPI#sendC(java.lang.String, java.lang.String)
      */
     public void sendC(String id, String cevent) throws Exception {
 	Activator.logI("RemoteAPIImpl.sendC()", "Received call from remote node > SENDC, sender: "+id);//TODO Log IDs?
@@ -71,7 +71,7 @@ public class RemoteAPIImpl implements RemoteAPI {
     }
 
     /* (non-Javadoc)
-     * @see org.universaal.ri.api.manager.RemoteAPI#subscribeC(java.lang.String, java.lang.String)
+     * @see org.universAAL.ri.api.manager.RemoteAPI#subscribeC(java.lang.String, java.lang.String)
      */
     public void subscribeC(String id, String cpattern) throws Exception {
 	Activator.logI("RemoteAPIImpl.subscribeC()", "Received call from remote node > SUBSCRIBEC, sender: "+id);//TODO Log IDs?
@@ -88,7 +88,7 @@ public class RemoteAPIImpl implements RemoteAPI {
     }
 
     /* (non-Javadoc)
-     * @see org.universaal.ri.api.manager.RemoteAPI#callS(java.lang.String, java.lang.String)
+     * @see org.universAAL.ri.api.manager.RemoteAPI#callS(java.lang.String, java.lang.String)
      */
     public String callS(String id, String srequest) throws Exception {
 	Activator.logI("RemoteAPIImpl.callS()", "Received call from remote node > CALLS, sender: "+id);//TODO Log IDs?
@@ -149,7 +149,7 @@ public class RemoteAPIImpl implements RemoteAPI {
     }
 
     /* (non-Javadoc)
-     * @see org.universaal.ri.api.manager.RemoteAPI#provideS(java.lang.String, java.lang.String)
+     * @see org.universAAL.ri.api.manager.RemoteAPI#provideS(java.lang.String, java.lang.String)
      */
     public void provideS(String id, String sprofile) throws Exception {
 	Activator.logI("RemoteAPIImpl.provideS()", "Received call from remote node > PROVIDES, sender: "+id);//TODO Log IDs?
@@ -166,7 +166,7 @@ public class RemoteAPIImpl implements RemoteAPI {
     }
 
     /* (non-Javadoc)
-     * @see org.universaal.ri.api.manager.RemoteAPI#unregister(java.lang.String)
+     * @see org.universAAL.ri.api.manager.RemoteAPI#unregister(java.lang.String)
      */
     public void unregister(String id) throws Exception {
 	Activator.logI("RemoteAPIImpl.unregister()", "Received call from remote node > UNREGISTER, sender: "+id);//TODO Log IDs?
@@ -182,7 +182,7 @@ public class RemoteAPIImpl implements RemoteAPI {
     }
     
     /* (non-Javadoc)
-     * @see org.universaal.ri.api.manager.RemoteAPI#unregisterAll()
+     * @see org.universAAL.ri.api.manager.RemoteAPI#unregisterAll()
      */
     public void unregisterAll() {
 	Enumeration<String> keys = nodes.keys();

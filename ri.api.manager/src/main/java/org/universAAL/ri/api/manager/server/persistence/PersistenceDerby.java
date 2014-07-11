@@ -1,4 +1,4 @@
-package org.universaal.ri.api.manager.server.persistence;
+package org.universAAL.ri.api.manager.server.persistence;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -7,8 +7,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
 
-import org.universaal.ri.api.manager.Activator;
-import org.universaal.ri.api.manager.RemoteAPI;
+import org.universAAL.ri.api.manager.Activator;
+import org.universAAL.ri.api.manager.RemoteAPI;
 
 /**
  * An implementation of the Persistence interface using Apache Derby SQL
@@ -33,7 +33,7 @@ public class PersistenceDerby implements Persistence {
     private String dbURL;
 
     /* (non-Javadoc)
-     * @see org.universaal.ri.api.manager.server.persistence.Persistence#init(org.universaal.ri.api.manager.RemoteAPI)
+     * @see org.universAAL.ri.api.manager.server.persistence.Persistence#init(org.universAAL.ri.api.manager.RemoteAPI)
      */
     public void init(RemoteAPI remoteAPI) {
 	this.api = remoteAPI;
@@ -103,7 +103,7 @@ public class PersistenceDerby implements Persistence {
     }
 
     /* (non-Javadoc)
-     * @see org.universaal.ri.api.manager.server.persistence.Persistence#storeRegister(java.lang.String, java.lang.String)
+     * @see org.universAAL.ri.api.manager.server.persistence.Persistence#storeRegister(java.lang.String, java.lang.String)
      */
     public void storeRegister(String id, String remote) {
 	Timestamp t = new Timestamp(System.currentTimeMillis());
@@ -114,7 +114,7 @@ public class PersistenceDerby implements Persistence {
     }
 
     /* (non-Javadoc)
-     * @see org.universaal.ri.api.manager.server.persistence.Persistence#storeSubscriber(java.lang.String, java.lang.String)
+     * @see org.universAAL.ri.api.manager.server.persistence.Persistence#storeSubscriber(java.lang.String, java.lang.String)
      */
     public void storeSubscriber(String id, String pattern) {
 	Timestamp t = new Timestamp(System.currentTimeMillis());
@@ -125,7 +125,7 @@ public class PersistenceDerby implements Persistence {
     }
 
     /* (non-Javadoc)
-     * @see org.universaal.ri.api.manager.server.persistence.Persistence#storeCallee(java.lang.String, java.lang.String)
+     * @see org.universAAL.ri.api.manager.server.persistence.Persistence#storeCallee(java.lang.String, java.lang.String)
      */
     public void storeCallee(String id, String profile) {
 	Timestamp t = new Timestamp(System.currentTimeMillis());
@@ -173,7 +173,7 @@ public class PersistenceDerby implements Persistence {
     }
     
     /* (non-Javadoc)
-     * @see org.universaal.ri.api.manager.server.persistence.Persistence#removeRegister(java.lang.String)
+     * @see org.universAAL.ri.api.manager.server.persistence.Persistence#removeRegister(java.lang.String)
      */
     public void removeRegister(String id) {
 	Connection conn = null;
@@ -230,7 +230,7 @@ public class PersistenceDerby implements Persistence {
     }
 
     /* (non-Javadoc)
-     * @see org.universaal.ri.api.manager.server.persistence.Persistence#restore()
+     * @see org.universAAL.ri.api.manager.server.persistence.Persistence#restore()
      */
     public void restore() {
 	Connection conn = null;

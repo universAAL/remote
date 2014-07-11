@@ -1,4 +1,4 @@
-package org.universaal.ri.api.manager.server;
+package org.universAAL.ri.api.manager.server;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
@@ -20,8 +20,8 @@ import org.universAAL.middleware.service.ServiceCall;
 import org.universAAL.middleware.service.ServiceResponse;
 import org.universAAL.middleware.service.owls.process.OutputBinding;
 import org.universAAL.middleware.service.owls.process.ProcessOutput;
-import org.universaal.ri.api.manager.Activator;
-import org.universaal.ri.api.manager.RemoteAPI;
+import org.universAAL.ri.api.manager.Activator;
+import org.universAAL.ri.api.manager.RemoteAPI;
 
 /**
  * Class that manages the push of callbacks to client remote node endpoints.

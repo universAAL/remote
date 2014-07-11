@@ -1,4 +1,4 @@
-package org.universaal.ri.api.manager.server;
+package org.universAAL.ri.api.manager.server;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -7,8 +7,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.universaal.ri.api.manager.Activator;
-import org.universaal.ri.api.manager.RemoteAPI;
+import org.universAAL.ri.api.manager.Activator;
+import org.universAAL.ri.api.manager.RemoteAPI;
 
 /**
  * An HTTP Servlet that handles the calls to the Remote API server.

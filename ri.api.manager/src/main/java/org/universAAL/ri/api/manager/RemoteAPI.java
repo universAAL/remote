@@ -1,4 +1,4 @@
-package org.universaal.ri.api.manager;
+package org.universAAL.ri.api.manager;
 
 /**
  * Interface that defines the methods of the Remote API, that will be available

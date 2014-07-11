@@ -1,13 +1,13 @@
 * text=auto !eol
 ri.api.manager/pom.xml -text
-ri.api.manager/src/main/java/org/universaal/ri/api/manager/Activator.java -text
-ri.api.manager/src/main/java/org/universaal/ri/api/manager/RemoteAPI.java -text
-ri.api.manager/src/main/java/org/universaal/ri/api/manager/RemoteAPIImpl.java -text
-ri.api.manager/src/main/java/org/universaal/ri/api/manager/RemoteUAAL.java -text
-ri.api.manager/src/main/java/org/universaal/ri/api/manager/server/CloudManager.java -text
-ri.api.manager/src/main/java/org/universaal/ri/api/manager/server/RemoteServlet.java -text
-ri.api.manager/src/main/java/org/universaal/ri/api/manager/server/persistence/Persistence.java -text
-ri.api.manager/src/main/java/org/universaal/ri/api/manager/server/persistence/PersistenceDerby.java -text
+ri.api.manager/src/main/java/org/universAAL/ri/api/manager/Activator.java -text
+ri.api.manager/src/main/java/org/universAAL/ri/api/manager/RemoteAPI.java -text
+ri.api.manager/src/main/java/org/universAAL/ri/api/manager/RemoteAPIImpl.java -text
+ri.api.manager/src/main/java/org/universAAL/ri/api/manager/RemoteUAAL.java -text
+ri.api.manager/src/main/java/org/universAAL/ri/api/manager/server/CloudManager.java -text
+ri.api.manager/src/main/java/org/universAAL/ri/api/manager/server/RemoteServlet.java -text
+ri.api.manager/src/main/java/org/universAAL/ri/api/manager/server/persistence/Persistence.java -text
+ri.api.manager/src/main/java/org/universAAL/ri/api/manager/server/persistence/PersistenceDerby.java -text
 ri.api.manager/src/main/resources/OSGI-INF/cxf/jaxrs/RemoteAPI-model.xml -text
 ri.cxf-dosgi-ri-singlebundle-distribution/META-INF/DEPENDENCIES -text
 ri.cxf-dosgi-ri-singlebundle-distribution/META-INF/LICENSE -text

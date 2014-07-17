@@ -1,5 +1,7 @@
 package org.universAAL.ri.api.manager;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Iterator;
@@ -47,10 +49,27 @@ public class RemoteAPIImpl implements RemoteAPI {
      */
     public void register(String id, String remote) throws Exception{
 	Activator.logI("RemoteAPIImpl.register()", "Received call from remote node > REGISTER, sender: "+id);//TODO Log IDs?
+	if (determineEndpoint(remote) == RemoteAPI.REMOTE_UNKNOWN){ // No POST nor GCM
+	    throw new Exception("Unable to determine protocol of remote endpoint");
+	}
 	if(nodes.containsKey(id)){
 	    ((RemoteUAAL)nodes.get(id)).setRemoteID(remote);
 	}else{
-	    nodes.put(id, new RemoteUAAL(context,remote));
+	    nodes.put(id, new RemoteUAAL(context,id,remote));
+	}
+    }
+
+    public static int determineEndpoint(String remote) {
+	try {
+	    URL attempt=new URL(remote);
+	    if(attempt.getProtocol().toLowerCase().startsWith("http")){
+		return RemoteAPI.REMOTE_POST;
+	    }else{
+		return RemoteAPI.REMOTE_UNKNOWN;
+	    }
+	} catch (MalformedURLException e) {
+	    //Assume that if it is not a URL it is a GCM key
+	    return RemoteAPI.REMOTE_GCM;
 	}
     }
 

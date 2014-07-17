@@ -2,12 +2,13 @@ package org.universAAL.ri.api.manager;
 
 import org.universAAL.middleware.container.ModuleContext;
 import org.universAAL.middleware.context.ContextEvent;
+import org.universAAL.middleware.service.CallStatus;
 import org.universAAL.middleware.service.ServiceCall;
 import org.universAAL.middleware.service.ServiceResponse;
 import org.universAAL.support.utils.ICListener;
 import org.universAAL.support.utils.ISListener;
 import org.universAAL.support.utils.UAAL;
-import org.universAAL.ri.api.manager.server.CloudManager;
+import org.universAAL.ri.api.manager.push.PushManager;
 
 /**
  * Extension of the Utility API UAAL helper class that adds a few small tweaks
@@ -25,18 +26,29 @@ public class RemoteUAAL extends UAAL {
      * For Android devices, it should be a Google Cloud Messaging Key.
      */
     private String remoteID;
+    
+    /**
+     * Sadly I had to include this because when using GCM, the remoteID can be
+     * changed by the GCM server for whatever reason. Thus the listeners, if
+     * using GCM, must be able to update this.remoteID and the Persistence DB,
+     * and they need the node ID for that.
+     */
+    private String nodeID;
 
     /**
      * Basic constructor. Use this one instead of the UAAL one.
      * 
      * @param context
      *            The uAAL context
+     * @param node
+     *            The client remote node unique identifier
      * @param remote
      *            The client remote node endpoint information.
      */
-    public RemoteUAAL(ModuleContext context, String remote) {
+    public RemoteUAAL(ModuleContext context, String node, String remote) {
 	super(context);
 	remoteID = remote;
+	nodeID=node;
     }
 
     /**
@@ -95,7 +107,12 @@ public class RemoteUAAL extends UAAL {
 	 *            The event to send back to the client
 	 */
 	public void handleContextEvent(ContextEvent event) {
-	    CloudManager.sendC(remoteID, event);
+	    try {
+		PushManager.sendC(nodeID, remoteID, event);
+	    } catch (Exception e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	    }
 	}
     }
 
@@ -117,7 +134,13 @@ public class RemoteUAAL extends UAAL {
 	 * @return The response that the client will have created
 	 */
 	public ServiceResponse handleCall(ServiceCall call) {
-	    return CloudManager.callS(remoteID, call);
+	    try {
+		return PushManager.callS(nodeID, remoteID, call);
+	    } catch (Exception e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+		return new ServiceResponse(CallStatus.serviceSpecificFailure);
+	    }
 	}
     }
 }

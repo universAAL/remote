@@ -27,7 +27,7 @@ import org.universAAL.ri.api.manager.server.persistence.PersistenceDerby;
 public class Activator implements BundleActivator {
     public BundleContext osgiContext = null;
     public static ModuleContext uaalContext = null;
-    private RemoteAPIImpl remoteAPI = null;
+    private static RemoteAPIImpl remoteAPI = null;
     private HttpServlet remoteServlet = null;
     private static final String URL="/universaal";
     private ServiceReference[] referencesHttp,referencesSerializer;
@@ -245,6 +245,10 @@ public class Activator implements BundleActivator {
     
     public static Persistence getPersistence() {
         return persistence;
+    }
+    
+    public static RemoteAPIImpl getRemoteAPI() {
+        return remoteAPI;
     }
 	
 }

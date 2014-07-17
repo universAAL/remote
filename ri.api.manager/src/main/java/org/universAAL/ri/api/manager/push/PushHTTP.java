@@ -1,4 +1,4 @@
-package org.universAAL.ri.api.manager.server;
+package org.universAAL.ri.api.manager.push;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
+import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.Iterator;
@@ -23,26 +24,8 @@ import org.universAAL.middleware.service.owls.process.ProcessOutput;
 import org.universAAL.ri.api.manager.Activator;
 import org.universAAL.ri.api.manager.RemoteAPI;
 
-/**
- * Class that manages the push of callbacks to client remote node endpoints.
- * Currently it only does this for endpoints with HTTP servers accessible.
- * Android endpoints will require interfacing with Google Cloud Messaging
- * servers.
- * 
- * @author alfiva
- * 
- */
-public class CloudManager {
+public class PushHTTP {
 
-    /**
-     * Build a Context Event callbcak message and send it to the client remote
-     * node endpoint.
-     * 
-     * @param remoteid
-     *            The client remote node endpoint
-     * @param event
-     *            The serialized Context Event to send
-     */
     public static void sendC(String remoteid, ContextEvent event) {
 	StringBuilder strb = new StringBuilder();
 	strb.append(RemoteAPI.KEY_METHOD).append("=").append(RemoteAPI.METHOD_SENDC)
@@ -50,9 +33,9 @@ public class CloudManager {
 		.append("&").append(ContextEvent.PROP_RDF_SUBJECT).append("=").append(event.getSubjectURI())
 		.append("&").append(ContextEvent.PROP_RDF_PREDICATE).append("=").append(event.getRDFPredicate())
 		.append("&").append(ContextEvent.PROP_RDF_OBJECT).append("=").append(event.getRDFObject().toString());
-	Activator.logI("CloudManager.sendC", "Sending message to remote node > SENDC, body: "+strb.toString());//TODO Log body?
+	Activator.logI("PushHTTP.sendC", "Sending message to remote node > SENDC, body: "+strb.toString());//TODO Log body?
 	try {
-	    sendPOST(remoteid, strb.toString());
+	    send(remoteid, strb.toString());
 	} catch (MalformedURLException e) {
 	    // TODO Auto-generated catch block
 	    e.printStackTrace();
@@ -62,17 +45,6 @@ public class CloudManager {
 	}
     }
 
-    /**
-     * Build a ServiceCall callback message and send it to the client remote
-     * node endpoint.
-     * 
-     * @param remoteid
-     *            The client remote node endpoint
-     * @param call
-     *            The serialized Service Call to send
-     * @return The Service Response that the client remote node will have sent
-     *         as response to the callback
-     */
     public static ServiceResponse callS(String remoteid, ServiceCall call) {
 	ServiceResponse sr = new ServiceResponse(CallStatus.serviceSpecificFailure);
 	StringBuilder strb = new StringBuilder();
@@ -89,9 +61,9 @@ public class CloudManager {
 		}
 	    }
 	}
-	Activator.logI("CloudManager.callS", "Sending message to remote node > CALLS, body:  " + strb.toString());//TODO Logbody?
+	Activator.logI("PushHTTP.callS", "Sending message to remote node > CALLS, body:  " + strb.toString());//TODO Logbody?
 	try {
-	    String response = sendPOST(remoteid, strb.toString());
+	    String response = send(remoteid, strb.toString());
 	    InputStreamReader ir = new InputStreamReader(
 		    new ByteArrayInputStream(response.getBytes()));
 	    BufferedReader br = new BufferedReader(ir);
@@ -129,11 +101,12 @@ public class CloudManager {
 	    }
 	    sr = new ServiceResponse(CallStatus.succeeded);
 	} catch (MalformedURLException e) {
-	    // TODO Auto-generated catch block
 	    sr = new ServiceResponse(CallStatus.serviceSpecificFailure);
 	    e.printStackTrace();
+	} catch (SocketTimeoutException e) {
+	    sr = new ServiceResponse(CallStatus.responseTimedOut);
+	    e.printStackTrace();
 	} catch (IOException e) {
-	    // TODO Auto-generated catch block
 	    sr = new ServiceResponse(CallStatus.serviceSpecificFailure);
 	    e.printStackTrace();
 	}
@@ -157,7 +130,7 @@ public class CloudManager {
      *             If the URL to the client remote node endpoint could not be
      *             built
      */
-    private static String sendPOST(String remoteid, String body) throws IOException, MalformedURLException {
+    private static String send(String remoteid, String body) throws IOException, MalformedURLException {
 	URL url = new URL(remoteid);
 	HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 	byte[] data = body.getBytes(Charset.forName("UTF-8"));
@@ -188,4 +161,5 @@ public class CloudManager {
 	
 	return response;
     }
+
 }

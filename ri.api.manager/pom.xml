@@ -62,6 +62,11 @@
 			<artifactId>derby</artifactId>
 			<version>10.10.1.1</version>
 		</dependency>
+		<dependency>
+			<groupId>com.google.android.gcm</groupId>
+			<artifactId>gcm-server</artifactId>
+			<version>1.0.2</version>
+		</dependency>
 	</dependencies>
 	<build>
 		<plugins>

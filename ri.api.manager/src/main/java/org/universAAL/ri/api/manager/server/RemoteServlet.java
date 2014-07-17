@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.universAAL.ri.api.manager.Activator;
 import org.universAAL.ri.api.manager.RemoteAPI;
+import org.universAAL.ri.api.manager.push.PushGCM;
 
 /**
  * An HTTP Servlet that handles the calls to the Remote API server.
@@ -89,6 +90,8 @@ public class RemoteServlet extends javax.servlet.http.HttpServlet{
 		} else if (RemoteAPI.METHOD_UNREGISTER.equals(method)) {
 		    remoteAPI.unregister(authHeader);
 		    Activator.getPersistence().removeRegister(authHeader);
+		} else if (RemoteAPI.METHOD_RESPONSES.equals(method)) {
+		    PushGCM.handleResponse(param,authHeader);
 		} else {
 		    resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 		    resp.sendError(HttpServletResponse.SC_BAD_REQUEST,

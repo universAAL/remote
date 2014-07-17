@@ -33,6 +33,10 @@ public interface RemoteAPI {
      */
     public static final String METHOD_UNREGISTER = "UNREGISTER";
     /**
+     * Value for RESPONSE method parameter in the HTTP request
+     */
+    public static final String METHOD_RESPONSES = "RESPONSES";
+    /**
      * Parameter in the HTTP request for the authorization identification
      */
     public static final String KEY_AUTH = "auth";
@@ -49,10 +53,26 @@ public interface RemoteAPI {
      */
     public static final String KEY_STATUS = "status";
     /**
+     * Parameter in a HTTP response for a ServiceCall URI
+     */
+    public static final String KEY_CALL = "call";
+    /**
      * Delimiter in a HTTP response to indicate the serialized ontological
      * result in turtle starts in the next line
      */
     public static final String FLAG_TURTLE = "TURTLE";
+    /**
+     * Identifier for remote endpoints using HTTP POST
+     */
+    public static final int REMOTE_POST = 0;
+    /**
+     * Identifier for remote endpoints using Google Cloud Messaging
+     */
+    public static final int REMOTE_GCM = 1;
+    /**
+     * Identifier for remote endpoints using unknown protocols
+     */
+    public static final int REMOTE_UNKNOWN = -1;
 
     /**
      * Register a client remote node in the server.

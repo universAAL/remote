@@ -1,30 +1,36 @@
 /*
-Copyright 2011-2014 AGH-UST, http://www.agh.edu.pl
-Faculty of Computer Science, Electronics and Telecommunications
-Department of Computer Science 
+    Copyright 2014-2014 CNR-ISTI, http://isti.cnr.it
+    Institute of Information Science and Technologies
+    of the Italian National Research Council
 
-See the NOTICE file distributed with this work for additional
-information regarding copyright ownership
+    Copyright 2011-2014 AGH-UST, http://www.agh.edu.pl
+    Faculty of Computer Science, Electronics and Telecommunications
+    Department of Computer Science
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
+    See the NOTICE file distributed with this work for additional
+    information regarding copyright ownership
 
-  http://www.apache.org/licenses/LICENSE-2.0
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
 
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-*/
+      http://www.apache.org/licenses/LICENSE-2.0
 
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+ */
 package org.universAAL.ri.gateway.communicator;
 
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
+import org.universAAL.ioc.dependencies.DependencyProxy;
+import org.universAAL.ioc.dependencies.impl.NPEDependencyProxy;
 import org.universAAL.middleware.container.ModuleContext;
 import org.universAAL.middleware.container.osgi.uAALBundleContainer;
+import org.universAAL.middleware.managers.api.AALSpaceManager;
 import org.universAAL.middleware.tracker.IBusMemberRegistry;
 import org.universAAL.middleware.tracker.IBusMemberRegistryListener;
 import org.universAAL.ri.gateway.communicator.service.impl.CommunicatorStarter;
@@ -40,9 +46,11 @@ import org.universAAL.ri.gateway.eimanager.impl.security.ImportSecurityOperation
 /**
  * Bundle's activator. Starts a default instance of the GatewayCommunicator
  * worker by use of GatewayCommunicatorInstantiator.
- * 
+ *
  * @author skallz
- * 
+ * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
+ * @version $LastChangedRevision$ ($LastChangedDate$)
+ *
  */
 public class Activator implements BundleActivator {
 
@@ -53,68 +61,91 @@ public class Activator implements BundleActivator {
     public static BundleContext bc;
     public static ModuleContext mc;
 
-    private IBusMemberRegistry registry;
-
     private IBusMemberRegistryListener exportRegistryListener;
     private IBusMemberRegistryListener importRegistryListener;
 
     private ExportManagerImpl exportManager;
     private ImportManagerImpl importManager;
+    public static final DependencyProxy<IBusMemberRegistry> registry = new NPEDependencyProxy<IBusMemberRegistry>(
+            IBusMemberRegistry.busRegistryShareParams);
+    public static final DependencyProxy<AALSpaceManager> spaceManager = new NPEDependencyProxy<AALSpaceManager>(
+            new Object[] { AALSpaceManager.class.getName() });
+
     /**
      * Starts the communicator.
-     * 
+     *
      * @param context
      *            bundle context
      */
     public void start(final BundleContext context) throws Exception {
-	bc = context;
-	
-	mc = uAALBundleContainer.THE_CONTAINER
-		.registerModule(new Object[] { context });
-	
-	inst = new CommunicatorStarter(context);
+        bc = context;
 
-	exportManager = new ExportManagerImpl(inst.getCommunicator());
-	importManager = new ImportManagerImpl(inst.getCommunicator());
-	
-	inst.setManagers(importManager, exportManager);
+        mc = uAALBundleContainer.THE_CONTAINER
+                .registerModule(new Object[] { context });
 
-	registry = (IBusMemberRegistry) mc.getContainer().fetchSharedObject(mc,
-		IBusMemberRegistry.busRegistryShareParams);
+        registry.setObject((IBusMemberRegistry) mc.getContainer()
+                .fetchSharedObject(mc, registry.getFilters()));
 
-	exportRegistryListener = new EIManagerRegistryListener(exportManager);
-	
-	importRegistryListener = new EIManagerRegistryListener(importManager);
-	
-	registry.addBusRegistryListener(exportRegistryListener, true);
-	registry.addBusRegistryListener(importRegistryListener, true);
-	
-	EIOperationManager.Instance.init();
-	
-	Activator.mc.getContainer().shareObject(Activator.mc, new ImportSecurityOperationInterceptor(),
-			new Object[] { ImportOperationInterceptor.class.getName() });
-	
-	Activator.mc.getContainer().shareObject(Activator.mc, new ExportSecurityOperationInterceptor(),
-			new Object[] { ExportOperationInterceptor.class.getName() });
-    
+        spaceManager.setObject((AALSpaceManager) mc.getContainer()
+                .fetchSharedObject(mc, spaceManager.getFilters()));
+
+        checkDependencies();
+
+        inst = new CommunicatorStarter(context);
+
+        exportManager = new ExportManagerImpl(inst.getCommunicator());
+        importManager = new ImportManagerImpl(inst.getCommunicator());
+
+        inst.setManagers(importManager, exportManager);
+
+        exportRegistryListener = new EIManagerRegistryListener(exportManager);
+
+        importRegistryListener = new EIManagerRegistryListener(importManager);
+
+        registry.getObject().addBusRegistryListener(exportRegistryListener, true);
+        registry.getObject().addBusRegistryListener(importRegistryListener, true);
+
+        EIOperationManager.Instance.init();
+
+        Activator.mc.getContainer().shareObject(Activator.mc,
+                new ImportSecurityOperationInterceptor(),
+                new Object[] { ImportOperationInterceptor.class.getName() });
+
+        Activator.mc.getContainer().shareObject(Activator.mc,
+                new ExportSecurityOperationInterceptor(),
+                new Object[] { ExportOperationInterceptor.class.getName() });
+
+    }
+
+    private void checkDependencies() {
+        if (registry == null) {
+            throw new IllegalStateException("Missing required shared "
+                    + registry.getClass().getName()
+                    + " object in the current run-time ");
+        }
+        if (spaceManager == null) {
+            throw new IllegalStateException("Missing required shared "
+                    + spaceManager.getClass().getName()
+                    + " object in the current run-time ");
+        }
     }
 
     /**
      * Stops the communicator and all used resources.
-     * 
+     *
      * @param context
      *            bundle context
      */
     public void stop(final BundleContext context) {
-	inst.stop();
-	if (registry!= null){
-	    registry.removeBusRegistryListener(exportRegistryListener);
-	    registry.removeBusRegistryListener(importRegistryListener);
-	}
-	
-	if (exportManager != null){
-	    exportManager.shutdown();
-	}
+        inst.stop();
+        if (registry.getObject() != null) {
+            registry.getObject().removeBusRegistryListener(exportRegistryListener);
+            registry.getObject().removeBusRegistryListener(importRegistryListener);
+        }
+
+        if (exportManager != null) {
+            exportManager.shutdown();
+        }
     }
 
 }

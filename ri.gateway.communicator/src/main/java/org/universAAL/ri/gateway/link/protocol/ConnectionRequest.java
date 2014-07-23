@@ -18,10 +18,9 @@
     See the License for the specific language governing permissions and
     limitations under the License.
  */
-package org.universAAL.ri.gateway.eimanager.impl.importing;
+package org.universAAL.ri.gateway.link.protocol;
 
 import java.io.Serializable;
-import java.util.UUID;
 
 /**
  *
@@ -29,30 +28,30 @@ import java.util.UUID;
  * @version $LastChangedRevision$ ($LastChangedDate$)
  *
  */
-public class ConnectionResponse implements Serializable {
+public class ConnectionRequest implements Serializable {
 
-    /**
+  /**
      *
      */
-    private static final long serialVersionUID = -1872676178834761810L;
+    private static final long serialVersionUID = 5607749107488373257L;
+  /**
+     *
+     */
     private String peerId;
     private String aalSpaceId;
-    private UUID sessionId;
 
-    public ConnectionResponse(final String peer, final String space, final UUID session) {
+    public ConnectionRequest(final String peer, final String space) {
         super();
         this.peerId = peer;
         this.aalSpaceId = space;
-        this.sessionId = session;
     }
 
     @Override
     public String toString() {
-        return "ConnectionResponse ["
+        return "ConnectionRequest ["
                 + (peerId != null ? "peerId =" + peerId  + ", " : "")
                 + (aalSpaceId != null ? "aalSpaceId =" + aalSpaceId  + ", " : "")
                 + (aalSpaceId != null ? "scopeId=" + aalSpaceId + ", " : "")
-                + (sessionId != null ? "sessionId=" + sessionId + ", " : "")
                 + "]";
     }
 
@@ -66,10 +65,6 @@ public class ConnectionResponse implements Serializable {
 
     public String getScopeId() {
         return aalSpaceId;
-    }
-
-    public UUID getSessionId() {
-        return sessionId;
     }
 
 }

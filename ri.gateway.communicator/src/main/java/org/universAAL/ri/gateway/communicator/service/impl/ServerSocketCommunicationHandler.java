@@ -48,10 +48,10 @@ import org.universAAL.ri.gateway.communicator.Activator;
 import org.universAAL.ri.gateway.communicator.service.CommunicationHandler;
 import org.universAAL.ri.gateway.communicator.service.ComunicationEventListener;
 import org.universAAL.ri.gateway.communicator.service.GatewayCommunicator;
-import org.universAAL.ri.gateway.eimanager.impl.importing.ConnectionRequest;
-import org.universAAL.ri.gateway.eimanager.impl.importing.ConnectionResponse;
-import org.universAAL.ri.gateway.eimanager.impl.importing.DisconnectionRequest;
-import org.universAAL.ri.gateway.eimanager.impl.importing.ReconnectionRequest;
+import org.universAAL.ri.gateway.link.protocol.ConnectionRequest;
+import org.universAAL.ri.gateway.link.protocol.ConnectionResponse;
+import org.universAAL.ri.gateway.link.protocol.DisconnectionRequest;
+import org.universAAL.ri.gateway.link.protocol.ReconnectionRequest;
 
 import com.google.common.net.HostAndPort;
 

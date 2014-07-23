@@ -1,23 +1,27 @@
 /*
-Copyright 2011-2014 AGH-UST, http://www.agh.edu.pl
-Faculty of Computer Science, Electronics and Telecommunications
-Department of Computer Science 
+    Copyright 2014-2014 CNR-ISTI, http://isti.cnr.it
+    Institute of Information Science and Technologies
+    of the Italian National Research Council
 
-See the NOTICE file distributed with this work for additional
-information regarding copyright ownership
+    Copyright 2011-2014 AGH-UST, http://www.agh.edu.pl
+    Faculty of Computer Science, Electronics and Telecommunications
+    Department of Computer Science
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
+    See the NOTICE file distributed with this work for additional
+    information regarding copyright ownership
 
-  http://www.apache.org/licenses/LICENSE-2.0
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
 
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-*/
+      http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+ */
 package org.universAAL.ri.gateway.communicator.service.impl;
 
 import java.io.IOException;
@@ -61,617 +65,662 @@ import org.universAAL.ri.gateway.eimanager.impl.exporting.ProxyRegistration;
 import org.universAAL.ri.gateway.eimanager.impl.importing.ImportRequest;
 
 /**
+ * //TODO Remove alla the URL and the remoteGateways concept by replacing it with Session and Scope depending on the Routing-Mode
+ *
  * AALSpace Gateway Communicator implementation. Registers one OSGi service to
  * be used by ImportExportManager, one HTTP service for communication with other
  * communicators. Uses ImportExportManager's OSGi service for request/response
  * delegation.
- * 
+ *
  * @author skallz
- * 
+ * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
+ * @version $LastChangedRevision$ ($LastChangedDate$)
+ *
  */
 public class GatewayCommunicatorImpl implements GatewayCommunicator {
 
-	/**
-     * 
+    /**
+     *
      */
-	private static final long serialVersionUID = 7119632127833531787L;
+    private static final long serialVersionUID = 7119632127833531787L;
 
-	/**
-	 * Callback registry for asynchronous communication.
-	 */
-	private final Map<UUID, ResponseCallback> callbacks;
+    /**
+     * Callback registry for asynchronous communication.
+     */
+    private final Map<UUID, ResponseCallback> callbacks;
 
-	/**
-	 * A reference to ImportManager's used for handling responses from
-	 * invocations of remote services etc.
-	 */
-	private volatile ImportManager importManager;
+    /**
+     * A reference to ImportManager's used for handling responses from
+     * invocations of remote services etc.
+     */
+    private volatile ImportManager importManager;
 
-	/**
-	 * A reference to ExportManager used for handling requests from remote
-	 * spaces.
-	 */
-	private volatile ExportManager exportManager;
+    /**
+     * A reference to ExportManager used for handling requests from remote
+     * spaces.
+     */
+    private volatile ExportManager exportManager;
 
-	/**
-	 * Executor used for spawning threads during timed invocation.
-	 */
-	private final Executor executor = Executors.newCachedThreadPool();
+    /**
+     * Executor used for spawning threads during timed invocation.
+     */
+    private final Executor executor = Executors.newCachedThreadPool();
 
-	private List<GatewayAddress> remoteGateways;
+    /**
+     * @deprecated
+     */
+    private List<GatewayAddress> remoteGateways;
 
-	private CommunicationHandler commHandler;
+    private CommunicationHandler commHandler;
 
-	/**
-	 * Initializes the worker with given ImportExportManager reference.
-	 * 
-	 * @param space
-	 *            ImportExportManager reference for request/response delegation
-	 * @throws Exception
-	 */
-	public GatewayCommunicatorImpl() throws Exception {
-		callbacks = Collections
-				.synchronizedMap(new HashMap<UUID, ResponseCallback>());
-		remoteGateways = Collections
-				.synchronizedList(new ArrayList<GatewayAddress>());
-		commHandler = new SocketCommunicationHandler(this);
-	}
+    /**
+     * Initializes the worker with given ImportExportManager reference.
+     *
+     * @param space
+     *            ImportExportManager reference for request/response delegation
+     * @throws Exception
+     */
+    public GatewayCommunicatorImpl() throws Exception {
+        callbacks = Collections
+                .synchronizedMap(new HashMap<UUID, ResponseCallback>());
+        remoteGateways = Collections
+                .synchronizedList(new ArrayList<GatewayAddress>());
+        commHandler = new ServerSocketCommunicationHandler(this);
+    }
 
-	public void addRemoteGateway(final GatewayAddress gwAddrToAdd) {
-		remoteGateways.add(gwAddrToAdd);
-	}
+    /**
+     *
+     * @param gwAddrToAdd
+     * @deprecated
+     */
+    public void addRemoteGateway(final GatewayAddress gwAddrToAdd) {
+        remoteGateways.add(gwAddrToAdd);
+    }
 
-	public void removeRemoteGateway(final GatewayAddress gwAddrToDelete) {
-		remoteGateways.remove(gwAddrToDelete);
-	}
+    /**
+     *
+     * @param gwAddrToAdd
+     * @deprecated
+     */
+    public void removeRemoteGateway(final GatewayAddress gwAddrToDelete) {
+        remoteGateways.remove(gwAddrToDelete);
+    }
 
-	public void addRemoteGateways(
-			final Collection<GatewayAddress> gwAddressesToAdd) {
-		remoteGateways.addAll(gwAddressesToAdd);
-	}
+    /**
+     *
+     * @param gwAddrToAdd
+     * @deprecated
+     */
+    public void addRemoteGateways(
+            final Collection<GatewayAddress> gwAddressesToAdd) {
+        remoteGateways.addAll(gwAddressesToAdd);
+    }
 
-	public void setManagers(final ImportManager importManager,
-			final ExportManager exportManager) {
-		this.importManager = importManager;
-		this.exportManager = exportManager;
-	}
+    public void setManagers(final ImportManager importManager,
+            final ExportManager exportManager) {
+        this.importManager = importManager;
+        this.exportManager = exportManager;
+    }
 
-	private URL[] getRemoteURLs() {
-		URL[] uris = new URL[remoteGateways.size()];
-		for (int i = 0; i < remoteGateways.size(); i++) {
-			uris[i] = remoteGateways.get(i).getUrl();
-		}
-		return uris;
-	}
+    /**
+     *
+     * @param gwAddrToAdd
+     * @deprecated
+     */
+    private URL[] getRemoteURLs() {
+        URL[] uris = new URL[remoteGateways.size()];
+        for (int i = 0; i < remoteGateways.size(); i++) {
+            uris[i] = remoteGateways.get(i).getUrl();
+        }
+        return uris;
+    }
 
-	/**
-	 * Sends a context event to other AALSpace Gateway Communicators listening
-	 * at given URL.
-	 * 
-	 * @param message
-	 *            context event to be sent
-	 * @param to
-	 *            a list of URLs of remote communicators to which the event
-	 *            should be delivered
-	 */
-	public void sendContextEvent(final Message message, final URL[] to) {
-		if (to == null || message == null) {
-			throw new IllegalArgumentException();
-		}
-		MessageWrapper wrap = new MessageWrapper(MessageType.Context, message,
-				"");
-		for (URL url : to) {
-			sendMessage(wrap, url);
-		}
-	}
+    /**
+     * Sends a context event to other AALSpace Gateway Communicators listening
+     * at given URL.
+     *
+     * @param message
+     *            context event to be sent
+     * @param to
+     *            a list of URLs of remote communicators to which the event
+     *            should be delivered
+     */
+    public void sendContextEvent(final Message message, final URL[] to) {
+        if (to == null || message == null) {
+            throw new IllegalArgumentException();
+        }
+        MessageWrapper wrap = new MessageWrapper(MessageType.Context, message,
+                "");
+        for (URL url : to) {
+            sendMessage(wrap, url);
+        }
+    }
 
-	/**
-	 * Sends a ui call to other AALSpace Gateway Communicators listening at
-	 * given URL.
-	 * 
-	 * @param message
-	 *            context event to be sent
-	 * @param to
-	 *            a list of URLs of remote communicators to which the event
-	 *            should be delivered
-	 */
-	public void sendUIRequest(final Message message, final URL[] to) {
-		if (to == null || message == null) {
-			throw new IllegalArgumentException();
-		}
-		MessageWrapper wrap = new MessageWrapper(MessageType.UI, message, "");
-		for (URL url : to) {
-			sendMessage(wrap, url);
-		}
-	}
+    /**
+     * Sends a ui call to other AALSpace Gateway Communicators listening at
+     * given URL.
+     *
+     * @param message
+     *            context event to be sent
+     * @param to
+     *            a list of URLs of remote communicators to which the event
+     *            should be delivered
+     */
+    public void sendUIRequest(final Message message, final URL[] to) {
+        if (to == null || message == null) {
+            throw new IllegalArgumentException();
+        }
+        MessageWrapper wrap = new MessageWrapper(MessageType.UI, message, "");
+        for (URL url : to) {
+            sendMessage(wrap, url);
+        }
+    }
 
-	/**
-	 * Sends a ui response to other AALSpace Gateway Communicators listening at
-	 * given URL.
-	 * 
-	 * @param message
-	 *            ui response
-	 * @param to
-	 *            a list of URLs of remote communicators to which the event
-	 *            should be delivered
-	 */
-	public void sendUIResponse(final Message message, final URL[] to) {
-		if (to == null || message == null) {
-			throw new IllegalArgumentException();
-		}
-		MessageWrapper wrap = new MessageWrapper(MessageType.UIResponse,
-				message, "");
-		for (URL url : to) {
-			sendMessage(wrap, url);
-		}
-	}
+    /**
+     * Sends a ui response to other AALSpace Gateway Communicators listening at
+     * given URL.
+     *
+     * @param message
+     *            ui response
+     * @param to
+     *            a list of URLs of remote communicators to which the event
+     *            should be delivered
+     */
+    public void sendUIResponse(final Message message, final URL[] to) {
+        if (to == null || message == null) {
+            throw new IllegalArgumentException();
+        }
+        MessageWrapper wrap = new MessageWrapper(MessageType.UIResponse,
+                message, "");
+        for (URL url : to) {
+            sendMessage(wrap, url);
+        }
+    }
 
-	/**
-	 * Sends a service request to another AALSpace Gateway Communicator
-	 * listening at given URL, waits for the response and returns it.
-	 * 
-	 * Equal to sendServiceRequest(message, to, 0);
-	 * 
-	 * @param message
-	 *            request massage to be sent to the remote communicator
-	 * @param to
-	 *            remote communicator's URL
-	 * @return response message
-	 */
-	public Message[] sendServiceRequest(final Message message, final URL[] to) {
-		if (to == null || message == null) {
-			throw new IllegalArgumentException();
-		}
-		Message[] returnedValues = new Message[to.length];
-		for (int i = 0; i < to.length; i++) {
-			MessageWrapper wrapReq = new MessageWrapper(
-					MessageType.ServiceRequest, message, "");
-			MessageWrapper wrapResp = sendMessage(wrapReq, to[i]);
-			returnedValues[i] = wrapResp.getMessage();
-		}
-		return returnedValues;
-	}
+    /**
+     * Sends a service request to another AALSpace Gateway Communicator
+     * listening at given URL, waits for the response and returns it.
+     *
+     * Equal to sendServiceRequest(message, to, 0);
+     *
+     * @param message
+     *            request massage to be sent to the remote communicator
+     * @param to
+     *            remote communicator's URL
+     * @return response message
+     */
+    public Message[] sendServiceRequest(final Message message, final URL[] to) {
+        if (to == null || message == null) {
+            throw new IllegalArgumentException();
+        }
+        Message[] returnedValues = new Message[to.length];
+        for (int i = 0; i < to.length; i++) {
+            MessageWrapper wrapReq = new MessageWrapper(
+                    MessageType.ServiceRequest, message, "");
+            MessageWrapper wrapResp = sendMessage(wrapReq, to[i]);
+            returnedValues[i] = wrapResp.getMessage();
+        }
+        return returnedValues;
+    }
 
-	public Message sendServiceRequest(final Message message, final URL to) {
-		if (to == null || message == null) {
-			throw new IllegalArgumentException();
-		}
-		MessageWrapper wrapReq = new MessageWrapper(MessageType.ServiceRequest,
-				message, "");
-		MessageWrapper wrapResp = sendMessage(wrapReq, to);
-		return wrapResp.getMessage();
-	}
+    public Message sendServiceRequest(final Message message, final URL to) {
+        if (to == null || message == null) {
+            throw new IllegalArgumentException();
+        }
+        MessageWrapper wrapReq = new MessageWrapper(MessageType.ServiceRequest,
+                message, "");
+        MessageWrapper wrapResp = sendMessage(wrapReq, to);
+        return wrapResp.getMessage();
+    }
 
-	/**
-	 * Sends a service request to another AALSpace Gateway Communicator
-	 * listening at given URL, waits for the response and returns it if arrived
-	 * before timing out.
-	 * 
-	 * @param message
-	 *            request massage to be sent to the remote communicator
-	 * @param to
-	 *            remote communicator's URL
-	 * @param timeout
-	 *            time in milliseconds to wait for the response
-	 * @return response message
-	 * @throws TimeoutException
-	 *             when timed out
-	 */
-	public Message[] sendServiceRequest(final Message message, final URL[] to,
-			final long timeout) throws TimeoutException {
-		if (to == null || message == null || timeout < 0) {
-			throw new IllegalArgumentException();
-		}
-		if (timeout == 0) {
-			return sendServiceRequest(message, to);
-		}
+    /**
+     * Sends a service request to another AALSpace Gateway Communicator
+     * listening at given URL, waits for the response and returns it if arrived
+     * before timing out.
+     *
+     * @param message
+     *            request massage to be sent to the remote communicator
+     * @param to
+     *            remote communicator's URL
+     * @param timeout
+     *            time in milliseconds to wait for the response
+     * @return response message
+     * @throws TimeoutException
+     *             when timed out
+     */
+    public Message[] sendServiceRequest(final Message message, final URL[] to,
+            final long timeout) throws TimeoutException {
+        if (to == null || message == null || timeout < 0) {
+            throw new IllegalArgumentException();
+        }
+        if (timeout == 0) {
+            return sendServiceRequest(message, to);
+        }
 
-		Message[] returnedValues = new Message[to.length];
-		for (int i = 0; i < to.length; i++) {
-			final int index = i;
-			FutureTask<Message> task = new FutureTask<Message>(
-					new Callable<Message>() {
-						public Message call() throws Exception {
-							return sendServiceRequest(message, to[index]);
-						}
-					});
-			executor.execute(task);
-			try {
-				while (true) {
-					try {
-						returnedValues[i] = task.get(timeout,
-								TimeUnit.MILLISECONDS);
-						break;
-					} catch (InterruptedException e) {
-						// ignore interruption and keep waiting
-						continue;
-					}
-				}
-			} catch (ExecutionException ex) {
-				throw new CommunicationException(ex);
-			}
-		}
-		return returnedValues;
-	}
+        Message[] returnedValues = new Message[to.length];
+        for (int i = 0; i < to.length; i++) {
+            final int index = i;
+            FutureTask<Message> task = new FutureTask<Message>(
+                    new Callable<Message>() {
+                        public Message call() throws Exception {
+                            return sendServiceRequest(message, to[index]);
+                        }
+                    });
+            executor.execute(task);
+            try {
+                while (true) {
+                    try {
+                        returnedValues[i] = task.get(timeout,
+                                TimeUnit.MILLISECONDS);
+                        break;
+                    } catch (InterruptedException e) {
+                        // ignore interruption and keep waiting
+                        continue;
+                    }
+                }
+            } catch (ExecutionException ex) {
+                throw new CommunicationException(ex);
+            }
+        }
+        return returnedValues;
+    }
 
-	/**
-	 * Sends a service request to another AALSpace Gateway Communicator
-	 * listening at given URL, registers callback which will be notified once
-	 * the response arrives.
-	 * 
-	 * @param message
-	 *            request massage to be sent to the remote communicator
-	 * @param returnTo
-	 *            local communicator's URL to send back the response to
-	 * @param to
-	 *            remote communicator's URL
-	 * @param callback
-	 *            callback which will be notified once the response arrives
-	 */
-	public void sendServiceRequestAsync(final Message message,
-			final URL returnTo, final URL to, final ResponseCallback callback) {
-		if (to == null || message == null || returnTo == null
-				|| callback == null) {
-			throw new IllegalArgumentException();
-		}
+    /**
+     * Sends a service request to another AALSpace Gateway Communicator
+     * listening at given URL, registers callback which will be notified once
+     * the response arrives.
+     *
+     * @param message
+     *            request massage to be sent to the remote communicator
+     * @param returnTo
+     *            local communicator's URL to send back the response to
+     * @param to
+     *            remote communicator's URL
+     * @param callback
+     *            callback which will be notified once the response arrives
+     */
+    public void sendServiceRequestAsync(final Message message,
+            final URL returnTo, final URL to, final ResponseCallback callback) {
+        if (to == null || message == null || returnTo == null
+                || callback == null) {
+            throw new IllegalArgumentException();
+        }
 
-		// sending the message
-		MessageWrapper wrapReq = new MessageWrapper(
-				MessageType.ServiceRequestAsync, message, returnTo, "");
-		callbacks.put(wrapReq.getId(), callback);
-		MessageWrapper wrapResp = sendMessage(wrapReq, to);
-		if (wrapResp != null) {
-			// there should be no response
-			throw new CommunicationException("protocol failure");
-		}
-	}
+        // sending the message
+        MessageWrapper wrapReq = new MessageWrapper(
+                MessageType.ServiceRequestAsync, message, returnTo, "");
+        callbacks.put(wrapReq.getId(), callback);
+        MessageWrapper wrapResp = sendMessage(wrapReq, to);
+        if (wrapResp != null) {
+            // there should be no response
+            throw new CommunicationException("protocol failure");
+        }
+    }
 
-	/**
-	 * Sends a prepared wrapped to specified URL and receives a wrapper as a
-	 * response if any.
-	 * 
-	 * @param w
-	 *            the message
-	 * @param to
-	 *            where to send the message
-	 * @return wrapper with the response or null of nothing sent back
-	 * @throws ClassNotFoundException
-	 * @throws IOException
-	 */
-	private MessageWrapper sendMessage(final MessageWrapper w, final URL to) {
-		if (w == null || to == null) {
-			throw new IllegalArgumentException();
-		}
+    /**
+     * Sends a prepared wrapped to specified URL and receives a wrapper as a
+     * response if any.
+     *
+     * @param w
+     *            the message
+     * @param to
+     *            where to send the message
+     * @return wrapper with the response or null of nothing sent back
+     * @throws ClassNotFoundException
+     * @throws IOException
+     */
+    private MessageWrapper sendMessage(final MessageWrapper w, final URL to) {
+        if (w == null || to == null) {
+            throw new IllegalArgumentException();
+        }
 
-		logInfo("sending message: %s to %s", w, to);
-		MessageWrapper resp = null;
-		try {
-			resp = commHandler.sendMessage(w, to);
-		} catch (IOException e) {
-			throw new CommunicationException(e);
-		} catch (ClassNotFoundException e) {
-			throw new CommunicationException(e);
-		} catch (CryptoException e) {
-			throw new CommunicationException(e);
-		}
-		return resp;
-	}
+        String[] session = null;
 
-	/**
-	 * Util logging function.
-	 * 
-	 * @param format
-	 *            format
-	 * @param args
-	 *            args
-	 */
-	private static void logInfo(final String format, final Object... args) {
-		String callingMethod = Thread.currentThread().getStackTrace()[2]
-				.getMethodName();
-		System.out.format("[%s] %s%n", callingMethod,
-				String.format(format, args));
-		// LogUtils.logInfo(Activator.mc, Activator.class.getClass(),
-		// callingMethod.getMethodName(),
-		// new Object[] { String.format(format, args) }, null);
-	}
+        if ("Router".equals(CommunicatorStarter.properties
+                .getProperty(GatewayCommunicator.ROUTING_MODE))) {
+            // TODO Extract session from message
+            // extractTargetSession(w);
+        } else {
+            session = new String[] { (SessionManager.getInstance()
+                    .getSessionIds()[0]).toString() };
+        }
 
-	public Message[] sendImportRequest(final Message message, final URL[] to) {
-		if (to == null || message == null) {
-			throw new IllegalArgumentException();
-		}
-		Message[] resultsValue = new Message[to.length];
-		MessageWrapper wrap = new MessageWrapper(MessageType.ImportRequest,
-				message, "");
-		for (int i = 0; i < to.length; i++) {
-			MessageWrapper wrapper = sendMessage(wrap, to[i]);
-			if (wrapper == null){
-				throw new CommunicationException("Import from " + to[i].toString() + " resulted in null value MessageWrapper object. Is hash-key property the same in both spaces???");
-			}
-			resultsValue[i] = wrapper.getMessage();
-		}
-		return resultsValue;
-	}
+        logInfo("sending message: %s to %s", w, to);
+        MessageWrapper resp = null;
+        try {
+            resp = commHandler.sendMessage(w, session);
+        } catch (IOException e) {
+            throw new CommunicationException(e);
+        } catch (ClassNotFoundException e) {
+            throw new CommunicationException(e);
+        } catch (CryptoException e) {
+            throw new CommunicationException(e);
+        }
+        return resp;
+    }
 
-	public void sendImportRefresh(final Message message, final URL[] to) {
-		if (to == null || message == null) {
-			throw new IllegalArgumentException();
-		}
-		MessageWrapper wrap = new MessageWrapper(MessageType.ImportRefresh,
-				message, "");
-		for (URL url : to) {
-			sendMessage(wrap, url);
-		}
-	}
+    /**
+     * Util logging function.
+     *
+     * @param format
+     *            format
+     * @param args
+     *            args
+     */
+    private static void logInfo(final String format, final Object... args) {
+        String callingMethod = Thread.currentThread().getStackTrace()[2]
+                .getMethodName();
+        System.out.format("[%s] %s%n", callingMethod,
+                String.format(format, args));
+        // LogUtils.logInfo(Activator.mc, Activator.class.getClass(),
+        // callingMethod.getMethodName(),
+        // new Object[] { String.format(format, args) }, null);
+    }
 
-	public void sendImportRemoval(final Message message, final URL[] to) {
-		if (to == null || message == null) {
-			throw new IllegalArgumentException();
-		}
-		MessageWrapper wrap = new MessageWrapper(MessageType.ImportRemoval,
-				message, "");
-		for (URL url : to) {
-			sendMessage(wrap, url);
-		}
-	}
+    public Message[] sendImportRequest(final Message message, final URL[] to) {
+        if (to == null || message == null) {
+            throw new IllegalArgumentException();
+        }
+        Message[] resultsValue = new Message[to.length];
+        MessageWrapper wrap = new MessageWrapper(MessageType.ImportRequest,
+                message, "");
+        for (int i = 0; i < to.length; i++) {
+            MessageWrapper wrapper = sendMessage(wrap, to[i]);
+            if (wrapper == null) {
+                throw new CommunicationException(
+                        "Import from "
+                                + to[i].toString()
+                                + " resulted in null value MessageWrapper object. Is hash-key property the same in both spaces???");
+            }
+            resultsValue[i] = wrapper.getMessage();
+        }
+        return resultsValue;
+    }
 
-	public Message[] sendServiceRequest(final Message message) {
-		return this.sendServiceRequest(message, getRemoteURLs());
-	}
+    public void sendImportRefresh(final Message message, final URL[] to) {
+        if (to == null || message == null) {
+            throw new IllegalArgumentException();
+        }
+        MessageWrapper wrap = new MessageWrapper(MessageType.ImportRefresh,
+                message, "");
+        for (URL url : to) {
+            sendMessage(wrap, url);
+        }
+    }
 
-	public Message[] sendServiceRequest(final Message message,
-			final long timeout) throws TimeoutException {
-		return this.sendServiceRequest(message, getRemoteURLs(), timeout);
-	}
+    public void sendImportRemoval(final Message message, final URL[] to) {
+        if (to == null || message == null) {
+            throw new IllegalArgumentException();
+        }
+        MessageWrapper wrap = new MessageWrapper(MessageType.ImportRemoval,
+                message, "");
+        for (URL url : to) {
+            sendMessage(wrap, url);
+        }
+    }
 
-	public void sendContextEvent(final Message message) {
-		this.sendContextEvent(message, getRemoteURLs());
-	}
+    public Message[] sendServiceRequest(final Message message) {
+        return this.sendServiceRequest(message, getRemoteURLs());
+    }
 
-	public void sendUIResponse(final Message message) {
-		this.sendUIResponse(message, getRemoteURLs());
-	}
+    public Message[] sendServiceRequest(final Message message,
+            final long timeout) throws TimeoutException {
+        return this.sendServiceRequest(message, getRemoteURLs(), timeout);
+    }
 
-	public void sendUIRequest(final Message message) {
-		this.sendUIRequest(message, getRemoteURLs());
-	}
+    public void sendContextEvent(final Message message) {
+        this.sendContextEvent(message, getRemoteURLs());
+    }
 
-	public Message sendImportRequest(final Message message) {
-		return this.sendImportRequest(message, getRemoteURLs())[0];
-	}
+    public void sendUIResponse(final Message message) {
+        this.sendUIResponse(message, getRemoteURLs());
+    }
 
-	public void sendImportRefresh(final Message message) {
-		this.sendImportRefresh(message, getRemoteURLs());
-	}
+    public void sendUIRequest(final Message message) {
+        this.sendUIRequest(message, getRemoteURLs());
+    }
 
-	public void sendImportRemoval(final Message message) {
-		this.sendImportRemoval(message, getRemoteURLs());
-	}
+    public Message sendImportRequest(final Message message) {
+        return this.sendImportRequest(message, getRemoteURLs())[0];
+    }
 
-	public void handleMessage(final InputStream in, final OutputStream out) {
-		MessageWrapper wrapOut = null;
-		MessageWrapper wrapIn = null;
-		try{
-			logInfo("handleMessage");
-			wrapIn = Serializer.unmarshalMessage(in);
-			logInfo("handleMessage: type: %s", wrapIn.getType());
+    public void sendImportRefresh(final Message message) {
+        this.sendImportRefresh(message, getRemoteURLs());
+    }
 
-			switch (wrapIn.getType()) {
-			case ImportRequest:
-				ImportRequest request = Serializer.Instance.unmarshall(
-						ImportRequest.class, wrapIn.getMessage());
-				
-				EIOperationManager.Type type = null;
-				switch (BusMemberType.valueOf(request.getMember())) {
-				case ServiceCaller:
-					type = EIOperationManager.Type.Service;
-					break;
-				case ContextSubscriber:
-					type = EIOperationManager.Type.Context;
-					break;
-				case UICaller:
-					type = EIOperationManager.Type.UI;
-					break;
-				}
-				
-				try {
-					EIOperationManager.Instance.executeExportOperationChain(request, type);
-				} catch (InterruptExecutionException e) {
-					ProxyRegistration errorRegistration = new ProxyRegistration(e.getMessage());
-					wrapOut = new MessageWrapper(MessageType.ImportResponse,
-							Serializer.Instance.marshall(errorRegistration),
-							wrapIn.getId(), "");
-					logInfo("Sending ImportResponse with failed interceptor execution: %s", errorRegistration);
-					Serializer.sendMessageToStream(wrapOut, out);
-					return;
-				}
-				
-				logInfo("Got ImportRequest: %s", request);
-				ProxyRegistration registration = this.exportManager
-						.registerProxies(request);
-				
-				
-				String[] serialized = null;
-				
-				switch (BusMemberType.valueOf(request.getMember())) {
-				case ServiceCaller:
-					Map<String, List<ServiceProfile>> profiles = (Map<String, List<ServiceProfile>>) registration
-							.getReturnedValues();
-					if (profiles != null) {
-						logInfo("Profiles count: %d", profiles.values().size());
-					}
-					
-					Map<String, List<String>> serializedMap = new HashMap<String, List<String>>();
-					
-					for(String key: profiles.keySet()){
-						if (serializedMap.get(key) == null){
-							serializedMap.put(key, new ArrayList<String>());
-						}
-						for(ServiceProfile p : profiles.get(key)){
-							serializedMap.get(key).add((String) Serializer.Instance
-									.marshallObject(p).getContent());
-						}
-					}
-					
-					/*serialized = new String[profiles.values().size()+2*profiles.keySet().s];
-					
-					
-					for (int i = 2; i < profiles.values().size().length + 2; i++) {
-						serialized[i] = (String) Serializer.Instance
-								.marshallObject(profiles[i]).getContent();
-					}*/
-					registration.setReturnedValues(serializedMap);
-					wrapOut = new MessageWrapper(MessageType.ImportResponse,
-							Serializer.Instance.marshall(registration),
-							wrapIn.getId(), "");
-					logInfo("Sending ImportResponse: %s", registration);
-					Serializer.sendMessageToStream(wrapOut, out);
-					break;
-				case ContextSubscriber:
-					ContextEventPattern[] cpe = (ContextEventPattern[]) registration
-							.getReturnedValues();
-					serialized = new String[cpe.length];
-					System.out.println("Export sent:");
-					for (int i = 0; i < cpe.length; i++) {
-						serialized[i] = (String) Serializer.Instance
-								.marshallObject(cpe[i]).getContent();
-						// System.out.println(serialized[i]);
-						// ContextEventPattern deserialized =
-						// Serializer.Instance.unmarshallObject(ContextEventPattern.class,
-						// serialized[i]);
-						// System.out.println(deserialized.toStringRecursive());
-					}
-					if (cpe != null) {
-						logInfo("ContextEventPattern count: %d", cpe.length);
-					}
-					// TODO because of BUG during deserialization of context
-					// event we do not register
-					// proxypublisher in local space
-					registration.setReturnedValues(new String[] {});
-					// registration.setReturnedValues(serialized);
+    public void sendImportRemoval(final Message message) {
+        this.sendImportRemoval(message, getRemoteURLs());
+    }
 
-					wrapOut = new MessageWrapper(MessageType.ImportResponse,
-							Serializer.Instance.marshall(registration),
-							wrapIn.getId(), "");
-					logInfo("Sending ImportResponse: %s", "");
-					Serializer.sendMessageToStream(wrapOut, out);
-					break;
-					
-				case UICaller:
-					throw new Exception("Not yet implemented");
-				}
-				break;
-			case ImportRefresh:
-				this.importManager.refreshProxy(Serializer.Instance.unmarshall(
-						ProxyRegistration.class, wrapIn.getMessage()));
-				break;
-			case ImportRemoval:
-				this.exportManager.unregisterProxies(Serializer.Instance
-						.unmarshall(ImportRequest.class, wrapIn.getMessage()));
-				break;
-			case ServiceRequest:
-				// send the request to the bus
-				ServiceResponse response = this.exportManager
-						.sendServiceRequest(wrapIn.getMessage()
-								.getRemoteProxyRegistrationId(),
-								Serializer.Instance.unmarshallObject(
-										ServiceCall.class,
-										wrapIn.getMessage()),wrapIn.getMessage()
-										.getRemoteMemberId());
-				// wrapper for the response message
-				wrapOut = new MessageWrapper(MessageType.ServiceResponseAsync,
-						Serializer.Instance.marshallObject(response),
-						wrapIn.getId(), "");
-				// send back the response
-				logInfo("sending back the response: %s", wrapOut);
-				Serializer.sendMessageToStream(wrapOut, out);
-				break;
-			case ServiceRequestAsync:
-//				DEPRECATED
-//				Runnable task = new Runnable() {
-//					public void run() {
-//						// send the request to the bus
-//						ServiceResponse response = null;
-//						try {
-//							response = exportManager.sendServiceRequest(wrapIn
-//									.getSourceId(), Serializer.Instance
-//									.unmarshallObject(ServiceRequest.class,
-//											wrapIn.getMessage()));
-//
-//							// wrapper for the response message
-//							MessageWrapper wrapOut = new MessageWrapper(
-//									MessageType.ServiceResponseAsync,
-//									Serializer.Instance
-//											.marshallObject(response),
-//									wrapIn.getId(), "");
-//							// send back the response
-//							logInfo("sending back the response: %s", wrapOut);
-//							sendMessage(wrapOut, wrapIn.getReturnTo());
-//						} catch (Exception e) {
-//							logInfo("ERROR: %s", e);
-//							throw new RuntimeException(e);
-//						}
-//					}
-//				};
-//				executor.execute(task);
-				break;
-			case UI:
-				this.exportManager.sendUIRequest(wrapIn.getSourceId(),
-						Serializer.Instance.unmarshallObject(UIRequest.class,
-								wrapIn.getMessage()));
-				logInfo("published ui request to the bus: %s", wrapIn);
-				break;
-			case ServiceResponseAsync:
-				ResponseCallback call = callbacks.get(wrapIn.getId());
-				if (call == null) {
-					throw new Exception("couldn't find callback");
-				}
-				call.collectResponse(wrapIn.getMessage());
-				break;
-			case Context:
-				ContextEvent remoteContextEvent = Serializer.Instance
-						.unmarshallObject(ContextEvent.class,
-								wrapIn.getMessage());
-				String targetId = wrapIn.getMessage()
-						.getRemoteProxyRegistrationId();
-				this.importManager.sendContextEvent(targetId,
-						remoteContextEvent);
-				break;
+    public void handleMessage(final MessageWrapper wrapIn,
+            final OutputStream out) {
+        MessageWrapper wrapOut = null;
+        try {
+            logInfo("Gateway comunication handleMessage: type: %s",
+                    wrapIn.getType());
 
-			case UIResponse:
-				// send the request to the bus
-				this.importManager.sendUIResponse(wrapIn.getSourceId(),
-						Serializer.Instance.unmarshallObject(UIResponse.class,
-								wrapIn.getMessage()));
-				logInfo("published ui request to the bus: %s", wrapIn);
-				break;
-			default:
-				throw new UnsupportedOperationException();
-			}
-		} catch (Exception ex) {
-			logInfo("ERROR: %s", ex);
-			ex.printStackTrace();
-			try{
-				wrapOut = new MessageWrapper(MessageType.Error,
-						Serializer.Instance.marshallObject(ex.getMessage()),
-						UUID.randomUUID(), "");
-				if (wrapIn != null){
-					sendMessage(wrapOut, wrapIn.getReturnTo());
-				}else{
-					Serializer.sendMessageToStream(wrapOut, out);
-				}
-			}catch(Exception e){
-				//intentionally skipped
-			}
-			
-		}
-	}
+            switch (wrapIn.getType()) {
+            case ImportRequest:
+                ImportRequest request = Serializer.Instance.unmarshall(
+                        ImportRequest.class, wrapIn.getMessage());
 
-	public void stop() {
-		commHandler.stop();
-	}
+                EIOperationManager.Type type = null;
+                switch (BusMemberType.valueOf(request.getMember())) {
+                case ServiceCaller:
+                    type = EIOperationManager.Type.Service;
+                    break;
+                case ContextSubscriber:
+                    type = EIOperationManager.Type.Context;
+                    break;
+                case UICaller:
+                    type = EIOperationManager.Type.UI;
+                    break;
+                }
 
-	public void start() throws Exception {
-		commHandler.start();
-	}
+                try {
+                    EIOperationManager.Instance.executeExportOperationChain(
+                            request, type);
+                } catch (InterruptExecutionException e) {
+                    ProxyRegistration errorRegistration = new ProxyRegistration(
+                            e.getMessage());
+                    wrapOut = new MessageWrapper(MessageType.ImportResponse,
+                            Serializer.Instance.marshall(errorRegistration),
+                            wrapIn.getId(), "");
+                    logInfo("Sending ImportResponse with failed interceptor execution: %s",
+                            errorRegistration);
+                    Serializer.sendMessageToStream(wrapOut, out);
+                    return;
+                }
+
+                logInfo("Got ImportRequest: %s", request);
+                ProxyRegistration registration = this.exportManager
+                        .registerProxies(request);
+
+                String[] serialized = null;
+
+                switch (BusMemberType.valueOf(request.getMember())) {
+                case ServiceCaller:
+                    Map<String, List<ServiceProfile>> profiles = (Map<String, List<ServiceProfile>>) registration
+                            .getReturnedValues();
+                    if (profiles != null) {
+                        logInfo("Profiles count: %d", profiles.values().size());
+                    }
+
+                    Map<String, List<String>> serializedMap = new HashMap<String, List<String>>();
+
+                    for (String key : profiles.keySet()) {
+                        if (serializedMap.get(key) == null) {
+                            serializedMap.put(key, new ArrayList<String>());
+                        }
+                        for (ServiceProfile p : profiles.get(key)) {
+                            serializedMap.get(key).add(
+                                    (String) Serializer.Instance
+                                            .marshallObject(p).getContent());
+                        }
+                    }
+
+                    /*
+                     * serialized = new
+                     * String[profiles.values().size()+2*profiles.keySet().s];
+                     *
+                     *
+                     * for (int i = 2; i < profiles.values().size().length + 2;
+                     * i++) { serialized[i] = (String) Serializer.Instance
+                     * .marshallObject(profiles[i]).getContent(); }
+                     */
+                    registration.setReturnedValues(serializedMap);
+                    wrapOut = new MessageWrapper(MessageType.ImportResponse,
+                            Serializer.Instance.marshall(registration),
+                            wrapIn.getId(), "");
+                    logInfo("Sending ImportResponse: %s", registration);
+                    Serializer.sendMessageToStream(wrapOut, out);
+                    break;
+                case ContextSubscriber:
+                    ContextEventPattern[] cpe = (ContextEventPattern[]) registration
+                            .getReturnedValues();
+                    serialized = new String[cpe.length];
+                    System.out.println("Export sent:");
+                    for (int i = 0; i < cpe.length; i++) {
+                        serialized[i] = (String) Serializer.Instance
+                                .marshallObject(cpe[i]).getContent();
+                        // System.out.println(serialized[i]);
+                        // ContextEventPattern deserialized =
+                        // Serializer.Instance.unmarshallObject(ContextEventPattern.class,
+                        // serialized[i]);
+                        // System.out.println(deserialized.toStringRecursive());
+                    }
+                    if (cpe != null) {
+                        logInfo("ContextEventPattern count: %d", cpe.length);
+                    }
+                    // TODO because of BUG during deserialization of context
+                    // event we do not register
+                    // proxypublisher in local space
+                    registration.setReturnedValues(new String[] {});
+                    // registration.setReturnedValues(serialized);
+
+                    wrapOut = new MessageWrapper(MessageType.ImportResponse,
+                            Serializer.Instance.marshall(registration),
+                            wrapIn.getId(), "");
+                    logInfo("Sending ImportResponse: %s", "");
+                    Serializer.sendMessageToStream(wrapOut, out);
+                    break;
+
+                case UICaller:
+                    throw new Exception("Not yet implemented");
+                }
+                break;
+            case ImportRefresh:
+                this.importManager.refreshProxy(Serializer.Instance.unmarshall(
+                        ProxyRegistration.class, wrapIn.getMessage()));
+                break;
+            case ImportRemoval:
+                this.exportManager.unregisterProxies(Serializer.Instance
+                        .unmarshall(ImportRequest.class, wrapIn.getMessage()));
+                break;
+            case ServiceRequest:
+                // send the request to the bus
+                ServiceResponse response = this.exportManager
+                        .sendServiceRequest(
+                                wrapIn.getMessage()
+                                        .getRemoteProxyRegistrationId(),
+                                Serializer.Instance.unmarshallObject(
+                                        ServiceCall.class, wrapIn.getMessage()),
+                                wrapIn.getMessage().getRemoteMemberId());
+                // wrapper for the response message
+                wrapOut = new MessageWrapper(MessageType.ServiceResponseAsync,
+                        Serializer.Instance.marshallObject(response),
+                        wrapIn.getId(), "");
+                // send back the response
+                logInfo("sending back the response: %s", wrapOut);
+                Serializer.sendMessageToStream(wrapOut, out);
+                break;
+            case ServiceRequestAsync:
+                // DEPRECATED
+                // Runnable task = new Runnable() {
+                // public void run() {
+                // // send the request to the bus
+                // ServiceResponse response = null;
+                // try {
+                // response = exportManager.sendServiceRequest(wrapIn
+                // .getSourceId(), Serializer.Instance
+                // .unmarshallObject(ServiceRequest.class,
+                // wrapIn.getMessage()));
+                //
+                // // wrapper for the response message
+                // MessageWrapper wrapOut = new MessageWrapper(
+                // MessageType.ServiceResponseAsync,
+                // Serializer.Instance
+                // .marshallObject(response),
+                // wrapIn.getId(), "");
+                // // send back the response
+                // logInfo("sending back the response: %s", wrapOut);
+                // sendMessage(wrapOut, wrapIn.getReturnTo());
+                // } catch (Exception e) {
+                // logInfo("ERROR: %s", e);
+                // throw new RuntimeException(e);
+                // }
+                // }
+                // };
+                // executor.execute(task);
+                break;
+            case UI:
+                this.exportManager.sendUIRequest(wrapIn.getSourceId(),
+                        Serializer.Instance.unmarshallObject(UIRequest.class,
+                                wrapIn.getMessage()));
+                logInfo("published ui request to the bus: %s", wrapIn);
+                break;
+            case ServiceResponseAsync:
+                ResponseCallback call = callbacks.get(wrapIn.getId());
+                if (call == null) {
+                    throw new Exception("couldn't find callback");
+                }
+                call.collectResponse(wrapIn.getMessage());
+                break;
+            case Context:
+                ContextEvent remoteContextEvent = Serializer.Instance
+                        .unmarshallObject(ContextEvent.class,
+                                wrapIn.getMessage());
+                String targetId = wrapIn.getMessage()
+                        .getRemoteProxyRegistrationId();
+                this.importManager.sendContextEvent(targetId,
+                        remoteContextEvent);
+                break;
+
+            case UIResponse:
+                // send the request to the bus
+                this.importManager.sendUIResponse(wrapIn.getSourceId(),
+                        Serializer.Instance.unmarshallObject(UIResponse.class,
+                                wrapIn.getMessage()));
+                logInfo("published ui request to the bus: %s", wrapIn);
+                break;
+            default:
+                throw new UnsupportedOperationException();
+            }
+        } catch (Exception ex) {
+            logInfo("ERROR: %s", ex);
+            ex.printStackTrace();
+            try {
+                wrapOut = new MessageWrapper(MessageType.Error,
+                        Serializer.Instance.marshallObject(ex.getMessage()),
+                        UUID.randomUUID(), "");
+                if (wrapIn != null) {
+                    sendMessage(wrapOut, wrapIn.getReturnTo());
+                } else {
+                    Serializer.sendMessageToStream(wrapOut, out);
+                }
+            } catch (Exception e) {
+                // intentionally skipped
+            }
+
+        }
+    }
+
+    public void stop() {
+        commHandler.stop();
+    }
+
+    public void start() throws Exception {
+        commHandler.start();
+    }
 
 }

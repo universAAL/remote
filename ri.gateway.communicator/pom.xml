@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+  xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.universAAL.remote.multitenant</groupId>
@@ -55,6 +55,10 @@
       <groupId>org.bouncycastle</groupId>
       <artifactId>jce.jdk13</artifactId>
     </dependency>
+    <dependency>
+      <groupId>com.google.guava</groupId>
+      <artifactId>guava</artifactId>
+    </dependency>
   </dependencies>
   <build>
     <plugins>
@@ -69,21 +73,33 @@
             <Bundle-Description>${project.description}</Bundle-Description>
             <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
             <Import-Package>org.osgi.framework;version="[1,2)",org.bouncycastle.crypto,
-				org.bouncycastle.crypto.engines, org.bouncycastle.crypto.modes,
-				org.bouncycastle.crypto.paddings, org.bouncycastle.crypto.params,
-				org.universAAL.middleware.bus.member,
-				org.universAAL.middleware.bus.model,
-				org.universAAL.middleware.container,
-				org.universAAL.middleware.container.osgi,
-				org.universAAL.middleware.container.osgi.util,
-				org.universAAL.middleware.container.utils,
-				org.universAAL.middleware.context,
-				org.universAAL.middleware.context.owl,
-				org.universAAL.middleware.rdf,
-				org.universAAL.middleware.serialization,
-				org.universAAL.middleware.service,
-				org.universAAL.middleware.service.owls.profile,
-				org.universAAL.middleware.tracker, org.universAAL.middleware.ui</Import-Package>
+              org.bouncycastle.crypto.engines, org.bouncycastle.crypto.modes,
+              org.bouncycastle.crypto.paddings, org.bouncycastle.crypto.params,
+              org.universAAL.middleware.bus.member,
+              org.universAAL.middleware.bus.model,
+              org.universAAL.middleware.container,
+              org.universAAL.middleware.container.osgi,
+              org.universAAL.middleware.container.osgi.util,
+              org.universAAL.middleware.container.utils,
+              org.universAAL.middleware.context,
+              org.universAAL.middleware.interfaces,s
+              org.universAAL.middleware.context.owl,
+              org.universAAL.middleware.rdf,
+              org.universAAL.middleware.serialization,
+              org.universAAL.middleware.service,
+              org.universAAL.middleware.service.owls.profile,
+              org.universAAL.middleware.tracker, org.universAAL.middleware.ui,
+              org.universAAL.middleware.managers.api,
+              org.universAAL.middleware.context.owl,
+              com.google.common.net.*
+              </Import-Package>
+              <Export-Package>
+              org.universAAL.ri.gateway.communicator.service
+              </Export-Package>
+              <Private-Package>
+              org.universAAL.ioc.dependencies.*,
+              org.universAAL.ri.gateway.*
+              </Private-Package>
           </instructions>
         </configuration>
       </plugin>

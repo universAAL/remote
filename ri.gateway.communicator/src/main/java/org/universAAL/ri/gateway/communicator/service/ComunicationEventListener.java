@@ -3,6 +3,10 @@
     Institute of Information Science and Technologies
     of the Italian National Research Council
 
+    Copyright 2011-2014 AGH-UST, http://www.agh.edu.pl
+    Faculty of Computer Science, Electronics and Telecommunications
+    Department of Computer Science
+
     See the NOTICE file distributed with this work for additional
     information regarding copyright ownership
 
@@ -18,21 +22,20 @@
     See the License for the specific language governing permissions and
     limitations under the License.
  */
-package org.universAAL.ioc.dependencies;
-
-
+package org.universAAL.ri.gateway.communicator.service;
 
 /**
- * 
+ *
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @version $LastChangedRevision$ ($LastChangedDate$)
  *
  */
-public interface DependencyProxy<T>  {
+public interface ComunicationEventListener {
 
-    public Object[] getFilters();
-    public T getObject();
-    public void setObject(T value);
-    public boolean isResolved();
+    public boolean onConnect(CommunicationHandler ch, LinkContext lc);
+
+    public boolean onFailure(CommunicationHandler ch, LinkContext lc);
+
+    public boolean onDicconect(CommunicationHandler ch, LinkContext lc);
 
 }

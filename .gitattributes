@@ -17,7 +17,9 @@ ri.gateway.communicator/src/main/java/org/universAAL/ioc/dependencies/impl/Waiti
 ri.gateway.communicator/src/main/java/org/universAAL/ri/gateway/communicator/Activator.java -text
 ri.gateway.communicator/src/main/java/org/universAAL/ri/gateway/communicator/service/CommunicationException.java -text
 ri.gateway.communicator/src/main/java/org/universAAL/ri/gateway/communicator/service/CommunicationHandler.java -text
+ri.gateway.communicator/src/main/java/org/universAAL/ri/gateway/communicator/service/ComunicationEventListener.java svneol=native#text/plain
 ri.gateway.communicator/src/main/java/org/universAAL/ri/gateway/communicator/service/GatewayCommunicator.java -text
+ri.gateway.communicator/src/main/java/org/universAAL/ri/gateway/communicator/service/LinkContext.java svneol=native#text/plain
 ri.gateway.communicator/src/main/java/org/universAAL/ri/gateway/communicator/service/Message.java -text
 ri.gateway.communicator/src/main/java/org/universAAL/ri/gateway/communicator/service/RemoteSpacesManager.java -text
 ri.gateway.communicator/src/main/java/org/universAAL/ri/gateway/communicator/service/ResponseCallback.java -text
@@ -26,13 +28,15 @@ ri.gateway.communicator/src/main/java/org/universAAL/ri/gateway/communicator/ser
 ri.gateway.communicator/src/main/java/org/universAAL/ri/gateway/communicator/service/impl/EncryptionWrapper.java -text
 ri.gateway.communicator/src/main/java/org/universAAL/ri/gateway/communicator/service/impl/GatewayAddress.java -text
 ri.gateway.communicator/src/main/java/org/universAAL/ri/gateway/communicator/service/impl/GatewayCommunicatorImpl.java -text
+ri.gateway.communicator/src/main/java/org/universAAL/ri/gateway/communicator/service/impl/GatewayConfiguration.java svneol=native#text/plain
 ri.gateway.communicator/src/main/java/org/universAAL/ri/gateway/communicator/service/impl/MessageType.java -text
 ri.gateway.communicator/src/main/java/org/universAAL/ri/gateway/communicator/service/impl/MessageWrapper.java -text
 ri.gateway.communicator/src/main/java/org/universAAL/ri/gateway/communicator/service/impl/SecurityEntry.java -text
 ri.gateway.communicator/src/main/java/org/universAAL/ri/gateway/communicator/service/impl/SecurityManager.java -text
 ri.gateway.communicator/src/main/java/org/universAAL/ri/gateway/communicator/service/impl/SecurityUtils.java -text
 ri.gateway.communicator/src/main/java/org/universAAL/ri/gateway/communicator/service/impl/Serializer.java -text
-ri.gateway.communicator/src/main/java/org/universAAL/ri/gateway/communicator/service/impl/SocketCommunicationHandler.java -text
+ri.gateway.communicator/src/main/java/org/universAAL/ri/gateway/communicator/service/impl/ServerSocketCommunicationHandler.java -text
+ri.gateway.communicator/src/main/java/org/universAAL/ri/gateway/communicator/service/impl/SessionManager.java svneol=native#text/plain
 ri.gateway.communicator/src/main/java/org/universAAL/ri/gateway/eimanager/ExportExecutor.java -text
 ri.gateway.communicator/src/main/java/org/universAAL/ri/gateway/eimanager/ExportManager.java -text
 ri.gateway.communicator/src/main/java/org/universAAL/ri/gateway/eimanager/ExportOperationInterceptor.java -text
@@ -64,6 +68,9 @@ ri.gateway.communicator/src/main/java/org/universAAL/ri/gateway/eimanager/impl/e
 ri.gateway.communicator/src/main/java/org/universAAL/ri/gateway/eimanager/impl/exporting/ProxyRegistration.java -text
 ri.gateway.communicator/src/main/java/org/universAAL/ri/gateway/eimanager/impl/exporting/ProxyServiceCaller.java -text
 ri.gateway.communicator/src/main/java/org/universAAL/ri/gateway/eimanager/impl/exporting/ProxyUICaller.java -text
+ri.gateway.communicator/src/main/java/org/universAAL/ri/gateway/eimanager/impl/importing/ConnectionRequest.java svneol=native#text/plain
+ri.gateway.communicator/src/main/java/org/universAAL/ri/gateway/eimanager/impl/importing/ConnectionResponse.java svneol=native#text/plain
+ri.gateway.communicator/src/main/java/org/universAAL/ri/gateway/eimanager/impl/importing/DisconnectionRequest.java svneol=native#text/plain
 ri.gateway.communicator/src/main/java/org/universAAL/ri/gateway/eimanager/impl/importing/ImportProcessExecutor.java -text
 ri.gateway.communicator/src/main/java/org/universAAL/ri/gateway/eimanager/impl/importing/ImportRequest.java -text
 ri.gateway.communicator/src/main/java/org/universAAL/ri/gateway/eimanager/impl/importing/ImportedProxyManager.java -text
@@ -71,6 +78,7 @@ ri.gateway.communicator/src/main/java/org/universAAL/ri/gateway/eimanager/impl/i
 ri.gateway.communicator/src/main/java/org/universAAL/ri/gateway/eimanager/impl/importing/ProxyContextPublisher.java -text
 ri.gateway.communicator/src/main/java/org/universAAL/ri/gateway/eimanager/impl/importing/ProxyServiceCallee.java -text
 ri.gateway.communicator/src/main/java/org/universAAL/ri/gateway/eimanager/impl/importing/ProxyUIHandler.java -text
+ri.gateway.communicator/src/main/java/org/universAAL/ri/gateway/eimanager/impl/importing/ReconnectionRequest.java svneol=native#text/plain
 ri.gateway.communicator/src/main/java/org/universAAL/ri/gateway/eimanager/impl/registry/AbstractRegistry.java -text
 ri.gateway.communicator/src/main/java/org/universAAL/ri/gateway/eimanager/impl/registry/EIRepoAccessManager.java -text
 ri.gateway.communicator/src/main/java/org/universAAL/ri/gateway/eimanager/impl/registry/IRegistryListener.java -text

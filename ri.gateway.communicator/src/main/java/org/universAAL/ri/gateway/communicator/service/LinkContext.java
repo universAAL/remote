@@ -18,21 +18,45 @@
     See the License for the specific language governing permissions and
     limitations under the License.
  */
-package org.universAAL.ioc.dependencies;
+package org.universAAL.ri.gateway.communicator.service;
 
-
+import java.io.InputStream;
 
 /**
- * 
+ *
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @version $LastChangedRevision$ ($LastChangedDate$)
  *
  */
-public interface DependencyProxy<T>  {
+public class LinkContext {
 
-    public Object[] getFilters();
-    public T getObject();
-    public void setObject(T value);
-    public boolean isResolved();
+
+    private String scopeId;
+    private String aalSpaceId;
+    private InputStream in;
+    private InputStream out;
+
+
+    public LinkContext(String scopeId, String aalSpaceId, InputStream in,
+            InputStream out) {
+        super();
+        this.scopeId = scopeId;
+        this.aalSpaceId = aalSpaceId;
+        this.in = in;
+        this.out = out;
+    }
+
+    public String getScopeId() {
+        return scopeId;
+    }
+    public String getAalSpaceId() {
+        return aalSpaceId;
+    }
+    public InputStream getIn() {
+        return in;
+    }
+    public InputStream getOut() {
+        return out;
+    }
 
 }

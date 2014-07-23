@@ -82,7 +82,7 @@
               org.universAAL.middleware.container.osgi.util,
               org.universAAL.middleware.container.utils,
               org.universAAL.middleware.context,
-              org.universAAL.middleware.interfaces,s
+              org.universAAL.middleware.interfaces,
               org.universAAL.middleware.context.owl,
               org.universAAL.middleware.rdf,
               org.universAAL.middleware.serialization,

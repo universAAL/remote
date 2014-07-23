@@ -125,7 +125,12 @@ public class GatewayCommunicatorImpl implements GatewayCommunicator {
                 .synchronizedMap(new HashMap<UUID, ResponseCallback>());
         remoteGateways = Collections
                 .synchronizedList(new ArrayList<GatewayAddress>());
-        commHandler = new ServerSocketCommunicationHandler(this);
+
+        if( GatewayConfiguration.getInstance().isServerMode() ) {
+            commHandler = new ServerSocketCommunicationHandler(this);
+        } else {
+            commHandler = new ClientSocketCommunicationHandler(this);
+        }
     }
 
     /**

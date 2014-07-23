@@ -139,7 +139,7 @@ public class ServerSocketCommunicationHandler implements CommunicationHandler {
                         "handleMessage: type: %s" + msg.getType(), null);
 
                 if (handleSessionProtocol(msg) == false) {
-                    handleGateayProtocol(msg);
+                    handleGatewayProtocol(msg);
                 }
 
             } catch (Exception e) {
@@ -156,7 +156,7 @@ public class ServerSocketCommunicationHandler implements CommunicationHandler {
             }
         }
 
-        private boolean handleGateayProtocol(MessageWrapper msg)
+        private boolean handleGatewayProtocol(MessageWrapper msg)
                 throws Exception {
             communicator.handleMessage(msg, out);
             return true;

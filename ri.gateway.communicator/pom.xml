@@ -90,7 +90,6 @@
               org.universAAL.middleware.service.owls.profile,
               org.universAAL.middleware.tracker, org.universAAL.middleware.ui,
               org.universAAL.middleware.managers.api,
-              org.universAAL.middleware.context.owl,
               com.google.common.net.*
               </Import-Package>
               <Export-Package>

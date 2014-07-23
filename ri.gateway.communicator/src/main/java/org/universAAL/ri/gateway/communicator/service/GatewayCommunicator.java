@@ -72,7 +72,7 @@ public interface GatewayCommunicator {
      * System property used for specifying the server port of the AAL Space
      * Gateway in case that it is running in Server-Mode
      */
-    String LOCAL_SOCKET_PORT = "local-gateway";
+    String LOCAL_SOCKET_PORT = "local-socket-port";
 
     String CONNECTION_MODE = "connection-mode";
 

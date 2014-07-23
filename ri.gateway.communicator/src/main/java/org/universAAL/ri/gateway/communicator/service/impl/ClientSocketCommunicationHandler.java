@@ -35,6 +35,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Random;
 import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.Executor;
@@ -57,7 +58,8 @@ import com.google.common.net.HostAndPort;
 /**
  *
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
- * @version $LastChangedRevision$ ($LastChangedDate$)
+ * @version $LastChangedRevision$ ($LastChangedDate: 2014-07-23 11:24:23
+ *          +0200 (Wed, 23 Jul 2014) $)
  *
  */
 public class ClientSocketCommunicationHandler implements CommunicationHandler {
@@ -68,6 +70,7 @@ public class ClientSocketCommunicationHandler implements CommunicationHandler {
     private ServerSocket server;
     private Thread serverThread;
     private final Set<ComunicationEventListener> listeners;
+    private UUID currentSession = null;
 
     public ClientSocketCommunicationHandler(
             final GatewayCommunicator communicator) {
@@ -90,8 +93,10 @@ public class ClientSocketCommunicationHandler implements CommunicationHandler {
     }
 
     public void start() throws IOException {
-        final HostAndPort serverConfig = GatewayConfiguration.getInstance().getServerGateway();
-        log("Starting Client Gateway by connecting to Gateway Server at " + serverConfig);
+        final HostAndPort serverConfig = GatewayConfiguration.getInstance()
+                .getServerGateway();
+        log("Starting Client Gateway by connecting to Gateway Server at "
+                + serverConfig);
 
         serverThread = new Thread(new Runnable() {
             public void run() {
@@ -99,9 +104,16 @@ public class ClientSocketCommunicationHandler implements CommunicationHandler {
                 Thread.currentThread().setName("Space Gateway :: Server");
                 while (!(Thread.currentThread().isInterrupted())) {
                     try {
-                        InetAddress addr = InetAddress.getByName(serverConfig.getHostText());
-                        final Socket socket = new Socket(addr, serverConfig.getPort());
+                        InetAddress addr = InetAddress.getByName(serverConfig
+                                .getHostText());
+                        final Socket socket = new Socket(addr, serverConfig
+                                .getPort());
                         executor.execute(new LinkHandler(socket));
+                        log("Link is down, so we are goging to try again in a bit");
+                        try {
+                            Thread.sleep(5000);
+                        } catch (InterruptedException e) {
+                        }
                     } catch (IOException e) {
                         // TODO Auto-generated catch block
                         e.printStackTrace();
@@ -129,27 +141,135 @@ public class ClientSocketCommunicationHandler implements CommunicationHandler {
                 in = socket.getInputStream();
                 out = socket.getOutputStream();
 
-                Activator.mc.logInfo(null, "handleMessage", null);
-                MessageWrapper msg = Serializer.unmarshalMessage(in);
-                Activator.mc.logInfo(null,
-                        "handleMessage: type: %s" + msg.getType(), null);
+                if (currentSession == null) {
+                    if (connect() == false) {
+                        cleanUp();
+                        return;
+                    }
+                } else {
+                    if (reconnect() == false) {
+                        cleanUp();
+                        return;
+                    }
+                }
 
-                if (handleSessionProtocol(msg) == false) {
-                    handleGatewayProtocol(msg);
+                while (socket != null && socket.isClosed()) {
+                    MessageWrapper msg = readMessage();
+                    if (handleSessionProtocol(msg) == false) {
+                        handleGatewayProtocol(msg);
+                    }
                 }
 
             } catch (Exception e) {
                 e.printStackTrace();
             } finally {
-                if (socket != null) {
-                    try {
-                        socket.close();
-                    } catch (IOException e) {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
-                    }
+                cleanUp();
+            }
+        }
+
+        private boolean reconnect() {
+            AALSpaceManager spaceManager = Activator.spaceManager.getObject();
+            SessionManager sessionManger = SessionManager.getInstance();
+            String spaceId = spaceManager.getAALSpaceDescriptor()
+                    .getSpaceCard().getSpaceID();
+            String peerId = spaceManager.getMyPeerCard().getPeerID();
+
+            if (spaceId.equals(sessionManger
+                    .getAALSpaceIdFromSession(currentSession)) == false) {
+                throw new IllegalStateException(
+                        "Between the automatic reconnection of the Gateway we joined a different AAL Space");
+            }
+
+            if (peerId.equals(sessionManger
+                    .getPeerIdFromSession(currentSession)) == false) {
+                throw new IllegalStateException(
+                        "Between the automatic reconnection of the Gateway we changed our PeerId something strange happened");
+            }
+
+            ReconnectionRequest request = new ReconnectionRequest(peerId,
+                    spaceId, currentSession);
+            MessageWrapper responseMessage = new MessageWrapper(
+                    MessageType.Reconnect,
+                    Serializer.Instance.marshall(request), peerId);
+            try {
+                Serializer.sendMessageToStream(responseMessage, out);
+                MessageWrapper rsp = readMessage();
+                if (rsp.getType() != MessageType.ConnectResponse) {
+                    throw new IllegalArgumentException("Expected "
+                            + MessageType.ConnectResponse + " message after a "
+                            + MessageType.Reconnect + " but recieved "
+                            + rsp.getType());
+                }
+                ConnectionResponse response = Serializer.Instance.unmarshall(
+                        ConnectionResponse.class, rsp.getMessage());
+                if ( response.getScopeId().equals(currentSession) ) {
+                    /*
+                     * Session has been restore
+                     */
+                } else {
+                    /*
+                     * The server may be rebooted so we have to initialize again the session //TODO
+                     */
+                    currentSession = response.getSessionId();
+                }
+                sessionManger.setLink(currentSession, socket.getInputStream(), socket.getOutputStream());
+                return true;
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return false;
+        }
+
+        private void cleanUp() {
+            if (socket != null && socket.isClosed() == false) {
+                try {
+                    socket.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
             }
+        }
+
+        private MessageWrapper readMessage() throws Exception {
+            Activator.mc.logInfo(null, "handleMessage", null);
+            MessageWrapper msg = Serializer.unmarshalMessage(in);
+            Activator.mc.logInfo(null,
+                    "handleMessage: type: %s" + msg.getType(), null);
+
+            return msg;
+        }
+
+        private boolean connect() {
+            AALSpaceManager spaceManager = Activator.spaceManager.getObject();
+            SessionManager sessionManger = SessionManager.getInstance();
+            String spaceId = spaceManager.getAALSpaceDescriptor()
+                    .getSpaceCard().getSpaceID();
+            String peerId = spaceManager.getMyPeerCard().getPeerID();
+            ConnectionRequest request = new ConnectionRequest(spaceId, peerId);
+            MessageWrapper responseMessage = new MessageWrapper(
+                    MessageType.ConnectRequest,
+                    Serializer.Instance.marshall(request), peerId);
+            try {
+                Serializer.sendMessageToStream(responseMessage, out);
+                MessageWrapper rsp = readMessage();
+                if (rsp.getType() != MessageType.ConnectResponse) {
+                    throw new IllegalArgumentException("Expected "
+                            + MessageType.ConnectResponse + " message after a "
+                            + MessageType.ConnectRequest + " but recieved "
+                            + rsp.getType());
+                }
+                ConnectionResponse response = Serializer.Instance.unmarshall(
+                        ConnectionResponse.class, rsp.getMessage());
+                sessionManger.storeSession(response.getSessionId(),
+                        response.getPeerId(), response.getAALSpaceId(),
+                        response.getScopeId());
+                currentSession = response.getSessionId();
+                sessionManger.setLink(currentSession, socket.getInputStream(), socket.getOutputStream());
+                return true;
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return false;
         }
 
         private boolean handleGatewayProtocol(MessageWrapper msg)
@@ -294,11 +414,6 @@ public class ClientSocketCommunicationHandler implements CommunicationHandler {
         // TODO either we change the return type to void/boolean or to
         // MessageWrapper[]
         return resp;
-    }
-
-    public void handleGateayProtocol() {
-        // TODO Auto-generated method stub
-
     }
 
     public void stop() {

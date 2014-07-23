@@ -80,6 +80,7 @@ public class SessionManager {
     }
 
     private Map<SessionKey, UUID> sessions = new HashMap<SessionManager.SessionKey, UUID>();
+    private Map<UUID, SessionKey> uuids = new HashMap<UUID, SessionKey>();
     private Map<UUID, SessionStatus> links = new HashMap<UUID, SessionManager.SessionStatus>();
 
     private SessionManager() {
@@ -110,6 +111,7 @@ public class SessionManager {
                         + " already exists with UUID = " + sessions.get(key));
             }
             sessions.put(key, uuid);
+            uuids.put(uuid, key);
         }
 
         return uuid;
@@ -160,7 +162,7 @@ public class SessionManager {
                     }
                 }
             }
-            sessions.remove(session);
+            uuids.remove(sessions.remove(session));
         }
 
     }
@@ -203,6 +205,37 @@ public class SessionManager {
     public UUID[] getSessionIds() {
         synchronized (sessions) {
             return sessions.values().toArray(new UUID[]{});
+        }
+    }
+
+    public void storeSession(UUID sessionId, String peerId, String aalSpaceId,
+            String scopeId) {
+        SessionKey key = new SessionKey(peerId, aalSpaceId, scopeId);
+        synchronized (sessions) {
+            if (sessions.containsKey(key)) {
+                throw new IllegalStateException("Session " + key
+                        + " already exists with UUID = " + sessions.get(key));
+            }
+            sessions.put(key, sessionId);
+            uuids.put(sessionId, key);
+        }
+    }
+
+    public String getPeerIdFromSession(UUID session) {
+        synchronized (sessions) {
+            if (uuids.containsKey(session)) {
+                throw new IllegalStateException("No session with UUID " + session);
+            }
+            return uuids.get(session).keyParts[SessionKey.PEER_IDX];
+        }
+    }
+
+    public String getAALSpaceIdFromSession(UUID session) {
+        synchronized (sessions) {
+            if (uuids.containsKey(session)) {
+                throw new IllegalStateException("No session with UUID " + session);
+            }
+            return uuids.get(session).keyParts[SessionKey.SPACE_IDX];
         }
     }
 

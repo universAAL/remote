@@ -8,6 +8,7 @@ ri.gateway.communicator/ASL2.0.txt -text
 ri.gateway.communicator/NOTICE.txt -text
 ri.gateway.communicator/pom.xml -text
 ri.gateway.communicator/ri.gateway.communicator.properties -text
+ri.gateway.communicator/ri.gateway.multitenant -text
 ri.gateway.communicator/src/docs/ASG-Connect.uxf -text
 ri.gateway.communicator/src/docs/ASG-Disconnect.uxf -text
 ri.gateway.communicator/src/docs/ASG-Failure.uxf -text

@@ -38,11 +38,12 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
-import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import org.bouncycastle.crypto.CryptoException;
-import org.universAAL.middleware.container.utils.LogUtils;
+import org.universAAL.log.Logger;
+import org.universAAL.log.LoggerFactory;
 import org.universAAL.middleware.managers.api.AALSpaceManager;
 import org.universAAL.ri.gateway.communicator.Activator;
 import org.universAAL.ri.gateway.communicator.service.CommunicationHandler;
@@ -63,12 +64,16 @@ import com.google.common.net.HostAndPort;
  */
 public class ServerSocketCommunicationHandler implements CommunicationHandler {
 
+    public static final Logger log = LoggerFactory.createLoggerFactory(Activator.mc).getLogger(ServerSocketCommunicationHandler.class);
+
+
     private static final int NUM_THREADS = 1;
     private GatewayCommunicator communicator;
-    private Executor executor;
+    //private Executor executor;
     private ServerSocket server;
     private Thread serverThread;
     private final Set<ComunicationEventListener> listeners;
+    private ExecutorService executor;
 
     public ServerSocketCommunicationHandler(
             final GatewayCommunicator communicator) {
@@ -81,30 +86,29 @@ public class ServerSocketCommunicationHandler implements CommunicationHandler {
 
         SecurityUtils.Instance.initialize(hashKey);
 
-        this.executor = Executors.newFixedThreadPool(NUM_THREADS);
-        log("Created " + ServerSocketCommunicationHandler.class.getName());
-    }
-
-    private void log(String msg) {
-        LogUtils.logInfo(Activator.mc, ServerSocketCommunicationHandler.class,
-                "log", msg);
+        this.executor = Executors.newCachedThreadPool();
+        /*
+         * //TODO Define a maxiumum number of threads
+         */
+        //this.executor = Executors.newFixedThreadPool(NUM_THREADS);
+        log.info("Created " + ServerSocketCommunicationHandler.class.getName());
     }
 
     public void start() throws IOException {
         final HostAndPort serverConfig = GatewayConfiguration.getInstance().getServerGateway();
-        log("Starting Server Gateway on TCP server on port " + serverConfig);
+        log.debug("Starting Server Gateway on TCP server on port " + serverConfig);
 
         InetAddress addr = InetAddress.getByName(serverConfig.getHostText());
         server = new ServerSocket();
         server.bind(new InetSocketAddress(addr, serverConfig.getPort()));
         serverThread = new Thread(new Runnable() {
             public void run() {
-                log("TCP server started on port " + serverConfig);
+                log.debug("TCP server started on port " + serverConfig);
                 Thread.currentThread().setName("Space Gateway :: Server");
                 while (!(Thread.currentThread().isInterrupted())) {
                     try {
                         final Socket socket = server.accept();
-                        log("Got request ... processing ...");
+                        log.debug("Got new incoming connection");
                         executor.execute(new LinkHandler(socket));
                     } catch (IOException e) {
                         // TODO Auto-generated catch block
@@ -133,15 +137,14 @@ public class ServerSocketCommunicationHandler implements CommunicationHandler {
                 in = socket.getInputStream();
                 out = socket.getOutputStream();
 
-                Activator.mc.logInfo(null, "handleMessage", null);
-                MessageWrapper msg = Serializer.unmarshalMessage(in);
-                Activator.mc.logInfo(null,
-                        "handleMessage: type: %s" + msg.getType(), null);
+                while (socket != null && !socket.isClosed() ) {
+                    MessageWrapper msg = readMessage();
 
-                if (handleSessionProtocol(msg) == false) {
-                    handleGatewayProtocol(msg);
+                    if (handleSessionProtocol(msg) == false) {
+                        handleGatewayProtocol(msg);
+                    }
+
                 }
-
             } catch (Exception e) {
                 e.printStackTrace();
             } finally {
@@ -154,6 +157,14 @@ public class ServerSocketCommunicationHandler implements CommunicationHandler {
                     }
                 }
             }
+        }
+
+        private MessageWrapper readMessage() throws Exception {
+            Activator.mc.logInfo(null, "handleMessage", null);
+            MessageWrapper msg = Serializer.unmarshalMessage(in);
+            Activator.mc.logInfo(null,
+                    "handleMessage: type: %s" + msg.getType(), null);
+            return msg;
         }
 
         private boolean handleGatewayProtocol(MessageWrapper msg)
@@ -174,8 +185,9 @@ public class ServerSocketCommunicationHandler implements CommunicationHandler {
                 if (session == null) {
                     session = sessionManger.createSession(request.getPeerId(),
                             request.getAALSpaceId(), request.getScopeId());
+                    log.debug("CREATED SESSION with "+session+ " pointing at <"+request.getAALSpaceId()+","+request.getPeerId()+">");
                 } else {
-                    // TODO Log a clash of session
+                    log.warning("SESSION CLASH: the client may be restarted without persistance before the session was broken and deleted. We just create a new session");
                 }
                 sessionManger.setLink(session, in, out);
                 // TODO Check if it can registers
@@ -298,11 +310,6 @@ public class ServerSocketCommunicationHandler implements CommunicationHandler {
         // TODO either we change the return type to void/boolean or to
         // MessageWrapper[]
         return resp;
-    }
-
-    public void handleGateayProtocol() {
-        // TODO Auto-generated method stub
-
     }
 
     public void stop() {

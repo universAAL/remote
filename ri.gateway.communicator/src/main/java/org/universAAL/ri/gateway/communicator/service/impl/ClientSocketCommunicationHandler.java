@@ -35,14 +35,14 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Random;
 import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
 import org.bouncycastle.crypto.CryptoException;
-import org.universAAL.middleware.container.utils.LogUtils;
+import org.universAAL.log.Logger;
+import org.universAAL.log.LoggerFactory;
 import org.universAAL.middleware.managers.api.AALSpaceManager;
 import org.universAAL.ri.gateway.communicator.Activator;
 import org.universAAL.ri.gateway.communicator.service.CommunicationHandler;
@@ -64,6 +64,8 @@ import com.google.common.net.HostAndPort;
  */
 public class ClientSocketCommunicationHandler implements CommunicationHandler {
 
+    public static final Logger log = LoggerFactory.createLoggerFactory(Activator.mc).getLogger(ClientSocketCommunicationHandler.class);
+
     private static final int NUM_THREADS = 1;
     private GatewayCommunicator communicator;
     private Executor executor;
@@ -84,23 +86,17 @@ public class ClientSocketCommunicationHandler implements CommunicationHandler {
         SecurityUtils.Instance.initialize(hashKey);
 
         this.executor = Executors.newFixedThreadPool(NUM_THREADS);
-        log("Created " + ClientSocketCommunicationHandler.class.getName());
-    }
-
-    private void log(String msg) {
-        LogUtils.logInfo(Activator.mc, ClientSocketCommunicationHandler.class,
-                "log", msg);
+        log.debug("Created client mode gateway comunication");
     }
 
     public void start() throws IOException {
         final HostAndPort serverConfig = GatewayConfiguration.getInstance()
                 .getServerGateway();
-        log("Starting Client Gateway by connecting to Gateway Server at "
+        log.info("Starting Client Gateway by connecting to Gateway Server at "
                 + serverConfig);
 
         serverThread = new Thread(new Runnable() {
             public void run() {
-                log("TCP server started on port " + serverConfig);
                 Thread.currentThread().setName("Space Gateway :: Server");
                 while (!(Thread.currentThread().isInterrupted())) {
                     try {
@@ -108,14 +104,16 @@ public class ClientSocketCommunicationHandler implements CommunicationHandler {
                                 .getHostText());
                         final Socket socket = new Socket(addr, serverConfig
                                 .getPort());
+                        log.debug("Client mode gateway connected to "+serverConfig);
                         executor.execute(new LinkHandler(socket));
-                        log("Link is down, so we are goging to try again in a bit");
+                        log.debug("Link is down, so we are goging to try again in a bit");
                         try {
                             Thread.sleep(5000);
                         } catch (InterruptedException e) {
+                            log.debug("Ignored exception", e);
                         }
                     } catch (IOException e) {
-                        // TODO Auto-generated catch block
+                        log.error("Link betwewn client and server broken due to exception we will try to restore it",e);
                         e.printStackTrace();
                     }
                 }
@@ -142,28 +140,32 @@ public class ClientSocketCommunicationHandler implements CommunicationHandler {
                 out = socket.getOutputStream();
 
                 if (currentSession == null) {
+                    log.debug("FIRST loading trying to create a SESSION");
                     if (connect() == false) {
-                        cleanUp();
+                        log.debug("Creation of the session failed");
+                        cleanUpSocket();
                         return;
                     }
                 } else {
+                    log.debug("SESSION was BROKEN by a link failure, trying to RESTORE it");
                     if (reconnect() == false) {
-                        cleanUp();
+                        log.debug("Failed to RESTORE the SESSION");
+                        cleanUpSocket();
                         return;
                     }
                 }
-
-                while (socket != null && socket.isClosed()) {
+                log.debug("SESSION (RE)ESTABILISHED with "+currentSession);
+                while (socket != null && !socket.isClosed()) {
                     MessageWrapper msg = readMessage();
                     if (handleSessionProtocol(msg) == false) {
                         handleGatewayProtocol(msg);
                     }
                 }
-
             } catch (Exception e) {
+                log.error("SESSION BROKEN due to exception", e);
                 e.printStackTrace();
             } finally {
-                cleanUp();
+                cleanUpSocket();
             }
         }
 
@@ -220,7 +222,7 @@ public class ClientSocketCommunicationHandler implements CommunicationHandler {
             return false;
         }
 
-        private void cleanUp() {
+        private void cleanUpSocket() {
             if (socket != null && socket.isClosed() == false) {
                 try {
                     socket.close();
@@ -283,32 +285,7 @@ public class ClientSocketCommunicationHandler implements CommunicationHandler {
             SessionManager sessionManger = SessionManager.getInstance();
             switch (msg.getType()) {
             case ConnectRequest: {
-                ConnectionRequest request = Serializer.Instance.unmarshall(
-                        ConnectionRequest.class, msg.getMessage());
-                UUID session = sessionManger.getSession(request.getPeerId(),
-                        request.getAALSpaceId(), request.getScopeId());
-                if (session == null) {
-                    session = sessionManger.createSession(request.getPeerId(),
-                            request.getAALSpaceId(), request.getScopeId());
-                } else {
-                    // TODO Log a clash of session
-                }
-                sessionManger.setLink(session, in, out);
-                // TODO Check if it can registers
-                // tenatManager.getTenant(request.getScopeId());
-                String source = spaceManager.getMyPeerCard().getPeerID();
-                ConnectionResponse response = new ConnectionResponse(source,
-                        request.getAALSpaceId(), session);
-                MessageWrapper responseMessage = new MessageWrapper(
-                        MessageType.ConnectResponse,
-                        Serializer.Instance.marshall(response), source);
-                try {
-                    Serializer.sendMessageToStream(responseMessage, out);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    // TODO Close the session
-                }
-                return true;
+                throw new IllegalArgumentException("Receieved unexpected message ");
             }
 
             case Disconnect: {
@@ -325,6 +302,7 @@ public class ClientSocketCommunicationHandler implements CommunicationHandler {
                 sessionManger.close(session);
                 return true;
             }
+
             case Reconnect: {
                 ReconnectionRequest request = Serializer.Instance.unmarshall(
                         ReconnectionRequest.class, msg.getMessage());
@@ -355,6 +333,7 @@ public class ClientSocketCommunicationHandler implements CommunicationHandler {
                 }
                 return true;
             }
+
             default:
                 return false;
 

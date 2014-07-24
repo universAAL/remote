@@ -14,6 +14,8 @@ ri.gateway.communicator/src/docs/ASG-Failure.uxf -text
 ri.gateway.communicator/src/main/java/org/universAAL/ioc/dependencies/DependencyProxy.java svneol=native#text/plain
 ri.gateway.communicator/src/main/java/org/universAAL/ioc/dependencies/impl/NPEDependencyProxy.java svneol=native#text/plain
 ri.gateway.communicator/src/main/java/org/universAAL/ioc/dependencies/impl/WaitingDependencyProxy.java svneol=native#text/plain
+ri.gateway.communicator/src/main/java/org/universAAL/log/Logger.java svneol=native#text/plain
+ri.gateway.communicator/src/main/java/org/universAAL/log/LoggerFactory.java svneol=native#text/plain
 ri.gateway.communicator/src/main/java/org/universAAL/ri/gateway/communicator/Activator.java -text
 ri.gateway.communicator/src/main/java/org/universAAL/ri/gateway/communicator/service/CommunicationException.java -text
 ri.gateway.communicator/src/main/java/org/universAAL/ri/gateway/communicator/service/CommunicationHandler.java -text

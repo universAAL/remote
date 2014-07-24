@@ -99,7 +99,8 @@
             </Import-Package>
             <Export-Package>
               org.universAAL.ri.gateway.communicator.service,
-              org.universAAL.log
+              org.universAAL.log,
+              org.universAAL.ri.gateway.eimanager
             </Export-Package>
             <Private-Package>
               org.universAAL.ioc.dependencies.*,

@@ -48,6 +48,7 @@ import org.universAAL.ri.gateway.communicator.Activator;
 import org.universAAL.ri.gateway.communicator.service.CommunicationHandler;
 import org.universAAL.ri.gateway.communicator.service.ComunicationEventListener;
 import org.universAAL.ri.gateway.communicator.service.GatewayCommunicator;
+import org.universAAL.ri.gateway.communicator.service.GatewayCommunicator.RoutingMode;
 import org.universAAL.ri.gateway.link.protocol.ConnectionRequest;
 import org.universAAL.ri.gateway.link.protocol.ConnectionResponse;
 import org.universAAL.ri.gateway.link.protocol.DisconnectionRequest;
@@ -56,6 +57,16 @@ import org.universAAL.ri.gateway.link.protocol.ReconnectionRequest;
 import com.google.common.net.HostAndPort;
 
 /**
+ * This class implement the Client mode gateway, it means that with this
+ * configuration the TCP connection is initialized by the client and it is the
+ * client that sends the {@link MessageType#ConnectRequest} message<br>
+ * <br>
+ * <b>NOTE</b>
+ * At the moment this mode supports only the routing in
+ * {@link RoutingMode#FORWARD}, and so far for supporting also the
+ * {@link RoutingMode#ROUTER} the client should be aware of all the peers
+ * to join in advance, which is a very limited case
+ *
  *
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @version $LastChangedRevision$ ($LastChangedDate: 2014-07-23 11:24:23
@@ -64,7 +75,8 @@ import com.google.common.net.HostAndPort;
  */
 public class ClientSocketCommunicationHandler implements CommunicationHandler {
 
-    public static final Logger log = LoggerFactory.createLoggerFactory(Activator.mc).getLogger(ClientSocketCommunicationHandler.class);
+    public static final Logger log = LoggerFactory.createLoggerFactory(
+            Activator.mc).getLogger(ClientSocketCommunicationHandler.class);
 
     private static final int NUM_THREADS = 1;
     private GatewayCommunicator communicator;
@@ -104,7 +116,8 @@ public class ClientSocketCommunicationHandler implements CommunicationHandler {
                                 .getHostText());
                         final Socket socket = new Socket(addr, serverConfig
                                 .getPort());
-                        log.debug("Client mode gateway connected to "+serverConfig);
+                        log.debug("Client mode gateway connected to "
+                                + serverConfig);
                         executor.execute(new LinkHandler(socket));
                         log.debug("Link is down, so we are goging to try again in a bit");
                         try {
@@ -113,7 +126,9 @@ public class ClientSocketCommunicationHandler implements CommunicationHandler {
                             log.debug("Ignored exception", e);
                         }
                     } catch (IOException e) {
-                        log.error("Link betwewn client and server broken due to exception we will try to restore it",e);
+                        log.error(
+                                "Link betwewn client and server broken due to exception we will try to restore it",
+                                e);
                         e.printStackTrace();
                     }
                 }
@@ -154,7 +169,7 @@ public class ClientSocketCommunicationHandler implements CommunicationHandler {
                         return;
                     }
                 }
-                log.debug("SESSION (RE)ESTABILISHED with "+currentSession);
+                log.debug("SESSION (RE)ESTABILISHED with " + currentSession);
                 while (socket != null && !socket.isClosed()) {
                     MessageWrapper msg = readMessage();
                     if (handleSessionProtocol(msg) == false) {
@@ -204,17 +219,19 @@ public class ClientSocketCommunicationHandler implements CommunicationHandler {
                 }
                 ConnectionResponse response = Serializer.Instance.unmarshall(
                         ConnectionResponse.class, rsp.getMessage());
-                if ( response.getScopeId().equals(currentSession) ) {
+                if (response.getScopeId().equals(currentSession)) {
                     /*
                      * Session has been restore
                      */
                 } else {
                     /*
-                     * The server may be rebooted so we have to initialize again the session //TODO
+                     * The server may be rebooted so we have to initialize again
+                     * the session //TODO
                      */
                     currentSession = response.getSessionId();
                 }
-                sessionManger.setLink(currentSession, socket.getInputStream(), socket.getOutputStream());
+                sessionManger.setLink(currentSession, socket.getInputStream(),
+                        socket.getOutputStream());
                 return true;
             } catch (Exception e) {
                 e.printStackTrace();
@@ -266,7 +283,8 @@ public class ClientSocketCommunicationHandler implements CommunicationHandler {
                         response.getPeerId(), response.getAALSpaceId(),
                         response.getScopeId());
                 currentSession = response.getSessionId();
-                sessionManger.setLink(currentSession, socket.getInputStream(), socket.getOutputStream());
+                sessionManger.setLink(currentSession, socket.getInputStream(),
+                        socket.getOutputStream());
                 return true;
             } catch (Exception e) {
                 e.printStackTrace();
@@ -284,9 +302,10 @@ public class ClientSocketCommunicationHandler implements CommunicationHandler {
             AALSpaceManager spaceManager = Activator.spaceManager.getObject();
             SessionManager sessionManger = SessionManager.getInstance();
             switch (msg.getType()) {
-            case ConnectRequest: {
-                throw new IllegalArgumentException("Receieved unexpected message ");
-            }
+            case Reconnect:
+            case ConnectRequest:
+                throw new IllegalArgumentException(
+                        "Receieved unexpected message " + msg.getType());
 
             case Disconnect: {
                 DisconnectionRequest request = Serializer.Instance.unmarshall(
@@ -297,40 +316,12 @@ public class ClientSocketCommunicationHandler implements CommunicationHandler {
                 if (session == null) {
                     // TODO Log someone is trying to disconnect from an invalid
                     // session
+                    log.warning("Trying to close a-non existing session with <"
+                            + request.getAALSpaceId() + ","
+                            + request.getPeerId() + ">, we just ignore it");
                     return true;
                 }
                 sessionManger.close(session);
-                return true;
-            }
-
-            case Reconnect: {
-                ReconnectionRequest request = Serializer.Instance.unmarshall(
-                        ReconnectionRequest.class, msg.getMessage());
-                // request.getPeerId()
-                UUID session = sessionManger.getSession(request.getPeerId(),
-                        request.getAALSpaceId(), request.getScopeId());
-                if (session == null
-                        || request.getSessionId().equals(session) == false) {
-                    // TODO someone is trying to reconnect but we don't have the
-                    // link active so we create a new session
-                    session = sessionManger.createSession(request.getPeerId(),
-                            request.getAALSpaceId(), request.getScopeId());
-                }
-                sessionManger.setLink(session, in, out);
-                // TODO Check if it can registers
-                // tenatManager.getTenant(request.getScopeId());
-                String source = spaceManager.getMyPeerCard().getPeerID();
-                ConnectionResponse response = new ConnectionResponse(source,
-                        request.getAALSpaceId(), session);
-                MessageWrapper responseMessage = new MessageWrapper(
-                        MessageType.ConnectResponse,
-                        Serializer.Instance.marshall(response), source);
-                try {
-                    Serializer.sendMessageToStream(responseMessage, out);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    // TODO Close the session
-                }
                 return true;
             }
 

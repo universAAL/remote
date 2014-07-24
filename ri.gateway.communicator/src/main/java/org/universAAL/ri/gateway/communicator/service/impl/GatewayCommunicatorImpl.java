@@ -381,10 +381,10 @@ public class GatewayCommunicatorImpl implements GatewayCommunicator {
 
         String[] session = null;
 
-        if ("Router".equals(CommunicatorStarter.properties
-                .getProperty(GatewayCommunicator.ROUTING_MODE))) {
+        if( GatewayConfiguration.getInstance().isRouterMode() ) {
             // TODO Extract session from message
             // extractTargetSession(w);
+            session = new String[] { CommunicationHandler.BROADCAST_SESSION };
         } else {
             session = new String[] { (SessionManager.getInstance()
                     .getSessionIds()[0]).toString() };

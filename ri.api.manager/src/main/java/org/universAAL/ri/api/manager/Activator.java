@@ -35,6 +35,7 @@ import org.universAAL.middleware.container.ModuleContext;
 import org.universAAL.middleware.container.osgi.uAALBundleContainer;
 import org.universAAL.middleware.container.utils.LogUtils;
 import org.universAAL.middleware.serialization.MessageContentSerializerEx;
+import org.universAAL.ri.api.manager.server.Authenticator;
 import org.universAAL.ri.api.manager.server.RemoteServlet;
 import org.universAAL.ri.api.manager.server.persistence.Persistence;
 import org.universAAL.ri.api.manager.server.persistence.PersistenceDerby;
@@ -55,6 +56,8 @@ public class Activator implements BundleActivator {
     private HttpListener httpListener;
     private SerializerListener serializerListener;
     private static Persistence persistence;
+    private Authenticator auth=null;
+    public static boolean ownauth=true;
 
     public static MessageContentSerializerEx parser;
     
@@ -86,6 +89,11 @@ public class Activator implements BundleActivator {
 	persistence=new PersistenceDerby();
 	persistence.init(remoteAPI);
 	persistence.restore();
+	
+	//Authenticator before http service is found
+	if(ownauth){
+	    auth=new Authenticator();
+	}
 
 	// For CXF
 //	Dictionary<String, Object> props = new Hashtable<String, Object>();
@@ -125,6 +133,7 @@ public class Activator implements BundleActivator {
 	remoteAPI.unregisterAll();
 	remoteServlet=null;
 	remoteAPI=null;
+	auth=null;
     }
 
     /**
@@ -136,7 +145,7 @@ public class Activator implements BundleActivator {
      */
     public boolean register(HttpService http) {
 	try {
-	    http.registerServlet(URL, remoteServlet, null, null);
+	    http.registerServlet(URL, remoteServlet, null, auth);//if ownauth=true > auth=null
 	} catch (ServletException e) {
 	    LogUtils.logError( uaalContext, this.getClass(), "register",
 		    new Object[] { "Exception while registering Servlet." }, e);

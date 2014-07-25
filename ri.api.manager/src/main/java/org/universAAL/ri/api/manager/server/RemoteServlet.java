@@ -75,12 +75,22 @@ public class RemoteServlet extends javax.servlet.http.HttpServlet{
 	resp.setContentType("text/plain");
 	resp.setStatus(HttpServletResponse.SC_ACCEPTED);
 
-	String authHeader = req.getHeader("Authorization");
-	if(authHeader==null) authHeader = req.getParameter(RemoteAPI.KEY_AUTH);// TODO For testing
+	String user;
+	if(Activator.ownauth){
+	    // Use own auth method
+	    // No matter if the "login" user is set by the sender, because it is
+	    // intercepted by HttpContext (Authenticator) and if it fails it will
+	    // not get this far.
+	    user = req.getRemoteUser();
+	}else{
+	    // Use servlet container auth method
+	    user = req.getUserPrincipal().getName();
+	}
+
 	String method = req.getParameter(RemoteAPI.KEY_METHOD);
 	String param = req.getParameter(RemoteAPI.KEY_PARAM);
-
-	if (authHeader == null || method == null || param == null) {
+	
+	if (user == null || method == null || param == null) {
 	    resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 	    resp.sendError(HttpServletResponse.SC_BAD_REQUEST,
 		    "Missing parameter");
@@ -96,23 +106,23 @@ public class RemoteServlet extends javax.servlet.http.HttpServlet{
 	    String servResp = null;
 	    try {
 		if (RemoteAPI.METHOD_REGISTER.equals(method)) {
-		    remoteAPI.register(authHeader, param);
-		    Activator.getPersistence().storeRegister(authHeader, param);
+		    remoteAPI.register(user, param);
+		    Activator.getPersistence().storeRegister(user, param);
 		} else if (RemoteAPI.METHOD_SENDC.equals(method)) {
-		    remoteAPI.sendC(authHeader, param);
+		    remoteAPI.sendC(user, param);
 		} else if (RemoteAPI.METHOD_SUBSCRIBEC.equals(method)) {
-		    remoteAPI.subscribeC(authHeader, param);
-		    Activator.getPersistence().storeSubscriber(authHeader, param);
+		    remoteAPI.subscribeC(user, param);
+		    Activator.getPersistence().storeSubscriber(user, param);
 		} else if (RemoteAPI.METHOD_CALLS.equals(method)) {
-		    servResp = remoteAPI.callS(authHeader, param);
+		    servResp = remoteAPI.callS(user, param);
 		} else if (RemoteAPI.METHOD_PROVIDES.equals(method)) {
-		    remoteAPI.provideS(authHeader, param);
-		    Activator.getPersistence().storeCallee(authHeader, param);
+		    remoteAPI.provideS(user, param);
+		    Activator.getPersistence().storeCallee(user, param);
 		} else if (RemoteAPI.METHOD_UNREGISTER.equals(method)) {
-		    remoteAPI.unregister(authHeader);
-		    Activator.getPersistence().removeRegister(authHeader);
+		    remoteAPI.unregister(user);
+		    Activator.getPersistence().removeRegister(user);
 		} else if (RemoteAPI.METHOD_RESPONSES.equals(method)) {
-		    PushGCM.handleResponse(param,authHeader);
+		    PushGCM.handleResponse(param,user);
 		} else {
 		    resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 		    resp.sendError(HttpServletResponse.SC_BAD_REQUEST,

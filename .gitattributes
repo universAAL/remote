@@ -9,6 +9,8 @@ ri.api.manager/src/main/java/org/universAAL/ri/api/manager/RemoteUAAL.java -text
 ri.api.manager/src/main/java/org/universAAL/ri/api/manager/push/PushGCM.java -text
 ri.api.manager/src/main/java/org/universAAL/ri/api/manager/push/PushHTTP.java -text
 ri.api.manager/src/main/java/org/universAAL/ri/api/manager/push/PushManager.java -text
+ri.api.manager/src/main/java/org/universAAL/ri/api/manager/server/Authenticator.java -text
+ri.api.manager/src/main/java/org/universAAL/ri/api/manager/server/Base64.java -text
 ri.api.manager/src/main/java/org/universAAL/ri/api/manager/server/RemoteServlet.java -text
 ri.api.manager/src/main/java/org/universAAL/ri/api/manager/server/persistence/Persistence.java -text
 ri.api.manager/src/main/java/org/universAAL/ri/api/manager/server/persistence/PersistenceDerby.java -text

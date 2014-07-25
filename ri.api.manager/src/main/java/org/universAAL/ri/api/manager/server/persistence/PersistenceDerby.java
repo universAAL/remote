@@ -45,6 +45,10 @@ public class PersistenceDerby implements Persistence {
      */
     private static final String DBNAME = "RAPIDB";
     /**
+     * Name of the pwd Database, separate from the rest
+     */
+    private static final String PWDDBNAME = "PWDRAPIDB";
+    /**
      * Instance of the Remote API being used in the manager
      */
     private RemoteAPI api;
@@ -79,6 +83,8 @@ public class PersistenceDerby implements Persistence {
 		    + ".callees ( id varchar(512) PRIMARY KEY NOT NULL, profile varchar(5120)," +
 		    " tstmp timestamp, CONSTRAINT calid_fk FOREIGN KEY (id)  REFERENCES "
 		    + DBNAME + ".registers(id))";
+	    String createPWDS = "CREATE TABLE " + PWDDBNAME
+		    + ".pwds ( id varchar(512) PRIMARY KEY NOT NULL, pwd  varchar(100) )";
 
 	    // create tables. Put individual try/catch to ignore already created. I dont trust addBatch.
 	    try {
@@ -97,6 +103,13 @@ public class PersistenceDerby implements Persistence {
 	    }
 	    try {
 		stmt.executeUpdate(createCALLEES);
+	    } catch (SQLException e) {
+		if (!e.getSQLState().equals("X0Y32")) {
+		    Activator.logI("PersistenceDerby.init", "Database already exists");
+		}
+	    }
+	    try {
+		stmt.executeUpdate(createPWDS);
 	    } catch (SQLException e) {
 		if (!e.getSQLState().equals("X0Y32")) {
 		    Activator.logI("PersistenceDerby.init", "Database already exists");
@@ -296,7 +309,7 @@ public class PersistenceDerby implements Persistence {
 	    }
 
 	} catch (Exception e) {
-	    Activator.logE("PersistenceDerby.restore", "Error restoring the database");
+	    Activator.logE("PersistenceDerby.restore", "Error restoring from the database");
 	    e.printStackTrace();
 	} finally {
 	    try {//javadoc: resultSet auto closed if stmt is closed
@@ -307,7 +320,7 @@ public class PersistenceDerby implements Persistence {
 		    conn.close();
 		}
 	    } catch (SQLException e) {
-		Activator.logE("PersistenceDerby.restore", "Error restoring the database");
+		Activator.logE("PersistenceDerby.restore", "Error restoring from the database");
 		e.printStackTrace();
 	    }
 	}
@@ -387,6 +400,88 @@ public class PersistenceDerby implements Persistence {
 		e.printStackTrace();
 	    }
 	}
+    }
+
+    public void storeUserPWD(String id, String pwd) {
+	String storeREGISTERS = "insert into " + PWDDBNAME
+		+ ".pwds (id, pwd) values ('" + id + "','"
+		+ pwd + "')";
+	executeGeneric(storeREGISTERS);
+    }
+
+    public boolean checkUserPWD(String id, String pwd) {
+	Connection conn = null;
+	Statement stmt = null;
+	boolean result=false;
+	try {
+	    new org.apache.derby.jdbc.EmbeddedDriver();
+	    
+	    conn = DriverManager.getConnection(dbURL);
+	    stmt = conn.createStatement();
+	    stmt.setQueryTimeout(30);
+
+	    String selectPWDS="Select pwd from "+PWDDBNAME+".pwds WHERE id='"+id+"'";
+	    
+	    ResultSet resultSet = stmt.executeQuery(selectPWDS); 
+	    while (resultSet.next()){
+		String storedpwd=resultSet.getString(1);
+		if(storedpwd.equals(pwd)){
+		    result=true;
+		}
+	    }
+
+	} catch (Exception e) {
+	    Activator.logE("PersistenceDerby.checkUserPWD", "Error restoring from the database");
+	    e.printStackTrace();
+	} finally {
+	    try {//javadoc: resultSet auto closed if stmt is closed
+		if (stmt != null) {
+		    stmt.close();
+		}
+		if (conn != null) {
+		    conn.close();
+		}
+	    } catch (SQLException e) {
+		Activator.logE("PersistenceDerby.checkUserPWD", "Error restoring from the database");
+		e.printStackTrace();
+	    }
+	}
+	return result;
+    }
+    
+    public boolean checkUser(String id) {
+	Connection conn = null;
+	Statement stmt = null;
+	boolean result=false;
+	try {
+	    new org.apache.derby.jdbc.EmbeddedDriver();
+	    
+	    conn = DriverManager.getConnection(dbURL);
+	    stmt = conn.createStatement();
+	    stmt.setQueryTimeout(30);
+
+	    String selectPWDS="Select id from "+PWDDBNAME+".pwds WHERE id='"+id+"'";
+	    
+	    ResultSet resultSet = stmt.executeQuery(selectPWDS); 
+	    result = resultSet.next();
+
+	} catch (Exception e) {
+	    Activator.logE("PersistenceDerby.checkUser", "Error checking the database");
+	    e.printStackTrace();
+	} finally {
+	    try {//javadoc: resultSet auto closed if stmt is closed
+		if (stmt != null) {
+		    stmt.close();
+		}
+		if (conn != null) {
+		    conn.close();
+		}
+	    } catch (SQLException e) {
+		Activator.logE("PersistenceDerby.checkUser", "Error checking the database");
+		e.printStackTrace();
+	    }
+	}
+	return result;
     }
 
 }

@@ -98,5 +98,11 @@ public interface Persistence {
      * nodes.
      */
     public void restore();
+    
+    public void storeUserPWD(String user, String pwd);
+    
+    public boolean checkUserPWD(String user, String pwd);
+    
+    public boolean checkUser(String user);
 
 }

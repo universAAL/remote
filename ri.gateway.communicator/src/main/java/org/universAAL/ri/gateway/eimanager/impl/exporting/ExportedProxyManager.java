@@ -257,12 +257,12 @@ public class ExportedProxyManager extends AbstractProxyManager implements
 		}
 	}
 
-	public void regParamsAdded(BusMember member, Resource[] params) {
+	public void regParamsAdded(String busMemberID, Resource[] params) {
 	    // TODO Auto-generated method stub
 	    
 	}
 
-	public void regParamsRemoved(BusMember member, Resource[] params) {
+	public void regParamsRemoved(String busMemberID, Resource[] params) {
 	    // TODO Auto-generated method stub
 	    
 	}

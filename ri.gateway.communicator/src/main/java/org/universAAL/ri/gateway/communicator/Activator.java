@@ -102,8 +102,8 @@ public class Activator implements BundleActivator {
 
         importRegistryListener = new EIManagerRegistryListener(importManager);
 
-        registry.getObject().addBusRegistryListener(exportRegistryListener, true);
-        registry.getObject().addBusRegistryListener(importRegistryListener, true);
+        registry.getObject().addListener(exportRegistryListener, true);
+        registry.getObject().addListener(importRegistryListener, true);
 
         EIOperationManager.Instance.init();
 
@@ -139,8 +139,8 @@ public class Activator implements BundleActivator {
     public void stop(final BundleContext context) {
         inst.stop();
         if (registry.getObject() != null) {
-            registry.getObject().removeBusRegistryListener(exportRegistryListener);
-            registry.getObject().removeBusRegistryListener(importRegistryListener);
+            registry.getObject().removeListener(exportRegistryListener);
+            registry.getObject().removeListener(importRegistryListener);
         }
 
         if (exportManager != null) {

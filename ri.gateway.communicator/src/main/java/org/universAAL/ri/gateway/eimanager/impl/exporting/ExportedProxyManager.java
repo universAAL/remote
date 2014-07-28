@@ -31,6 +31,7 @@ import org.universAAL.middleware.context.ContextBus;
 import org.universAAL.middleware.context.ContextBusFacade;
 import org.universAAL.middleware.context.ContextEvent;
 import org.universAAL.middleware.context.ContextEventPattern;
+import org.universAAL.middleware.rdf.Resource;
 import org.universAAL.middleware.service.ServiceBus;
 import org.universAAL.middleware.service.ServiceBusFacade;
 import org.universAAL.middleware.service.ServiceCall;
@@ -75,7 +76,7 @@ public class ExportedProxyManager extends AbstractProxyManager implements
 		IBusMemberRegistry registry = (IBusMemberRegistry) Activator.mc
 				.getContainer().fetchSharedObject(Activator.mc,
 						IBusMemberRegistry.busRegistryShareParams);
-		registry.addBusRegistryListener(this, false);
+		registry.addListener(this, false);
 	}
 
 	public ServiceResponse sendServiceRequest(final String sourceId,
@@ -254,6 +255,16 @@ public class ExportedProxyManager extends AbstractProxyManager implements
 				}
 			}
 		}
+	}
+
+	public void regParamsAdded(BusMember member, Resource[] params) {
+	    // TODO Auto-generated method stub
+	    
+	}
+
+	public void regParamsRemoved(BusMember member, Resource[] params) {
+	    // TODO Auto-generated method stub
+	    
 	}
 
 }

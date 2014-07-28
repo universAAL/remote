@@ -21,6 +21,7 @@ limitations under the License.
 package org.universAAL.ri.gateway.eimanager.impl;
 
 import org.universAAL.middleware.bus.member.BusMember;
+import org.universAAL.middleware.rdf.Resource;
 import org.universAAL.middleware.tracker.IBusMemberRegistry.BusType;
 import org.universAAL.middleware.tracker.IBusMemberRegistryListener;
 import org.universAAL.ri.gateway.eimanager.RepoEIManager;
@@ -47,6 +48,16 @@ public class EIManagerRegistryListener implements IBusMemberRegistryListener{
 	} catch (Exception e) {
 	    e.printStackTrace();
 	}
+    }
+
+    public void regParamsAdded(BusMember member, Resource[] params) {
+	// TODO Auto-generated method stub
+	
+    }
+
+    public void regParamsRemoved(BusMember member, Resource[] params) {
+	// TODO Auto-generated method stub
+	
     }
 
 }

@@ -21,8 +21,6 @@
  */
 package org.universAAL.ri.api.manager;
 
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Iterator;
@@ -35,6 +33,7 @@ import org.universAAL.middleware.service.ServiceRequest;
 import org.universAAL.middleware.service.ServiceResponse;
 import org.universAAL.middleware.service.owls.process.ProcessOutput;
 import org.universAAL.middleware.service.owls.profile.ServiceProfile;
+import org.universAAL.ri.api.manager.exceptions.APIImplException;
 
 /**
  * Implementation of the RemoteAPI interface.
@@ -68,10 +67,12 @@ public class RemoteAPIImpl implements RemoteAPI {
     /* (non-Javadoc)
      * @see org.universAAL.ri.api.manager.RemoteAPI#register(java.lang.String, java.lang.String)
      */
-    public void register(String id, String remote) throws Exception{
-	Activator.logI("RemoteAPIImpl.register()", "Received call from remote node > REGISTER, sender: "+id);//TODO Log IDs?
-	if (determineEndpoint(remote) == RemoteAPI.REMOTE_UNKNOWN){ // No POST nor GCM
-	    throw new Exception("Unable to determine protocol of remote endpoint");
+    public void register(String id, String remote) throws APIImplException{
+	if(Configuration.getLogDebug()){
+	    Activator.logI("RemoteAPIImpl.register()", "Received call from remote node > REGISTER, sender: "+id);
+	}
+	if (Configuration.determineEndpoint(remote) == RemoteAPI.REMOTE_UNKNOWN){ // No POST nor GCM
+	    throw new APIImplException("Unable to determine protocol of remote endpoint");
 	}
 	if(nodes.containsKey(id)){
 	    ((RemoteUAAL)nodes.get(id)).setRemoteID(remote);
@@ -80,68 +81,60 @@ public class RemoteAPIImpl implements RemoteAPI {
 	}
     }
 
-    public static int determineEndpoint(String remote) {
-	try {
-	    URL attempt=new URL(remote);
-	    if(attempt.getProtocol().toLowerCase().startsWith("http")){
-		return RemoteAPI.REMOTE_POST;
-	    }else{
-		return RemoteAPI.REMOTE_UNKNOWN;
-	    }
-	} catch (MalformedURLException e) {
-	    //Assume that if it is not a URL it is a GCM key
-	    return RemoteAPI.REMOTE_GCM;
-	}
-    }
-
     /* (non-Javadoc)
      * @see org.universAAL.ri.api.manager.RemoteAPI#sendC(java.lang.String, java.lang.String)
      */
-    public void sendC(String id, String cevent) throws Exception {
-	Activator.logI("RemoteAPIImpl.sendC()", "Received call from remote node > SENDC, sender: "+id);//TODO Log IDs?
+    public void sendC(String id, String cevent) throws APIImplException {
+	if(Configuration.getLogDebug()){
+	    Activator.logI("RemoteAPIImpl.sendC()", "Received call from remote node > SENDC, sender: "+id);
+	}
 	if(nodes.containsKey(id)){
-	    ContextEvent ce=(ContextEvent) Activator.parser.deserialize(cevent);
+	    ContextEvent ce=(ContextEvent) Activator.getParser().deserialize(cevent);
 	    if (ce==null) {
-		throw new Exception("Unable to deserialize event");
+		throw new APIImplException("Unable to deserialize event");
 	    }
 	    ((RemoteUAAL)nodes.get(id)).sendC(ce);
 	}else{
-	    throw new Exception("ID not registered");
+	    throw new APIImplException("ID not registered");
 	}
     }
 
     /* (non-Javadoc)
      * @see org.universAAL.ri.api.manager.RemoteAPI#subscribeC(java.lang.String, java.lang.String)
      */
-    public void subscribeC(String id, String cpattern) throws Exception {
-	Activator.logI("RemoteAPIImpl.subscribeC()", "Received call from remote node > SUBSCRIBEC, sender: "+id);//TODO Log IDs?
+    public void subscribeC(String id, String cpattern) throws APIImplException {
+	if(Configuration.getLogDebug()){
+	    Activator.logI("RemoteAPIImpl.subscribeC()", "Received call from remote node > SUBSCRIBEC, sender: "+id);
+	}
 	if(nodes.containsKey(id)){
-	    ContextEventPattern cp=(ContextEventPattern) Activator.parser.deserialize(cpattern);
+	    ContextEventPattern cp=(ContextEventPattern) Activator.getParser().deserialize(cpattern);
 	    if (cp==null) {
-		throw new Exception("Unable to deserialize pattern");
+		throw new APIImplException("Unable to deserialize pattern");
 	    }
 	    RemoteUAAL node=(RemoteUAAL)nodes.get(id);
 	    node.subscribeC(new ContextEventPattern[]{cp},node.createCListener());
 	}else{
-	    throw new Exception("ID not registered");
+	    throw new APIImplException("ID not registered");
 	}
     }
 
     /* (non-Javadoc)
      * @see org.universAAL.ri.api.manager.RemoteAPI#callS(java.lang.String, java.lang.String)
      */
-    public String callS(String id, String srequest) throws Exception {
-	Activator.logI("RemoteAPIImpl.callS()", "Received call from remote node > CALLS, sender: "+id);//TODO Log IDs?
+    public String callS(String id, String srequest) throws APIImplException {
+	if(Configuration.getLogDebug()){
+	    Activator.logI("RemoteAPIImpl.callS()", "Received call from remote node > CALLS, sender: "+id);
+	}
 	ServiceResponse res = null;
 	if (nodes.containsKey(id)) {
-	    ServiceRequest req = (ServiceRequest) Activator.parser.deserialize(srequest);
+	    ServiceRequest req = (ServiceRequest) Activator.getParser().deserialize(srequest);
 	    if (req == null) {
-		throw new Exception("Unable to deserialize request");
+		throw new APIImplException("Unable to deserialize request");
 	    }
 	    RemoteUAAL node = (RemoteUAAL) nodes.get(id);
 	    res = node.callS(req);
 	} else {
-	    throw new Exception("ID not registered");
+	    throw new APIImplException("ID not registered");
 	}
 	if (res != null) {
 	    StringBuilder strb = new StringBuilder();
@@ -169,55 +162,47 @@ public class RemoteAPIImpl implements RemoteAPI {
 	    }
 	    strb.append(RemoteAPI.KEY_STATUS).append("=").append(res.getCallStatus().toString()).append("\n");
 	    strb.append(RemoteAPI.FLAG_TURTLE).append("\n");
-	    strb.append(Activator.parser.serialize(res));
+	    strb.append(Activator.getParser().serialize(res));
 	    return strb.toString();
 	}else{
 	    return null;
 	}
-	
-// For testing://	String turtle = "@prefix ns: http://www.daml.org/services/owl-s/1.1/Process.owl# . "
-//		+ "@prefix ns1: http://ontology.universAAL.org/CHE.owl# ."
-//		+ "@prefix : http://ontology.universAAL.org/uAAL.owl# . "
-//		+ ":BN000000 a :ServiceResponse ; "
-//		+ "  :callStatus :call_succeeded ; "
-//		+ "  :returns ( "
-//		+ "    ns1:sparqlResult "
-//		+ "  ) . "
-//		+ ":call_succeeded a :CallStatus . "
-//		+ "ns1:sparqlResult ns:parameterValue \"\"^^http://www.w3.org/2001/XMLSchema#string ; "
-//		+ "  a ns:Output .";
     }
 
     /* (non-Javadoc)
      * @see org.universAAL.ri.api.manager.RemoteAPI#provideS(java.lang.String, java.lang.String)
      */
-    public void provideS(String id, String sprofile) throws Exception {
-	Activator.logI("RemoteAPIImpl.provideS()", "Received call from remote node > PROVIDES, sender: "+id);//TODO Log IDs?
+    public void provideS(String id, String sprofile) throws APIImplException {
+	if(Configuration.getLogDebug()){
+	    Activator.logI("RemoteAPIImpl.provideS()", "Received call from remote node > PROVIDES, sender: "+id);
+	}
 	if(nodes.containsKey(id)){
-	    ServiceProfile sp=(ServiceProfile) Activator.parser.deserialize(sprofile);
+	    ServiceProfile sp=(ServiceProfile) Activator.getParser().deserialize(sprofile);
 	    if (sp==null) {
-		throw new Exception("Unable to deserialize profile");
+		throw new APIImplException("Unable to deserialize profile");
 	    }
 	    RemoteUAAL node=(RemoteUAAL)nodes.get(id);
 	    node.provideS(new ServiceProfile[]{sp},node.createSListener());
 	}else{
-	    throw new Exception("ID not registered");
+	    throw new APIImplException("ID not registered");
 	}
     }
 
     /* (non-Javadoc)
      * @see org.universAAL.ri.api.manager.RemoteAPI#unregister(java.lang.String)
      */
-    public void unregister(String id) throws Exception {
-	Activator.logI("RemoteAPIImpl.unregister()", "Received call from remote node > UNREGISTER, sender: "+id);//TODO Log IDs?
+    public void unregister(String id) throws APIImplException {
+	if(Configuration.getLogDebug()){
+	    Activator.logI("RemoteAPIImpl.unregister()", "Received call from remote node > UNREGISTER, sender: "+id);
+	}
 	if(!nodes.containsKey(id)){
-	    throw new Exception("ID not registered");
+	    throw new APIImplException("ID not registered");
 	}
 	RemoteUAAL uaal=nodes.remove(id);
 	if(uaal!=null){
 	    uaal.terminate();
 	}else{
-	    throw new Exception("No instance for this ID");
+	    throw new APIImplException("No instance for this ID");
 	}
     }
     

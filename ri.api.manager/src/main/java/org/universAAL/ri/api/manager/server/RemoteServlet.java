@@ -76,7 +76,7 @@ public class RemoteServlet extends javax.servlet.http.HttpServlet{
 	resp.setStatus(HttpServletResponse.SC_ACCEPTED);
 
 	String user;
-	if(Activator.ownauth){
+	if(Activator.isCustom()){
 	    // Use own auth method
 	    // No matter if the "login" user is set by the sender, because it is
 	    // intercepted by HttpContext (Authenticator) and if it fails it will

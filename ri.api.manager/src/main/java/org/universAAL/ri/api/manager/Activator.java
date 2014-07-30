@@ -47,22 +47,59 @@ import org.universAAL.ri.api.manager.server.persistence.PersistenceDerby;
  * 
  */
 public class Activator implements BundleActivator {
-    public BundleContext osgiContext = null;
-    public static ModuleContext uaalContext = null;
-    private static RemoteAPIImpl remoteAPI = null;
-    private HttpServlet remoteServlet = null;
-    private static final String URL="/universaal";
-    private ServiceReference[] referencesHttp,referencesSerializer;
-    private HttpListener httpListener;
-    private SerializerListener serializerListener;
+    /**
+     * OSGi Context
+     */
+    private BundleContext osgiContext;
+    /**
+     * uAAL Context
+     */
+    private static ModuleContext uaalContext;
+    /**
+     * Identifies if configured to use custom servlet registration with own
+     * authenticator as opposed to using a web container.
+     */
+    private static boolean custom = true;
+    /**
+     * Singleton instance of the actual RemoteAPI
+     */
+    private static RemoteAPIImpl remoteAPI;
+    /**
+     * Singleton instance of uAAL serializer
+     */
+    private static MessageContentSerializerEx parser;
+    /**
+     * Singleton instance of the persistence DB engine
+     */
     private static Persistence persistence;
-    private Authenticator auth=null;
-    public static boolean ownauth=true;
+    /**
+     * Context path for the server URL (used only if custom=true)
+     */
+    private static final String URL = "/universaal";
+    /**
+     * Instance of authentication-enabled HttpContext for the servlet (used only
+     * if custom=true)
+     */
+    private Authenticator auth;
+    /**
+     * Instance of the servlet (used only if custom=true)
+     */
+    private HttpServlet remoteServlet;
+    /**
+     * OSGi service reference holders
+     */
+    private ServiceReference[] referencesHttp, referencesSerializer;
+    /**
+     * OSGi service listener for HTTP (used only if custom=true)
+     */
+    private HttpListener httpListener;
+    /**
+     * OSGi service listener for uAAL serializer
+     */
+    private SerializerListener serializerListener;
 
-    public static MessageContentSerializerEx parser;
-    
     // For CXF
-//    private ServiceRegistration registration = null;
+    // private ServiceRegistration registration = null;
 
     /* (non-Javadoc)
      * @see org.osgi.framework.BundleActivator#start(org.osgi.framework.BundleContext)
@@ -72,6 +109,7 @@ public class Activator implements BundleActivator {
 	uaalContext = uAALBundleContainer.THE_CONTAINER
 		.registerModule(new Object[] { bcontext });
 	
+	//Find uAAL serializer
 	serializerListener=new SerializerListener();
 	String filter = "(objectclass="+ MessageContentSerializerEx.class.getName() + ")";
 	osgiContext.addServiceListener(serializerListener, filter);
@@ -81,19 +119,13 @@ public class Activator implements BundleActivator {
 		    referencesSerializer[i]));
 	}
 	
-	//Instance the API impl before DB is ready, it wont be called yet
+	//Instance the API impl before DB is ready (it wont be called yet) then the servlet, then the DB
 	remoteAPI=new RemoteAPIImpl(uaalContext);
 	remoteServlet=new RemoteServlet(remoteAPI);
-	
 	//Instance persistence DB once API impl is ready and before it is public in servlet
 	persistence=new PersistenceDerby();
 	persistence.init(remoteAPI);
 	persistence.restore();
-	
-	//Authenticator before http service is found
-	if(ownauth){
-	    auth=new Authenticator();
-	}
 
 	// For CXF
 //	Dictionary<String, Object> props = new Hashtable<String, Object>();
@@ -105,13 +137,19 @@ public class Activator implements BundleActivator {
 //	registration = osgiContext.registerService(RemoteAPI.class.getName(),
 //                new RemoteAPIImpl(uaalContext), props);
 	
-	httpListener=new HttpListener();
-	filter = "(objectclass=" + HttpService.class.getName() + ")";
-	osgiContext.addServiceListener(httpListener, filter);
-	referencesHttp = osgiContext.getServiceReferences((String)null, filter);
-	//TODO If there are more than 1 HttpService, it gets registered in all !
-	for (int i = 0; referencesHttp != null && i < referencesHttp.length; i++) {
-	    httpListener.serviceChanged(new ServiceEvent(ServiceEvent.REGISTERED, referencesHttp[i]));
+	// Custom servlet with own authenticator. If disabled the servlet and
+	// its authentication will have to be setup by Pax Web (I couldnt make
+	// it work not even as a .war)
+	if (custom) {
+	    auth = new Authenticator();
+	    httpListener=new HttpListener();
+	    filter = "(objectclass=" + HttpService.class.getName() + ")";
+	    osgiContext.addServiceListener(httpListener, filter);
+	    referencesHttp = osgiContext.getServiceReferences((String)null, filter);
+	    //TODO If there are more than 1 HttpService, it gets registered in all !
+	    for (int i = 0; referencesHttp != null && i < referencesHttp.length; i++) {
+		httpListener.serviceChanged(new ServiceEvent(ServiceEvent.REGISTERED, referencesHttp[i]));
+	    }
 	}
     }
 
@@ -145,7 +183,7 @@ public class Activator implements BundleActivator {
      */
     public boolean register(HttpService http) {
 	try {
-	    http.registerServlet(URL, remoteServlet, null, auth);//if ownauth=true > auth=null
+	    http.registerServlet(URL, remoteServlet, null, auth);
 	} catch (ServletException e) {
 	    LogUtils.logError( uaalContext, this.getClass(), "register",
 		    new Object[] { "Exception while registering Servlet." }, e);
@@ -273,12 +311,42 @@ public class Activator implements BundleActivator {
 	LogUtils.logError(uaalContext, Activator.class, method, msg);
     }
     
+    /**
+     * Get the instance of the Persistence engine
+     * 
+     * @return the Persistence engine
+     */
     public static Persistence getPersistence() {
-        return persistence;
+	return persistence;
     }
-    
+
+    /**
+     * Get the instance of the Remote API impl
+     * 
+     * @return the Remote API impl
+     */
     public static RemoteAPIImpl getRemoteAPI() {
-        return remoteAPI;
+	return remoteAPI;
+    }
+
+    /**
+     * Get the instance of the uAAL serializer
+     * 
+     * @return the uAAL serializer
+     */
+    public static MessageContentSerializerEx getParser() {
+	return parser;
+    }
+
+    /**
+     * Get the value of the "custom" variable identifying if a custom
+     * authenticated servlet is being registered programmatically
+     * 
+     * @return true if it is using the hardcoded servlet registration with
+     *         authentication.
+     */
+    public static boolean isCustom() {
+	return custom;
     }
 	
 }

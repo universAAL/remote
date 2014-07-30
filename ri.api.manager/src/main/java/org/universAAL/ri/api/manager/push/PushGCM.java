@@ -39,7 +39,10 @@ import org.universAAL.middleware.service.ServiceResponse;
 import org.universAAL.middleware.service.owls.process.OutputBinding;
 import org.universAAL.middleware.service.owls.process.ProcessOutput;
 import org.universAAL.ri.api.manager.Activator;
+import org.universAAL.ri.api.manager.Configuration;
 import org.universAAL.ri.api.manager.RemoteAPI;
+import org.universAAL.ri.api.manager.exceptions.APIImplException;
+import org.universAAL.ri.api.manager.exceptions.PushException;
 
 import com.google.android.gcm.server.Message;
 import com.google.android.gcm.server.Result;
@@ -48,13 +51,13 @@ import com.google.android.gcm.server.Message.Builder;
 
 public class PushGCM {
     
-    private static final String GCM_APP_KEY="AIzaSyB5UFo9DM6tYgAjfM2M68JR-2oBdAGii8w"; //TODO Change to your key
+    private static final String GCM_APP_KEY=Configuration.getGCMKey();
     private static final String REG_ID_OUTDATED="Outdated";
     
     public static Hashtable<String,ServiceResponse> pendingCalls=new Hashtable<String,ServiceResponse>();
 
-    public static void sendC(String nodeid, String remoteid, ContextEvent event) {
-	boolean test=false;// TODO remove for production
+    public static void sendC(String nodeid, String remoteid, ContextEvent event) throws PushException {
+	boolean test=Configuration.getGCMDry();
 	
 	int ttl=0; // 4 weeks is the default in GCM
 	Long millis=event.getExpirationTime();
@@ -66,7 +69,7 @@ public class PushGCM {
 	String subject=event.getRDFSubject().toString();
 	String predicate=event.getRDFPredicate();
 	String object=event.getRDFObject().toString();
-	String serial=Activator.parser.serialize(event);
+	String serial=Activator.getParser().serialize(event);
 	
 	int size=0; //Find out size of the WHOLE payload
 	StringBuilder combined=new StringBuilder(serial)
@@ -103,11 +106,11 @@ public class PushGCM {
 	send(nodeid, remoteid, msg);
     }
 
-    public static ServiceResponse callS(String nodeid, String remoteid, ServiceCall call) {
-	boolean test=true;// TODO remove for production
+    public static ServiceResponse callS(String nodeid, String remoteid, ServiceCall call) throws PushException {
+	boolean test=true;
 
 	List inputs = (List) call.getProperty(ServiceCall.PROP_OWLS_PERFORM_HAS_DATA_FROM);
-	String serial=Activator.parser.serialize(call);
+	String serial=Activator.getParser().serialize(call);
 	
 	int size=0; //Find out size of the WHOLE payload
 	StringBuilder combined=new StringBuilder(serial);
@@ -177,11 +180,11 @@ public class PushGCM {
 	return pendingCalls.remove(call.getURI()+"@"+nodeid);
     }
     
-    private static void send(String nodeid, String remoteid, Message msg){
+    private static void send(String nodeid, String remoteid, Message msg) throws PushException{
 	Sender sender=new Sender(GCM_APP_KEY);
 	if(remoteid.equals(REG_ID_OUTDATED)){//See below for when this happens
-	    //not a valid GCM key, so dont send anything TODO Exception?
-	    Activator.logE("PushGCM.send", "The GCM key is outdated. Remote node should get a new one");
+	    //not a valid GCM key, so dont send anything
+	    throw new PushException("The GCM key is outdated. Remote node should get a new one");
 	}
 	String regid=remoteid;
 	if(remoteid.startsWith("gcm:")){//Remove the gcm: prefix from remoteid. DEPRECATED
@@ -204,21 +207,21 @@ public class PushGCM {
 		    Activator.getRemoteAPI().register(nodeid, REG_ID_OUTDATED); //This just updates the remoteid
 		    Activator.getPersistence().storeRegister(nodeid, REG_ID_OUTDATED);
 		}
-		//TODO
-		Activator.logE("PushGCM.send", res.getErrorCodeName());
+		throw new PushException("Error sending to GCM. Error code received: "+res.getErrorCodeName());
 	    }
 	} catch (IOException e) {
-	    // TODO Auto-generated catch block
 	    e.printStackTrace();
-	} catch (Exception e) {
-	    // TODO Auto-generated catch block
+	    throw new PushException("Error sending to GCM. Unable to use communication channel: "+e.getMessage());
+	} catch (APIImplException e) {
 	    e.printStackTrace();
+	    Activator.logW("PushGCM.send",
+		    "Unable to register new remoteID of node. The stored remoteID will remain the old invalid one");
 	}
     }
 
-    public static void handleResponse(String param, String nodeid) {
+    public static void handleResponse(String param, String nodeid) throws PushException {
 	Activator.logD("PushGCM.handleResponse", "RECEIVED RESPONSE");
-	ServiceResponse sr = new ServiceResponse(CallStatus.serviceSpecificFailure);
+	ServiceResponse sr = new ServiceResponse(CallStatus.succeeded);
 	StringBuilder strb = new StringBuilder();
 	InputStreamReader ir = new InputStreamReader(new ByteArrayInputStream(param.getBytes()));
 	BufferedReader br = new BufferedReader(ir);
@@ -237,6 +240,11 @@ public class PushGCM {
 			}
 		    } else if(parts[0].equals(RemoteAPI.KEY_CALL)){
 			key = parts[1]+"@"+nodeid;//Identifies the call in pendingCalls
+		    } else if(parts[0].equals(RemoteAPI.KEY_STATUS)){
+			if(!parts[1].equals(CallStatus.succeeded)){
+			    sr=new ServiceResponse(CallStatus.valueOf(parts[1]));
+			    //do not break the while because we should keep reading lines so we get to serialized sr (better) 
+			}
 		    }
 		}
 		line = br.readLine();
@@ -248,14 +256,24 @@ public class PushGCM {
 		    strb.append(line);
 	    }
 	    br.close();
-	} catch (IOException e) {
-	    sr = new ServiceResponse(CallStatus.serviceSpecificFailure);
-	    e.printStackTrace();
+	} catch (IOException e) {//Do not send response, it will timeout.
+	    throw new PushException("Unable to read Response message from client"); 
 	}
 	String serialized = strb.toString();
-	if (key==null || serialized.isEmpty()) return; //Do not send response, it will timeout. TODO exception
-	if (serialized.length() > 1) {
-	    Object parsedsr = Activator.parser.deserialize(serialized);
+	if (key==null){ //Do not send response, it will timeout.
+	    throw new PushException("Response message from client does not contain a call identifier"); 
+	}
+	if (serialized.isEmpty()) {
+	    // no serialized response included, rely on the built sr
+	    synchronized (pendingCalls) {
+		if (pendingCalls.containsKey(key)) {
+		    // IF there is a call waiting for this sr, put it in the pending and wake up thread
+		    pendingCalls.put(key, sr);
+		    pendingCalls.notifyAll();
+		}
+	    }
+	}else{
+	    Object parsedsr = Activator.getParser().deserialize(serialized);
 	    if (parsedsr instanceof ServiceResponse) {
 		Activator.logD("PushGCM.handleResponse", "UPDATING RESPONSE");
 		synchronized (pendingCalls) {

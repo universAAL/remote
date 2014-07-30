@@ -24,8 +24,9 @@ package org.universAAL.ri.api.manager.push;
 import org.universAAL.middleware.context.ContextEvent;
 import org.universAAL.middleware.service.ServiceCall;
 import org.universAAL.middleware.service.ServiceResponse;
+import org.universAAL.ri.api.manager.Configuration;
 import org.universAAL.ri.api.manager.RemoteAPI;
-import org.universAAL.ri.api.manager.RemoteAPIImpl;
+import org.universAAL.ri.api.manager.exceptions.PushException;
 
 /**
  * Class that manages the push of callbacks to client remote node endpoints.
@@ -44,8 +45,8 @@ public class PushManager {
      * @param event
      *            The serialized Context Event to send
      */
-    public static void sendC(String nodeid, String remoteid, ContextEvent event) throws Exception {
-	switch (RemoteAPIImpl.determineEndpoint(remoteid)) {
+    public static void sendC(String nodeid, String remoteid, ContextEvent event) throws PushException {
+	switch (Configuration.determineEndpoint(remoteid)) {
 	case RemoteAPI.REMOTE_POST:
 	    PushHTTP.sendC(remoteid, event);
 	    break;
@@ -53,7 +54,7 @@ public class PushManager {
 	    PushGCM.sendC(nodeid, remoteid, event);
 	    break;
 	default:
-	    throw new Exception("Unable to determine protocol of remote endpoint");
+	    throw new PushException("Unable to determine protocol of remote endpoint");
 	}
     }
 
@@ -69,14 +70,14 @@ public class PushManager {
      * @return The Service Response that the client remote node will have sent
      *         as response to the callback
      */
-    public static ServiceResponse callS(String nodeid, String remoteid, ServiceCall call) throws Exception {
-	switch (RemoteAPIImpl.determineEndpoint(remoteid)) {
+    public static ServiceResponse callS(String nodeid, String remoteid, ServiceCall call) throws PushException {
+	switch (Configuration.determineEndpoint(remoteid)) {
 	case RemoteAPI.REMOTE_POST:
 	    return PushHTTP.callS(remoteid, call);
 	case RemoteAPI.REMOTE_GCM:
 	    return PushGCM.callS(nodeid, remoteid, call);
 	default:
-	    throw new Exception("Unable to determine protocol of remote endpoint");
+	    throw new PushException("Unable to determine protocol of remote endpoint");
 	}
     }
 

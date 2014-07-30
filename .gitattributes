@@ -3,9 +3,13 @@ ri.api.manager/ASL2.0.txt -text
 ri.api.manager/NOTICE.txt -text
 ri.api.manager/pom.xml -text
 ri.api.manager/src/main/java/org/universAAL/ri/api/manager/Activator.java -text
+ri.api.manager/src/main/java/org/universAAL/ri/api/manager/Configuration.java -text
 ri.api.manager/src/main/java/org/universAAL/ri/api/manager/RemoteAPI.java -text
 ri.api.manager/src/main/java/org/universAAL/ri/api/manager/RemoteAPIImpl.java -text
 ri.api.manager/src/main/java/org/universAAL/ri/api/manager/RemoteUAAL.java -text
+ri.api.manager/src/main/java/org/universAAL/ri/api/manager/exceptions/APIImplException.java -text
+ri.api.manager/src/main/java/org/universAAL/ri/api/manager/exceptions/PushException.java -text
+ri.api.manager/src/main/java/org/universAAL/ri/api/manager/exceptions/RAPIException.java -text
 ri.api.manager/src/main/java/org/universAAL/ri/api/manager/push/PushGCM.java -text
 ri.api.manager/src/main/java/org/universAAL/ri/api/manager/push/PushHTTP.java -text
 ri.api.manager/src/main/java/org/universAAL/ri/api/manager/push/PushManager.java -text

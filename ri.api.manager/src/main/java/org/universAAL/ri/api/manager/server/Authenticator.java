@@ -65,12 +65,12 @@ public class Authenticator implements HttpContext{
     }
 
     public URL getResource(String name) {
-	// TODO Only called from the Servlet, but mine does not
+	// Only called from the Servlet, but mine does not
 	return null;
     }
 
     public String getMimeType(String name) {
-	// TODO Only called from the Servlet, but mine does not
+	// Only called from the Servlet, but mine does not
 	return null;
     }
     
@@ -95,7 +95,13 @@ public class Authenticator implements HttpContext{
 		String userPassString = new String(Base64.decode(credentials));
 		// The decoded string is in the form
 		// "userID:password".
-		int p = userPassString.indexOf(":");//TODO Check for user= http:...
+		int p=-1;
+		if(userPassString.startsWith("http")){
+		    //There will be a first : after http/s
+		    p = userPassString.indexOf(":", userPassString.indexOf(":"));
+		}else{
+		    p = userPassString.indexOf(":");
+		}
 		if (p != -1) {
 		    String userID = userPassString.substring(0, p);
 		    String pass = userPassString.substring(p + 1);

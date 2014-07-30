@@ -29,6 +29,7 @@ import java.sql.Statement;
 import java.sql.Timestamp;
 
 import org.universAAL.ri.api.manager.Activator;
+import org.universAAL.ri.api.manager.Configuration;
 import org.universAAL.ri.api.manager.RemoteAPI;
 
 /**
@@ -62,7 +63,7 @@ public class PersistenceDerby implements Persistence {
      */
     public void init(RemoteAPI remoteAPI) {
 	this.api = remoteAPI;
-	dbURL = "jdbc:derby:/RAPIPersistence;create=true";
+	dbURL = "jdbc:derby:"+Configuration.getDerbyPath()+";create=true";
 	Connection conn = null;
 	Statement stmt = null;
 	try {
@@ -76,11 +77,13 @@ public class PersistenceDerby implements Persistence {
 		    + ".registers ( id varchar(512) PRIMARY KEY NOT NULL, remote  varchar(512)," +
 		    " tstmp timestamp )";
 	    String createSUBSCRIBERS = "CREATE TABLE " + DBNAME
-		    + ".subscribers ( id varchar(512) PRIMARY KEY NOT NULL, pattern varchar(5120)," +
+		    + ".subscribers (rowid integer PRIMARY KEY NOT NULL GENERATED ALWAYS AS IDENTITY " +
+		    "(START WITH 1, INCREMENT BY 1), id varchar(512) NOT NULL, pattern varchar(5120)," +
 		    " tstmp timestamp, CONSTRAINT subid_fk FOREIGN KEY (id) REFERENCES "
 		    + DBNAME + ".registers(id))";
 	    String createCALLEES = "CREATE TABLE " + DBNAME
-		    + ".callees ( id varchar(512) PRIMARY KEY NOT NULL, profile varchar(5120)," +
+		    + ".callees (rowid integer PRIMARY KEY NOT NULL GENERATED ALWAYS AS IDENTITY " +
+		    "(START WITH 1, INCREMENT BY 1), id varchar(512) NOT NULL, profile varchar(5120)," +
 		    " tstmp timestamp, CONSTRAINT calid_fk FOREIGN KEY (id)  REFERENCES "
 		    + DBNAME + ".registers(id))";
 	    String createPWDS = "CREATE TABLE " + PWDDBNAME
@@ -90,29 +93,41 @@ public class PersistenceDerby implements Persistence {
 	    try {
 		stmt.executeUpdate(createREGISTERS);
 	    } catch (SQLException e) {
-		if (!e.getSQLState().equals("X0Y32")) {
+		if (e.getSQLState().equals("X0Y32")) {
 		    Activator.logI("PersistenceDerby.init", "Database already exists");
+		}else{
+		    Activator.logE("PersistenceDerby.init", "Error creating database, REGISTERS");
+		    e.printStackTrace();
 		}
 	    }
 	    try {
 		stmt.executeUpdate(createSUBSCRIBERS);
 	    } catch (SQLException e) {
-		if (!e.getSQLState().equals("X0Y32")) {
+		if (e.getSQLState().equals("X0Y32")) {
 		    Activator.logI("PersistenceDerby.init", "Database already exists");
+		}else{
+		    Activator.logE("PersistenceDerby.init", "Error creating database, SUBSCRIBERS");
+		    e.printStackTrace();
 		}
 	    }
 	    try {
 		stmt.executeUpdate(createCALLEES);
 	    } catch (SQLException e) {
-		if (!e.getSQLState().equals("X0Y32")) {
+		if (e.getSQLState().equals("X0Y32")) {
 		    Activator.logI("PersistenceDerby.init", "Database already exists");
+		}else{
+		    Activator.logE("PersistenceDerby.init", "Error creating database, CALLEES");
+		    e.printStackTrace();
 		}
 	    }
 	    try {
 		stmt.executeUpdate(createPWDS);
 	    } catch (SQLException e) {
-		if (!e.getSQLState().equals("X0Y32")) {
+		if (e.getSQLState().equals("X0Y32")) {
 		    Activator.logI("PersistenceDerby.init", "Database already exists");
+		}else{
+		    Activator.logE("PersistenceDerby.init", "Error creating database, PWDS");
+		    e.printStackTrace();
 		}
 	    }
 
@@ -141,9 +156,18 @@ public class PersistenceDerby implements Persistence {
      */
     public void storeRegister(String id, String remote) {
 	Timestamp t = new Timestamp(System.currentTimeMillis());
-	String storeREGISTERS = "insert into " + DBNAME
-		+ ".registers (id, remote, tstmp) values ('" + id + "','"
-		+ remote + "','" + t.toString() + "')";
+	String storeREGISTERS;
+	if (checkUserFromREGISTERS(id)) {
+	    // This id already registered -> update remote and t
+	    storeREGISTERS = "update " + DBNAME + ".registers SET remote='"
+		    + remote + "', tstmp='" + t + "' WHERE id='" + id + "'";
+	}else{
+	    //New id - > insert all
+	    storeREGISTERS = "insert into " + DBNAME
+		    + ".registers (id, remote, tstmp) values ('" + id + "','"
+		    + remote + "','" + t.toString() + "')";
+	    
+	}
 	executeGeneric(storeREGISTERS);
     }
 
@@ -238,7 +262,7 @@ public class PersistenceDerby implements Persistence {
 		}
 	    }
 	    try {
-		stmt.executeUpdate(deleteREGISTERS);// TODO Remove in cascade
+		stmt.executeUpdate(deleteREGISTERS);// TODO Remove in cascade? Rsult is the same, but maybe faster?
 	    } catch (SQLException e) {
 		if (!e.getSQLState().equals("X0Y32")) {
 		    e.printStackTrace();
@@ -282,8 +306,8 @@ public class PersistenceDerby implements Persistence {
 	    
 	    ResultSet resultSet = stmt.executeQuery(selectREGISTERS); 
 	    while (resultSet.next()){
-		String id=resultSet.getString(1);
-		String remote=resultSet.getString(2);
+		String id=resultSet.getString("id");
+		String remote=resultSet.getString("remote");
 		if(id!=null && remote!=null){
 		    this.api.register(id, remote);
 		}
@@ -292,8 +316,8 @@ public class PersistenceDerby implements Persistence {
 	    // just iterate once everything is registered
 	    resultSet = stmt.executeQuery(selectSUSBCRIBERS);
 	    while (resultSet.next()){
-		String id=resultSet.getString(1);
-		String pattern=resultSet.getString(2);
+		String id=resultSet.getString("id");
+		String pattern=resultSet.getString("pattern");
 		if(id!=null && pattern!=null){
 		    this.api.subscribeC(id, pattern);
 		}
@@ -301,8 +325,8 @@ public class PersistenceDerby implements Persistence {
 	    
 	    resultSet = stmt.executeQuery(selectCALLEES);
 	    while (resultSet.next()){
-		String id=resultSet.getString(1);
-		String profile=resultSet.getString(2);
+		String id=resultSet.getString("id");
+		String profile=resultSet.getString("profile");
 		if(id!=null && profile!=null){
 		    this.api.provideS(id, profile);
 		}
@@ -377,7 +401,7 @@ public class PersistenceDerby implements Persistence {
 		}
 	    }
 	    try {
-		stmt.executeUpdate(deleteREGISTERS);// TODO Remove in cascade
+		stmt.executeUpdate(deleteREGISTERS);// TODO Remove in cascade? Rsult is the same, but maybe faster?
 	    } catch (SQLException e) {
 		if (!e.getSQLState().equals("X0Y32")) {
 		    e.printStackTrace();
@@ -449,7 +473,15 @@ public class PersistenceDerby implements Persistence {
 	return result;
     }
     
+    private boolean checkUserFromREGISTERS(String id){
+	return checkUserFromDB(id, DBNAME+".registers");
+    }
+    
     public boolean checkUser(String id) {
+	return checkUserFromDB(id, PWDDBNAME+".pwds");
+    }
+    
+    private boolean checkUserFromDB(String id, String db){
 	Connection conn = null;
 	Statement stmt = null;
 	boolean result=false;
@@ -460,7 +492,7 @@ public class PersistenceDerby implements Persistence {
 	    stmt = conn.createStatement();
 	    stmt.setQueryTimeout(30);
 
-	    String selectPWDS="Select id from "+PWDDBNAME+".pwds WHERE id='"+id+"'";
+	    String selectPWDS="Select id from "+db+" WHERE id='"+id+"'";
 	    
 	    ResultSet resultSet = stmt.executeQuery(selectPWDS); 
 	    result = resultSet.next();
@@ -483,5 +515,4 @@ public class PersistenceDerby implements Persistence {
 	}
 	return result;
     }
-
 }

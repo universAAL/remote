@@ -124,22 +124,37 @@ public class RemoteUAAL extends UAAL {
 	 * node. It will pack the callback message and send it to the client
 	 * remote node endpoint.
 	 * 
+	 * This is called from the single ContextStrategy thread. This method
+	 * will perform network operations, which will take time, so it uses an
+	 * inner thread every time is called.
+	 * 
 	 * @param event
 	 *            The event to send back to the client
 	 */
-	public void handleContextEvent(ContextEvent event) {
-	    try {
-		PushManager.sendC(nodeID, remoteID, event);
-	    } catch (Exception e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-	    }
+	public void handleContextEvent(final ContextEvent event) {
+	    new Thread("RemoteUAAL_CListener") {
+		public void run() {
+		    try {
+			PushManager.sendC(nodeID, remoteID, event);
+		    } catch (Exception e) {
+			e.printStackTrace();
+			Activator.logE("CListener.handleContextEvent",
+				"Unable to send the proxied Context Event to the remote node. "
+					+ e.getMessage());
+		    }
+		}
+	    }.start();
 	}
     }
 
     /**
      * Custom ISListener to be used in the callS() method of the Utility API. It
      * has access to the client remote node endpoint information.
+     * 
+     * This is called from the single ServiceStrategy thread. This method will
+     * perform network operations, which will take time. Unfortunately it cannot
+     * use a Thread for them because it is a synchronous execution that must
+     * return a response, and it would block anyway.
      * 
      * @author alfiva
      * 
@@ -154,12 +169,14 @@ public class RemoteUAAL extends UAAL {
 	 *            The call to send back to the client
 	 * @return The response that the client will have created
 	 */
-	public ServiceResponse handleCall(ServiceCall call) {
+	public ServiceResponse handleCall(ServiceCall call) {//TODO Modify UAAL to use async handleRequest instead (for thread)
 	    try {
 		return PushManager.callS(nodeID, remoteID, call);
 	    } catch (Exception e) {
-		// TODO Auto-generated catch block
 		e.printStackTrace();
+		Activator.logE("CListener.handleCall",
+			"Unable to send the proxied Service Call to the remote node. "
+				+ e.getMessage());
 		return new ServiceResponse(CallStatus.serviceSpecificFailure);
 	    }
 	}

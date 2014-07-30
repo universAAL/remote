@@ -43,34 +43,36 @@ import org.universAAL.middleware.service.ServiceResponse;
 import org.universAAL.middleware.service.owls.process.OutputBinding;
 import org.universAAL.middleware.service.owls.process.ProcessOutput;
 import org.universAAL.ri.api.manager.Activator;
+import org.universAAL.ri.api.manager.Configuration;
 import org.universAAL.ri.api.manager.RemoteAPI;
+import org.universAAL.ri.api.manager.exceptions.PushException;
 
 public class PushHTTP {
 
-    public static void sendC(String remoteid, ContextEvent event) {
+    public static void sendC(String remoteid, ContextEvent event) throws PushException {
 	StringBuilder strb = new StringBuilder();
 	strb.append(RemoteAPI.KEY_METHOD).append("=").append(RemoteAPI.METHOD_SENDC)
-		.append("&").append(RemoteAPI.KEY_PARAM).append("=").append(Activator.parser.serialize(event))
+		.append("&").append(RemoteAPI.KEY_PARAM).append("=").append(Activator.getParser().serialize(event))
 		.append("&").append(ContextEvent.PROP_RDF_SUBJECT).append("=").append(event.getSubjectURI())
 		.append("&").append(ContextEvent.PROP_RDF_PREDICATE).append("=").append(event.getRDFPredicate())
 		.append("&").append(ContextEvent.PROP_RDF_OBJECT).append("=").append(event.getRDFObject().toString());
-	Activator.logI("PushHTTP.sendC", "Sending message to remote node > SENDC, body: "+strb.toString());//TODO Log body?
+	if(Configuration.getLogDebug()){
+	    Activator.logI("PushHTTP.sendC", "Sending message to remote node > SENDC, body: "+strb.toString());
+	}
 	try {
 	    send(remoteid, strb.toString());
 	} catch (MalformedURLException e) {
-	    // TODO Auto-generated catch block
-	    e.printStackTrace();
+	    throw new PushException("Unable to send message to malformed URL: "+e.getMessage());
 	} catch (IOException e) {
-	    // TODO Auto-generated catch block
-	    e.printStackTrace();
+	    throw new PushException("Unable to send message through communication channel: "+e.getMessage());
 	}
     }
 
-    public static ServiceResponse callS(String remoteid, ServiceCall call) {
+    public static ServiceResponse callS(String remoteid, ServiceCall call) throws PushException {
 	ServiceResponse sr = new ServiceResponse(CallStatus.serviceSpecificFailure);
 	StringBuilder strb = new StringBuilder();
 	strb.append(RemoteAPI.KEY_METHOD).append("=").append(RemoteAPI.METHOD_CALLS)
-		.append("&").append(RemoteAPI.KEY_PARAM).append("=").append(Activator.parser.serialize(call));
+		.append("&").append(RemoteAPI.KEY_PARAM).append("=").append(Activator.getParser().serialize(call));
 	List inputs = (List) call.getProperty(ServiceCall.PROP_OWLS_PERFORM_HAS_DATA_FROM);
 	if (inputs != null) {
 	    for (Iterator i = inputs.iterator(); i.hasNext();) {
@@ -82,7 +84,9 @@ public class PushHTTP {
 		}
 	    }
 	}
-	Activator.logI("PushHTTP.callS", "Sending message to remote node > CALLS, body:  " + strb.toString());//TODO Logbody?
+	if(Configuration.getLogDebug()){
+	    Activator.logI("PushHTTP.callS", "Sending message to remote node > CALLS, body:  " + strb.toString());
+	}
 	try {
 	    String response = send(remoteid, strb.toString());
 	    InputStreamReader ir = new InputStreamReader(
@@ -94,13 +98,15 @@ public class PushHTTP {
 		String[] parts = line.split("=", 2);
 		if (parts.length == 2) {
 		    if (!parts[0].equals(RemoteAPI.KEY_STATUS)) { //If status, we already handle with the serialized
-			String[] resource = parts[1].split("@", 2);// TODO arrayindexerror
+			String[] resource = parts[1].split("@", 2);
+			if (resource.length != 2)
+			    throw new PushException("Required Outputs are not properly defined. " +
+			    		"They must be in the form instanceURI@typeURI");
 			if(resource[1].startsWith("http://www.w3.org/2001/XMLSchema")){
 			    sr.addOutput(new ProcessOutput(parts[0],TypeMapper.getJavaInstance(resource[0], resource[1])));
 			}else{
 			    sr.addOutput(new ProcessOutput(parts[0], Resource.getResource(resource[1], resource[0])));
 			}
-			
 		    }
 		}
 		line = br.readLine();
@@ -115,7 +121,7 @@ public class PushHTTP {
 	    br.close();
 	    String serialized = strb.toString();
 	    if (serialized.length() > 1) {
-		Object parsedsr = Activator.parser.deserialize(serialized);
+		Object parsedsr = Activator.getParser().deserialize(serialized);
 		if (parsedsr instanceof ServiceResponse) {
 		    return (ServiceResponse) parsedsr;
 		}

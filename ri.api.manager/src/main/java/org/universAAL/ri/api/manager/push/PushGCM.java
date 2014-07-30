@@ -49,13 +49,41 @@ import com.google.android.gcm.server.Result;
 import com.google.android.gcm.server.Sender;
 import com.google.android.gcm.server.Message.Builder;
 
+/**
+ * Class that manages the push of callbacks to client remote node endpoints
+ * using Google Cloud Messaging.
+ * 
+ * @author alfiva
+ * 
+ */
 public class PushGCM {
     
-    private static final String GCM_APP_KEY=Configuration.getGCMKey();
-    private static final String REG_ID_OUTDATED="Outdated";
-    
+    /**
+     * GCM Key identifying the (this) server
+     */
+    private static final String GCM_APP_KEY = Configuration.getGCMKey();
+    /**
+     * Keyword used as GCM RegID key of clients with outdated keys (determined
+     * by GCM server)
+     */
+    private static final String REG_ID_OUTDATED = "Outdated";
+    /**
+     * Holds in memory the pending calls awaiting response from remote clients
+     */
     public static Hashtable<String,ServiceResponse> pendingCalls=new Hashtable<String,ServiceResponse>();
 
+    /**
+     * Build a Context Event callback message and send it to the client remote
+     * node endpoint through GCM.
+     * 
+     * @param nodeid
+     *            The client id, needed in case the GCM key needs to be updated
+     *            in the DB
+     * @param remoteid
+     *            The client remote node endpoint
+     * @param event
+     *            The serialized Context Event to send
+     */
     public static void sendC(String nodeid, String remoteid, ContextEvent event) throws PushException {
 	boolean test=Configuration.getGCMDry();
 	
@@ -106,6 +134,20 @@ public class PushGCM {
 	send(nodeid, remoteid, msg);
     }
 
+    /**
+     * Build a ServiceCall callback message and send it to the client remote
+     * node endpoint through GCM.
+     * 
+     * @param nodeid
+     *            The client id, needed in case the GCM key needs to be updated
+     *            in the DB
+     * @param remoteid
+     *            The client remote node endpoint
+     * @param call
+     *            The serialized Service Call to send
+     * @return The Service Response that the client remote node will have sent
+     *         as response to the callback
+     */
     public static ServiceResponse callS(String nodeid, String remoteid, ServiceCall call) throws PushException {
 	boolean test=true;
 
@@ -180,6 +222,19 @@ public class PushGCM {
 	return pendingCalls.remove(call.getURI()+"@"+nodeid);
     }
     
+    /**
+     * Sends an arbitrary message to the remote endpoint client through GCM.
+     * 
+     * @param nodeid
+     *            The client id, needed in case the GCM key needs to be updated
+     *            in the DB
+     * @param remoteid
+     *            The client remote node endpoint (GCM Key)
+     * @param msg
+     *            The built GCM Message
+     * @throws PushException
+     *             If there is an error when sending the message to GCM server
+     */
     private static void send(String nodeid, String remoteid, Message msg) throws PushException{
 	Sender sender=new Sender(GCM_APP_KEY);
 	if(remoteid.equals(REG_ID_OUTDATED)){//See below for when this happens
@@ -192,7 +247,7 @@ public class PushGCM {
 	}
 	try {
 	    //This procedure is mandated by GCM (See Result javadoc)
-	    Result res=sender.send(msg, regid, 3);//TODO Check that this is executed in threads
+	    Result res=sender.send(msg, regid, 3);
 	    String id = res.getMessageId();
 	    if(id!=null){
 		String canon = res.getCanonicalRegistrationId();
@@ -219,11 +274,23 @@ public class PushGCM {
 	}
     }
 
-    public static void handleResponse(String param, String nodeid) throws PushException {
+    /**
+     * Handles the response sent by the remote client, sending it to the right
+     * pending call.
+     * 
+     * @param resp
+     *            The encoded response text sent by the client
+     * @param nodeid
+     *            The id of the remote node, used to identify the right pending
+     *            call
+     * @throws PushException
+     *             if the response message could not be properly read
+     */
+    public static void handleResponse(String resp, String nodeid) throws PushException {
 	Activator.logD("PushGCM.handleResponse", "RECEIVED RESPONSE");
 	ServiceResponse sr = new ServiceResponse(CallStatus.succeeded);
 	StringBuilder strb = new StringBuilder();
-	InputStreamReader ir = new InputStreamReader(new ByteArrayInputStream(param.getBytes()));
+	InputStreamReader ir = new InputStreamReader(new ByteArrayInputStream(resp.getBytes()));
 	BufferedReader br = new BufferedReader(ir);
 	String key=null;
 	try{

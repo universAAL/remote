@@ -64,7 +64,6 @@ public class PushManager {
      * 
      * @param remoteid
      *            The client remote node endpoint
-     * @param remoteid 
      * @param call
      *            The serialized Service Call to send
      * @return The Service Response that the client remote node will have sent

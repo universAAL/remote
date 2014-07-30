@@ -148,7 +148,7 @@ public class PersistenceDerby implements Persistence {
 	    }
 	}
 	
-	removeOlderThan(-1l);// -1 : Disabled
+	removeOlderThan(Configuration.getRemovalTime());// -1 : Disabled
     }
 
     /* (non-Javadoc)
@@ -356,7 +356,7 @@ public class PersistenceDerby implements Persistence {
      * millisecond, it rounds to the day.
      * 
      * @param millis
-     *            Minimum age, in milliseconds, at which the data that will be
+     *            Minimum age, in milliseconds, at which the data will be
      *            removed (data older than this will be removed)
      */
     public void removeOlderThan(Long millis) {
@@ -426,6 +426,9 @@ public class PersistenceDerby implements Persistence {
 	}
     }
 
+    /* (non-Javadoc)
+     * @see org.universAAL.ri.api.manager.server.persistence.Persistence#storeUserPWD(java.lang.String, java.lang.String)
+     */
     public void storeUserPWD(String id, String pwd) {
 	String storeREGISTERS = "insert into " + PWDDBNAME
 		+ ".pwds (id, pwd) values ('" + id + "','"
@@ -433,6 +436,9 @@ public class PersistenceDerby implements Persistence {
 	executeGeneric(storeREGISTERS);
     }
 
+    /* (non-Javadoc)
+     * @see org.universAAL.ri.api.manager.server.persistence.Persistence#checkUserPWD(java.lang.String, java.lang.String)
+     */
     public boolean checkUserPWD(String id, String pwd) {
 	Connection conn = null;
 	Statement stmt = null;
@@ -473,14 +479,34 @@ public class PersistenceDerby implements Persistence {
 	return result;
     }
     
+    /**
+     * Check if there is already a row with a certain id in the .registers
+     * table.
+     * 
+     * @param id
+     *            The id column value to look for
+     * @return true if it already exists
+     */
     private boolean checkUserFromREGISTERS(String id){
 	return checkUserFromDB(id, DBNAME+".registers");
     }
     
+    /* (non-Javadoc)
+     * @see org.universAAL.ri.api.manager.server.persistence.Persistence#checkUser(java.lang.String)
+     */
     public boolean checkUser(String id) {
 	return checkUserFromDB(id, PWDDBNAME+".pwds");
     }
-    
+
+    /**
+     * Checks if there is already a row with a certain id in a certain DB
+     * 
+     * @param id
+     *            The id column value to look for
+     * @param db
+     *            Name of the DB where to look for
+     * @return true if it already exists
+     */
     private boolean checkUserFromDB(String id, String db){
 	Connection conn = null;
 	Statement stmt = null;

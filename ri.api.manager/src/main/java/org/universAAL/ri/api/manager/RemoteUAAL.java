@@ -169,7 +169,7 @@ public class RemoteUAAL extends UAAL {
 	 *            The call to send back to the client
 	 * @return The response that the client will have created
 	 */
-	public ServiceResponse handleCall(ServiceCall call) {//TODO Modify UAAL to use async handleRequest instead (for thread)
+	public ServiceResponse handleCall(ServiceCall call) {
 	    try {
 		return PushManager.callS(nodeID, remoteID, call);
 	    } catch (Exception e) {
@@ -180,5 +180,5 @@ public class RemoteUAAL extends UAAL {
 		return new ServiceResponse(CallStatus.serviceSpecificFailure);
 	    }
 	}
-    }
+    }//TODO Change UAALutils to use async handleRequest also/instead of handleCall, which will allow threading here
 }

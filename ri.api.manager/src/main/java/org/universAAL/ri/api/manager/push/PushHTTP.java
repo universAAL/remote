@@ -47,8 +47,23 @@ import org.universAAL.ri.api.manager.Configuration;
 import org.universAAL.ri.api.manager.RemoteAPI;
 import org.universAAL.ri.api.manager.exceptions.PushException;
 
+/**
+ * Class that manages the push of callbacks to client remote node endpoints
+ * using HTTP.
+ * @author alfiva
+ *
+ */
 public class PushHTTP {
 
+    /**
+     * Build a Context Event callback message and send it to the client remote
+     * node endpoint through HTTP.
+     * 
+     * @param remoteid
+     *            The client remote node endpoint
+     * @param event
+     *            The serialized Context Event to send
+     */
     public static void sendC(String remoteid, ContextEvent event) throws PushException {
 	StringBuilder strb = new StringBuilder();
 	strb.append(RemoteAPI.KEY_METHOD).append("=").append(RemoteAPI.METHOD_SENDC)
@@ -68,6 +83,17 @@ public class PushHTTP {
 	}
     }
 
+    /**
+     * Build a ServiceCall callback message and send it to the client remote
+     * node endpoint through HTTP.
+     * 
+     * @param remoteid
+     *            The client remote node endpoint
+     * @param call
+     *            The serialized Service Call to send
+     * @return The Service Response that the client remote node will have sent
+     *         as response to the callback
+     */
     public static ServiceResponse callS(String remoteid, ServiceCall call) throws PushException {
 	ServiceResponse sr = new ServiceResponse(CallStatus.serviceSpecificFailure);
 	StringBuilder strb = new StringBuilder();

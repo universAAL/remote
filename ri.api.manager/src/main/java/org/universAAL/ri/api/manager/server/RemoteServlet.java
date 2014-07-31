@@ -29,6 +29,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.universAAL.ri.api.manager.Activator;
+import org.universAAL.ri.api.manager.Configuration;
 import org.universAAL.ri.api.manager.RemoteAPI;
 import org.universAAL.ri.api.manager.push.PushGCM;
 
@@ -63,7 +64,14 @@ public class RemoteServlet extends javax.servlet.http.HttpServlet{
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 	    throws ServletException, IOException {
-	doPost(req, resp);
+	if(Configuration.getGETenabled()){
+	    doPost(req, resp);
+	}else{
+	    resp.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+	    resp.sendError(HttpServletResponse.SC_METHOD_NOT_ALLOWED,
+		    "HTTP GET Not allowed");
+	}
+	
     }
 
     /* (non-Javadoc)
@@ -76,7 +84,7 @@ public class RemoteServlet extends javax.servlet.http.HttpServlet{
 	resp.setStatus(HttpServletResponse.SC_ACCEPTED);
 
 	String user;
-	if(Activator.isCustom()){
+	if(Activator.isHardcoded()){
 	    // Use own auth method
 	    // No matter if the "login" user is set by the sender, because it is
 	    // intercepted by HttpContext (Authenticator) and if it fails it will

@@ -46,6 +46,7 @@ import org.universAAL.ri.api.manager.Activator;
 import org.universAAL.ri.api.manager.Configuration;
 import org.universAAL.ri.api.manager.RemoteAPI;
 import org.universAAL.ri.api.manager.exceptions.PushException;
+import org.universAAL.ri.api.manager.server.Base64;
 
 /**
  * Class that manages the push of callbacks to client remote node endpoints
@@ -186,6 +187,7 @@ public class PushHTTP {
     private static String send(String remoteid, String body) throws IOException, MalformedURLException {
 	URL url = new URL(remoteid);
 	HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+	String auth=Base64.encodeBytes(("Basic "+Configuration.getServerUSR()+":"+Configuration.getServerPWD()).getBytes("UTF-8"));
 	byte[] data = body.getBytes(Charset.forName("UTF-8"));
 	conn.setRequestMethod("POST");
 	conn.setInstanceFollowRedirects(false);
@@ -196,7 +198,7 @@ public class PushHTTP {
 	conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
 	conn.setRequestProperty("charset", "utf-8");
 	conn.setRequestProperty("Content-Length", "" + Integer.toString(data.length));
-	conn.setRequestProperty("Authorization", "placeholder");
+	conn.setRequestProperty("Authorization", auth);
 	// conn.getOutputStream().write(data);
 	// conn.disconnect();
 

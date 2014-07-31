@@ -56,10 +56,10 @@ public class Activator implements BundleActivator {
      */
     private static ModuleContext uaalContext;
     /**
-     * Identifies if configured to use custom servlet registration with own
+     * Identifies if configured to use hardcoded servlet registration with own
      * authenticator as opposed to using a web container.
      */
-    private static boolean custom = true;
+    private static boolean hard = Configuration.getHardcoded();
     /**
      * Singleton instance of the actual RemoteAPI
      */
@@ -73,16 +73,16 @@ public class Activator implements BundleActivator {
      */
     private static Persistence persistence;
     /**
-     * Context path for the server URL (used only if custom=true)
+     * Context path for the server URL (used only if hard=true)
      */
-    private static final String URL = "/universaal";
+    private static final String URL = Configuration.getContext();
     /**
      * Instance of authentication-enabled HttpContext for the servlet (used only
-     * if custom=true)
+     * if hard=true)
      */
     private Authenticator auth;
     /**
-     * Instance of the servlet (used only if custom=true)
+     * Instance of the servlet (used only if hard=true)
      */
     private HttpServlet remoteServlet;
     /**
@@ -90,7 +90,7 @@ public class Activator implements BundleActivator {
      */
     private ServiceReference[] referencesHttp, referencesSerializer;
     /**
-     * OSGi service listener for HTTP (used only if custom=true)
+     * OSGi service listener for HTTP (used only if hard=true)
      */
     private HttpListener httpListener;
     /**
@@ -140,7 +140,7 @@ public class Activator implements BundleActivator {
 	// Custom servlet with own authenticator. If disabled the servlet and
 	// its authentication will have to be setup by Pax Web (I couldnt make
 	// it work not even as a .war)
-	if (custom) {
+	if (hard) {
 	    auth = new Authenticator();
 	    httpListener=new HttpListener();
 	    filter = "(objectclass=" + HttpService.class.getName() + ")";
@@ -339,14 +339,14 @@ public class Activator implements BundleActivator {
     }
 
     /**
-     * Get the value of the "custom" variable identifying if a custom
+     * Get the value of the "hard" variable identifying if a hardcoded
      * authenticated servlet is being registered programmatically
      * 
      * @return true if it is using the hardcoded servlet registration with
      *         authentication.
      */
-    public static boolean isCustom() {
-	return custom;
+    public static boolean isHardcoded() {
+	return hard;
     }
 	
 }

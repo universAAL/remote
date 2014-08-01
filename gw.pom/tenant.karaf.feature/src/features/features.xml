@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <features name="universAAL-Tenant" xmlns="http://karaf.apache.org/xmlns/features/v1.0.0">
 
-  <!-- Change version of repository accordingly -->
   <repository>mvn:org.universAAL.middleware/mw.karaf.feature/${mw.karaf.feature.version}/xml/features</repository>
   <repository>mvn:org.universAAL.ontology/ont.karaf.feature/${ont.karaf.feature.version}/xml/features</repository>
   <repository>mvn:org.universAAL.security/security.karaf.feature/${security.karaf.feature.version}/xml/features
@@ -9,6 +8,8 @@
 
   <feature name="uAAL-Tenant.Service.Gateway" description="The uAAL Multi-tenant suite" version="${pom.version}"
     resolver='(obr)'>
+    <feature>uAAL-MW</feature>
+
     <bundle start-level='73' start='true'>mvn:com.google.guava/guava/${guava.version}</bundle>
     <bundle start-level='73' start='true'>mvn:org.universAAL.remote.multitenant/ri.gateway.multitenant/${ri.gateway.multitenant.version}</bundle>
   </feature>

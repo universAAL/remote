@@ -24,6 +24,7 @@ package org.universAAL.ioc.dependencies.impl;
 import java.util.Arrays;
 
 import org.universAAL.ioc.dependencies.DependencyProxy;
+import org.universAAL.middleware.container.ModuleContext;
 
 
 
@@ -37,9 +38,15 @@ public class NPEDependencyProxy<T> implements DependencyProxy<T>  {
 
     private Object[] filters;
     private T proxy;
+    private ModuleContext context;
 
     public NPEDependencyProxy(Object[] filters){
         this.filters = Arrays.copyOf(filters, filters.length);
+    }
+
+    public NPEDependencyProxy(ModuleContext mc, Object[] filters) {
+        this(filters);
+        this.context = mc;
     }
 
     public boolean isResolved() {
@@ -53,6 +60,9 @@ public class NPEDependencyProxy<T> implements DependencyProxy<T>  {
     }
 
     public T getObject() {
+        if ( isResolved() == false && context != null ){
+            setObject((T) context.getContainer().fetchSharedObject(context, getFilters()));
+        }
         synchronized (this) {
             return proxy;
         }

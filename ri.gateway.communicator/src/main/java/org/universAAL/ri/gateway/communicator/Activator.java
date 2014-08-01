@@ -28,9 +28,12 @@ import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 import org.universAAL.ioc.dependencies.DependencyProxy;
 import org.universAAL.ioc.dependencies.impl.NPEDependencyProxy;
+import org.universAAL.log.Logger;
+import org.universAAL.log.LoggerFactory;
 import org.universAAL.middleware.container.ModuleContext;
 import org.universAAL.middleware.container.osgi.uAALBundleContainer;
 import org.universAAL.middleware.managers.api.AALSpaceManager;
+import org.universAAL.middleware.serialization.MessageContentSerializerEx;
 import org.universAAL.middleware.tracker.IBusMemberRegistry;
 import org.universAAL.middleware.tracker.IBusMemberRegistryListener;
 import org.universAAL.ri.gateway.communicator.service.impl.CommunicatorStarter;
@@ -61,15 +64,20 @@ public class Activator implements BundleActivator {
     public static BundleContext bc;
     public static ModuleContext mc;
 
+    public static Logger log;
+
+
     private IBusMemberRegistryListener exportRegistryListener;
     private IBusMemberRegistryListener importRegistryListener;
 
     private ExportManagerImpl exportManager;
     private ImportManagerImpl importManager;
-    public static final DependencyProxy<IBusMemberRegistry> registry = new NPEDependencyProxy<IBusMemberRegistry>(
-            IBusMemberRegistry.busRegistryShareParams);
-    public static final DependencyProxy<AALSpaceManager> spaceManager = new NPEDependencyProxy<AALSpaceManager>(
-            new Object[] { AALSpaceManager.class.getName() });
+
+    public static DependencyProxy<IBusMemberRegistry> registry;
+
+    public static DependencyProxy<AALSpaceManager> spaceManager;
+
+    public static DependencyProxy<MessageContentSerializerEx> serializer;
 
     /**
      * Starts the communicator.
@@ -83,11 +91,17 @@ public class Activator implements BundleActivator {
         mc = uAALBundleContainer.THE_CONTAINER
                 .registerModule(new Object[] { context });
 
-        registry.setObject((IBusMemberRegistry) mc.getContainer()
-                .fetchSharedObject(mc, registry.getFilters()));
+        log = LoggerFactory.createLoggerFactory(
+                Activator.mc).getLogger(Activator.class);
 
-        spaceManager.setObject((AALSpaceManager) mc.getContainer()
-                .fetchSharedObject(mc, spaceManager.getFilters()));
+        registry = new NPEDependencyProxy<IBusMemberRegistry>(mc,
+                IBusMemberRegistry.busRegistryShareParams);
+
+        spaceManager = new NPEDependencyProxy<AALSpaceManager>(mc,
+                new Object[] { AALSpaceManager.class.getName() });
+
+        serializer = new NPEDependencyProxy<MessageContentSerializerEx>(
+                new Object[] { MessageContentSerializerEx.class.getName() } );
 
         checkDependencies();
 
@@ -102,8 +116,8 @@ public class Activator implements BundleActivator {
 
         importRegistryListener = new EIManagerRegistryListener(importManager);
 
-        registry.getObject().addListener(exportRegistryListener, true);
-        registry.getObject().addListener(importRegistryListener, true);
+        registry.getObject().addBusRegistryListener(exportRegistryListener, true);
+        registry.getObject().addBusRegistryListener(importRegistryListener, true);
 
         EIOperationManager.Instance.init();
 
@@ -118,14 +132,20 @@ public class Activator implements BundleActivator {
     }
 
     private void checkDependencies() {
-        if (registry == null) {
-            throw new IllegalStateException("Missing required shared "
-                    + registry.getClass().getName()
+        if ( registry == null || registry.getObject() == null ) {
+            log.warning("Missing required shared "
+                    + IBusMemberRegistry.class.getName()
                     + " object in the current run-time ");
         }
-        if (spaceManager == null) {
-            throw new IllegalStateException("Missing required shared "
-                    + spaceManager.getClass().getName()
+        if ( spaceManager == null || spaceManager.getObject() == null ) {
+            log.warning("Missing required shared "
+                    + AALSpaceManager.class.getName()
+                    + " object in the current run-time ");
+        }
+
+        if ( serializer == null || serializer.getObject() == null ) {
+            log.warning("Missing required shared "
+                    + MessageContentSerializerEx.class.getName()
                     + " object in the current run-time ");
         }
     }
@@ -139,8 +159,8 @@ public class Activator implements BundleActivator {
     public void stop(final BundleContext context) {
         inst.stop();
         if (registry.getObject() != null) {
-            registry.getObject().removeListener(exportRegistryListener);
-            registry.getObject().removeListener(importRegistryListener);
+            registry.getObject().removeBusRegistryListener(exportRegistryListener);
+            registry.getObject().removeBusRegistryListener(importRegistryListener);
         }
 
         if (exportManager != null) {

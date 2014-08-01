@@ -23,127 +23,120 @@ package org.universAAL.ri.gateway.communicator.service.impl;
 
 import java.util.Properties;
 
-import org.universAAL.middleware.container.ModuleContext;
-import org.universAAL.middleware.container.utils.LogUtils;
 import org.universAAL.ri.gateway.communicator.service.GatewayCommunicator;
 import org.universAAL.ri.gateway.communicator.service.GatewayCommunicator.ConnectionMode;
 import org.universAAL.ri.gateway.communicator.service.GatewayCommunicator.RoutingMode;
 
 import com.google.common.net.HostAndPort;
 
-
 /**
  *
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
- * @version $LastChangedRevision$ ($LastChangedDate$)
+ * @version $LastChangedRevision$ ($LastChangedDate: 2014-07-23 14:25:34
+ *          +0200 (Wed, 23 Jul 2014) $)
  *
  */
 public class GatewayConfiguration {
 
-	private static GatewayConfiguration config = null;
-	private RoutingMode routingMode;
-	private ConnectionMode connectionMode;
-	private Properties properties;
-	private HostAndPort server;
+    private static GatewayConfiguration config = null;
+    private RoutingMode routingMode;
+    private ConnectionMode connectionMode;
+    private Properties properties;
+    private HostAndPort server;
 
+    private GatewayConfiguration() {
 
-	private GatewayConfiguration() {
+    }
 
-	}
+    public static GatewayConfiguration getInstance() {
+        synchronized (GatewayConfiguration.class) {
+            if (config == null) {
+                config = new GatewayConfiguration();
+            }
+        }
+        return config;
+    }
 
-	public static GatewayConfiguration getInstance() {
-		synchronized (GatewayConfiguration.class) {
-			if (config == null) {
-				config = new GatewayConfiguration();
-			}
-		}
-		return config;
-	}
+    public boolean isRouterMode() {
+        return routingMode == GatewayCommunicator.RoutingMode.ROUTER;
+    }
 
-	public boolean isRouterMode() {
-		return routingMode == GatewayCommunicator.RoutingMode.ROUTER;
-	}
+    public boolean isServerMode() {
+        return connectionMode == GatewayCommunicator.ConnectionMode.SERVER;
+    }
 
-	public boolean isServerMode() {
-		return connectionMode == GatewayCommunicator.ConnectionMode.SERVER;
-	}
+    public HostAndPort getServerGateway() {
+        return server;
+    }
 
-	public HostAndPort getServerGateway() {
-		return server;
-	}
+    private void validateConfigurations() {
+        final String METHOD = "validateConfigurations";
 
-	private void validateConfigurations() {
-		final String METHOD = "validateConfigurations";
+        if (GatewayCommunicator.ConnectionMode.SERVER
+                .toString()
+                .equalsIgnoreCase(
+                        properties
+                                .getProperty(GatewayCommunicator.CONNECTION_MODE))) {
+            connectionMode = GatewayCommunicator.ConnectionMode.SERVER;
+            try {
+                int port = Integer.valueOf(properties
+                        .getProperty(GatewayCommunicator.LOCAL_SOCKET_PORT));
+                server = HostAndPort.fromParts("0.0.0.0", port);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+            if (server == null) {
+                try {
+                    server = HostAndPort
+                            .fromString(properties
+                                    .getProperty(GatewayCommunicator.LOCAL_SOCKET_PORT));
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+            if (server == null) {
+                throw new IllegalArgumentException(
+                        "When selecting in Server Mode the property "
+                                + GatewayCommunicator.LOCAL_SOCKET_PORT
+                                + " MUST BE SET and represent the port where to execute the TCP server");
+            }
+        } else {
+            connectionMode = GatewayCommunicator.ConnectionMode.CLIENT;
+            try {
+                server = HostAndPort.fromString(properties
+                        .getProperty(GatewayCommunicator.REMOTE_SOCKET));
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+            if (server == null) {
+                try {
+                    server = HostAndPort
+                            .fromString(properties
+                                    .getProperty(GatewayCommunicator.REMOTE_GATEWAYS_PROP));
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+            if (server == null) {
+                throw new IllegalArgumentException(
+                        "When selecting in Client Mode the property "
+                                + GatewayCommunicator.REMOTE_SOCKET
+                                + " MUST BE SET and represent the host:port where to find Gateway that run in server mode");
+            }
+        }
 
-		if (GatewayCommunicator.ConnectionMode.SERVER
-				.toString()
-				.equalsIgnoreCase(
-						properties
-						.getProperty(GatewayCommunicator.CONNECTION_MODE))) {
-			connectionMode = GatewayCommunicator.ConnectionMode.SERVER;
-			try {
-				int port = Integer.valueOf(properties
-						.getProperty(GatewayCommunicator.LOCAL_SOCKET_PORT));
-				server = HostAndPort.fromParts("0.0.0.0", port);
-			} catch (Exception ex) {
-				ex.printStackTrace();
-			}
-			if (server == null) {
-				try {
-					server = HostAndPort
-							.fromString(properties
-									.getProperty(GatewayCommunicator.LOCAL_SOCKET_PORT));
-				} catch (Exception ex) {
-					ex.printStackTrace();
-				}
-			}
-			if (server == null) {
-				throw new IllegalArgumentException(
-						"When selecting in Server Mode the property "
-								+ GatewayCommunicator.LOCAL_SOCKET_PORT
-								+ " MUST BE SET and represent the port where to execute the TCP server");
-			}
-		} else {
-			connectionMode = GatewayCommunicator.ConnectionMode.CLIENT;
-			try {
-				server = HostAndPort.fromString(properties
-						.getProperty(GatewayCommunicator.REMOTE_SOCKET));
-			} catch (Exception ex) {
-				ex.printStackTrace();
-			}
-			if (server == null) {
-				try {
-					server = HostAndPort
-							.fromString(properties
-									.getProperty(GatewayCommunicator.REMOTE_GATEWAYS_PROP));
-				} catch (Exception ex) {
-					ex.printStackTrace();
-				}
-			}
-			if (server == null) {
-				throw new IllegalArgumentException(
-						"When selecting in Client Mode the property "
-								+ GatewayCommunicator.REMOTE_SOCKET
-								+ " MUST BE SET and represent the host:port where to find Gateway that run in server mode");
-			}
+        if (GatewayCommunicator.RoutingMode.ROUTER.toString().equalsIgnoreCase(
+                properties.getProperty(GatewayCommunicator.ROUTING_MODE))) {
+            routingMode = GatewayCommunicator.RoutingMode.ROUTER;
+        } else {
+            routingMode = GatewayCommunicator.RoutingMode.FORWARD;
+        }
 
-		}
+    }
 
-		if (GatewayCommunicator.RoutingMode.ROUTER
-				.toString()
-				.equalsIgnoreCase(
-						properties
-						.getProperty(GatewayCommunicator.ROUTING_MODE))) {
-			routingMode = GatewayCommunicator.RoutingMode.ROUTER;
-		} else {
-			routingMode = GatewayCommunicator.RoutingMode.FORWARD;
-		}
-
-	}
-
-	public void setProperty(Properties p) {
-		this.properties = p;
-		validateConfigurations();
-	}
+    public void setProperty(Properties p) {
+        this.properties = p;
+        validateConfigurations();
+    }
 
 }

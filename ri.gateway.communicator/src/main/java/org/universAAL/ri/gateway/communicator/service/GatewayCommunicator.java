@@ -24,7 +24,6 @@
  */
 package org.universAAL.ri.gateway.communicator.service;
 
-import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
 import java.util.concurrent.TimeoutException;

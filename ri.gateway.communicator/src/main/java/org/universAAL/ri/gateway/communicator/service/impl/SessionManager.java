@@ -25,9 +25,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.UUID;
+
+import org.universAAL.middleware.managers.api.TenantManager;
+import org.universAAL.ri.gateway.communicator.Activator;
 
 /**
  *
@@ -82,6 +87,7 @@ public class SessionManager {
     private Map<SessionKey, UUID> sessions = new HashMap<SessionManager.SessionKey, UUID>();
     private Map<UUID, SessionKey> uuids = new HashMap<UUID, SessionKey>();
     private Map<UUID, SessionStatus> links = new HashMap<UUID, SessionManager.SessionStatus>();
+    private TenantManager currentTM = null;
 
     private SessionManager() {
 
@@ -114,7 +120,25 @@ public class SessionManager {
             uuids.put(uuid, key);
         }
 
+        if ( currentTM == Activator.tenantManager.getObject() ) {
+            currentTM.registerTenant(scopeId, "AAL Space with Id:" + aalSpaceId);
+        } else if ( Activator.tenantManager.getObject() != null ) {
+            currentTM = Activator.tenantManager.getObject();
+            chanedTenantManager();
+        }
+
         return uuid;
+    }
+
+    private void chanedTenantManager() {
+        Collection<SessionKey> activeSessions = uuids.values();
+        for (Iterator<SessionKey> i = activeSessions.iterator(); i.hasNext();) {
+            final SessionKey key = (SessionKey) i.next();
+            final String scopeId = key.keyParts[SessionKey.SCOPE_IDX];
+            final String aalSpaceId = key.keyParts[SessionKey.SPACE_IDX];
+            currentTM.registerTenant(scopeId, "AAL Space with Id:" + aalSpaceId);
+        }
+
     }
 
     public void setLink(UUID session, InputStream in, OutputStream out) {
@@ -139,6 +163,7 @@ public class SessionManager {
     }
 
     public void close(UUID session) {
+        SessionKey removed;
         synchronized (sessions) {
             if (sessions.containsValue(session) == false) {
                 throw new IllegalArgumentException(
@@ -162,7 +187,17 @@ public class SessionManager {
                     }
                 }
             }
-            uuids.remove(sessions.remove(session));
+            removed = uuids.remove(sessions.remove(session));
+            if ( removed == null ) {
+                throw new IllegalStateException("Broken session manger backend, there is unhandled race codintion on data structure or codebase is broken");
+            }
+        }
+
+        if ( currentTM == Activator.tenantManager.getObject() ) {
+            currentTM.unregisterTenant(removed.keyParts[SessionKey.SCOPE_IDX]);
+        } else if ( Activator.tenantManager.getObject() != null ) {
+            currentTM = Activator.tenantManager.getObject();
+            chanedTenantManager();
         }
 
     }

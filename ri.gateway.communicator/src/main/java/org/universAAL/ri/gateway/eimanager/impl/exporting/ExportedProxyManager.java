@@ -83,7 +83,7 @@ public class ExportedProxyManager extends AbstractProxyManager implements
                 .getContainer().fetchSharedObject(Activator.mc,
                         IBusMemberRegistry.busRegistryShareParams);
                  */
-        registry.addBusRegistryListener(this, false);
+        registry.addListener(this, false);
     }
 
     public ServiceResponse sendServiceRequest(final String sourceId,

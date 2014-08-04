@@ -33,6 +33,7 @@ import org.universAAL.log.LoggerFactory;
 import org.universAAL.middleware.container.ModuleContext;
 import org.universAAL.middleware.container.osgi.uAALBundleContainer;
 import org.universAAL.middleware.managers.api.AALSpaceManager;
+import org.universAAL.middleware.managers.api.TenantManager;
 import org.universAAL.middleware.serialization.MessageContentSerializerEx;
 import org.universAAL.middleware.tracker.IBusMemberRegistry;
 import org.universAAL.middleware.tracker.IBusMemberRegistryListener;
@@ -77,6 +78,8 @@ public class Activator implements BundleActivator {
 
     public static DependencyProxy<AALSpaceManager> spaceManager;
 
+    public static DependencyProxy<TenantManager> tenantManager;
+
     public static DependencyProxy<MessageContentSerializerEx> serializer;
 
     /**
@@ -103,6 +106,10 @@ public class Activator implements BundleActivator {
         serializer = new NPEDependencyProxy<MessageContentSerializerEx>(
                 new Object[] { MessageContentSerializerEx.class.getName() } );
 
+
+        tenantManager = new NPEDependencyProxy<TenantManager>(
+                new Object[] { TenantManager.class.getName() } );
+
         checkDependencies();
 
         inst = new CommunicatorStarter(context);
@@ -116,8 +123,8 @@ public class Activator implements BundleActivator {
 
         importRegistryListener = new EIManagerRegistryListener(importManager);
 
-        registry.getObject().addBusRegistryListener(exportRegistryListener, true);
-        registry.getObject().addBusRegistryListener(importRegistryListener, true);
+        registry.getObject().addListener(exportRegistryListener, true);
+        registry.getObject().addListener(importRegistryListener, true);
 
         EIOperationManager.Instance.init();
 
@@ -159,8 +166,8 @@ public class Activator implements BundleActivator {
     public void stop(final BundleContext context) {
         inst.stop();
         if (registry.getObject() != null) {
-            registry.getObject().removeBusRegistryListener(exportRegistryListener);
-            registry.getObject().removeBusRegistryListener(importRegistryListener);
+            registry.getObject().removeListener(exportRegistryListener);
+            registry.getObject().removeListener(importRegistryListener);
         }
 
         if (exportManager != null) {

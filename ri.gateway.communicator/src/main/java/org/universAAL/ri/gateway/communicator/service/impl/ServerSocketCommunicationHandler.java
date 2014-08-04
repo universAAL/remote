@@ -160,10 +160,9 @@ public class ServerSocketCommunicationHandler implements CommunicationHandler {
         }
 
         private MessageWrapper readMessage() throws Exception {
-            Activator.mc.logInfo(null, "handleMessage", null);
+            log.debug("Reading a message on the link");
             MessageWrapper msg = Serializer.unmarshalMessage(in);
-            Activator.mc.logInfo(null,
-                    "handleMessage: type: %s" + msg.getType(), null);
+            log.debug("Read message "+msg.getType()+" going to handle it");
             return msg;
         }
 

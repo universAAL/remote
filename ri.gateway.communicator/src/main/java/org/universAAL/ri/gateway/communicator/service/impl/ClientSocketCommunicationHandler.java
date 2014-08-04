@@ -39,6 +39,7 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
+import java.util.logging.Handler;
 
 import org.bouncycastle.crypto.CryptoException;
 import org.universAAL.log.Logger;
@@ -79,6 +80,8 @@ public class ClientSocketCommunicationHandler implements CommunicationHandler {
             Activator.mc).getLogger(ClientSocketCommunicationHandler.class);
 
     private static final int NUM_THREADS = 1;
+
+    public static final long RECONNECT_WAITING_TIME = 2500;
     private GatewayCommunicator communicator;
     private Executor executor;
     private ServerSocket server;
@@ -118,10 +121,11 @@ public class ClientSocketCommunicationHandler implements CommunicationHandler {
                                 .getPort());
                         log.debug("Client mode gateway connected to "
                                 + serverConfig);
-                        executor.execute(new LinkHandler(socket));
-                        log.debug("Link is down, so we are goging to try again in a bit");
+                        LinkHandler handler = new LinkHandler(socket);
+                        handler.run();
+                        log.debug("Link is down, so we are goging to try again in a "+RECONNECT_WAITING_TIME+"ms");
                         try {
-                            Thread.sleep(5000);
+                            Thread.sleep(RECONNECT_WAITING_TIME);
                         } catch (InterruptedException e) {
                             log.debug("Ignored exception", e);
                         }
@@ -160,6 +164,8 @@ public class ClientSocketCommunicationHandler implements CommunicationHandler {
                         log.debug("Creation of the session failed");
                         cleanUpSocket();
                         return;
+                    } else {
+                        log.debug("Session created with sessionId "+currentSession);
                     }
                 } else {
                     log.debug("SESSION was BROKEN by a link failure, trying to RESTORE it");
@@ -167,6 +173,8 @@ public class ClientSocketCommunicationHandler implements CommunicationHandler {
                         log.debug("Failed to RESTORE the SESSION");
                         cleanUpSocket();
                         return;
+                    } else {
+                        log.debug("Session with sessionId "+currentSession+"");
                     }
                 }
                 log.debug("SESSION (RE)ESTABILISHED with " + currentSession);
@@ -250,11 +258,9 @@ public class ClientSocketCommunicationHandler implements CommunicationHandler {
         }
 
         private MessageWrapper readMessage() throws Exception {
-            Activator.mc.logInfo(null, "handleMessage", null);
+            log.debug("Reading a message on the link");
             MessageWrapper msg = Serializer.unmarshalMessage(in);
-            Activator.mc.logInfo(null,
-                    "handleMessage: type: %s" + msg.getType(), null);
-
+            log.debug("Read message "+msg.getType()+" going to handle it");
             return msg;
         }
 

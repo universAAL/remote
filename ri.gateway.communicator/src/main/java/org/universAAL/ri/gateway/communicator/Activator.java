@@ -155,6 +155,12 @@ public class Activator implements BundleActivator {
                     + MessageContentSerializerEx.class.getName()
                     + " object in the current run-time ");
         }
+
+        if ( tenantManager == null || tenantManager.getObject() == null ) {
+            log.warning("Missing required shared "
+                    + TenantManager.class.getName()
+                    + " object in the current run-time ");
+        }
     }
 
     /**

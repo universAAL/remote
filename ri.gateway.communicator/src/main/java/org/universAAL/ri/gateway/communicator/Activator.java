@@ -103,11 +103,11 @@ public class Activator implements BundleActivator {
         spaceManager = new NPEDependencyProxy<AALSpaceManager>(mc,
                 new Object[] { AALSpaceManager.class.getName() });
 
-        serializer = new NPEDependencyProxy<MessageContentSerializerEx>(
+        serializer = new NPEDependencyProxy<MessageContentSerializerEx>(mc,
                 new Object[] { MessageContentSerializerEx.class.getName() } );
 
 
-        tenantManager = new NPEDependencyProxy<TenantManager>(
+        tenantManager = new NPEDependencyProxy<TenantManager>(mc,
                 new Object[] { TenantManager.class.getName() } );
 
         checkDependencies();

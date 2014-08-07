@@ -40,12 +40,9 @@ public class NPEDependencyProxy<T> implements DependencyProxy<T>  {
     private T proxy;
     private ModuleContext context;
 
-    public NPEDependencyProxy(Object[] filters){
-        this.filters = Arrays.copyOf(filters, filters.length);
-    }
 
     public NPEDependencyProxy(ModuleContext mc, Object[] filters) {
-        this(filters);
+        this.filters = Arrays.copyOf(filters, filters.length);
         this.context = mc;
     }
 

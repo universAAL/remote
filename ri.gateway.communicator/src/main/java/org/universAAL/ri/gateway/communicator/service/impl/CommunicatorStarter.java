@@ -297,6 +297,7 @@ public class CommunicatorStarter {
     }
 
     public void stop() {
+    		communicator.stop();
 
     }
 

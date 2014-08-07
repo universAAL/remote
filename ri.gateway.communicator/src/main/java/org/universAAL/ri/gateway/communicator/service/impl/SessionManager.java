@@ -127,13 +127,13 @@ public class SessionManager {
 					.registerTenant(scopeId, "AAL Space with Id:" + aalSpaceId);
 		} else if (Activator.tenantManager.getObject() != null) {
 			currentTM = Activator.tenantManager.getObject();
-			chanedTenantManager();
+			changedTenantManager();
 		}
 
 		return uuid;
 	}
 
-	private void chanedTenantManager() {
+	private void changedTenantManager() {
 		Collection<SessionKey> activeSessions = uuids.values();
 		for (Iterator<SessionKey> i = activeSessions.iterator(); i.hasNext();) {
 			final SessionKey key = (SessionKey) i.next();
@@ -202,7 +202,7 @@ public class SessionManager {
 			currentTM.unregisterTenant(removed.keyParts[SessionKey.SCOPE_IDX]);
 		} else if (Activator.tenantManager.getObject() != null) {
 			currentTM = Activator.tenantManager.getObject();
-			chanedTenantManager();
+			changedTenantManager();
 		}
 
 	}

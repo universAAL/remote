@@ -6,6 +6,7 @@ gw.pom/tenant.karaf.feature/pom.xml svneol=native#text/xml
 gw.pom/tenant.karaf.feature/src/features/features.xml svneol=native#text/xml
 ri.gateway.communicator/.settings/org.eclipse.core.resources.prefs -text
 ri.gateway.communicator/.settings/org.eclipse.jdt.core.prefs -text
+ri.gateway.communicator/.settings/org.eclipse.jdt.ui.prefs -text
 ri.gateway.communicator/.settings/org.eclipse.m2e.core.prefs -text
 ri.gateway.communicator/ASL2.0.txt -text
 ri.gateway.communicator/NOTICE.txt -text

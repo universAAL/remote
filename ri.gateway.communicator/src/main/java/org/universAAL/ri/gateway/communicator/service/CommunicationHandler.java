@@ -30,31 +30,38 @@ import org.bouncycastle.crypto.CryptoException;
 import org.universAAL.ri.gateway.communicator.service.impl.MessageWrapper;
 
 /**
- *
+ * 
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @version $LastChangedRevision$ ($LastChangedDate$)
- *
+ * 
  */
 public interface CommunicationHandler {
 
-    public void addComunicationEventListener(ComunicationEventListener cel);
-    public void removeComunicationEventListener(ComunicationEventListener cel);
+    public boolean addComunicationEventListener(ComunicationEventListener cel);
+
+    public boolean removeComunicationEventListener(ComunicationEventListener cel);
 
     public static final String BROADCAST_SESSION = "#BROADCAST";
 
     /**
      * Sends a prepared wrapped to specified URL and receives a wrapper as a
      * response if any.
-     *
+     * 
      * @param w
      *            the message
      * @param to
-     *            an array of String each representing a UUID so that the target session will receive this message, a special UUID = #BROADCAST for sending to all the active session(s)
+     *            an array of String each representing a UUID so that the target
+     *            session will receive this message, a special UUID = #BROADCAST
+     *            for sending to all the active session(s)
      * @return wrapper with the response or null of nothing sent back
      * @throws ClassNotFoundException
      * @throws IOException
      */
-    public MessageWrapper sendMessage(MessageWrapper toSend, final String[] sessions) throws IOException, ClassNotFoundException, CryptoException;
+    public MessageWrapper sendMessage(MessageWrapper toSend,
+	    final String[] sessions) throws IOException,
+	    ClassNotFoundException, CryptoException;
+
     public void start() throws Exception;
+
     public void stop();
 }

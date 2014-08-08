@@ -39,19 +39,22 @@ public class ConnectionRequest implements Serializable {
      */
     private String peerId;
     private String aalSpaceId;
+    private String description;
 
-    public ConnectionRequest(final String peer, final String space) {
+    public ConnectionRequest(final String peer, final String space, final String description) {
         super();
         this.peerId = peer;
         this.aalSpaceId = space;
+        this.description = description;
     }
 
     @Override
     public String toString() {
         return "ConnectionRequest ["
                 + (peerId != null ? "peerId =" + peerId  + ", " : "")
-                + (aalSpaceId != null ? "aalSpaceId =" + aalSpaceId  + ", " : "")
+                + (aalSpaceId != null ? "scopeId =" + aalSpaceId  + ", " : "")
                 + (aalSpaceId != null ? "scopeId=" + aalSpaceId + ", " : "")
+                + (description != null ? "description=" + description + " " : "")
                 + "]";
     }
 
@@ -65,6 +68,10 @@ public class ConnectionRequest implements Serializable {
 
     public String getScopeId() {
         return aalSpaceId;
+    }
+
+    public String getDescription() {
+        return description;
     }
 
 }

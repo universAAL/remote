@@ -183,7 +183,7 @@ public class ServerSocketCommunicationHandler implements CommunicationHandler {
                         request.getAALSpaceId(), request.getScopeId());
                 if (session == null) {
                     session = sessionManger.createSession(request.getPeerId(),
-                            request.getAALSpaceId(), request.getScopeId());
+                            request.getAALSpaceId(), request.getScopeId(), request.getDescription());
                     log.debug("CREATED SESSION with "+session+ " pointing at <"+request.getAALSpaceId()+","+request.getPeerId()+">");
                 } else {
                     log.warning("SESSION CLASH: the client may be restarted without persistance before the session was broken and deleted. We just create a new session");
@@ -228,10 +228,10 @@ public class ServerSocketCommunicationHandler implements CommunicationHandler {
                         request.getAALSpaceId(), request.getScopeId());
                 if (session == null
                         || request.getSessionId().equals(session) == false) {
-                    // TODO someone is trying to reconnect but we don't have the
-                    // link active so we create a new session
+                    // TODO someone is trying to reconnect but we don't have the link active so we create a new session
+                    // XXX we should set the session description properly
                     session = sessionManger.createSession(request.getPeerId(),
-                            request.getAALSpaceId(), request.getScopeId());
+                            request.getAALSpaceId(), request.getScopeId(), null);
                 }
                 sessionManger.setLink(session, in, out);
                 // TODO Check if it can registers

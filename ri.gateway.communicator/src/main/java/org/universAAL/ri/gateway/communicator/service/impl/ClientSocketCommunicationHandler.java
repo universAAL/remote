@@ -66,410 +66,411 @@ import com.google.common.net.HostAndPort;
  * {@link RoutingMode#FORWARD}, and so far for supporting also the
  * {@link RoutingMode#ROUTER} the client should be aware of all the peers to
  * join in advance, which is a very limited case
- * 
- * 
+ *
+ *
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @version $LastChangedRevision$ ($LastChangedDate: 2014-07-23 11:24:23
  *          +0200 (Wed, 23 Jul 2014) $)
- * 
+ *
  */
 public class ClientSocketCommunicationHandler implements CommunicationHandler {
 
-	public static final Logger log = LoggerFactory.createLoggerFactory(
-			Activator.mc).getLogger(ClientSocketCommunicationHandler.class);
+        public static final Logger log = LoggerFactory.createLoggerFactory(
+                        Activator.mc).getLogger(ClientSocketCommunicationHandler.class);
 
-	private static final int NUM_THREADS = 1;
+        private static final int NUM_THREADS = 1;
 
-	public static final long RECONNECT_WAITING_TIME = 2500;
-	private GatewayCommunicator communicator;
-	private Executor executor;
-	private Thread serverThread;
-	// flag for stoppping the server thread
-	private boolean stopServerThread = false;
-	private final Set<ComunicationEventListener> listeners;
-	private UUID currentSession = null;
+        public static final long RECONNECT_WAITING_TIME = 2500;
+        private GatewayCommunicator communicator;
+        private Executor executor;
+        private Thread serverThread;
+        // flag for stoppping the server thread
+        private boolean stopServerThread = false;
+        private final Set<ComunicationEventListener> listeners;
+        private UUID currentSession = null;
 
-	public ClientSocketCommunicationHandler(
-			final GatewayCommunicator communicator) {
-		this.communicator = communicator;
-		this.listeners = Collections
-				.synchronizedSet(new HashSet<ComunicationEventListener>());
+        public ClientSocketCommunicationHandler(
+                        final GatewayCommunicator communicator) {
+                this.communicator = communicator;
+                this.listeners = Collections
+                                .synchronizedSet(new HashSet<ComunicationEventListener>());
 
-		final String hashKey = CommunicatorStarter.properties
-				.getProperty(GatewayCommunicator.HASH_KEY);
+                final String hashKey = CommunicatorStarter.properties
+                                .getProperty(GatewayCommunicator.HASH_KEY);
 
-		SecurityUtils.Instance.initialize(hashKey);
+                SecurityUtils.Instance.initialize(hashKey);
 
-		this.executor = Executors.newFixedThreadPool(NUM_THREADS);
-		log.debug("Created client mode gateway comunication");
-	}
+                this.executor = Executors.newFixedThreadPool(NUM_THREADS);
+                log.debug("Created client mode gateway comunication");
+        }
 
-	public void start() throws IOException {
-		final HostAndPort serverConfig = GatewayConfiguration.getInstance()
-				.getServerGateway();
-		log.info("Starting Client Gateway by connecting to Gateway Server at "
-				+ serverConfig);
+        public void start() throws IOException {
+                final HostAndPort serverConfig = GatewayConfiguration.getInstance()
+                                .getServerGateway();
+                log.info("Starting Client Gateway by connecting to Gateway Server at "
+                                + serverConfig);
 
-		serverThread = new Thread(new Runnable() {
+                serverThread = new Thread(new Runnable() {
 
-			LinkHandler linkHandler = new LinkHandler();
-			Thread linkHandlerThread = new Thread(linkHandler);
-			
+                        LinkHandler linkHandler = new LinkHandler();
+                        Thread linkHandlerThread = new Thread(linkHandler);
 
-			public void run() {
-				Thread.currentThread().setName("Space Gateway :: Server");
 
-				while (!stopServerThread) {
-					try {
-						InetAddress addr = InetAddress.getByName(serverConfig
-								.getHostText());
-						final Socket socket = new Socket(addr, serverConfig
-								.getPort());
-						log.debug("Client mode gateway connected to "
-								+ serverConfig);
-						linkHandler.setSocket(socket);
-						while (!linkHandler.checkConnection()) {
-							log.debug("Link is down, so we are goging to try again in a "
-									+ RECONNECT_WAITING_TIME + "ms");
-							try {
-								Thread.sleep(RECONNECT_WAITING_TIME);
-							} catch (InterruptedException e) {
-								log.debug("Ignored exception", e);
-							}
-						}
-						linkHandlerThread.start(); 
+                        public void run() {
+                                Thread.currentThread().setName("Space Gateway :: Server");
 
-					} catch (IOException e) {
-						log.error(
-								"Link betwewn client and server broken due to exception we will try to restore it",
-								e);
-						e.printStackTrace();
-					}
-				}
-				// stop the Link Handler
-				linkHandler.disconnect();
-				linkHandlerThread.interrupt();
+                                while (!stopServerThread) {
+                                        try {
+                                                InetAddress addr = InetAddress.getByName(serverConfig
+                                                                .getHostText());
+                                                final Socket socket = new Socket(addr, serverConfig
+                                                                .getPort());
+                                                log.debug("Client mode gateway connected to "
+                                                                + serverConfig);
+                                                linkHandler.setSocket(socket);
+                                                while (!linkHandler.checkConnection()) {
+                                                        log.debug("Link is down, so we are goging to try again in a "
+                                                                        + RECONNECT_WAITING_TIME + "ms");
+                                                        try {
+                                                                Thread.sleep(RECONNECT_WAITING_TIME);
+                                                        } catch (InterruptedException e) {
+                                                                log.debug("Ignored exception", e);
+                                                        }
+                                                }
+                                                linkHandlerThread.start();
 
-			}
-		});
-		serverThread.start();
-	}
+                                        } catch (IOException e) {
+                                                log.error(
+                                                                "Link betwewn client and server broken due to exception we will try to restore it",
+                                                                e);
+                                                e.printStackTrace();
+                                        }
+                                }
+                                // stop the Link Handler
+                                linkHandler.disconnect();
+                                linkHandlerThread.interrupt();
 
-	/**
-	 * This thread initializes the connection of the server gateway and managed
-	 * the messages
-	 * 
-	 * 
-	 */
-	private class LinkHandler implements Runnable {
+                        }
+                });
+                serverThread.start();
+        }
 
-		private Socket socket;
-		private InputStream in;
-		private OutputStream out;
-		private boolean stop = false;
+        /**
+         * This thread initializes the connection of the server gateway and managed
+         * the messages
+         *
+         *
+         */
+        private class LinkHandler implements Runnable {
 
-		public void setSocket(Socket socket) {
-			this.socket = socket;
-			try {
-				in = socket.getInputStream();
-				out = socket.getOutputStream();
-			} catch (Exception e) {
-				cleanUpSocket();
-				log.error("SESSION BROKEN due to exception", e);
-				e.printStackTrace();
+                private Socket socket;
+                private InputStream in;
+                private OutputStream out;
+                private boolean stop = false;
 
-			}
-		}
+                public void setSocket(Socket socket) {
+                        this.socket = socket;
+                        try {
+                                in = socket.getInputStream();
+                                out = socket.getOutputStream();
+                        } catch (Exception e) {
+                                cleanUpSocket();
+                                log.error("SESSION BROKEN due to exception", e);
+                                e.printStackTrace();
 
-		/**
-		 * Checks if the connection can be established with the Gateway Server
-		 * 
-		 * @return
-		 */
-		public boolean checkConnection() {
-			if (currentSession == null) {
-				log.debug("FIRST loading trying to create a SESSION");
-				if (connect() == false) {
-					log.debug("Creation of the session failed");
-					cleanUpSocket();
-					return false;
-				} else {
-					log.debug("Session created with sessionId "
-							+ currentSession);
-					return true;
-				}
-			} else {
-				log.debug("SESSION was BROKEN by a link failure, trying to RESTORE it");
-				if (reconnect() == false) {
-					log.debug("Failed to RESTORE the SESSION");
-					cleanUpSocket();
-					return false;
-				} else {
-					log.debug("Session with sessionId " + currentSession + "");
-					return true;
-				}
-			}
-		}
+                        }
+                }
 
-		public void setStop() {
-			stop = true;
-		}
+                /**
+                 * Checks if the connection can be established with the Gateway Server
+                 *
+                 * @return
+                 */
+                public boolean checkConnection() {
+                        if (currentSession == null) {
+                                log.debug("FIRST loading trying to create a SESSION");
+                                if (connect() == false) {
+                                        log.debug("Creation of the session failed");
+                                        cleanUpSocket();
+                                        return false;
+                                } else {
+                                        log.debug("Session created with sessionId "
+                                                        + currentSession);
+                                        return true;
+                                }
+                        } else {
+                                log.debug("SESSION was BROKEN by a link failure, trying to RESTORE it");
+                                if (reconnect() == false) {
+                                        log.debug("Failed to RESTORE the SESSION");
+                                        cleanUpSocket();
+                                        return false;
+                                } else {
+                                        log.debug("Session with sessionId " + currentSession + "");
+                                        return true;
+                                }
+                        }
+                }
 
-		public void run() {
-			try {
-				// waiting for messages
-				while (socket != null && !socket.isClosed()) {
-					if (stop) {
-						if (!disconnect()) {
-							log.error("Error during request of disconnection",
-									null);
-						}
-						cleanUpSocket();
-						return;
-					}
-					MessageWrapper msg = readMessage();
-					if (handleSessionProtocol(msg) == false) {
-						handleGatewayProtocol(msg);
-					}
-				}
-			} catch (Exception e) {
-				log.error("SESSION BROKEN due to exception", e);
-				e.printStackTrace();
-			} finally {
-				cleanUpSocket();
-			}
-		}
+                public void setStop() {
+                        stop = true;
+                }
 
-		private boolean reconnect() {
-			AALSpaceManager spaceManager = Activator.spaceManager.getObject();
-			SessionManager sessionManger = SessionManager.getInstance();
-			String spaceId = spaceManager.getAALSpaceDescriptor()
-					.getSpaceCard().getSpaceID();
-			String peerId = spaceManager.getMyPeerCard().getPeerID();
+                public void run() {
+                        try {
+                                // waiting for messages
+                                while (socket != null && !socket.isClosed()) {
+                                        if (stop) {
+                                                if (!disconnect()) {
+                                                        log.error("Error during request of disconnection",
+                                                                        null);
+                                                }
+                                                cleanUpSocket();
+                                                return;
+                                        }
+                                        MessageWrapper msg = readMessage();
+                                        if (handleSessionProtocol(msg) == false) {
+                                                handleGatewayProtocol(msg);
+                                        }
+                                }
+                        } catch (Exception e) {
+                                log.error("SESSION BROKEN due to exception", e);
+                                e.printStackTrace();
+                        } finally {
+                                cleanUpSocket();
+                        }
+                }
 
-			if (spaceId.equals(sessionManger
-					.getAALSpaceIdFromSession(currentSession)) == false) {
-				throw new IllegalStateException(
-						"We joined a different AAL Space, during the automatic reconnection of the Gateway,");
-			}
+                private boolean reconnect() {
+                        AALSpaceManager spaceManager = Activator.spaceManager.getObject();
+                        SessionManager sessionManger = SessionManager.getInstance();
+                        String spaceId = spaceManager.getAALSpaceDescriptor()
+                                        .getSpaceCard().getSpaceID();
+                        String peerId = spaceManager.getMyPeerCard().getPeerID();
 
-			if (peerId.equals(sessionManger
-					.getPeerIdFromSession(currentSession)) == false) {
-				throw new IllegalStateException(
-						"Between the automatic reconnection of the Gateway we changed our PeerId something strange happened");
-			}
+                        if (spaceId.equals(sessionManger
+                                        .getAALSpaceIdFromSession(currentSession)) == false) {
+                                throw new IllegalStateException(
+                                                "We joined a different AAL Space, during the automatic reconnection of the Gateway,");
+                        }
 
-			ReconnectionRequest request = new ReconnectionRequest(peerId,
-					spaceId, currentSession);
-			MessageWrapper responseMessage = new MessageWrapper(
-					MessageType.Reconnect,
-					Serializer.Instance.marshall(request), peerId);
-			try {
-				Serializer.sendMessageToStream(responseMessage, out);
-				MessageWrapper rsp = readMessage();
-				if (rsp.getType() != MessageType.ConnectResponse) {
-					throw new IllegalArgumentException("Expected "
-							+ MessageType.ConnectResponse + " message after a "
-							+ MessageType.Reconnect + " but recieved "
-							+ rsp.getType());
-				}
-				ConnectionResponse response = Serializer.Instance.unmarshall(
-						ConnectionResponse.class, rsp.getMessage());
-				if (response.getScopeId().equals(currentSession)) {
-					/*
-					 * Session has been restore
-					 */
-				} else {
-					/*
-					 * The server may be rebooted so we have to initialize again
-					 * the session //TODO
-					 */
-					currentSession = response.getSessionId();
-				}
-				sessionManger.setLink(currentSession, socket.getInputStream(),
-						socket.getOutputStream());
-				return true;
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			return false;
-		}
+                        if (peerId.equals(sessionManger
+                                        .getPeerIdFromSession(currentSession)) == false) {
+                                throw new IllegalStateException(
+                                                "Between the automatic reconnection of the Gateway we changed our PeerId something strange happened");
+                        }
 
-		private void cleanUpSocket() {
-			if (socket != null && socket.isClosed() == false) {
-				try {
-					socket.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-		}
+                        ReconnectionRequest request = new ReconnectionRequest(peerId,
+                                        spaceId, currentSession);
+                        MessageWrapper responseMessage = new MessageWrapper(
+                                        MessageType.Reconnect,
+                                        Serializer.Instance.marshall(request), peerId);
+                        try {
+                                Serializer.sendMessageToStream(responseMessage, out);
+                                MessageWrapper rsp = readMessage();
+                                if (rsp.getType() != MessageType.ConnectResponse) {
+                                        throw new IllegalArgumentException("Expected "
+                                                        + MessageType.ConnectResponse + " message after a "
+                                                        + MessageType.Reconnect + " but recieved "
+                                                        + rsp.getType());
+                                }
+                                ConnectionResponse response = Serializer.Instance.unmarshall(
+                                                ConnectionResponse.class, rsp.getMessage());
+                                if (response.getScopeId().equals(currentSession)) {
+                                        /*
+                                         * Session has been restore
+                                         */
+                                } else {
+                                        /*
+                                         * The server may be rebooted so we have to initialize again
+                                         * the session //TODO
+                                         */
+                                        currentSession = response.getSessionId();
+                                }
+                                sessionManger.setLink(currentSession, socket.getInputStream(),
+                                                socket.getOutputStream());
+                                return true;
+                        } catch (Exception e) {
+                                e.printStackTrace();
+                        }
+                        return false;
+                }
 
-		private MessageWrapper readMessage() throws Exception {
-			log.debug("Reading a message on the link");
-			MessageWrapper msg = Serializer.unmarshalMessage(in);
-			log.debug("Read message " + msg.getType() + " going to handle it");
-			return msg;
-		}
+                private void cleanUpSocket() {
+                        if (socket != null && socket.isClosed() == false) {
+                                try {
+                                        socket.close();
+                                } catch (IOException e) {
+                                        e.printStackTrace();
+                                }
+                        }
+                }
 
-		private boolean connect() {
-			AALSpaceManager spaceManager = Activator.spaceManager.getObject();
-			SessionManager sessionManger = SessionManager.getInstance();
-			String spaceId = spaceManager.getAALSpaceDescriptor()
-					.getSpaceCard().getSpaceID();
-			String peerId = spaceManager.getMyPeerCard().getPeerID();
-			ConnectionRequest request = new ConnectionRequest(spaceId, peerId);
-			MessageWrapper responseMessage = new MessageWrapper(
-					MessageType.ConnectRequest,
-					Serializer.Instance.marshall(request), peerId);
-			try {
-				Serializer.sendMessageToStream(responseMessage, out);
-				MessageWrapper rsp = readMessage();
-				if (rsp.getType() != MessageType.ConnectResponse) {
-					throw new IllegalArgumentException("Expected "
-							+ MessageType.ConnectResponse + " message after a "
-							+ MessageType.ConnectRequest + " but recieved "
-							+ rsp.getType());
-				}
-				ConnectionResponse response = Serializer.Instance.unmarshall(
-						ConnectionResponse.class, rsp.getMessage());
-				sessionManger.storeSession(response.getSessionId(),
-						response.getPeerId(), response.getAALSpaceId(),
-						response.getScopeId());
-				currentSession = response.getSessionId();
-				sessionManger.setLink(currentSession, socket.getInputStream(),
-						socket.getOutputStream());
-				return true;
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			return false;
-		}
+                private MessageWrapper readMessage() throws Exception {
+                        log.debug("Reading a message on the link");
+                        MessageWrapper msg = Serializer.unmarshalMessage(in);
+                        log.debug("Read message " + msg.getType() + " going to handle it");
+                        return msg;
+                }
 
-		private boolean disconnect() {
-			AALSpaceManager spaceManager = Activator.spaceManager.getObject();
-			String spaceId = spaceManager.getAALSpaceDescriptor()
-					.getSpaceCard().getSpaceID();
-			String peerId = spaceManager.getMyPeerCard().getPeerID();
-			DisconnectionRequest disconnectionRequest = new DisconnectionRequest(
-					peerId, spaceId, currentSession);
-			MessageWrapper responseMessage = new MessageWrapper(
-					MessageType.Disconnect,
-					Serializer.Instance.marshall(disconnectionRequest), peerId);
-			try {
-				Serializer.sendMessageToStream(responseMessage, out);
-				return true;
-			} catch (Exception e) {
-				e.printStackTrace();
-				return false;
-			}
+                private boolean connect() {
+                        AALSpaceManager spaceManager = Activator.spaceManager.getObject();
+                        SessionManager sessionManger = SessionManager.getInstance();
+                        String spaceId = spaceManager.getAALSpaceDescriptor()
+                                        .getSpaceCard().getSpaceID();
+                        String spaceName = spaceManager.getAALSpaceDescriptor().getSpaceCard().getSpaceName();
+                        String peerId = spaceManager.getMyPeerCard().getPeerID();
+                        ConnectionRequest request = new ConnectionRequest(spaceId, peerId, spaceName);
+                        MessageWrapper responseMessage = new MessageWrapper(
+                                        MessageType.ConnectRequest,
+                                        Serializer.Instance.marshall(request), peerId);
+                        try {
+                                Serializer.sendMessageToStream(responseMessage, out);
+                                MessageWrapper rsp = readMessage();
+                                if (rsp.getType() != MessageType.ConnectResponse) {
+                                        throw new IllegalArgumentException("Expected "
+                                                        + MessageType.ConnectResponse + " message after a "
+                                                        + MessageType.ConnectRequest + " but recieved "
+                                                        + rsp.getType());
+                                }
+                                ConnectionResponse response = Serializer.Instance.unmarshall(
+                                                ConnectionResponse.class, rsp.getMessage());
+                                sessionManger.storeSession(response.getSessionId(),
+                                                response.getPeerId(), response.getAALSpaceId(),
+                                                response.getScopeId());
+                                currentSession = response.getSessionId();
+                                sessionManger.setLink(currentSession, socket.getInputStream(),
+                                                socket.getOutputStream());
+                                return true;
+                        } catch (Exception e) {
+                                e.printStackTrace();
+                        }
+                        return false;
+                }
 
-		}
+                private boolean disconnect() {
+                        AALSpaceManager spaceManager = Activator.spaceManager.getObject();
+                        String spaceId = spaceManager.getAALSpaceDescriptor()
+                                        .getSpaceCard().getSpaceID();
+                        String peerId = spaceManager.getMyPeerCard().getPeerID();
+                        DisconnectionRequest disconnectionRequest = new DisconnectionRequest(
+                                        peerId, spaceId, currentSession);
+                        MessageWrapper responseMessage = new MessageWrapper(
+                                        MessageType.Disconnect,
+                                        Serializer.Instance.marshall(disconnectionRequest), peerId);
+                        try {
+                                Serializer.sendMessageToStream(responseMessage, out);
+                                return true;
+                        } catch (Exception e) {
+                                e.printStackTrace();
+                                return false;
+                        }
 
-		private boolean handleGatewayProtocol(MessageWrapper msg)
-				throws Exception {
-			communicator.handleMessage(msg, out);
-			return true;
-		}
+                }
 
-		private boolean handleSessionProtocol(MessageWrapper msg) {
-			AALSpaceManager spaceManager = Activator.spaceManager.getObject();
-			SessionManager sessionManger = SessionManager.getInstance();
-			switch (msg.getType()) {
-			case Reconnect:
-			case ConnectRequest:
-				throw new IllegalArgumentException(
-						"Receieved unexpected message " + msg.getType());
+                private boolean handleGatewayProtocol(MessageWrapper msg)
+                                throws Exception {
+                        communicator.handleMessage(msg, out);
+                        return true;
+                }
 
-			case Disconnect: {
-				DisconnectionRequest request = Serializer.Instance.unmarshall(
-						DisconnectionRequest.class, msg.getMessage());
-				// request.getPeerId()
-				UUID session = sessionManger.getSession(request.getPeerId(),
-						request.getAALSpaceId(), request.getScopeId());
-				if (session == null) {
-					// TODO Log someone is trying to disconnect from an invalid
-					// session
-					log.warning("Trying to close a-non existing session with <"
-							+ request.getAALSpaceId() + ","
-							+ request.getPeerId() + ">, we just ignore it");
-					return true;
-				}
-				sessionManger.close(session);
-				return true;
-			}
+                private boolean handleSessionProtocol(MessageWrapper msg) {
+                        AALSpaceManager spaceManager = Activator.spaceManager.getObject();
+                        SessionManager sessionManger = SessionManager.getInstance();
+                        switch (msg.getType()) {
+                        case Reconnect:
+                        case ConnectRequest:
+                                throw new IllegalArgumentException(
+                                                "Receieved unexpected message " + msg.getType());
 
-			default:
-				return false;
+                        case Disconnect: {
+                                DisconnectionRequest request = Serializer.Instance.unmarshall(
+                                                DisconnectionRequest.class, msg.getMessage());
+                                // request.getPeerId()
+                                UUID session = sessionManger.getSession(request.getPeerId(),
+                                                request.getAALSpaceId(), request.getScopeId());
+                                if (session == null) {
+                                        // TODO Log someone is trying to disconnect from an invalid
+                                        // session
+                                        log.warning("Trying to close a-non existing session with <"
+                                                        + request.getAALSpaceId() + ","
+                                                        + request.getPeerId() + ">, we just ignore it");
+                                        return true;
+                                }
+                                sessionManger.close(session);
+                                return true;
+                        }
 
-			}
-		}
-	}
+                        default:
+                                return false;
 
-	public MessageWrapper sendMessage(final MessageWrapper toSend,
-			final String[] sessions) throws IOException,
-			ClassNotFoundException, CryptoException {
+                        }
+                }
+        }
 
-		// TODO Stefano Lenzi: Use the target to select the scope where to send
-		// the message, it should be an UUID
+        public MessageWrapper sendMessage(final MessageWrapper toSend,
+                        final String[] sessions) throws IOException,
+                        ClassNotFoundException, CryptoException {
 
-		MessageWrapper resp = null;
-		SessionManager sessionManager = SessionManager.getInstance();
+                // TODO Stefano Lenzi: Use the target to select the scope where to send
+                // the message, it should be an UUID
 
-		List<UUID> activeSessions = new ArrayList<UUID>();
+                MessageWrapper resp = null;
+                SessionManager sessionManager = SessionManager.getInstance();
 
-		for (int i = 0; i < sessions.length; i++) {
-			if (CommunicationHandler.BROADCAST_SESSION == sessions[i]
-					|| CommunicationHandler.BROADCAST_SESSION
-							.equals(sessions[i])) {
-				// TODO Broadcast, something like
-				// sessionManager.getAllSessions();
-			}
-			final UUID currentSession = UUID.fromString(sessions[i]);
-			if (sessionManager.isActive(currentSession) == false) {
-				// TODO that we haven't sent a file: either because the other
-				// peer gently left or because the the link failed and gateway
-				// are training to reconnect each other
-				continue;
-			}
-			activeSessions.add(currentSession);
-		}
-		for (UUID currentSession : activeSessions) {
+                List<UUID> activeSessions = new ArrayList<UUID>();
 
-			OutputStream out = sessionManager.getOutputStream(currentSession);
-			InputStream in = sessionManager.getInputStream(currentSession);
+                for (int i = 0; i < sessions.length; i++) {
+                        if (CommunicationHandler.BROADCAST_SESSION == sessions[i]
+                                        || CommunicationHandler.BROADCAST_SESSION
+                                                        .equals(sessions[i])) {
+                                // TODO Broadcast, something like
+                                // sessionManager.getAllSessions();
+                        }
+                        final UUID currentSession = UUID.fromString(sessions[i]);
+                        if (sessionManager.isActive(currentSession) == false) {
+                                // TODO that we haven't sent a file: either because the other
+                                // peer gently left or because the the link failed and gateway
+                                // are training to reconnect each other
+                                continue;
+                        }
+                        activeSessions.add(currentSession);
+                }
+                for (UUID currentSession : activeSessions) {
 
-			if (out == null || in == null) {
-				// TODO log that we found an invalid-session
-				continue;
-			}
+                        OutputStream out = sessionManager.getOutputStream(currentSession);
+                        InputStream in = sessionManager.getInputStream(currentSession);
 
-			try {
-				Serializer.sendMessageToStream(toSend, out);
-				// if the other side sends a Wrapper, we should read it
-				if (!toSend.getType().equals(MessageType.Context)
-						&& !toSend.getType().equals(MessageType.UIResponse)) {
-					resp = Serializer.unmarshalMessage(in);
-				}
-			} catch (EOFException ex) {
-				// no response (which is not an error) so we just return null
-			}
-		}
-		// TODO either we change the return type to void/boolean or to
-		// MessageWrapper[]
-		return resp;
-	}
+                        if (out == null || in == null) {
+                                // TODO log that we found an invalid-session
+                                continue;
+                        }
 
-	public void stop() {
-		stopServerThread = true;
+                        try {
+                                Serializer.sendMessageToStream(toSend, out);
+                                // if the other side sends a Wrapper, we should read it
+                                if (!toSend.getType().equals(MessageType.Context)
+                                                && !toSend.getType().equals(MessageType.UIResponse)) {
+                                        resp = Serializer.unmarshalMessage(in);
+                                }
+                        } catch (EOFException ex) {
+                                // no response (which is not an error) so we just return null
+                        }
+                }
+                // TODO either we change the return type to void/boolean or to
+                // MessageWrapper[]
+                return resp;
+        }
 
-	}
+        public void stop() {
+                stopServerThread = true;
 
-	public void addComunicationEventListener(ComunicationEventListener cel) {
-		listeners.add(cel);
-	}
+        }
 
-	public void removeComunicationEventListener(ComunicationEventListener cel) {
-		listeners.remove(cel);
-	}
+        public void addComunicationEventListener(ComunicationEventListener cel) {
+                listeners.add(cel);
+        }
+
+        public void removeComunicationEventListener(ComunicationEventListener cel) {
+                listeners.remove(cel);
+        }
 }

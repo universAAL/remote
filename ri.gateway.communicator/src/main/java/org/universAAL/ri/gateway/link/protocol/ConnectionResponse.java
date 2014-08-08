@@ -52,7 +52,7 @@ public class ConnectionResponse implements Serializable {
                 + (peerId != null ? "peerId =" + peerId  + ", " : "")
                 + (aalSpaceId != null ? "aalSpaceId =" + aalSpaceId  + ", " : "")
                 + (aalSpaceId != null ? "scopeId=" + aalSpaceId + ", " : "")
-                + (sessionId != null ? "sessionId=" + sessionId + ", " : "")
+                + (sessionId != null ? "sessionId=" + sessionId + " " : "")
                 + "]";
     }
 

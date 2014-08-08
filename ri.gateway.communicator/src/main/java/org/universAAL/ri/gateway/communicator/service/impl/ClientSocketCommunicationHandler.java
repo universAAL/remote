@@ -24,27 +24,22 @@
  */
 package org.universAAL.ri.gateway.communicator.service.impl;
 
-import java.io.EOFException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.InetAddress;
 import java.net.Socket;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
-import org.bouncycastle.crypto.CryptoException;
 import org.universAAL.log.Logger;
 import org.universAAL.log.LoggerFactory;
 import org.universAAL.middleware.managers.api.AALSpaceManager;
 import org.universAAL.ri.gateway.communicator.Activator;
-import org.universAAL.ri.gateway.communicator.service.CommunicationHandler;
 import org.universAAL.ri.gateway.communicator.service.ComunicationEventListener;
 import org.universAAL.ri.gateway.communicator.service.GatewayCommunicator;
 import org.universAAL.ri.gateway.communicator.service.GatewayCommunicator.RoutingMode;
@@ -130,6 +125,8 @@ public class ClientSocketCommunicationHandler extends
 				.debug("Client mode gateway connected to "
 					+ serverConfig);
 			linkHandler.setSocket(socket);
+			// FIX When connection is valid the linkHandler should
+			// be started and it should handle all the next messages
 			while (!linkHandler.checkConnection()) {
 			    ClientSocketCommunicationHandler.log
 				    .debug("Link is down, so we are goging to try again in a "
@@ -207,7 +204,8 @@ public class ClientSocketCommunicationHandler extends
 				    + currentSession);
 		    return true;
 		}
-	    } else {
+	    } else if (currentSession != null
+		    && SessionManager.getInstance().isActive(currentSession) == false) {
 		ClientSocketCommunicationHandler.log
 			.debug("SESSION was BROKEN by a link failure, trying to RESTORE it");
 		if (reconnect() == false) {
@@ -221,6 +219,8 @@ public class ClientSocketCommunicationHandler extends
 				    + "");
 		    return true;
 		}
+	    } else {
+		return true;
 	    }
 	}
 
@@ -312,6 +312,9 @@ public class ClientSocketCommunicationHandler extends
 	}
 
 	private void cleanUpSocket() {
+	    if (currentSession != null) {
+		SessionManager.getInstance().close(currentSession);
+	    }
 	    if (socket != null && socket.isClosed() == false) {
 		try {
 		    socket.close();

@@ -50,11 +50,11 @@ import org.universAAL.ri.gateway.eimanager.impl.security.ImportSecurityOperation
 /**
  * Bundle's activator. Starts a default instance of the GatewayCommunicator
  * worker by use of GatewayCommunicatorInstantiator.
- *
+ * 
  * @author skallz
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @version $LastChangedRevision$ ($LastChangedDate$)
- *
+ * 
  */
 public class Activator implements BundleActivator {
 
@@ -66,7 +66,6 @@ public class Activator implements BundleActivator {
     public static ModuleContext mc;
 
     public static Logger log;
-
 
     private IBusMemberRegistryListener exportRegistryListener;
     private IBusMemberRegistryListener importRegistryListener;
@@ -82,103 +81,159 @@ public class Activator implements BundleActivator {
 
     public static DependencyProxy<MessageContentSerializerEx> serializer;
 
+    private void init(final BundleContext context) {
+	Activator.bc = context;
+
+	Activator.mc = uAALBundleContainer.THE_CONTAINER
+		.registerModule(new Object[] { context });
+
+	Activator.log = LoggerFactory.createLoggerFactory(Activator.mc)
+		.getLogger(Activator.class);
+
+	Activator.registry = new NPEDependencyProxy<IBusMemberRegistry>(
+		Activator.mc, IBusMemberRegistry.busRegistryShareParams);
+
+	Activator.spaceManager = new NPEDependencyProxy<AALSpaceManager>(
+		Activator.mc, new Object[] { AALSpaceManager.class.getName() });
+
+	Activator.serializer = new NPEDependencyProxy<MessageContentSerializerEx>(
+		Activator.mc,
+		new Object[] { MessageContentSerializerEx.class.getName() });
+
+	Activator.tenantManager = new NPEDependencyProxy<TenantManager>(
+		Activator.mc, new Object[] { TenantManager.class.getName() });
+    }
+
     /**
      * Starts the communicator.
-     *
+     * 
      * @param context
      *            bundle context
      */
     public void start(final BundleContext context) throws Exception {
-        bc = context;
+	try {
+	    doStart(context);
+	} catch (final Exception ex) {
+	    final String msg = "Exception while starting up due to "
+		    + ex.getMessage();
+	    Activator.log.warning(msg);
+	    Activator.log.debug(msg, ex);
+	    cleanUp();
+	}
+    }
 
-        mc = uAALBundleContainer.THE_CONTAINER
-                .registerModule(new Object[] { context });
+    private void doStart(final BundleContext context) throws Exception {
 
-        log = LoggerFactory.createLoggerFactory(
-                Activator.mc).getLogger(Activator.class);
+	init(context);
 
-        registry = new NPEDependencyProxy<IBusMemberRegistry>(mc,
-                IBusMemberRegistry.busRegistryShareParams);
+	checkDependencies();
 
-        spaceManager = new NPEDependencyProxy<AALSpaceManager>(mc,
-                new Object[] { AALSpaceManager.class.getName() });
+	inst = new CommunicatorStarter(context);
 
-        serializer = new NPEDependencyProxy<MessageContentSerializerEx>(mc,
-                new Object[] { MessageContentSerializerEx.class.getName() } );
+	exportManager = new ExportManagerImpl(inst.getCommunicator());
+	importManager = new ImportManagerImpl(inst.getCommunicator());
 
+	inst.setManagers(importManager, exportManager);
 
-        tenantManager = new NPEDependencyProxy<TenantManager>(mc,
-                new Object[] { TenantManager.class.getName() } );
+	exportRegistryListener = new EIManagerRegistryListener(exportManager);
 
-        checkDependencies();
+	importRegistryListener = new EIManagerRegistryListener(importManager);
 
-        inst = new CommunicatorStarter(context);
+	Activator.registry.getObject()
+		.addListener(exportRegistryListener, true);
+	Activator.registry.getObject()
+		.addListener(importRegistryListener, true);
 
-        exportManager = new ExportManagerImpl(inst.getCommunicator());
-        importManager = new ImportManagerImpl(inst.getCommunicator());
+	EIOperationManager.Instance.init();
 
-        inst.setManagers(importManager, exportManager);
+	Activator.mc.getContainer().shareObject(Activator.mc,
+		new ImportSecurityOperationInterceptor(),
+		new Object[] { ImportOperationInterceptor.class.getName() });
 
-        exportRegistryListener = new EIManagerRegistryListener(exportManager);
-
-        importRegistryListener = new EIManagerRegistryListener(importManager);
-
-        registry.getObject().addListener(exportRegistryListener, true);
-        registry.getObject().addListener(importRegistryListener, true);
-
-        EIOperationManager.Instance.init();
-
-        Activator.mc.getContainer().shareObject(Activator.mc,
-                new ImportSecurityOperationInterceptor(),
-                new Object[] { ImportOperationInterceptor.class.getName() });
-
-        Activator.mc.getContainer().shareObject(Activator.mc,
-                new ExportSecurityOperationInterceptor(),
-                new Object[] { ExportOperationInterceptor.class.getName() });
+	Activator.mc.getContainer().shareObject(Activator.mc,
+		new ExportSecurityOperationInterceptor(),
+		new Object[] { ExportOperationInterceptor.class.getName() });
 
     }
 
     private void checkDependencies() {
-        if ( registry == null || registry.getObject() == null ) {
-            log.warning("Missing required shared "
-                    + IBusMemberRegistry.class.getName()
-                    + " object in the current run-time ");
-        }
-        if ( spaceManager == null || spaceManager.getObject() == null ) {
-            log.warning("Missing required shared "
-                    + AALSpaceManager.class.getName()
-                    + " object in the current run-time ");
-        }
+	if (Activator.registry == null
+		|| Activator.registry.getObject() == null) {
+	    Activator.log.warning("Missing required shared "
+		    + IBusMemberRegistry.class.getName()
+		    + " object in the current run-time ");
+	}
+	if (Activator.spaceManager == null
+		|| Activator.spaceManager.getObject() == null) {
+	    Activator.log.warning("Missing required shared "
+		    + AALSpaceManager.class.getName()
+		    + " object in the current run-time ");
+	}
 
-        if ( serializer == null || serializer.getObject() == null ) {
-            log.warning("Missing required shared "
-                    + MessageContentSerializerEx.class.getName()
-                    + " object in the current run-time ");
-        }
+	if (Activator.serializer == null
+		|| Activator.serializer.getObject() == null) {
+	    Activator.log.warning("Missing required shared "
+		    + MessageContentSerializerEx.class.getName()
+		    + " object in the current run-time ");
+	}
 
-        if ( tenantManager == null || tenantManager.getObject() == null ) {
-            log.warning("Missing required shared "
-                    + TenantManager.class.getName()
-                    + " object in the current run-time ");
-        }
+	if (Activator.tenantManager == null
+		|| Activator.tenantManager.getObject() == null) {
+	    Activator.log.warning("Missing required shared "
+		    + TenantManager.class.getName()
+		    + " object in the current run-time ");
+	}
+    }
+
+    private void cleanUp() {
+	try {
+	    if (inst != null) {
+		inst.stop();
+	    }
+	} catch (final Exception ex) {
+	    final String msg = "Exception while cleaning up "
+		    + inst.getClass().getSimpleName() + " due to "
+		    + ex.getMessage();
+	    Activator.log.warning(msg);
+	    Activator.log.debug(msg, ex);
+	}
+
+	try {
+	    if (Activator.registry.getObject() != null) {
+		Activator.registry.getObject().removeListener(
+			exportRegistryListener);
+		Activator.registry.getObject().removeListener(
+			importRegistryListener);
+	    }
+	} catch (final Exception ex) {
+	    final String msg = "Exception while cleaning up "
+		    + Activator.registry.getObject().getClass().getSimpleName()
+		    + " due to " + ex.getMessage();
+	    Activator.log.warning(msg);
+	    Activator.log.debug(msg, ex);
+	}
+
+	try {
+	    if (exportManager != null) {
+		exportManager.shutdown();
+	    }
+	} catch (final Exception ex) {
+	    final String msg = "Exception while cleaning up "
+		    + exportManager.getClass().getSimpleName() + " due to "
+		    + ex.getMessage();
+	    Activator.log.warning(msg);
+	    Activator.log.debug(msg, ex);
+	}
     }
 
     /**
      * Stops the communicator and all used resources.
-     *
+     * 
      * @param context
      *            bundle context
      */
     public void stop(final BundleContext context) {
-        inst.stop();
-        if (registry.getObject() != null) {
-            registry.getObject().removeListener(exportRegistryListener);
-            registry.getObject().removeListener(importRegistryListener);
-        }
-
-        if (exportManager != null) {
-            exportManager.shutdown();
-        }
+	cleanUp();
     }
 
 }

@@ -47,7 +47,8 @@ import org.universAAL.ri.gateway.communicator.service.GatewayCommunicator;
  * This class implements an abstract gateway based on TCP connection
  * 
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
- * @version $LastChangedRevision$ ($LastChangedDate$)
+ * @version $LastChangedRevision$ ($LastChangedDate: 2014-08-08 14:46:31
+ *          +0200 (Fri, 08 Aug 2014) $)
  * 
  */
 public abstract class AbstractSocketCommunicationHandler implements
@@ -119,6 +120,10 @@ public abstract class AbstractSocketCommunicationHandler implements
 
 	    try {
 		Serializer.sendMessageToStream(toSend, out);
+
+		// TODO Why are we expecting a response? It should be handled
+		// through the while (!stop) { msg = readMessage();
+		// handleMessage(msg); } loop
 		// if the other side sends a Wrapper, we should read it
 		if (!toSend.getType().equals(MessageType.Context)
 			&& !toSend.getType().equals(MessageType.UIResponse)) {

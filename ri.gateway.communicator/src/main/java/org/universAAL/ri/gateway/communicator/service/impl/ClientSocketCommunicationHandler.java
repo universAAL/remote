@@ -373,12 +373,51 @@ public class ClientSocketCommunicationHandler extends
 	    final MessageWrapper responseMessage = new MessageWrapper(
 		    MessageType.Disconnect,
 		    Serializer.Instance.marshall(disconnectionRequest), peerId);
+	    boolean result = true;
 	    try {
 		Serializer.sendMessageToStream(responseMessage, out);
-		return true;
 	    } catch (final Exception e) {
 		e.printStackTrace();
-		return false;
+		result = false;
+	    }
+
+	    try {
+		SessionManager.getInstance().close(currentSession);
+		return result;
+	    } catch (final Exception ex) {
+		ex.printStackTrace();
+	    }
+	    /*
+	     * if closing the session failed we try to close manually the socket
+	     * and it's stream
+	     */
+
+	    manualCloseLink();
+	    return result;
+
+	}
+
+	private void manualCloseLink() {
+
+	    try {
+		this.in.close();
+	    } catch (final IOException e) {
+		e.printStackTrace();
+	    }
+	    try {
+		this.out.flush();
+	    } catch (final IOException e) {
+		e.printStackTrace();
+	    }
+	    try {
+		this.out.close();
+	    } catch (final IOException e) {
+		e.printStackTrace();
+	    }
+	    try {
+		this.socket.close();
+	    } catch (final IOException e) {
+		e.printStackTrace();
 	    }
 
 	}

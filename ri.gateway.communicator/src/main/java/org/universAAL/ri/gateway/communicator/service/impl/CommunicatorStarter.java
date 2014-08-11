@@ -288,9 +288,8 @@ public class CommunicatorStarter {
     }
 
     public void stop() {
-	communicator.stop();
 	CommunicatorStarter.aliases.remove(alias);
-
+	communicator.stop();
     }
 
 }

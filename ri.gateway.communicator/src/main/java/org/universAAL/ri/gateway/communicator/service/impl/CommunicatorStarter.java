@@ -54,7 +54,7 @@ public class CommunicatorStarter {
     /**
      * Registry for active aliases.
      */
-    private static Set<String> aliases;
+    static Set<String> aliases;
     static {
 	CommunicatorStarter.aliases = Collections
 		.synchronizedSet(new HashSet<String>());

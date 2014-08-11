@@ -411,31 +411,43 @@ public class ClientSocketCommunicationHandler extends
 
 	    try {
 		if (in != null) {
+		    ClientSocketCommunicationHandler.log
+			    .info("Closing OutputStream on the link");
 		    in.close();
 		}
 	    } catch (final IOException e) {
-		e.printStackTrace();
+		ClientSocketCommunicationHandler.log.debug(
+			"Closing InputStream of the link", e);
 	    }
 	    try {
 		if (out != null) {
+		    ClientSocketCommunicationHandler.log
+			    .info("Flushing OutputStream on the link");
 		    out.flush();
 		}
 	    } catch (final IOException e) {
-		e.printStackTrace();
+		ClientSocketCommunicationHandler.log.debug(
+			"Closing InputStream of the link", e);
 	    }
 	    try {
 		if (out != null) {
+		    ClientSocketCommunicationHandler.log
+			    .info("Closing OutputStream on the link");
 		    out.close();
 		}
 	    } catch (final IOException e) {
-		e.printStackTrace();
+		ClientSocketCommunicationHandler.log.debug(
+			"Closing OutputStream of the link", e);
 	    }
 	    try {
 		if (socket != null && socket.isClosed() == false) {
+		    ClientSocketCommunicationHandler.log
+			    .info("Closing Socket on the link");
 		    this.socket.close();
 		}
 	    } catch (final IOException e) {
-		e.printStackTrace();
+		ClientSocketCommunicationHandler.log.debug(
+			"Closing Socket of the link", e);
 	    }
 
 	}

@@ -127,8 +127,8 @@ public class ClientSocketCommunicationHandler extends
 					+ serverConfig);
 			synchronized (LOCK_VAR_LINK_HANDLER) {
 			    currentLinkHandler = new LinkHandler(socket);
-			    currentLinkHandler.run();
 			}
+			currentLinkHandler.run();
 			ClientSocketCommunicationHandler.log
 				.debug("Link is down, so we are goging to try again in a "
 					+ ClientSocketCommunicationHandler.RECONNECT_WAITING_TIME
@@ -171,7 +171,7 @@ public class ClientSocketCommunicationHandler extends
 		in = socket.getInputStream();
 		out = socket.getOutputStream();
 	    } catch (final Exception e) {
-		cleanUpSocket();
+		cleanUpSession();
 		ClientSocketCommunicationHandler.log.error(
 			"SESSION BROKEN due to exception", e);
 		e.printStackTrace();
@@ -191,7 +191,7 @@ public class ClientSocketCommunicationHandler extends
 		if (connect() == false) {
 		    ClientSocketCommunicationHandler.log
 			    .debug("Creation of the session failed");
-		    cleanUpSocket();
+		    cleanUpSession();
 		    return false;
 		} else {
 		    ClientSocketCommunicationHandler.log
@@ -206,7 +206,7 @@ public class ClientSocketCommunicationHandler extends
 		if (reconnect() == false) {
 		    ClientSocketCommunicationHandler.log
 			    .debug("Failed to RESTORE the SESSION");
-		    cleanUpSocket();
+		    cleanUpSession();
 		    return false;
 		} else {
 		    ClientSocketCommunicationHandler.log
@@ -231,7 +231,7 @@ public class ClientSocketCommunicationHandler extends
 		    if (connect() == false) {
 			ClientSocketCommunicationHandler.log
 				.debug("Creation of the session failed");
-			cleanUpSocket();
+			cleanUpSession();
 			return;
 		    } else {
 			ClientSocketCommunicationHandler.log
@@ -244,7 +244,7 @@ public class ClientSocketCommunicationHandler extends
 		    if (reconnect() == false) {
 			ClientSocketCommunicationHandler.log
 				.debug("Failed to RESTORE the SESSION");
-			cleanUpSocket();
+			cleanUpSession();
 			return;
 		    } else {
 			ClientSocketCommunicationHandler.log
@@ -262,11 +262,14 @@ public class ClientSocketCommunicationHandler extends
 		    }
 		}
 	    } catch (final Exception e) {
-		ClientSocketCommunicationHandler.log.error(
-			"SESSION BROKEN due to exception", e);
-		e.printStackTrace();
-	    } finally {
-		cleanUpSocket();
+		if (!isStop()) {
+		    ClientSocketCommunicationHandler.log.error(
+			    "SESSION BROKEN due to exception", e);
+		    e.printStackTrace();
+		}
+	    }
+	    if (!isStop()) {
+		cleanUpSession();
 	    }
 	}
 
@@ -326,7 +329,7 @@ public class ClientSocketCommunicationHandler extends
 	    return false;
 	}
 
-	private void cleanUpSocket() {
+	private void cleanUpSession() {
 	    try {
 		if (currentSession != null) {
 		    SessionManager.getInstance().close(currentSession);
@@ -399,7 +402,7 @@ public class ClientSocketCommunicationHandler extends
 		result = false;
 	    }
 
-	    cleanUpSocket();
+	    cleanUpSession();
 	    return result;
 
 	}

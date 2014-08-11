@@ -114,11 +114,11 @@ public class Activator implements BundleActivator {
 	try {
 	    doStart(context);
 	} catch (final Exception ex) {
+	    cleanUp();
 	    final String msg = "Exception while starting up due to "
 		    + ex.getMessage();
 	    Activator.log.warning(msg);
 	    Activator.log.debug(msg, ex);
-	    cleanUp();
 	}
     }
 

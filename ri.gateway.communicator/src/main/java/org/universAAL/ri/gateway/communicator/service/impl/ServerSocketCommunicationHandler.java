@@ -24,7 +24,6 @@
  */
 package org.universAAL.ri.gateway.communicator.service.impl;
 
-import java.io.EOFException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -41,12 +40,10 @@ import java.util.UUID;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import org.bouncycastle.crypto.CryptoException;
 import org.universAAL.log.Logger;
 import org.universAAL.log.LoggerFactory;
 import org.universAAL.middleware.managers.api.AALSpaceManager;
 import org.universAAL.ri.gateway.communicator.Activator;
-import org.universAAL.ri.gateway.communicator.service.CommunicationHandler;
 import org.universAAL.ri.gateway.communicator.service.ComunicationEventListener;
 import org.universAAL.ri.gateway.communicator.service.GatewayCommunicator;
 import org.universAAL.ri.gateway.link.protocol.ConnectionRequest;
@@ -75,6 +72,8 @@ public class ServerSocketCommunicationHandler extends
     private Thread serverThread;
     private final Set<ComunicationEventListener> listeners;
     private final ExecutorService executor;
+
+    private final List<LinkHandler> handlers = new ArrayList<LinkHandler>();
 
     public ServerSocketCommunicationHandler(
 	    final GatewayCommunicator communicator) {
@@ -108,6 +107,7 @@ public class ServerSocketCommunicationHandler extends
 	server = new ServerSocket();
 	server.bind(new InetSocketAddress(addr, serverConfig.getPort()));
 	serverThread = new Thread(new Runnable() {
+
 	    public void run() {
 		ServerSocketCommunicationHandler.log
 			.debug("TCP server started on port " + serverConfig);
@@ -117,7 +117,9 @@ public class ServerSocketCommunicationHandler extends
 			final Socket socket = server.accept();
 			ServerSocketCommunicationHandler.log
 				.debug("Got new incoming connection");
-			executor.execute(new LinkHandler(socket));
+			final LinkHandler handler = new LinkHandler(socket);
+			handlers.add(handler);
+			executor.execute(handler);
 		    } catch (final IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -134,6 +136,8 @@ public class ServerSocketCommunicationHandler extends
 	private final Socket socket;
 	private InputStream in;
 	private OutputStream out;
+	private String name = "Link Handler";
+	private boolean close = false;
 
 	public LinkHandler(final Socket socket) {
 	    this.socket = socket;
@@ -145,7 +149,7 @@ public class ServerSocketCommunicationHandler extends
 		in = socket.getInputStream();
 		out = socket.getOutputStream();
 
-		while (socket != null && !socket.isClosed()) {
+		while (socket != null && !socket.isClosed() && !isStop()) {
 		    final MessageWrapper msg = readMessage(in);
 
 		    if (handleSessionProtocol(msg) == false) {
@@ -193,8 +197,20 @@ public class ServerSocketCommunicationHandler extends
 				    + request.getAALSpaceId() + ","
 				    + request.getPeerId() + ">");
 		} else {
+		    try {
+			sessionManger.close(session);
+		    } catch (final Exception ex) {
+			final String txt = "Closing old session " + session
+				+ " and creating a new one";
+			ServerSocketCommunicationHandler.log.info(txt);
+			ServerSocketCommunicationHandler.log.debug(txt, ex);
+
+		    }
 		    ServerSocketCommunicationHandler.log
 			    .warning("SESSION CLASH: the client may be restarted without persistance before the session was broken and deleted. We just create a new session");
+		    session = sessionManger.createSession(request.getPeerId(),
+			    request.getAALSpaceId(), request.getScopeId(),
+			    request.getDescription());
 		}
 		sessionManger.setLink(session, in, out);
 		// TODO Check if it can registers
@@ -211,6 +227,7 @@ public class ServerSocketCommunicationHandler extends
 		    e.printStackTrace();
 		    // TODO Close the session
 		}
+		setName("Link Handler[" + session + "]");
 		return true;
 	    }
 
@@ -223,11 +240,16 @@ public class ServerSocketCommunicationHandler extends
 			request.getPeerId(), request.getAALSpaceId(),
 			request.getScopeId());
 		if (session == null) {
-		    // TODO Log someone is trying to disconnect from an invalid
-		    // session
+		    ServerSocketCommunicationHandler.log
+			    .warning("Received a Disconnect Request ma no matching session");
 		    return true;
 		}
-		sessionManger.close(session);
+		try {
+		    sessionManger.close(session);
+		} catch (final Exception ex) {
+		    ServerSocketCommunicationHandler.log.debug(
+			    "Error closing the session UUID =" + session, ex);
+		}
 		return true;
 	    }
 	    case Reconnect: {
@@ -268,6 +290,73 @@ public class ServerSocketCommunicationHandler extends
 
 	    }
 	}
+
+	private void setName(final String name) {
+	    this.name = name;
+	    Thread.currentThread().setName(name);
+	}
+
+	private void stop() {
+	    synchronized (socket) {
+		close = true;
+	    }
+	    manualCloseSocket();
+	}
+
+	private boolean isStop() {
+	    synchronized (socket) {
+		return close;
+	    }
+	}
+
+	private void manualCloseSocket() {
+
+	    try {
+		if (in != null) {
+		    ServerSocketCommunicationHandler.log
+			    .info("Closing OutputStream on the link");
+		    in.close();
+		}
+	    } catch (final IOException e) {
+		ServerSocketCommunicationHandler.log.debug(
+			"Closing InputStream of the link", e);
+	    }
+	    try {
+		if (out != null) {
+		    ServerSocketCommunicationHandler.log
+			    .info("Flushing OutputStream on the link");
+		    out.flush();
+		}
+	    } catch (final IOException e) {
+		ServerSocketCommunicationHandler.log.debug(
+			"Closing InputStream of the link", e);
+	    }
+	    try {
+		if (out != null) {
+		    ServerSocketCommunicationHandler.log
+			    .info("Closing OutputStream on the link");
+		    out.close();
+		}
+	    } catch (final IOException e) {
+		ServerSocketCommunicationHandler.log.debug(
+			"Closing OutputStream of the link", e);
+	    }
+	    try {
+		if (socket != null && socket.isClosed() == false) {
+		    ServerSocketCommunicationHandler.log
+			    .info("Closing Socket on the link");
+		    this.socket.close();
+		}
+	    } catch (final IOException e) {
+		ServerSocketCommunicationHandler.log.debug(
+			"Closing Socket of the link", e);
+	    }
+
+	}
+
+	private String getName() {
+	    return name;
+	}
     }
 
     public void stop() {
@@ -276,6 +365,16 @@ public class ServerSocketCommunicationHandler extends
 	} catch (final IOException e) {
 	    // TODO Auto-generated catch block
 	    e.printStackTrace();
+	}
+	synchronized (handlers) {
+	    for (final LinkHandler handler : handlers) {
+		try {
+		    handler.stop();
+		} catch (final Exception ex) {
+		    ServerSocketCommunicationHandler.log.debug(
+			    "Errore closing " + handler.getName(), ex);
+		}
+	    }
 	}
 	serverThread.interrupt();
     }

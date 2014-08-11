@@ -87,6 +87,8 @@ public class Activator implements BundleActivator {
 	Activator.mc = uAALBundleContainer.THE_CONTAINER
 		.registerModule(new Object[] { context });
 
+	LoggerFactory.updateModuleContext(Activator.mc);
+
 	Activator.log = LoggerFactory.createLoggerFactory(Activator.mc)
 		.getLogger(Activator.class);
 

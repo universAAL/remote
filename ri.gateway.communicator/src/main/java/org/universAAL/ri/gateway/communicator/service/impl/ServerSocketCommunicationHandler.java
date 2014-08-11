@@ -117,7 +117,8 @@ public class ServerSocketCommunicationHandler extends
 			final Socket socket = server.accept();
 			ServerSocketCommunicationHandler.log
 				.debug("Got new incoming connection");
-			final LinkHandler handler = new LinkHandler(socket);
+			final LinkHandler handler = new LinkHandler(socket,
+				handlers);
 			handlers.add(handler);
 			executor.execute(handler);
 		    } catch (final IOException e) {
@@ -125,7 +126,7 @@ public class ServerSocketCommunicationHandler extends
 			e.printStackTrace();
 		    }
 		}
-
+		executor.shutdown();
 	    }
 	});
 	serverThread.start();
@@ -138,9 +139,11 @@ public class ServerSocketCommunicationHandler extends
 	private OutputStream out;
 	private String name = "Link Handler";
 	private boolean close = false;
+	private final List<LinkHandler> handlerList;
 
-	public LinkHandler(final Socket socket) {
+	public LinkHandler(final Socket socket, final List<LinkHandler> handlers) {
 	    this.socket = socket;
+	    this.handlerList = handlers;
 	}
 
 	public void run() {
@@ -159,15 +162,10 @@ public class ServerSocketCommunicationHandler extends
 		}
 	    } catch (final Exception e) {
 		e.printStackTrace();
-	    } finally {
-		if (socket != null) {
-		    try {
-			socket.close();
-		    } catch (final IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		    }
-		}
+	    }
+	    manualCloseSocket();
+	    synchronized (handlerList) {
+		handlerList.remove(this);
 	    }
 	}
 

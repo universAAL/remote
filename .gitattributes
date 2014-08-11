@@ -95,3 +95,4 @@ ri.gateway.communicator/src/main/java/org/universAAL/ri/gateway/link/protocol/Co
 ri.gateway.communicator/src/main/java/org/universAAL/ri/gateway/link/protocol/ConnectionResponse.java svneol=native#text/plain
 ri.gateway.communicator/src/main/java/org/universAAL/ri/gateway/link/protocol/DisconnectionRequest.java svneol=native#text/plain
 ri.gateway.communicator/src/main/java/org/universAAL/ri/gateway/link/protocol/ReconnectionRequest.java svneol=native#text/plain
+ri.gateway.communicator/src/test/java/org/universAAL/samples/InteruptedSocketReadTest.java svneol=native#text/plain

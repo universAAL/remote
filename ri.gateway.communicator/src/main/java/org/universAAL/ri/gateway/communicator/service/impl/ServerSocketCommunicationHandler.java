@@ -178,6 +178,7 @@ public class ServerSocketCommunicationHandler extends
 
 	@Override
 	protected boolean afterRun() {
+	    disconnect();
 	    manualCloseSocket();
 	    synchronized (handlerList) {
 		handlerList.remove(this);

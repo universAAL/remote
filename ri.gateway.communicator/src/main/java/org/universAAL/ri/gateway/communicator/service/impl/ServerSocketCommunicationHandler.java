@@ -310,6 +310,12 @@ public class ServerSocketCommunicationHandler extends
 		throws Exception {
 	    return readMessage(in);
 	}
+
+	@Override
+	public void stop() {
+	    super.stop();
+	    super.cleanUpSession();
+	}
     }
 
     public void stop() {

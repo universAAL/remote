@@ -23,55 +23,66 @@ package org.universAAL.ri.gateway.link.protocol;
 import java.io.Serializable;
 
 /**
- *
+ * 
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
- * @version $LastChangedRevision$ ($LastChangedDate$)
- *
+ * @version $LastChangedRevision$ ($LastChangedDate: 2014-08-08 11:09:43
+ *          +0200 (Fri, 08 Aug 2014) $)
+ * 
  */
 public class ConnectionRequest implements Serializable {
 
-  /**
+    /**
      *
      */
     private static final long serialVersionUID = 5607749107488373257L;
-  /**
+    /**
      *
      */
-    private String peerId;
-    private String aalSpaceId;
-    private String description;
+    private final String peerId;
+    private final String aalSpaceId;
+    private final String description;
 
-    public ConnectionRequest(final String peer, final String space, final String description) {
-        super();
-        this.peerId = peer;
-        this.aalSpaceId = space;
-        this.description = description;
+    /**
+     * 
+     * @param peer
+     *            The Id of the peer that runs the Gateway
+     * @param space
+     *            The Id of the AAL Space where the peer is connected to
+     * @param description
+     *            A friendly name description of the connection
+     */
+    public ConnectionRequest(final String peer, final String space,
+	    final String description) {
+	super();
+	this.peerId = peer;
+	this.aalSpaceId = space;
+	this.description = description;
     }
 
     @Override
     public String toString() {
-        return "ConnectionRequest ["
-                + (peerId != null ? "peerId =" + peerId  + ", " : "")
-                + (aalSpaceId != null ? "scopeId =" + aalSpaceId  + ", " : "")
-                + (aalSpaceId != null ? "scopeId=" + aalSpaceId + ", " : "")
-                + (description != null ? "description=" + description + " " : "")
-                + "]";
+	return "ConnectionRequest ["
+		+ (peerId != null ? "peerId =" + peerId + ", " : "")
+		+ (aalSpaceId != null ? "scopeId =" + aalSpaceId + ", " : "")
+		+ (aalSpaceId != null ? "scopeId=" + aalSpaceId + ", " : "")
+		+ (description != null ? "description=" + description + " "
+			: "") + "]";
     }
 
     public String getAALSpaceId() {
-        return aalSpaceId;
+	return aalSpaceId;
     }
 
     public String getPeerId() {
-        return peerId;
+	return peerId;
     }
 
     public String getScopeId() {
-        return aalSpaceId;
+	return aalSpaceId;
     }
 
     public String getDescription() {
-        return description;
+	return description;
     }
 
 }

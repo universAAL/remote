@@ -41,7 +41,8 @@ import org.universAAL.ri.gateway.link.protocol.ReconnectionRequest;
  * depending on the actual role of the peer in the link
  * 
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
- * @version $LastChangedRevision$ ($LastChangedDate$)
+ * @version $LastChangedRevision$ ($LastChangedDate: 2014-08-12 14:08:20
+ *          +0200 (Tue, 12 Aug 2014) $)
  * 
  */
 public abstract class AbstractLinkHandler implements Runnable {
@@ -206,8 +207,8 @@ public abstract class AbstractLinkHandler implements Runnable {
 	final String spaceName = spaceManager.getAALSpaceDescriptor()
 		.getSpaceCard().getSpaceName();
 	final String peerId = spaceManager.getMyPeerCard().getPeerID();
-	final ConnectionRequest request = new ConnectionRequest(spaceId,
-		peerId, spaceName);
+	final ConnectionRequest request = new ConnectionRequest(peerId,
+		spaceId, spaceName);
 	final MessageWrapper responseMessage = new MessageWrapper(
 		MessageType.ConnectRequest,
 		Serializer.Instance.marshall(request), peerId);

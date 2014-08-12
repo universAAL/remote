@@ -178,8 +178,7 @@ public class ServerSocketCommunicationHandler extends
 
 	@Override
 	protected boolean afterRun() {
-	    disconnect();
-	    manualCloseSocket();
+	    cleanUpSession();
 	    synchronized (handlerList) {
 		handlerList.remove(this);
 	    }
@@ -314,7 +313,8 @@ public class ServerSocketCommunicationHandler extends
 	@Override
 	public void stop() {
 	    super.stop();
-	    super.cleanUpSession();
+	    disconnect();
+	    cleanUpSession();
 	}
     }
 

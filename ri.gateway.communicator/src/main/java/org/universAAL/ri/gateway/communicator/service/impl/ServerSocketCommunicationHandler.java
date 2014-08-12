@@ -118,8 +118,15 @@ public class ServerSocketCommunicationHandler extends
 			handlers.add(handler);
 			executor.execute(handler);
 		    } catch (final IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			if (server.isClosed()) {
+			    log.debug(
+				    "Ignoring exception because we are closing the ServerSocket",
+				    e);
+			} else {
+			    log.error(
+				    "Unxpeceted error with the Server Socket",
+				    e);
+			}
 		    }
 		}
 		executor.shutdown();
@@ -308,8 +315,9 @@ public class ServerSocketCommunicationHandler extends
 	try {
 	    server.close();
 	} catch (final IOException e) {
-	    // TODO Auto-generated catch block
-	    e.printStackTrace();
+	    final String msg = "Closing the ServerSocket generated an error";
+	    log.info(msg);
+	    log.debug(msg, e);
 	}
 	synchronized (handlers) {
 	    for (final LinkHandler handler : handlers) {

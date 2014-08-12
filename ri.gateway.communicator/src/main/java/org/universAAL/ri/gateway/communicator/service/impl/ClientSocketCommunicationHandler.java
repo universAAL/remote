@@ -198,10 +198,11 @@ public class ClientSocketCommunicationHandler extends
 		try {
 		    msg = getNextMessage(in);
 		} catch (final Exception e) {
-		    log.debug("Failed to read message from stream", e);
 		    if (e instanceof EOFException) {
+			log.info("Failed to read message of the stream beacuse it was closed from the other side");
 			return false;
 		    } else {
+			log.debug("Failed to read message from stream", e);
 			return true;
 		    }
 		}

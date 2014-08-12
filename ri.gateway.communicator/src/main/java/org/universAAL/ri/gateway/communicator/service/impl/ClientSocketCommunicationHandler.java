@@ -24,6 +24,7 @@
  */
 package org.universAAL.ri.gateway.communicator.service.impl;
 
+import java.io.EOFException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.InetAddress;
@@ -198,7 +199,11 @@ public class ClientSocketCommunicationHandler extends
 		    msg = getNextMessage(in);
 		} catch (final Exception e) {
 		    log.debug("Failed to read message from stream", e);
-		    return true;
+		    if (e instanceof EOFException) {
+			return false;
+		    } else {
+			return true;
+		    }
 		}
 		if (handleSessionProtocol(msg) == false) {
 		    handleGatewayProtocol(msg);

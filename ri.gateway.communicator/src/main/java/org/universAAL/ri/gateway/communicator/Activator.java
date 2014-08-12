@@ -236,6 +236,7 @@ public class Activator implements BundleActivator {
      */
     public void stop(final BundleContext context) {
 	cleanUp();
+	LoggerFactory.setModuleContextAsStopped(Activator.mc);
     }
 
 }

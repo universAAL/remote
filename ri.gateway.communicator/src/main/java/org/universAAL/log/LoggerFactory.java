@@ -136,6 +136,19 @@ public class LoggerFactory {
 	}
     }
 
+    public static void setModuleContextAsStopped(final ModuleContext mc) {
+	synchronized (LoggerFactory.class) {
+	    if (LoggerFactory.factories == null) {
+		return;
+	    }
+	}
+	synchronized (LoggerFactory.factories) {
+	    final LoggerFactory activeLoggers = LoggerFactory.factories.get(mc
+		    .getID());
+	    activeLoggers.setModuleContext(null);
+	}
+    }
+
     private void setModuleContext(final ModuleContext mc) {
 	synchronized (loggers) {
 	    final Collection<UAALLogger> activeLoggers = loggers.values();

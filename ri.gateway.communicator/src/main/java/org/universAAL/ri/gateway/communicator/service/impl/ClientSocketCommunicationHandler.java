@@ -112,10 +112,21 @@ public class ClientSocketCommunicationHandler extends
 		Thread.currentThread().setName("Space Gateway :: Client");
 		while (!isStop()) {
 		    try {
+			Thread.sleep(ClientSocketCommunicationHandler.RECONNECT_WAITING_TIME);
+		    } catch (final InterruptedException e) {
+		    }
+		    final Socket socket;
+		    try {
 			final InetAddress addr = InetAddress
 				.getByName(serverConfig.getHostText());
-			final Socket socket = new Socket(addr, serverConfig
-				.getPort());
+			socket = new Socket(addr, serverConfig.getPort());
+		    } catch (final Exception ex) {
+			final String msg = "Failed to estabilished a link between client and server broken due to exception we retry in a bit";
+			log.info(msg);
+			log.debug(msg, ex);
+			continue;
+		    }
+		    try {
 			log.debug("Client mode gateway connected to "
 				+ serverConfig);
 			synchronized (LOCK_VAR_LINK_HANDLER) {
@@ -126,17 +137,13 @@ public class ClientSocketCommunicationHandler extends
 			log.debug("Link is down, so we are goging to try again in a "
 				+ ClientSocketCommunicationHandler.RECONNECT_WAITING_TIME
 				+ "ms");
-			try {
-			    Thread.sleep(ClientSocketCommunicationHandler.RECONNECT_WAITING_TIME);
-			} catch (final InterruptedException e) {
-			    log.debug("Ignored exception", e);
-			}
-		    } catch (final IOException e) {
+
+		    } catch (final Exception e) {
 			log.error(
 				"Link betwewn client and server broken due to exception we will try to restore it",
 				e);
-			e.printStackTrace();
 		    }
+
 		}
 	    }
 	});

@@ -29,6 +29,7 @@ ri.gateway.communicator/src/main/java/org/universAAL/ri/gateway/communicator/ser
 ri.gateway.communicator/src/main/java/org/universAAL/ri/gateway/communicator/service/Message.java -text
 ri.gateway.communicator/src/main/java/org/universAAL/ri/gateway/communicator/service/RemoteSpacesManager.java -text
 ri.gateway.communicator/src/main/java/org/universAAL/ri/gateway/communicator/service/ResponseCallback.java -text
+ri.gateway.communicator/src/main/java/org/universAAL/ri/gateway/communicator/service/impl/AbstractLinkHandler.java svneol=native#text/plain
 ri.gateway.communicator/src/main/java/org/universAAL/ri/gateway/communicator/service/impl/AbstractSocketCommunicationHandler.java svneol=native#text/plain
 ri.gateway.communicator/src/main/java/org/universAAL/ri/gateway/communicator/service/impl/ClientSocketCommunicationHandler.java svneol=native#text/plain
 ri.gateway.communicator/src/main/java/org/universAAL/ri/gateway/communicator/service/impl/CommunicationException.java -text

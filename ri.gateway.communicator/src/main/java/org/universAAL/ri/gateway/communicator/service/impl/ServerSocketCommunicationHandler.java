@@ -26,7 +26,6 @@ package org.universAAL.ri.gateway.communicator.service.impl;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
@@ -91,16 +90,14 @@ public class ServerSocketCommunicationHandler extends
 	 * //TODO Define a maxiumum number of threads
 	 */
 	// this.executor = Executors.newFixedThreadPool(NUM_THREADS);
-	ServerSocketCommunicationHandler.log.info("Created "
-		+ ServerSocketCommunicationHandler.class.getName());
+	log.info("Created " + ServerSocketCommunicationHandler.class.getName());
     }
 
     public void start() throws IOException {
 	final HostAndPort serverConfig = GatewayConfiguration.getInstance()
 		.getServerGateway();
-	ServerSocketCommunicationHandler.log
-		.debug("Starting Server Gateway on TCP server on port "
-			+ serverConfig);
+	log.debug("Starting Server Gateway on TCP server on port "
+		+ serverConfig);
 
 	final InetAddress addr = InetAddress.getByName(serverConfig
 		.getHostText());
@@ -109,16 +106,14 @@ public class ServerSocketCommunicationHandler extends
 	serverThread = new Thread(new Runnable() {
 
 	    public void run() {
-		ServerSocketCommunicationHandler.log
-			.debug("TCP server started on port " + serverConfig);
+		log.debug("TCP server started on port " + serverConfig);
 		Thread.currentThread().setName("Space Gateway :: Server");
 		while (!(Thread.currentThread().isInterrupted())) {
 		    try {
 			final Socket socket = server.accept();
-			ServerSocketCommunicationHandler.log
-				.debug("Got new incoming connection");
+			log.debug("Got new incoming connection");
 			final LinkHandler handler = new LinkHandler(socket,
-				handlers);
+				handlers, communicator);
 			handlers.add(handler);
 			executor.execute(handler);
 		    } catch (final IOException e) {
@@ -132,50 +127,53 @@ public class ServerSocketCommunicationHandler extends
 	serverThread.start();
     }
 
-    private class LinkHandler implements Runnable {
+    private class LinkHandler extends AbstractLinkHandler {
 
-	private final Socket socket;
-	private InputStream in;
-	private OutputStream out;
 	private String name = "Link Handler";
-	private boolean close = false;
 	private final List<LinkHandler> handlerList;
 
-	public LinkHandler(final Socket socket, final List<LinkHandler> handlers) {
-	    this.socket = socket;
+	public LinkHandler(final Socket socket,
+		final List<LinkHandler> handlers,
+		final GatewayCommunicator communicator) {
+	    super(socket, communicator);
 	    this.handlerList = handlers;
 	}
 
-	public void run() {
-	    Thread.currentThread().setName("Space Gateway :: LinkHandler ");
-	    try {
-		in = socket.getInputStream();
-		out = socket.getOutputStream();
+	@Override
+	protected boolean beforeRun() {
+	    return true;
+	}
 
-		while (socket != null && !socket.isClosed() && !isStop()) {
-		    final MessageWrapper msg = readMessage(in);
-
-		    if (handleSessionProtocol(msg) == false) {
-			handleGatewayProtocol(msg);
-		    }
-
+	@Override
+	protected boolean loopRun() {
+	    if (socket != null && !socket.isClosed()) {
+		MessageWrapper msg;
+		try {
+		    msg = getNextMessage(in);
+		} catch (final Exception e) {
+		    log.debug("Failed to read message from stream", e);
+		    return true;
 		}
-	    } catch (final Exception e) {
-		e.printStackTrace();
+		if (handleSessionProtocol(msg) == false) {
+		    handleGatewayProtocol(msg);
+		}
+		return true;
+	    } else {
+		return false;
 	    }
+	}
+
+	@Override
+	protected boolean afterRun() {
 	    manualCloseSocket();
 	    synchronized (handlerList) {
 		handlerList.remove(this);
 	    }
-	}
-
-	private boolean handleGatewayProtocol(final MessageWrapper msg)
-		throws Exception {
-	    communicator.handleMessage(msg, out);
 	    return true;
 	}
 
-	private boolean handleSessionProtocol(final MessageWrapper msg) {
+	@Override
+	protected boolean handleSessionProtocol(final MessageWrapper msg) {
 	    final AALSpaceManager spaceManager = Activator.spaceManager
 		    .getObject();
 	    final SessionManager sessionManger = SessionManager.getInstance();
@@ -189,23 +187,20 @@ public class ServerSocketCommunicationHandler extends
 		    session = sessionManger.createSession(request.getPeerId(),
 			    request.getAALSpaceId(), request.getScopeId(),
 			    request.getDescription());
-		    ServerSocketCommunicationHandler.log
-			    .debug("CREATED SESSION with " + session
-				    + " pointing at <"
-				    + request.getAALSpaceId() + ","
-				    + request.getPeerId() + ">");
+		    log.debug("CREATED SESSION with " + session
+			    + " pointing at <" + request.getAALSpaceId() + ","
+			    + request.getPeerId() + ">");
 		} else {
 		    try {
 			sessionManger.close(session);
 		    } catch (final Exception ex) {
 			final String txt = "Closing old session " + session
 				+ " and creating a new one";
-			ServerSocketCommunicationHandler.log.info(txt);
-			ServerSocketCommunicationHandler.log.debug(txt, ex);
+			log.info(txt);
+			log.debug(txt, ex);
 
 		    }
-		    ServerSocketCommunicationHandler.log
-			    .warning("SESSION CLASH: the client may be restarted without persistance before the session was broken and deleted. We just create a new session");
+		    log.warning("SESSION CLASH: the client may be restarted without persistance before the session was broken and deleted. We just create a new session");
 		    session = sessionManger.createSession(request.getPeerId(),
 			    request.getAALSpaceId(), request.getScopeId(),
 			    request.getDescription());
@@ -238,15 +233,13 @@ public class ServerSocketCommunicationHandler extends
 			request.getPeerId(), request.getAALSpaceId(),
 			request.getScopeId());
 		if (session == null) {
-		    ServerSocketCommunicationHandler.log
-			    .warning("Received a Disconnect Request ma no matching session");
+		    log.warning("Received a Disconnect Request ma no matching session");
 		    return true;
 		}
 		try {
 		    sessionManger.close(session);
 		} catch (final Exception ex) {
-		    ServerSocketCommunicationHandler.log.debug(
-			    "Error closing the session UUID =" + session, ex);
+		    log.debug("Error closing the session UUID =" + session, ex);
 		}
 		return true;
 	    }
@@ -294,66 +287,14 @@ public class ServerSocketCommunicationHandler extends
 	    Thread.currentThread().setName(name);
 	}
 
-	private void stop() {
-	    synchronized (socket) {
-		close = true;
-	    }
-	    manualCloseSocket();
-	}
-
-	private boolean isStop() {
-	    synchronized (socket) {
-		return close;
-	    }
-	}
-
-	private void manualCloseSocket() {
-
-	    try {
-		if (in != null) {
-		    ServerSocketCommunicationHandler.log
-			    .info("Closing OutputStream on the link");
-		    in.close();
-		}
-	    } catch (final IOException e) {
-		ServerSocketCommunicationHandler.log.debug(
-			"Closing InputStream of the link", e);
-	    }
-	    try {
-		if (out != null) {
-		    ServerSocketCommunicationHandler.log
-			    .info("Flushing OutputStream on the link");
-		    out.flush();
-		}
-	    } catch (final IOException e) {
-		ServerSocketCommunicationHandler.log.debug(
-			"Closing InputStream of the link", e);
-	    }
-	    try {
-		if (out != null) {
-		    ServerSocketCommunicationHandler.log
-			    .info("Closing OutputStream on the link");
-		    out.close();
-		}
-	    } catch (final IOException e) {
-		ServerSocketCommunicationHandler.log.debug(
-			"Closing OutputStream of the link", e);
-	    }
-	    try {
-		if (socket != null && socket.isClosed() == false) {
-		    ServerSocketCommunicationHandler.log
-			    .info("Closing Socket on the link");
-		    this.socket.close();
-		}
-	    } catch (final IOException e) {
-		ServerSocketCommunicationHandler.log.debug(
-			"Closing Socket of the link", e);
-	    }
-
-	}
-
 	private String getName() {
 	    return name;
+	}
+
+	@Override
+	protected MessageWrapper getNextMessage(final InputStream in)
+		throws Exception {
+	    return readMessage(in);
 	}
     }
 
@@ -369,8 +310,7 @@ public class ServerSocketCommunicationHandler extends
 		try {
 		    handler.stop();
 		} catch (final Exception ex) {
-		    ServerSocketCommunicationHandler.log.debug(
-			    "Errore closing " + handler.getName(), ex);
+		    log.debug("Errore closing " + handler.getName(), ex);
 		}
 	    }
 	}

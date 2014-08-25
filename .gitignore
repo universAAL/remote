@@ -7,5 +7,6 @@ gw.pom/tenant.karaf.feature/.settings
 gw.pom/tenant.karaf.feature/target
 ri.gateway.communicator/.classpath
 ri.gateway.communicator/.project
+ri.gateway.communicator/.settings
 ri.gateway.communicator/target
 ri.gateway.communicator/uAAL.log

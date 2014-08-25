@@ -1,4 +1,7 @@
 /*
+	Copyright 2014 Universidad Politécnica de Madrid, http://www.upm.es/
+	Life Supporting Technologies
+
     Copyright 2014-2014 CNR-ISTI, http://isti.cnr.it
     Institute of Information Science and Technologies
     of the Italian National Research Council
@@ -61,229 +64,236 @@ import org.universAAL.ri.gateway.eimanager.impl.importing.ImportRequest;
 import org.universAAL.ri.gateway.eimanager.impl.registry.RegistryEntry;
 
 public class ExportedProxyManager extends AbstractProxyManager implements
-        IBusMemberRegistryListener {
+		IBusMemberRegistryListener {
 
-    private Map<String, ProxyBusMember> generatedProxies;
-    private GatewayCommunicator communicator;
-    private ServiceBus serviceBus;
-    private ContextBus contextBus;
-    private IUIBus uiBus;
+	private final Map<String, ProxyBusMember> generatedProxies;
+	private final GatewayCommunicator communicator;
+	private final ServiceBus serviceBus;
+	private final ContextBus contextBus;
+	private final IUIBus uiBus;
 
-    public ExportedProxyManager(final GatewayCommunicator communicator) {
-        super();
-        generatedProxies = new HashMap<String, ProxyBusMember>();
-        this.communicator = communicator;
-        serviceBus = ServiceBusFacade.fetchBus(Activator.mc);
-        contextBus = ContextBusFacade.fetchBus(Activator.mc);
-        uiBus = UIBusFacade.fetchBus(Activator.mc);
+	public ExportedProxyManager(final GatewayCommunicator communicator) {
+		super();
+		generatedProxies = new HashMap<String, ProxyBusMember>();
+		this.communicator = communicator;
+		serviceBus = ServiceBusFacade.fetchBus(Activator.mc);
+		contextBus = ContextBusFacade.fetchBus(Activator.mc);
+		uiBus = UIBusFacade.fetchBus(Activator.mc);
 
-                IBusMemberRegistry registry = Activator.registry.getObject();
-                /*
-        IBusMemberRegistry registry = (IBusMemberRegistry) Activator.mc
-                .getContainer().fetchSharedObject(Activator.mc,
-                        IBusMemberRegistry.busRegistryShareParams);
-                 */
-        registry.addListener(this, false);
-    }
+		final IBusMemberRegistry registry = Activator.registry.getObject();
+		/*
+		 * IBusMemberRegistry registry = (IBusMemberRegistry) Activator.mc
+		 * .getContainer().fetchSharedObject(Activator.mc,
+		 * IBusMemberRegistry.busRegistryShareParams);
+		 */
+		registry.addListener(this, false);
+	}
 
-    public ServiceResponse sendServiceRequest(final String sourceId,
-            final ServiceCall call, final String memberId) {
-        if (generatedProxies.get(sourceId) != null) {
-            return ((ProxyServiceCaller) generatedProxies.get(sourceId))
-                    .invoke(call, memberId);
-        } else {
-            return null;
-        }
-    }
+	public ServiceResponse sendServiceRequest(final String sourceId,
+			final ServiceCall call, final String memberId) {
+		if (generatedProxies.get(sourceId) != null) {
+			return ((ProxyServiceCaller) generatedProxies.get(sourceId))
+					.invoke(call, memberId);
+		} else {
+			return null;
+		}
+	}
 
-    public void handleContextEvent(final String targetId,
-            final ContextEvent contextEvent) throws IOException {
-        Message message = Serializer.Instance.marshallObject(contextEvent);
-        message.setRemoteProxyRegistrationId(targetId);
-        communicator.sendContextEvent(message);
-    }
+	public void handleContextEvent(final String targetId,
+			final ContextEvent contextEvent) throws IOException {
+		final Message message = Serializer.Instance
+				.marshallObject(contextEvent);
+		message.setRemoteProxyRegistrationId(targetId);
+		communicator.sendContextEvent(message);
+	}
 
-    public void handleUIResponse(final String targetId,
-            final UIResponse response) throws IOException {
-        communicator.sendUIResponse(Serializer.Instance
-                .marshallObject(response));
-    }
+	public void handleUIResponse(final String targetId,
+			final UIResponse response) throws IOException {
+		communicator.sendUIResponse(Serializer.Instance
+				.marshallObject(response));
+	}
 
-    public void sendUIRequest(final String sourceId, final UIRequest request) {
-        if (generatedProxies.get(sourceId) != null) {
-            ((ProxyUICaller) generatedProxies.get(sourceId)).invoke(request);
-        }
-    }
+	public void sendUIRequest(final String sourceId, final UIRequest request) {
+		if (generatedProxies.get(sourceId) != null) {
+			((ProxyUICaller) generatedProxies.get(sourceId)).invoke(request);
+		}
+	}
 
-    public ProxyRegistration registerProxies(final ImportRequest importRequest)
-            throws IOException, ClassNotFoundException {
-        ProxyBusMember member = null;
-        ProxyRegistration proxyRegistration = null;
-        switch (BusMemberType.valueOf(importRequest.getMember())) {
-        case ServiceCaller:
-            Map<String, List<ServiceProfile>> profilesMap = (Map<String, List<ServiceProfile>>) serviceBus
-                    .getMatchingServices(importRequest.getServiceType());
+	public ProxyRegistration registerProxies(final ImportRequest importRequest)
+			throws IOException, ClassNotFoundException {
+		ProxyBusMember member = null;
+		ProxyRegistration proxyRegistration = null;
+		switch (BusMemberType.valueOf(importRequest.getMember())) {
+		case ServiceCaller:
+			final Map<String, List<ServiceProfile>> profilesMap = serviceBus
+					.getMatchingServices(importRequest.getServiceType());
 
-            member = new ProxyServiceCaller(this, importRequest.getId(),
-                    Activator.mc, importRequest.getServerNamespace(),
-                    importRequest.getServiceType(), profilesMap);
+			member = new ProxyServiceCaller(this, importRequest.getId(),
+					Activator.mc, importRequest.getServerNamespace(),
+					importRequest.getServiceType(), profilesMap);
 
-            // ServiceProfile[] profilesArray = profilesMap.values().toArray(new
-            // ServiceProfile[0]);
+			// ServiceProfile[] profilesArray = profilesMap.values().toArray(new
+			// ServiceProfile[0]);
 
-            proxyRegistration = new ProxyRegistration(member.getId(),
-                    profilesMap);
-            break;
-        case ContextSubscriber:
-            String[] serializedCpe = importRequest.getCpe();
-            ContextEventPattern[] cpe = new ContextEventPattern[serializedCpe.length];
-            System.out.println("Export received:");
-            for (int i = 0; i < serializedCpe.length; i++) {
-                // System.out.println(serializedCpe[i]);
-                cpe[i] = Serializer.Instance.unmarshallObject(
-                        ContextEventPattern.class, serializedCpe[i], Thread
-                                .currentThread().getContextClassLoader());
-            }
-            member = new ProxyContextSubscriber(this, Activator.mc, cpe);
+			proxyRegistration = new ProxyRegistration(member.getId(),
+					profilesMap);
+			break;
+		case ContextSubscriber:
+			final String[] serializedCpe = importRequest.getCpe();
+			final ContextEventPattern[] cpe = new ContextEventPattern[serializedCpe.length];
+			System.out.println("Export received:");
+			for (int i = 0; i < serializedCpe.length; i++) {
+				// System.out.println(serializedCpe[i]);
+				cpe[i] = Serializer.Instance.unmarshallObject(
+						ContextEventPattern.class, serializedCpe[i], Thread
+								.currentThread().getContextClassLoader());
+			}
+			member = new ProxyContextSubscriber(this, Activator.mc, cpe);
 
-            // ContextEventPattern[] matchedEvents = contextBus
-            // .getAllProvisions(member.getId());
-            proxyRegistration = new ProxyRegistration(member.getId(), cpe);
-            break;
-        case UICaller:
-            UIHandlerProfile[] uiProfiles = uiBus
-                    .getMatchingProfiles(importRequest.getModalityRegex());
+			// ContextEventPattern[] matchedEvents = contextBus
+			// .getAllProvisions(member.getId());
+			proxyRegistration = new ProxyRegistration(member.getId(), cpe);
+			break;
+		case UICaller:
+			// FIXME UICaller does not have profiles to be matched!
+			final UIHandlerProfile[] uiProfiles = uiBus
+					.getMatchingProfiles(importRequest.getModalityRegex());
 
-            member = new ProxyUICaller(this, importRequest.getId(),
-                    Activator.mc, importRequest.getModalityRegex(), uiProfiles);
+			member = new ProxyUICaller(this, importRequest.getId(),
+					Activator.mc, importRequest.getModalityRegex(), uiProfiles);
 
-            proxyRegistration = new ProxyRegistration(member.getId(),
-                    uiProfiles);
-            break;
-        }
-        if (member != null) {
-            generatedProxies.put(member.getId(), member);
-        }
-        return proxyRegistration;
-    }
+			proxyRegistration = new ProxyRegistration(member.getId(),
+					uiProfiles);
+			break;
+		}
+		if (member != null) {
+			generatedProxies.put(member.getId(), member);
+		}
+		return proxyRegistration;
+	}
 
-    public void unregisterProxies(final ImportRequest importRequest) {
-        String id = importRequest.getId();
-        if (generatedProxies.containsKey(id)) {
-            generatedProxies.get(id).removeProxy();
-            generatedProxies.remove(id);
-        }
-    }
+	public void unregisterProxies(final ImportRequest importRequest) {
+		final String id = importRequest.getId();
+		if (generatedProxies.containsKey(id)) {
+			generatedProxies.get(id).removeProxy();
+			generatedProxies.remove(id);
+		}
+	}
 
-    public void registryEntryAdded(final RegistryEntry entry) {
-        /*
-         * if (entry instanceof ExportEntry) {
-         * registerProxiesIfNecessary((ExportEntry) entry); }
-         */
-    }
+	public void registryEntryAdded(final RegistryEntry entry) {
+		/*
+		 * if (entry instanceof ExportEntry) {
+		 * registerProxiesIfNecessary((ExportEntry) entry); }
+		 */
+	}
 
-    public void registryEntryRemoved(final RegistryEntry entry) {
-        /*
-         * if (entry instanceof ExportEntry) {
-         * unregisterProxiesIfNecessary((ExportEntry) entry); }
-         */
-    }
+	public void registryEntryRemoved(final RegistryEntry entry) {
+		/*
+		 * if (entry instanceof ExportEntry) {
+		 * unregisterProxiesIfNecessary((ExportEntry) entry); }
+		 */
+	}
 
-    public void busMemberAdded(final BusMember arg0, final BusType arg1) {
-        reloadServices();
-    }
+	public void busMemberAdded(final BusMember arg0, final BusType arg1) {
+		reloadServices();
+	}
 
-    public void busMemberRemoved(final BusMember arg0, final BusType arg1) {
-        reloadServices();
-    }
+	public void busMemberRemoved(final BusMember arg0, final BusType arg1) {
+		reloadServices();
+	}
 
-    /*
-     * This method refreshes the ServiceProfiles/UIHandlerProfiles of every
-     * proxy that is remotely imported on remote spaces. If a set of
-     * ServiceProfiles/UIHandlerProfiles changes for any of exported services,
-     * the information is sent to other spaces to refresh their knowledge.
-     */
-    private void reloadServices() {
-        for (ProxyBusMember p : generatedProxies.values()) {
-            if (p instanceof ProxyServiceCaller) {
-                ProxyServiceCaller member = (ProxyServiceCaller) p;
-                Map<String, List<ServiceProfile>> profilesMap = (Map<String, List<ServiceProfile>>) serviceBus
-                        .getMatchingServices(member.getServiceType());
+	/*
+	 * This method refreshes the ServiceProfiles/UIHandlerProfiles of every
+	 * proxy that is remotely imported on remote spaces. If a set of
+	 * ServiceProfiles/UIHandlerProfiles changes for any of exported services,
+	 * the information is sent to other spaces to refresh their knowledge.
+	 */
+	private void reloadServices() {
+		for (final ProxyBusMember p : generatedProxies.values()) {
+			if (p instanceof ProxyServiceCaller) {
+				final ProxyServiceCaller member = (ProxyServiceCaller) p;
+				final Map<String, List<ServiceProfile>> profilesMap = serviceBus
+						.getMatchingServices(member.getServiceType());
 
-                List<ServiceProfile> profilesList = new ArrayList<ServiceProfile>();
-                for (List<ServiceProfile> value : profilesMap.values()) {
-                    profilesList.addAll(value);
-                }
+				final List<ServiceProfile> profilesList = new ArrayList<ServiceProfile>();
+				for (final List<ServiceProfile> value : profilesMap.values()) {
+					profilesList.addAll(value);
+				}
 
-                ServiceProfile[] profiles = profilesList
-                        .toArray(new ServiceProfile[0]);
+				final ServiceProfile[] profiles = profilesList
+						.toArray(new ServiceProfile[0]);
 
-                if (!Arrays.equals(profiles, member.getProfiles())) {
-                    try {
-                        member.setProfiles(profilesMap);
-                        Map<String, List<String>> serializedMap = new HashMap<String, List<String>>();
+				if (!Arrays.equals(profiles, member.getProfiles())) {
+					try {
+						member.setProfiles(profilesMap);
+						final Map<String, List<String>> serializedMap = new HashMap<String, List<String>>();
 
-                        for (String key : profilesMap.keySet()) {
-                            if (serializedMap.get(key) == null) {
-                                serializedMap.put(key, new ArrayList<String>());
-                            }
-                            for (ServiceProfile pr : profilesMap.get(key)) {
-                                serializedMap.get(key).add(
-                                        (String) Serializer.Instance
-                                                .marshallObject(pr)
-                                                .getContent());
-                            }
-                        }
+						for (final String key : profilesMap.keySet()) {
+							if (serializedMap.get(key) == null) {
+								serializedMap.put(key, new ArrayList<String>());
+							}
+							for (final ServiceProfile pr : profilesMap.get(key)) {
+								serializedMap.get(key).add(
+										(String) Serializer.Instance
+												.marshallObject(pr)
+												.getContent());
+							}
+						}
 
-                        /*
-                         * serialized = new
-                         * String[profiles.values().size()+2*profiles
-                         * .keySet().s];
-                         *
-                         *
-                         * for (int i = 2; i < profiles.values().size().length +
-                         * 2; i++) { serialized[i] = (String)
-                         * Serializer.Instance
-                         * .marshallObject(profiles[i]).getContent(); }
-                         */
-                        Object reg = new ProxyRegistration(member.getId(),
-                                serializedMap);
-                        communicator.sendImportRefresh(new Message(reg));
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            } else if (p instanceof ProxyUICaller) {
-                ProxyUICaller member = (ProxyUICaller) p;
-                UIHandlerProfile[] profiles = uiBus.getMatchingProfiles(member
-                        .getModalityRegex());
-                if (!Arrays.equals(profiles, member.getHandlerProfiles())) {
-                    try {
-                        member.setHandlerProfiles(profiles);
-                        String[] serialized = new String[profiles.length];
-                        for (int i = 0; i < profiles.length; i++) {
-                            serialized[i] = (String) Serializer.Instance
-                                    .marshallObject(profiles[i]).getContent();
-                        }
-                        Object reg = new ProxyRegistration(member.getId(),
-                                serialized);
-                        communicator.sendImportRefresh(new Message(reg));
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        }
-    }
+						/*
+						 * serialized = new
+						 * String[profiles.values().size()+2*profiles
+						 * .keySet().s];
+						 * 
+						 * 
+						 * for (int i = 2; i < profiles.values().size().length +
+						 * 2; i++) { serialized[i] = (String)
+						 * Serializer.Instance
+						 * .marshallObject(profiles[i]).getContent(); }
+						 */
+						final Object reg = new ProxyRegistration(
+								member.getId(), serializedMap);
+						communicator.sendImportRefresh(new Message(reg));
+					} catch (final IOException e) {
+						e.printStackTrace();
+					}
+				}
+			} else if (p instanceof ProxyUICaller) {
+				// FIXME UICaller does not have profiles!
+				final ProxyUICaller member = (ProxyUICaller) p;
+				final UIHandlerProfile[] profiles = uiBus
+						.getMatchingProfiles(member.getModalityRegex());
+				if (!Arrays.equals(profiles, member.getHandlerProfiles())) {
+					try {
+						member.setHandlerProfiles(profiles);
+						final String[] serialized = new String[profiles.length];
+						for (int i = 0; i < profiles.length; i++) {
+							serialized[i] = (String) Serializer.Instance
+									.marshallObject(profiles[i]).getContent();
+						}
+						final Object reg = new ProxyRegistration(
+								member.getId(), serialized);
+						communicator.sendImportRefresh(new Message(reg));
+					} catch (final IOException e) {
+						e.printStackTrace();
+					}
+				}
+			} else if (p instanceof ProxyContextSubscriber) {
+				// FIXME context subscriber Can change subscriptions.
+			}
 
-    public void regParamsAdded(String busMemberID, Resource[] params) {
-        // TODO Auto-generated method stub
+		}
+	}
 
-    }
+	public void regParamsAdded(final String busMemberID, final Resource[] params) {
+		// TODO Auto-generated method stub
 
-    public void regParamsRemoved(String busMemberID, Resource[] params) {
-        // TODO Auto-generated method stub
+	}
 
-    }
+	public void regParamsRemoved(final String busMemberID,
+			final Resource[] params) {
+		// TODO Auto-generated method stub
+
+	}
 
 }

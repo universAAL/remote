@@ -51,12 +51,10 @@ ri.gateway.communicator/src/main/java/org/universAAL/ri/gateway/eimanager/Import
 ri.gateway.communicator/src/main/java/org/universAAL/ri/gateway/eimanager/ImportManager.java -text
 ri.gateway.communicator/src/main/java/org/universAAL/ri/gateway/eimanager/ImportOperationInterceptor.java -text
 ri.gateway.communicator/src/main/java/org/universAAL/ri/gateway/eimanager/ImportPremise.java -text
-ri.gateway.communicator/src/main/java/org/universAAL/ri/gateway/eimanager/RepoEIManager.java -text
 ri.gateway.communicator/src/main/java/org/universAAL/ri/gateway/eimanager/exception/InterruptExecutionException.java -text
 ri.gateway.communicator/src/main/java/org/universAAL/ri/gateway/eimanager/impl/AbstractProxyManager.java -text
 ri.gateway.communicator/src/main/java/org/universAAL/ri/gateway/eimanager/impl/BusMemberType.java -text
 ri.gateway.communicator/src/main/java/org/universAAL/ri/gateway/eimanager/impl/EIConstraintEvaluator.java -text
-ri.gateway.communicator/src/main/java/org/universAAL/ri/gateway/eimanager/impl/EIManagerRegistryListener.java -text
 ri.gateway.communicator/src/main/java/org/universAAL/ri/gateway/eimanager/impl/EIOperationManager.java -text
 ri.gateway.communicator/src/main/java/org/universAAL/ri/gateway/eimanager/impl/ExportInterceptorsComparator.java -text
 ri.gateway.communicator/src/main/java/org/universAAL/ri/gateway/eimanager/impl/ExportManagerImpl.java -text

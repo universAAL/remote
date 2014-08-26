@@ -30,7 +30,7 @@ import java.io.OutputStream;
 
 import org.bouncycastle.crypto.CryptoException;
 import org.universAAL.middleware.serialization.MessageContentSerializerEx;
-import org.universAAL.middleware.tracker.Activator;
+import org.universAAL.ri.gateway.communicator.Activator;
 import org.universAAL.ri.gateway.communicator.service.Message;
 
 public enum Serializer {

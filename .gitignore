@@ -5,6 +5,10 @@ gw.pom/tenant.karaf.feature/.classpath
 gw.pom/tenant.karaf.feature/.project
 gw.pom/tenant.karaf.feature/.settings
 gw.pom/tenant.karaf.feature/target
+ri.gateway.communicator-refactor/.classpath
+ri.gateway.communicator-refactor/.project
+ri.gateway.communicator-refactor/target
+ri.gateway.communicator-refactor/uAAL.log
 ri.gateway.communicator/.classpath
 ri.gateway.communicator/.project
 ri.gateway.communicator/.settings

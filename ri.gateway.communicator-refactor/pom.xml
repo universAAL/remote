@@ -9,7 +9,7 @@
     <relativePath>../gw.pom</relativePath>
   </parent>
   <artifactId>ri.gateway.multitenant</artifactId>
-  <version>3.1.1-SNAPSHOT</version>
+  <version>3.1.2-SNAPSHOT</version>
   <packaging>bundle</packaging>
   <name>universAAL Remote Interoperability AALSpace Gateway</name>
   <description>Module for inter-AALSpace communication</description>
@@ -18,7 +18,7 @@
       <groupId>org.universAAL.support</groupId>
       <artifactId>itests</artifactId>
     </dependency>
-    <dependency>
+ <!--   <dependency>
       <groupId>org.osgi</groupId>
       <artifactId>org.osgi.core</artifactId>
     </dependency>
@@ -30,10 +30,10 @@
       <groupId>org.easymock</groupId>
       <artifactId>easymock</artifactId>
       <version>3.1</version>
-    </dependency>
+    </dependency> -->
     <dependency>
       <groupId>org.universAAL.middleware</groupId>
-      <artifactId>mw.bus.context.osgi</artifactId>
+      <artifactId>mw.bus.context.core</artifactId>
     </dependency>
     <dependency>
       <groupId>org.universAAL.middleware</groupId>
@@ -41,21 +41,21 @@
     </dependency>
     <dependency>
       <groupId>org.universAAL.middleware</groupId>
-      <artifactId>mw.bus.service.osgi</artifactId>
+      <artifactId>mw.bus.service.core</artifactId>
     </dependency>
     <dependency>
       <groupId>org.universAAL.middleware</groupId>
-      <artifactId>mw.bus.ui.osgi</artifactId>
+      <artifactId>mw.bus.ui.core</artifactId>
     </dependency>
     <dependency>
       <groupId>org.universAAL.middleware</groupId>
-      <artifactId>mw.bus.tracker.osgi</artifactId>
+      <artifactId>mw.bus.tracker.core</artifactId>
     </dependency>
     <dependency>
       <groupId>org.universAAL.middleware</groupId>
-      <artifactId>mw.data.serialization.osgi</artifactId>
+      <artifactId>mw.data.serialization.core</artifactId>
     </dependency>
-    <dependency>
+ <!--   <dependency>
       <groupId>org.bouncycastle</groupId>
       <artifactId>jce.jdk13</artifactId>
     </dependency>
@@ -66,7 +66,7 @@
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-    </dependency>
+    </dependency>-->
   </dependencies>
   <build>
     <plugins>
@@ -80,7 +80,7 @@
             <Bundle-Activator>org.universAAL.ri.gateway.communicator.Activator</Bundle-Activator>
             <Bundle-Description>${project.description}</Bundle-Description>
             <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
-            <Import-Package>org.osgi.framework;version="[1,2)",
+ <!--           <Import-Package>org.osgi.framework;version="[1,2)",
               org.bouncycastle.crypto,
               org.bouncycastle.crypto.engines,
               org.bouncycastle.crypto.modes,
@@ -104,7 +104,7 @@
               org.universAAL.middleware.ui,
               org.universAAL.middleware.managers.api,
               com.google.common.net.*
-            </Import-Package>
+            </Import-Package> -->
             <Export-Package>
               org.universAAL.ri.gateway.communicator.service,
               org.universAAL.log,

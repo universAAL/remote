@@ -18,7 +18,7 @@
     See the License for the specific language governing permissions and
     limitations under the License.
  */
-package org.universAAL.ri.gateway.link.protocol;
+package org.universAAL.ri.gateway.protocol.link;
 
 import java.io.Serializable;
 import java.util.UUID;
@@ -29,17 +29,17 @@ import java.util.UUID;
  * @version $LastChangedRevision$ ($LastChangedDate$)
  *
  */
-public class ReconnectionRequest implements Serializable {
+public class ConnectionResponse implements Serializable {
 
     /**
      *
      */
-    private static final long serialVersionUID = -7160538663305545199L;
+    private static final long serialVersionUID = -1872676178834761810L;
     private String peerId;
     private String aalSpaceId;
     private UUID sessionId;
 
-    public ReconnectionRequest(final String peer, final String space, final UUID session) {
+    public ConnectionResponse(final String peer, final String space, final UUID session) {
         super();
         this.peerId = peer;
         this.aalSpaceId = space;
@@ -48,7 +48,7 @@ public class ReconnectionRequest implements Serializable {
 
     @Override
     public String toString() {
-        return "ReconnectionRequest ["
+        return "ConnectionResponse ["
                 + (peerId != null ? "peerId =" + peerId  + ", " : "")
                 + (aalSpaceId != null ? "aalSpaceId =" + aalSpaceId  + ", " : "")
                 + (aalSpaceId != null ? "scopeId=" + aalSpaceId + ", " : "")
@@ -71,4 +71,5 @@ public class ReconnectionRequest implements Serializable {
     public UUID getSessionId() {
         return sessionId;
     }
+
 }

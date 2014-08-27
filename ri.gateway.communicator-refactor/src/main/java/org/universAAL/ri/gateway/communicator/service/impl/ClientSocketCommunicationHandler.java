@@ -43,7 +43,7 @@ import org.universAAL.ri.gateway.communicator.Activator;
 import org.universAAL.ri.gateway.communicator.service.ComunicationEventListener;
 import org.universAAL.ri.gateway.communicator.service.GatewayCommunicator;
 import org.universAAL.ri.gateway.communicator.service.GatewayCommunicator.RoutingMode;
-import org.universAAL.ri.gateway.link.protocol.DisconnectionRequest;
+import org.universAAL.ri.gateway.protocol.link.DisconnectionRequest;
 
 import com.google.common.net.HostAndPort;
 

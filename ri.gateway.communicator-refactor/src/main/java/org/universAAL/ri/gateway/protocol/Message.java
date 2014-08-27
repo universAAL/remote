@@ -1,0 +1,81 @@
+/*******************************************************************************
+ * Copyright 2014 Universidad Politécnica de Madrid UPM
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ******************************************************************************/
+package org.universAAL.ri.gateway.protocol;
+
+import java.io.Serializable;
+
+/**
+ * Main Message class. All Messages interchanged between ASGs should be
+ * subclasses of this class.
+ * 
+ * @author amedrano
+ * 
+ */
+public abstract class Message implements Serializable {
+
+    /**
+     * Serial version
+     */
+    private static final long serialVersionUID = 5115999991466796697L;
+
+    /**
+     * Next Sequence id to be issued. this will give a "unique" number per
+     * Message.
+     */
+    private static short currentSequence = 0;
+
+    /**
+     * The sequence of this Message.
+     */
+    private final short sequence;
+
+    /**
+     * If this message is a response, this is the request sequence.
+     */
+    protected short inResponseTo;
+
+    /**
+     * Constructor for a {@link Message}.
+     */
+    public Message() {
+	sequence = currentSequence;
+	currentSequence = (short) ((currentSequence + 1) % Short.MAX_VALUE);
+	inResponseTo = -1;
+    }
+
+    /**
+     * Constructor for a {@link Message} in response to another.
+     * 
+     * @param respondTo
+     *            message to which to respond to.
+     */
+    public Message(final Message respondTo) {
+	this();
+	inResponseTo = respondTo.sequence;
+    }
+
+    public short getSequence() {
+	return sequence;
+    }
+
+    public short getInResponseTo() {
+	return inResponseTo;
+    }
+
+    public boolean isResponse() {
+	return inResponseTo != -1;
+    }
+}

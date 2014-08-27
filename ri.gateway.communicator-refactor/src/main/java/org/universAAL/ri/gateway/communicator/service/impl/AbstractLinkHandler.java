@@ -31,10 +31,10 @@ import org.universAAL.log.LoggerFactory;
 import org.universAAL.middleware.managers.api.AALSpaceManager;
 import org.universAAL.ri.gateway.communicator.Activator;
 import org.universAAL.ri.gateway.communicator.service.GatewayCommunicator;
-import org.universAAL.ri.gateway.link.protocol.ConnectionRequest;
-import org.universAAL.ri.gateway.link.protocol.ConnectionResponse;
-import org.universAAL.ri.gateway.link.protocol.DisconnectionRequest;
-import org.universAAL.ri.gateway.link.protocol.ReconnectionRequest;
+import org.universAAL.ri.gateway.protocol.link.ConnectionRequest;
+import org.universAAL.ri.gateway.protocol.link.ConnectionResponse;
+import org.universAAL.ri.gateway.protocol.link.DisconnectionRequest;
+import org.universAAL.ri.gateway.protocol.link.ReconnectionRequest;
 
 /**
  * This class implements an generic link handler that has to be refined

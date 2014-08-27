@@ -54,15 +54,6 @@ public class Message implements Serializable {
 	this.content = content;
     }
 
-    /**
-     * Returns content of the message.
-     * 
-     * @return content of the message
-     */
-    public Object getContent() {
-	return content;
-    }
-
     @Override
     public String toString() {
 	if (content != null) {
@@ -90,6 +81,15 @@ public class Message implements Serializable {
 	    return 0;
 	}
 	return content.hashCode();
+    }
+
+    /**
+     * Returns content of the message.
+     * 
+     * @return content of the message
+     */
+    public Object getContent() {
+        return content;
     }
 
     public String getRemoteProxyRegistrationId() {

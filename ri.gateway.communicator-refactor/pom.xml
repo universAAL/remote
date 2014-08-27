@@ -55,11 +55,11 @@
       <groupId>org.universAAL.middleware</groupId>
       <artifactId>mw.data.serialization.core</artifactId>
     </dependency>
- <!--   <dependency>
+    <dependency>
       <groupId>org.bouncycastle</groupId>
       <artifactId>jce.jdk13</artifactId>
     </dependency>
-    <dependency>
+ <!--   <dependency>
       <groupId>com.google.guava</groupId>
       <artifactId>guava</artifactId>
     </dependency>

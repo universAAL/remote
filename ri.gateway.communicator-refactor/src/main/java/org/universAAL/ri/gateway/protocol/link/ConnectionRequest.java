@@ -18,7 +18,7 @@
     See the License for the specific language governing permissions and
     limitations under the License.
  */
-package org.universAAL.ri.gateway.link.protocol;
+package org.universAAL.ri.gateway.protocol.link;
 
 import java.io.Serializable;
 

@@ -16,7 +16,7 @@
 package org.universAAL.ri.gateway.protocol;
 
 import org.universAAL.middleware.rdf.Resource;
-import org.universAAL.ri.gateway.ProxyBusMember;
+import org.universAAL.ri.gateway.proxies.ProxyBusMember;
 
 /**
  * @author amedrano
@@ -69,9 +69,9 @@ public class ImportMessage extends Message {
     }
 
     /**
-     * @return the busMember
+     * @return the busMemberId
      */
-    public final String getBusMember() {
+    public final String getBusMemberId() {
 	return busMemberId;
     }
 
@@ -115,7 +115,7 @@ public class ImportMessage extends Message {
      * 
      * @param requestedBusMember
      *            the busMember identification for future reference, This should
-     *            be the
+     *            be the reference of the proxy created locally.
      * @param busMemberParameters
      * @return the message.
      */
@@ -134,12 +134,18 @@ public class ImportMessage extends Message {
      * @param request
      *            the request to respond to.
      * @param proxyIdentifyer
-     *            The identifier of the local proxy created, null if the request
-     *            is denied.
+     *            The identifier of the local proxy created (so remote
+     *            associates it to its local), null if the request is denied.
      * @return the message.
      */
     public static ImportMessage importResponse(final ImportMessage request,
 	    final String proxyIdentifyer) {
+	if (!request.getMessageType().equals(ImportMessageType.ImportRequest)
+		|| !request.getMessageType().equals(
+			ImportMessageType.ImportRefresh)) {
+	    throw new RuntimeException(
+		    "Response must be in response to a request or a refresh.");
+	}
 	final ImportMessage im = new ImportMessage(request);
 	im.messageType = ImportMessageType.ImportResponse;
 	im.busMemberId = proxyIdentifyer;
@@ -152,7 +158,7 @@ public class ImportMessage extends Message {
      * 
      * @param requestedBusMember
      *            the busMember identification for future reference, This should
-     *            be the
+     *            be the local reference.
      * @param busMemberParameters
      * @return the message.
      */
@@ -171,7 +177,7 @@ public class ImportMessage extends Message {
      * 
      * @param requestedBusMember
      *            the busMember identification for future reference, This should
-     *            be the
+     *            be the local proxy reference.
      * @return the message.
      */
     public static ImportMessage importRemove(final String requestedBusMember) {

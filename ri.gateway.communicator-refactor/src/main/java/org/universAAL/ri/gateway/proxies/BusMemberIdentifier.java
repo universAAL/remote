@@ -13,11 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package org.universAAL.ri.gateway;
+package org.universAAL.ri.gateway.proxies;
 
 import java.io.Serializable;
 
 import org.universAAL.middleware.bus.member.BusMember;
+import org.universAAL.ri.gateway.protocol.MessageSender;
 
 /**
  * An identifier of a concrete {@link BusMember} across all Scopes.
@@ -33,51 +34,38 @@ public class BusMemberIdentifier implements Serializable {
     private static final long serialVersionUID = -1141333844448577928L;
 
     /**
-     * The scope (or tenantID) of the {@link BusMember}
+     * {@link MessageSender} to use in order to reach the {@link BusMember}
      */
-    private final String scope;
+    private final MessageSender sender;
 
     /**
-     * The {@link BusMember} id whithin the scope.
+     * The {@link BusMember} id at the remote side identified.
      */
     private final String busMemberid;
 
     /**
      * Constructor for a {@link BusMember} identifier.
      * 
-     * @param scope
+     * @param MessageSender
      * @param busMemberid
      */
-    public BusMemberIdentifier(final String scope, final String busMemberid) {
+    public BusMemberIdentifier(final MessageSender MessageSender,
+	    final String busMemberid) {
 	super();
-	if (scope == null || busMemberid == null) {
+	if (MessageSender == null || busMemberid == null) {
 	    throw new RuntimeException("Scope or BusmemberId Must not be null");
 	}
-	this.scope = scope;
+	this.sender = MessageSender;
 	this.busMemberid = busMemberid;
     }
 
     /**
-     * Constructor for a {@link BusMember} identifier, given a local
-     * {@link BusMember}
+     * Get the {@link MessageSender} to reach the {@link BusMember}.
      * 
-     * @param scope
-     * @param busMemberid
+     * @return the MessageSender.
      */
-    public BusMemberIdentifier(final BusMember bm) {
-	super();
-	// TODO find local scope
-	this.scope = "";
-	this.busMemberid = bm.getURI();
-    }
-
-    /**
-     * Get the scope of the BusMember.
-     * 
-     * @return the scope.
-     */
-    public String getScope() {
-	return scope;
+    public MessageSender getChannel() {
+	return sender;
     }
 
     /**
@@ -87,6 +75,14 @@ public class BusMemberIdentifier implements Serializable {
      */
     public String getBusMemberid() {
 	return busMemberid;
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public boolean equals(final Object obj) {
+	return obj instanceof BusMemberIdentifier
+		&& ((BusMemberIdentifier) obj).sender.equals(sender)
+		&& ((BusMemberIdentifier) obj).busMemberid.equals(busMemberid);
     }
 
 }

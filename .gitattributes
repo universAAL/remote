@@ -16,10 +16,8 @@ ri.gateway.communicator-refactor/src/main/java/org/universAAL/ioc/dependencies/i
 ri.gateway.communicator-refactor/src/main/java/org/universAAL/ioc/dependencies/impl/WaitingDependencyProxy.java svneol=native#text/plain
 ri.gateway.communicator-refactor/src/main/java/org/universAAL/log/Logger.java svneol=native#text/plain
 ri.gateway.communicator-refactor/src/main/java/org/universAAL/log/LoggerFactory.java svneol=native#text/plain
-ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/BusMemberIdentifier.java -text svneol=unset#text/plain
 ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/Exporter.java -text svneol=unset#text/plain
 ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/Gateway.java -text svneol=unset#text/plain
-ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/ProxyBusMember.java -text svneol=unset#text/plain
 ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/Session.java -text svneol=unset#text/plain
 ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/communicator/Activator.java -text
 ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/communicator/service/CommunicationException.java -text
@@ -101,6 +99,10 @@ ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/protoco
 ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/protocol/link/ConnectionResponse.java svneol=native#text/plain
 ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/protocol/link/DisconnectionRequest.java svneol=native#text/plain
 ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/protocol/link/ReconnectionRequest.java svneol=native#text/plain
+ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/proxies/BusMemberIdentifier.java -text svneol=unset#text/plain
+ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/proxies/ProxyBusMember.java -text svneol=unset#text/plain
+ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/proxies/ProxyBusMemberFactory.java -text svneol=unset#text/plain
+ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/proxies/ProxyPool.java -text svneol=unset#text/plain
 ri.gateway.communicator/ASL2.0.txt -text
 ri.gateway.communicator/NOTICE.txt -text
 ri.gateway.communicator/pom.xml -text

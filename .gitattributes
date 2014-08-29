@@ -95,7 +95,9 @@ ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/eimanag
 ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/eimanager/impl/registry/RepoOperation.java -text
 ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/eimanager/impl/security/ExportSecurityOperationInterceptor.java -text
 ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/eimanager/impl/security/ImportSecurityOperationInterceptor.java -text
+ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/operations/ExportOpertaionChain.java -text svneol=unset#text/plain
 ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/operations/OperationChain.java -text svneol=unset#text/plain
+ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/operations/OperationChainManager.java -text svneol=unset#text/plain
 ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/protocol/ImportMessage.java -text svneol=unset#text/plain
 ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/protocol/Message.java -text svneol=unset#text/plain
 ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/protocol/WrappedBusMessage.java -text svneol=unset#text/plain

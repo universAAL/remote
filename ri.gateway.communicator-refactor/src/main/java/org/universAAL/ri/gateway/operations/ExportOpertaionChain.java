@@ -15,14 +15,16 @@
  ******************************************************************************/
 package org.universAAL.ri.gateway.operations;
 
+import org.universAAL.ri.gateway.proxies.ProxyBusMember;
+
 /**
+ * Interface to Check whether a proxy is allowed to be exported
+ * 
  * @author amedrano
  * 
  */
-public interface OperationChain {
+public interface ExportOpertaionChain extends OperationChain {
 
-    enum OperationResult {
-	ALLOW, DENY,
-    }
+    OperationResult canBeExported(ProxyBusMember proxy);
 
 }

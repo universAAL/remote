@@ -8,9 +8,6 @@ ri.gateway.communicator-refactor/ASL2.0.txt -text
 ri.gateway.communicator-refactor/NOTICE.txt -text
 ri.gateway.communicator-refactor/pom.xml -text
 ri.gateway.communicator-refactor/ri.gateway.multitenant.properties -text
-ri.gateway.communicator-refactor/src/docs/ASG-Connect.uxf -text
-ri.gateway.communicator-refactor/src/docs/ASG-Disconnect.uxf -text
-ri.gateway.communicator-refactor/src/docs/ASG-Failure.uxf -text
 ri.gateway.communicator-refactor/src/main/java/org/universAAL/ioc/dependencies/DependencyProxy.java svneol=native#text/plain
 ri.gateway.communicator-refactor/src/main/java/org/universAAL/ioc/dependencies/impl/NPEDependencyProxy.java svneol=native#text/plain
 ri.gateway.communicator-refactor/src/main/java/org/universAAL/ioc/dependencies/impl/WaitingDependencyProxy.java svneol=native#text/plain
@@ -112,6 +109,8 @@ ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/proxies
 ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/proxies/ProxyBusMember.java -text svneol=unset#text/plain
 ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/proxies/ProxyBusMemberFactory.java -text svneol=unset#text/plain
 ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/proxies/ProxyPool.java -text svneol=unset#text/plain
+ri.gateway.communicator-refactor/src/main/javadoc/org/universAAL/ri/gateway/doc-files/Import-ImportRequest.png -text
+ri.gateway.communicator-refactor/src/main/javadoc/org/universAAL/ri/gateway/package-info.java -text
 ri.gateway.communicator/ASL2.0.txt -text
 ri.gateway.communicator/NOTICE.txt -text
 ri.gateway.communicator/pom.xml -text

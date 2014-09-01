@@ -22,10 +22,6 @@ import org.universAAL.ri.gateway.proxies.ProxyBusMember;
  * @author amedrano
  * 
  */
-/**
- * @author amedrano
- * 
- */
 public class ImportMessage extends Message {
 
     /**

@@ -64,5 +64,5 @@ public interface OperationChainManager {
      * @TODO interface to be refined!
      * @return
      */
-    OperationChain getOutgoingMessgaeOperationChain();
+    OperationChain getOutgoingMessageOperationChain();
 }

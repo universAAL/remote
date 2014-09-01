@@ -86,7 +86,7 @@ public class ConfigurationFile extends UpdatedPropertiesFile implements
     }
 
     /** {@inheritDoc} */
-    public OperationChain getOutgoingMessgaeOperationChain() {
+    public OperationChain getOutgoingMessageOperationChain() {
 	// TODO Auto-generated method stub
 	return null;
     }

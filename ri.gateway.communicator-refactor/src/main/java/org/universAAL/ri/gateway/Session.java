@@ -28,7 +28,7 @@ import org.universAAL.ri.gateway.proxies.ProxyPool;
 
 /**
  * Representation of a one to one link between 2 ASGs. It is in charge of
- * connecting the communication layer with the Importer.
+ * connecting the communication layer with the Importer and proxies.
  * 
  * @author amedrano
  * 
@@ -43,6 +43,8 @@ public class Session implements ComunicationEventListener, MessageSender,
 
     public Session(final Configuration config) {
 	this.config = config;
+	//
+
     }
 
     public boolean onConnect(final CommunicationHandler ch, final LinkContext lc) {
@@ -87,8 +89,8 @@ public class Session implements ComunicationEventListener, MessageSender,
 	return config.getIncomingMessageOperationChain();
     }
 
-    public OperationChain getOutgoingMessgaeOperationChain() {
-	return config.getOutgoingMessgaeOperationChain();
+    public OperationChain getOutgoingMessageOperationChain() {
+	return config.getOutgoingMessageOperationChain();
     }
 
 }

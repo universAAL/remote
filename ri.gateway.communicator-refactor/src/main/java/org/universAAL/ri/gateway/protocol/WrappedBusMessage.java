@@ -33,7 +33,8 @@ public class WrappedBusMessage extends Message {
     private static final long serialVersionUID = 7828528558396004815L;
 
     /**
-     * Destination of this {@link WrappedBusMessage}.
+     * Destination of this {@link WrappedBusMessage}, i.e: the BusMemberId of
+     * the proxy.
      */
     private final String destination;
 
@@ -42,7 +43,15 @@ public class WrappedBusMessage extends Message {
      */
     private String content;
 
-    protected WrappedBusMessage(final String destination,
+    /**
+     * Constructor of a wrapped Message.
+     * 
+     * @param destination
+     *            the remote BusMemberId how should handle the message.
+     * @param busMessage
+     *            The message it self.
+     */
+    public WrappedBusMessage(final String destination,
 	    final ScopedResource busMessage) {
 	super();
 	this.destination = destination;
@@ -86,8 +95,22 @@ public class WrappedBusMessage extends Message {
 	return this.content;
     }
 
+    /**
+     * Get the destination Proxy BusMemberID.
+     * 
+     * @return
+     */
     public String getRemoteProxyRegistrationId() {
 	return destination;
+    }
+
+    /**
+     * Un marshal the Content into a BusMessage.
+     * 
+     * @return
+     */
+    public ScopedResource getMessage() {
+
     }
 
 }

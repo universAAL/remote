@@ -18,6 +18,7 @@ package org.universAAL.ri.gateway.proxies;
 import java.util.Collection;
 
 import org.universAAL.middleware.bus.member.BusMember;
+import org.universAAL.middleware.rdf.Resource;
 import org.universAAL.ri.gateway.Session;
 import org.universAAL.ri.gateway.protocol.ImportMessage;
 
@@ -49,7 +50,7 @@ public class ProxyPool {
 	// TODO Auto-generated method stub
     }
 
-    public ProxyBusMember searchCompatible(final ProxyBusMember pbm) {
+    public ProxyBusMember searchCompatible(final Resource[] newParameters) {
 	// TODO Auto-generated method stub
 	return null;
     }
@@ -86,13 +87,7 @@ public class ProxyPool {
     public void sessionEnding(final Session session) {
 	final Collection<ProxyBusMember> proxies = all();
 	for (final ProxyBusMember p : proxies) {
-	    final Collection<BusMemberIdentifier> refs = p
-		    .getRemoteProxiesReferences();
-	    for (final BusMemberIdentifier bmId : refs) {
-		if (bmId.getChannel().equals(session)) {
-		    p.removeRemoteProxyReference(bmId);
-		}
-	    }
+	    p.removeRemoteProxyReferences(session);
 	    if (p.getRemoteProxiesReferences().isEmpty()) {
 		p.close();
 	    }

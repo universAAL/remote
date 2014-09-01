@@ -15,6 +15,7 @@
  ******************************************************************************/
 package org.universAAL.ri.gateway;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
@@ -51,19 +52,20 @@ public class Exporter implements IBusMemberRegistryListener {
 
     // private Map<String, ProxyBusMember> exported;
 
-    private List<BusMember> tracked;
+    private final List<BusMember> tracked;
 
-    private ProxyPool pool;
+    private final ProxyPool pool;
 
     /**
      *  
      */
-    public Exporter() {
-	// TODO Auto-generated constructor stub
+    public Exporter(final ProxyPool pool) {
+	this.pool = pool;
+	tracked = new ArrayList<BusMember>();
     }
 
     /**
-     * Checks if the {@link ProxyBusMember} can be exported. Is so, sends the
+     * Checks if the {@link ProxyBusMember} can be exported. If so, sends the
      * import request message, and waits for response, if the import is
      * accepted, then the proxy will be associated to the remote proxy in the
      * response.
@@ -165,8 +167,9 @@ public class Exporter implements IBusMemberRegistryListener {
      */
     private boolean isExportable(final BusMember member) {
 	// XXX in future add general security checks.
-	return member instanceof ServiceCallee
-		|| member instanceof ContextPublisher;
+	return (member instanceof ServiceCallee || member instanceof ContextPublisher)
+		&& !(member instanceof ProxyBusMember);
+	// and they are not imported proxies!
     }
 
     public void busMemberRemoved(final BusMember member, final BusType type) {
@@ -193,7 +196,6 @@ public class Exporter implements IBusMemberRegistryListener {
     }
 
     private void refresh(final String busMemberID, final Resource[] orgigParams) {
-	// TODO
 	// locate local proxy representative in pool
 	final ProxyBusMember pbm = pool.get(busMemberID);
 	if (pbm != null) {
@@ -219,7 +221,7 @@ public class Exporter implements IBusMemberRegistryListener {
 		    }
 		} else {
 		    // new parameters are not allowed, send remove
-
+		    s.Send(ImportMessage.importRemove(busMemberID));
 		}
 	    }
 	    // update all references

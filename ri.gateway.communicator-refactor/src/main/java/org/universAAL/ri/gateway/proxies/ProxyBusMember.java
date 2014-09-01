@@ -19,6 +19,7 @@ import java.util.Collection;
 
 import org.universAAL.middleware.bus.member.BusMember;
 import org.universAAL.middleware.rdf.Resource;
+import org.universAAL.ri.gateway.protocol.MessageSender;
 import org.universAAL.ri.gateway.protocol.WrappedBusMessage;
 
 /**
@@ -33,7 +34,7 @@ public interface ProxyBusMember {
     /**
      * Get the busmemberId. <br>
      * For imported proxies this ID of the internal busMember of the proxy. <br>
-     * For exported prosies this ID is of the represented {@link BusMember}.
+     * For exported proxies this ID is of the represented {@link BusMember}.
      * 
      * @return
      */
@@ -42,6 +43,10 @@ public interface ProxyBusMember {
     void addRemoteProxyReference(BusMemberIdentifier remoteReference);
 
     void removeRemoteProxyReference(BusMemberIdentifier remoteReference);
+
+    void removeRemoteProxyReferences(MessageSender session);
+
+    // remember to avoid concurrent deletion (while iterating)
 
     Collection<BusMemberIdentifier> getRemoteProxiesReferences();
 
@@ -52,5 +57,7 @@ public interface ProxyBusMember {
     boolean isCompatible(ProxyBusMember proxy);
 
     void close();
+
+    void update(Resource[] newParams);
 
 }

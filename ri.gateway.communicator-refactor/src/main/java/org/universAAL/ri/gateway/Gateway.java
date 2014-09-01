@@ -79,7 +79,7 @@ public class Gateway implements ModuleActivator {
 
 	proxypool = new ProxyPool();
 
-	exporter = new Exporter();
+	exporter = new Exporter(proxypool);
 
 	sessions = new HashMap<Session, String>();
 

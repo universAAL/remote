@@ -34,7 +34,7 @@ public interface OperationChainManager {
      * @TODO interface to be refined!
      * @return
      */
-    OperationChain getImportOperationChain();
+    ImportOpertaionChain getImportOperationChain();
 
     /**
      * The security checks that a {@link BusMember} has to pass in order to be

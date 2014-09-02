@@ -17,6 +17,7 @@ ri.gateway.communicator-refactor/src/main/java/org/universAAL/log/LoggerFactory.
 ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/Exporter.java -text svneol=unset#text/plain
 ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/Gateway.java -text svneol=unset#text/plain
 ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/Importer.java -text
+ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/Server.java -text svneol=unset#text/plain
 ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/Session.java -text svneol=unset#text/plain
 ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/communicator/Activator.java -text
 ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/communicator/service/CommunicationException.java -text

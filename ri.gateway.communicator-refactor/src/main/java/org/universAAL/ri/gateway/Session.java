@@ -30,6 +30,7 @@ import org.universAAL.ri.gateway.protocol.Message;
 import org.universAAL.ri.gateway.protocol.MessageReceiver;
 import org.universAAL.ri.gateway.protocol.MessageSender;
 import org.universAAL.ri.gateway.protocol.WrappedBusMessage;
+import org.universAAL.ri.gateway.proxies.ProxyBusMember;
 import org.universAAL.ri.gateway.proxies.ProxyPool;
 
 /**
@@ -43,12 +44,13 @@ public class Session implements ComunicationEventListener, MessageSender,
 	MessageReceiver, OperationChainManager {
 
     private Importer importer;
-    private ProxyPool pool;
+    private final ProxyPool pool;
     private final Configuration config;
     private String remoteScope;
 
-    public Session(final Configuration config) {
+    public Session(final Configuration config, final ProxyPool proxyPool) {
 	this.config = config;
+	this.pool = proxyPool;
 	//
 
     }
@@ -99,12 +101,17 @@ public class Session implements ComunicationEventListener, MessageSender,
 	return config.getOutgoingMessageOperationChain();
     }
 
+    /** Receives the Message from the communication layer, delivering it to */
     public void handleMessage(final Message msg) {
 	if (msg instanceof ImportMessage) {
 	    importer.handleImportMessage((ImportMessage) msg);
 	} else if (msg instanceof WrappedBusMessage) {
 	    final WrappedBusMessage wbm = (WrappedBusMessage) msg;
-	    pool.get(wbm.getRemoteProxyRegistrationId()).handleMessage(wbm);
+	    final ProxyBusMember pbm = pool.get(wbm
+		    .getRemoteProxyRegistrationId());
+	    if (pbm != null) {
+		pbm.handleMessage(wbm);
+	    }
 	} else if (msg instanceof ErrorMessage) {
 	    final ErrorMessage em = (ErrorMessage) msg;
 	    LogUtils.logError(Gateway.getInstance().context, getClass(),

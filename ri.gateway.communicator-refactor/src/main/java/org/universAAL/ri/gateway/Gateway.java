@@ -66,7 +66,7 @@ public class Gateway implements ModuleActivator {
     /**
      * Set for all servers, and a name per session.
      */
-    private Map<Session, String> servers;
+    private Map<Server, String> servers;
 
     /**
      * All proxies are holded here.
@@ -113,11 +113,11 @@ public class Gateway implements ModuleActivator {
 		// create a new session for each proerties file
 		final Configuration fc = new ConfigurationFile(props[i]);
 		if (fc.getConnectionMode().equals(ConnectionMode.CLIENT)) {
-		    final Session s = new Session(fc);
+		    final Session s = new Session(fc, proxypool);
 		    newSession(props[i].getAbsolutePath(), s);
 		} else {
 		    // TODO class of servers may change
-		    final Session s = new Session(fc);
+		    final Server s = new Server(fc);
 		    newServer(props[i].getAbsolutePath(), s);
 		}
 	    } catch (final Exception e) {
@@ -137,7 +137,7 @@ public class Gateway implements ModuleActivator {
 
     }
 
-    public synchronized void newServer(final String name, final Session s) {
+    public synchronized void newServer(final String name, final Server s) {
 	servers.put(s, name);
     }
 

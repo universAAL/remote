@@ -65,6 +65,21 @@ public class Importer {
 	imports = new HashMap<String, ProxyBusMember>();
     }
 
+    /**
+     * Receives Gateway Level layer messages (aka {@link ImportMessage}
+     * protocol), and manages the importer protocol for each case: <br>
+     * 
+     * <h3>handles Import-request protocol:<h3>
+     * <img src="doc-files/Import-ImportRequest.png">
+     * 
+     * <h3>handles Import-remove protocol:<h3>
+     * <img src="doc-files/Import-ImportRemove.png">
+     * 
+     * <h3>handles Import-refresh protocol:<h3>
+     * <img src="doc-files/Import-ImportRefresh.png">
+     * 
+     * @param msg
+     */
     public synchronized void handleImportMessage(final ImportMessage msg) {
 	if (msg.getMessageType().equals(
 		ImportMessage.ImportMessageType.ImportRequest)) {
@@ -119,6 +134,16 @@ public class Importer {
 	}
     }
 
+    /**
+     * Deals with accepted Refresh requests.<br>
+     * 
+     * Initiates Import-refresh protocol: <br>
+     * <img src="doc-files/Import-ImportRequest.png">
+     * 
+     * @param remoteBusMemberId
+     * @param newParameters
+     * @return
+     */
     private String refresh(final String remoteBusMemberId,
 	    final Resource[] newParameters) {
 	final ProxyBusMember local = imports.get(remoteBusMemberId);

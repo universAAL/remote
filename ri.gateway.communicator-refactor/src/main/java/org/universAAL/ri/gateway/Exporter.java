@@ -182,7 +182,7 @@ public class Exporter implements IBusMemberRegistryListener {
      * Invoked when an existing BusMember is unregistered from the bus.<br>
      * 
      * Initiates Import-remove protocol: <br>
-     * <img src="doc-files/Import-ImportRequest.png">
+     * <img src="doc-files/Import-ImportRemove.png">
      */
     public void busMemberRemoved(final BusMember member, final BusType type) {
 	if (isExportable(member)) {
@@ -207,7 +207,7 @@ public class Exporter implements IBusMemberRegistryListener {
      * Called when registration parameters change for an exported proxy.<br>
      * 
      * Initiates Import-refresh protocol: <br>
-     * <img src="doc-files/Import-ImportRequest.png">
+     * <img src="doc-files/Import-ImportRefresh.png">
      * 
      * @param busMemberID
      * @param orgigParams

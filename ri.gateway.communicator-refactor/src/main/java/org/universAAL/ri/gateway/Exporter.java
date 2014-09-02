@@ -82,8 +82,9 @@ public class Exporter implements IBusMemberRegistryListener {
 		.equals(OperationChain.OperationResult.ALLOW)) {
 	    // export
 	    // send ImportRequest, and wait for response
-	    final Message resp = session.sendRequest(ImportMessage.importRequest(
-		    proxy.getBusMemberId(), proxy.getSubscriptionParameters()));
+	    final Message resp = session.sendRequest(ImportMessage
+		    .importRequest(proxy.getBusMemberId(),
+			    proxy.getSubscriptionParameters()));
 	    if (resp != null && resp instanceof ImportMessage
 		    && ((ImportMessage) resp).isAccepted()) {
 		// if response is positive associate
@@ -140,7 +141,12 @@ public class Exporter implements IBusMemberRegistryListener {
 	}
     }
 
-    /** {@inheritDoc} */
+    /**
+     * Invoked when a new BusMember is registered in the bus. <br>
+     * 
+     * Initiates Import-request protocol: <br>
+     * <img src="doc-files/Import-ImportRequest.png">
+     */
     public void busMemberAdded(final BusMember member, final BusType type) {
 	if (isExportable(member)) {
 	    tracked.add(member);
@@ -172,6 +178,12 @@ public class Exporter implements IBusMemberRegistryListener {
 	// and they are not imported proxies!
     }
 
+    /**
+     * Invoked when an existing BusMember is unregistered from the bus.<br>
+     * 
+     * Initiates Import-remove protocol: <br>
+     * <img src="doc-files/Import-ImportRequest.png">
+     */
     public void busMemberRemoved(final BusMember member, final BusType type) {
 	if (isExportable(member)) {
 	    // get proxy representative
@@ -180,15 +192,26 @@ public class Exporter implements IBusMemberRegistryListener {
 	}
     }
 
+    /** {@inheritDoc} */
     public void regParamsAdded(final String busMemberID, final Resource[] params) {
 	refresh(busMemberID, params);
     }
 
+    /** {@inheritDoc} */
     public void regParamsRemoved(final String busMemberID,
 	    final Resource[] params) {
 	refresh(busMemberID, params);
     }
 
+    /**
+     * Called when registration parameters change for an exported proxy.<br>
+     * 
+     * Initiates Import-refresh protocol: <br>
+     * <img src="doc-files/Import-ImportRequest.png">
+     * 
+     * @param busMemberID
+     * @param orgigParams
+     */
     private void refresh(final String busMemberID, final Resource[] orgigParams) {
 	// locate local proxy representative in pool
 	final ProxyBusMember pbm = pool.get(busMemberID);
@@ -206,8 +229,8 @@ public class Exporter implements IBusMemberRegistryListener {
 		// check the new parameters are allowed to be exported
 		if (((Session) s).getExportOperationChain().canBeExported(pbm)
 			.equals(OperationChain.OperationResult.ALLOW)) {
-		    final Message resp = s.sendRequest(ImportMessage.importRefresh(
-			    busMemberID, orgigParams));
+		    final Message resp = s.sendRequest(ImportMessage
+			    .importRefresh(busMemberID, orgigParams));
 		    if (resp != null && resp instanceof ImportMessage
 			    && ((ImportMessage) resp).isAccepted()) {
 			toBeAdded.add(new BusMemberIdentifier(s,

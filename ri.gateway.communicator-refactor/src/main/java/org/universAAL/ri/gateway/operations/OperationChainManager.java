@@ -54,7 +54,7 @@ public interface OperationChainManager {
      * @TODO interface to be refined!
      * @return
      */
-    OperationChain getIncomingMessageOperationChain();
+    MessageOperationChain getIncomingMessageOperationChain();
 
     /**
      * The security checks that an outgoing {@link WrappedBusMessage} has to
@@ -64,5 +64,5 @@ public interface OperationChainManager {
      * @TODO interface to be refined!
      * @return
      */
-    OperationChain getOutgoingMessageOperationChain();
+    MessageOperationChain getOutgoingMessageOperationChain();
 }

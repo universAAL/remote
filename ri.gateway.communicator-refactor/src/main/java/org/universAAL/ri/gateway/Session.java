@@ -22,7 +22,7 @@ import org.universAAL.ri.gateway.communicator.service.LinkContext;
 import org.universAAL.ri.gateway.configuration.Configuration;
 import org.universAAL.ri.gateway.operations.ExportOpertaionChain;
 import org.universAAL.ri.gateway.operations.ImportOpertaionChain;
-import org.universAAL.ri.gateway.operations.OperationChain;
+import org.universAAL.ri.gateway.operations.MessageOperationChain;
 import org.universAAL.ri.gateway.operations.OperationChainManager;
 import org.universAAL.ri.gateway.protocol.ErrorMessage;
 import org.universAAL.ri.gateway.protocol.ImportMessage;
@@ -91,11 +91,11 @@ public class Session implements ComunicationEventListener, MessageSender,
 	return config.getExportOperationChain();
     }
 
-    public OperationChain getIncomingMessageOperationChain() {
+    public MessageOperationChain getIncomingMessageOperationChain() {
 	return config.getIncomingMessageOperationChain();
     }
 
-    public OperationChain getOutgoingMessageOperationChain() {
+    public MessageOperationChain getOutgoingMessageOperationChain() {
 	return config.getOutgoingMessageOperationChain();
     }
 

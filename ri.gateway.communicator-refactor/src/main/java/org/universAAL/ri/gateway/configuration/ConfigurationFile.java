@@ -18,6 +18,7 @@ package org.universAAL.ri.gateway.configuration;
 import java.io.File;
 import java.util.Properties;
 
+import org.universAAL.ri.gateway.operations.ExportOpertaionChain;
 import org.universAAL.ri.gateway.operations.ImportOpertaionChain;
 import org.universAAL.ri.gateway.operations.OperationChain;
 
@@ -75,7 +76,7 @@ public class ConfigurationFile extends UpdatedPropertiesFile implements
     }
 
     /** {@inheritDoc} */
-    public ExportOperationChain getExportOperationChain() {
+    public ExportOpertaionChain getExportOperationChain() {
 	// TODO Auto-generated method stub
 	return null;
     }

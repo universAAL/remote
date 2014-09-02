@@ -90,6 +90,16 @@ public class Gateway implements ModuleActivator {
 
 	sessions = new HashMap<Session, String>();
 
+	spaceManager = new PassiveDependencyProxy<AALSpaceManager>(context,
+		new Object[] { AALSpaceManager.class.getName() });
+
+	serializer = new PassiveDependencyProxy<MessageContentSerializer>(
+		context,
+		new Object[] { MessageContentSerializer.class.getName() });
+
+	tenantManager = new PassiveDependencyProxy<TenantManager>(context,
+		new Object[] { TenantManager.class.getName() });
+
 	final File dir = context.getConfigHome();
 	final File[] props = dir.listFiles(new FileFilter() {
 
@@ -124,16 +134,6 @@ public class Gateway implements ModuleActivator {
 	 * new sessions, and stops sessions when their respective file is
 	 * removed
 	 */
-
-	spaceManager = new PassiveDependencyProxy<AALSpaceManager>(context,
-		new Object[] { AALSpaceManager.class.getName() });
-
-	serializer = new PassiveDependencyProxy<MessageContentSerializer>(
-		context,
-		new Object[] { MessageContentSerializer.class.getName() });
-
-	tenantManager = new PassiveDependencyProxy<TenantManager>(context,
-		new Object[] { TenantManager.class.getName() });
 
     }
 

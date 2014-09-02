@@ -137,11 +137,11 @@ public class Gateway implements ModuleActivator {
 
     }
 
-    public void newServer(final String name, final Session s) {
+    public synchronized void newServer(final String name, final Session s) {
 	servers.put(s, name);
     }
 
-    public void endServer(final Session s) {
+    public synchronized void endServer(final Session s) {
 	// TODO stop server
 	servers.remove(s);
     }
@@ -161,7 +161,10 @@ public class Gateway implements ModuleActivator {
     }
 
     public void stop(final ModuleContext mc) throws Exception {
-	// TODO Auto-generated method stub
-
+	// TODO stop all servers
+	// TODO end all sessions
+	for (final Session s : sessions.keySet()) {
+	    endSession(s);
+	}
     }
 }

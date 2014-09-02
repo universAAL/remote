@@ -180,12 +180,6 @@ public class Exporter implements IBusMemberRegistryListener {
 	}
     }
 
-    /*
-     * TODO a receiver method when importer sends importRemove, maybe import
-     * security is changed and remote proxy is no longer allowed. maybe it is
-     * directly delivered to pool.
-     */
-
     public void regParamsAdded(final String busMemberID, final Resource[] params) {
 	refresh(busMemberID, params);
     }

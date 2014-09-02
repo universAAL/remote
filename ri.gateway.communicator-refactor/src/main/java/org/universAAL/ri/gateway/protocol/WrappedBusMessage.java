@@ -17,6 +17,7 @@ package org.universAAL.ri.gateway.protocol;
 
 import org.universAAL.middleware.bus.msg.BusMessage;
 import org.universAAL.middleware.rdf.ScopedResource;
+import org.universAAL.ri.gateway.Gateway;
 
 /**
  * Message used to forward a {@link BusMessage} (ServiceRequest,
@@ -41,7 +42,12 @@ public class WrappedBusMessage extends Message {
     /**
      * The content of the message.
      */
-    private String content;
+    private final String content;
+
+    /**
+     * Temporal variable to hold the un-marshalled message.
+     */
+    private transient ScopedResource message;
 
     /**
      * Constructor of a wrapped Message.
@@ -55,6 +61,8 @@ public class WrappedBusMessage extends Message {
 	    final ScopedResource busMessage) {
 	super();
 	this.destination = destination;
+	content = Gateway.getInstance().serializer.getObject().serialize(
+		busMessage);
     }
 
     @Override
@@ -105,12 +113,21 @@ public class WrappedBusMessage extends Message {
     }
 
     /**
-     * Un marshal the Content into a BusMessage.
+     * Un-marshal the Content into a BusMessage.
      * 
      * @return
      */
     public ScopedResource getMessage() {
-
+	if (message != null) {
+	    return message;
+	}
+	try {
+	    message = (ScopedResource) Gateway.getInstance().serializer
+		    .getObject().deserialize(content);
+	    return message;
+	} catch (final Exception e) {
+	}
+	return null;
     }
 
 }

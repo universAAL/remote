@@ -96,7 +96,13 @@ public class Importer {
 		ImportMessage.ImportMessageType.ImportRemove)) {
 	    // remove
 	    remove(msg.getBusMemberId());
-
+	    /*
+	     * TODO When remote importer sends importRemove, it will be received
+	     * here; maybe import security is changed and remote proxy is no
+	     * longer allowed.
+	     * 
+	     * It has to tell the exporter to remove an exported proxy.
+	     */
 	}
 	if (msg.getMessageType().equals(
 		ImportMessage.ImportMessageType.ImportRefresh)) {
@@ -179,4 +185,8 @@ public class Importer {
 	}
     }
 
+    /*
+     * TODO recheck security method, to check imports when security policies may
+     * have changed.
+     */
 }

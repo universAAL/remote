@@ -31,6 +31,7 @@ import org.universAAL.middleware.managers.api.AALSpaceManager;
 import org.universAAL.middleware.managers.api.TenantManager;
 import org.universAAL.middleware.serialization.MessageContentSerializer;
 import org.universAAL.ri.gateway.configuration.Configuration;
+import org.universAAL.ri.gateway.configuration.Configuration.ConnectionMode;
 import org.universAAL.ri.gateway.configuration.ConfigurationFile;
 import org.universAAL.ri.gateway.proxies.ProxyPool;
 
@@ -61,6 +62,11 @@ public class Gateway implements ModuleActivator {
      * Set for all sessions, and a name per session.
      */
     private Map<Session, String> sessions;
+
+    /**
+     * Set for all servers, and a name per session.
+     */
+    private Map<Session, String> servers;
 
     /**
      * All proxies are holded here.
@@ -96,8 +102,14 @@ public class Gateway implements ModuleActivator {
 	    try {
 		// create a new session for each proerties file
 		final Configuration fc = new ConfigurationFile(props[i]);
-		final Session s = new Session(fc);
-		newSession(props[i].getAbsolutePath(), s);
+		if (fc.getConnectionMode().equals(ConnectionMode.CLIENT)) {
+		    final Session s = new Session(fc);
+		    newSession(props[i].getAbsolutePath(), s);
+		} else {
+		    // TODO class of servers may change
+		    final Session s = new Session(fc);
+		    newServer(props[i].getAbsolutePath(), s);
+		}
 	    } catch (final Exception e) {
 		LogUtils.logError(
 			context,
@@ -123,6 +135,15 @@ public class Gateway implements ModuleActivator {
 	tenantManager = new PassiveDependencyProxy<TenantManager>(context,
 		new Object[] { TenantManager.class.getName() });
 
+    }
+
+    public void newServer(final String name, final Session s) {
+	servers.put(s, name);
+    }
+
+    public void endServer(final Session s) {
+	// TODO stop server
+	servers.remove(s);
     }
 
     public synchronized void newSession(final String name, final Session s) {

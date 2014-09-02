@@ -22,7 +22,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.universAAL.ioc.dependencies.DependencyProxy;
-import org.universAAL.ioc.dependencies.impl.NPEDependencyProxy;
+import org.universAAL.ioc.dependencies.impl.PassiveDependencyProxy;
+import org.universAAL.ioc.dependencies.impl.WaitingDependencyProxy;
 import org.universAAL.middleware.container.ModuleActivator;
 import org.universAAL.middleware.container.ModuleContext;
 import org.universAAL.middleware.container.utils.LogUtils;
@@ -42,7 +43,7 @@ import org.universAAL.ri.gateway.proxies.ProxyPool;
  */
 public class Gateway implements ModuleActivator {
 
-    private static Gateway singleton;
+    private static WaitingDependencyProxy<Gateway> singleton;
 
     public DependencyProxy<AALSpaceManager> spaceManager;
 
@@ -51,8 +52,7 @@ public class Gateway implements ModuleActivator {
     public DependencyProxy<MessageContentSerializer> serializer;
 
     public static Gateway getInstance() {
-	// TODO synchronize until singleton != null
-	return singleton;
+	return singleton.getObject();
     }
 
     public ModuleContext context;
@@ -74,8 +74,9 @@ public class Gateway implements ModuleActivator {
     }
 
     public void start(final ModuleContext mc) throws Exception {
-	singleton = this;
 	context = mc;
+	singleton = new WaitingDependencyProxy<Gateway>(new Object[] {});
+	singleton.setObject(this);
 
 	proxypool = new ProxyPool();
 
@@ -112,13 +113,14 @@ public class Gateway implements ModuleActivator {
 	 * removed
 	 */
 
-	spaceManager = new NPEDependencyProxy<AALSpaceManager>(context,
+	spaceManager = new PassiveDependencyProxy<AALSpaceManager>(context,
 		new Object[] { AALSpaceManager.class.getName() });
 
-	serializer = new NPEDependencyProxy<MessageContentSerializer>(context,
+	serializer = new PassiveDependencyProxy<MessageContentSerializer>(
+		context,
 		new Object[] { MessageContentSerializer.class.getName() });
 
-	tenantManager = new NPEDependencyProxy<TenantManager>(context,
+	tenantManager = new PassiveDependencyProxy<TenantManager>(context,
 		new Object[] { TenantManager.class.getName() });
 
     }

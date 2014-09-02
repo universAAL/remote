@@ -27,19 +27,20 @@ public interface MessageSender {
 
     /**
      * Send Asynchronously a {@link Message} independent of which level it is,
-     * to a remote ASG
+     * to a remote ASG. <br>
+     * It may also used to send responses.
      * 
      * @param message
      */
-    void Send(Message message);
+    void send(Message message);
 
     /**
-     * Send a message Synchronously to witch a response is expected.
+     * Send a request Synchronously to witch a response is expected.
      * 
      * @param message
      *            to send, typically a request message
      * @return the response message, typically a response message.
      */
-    Message send(Message message);
+    Message sendRequest(Message message);
 
 }

@@ -65,7 +65,7 @@ public class ProxyPool {
 		.getRemoteProxiesReferences();
 	// send importRemove to all sessions
 	for (final BusMemberIdentifier bmID : allSessionsAssociatedToProxy) {
-	    bmID.getChannel().Send(
+	    bmID.getChannel().send(
 		    ImportMessage.importRemove(pbm.getBusMemberId()));
 	}
 	removeProxy(pbm);

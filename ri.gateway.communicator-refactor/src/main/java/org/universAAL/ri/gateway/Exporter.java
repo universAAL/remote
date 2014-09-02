@@ -82,7 +82,7 @@ public class Exporter implements IBusMemberRegistryListener {
 		.equals(OperationChain.OperationResult.ALLOW)) {
 	    // export
 	    // send ImportRequest, and wait for response
-	    final Message resp = session.send(ImportMessage.importRequest(
+	    final Message resp = session.sendRequest(ImportMessage.importRequest(
 		    proxy.getBusMemberId(), proxy.getSubscriptionParameters()));
 	    if (resp != null && resp instanceof ImportMessage
 		    && ((ImportMessage) resp).isAccepted()) {
@@ -206,7 +206,7 @@ public class Exporter implements IBusMemberRegistryListener {
 		// check the new parameters are allowed to be exported
 		if (((Session) s).getExportOperationChain().canBeExported(pbm)
 			.equals(OperationChain.OperationResult.ALLOW)) {
-		    final Message resp = s.send(ImportMessage.importRefresh(
+		    final Message resp = s.sendRequest(ImportMessage.importRefresh(
 			    busMemberID, orgigParams));
 		    if (resp != null && resp instanceof ImportMessage
 			    && ((ImportMessage) resp).isAccepted()) {
@@ -215,7 +215,7 @@ public class Exporter implements IBusMemberRegistryListener {
 		    }
 		} else {
 		    // new parameters are not allowed, send remove
-		    s.Send(ImportMessage.importRemove(busMemberID));
+		    s.send(ImportMessage.importRemove(busMemberID));
 		}
 	    }
 	    // update all references

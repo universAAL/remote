@@ -83,13 +83,13 @@ public class Importer {
 		pbm.addRemoteProxyReference(new BusMemberIdentifier(session,
 			msg.getBusMemberId()));
 		// send response
-		session.Send(ImportMessage.importResponse(msg,
+		session.send(ImportMessage.importResponse(msg,
 			pbm.getBusMemberId()));
 		// note import
 		imports.put(msg.getBusMemberId(), pbm);
 	    } else {
 		// import denied
-		session.Send(ImportMessage.importResponse(msg, null));
+		session.send(ImportMessage.importResponse(msg, null));
 	    }
 	}
 	if (msg.getMessageType().equals(
@@ -109,11 +109,11 @@ public class Importer {
 	    // refresh
 	    if (session.getImportOperationChain().canBeImported(msg)
 		    .equals(OperationChain.OperationResult.ALLOW)) {
-		session.send(ImportMessage.importResponse(msg,
+		session.sendRequest(ImportMessage.importResponse(msg,
 			refresh(msg.getBusMemberId(), msg.getParameters())));
 	    } else {
 		// refresh denied
-		session.Send(ImportMessage.importResponse(msg, null));
+		session.send(ImportMessage.importResponse(msg, null));
 		remove(msg.getBusMemberId());
 	    }
 	}

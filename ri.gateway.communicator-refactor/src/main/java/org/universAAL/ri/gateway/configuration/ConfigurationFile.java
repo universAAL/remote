@@ -20,7 +20,7 @@ import java.util.Properties;
 
 import org.universAAL.ri.gateway.operations.ExportOpertaionChain;
 import org.universAAL.ri.gateway.operations.ImportOpertaionChain;
-import org.universAAL.ri.gateway.operations.OperationChain;
+import org.universAAL.ri.gateway.operations.MessageOperationChain;
 
 /**
  * @author amedrano
@@ -28,6 +28,11 @@ import org.universAAL.ri.gateway.operations.OperationChain;
  */
 public class ConfigurationFile extends UpdatedPropertiesFile implements
 	Configuration, PropertiesFileKeys {
+
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
 
     public ConfigurationFile(final File propFile) {
 	super(propFile);
@@ -82,13 +87,13 @@ public class ConfigurationFile extends UpdatedPropertiesFile implements
     }
 
     /** {@inheritDoc} */
-    public OperationChain getIncomingMessageOperationChain() {
+    public MessageOperationChain getIncomingMessageOperationChain() {
 	// TODO Auto-generated method stub
 	return null;
     }
 
     /** {@inheritDoc} */
-    public OperationChain getOutgoingMessageOperationChain() {
+    public MessageOperationChain getOutgoingMessageOperationChain() {
 	// TODO Auto-generated method stub
 	return null;
     }

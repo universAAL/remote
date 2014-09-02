@@ -73,12 +73,12 @@ public class Session implements ComunicationEventListener, MessageSender,
 	return remoteScope;
     }
 
-    public void Send(final Message message) {
+    public void send(final Message message) {
 	// TODO Auto-generated method stub
 
     }
 
-    public Message send(final Message message) {
+    public Message sendRequest(final Message message) {
 	// TODO Auto-generated method stub
 	return null;
     }

@@ -15,6 +15,7 @@
  ******************************************************************************/
 package org.universAAL.ri.gateway;
 
+import org.universAAL.middleware.container.utils.LogUtils;
 import org.universAAL.ri.gateway.communicator.service.CommunicationHandler;
 import org.universAAL.ri.gateway.communicator.service.ComunicationEventListener;
 import org.universAAL.ri.gateway.communicator.service.LinkContext;
@@ -23,8 +24,12 @@ import org.universAAL.ri.gateway.operations.ExportOpertaionChain;
 import org.universAAL.ri.gateway.operations.ImportOpertaionChain;
 import org.universAAL.ri.gateway.operations.OperationChain;
 import org.universAAL.ri.gateway.operations.OperationChainManager;
+import org.universAAL.ri.gateway.protocol.ErrorMessage;
+import org.universAAL.ri.gateway.protocol.ImportMessage;
 import org.universAAL.ri.gateway.protocol.Message;
+import org.universAAL.ri.gateway.protocol.MessageReceiver;
 import org.universAAL.ri.gateway.protocol.MessageSender;
+import org.universAAL.ri.gateway.protocol.WrappedBusMessage;
 import org.universAAL.ri.gateway.proxies.ProxyPool;
 
 /**
@@ -35,7 +40,7 @@ import org.universAAL.ri.gateway.proxies.ProxyPool;
  * 
  */
 public class Session implements ComunicationEventListener, MessageSender,
-	OperationChainManager {
+	MessageReceiver, OperationChainManager {
 
     private Importer importer;
     private ProxyPool pool;
@@ -92,6 +97,20 @@ public class Session implements ComunicationEventListener, MessageSender,
 
     public OperationChain getOutgoingMessageOperationChain() {
 	return config.getOutgoingMessageOperationChain();
+    }
+
+    public void handleMessage(final Message msg) {
+	if (msg instanceof ImportMessage) {
+	    importer.handleImportMessage((ImportMessage) msg);
+	} else if (msg instanceof WrappedBusMessage) {
+	    final WrappedBusMessage wbm = (WrappedBusMessage) msg;
+	    pool.get(wbm.getRemoteProxyRegistrationId()).handleMessage(wbm);
+	} else if (msg instanceof ErrorMessage) {
+	    final ErrorMessage em = (ErrorMessage) msg;
+	    LogUtils.logError(Gateway.getInstance().context, getClass(),
+		    "handleMessage",
+		    "Received Error Message: " + em.getDescription());
+	}
     }
 
 }

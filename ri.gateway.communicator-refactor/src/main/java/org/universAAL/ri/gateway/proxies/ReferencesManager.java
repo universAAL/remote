@@ -16,7 +16,9 @@
 package org.universAAL.ri.gateway.proxies;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import org.universAAL.ri.gateway.protocol.MessageSender;
@@ -32,7 +34,7 @@ public class ReferencesManager {
     /**
      * Internal collection.
      */
-    private final Set<BusMemberReference> references = new HashSet<BusMemberReference>();
+    private final Map<String, BusMemberReference> references = new HashMap<String, BusMemberReference>();
 
     /**
      * Add a reference.
@@ -41,7 +43,8 @@ public class ReferencesManager {
      */
     public synchronized void addRemoteProxyReference(
 	    final BusMemberReference remoteReference) {
-	references.add(remoteReference);
+	references
+		.put(remoteReference.getChannel().getScope(), remoteReference);
     }
 
     /**
@@ -62,7 +65,7 @@ public class ReferencesManager {
     public synchronized void removeRemoteProxyReferences(
 	    final MessageSender session) {
 	final Set<BusMemberReference> refs = new HashSet<BusMemberReference>(
-		references);
+		references.values());
 	for (final BusMemberReference bmr : refs) {
 	    if (bmr.getChannel().equals(session)) {
 		references.remove(bmr);
@@ -77,7 +80,7 @@ public class ReferencesManager {
      * @return
      */
     public Collection<BusMemberReference> getRemoteProxiesReferences() {
-	return new HashSet<BusMemberReference>(references);
+	return new HashSet<BusMemberReference>(references.values());
 
     }
 

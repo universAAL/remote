@@ -18,7 +18,7 @@ package org.universAAL.ri.gateway.proxies;
 import java.io.Serializable;
 
 import org.universAAL.middleware.bus.member.BusMember;
-import org.universAAL.ri.gateway.protocol.MessageSender;
+import org.universAAL.ri.gateway.Session;
 
 /**
  * An identifier of a concrete {@link BusMember} across all Scopes.
@@ -34,9 +34,9 @@ public class BusMemberReference implements Serializable {
     private static final long serialVersionUID = -1141333844448577928L;
 
     /**
-     * {@link MessageSender} to use in order to reach the {@link BusMember}
+     * {@link Session} to use in order to reach the {@link BusMember}
      */
-    private final MessageSender sender;
+    private final Session sender;
 
     /**
      * The {@link BusMember} id at the remote side identified.
@@ -46,25 +46,24 @@ public class BusMemberReference implements Serializable {
     /**
      * Constructor for a {@link BusMember} identifier.
      * 
-     * @param MessageSender
+     * @param session
      * @param busMemberid
      */
-    public BusMemberReference(final MessageSender MessageSender,
-	    final String busMemberid) {
+    public BusMemberReference(final Session session, final String busMemberid) {
 	super();
-	if (MessageSender == null || busMemberid == null) {
+	if (session == null || busMemberid == null) {
 	    throw new RuntimeException("Scope or BusmemberId Must not be null");
 	}
-	this.sender = MessageSender;
+	this.sender = session;
 	this.busMemberid = busMemberid;
     }
 
     /**
-     * Get the {@link MessageSender} to reach the {@link BusMember}.
+     * Get the {@link Session} to reach the {@link BusMember}.
      * 
      * @return the MessageSender.
      */
-    public MessageSender getChannel() {
+    public Session getChannel() {
 	return sender;
     }
 

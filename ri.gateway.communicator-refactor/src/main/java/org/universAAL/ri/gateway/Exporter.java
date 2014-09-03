@@ -30,7 +30,6 @@ import org.universAAL.middleware.tracker.IBusMemberRegistryListener;
 import org.universAAL.ri.gateway.operations.OperationChain;
 import org.universAAL.ri.gateway.protocol.ImportMessage;
 import org.universAAL.ri.gateway.protocol.Message;
-import org.universAAL.ri.gateway.protocol.MessageSender;
 import org.universAAL.ri.gateway.proxies.BusMemberReference;
 import org.universAAL.ri.gateway.proxies.ProxyBusMember;
 import org.universAAL.ri.gateway.proxies.ProxyBusMemberFactory;
@@ -225,9 +224,9 @@ public class Exporter implements IBusMemberRegistryListener {
 	    final HashSet<BusMemberReference> toBeAdded = new HashSet<BusMemberReference>();
 	    // Send refresh message per channel.
 	    for (final BusMemberReference bmr : refs) {
-		final MessageSender s = bmr.getChannel();
+		final Session s = bmr.getChannel();
 		// check the new parameters are allowed to be exported
-		if (((Session) s).getExportOperationChain().canBeExported(pbm)
+		if (s.getExportOperationChain().canBeExported(pbm)
 			.equals(OperationChain.OperationResult.ALLOW)) {
 		    final Message resp = s.sendRequest(ImportMessage
 			    .importRefresh(busMemberID, orgigParams));

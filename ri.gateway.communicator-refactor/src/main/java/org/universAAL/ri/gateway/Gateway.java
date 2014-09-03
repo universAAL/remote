@@ -19,7 +19,9 @@ import java.io.File;
 import java.io.FileFilter;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import org.universAAL.ioc.dependencies.DependencyProxy;
 import org.universAAL.ioc.dependencies.impl.PassiveDependencyProxy;
@@ -116,7 +118,6 @@ public class Gateway implements ModuleActivator {
 		    final Session s = new Session(fc, proxypool);
 		    newSession(props[i].getAbsolutePath(), s);
 		} else {
-		    // TODO class of servers may change
 		    final Server s = new Server(fc);
 		    newServer(props[i].getAbsolutePath(), s);
 		}
@@ -141,8 +142,9 @@ public class Gateway implements ModuleActivator {
 	servers.put(s, name);
     }
 
-    public synchronized void endServer(final Session s) {
-	// TODO stop server
+    public synchronized void endServer(final Server s) {
+	// stop server
+	s.stop();
 	servers.remove(s);
     }
 
@@ -161,9 +163,14 @@ public class Gateway implements ModuleActivator {
     }
 
     public void stop(final ModuleContext mc) throws Exception {
-	// TODO stop all servers
-	// TODO end all sessions
-	for (final Session s : sessions.keySet()) {
+	final Set<Server> srvs = new HashSet<Server>(servers.keySet());
+	// stop all servers
+	for (final Server server : srvs) {
+	    server.stop();
+	}
+	final Set<Session> ssns = new HashSet<Session>(sessions.keySet());
+	// end all sessions
+	for (final Session s : ssns) {
 	    endSession(s);
 	}
     }

@@ -16,7 +16,9 @@
 package org.universAAL.ri.gateway;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import org.universAAL.middleware.container.utils.LogUtils;
 import org.universAAL.middleware.rdf.Resource;
@@ -215,8 +217,23 @@ public class Importer {
 	}
     }
 
-    /*
-     * TODO recheck security method, to check imports when security policies may
-     * have changed.
+    /**
+     * Recheck security method, to check imports when security policies may have
+     * changed. Removes any imported {@link ProxyBusMember} that is no longer
+     * allowed.
      */
+    public void recheckSecurity() {
+	final Set<ProxyBusMember> checks = new HashSet<ProxyBusMember>(
+		imports.values());
+	for (final ProxyBusMember pbm : checks) {
+	    if (session
+		    .getImportOperationChain()
+		    .canBeImported(
+			    ImportMessage.importRequest("check",
+				    pbm.getSubscriptionParameters()))
+		    .equals(OperationChain.OperationResult.DENY)) {
+		pool.removeProxyWithSend(pbm);
+	    }
+	}
+    }
 }

@@ -29,6 +29,10 @@ import org.universAAL.ri.gateway.operations.MessageOperationChain;
 public class ConfigurationFile extends UpdatedPropertiesFile implements
 	Configuration, PropertiesFileKeys {
 
+    private static final String CLIENT = "CLIENT";
+    private static final String SERVER = "SERVER";
+    private static final String FORWARD = "FORWARD";
+    private static final String ROUTER = "ROUTER";
     /**
      * 
      */
@@ -40,38 +44,44 @@ public class ConfigurationFile extends UpdatedPropertiesFile implements
 
     @Override
     public String getComments() {
-	// TODO Auto-generated method stub
-	return null;
+	return "Configuration of a connection instance";
     }
 
     @Override
     protected void addDefaults(final Properties defaults) {
-	// TODO Auto-generated method stub
-
+	// TODO add Deny all imports and exports by default.
+	defaults.put(ROUTING_MODE, ROUTER);
+	defaults.put(CONNECTION_MODE, CLIENT);
     }
 
     /** {@inheritDoc} */
     public RoutingMode getRoutingMode() {
-	// TODO Auto-generated method stub
+	if (((String) get(ROUTING_MODE)).equalsIgnoreCase(ROUTER)) {
+	    return RoutingMode.ROUTER;
+	} else if (((String) get(ROUTING_MODE)).equalsIgnoreCase(FORWARD)) {
+	    return RoutingMode.FORWARD;
+	}
 	return null;
     }
 
     /** {@inheritDoc} */
     public ConnectionMode getConnectionMode() {
-	// TODO Auto-generated method stub
+	if (((String) get(CONNECTION_MODE)).equalsIgnoreCase(SERVER)) {
+	    return ConnectionMode.SERVER;
+	} else if (((String) get(CONNECTION_MODE)).equalsIgnoreCase(CLIENT)) {
+	    return ConnectionMode.CLIENT;
+	}
 	return null;
     }
 
     /** {@inheritDoc} */
     public String getConnectionHost() {
-	// TODO Auto-generated method stub
-	return null;
+	return (String) get(REMOTE_HOST);
     }
 
     /** {@inheritDoc} */
     public int getConnectionPort() {
-	// TODO Auto-generated method stub
-	return 0;
+	return Integer.parseInt((String) get(SOCKET_PORT));
     }
 
     /** {@inheritDoc} */

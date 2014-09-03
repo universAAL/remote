@@ -32,17 +32,17 @@ package org.universAAL.ri.gateway.configuration;
 public interface PropertiesFileKeys {
     /**
      * System property used for specifying remote AAL Space Gateways addresses
-     * (host ip and port) that is running in Server Mode and that we should
-     * connect to
+     * that is running in Server Mode and that we should connect to
      * 
      */
-    String REMOTE_SOCKET = "remote-gateway-socket";
+    String REMOTE_HOST = "remote-gateway-host";
 
     /**
-     * System property used for specifying the server port of the AAL Space
-     * Gateway in case that it is running in Server-Mode
+     * System property used for specifying the socket port of the AAL Space
+     * Gateway to connec to, in case that it is running in Server-Mode it is the
+     * socket to listen to.
      */
-    String LOCAL_SOCKET_PORT = "local-socket-port";
+    String SOCKET_PORT = "socket-port";
 
     String CONNECTION_MODE = "connection-mode";
 

@@ -40,15 +40,15 @@ public interface ProxyBusMember {
      */
     String getBusMemberId();
 
-    void addRemoteProxyReference(BusMemberIdentifier remoteReference);
+    void addRemoteProxyReference(BusMemberReference remoteReference);
 
-    void removeRemoteProxyReference(BusMemberIdentifier remoteReference);
+    void removeRemoteProxyReference(BusMemberReference remoteReference);
 
     void removeRemoteProxyReferences(MessageSender session);
 
     // remember to avoid concurrent deletion (while iterating)
 
-    Collection<BusMemberIdentifier> getRemoteProxiesReferences();
+    Collection<BusMemberReference> getRemoteProxiesReferences();
 
     Resource[] getSubscriptionParameters();
 

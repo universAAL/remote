@@ -97,11 +97,11 @@ public class ProxyPool {
      * @param pbm
      */
     public void removeProxyWithSend(final ProxyBusMember pbm) {
-	final Collection<BusMemberIdentifier> allSessionsAssociatedToProxy = pbm
+	final Collection<BusMemberReference> allSessionsAssociatedToProxy = pbm
 		.getRemoteProxiesReferences();
 	// send importRemove to all sessions
-	for (final BusMemberIdentifier bmID : allSessionsAssociatedToProxy) {
-	    bmID.getChannel().send(
+	for (final BusMemberReference bmr : allSessionsAssociatedToProxy) {
+	    bmr.getChannel().send(
 		    ImportMessage.importRemove(pbm.getBusMemberId()));
 	}
 	removeProxy(pbm);

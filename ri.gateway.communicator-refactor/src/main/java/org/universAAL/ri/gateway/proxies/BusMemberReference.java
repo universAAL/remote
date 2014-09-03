@@ -26,7 +26,7 @@ import org.universAAL.ri.gateway.protocol.MessageSender;
  * @author amedrano
  * 
  */
-public class BusMemberIdentifier implements Serializable {
+public class BusMemberReference implements Serializable {
 
     /**
      * The serial Version.
@@ -49,7 +49,7 @@ public class BusMemberIdentifier implements Serializable {
      * @param MessageSender
      * @param busMemberid
      */
-    public BusMemberIdentifier(final MessageSender MessageSender,
+    public BusMemberReference(final MessageSender MessageSender,
 	    final String busMemberid) {
 	super();
 	if (MessageSender == null || busMemberid == null) {
@@ -80,9 +80,9 @@ public class BusMemberIdentifier implements Serializable {
     /** {@inheritDoc} */
     @Override
     public boolean equals(final Object obj) {
-	return obj instanceof BusMemberIdentifier
-		&& ((BusMemberIdentifier) obj).sender.equals(sender)
-		&& ((BusMemberIdentifier) obj).busMemberid.equals(busMemberid);
+	return obj instanceof BusMemberReference
+		&& ((BusMemberReference) obj).sender.equals(sender)
+		&& ((BusMemberReference) obj).busMemberid.equals(busMemberid);
     }
 
 }

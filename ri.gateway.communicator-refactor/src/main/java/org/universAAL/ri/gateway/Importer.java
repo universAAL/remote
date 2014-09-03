@@ -24,7 +24,7 @@ import org.universAAL.middleware.container.utils.LogUtils;
 import org.universAAL.middleware.rdf.Resource;
 import org.universAAL.ri.gateway.operations.OperationChain;
 import org.universAAL.ri.gateway.protocol.ImportMessage;
-import org.universAAL.ri.gateway.proxies.BusMemberIdentifier;
+import org.universAAL.ri.gateway.proxies.BusMemberReference;
 import org.universAAL.ri.gateway.proxies.ProxyBusMember;
 import org.universAAL.ri.gateway.proxies.ProxyBusMemberFactory;
 import org.universAAL.ri.gateway.proxies.ProxyPool;
@@ -97,7 +97,7 @@ public class Importer {
 		    pool.add(pbm);
 		}
 		// Associate remote proxy
-		pbm.addRemoteProxyReference(new BusMemberIdentifier(session,
+		pbm.addRemoteProxyReference(new BusMemberReference(session,
 			msg.getBusMemberId()));
 		// send response
 		session.send(ImportMessage.importResponse(msg,
@@ -177,7 +177,7 @@ public class Importer {
 		newPBM = ProxyBusMemberFactory.create(newParameters);
 		pool.add(newPBM);
 	    }
-	    newPBM.addRemoteProxyReference(new BusMemberIdentifier(session,
+	    newPBM.addRemoteProxyReference(new BusMemberReference(session,
 		    remoteBusMemberId));
 	    imports.put(remoteBusMemberId, newPBM);
 

@@ -31,7 +31,7 @@ import org.universAAL.ri.gateway.operations.OperationChain;
 import org.universAAL.ri.gateway.protocol.ImportMessage;
 import org.universAAL.ri.gateway.protocol.Message;
 import org.universAAL.ri.gateway.protocol.MessageSender;
-import org.universAAL.ri.gateway.proxies.BusMemberIdentifier;
+import org.universAAL.ri.gateway.proxies.BusMemberReference;
 import org.universAAL.ri.gateway.proxies.ProxyBusMember;
 import org.universAAL.ri.gateway.proxies.ProxyBusMemberFactory;
 import org.universAAL.ri.gateway.proxies.ProxyPool;
@@ -88,7 +88,7 @@ public class Exporter implements IBusMemberRegistryListener {
 	    if (resp != null && resp instanceof ImportMessage
 		    && ((ImportMessage) resp).isAccepted()) {
 		// if response is positive associate
-		proxy.addRemoteProxyReference(new BusMemberIdentifier(session,
+		proxy.addRemoteProxyReference(new BusMemberReference(session,
 			((ImportMessage) resp).getBusMemberId()));
 	    }
 
@@ -218,14 +218,14 @@ public class Exporter implements IBusMemberRegistryListener {
 	if (pbm != null) {
 	    // update proxy registrations
 	    pbm.update(orgigParams);
-	    final Collection<BusMemberIdentifier> refs = pbm
+	    final Collection<BusMemberReference> refs = pbm
 		    .getRemoteProxiesReferences();
-	    final HashSet<BusMemberIdentifier> toBeRemoved = new HashSet<BusMemberIdentifier>(
+	    final HashSet<BusMemberReference> toBeRemoved = new HashSet<BusMemberReference>(
 		    refs);
-	    final HashSet<BusMemberIdentifier> toBeAdded = new HashSet<BusMemberIdentifier>();
+	    final HashSet<BusMemberReference> toBeAdded = new HashSet<BusMemberReference>();
 	    // Send refresh message per channel.
-	    for (final BusMemberIdentifier bmId : refs) {
-		final MessageSender s = bmId.getChannel();
+	    for (final BusMemberReference bmr : refs) {
+		final MessageSender s = bmr.getChannel();
 		// check the new parameters are allowed to be exported
 		if (((Session) s).getExportOperationChain().canBeExported(pbm)
 			.equals(OperationChain.OperationResult.ALLOW)) {
@@ -233,7 +233,7 @@ public class Exporter implements IBusMemberRegistryListener {
 			    .importRefresh(busMemberID, orgigParams));
 		    if (resp != null && resp instanceof ImportMessage
 			    && ((ImportMessage) resp).isAccepted()) {
-			toBeAdded.add(new BusMemberIdentifier(s,
+			toBeAdded.add(new BusMemberReference(s,
 				((ImportMessage) resp).getBusMemberId()));
 		    }
 		} else {
@@ -242,10 +242,10 @@ public class Exporter implements IBusMemberRegistryListener {
 		}
 	    }
 	    // update all references
-	    for (final BusMemberIdentifier bm : toBeRemoved) {
+	    for (final BusMemberReference bm : toBeRemoved) {
 		pbm.removeRemoteProxyReference(bm);
 	    }
-	    for (final BusMemberIdentifier bm : toBeAdded) {
+	    for (final BusMemberReference bm : toBeAdded) {
 		pbm.addRemoteProxyReference(bm);
 	    }
 	}

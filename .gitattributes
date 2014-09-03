@@ -110,10 +110,11 @@ ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/protoco
 ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/protocol/link/ConnectionResponse.java svneol=native#text/plain
 ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/protocol/link/DisconnectionRequest.java svneol=native#text/plain
 ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/protocol/link/ReconnectionRequest.java svneol=native#text/plain
-ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/proxies/BusMemberIdentifier.java -text svneol=unset#text/plain
+ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/proxies/BusMemberReference.java -text svneol=unset#text/plain
 ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/proxies/ProxyBusMember.java -text svneol=unset#text/plain
 ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/proxies/ProxyBusMemberFactory.java -text svneol=unset#text/plain
 ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/proxies/ProxyPool.java -text svneol=unset#text/plain
+ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/proxies/ReferencesManager.java -text svneol=unset#text/plain
 ri.gateway.communicator-refactor/src/main/javadoc/org/universAAL/ri/gateway/doc-files/Design[!!-~]Model.png -text
 ri.gateway.communicator-refactor/src/main/javadoc/org/universAAL/ri/gateway/doc-files/Import-ImportRefresh.png -text
 ri.gateway.communicator-refactor/src/main/javadoc/org/universAAL/ri/gateway/doc-files/Import-ImportRemove.png -text

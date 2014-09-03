@@ -19,6 +19,7 @@ import java.util.Collection;
 
 import org.universAAL.middleware.bus.member.BusMember;
 import org.universAAL.middleware.rdf.Resource;
+import org.universAAL.ri.gateway.Session;
 import org.universAAL.ri.gateway.protocol.MessageSender;
 import org.universAAL.ri.gateway.protocol.WrappedBusMessage;
 
@@ -52,7 +53,7 @@ public interface ProxyBusMember {
 
     Resource[] getSubscriptionParameters();
 
-    void handleMessage(WrappedBusMessage busMessage);
+    void handleMessage(Session session, WrappedBusMessage busMessage);
 
     boolean isCompatible(Resource[] newParameters);
 

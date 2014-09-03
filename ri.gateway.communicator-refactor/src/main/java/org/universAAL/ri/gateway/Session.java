@@ -110,7 +110,7 @@ public class Session implements ComunicationEventListener, MessageSender,
 	    final ProxyBusMember pbm = pool.get(wbm
 		    .getRemoteProxyRegistrationId());
 	    if (pbm != null) {
-		pbm.handleMessage(wbm);
+		pbm.handleMessage(this, wbm);
 	    }
 	} else if (msg instanceof ErrorMessage) {
 	    final ErrorMessage em = (ErrorMessage) msg;

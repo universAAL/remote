@@ -54,7 +54,7 @@ public interface ProxyBusMember {
 
     void handleMessage(WrappedBusMessage busMessage);
 
-    boolean isCompatible(ProxyBusMember proxy);
+    boolean isCompatible(Resource[] newParameters);
 
     void close();
 

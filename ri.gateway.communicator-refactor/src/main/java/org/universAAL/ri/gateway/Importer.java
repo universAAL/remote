@@ -110,14 +110,19 @@ public class Importer {
 	if (msg.getMessageType().equals(
 		ImportMessage.ImportMessageType.ImportRemove)) {
 	    // remove
-	    remove(msg.getBusMemberId());
 	    /*
-	     * TODO When remote importer sends importRemove, it will be received
-	     * here; maybe import security is changed and remote proxy is no
+	     * When remote importer sends importRemove, it will be received
+	     * here. Maybe import security is changed and remote proxy is no
 	     * longer allowed.
 	     * 
-	     * It has to tell the exporter to remove an exported proxy.
+	     * It has to tell the exporter to remove a reference not the
+	     * exported proxy.
 	     */
+	    if (!Gateway.getInstance().getExporter()
+		    .isRemoveExport(msg.getBusMemberId(), session)) {
+		remove(msg.getBusMemberId());
+	    }
+
 	}
 	if (msg.getMessageType().equals(
 		ImportMessage.ImportMessageType.ImportRefresh)) {
@@ -206,7 +211,7 @@ public class Importer {
 		    "remove",
 		    "Remove requested but: "
 			    + remoteBusMemberId
-			    + " Proxy is not in the exported proxies for the session.");
+			    + " Proxy is not in the imported proxies for the session.");
 	}
     }
 

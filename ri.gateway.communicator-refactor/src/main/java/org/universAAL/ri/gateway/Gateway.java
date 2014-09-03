@@ -167,4 +167,8 @@ public class Gateway implements ModuleActivator {
 	    endSession(s);
 	}
     }
+
+    public Exporter getExporter() {
+	return exporter;
+    }
 }

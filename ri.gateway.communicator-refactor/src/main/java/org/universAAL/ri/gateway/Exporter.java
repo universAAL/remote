@@ -250,4 +250,19 @@ public class Exporter implements IBusMemberRegistryListener {
 	    }
 	}
     }
+
+    public boolean isRemoveExport(final String busMemberId,
+	    final Session session) {
+	final ProxyBusMember member = pool.get(busMemberId);
+	if (member != null
+		&& (member instanceof ServiceCallee || member instanceof ContextPublisher)) {
+
+	    member.removeRemoteProxyReferences(session);
+	    if (member.getRemoteProxiesReferences().isEmpty()) {
+		pool.removeProxyWithSend(member);
+	    }
+	    return true;
+	}
+	return false;
+    }
 }

@@ -41,24 +41,93 @@ public interface ProxyBusMember {
      */
     String getBusMemberId();
 
+    /**
+     * Add a {@link BusMemberReference} to the proxy. This means that from this
+     * moment on the remote proxy and the local proxy can (and should)
+     * communicate with each other. <br>
+     * 
+     * A proxy may have more than one remote reference, each time the local
+     * proxy is to send a message it should send it to the whole list of remote
+     * proxies (list of references), provided for each the outgoing security
+     * checks per message is passed.
+     * 
+     * @param remoteReference
+     *            The reference to a remote proxy, its busmemberid and the
+     *            session through witch to find it.
+     */
     void addRemoteProxyReference(BusMemberReference remoteReference);
 
+    /**
+     * Disconnect a concrete remote proxy.
+     * 
+     * @param remoteReference
+     *            the remote's proxy reference to stop communicating with.
+     */
     void removeRemoteProxyReference(BusMemberReference remoteReference);
 
+    /**
+     * Disconnect from all references that use the same session.
+     * 
+     * @param session
+     *            the session that is to be disconnected.
+     */
     void removeRemoteProxyReferences(MessageSender session);
 
-    // remember to avoid concurrent deletion (while iterating)
-
+    /**
+     * List all current references for this proxy. <br>
+     * usually used to check the size, when the size of the set of references is
+     * 0 it means that the proxy should be closed and all Java-references so the
+     * object can be collected.
+     * 
+     * @return the set of referneces.
+     */
     Collection<BusMemberReference> getRemoteProxiesReferences();
 
+    /**
+     * Get the subscription parameters of the {@link BusMember} being proxied by
+     * this proxy.
+     * 
+     * @return
+     */
     Resource[] getSubscriptionParameters();
 
+    /**
+     * When a session receives a {@link WrappedBusMessage}, it delivers it to
+     * the {@link ProxyBusMember} witch its
+     * {@link ProxyBusMember#getBusMemberId() busMemberId} matches the
+     * {@link WrappedBusMessage#getRemoteProxyRegistrationId() 
+     * WrappedBusMessage's destination}. The delivery is received through this
+     * method.
+     * 
+     * @param session
+     *            the session through which the message was received.
+     * @param busMessage
+     *            the actual message received.
+     */
     void handleMessage(Session session, WrappedBusMessage busMessage);
 
-    boolean isCompatible(Resource[] newParameters);
+    /**
+     * Used to check if a {@link ProxyBusMember} is capable of assuming the
+     * proxy duties of a requested proxy with the given parameters. <br>
+     * 
+     * Usually this is just the comparison of arrays of registration parameters
+     * 
+     * @param registrationParameters
+     * @return true if the proxy is compatible with the parameters.
+     */
+    boolean isCompatible(Resource[] registrationParameters);
 
+    /**
+     * Called when the proxy has to disconnect from the bus.
+     */
     void close();
 
+    /**
+     * When a update of registration parameters is required.
+     * 
+     * @param newParams
+     *            the new parameters to use.
+     */
     void update(Resource[] newParams);
 
 }

@@ -101,7 +101,10 @@ public class Session implements ComunicationEventListener, MessageSender,
 	return config.getOutgoingMessageOperationChain();
     }
 
-    /** Receives the Message from the communication layer, delivering it to */
+    /**
+     * Receives the Message from the communication layer, delivering it to the
+     * appropriate subcomponent.
+     */
     public void handleMessage(final Message msg) {
 	if (msg instanceof ImportMessage) {
 	    importer.handleImportMessage((ImportMessage) msg);

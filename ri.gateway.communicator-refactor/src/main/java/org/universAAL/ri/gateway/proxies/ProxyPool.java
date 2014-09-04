@@ -65,7 +65,7 @@ public class ProxyPool {
      * @param newParameters
      *            the registration parameters required for the compatible
      *            {@link ProxyBusMember}
-     * @return the compatible {@link ProxyBusMember} or null if not found.
+     * @return the first compatible {@link ProxyBusMember} or null if not found.
      */
     public ProxyBusMember searchCompatible(final Resource[] newParameters) {
 	ProxyBusMember match = null;

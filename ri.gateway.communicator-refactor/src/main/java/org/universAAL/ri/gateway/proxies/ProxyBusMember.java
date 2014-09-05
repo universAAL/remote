@@ -53,7 +53,7 @@ public interface ProxyBusMember {
      * 
      * @param remoteReference
      *            The reference to a remote proxy, its busmemberid and the
-     *            session through witch to find it.
+     *            session through which to find it.
      */
     void addRemoteProxyReference(BusMemberReference remoteReference);
 
@@ -93,7 +93,7 @@ public interface ProxyBusMember {
 
     /**
      * When a session receives a {@link WrappedBusMessage}, it delivers it to
-     * the {@link ProxyBusMember} witch its
+     * the {@link ProxyBusMember} which its
      * {@link ProxyBusMember#getBusMemberId() busMemberId} matches the
      * {@link WrappedBusMessage#getRemoteProxyRegistrationId() 
      * WrappedBusMessage's destination}. The delivery is received through this
@@ -128,6 +128,14 @@ public interface ProxyBusMember {
      * @param newParams
      *            the new parameters to use.
      */
-    void update(Resource[] newParams);
+    void addSubscriptionParameters(Resource[] newParams);
+
+    /**
+     * When a update of registration parameters is required.
+     * 
+     * @param newParams
+     *            the new parameters to use.
+     */
+    void removeSubscriptionParameters(Resource[] newParams);
 
 }

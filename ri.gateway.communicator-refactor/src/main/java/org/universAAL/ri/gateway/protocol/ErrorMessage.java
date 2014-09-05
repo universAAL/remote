@@ -45,7 +45,7 @@ public class ErrorMessage extends Message {
      * @param onMessage
      */
     public ErrorMessage(final String description, final Message onMessage) {
-	super();
+	super(onMessage);
 	this.description = description;
 	this.previousMessage = onMessage;
     }

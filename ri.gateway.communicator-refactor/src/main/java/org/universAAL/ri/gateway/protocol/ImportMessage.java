@@ -54,7 +54,7 @@ public class ImportMessage extends Message {
      * 
      */
     public enum ImportMessageType {
-	ImportRequest, ImportResponse, ImportRemove, ImportRefresh,
+	ImportRequest, ImportResponse, ImportRemove, ImportAddSubscription, ImportRemoveSubscription
     }
 
     /**
@@ -138,9 +138,11 @@ public class ImportMessage extends Message {
 	    final String proxyIdentifyer) {
 	if (!request.getMessageType().equals(ImportMessageType.ImportRequest)
 		|| !request.getMessageType().equals(
-			ImportMessageType.ImportRefresh)) {
+			ImportMessageType.ImportAddSubscription)
+		|| !request.getMessageType().equals(
+			ImportMessageType.ImportRemoveSubscription)) {
 	    throw new RuntimeException(
-		    "Response must be in response to a request or a refresh.");
+		    "Response must be in response to a request or a subscription change.");
 	}
 	final ImportMessage im = new ImportMessage(request);
 	im.messageType = ImportMessageType.ImportResponse;
@@ -149,19 +151,42 @@ public class ImportMessage extends Message {
     }
 
     /**
-     * Create a importRefresh {@link ImportMessage} for a particular
+     * Create a importAddSubscription {@link ImportMessage} for a particular
      * {@link ProxyBusMember} with certain parameters.
      * 
      * @param requestedBusMember
      *            the busMember identification for future reference, This should
      *            be the local reference.
      * @param busMemberParameters
+     *            The parameters to add.
      * @return the message.
      */
-    public static ImportMessage importRefresh(final String requestedBusMember,
+    public static ImportMessage importAddSubscription(
+	    final String requestedBusMember,
 	    final Resource[] newBusMemberParameters) {
 	final ImportMessage im = new ImportMessage();
-	im.messageType = ImportMessageType.ImportRefresh;
+	im.messageType = ImportMessageType.ImportAddSubscription;
+	im.busMemberId = requestedBusMember;
+	im.parameters = newBusMemberParameters;
+	return im;
+    }
+
+    /**
+     * Create a importRemoveSubscription {@link ImportMessage} for a particular
+     * {@link ProxyBusMember} with certain parameters.
+     * 
+     * @param requestedBusMember
+     *            the busMember identification for future reference, This should
+     *            be the local reference.
+     * @param busMemberParameters
+     *            the parameters to be removed.
+     * @return the message.
+     */
+    public static ImportMessage importRemoveSubscription(
+	    final String requestedBusMember,
+	    final Resource[] newBusMemberParameters) {
+	final ImportMessage im = new ImportMessage();
+	im.messageType = ImportMessageType.ImportRemoveSubscription;
 	im.busMemberId = requestedBusMember;
 	im.parameters = newBusMemberParameters;
 	return im;

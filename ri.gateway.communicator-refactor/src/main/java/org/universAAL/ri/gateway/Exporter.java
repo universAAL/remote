@@ -21,7 +21,7 @@ import java.util.HashSet;
 import java.util.List;
 
 import org.universAAL.middleware.bus.member.BusMember;
-import org.universAAL.middleware.context.ContextPublisher;
+import org.universAAL.middleware.context.ContextSubscriber;
 import org.universAAL.middleware.rdf.Resource;
 import org.universAAL.middleware.service.ServiceCallee;
 import org.universAAL.middleware.tracker.IBusMemberRegistry;
@@ -163,17 +163,15 @@ public class Exporter implements IBusMemberRegistryListener {
     }
 
     /**
-     * Checks the {@link BusMember} to see if it can be exported, i.e: it is
-     * either a {@link ServiceCallee} or a {@link ContextPublisher}. No specific
-     * security checks are done.
+     * Checks the {@link BusMember} to see if it can be exported, i.e: it is the
+     * correct type of BusMember. No specific security checks are done.
      * 
      * @param member
      * @return
      */
     private boolean isExportable(final BusMember member) {
 	// XXX in future add general security checks.
-	return (member instanceof ServiceCallee || member instanceof ContextPublisher)
-		&& !(member instanceof ProxyBusMember);
+	return isForExport(member) && !(member instanceof ProxyBusMember);
 	// and they are not imported proxies!
     }
 
@@ -193,13 +191,38 @@ public class Exporter implements IBusMemberRegistryListener {
 
     /** {@inheritDoc} */
     public void regParamsAdded(final String busMemberID, final Resource[] params) {
-	refresh(busMemberID, params);
+	refresh(busMemberID, new Updater() {
+
+	    public void update(final ProxyBusMember pbm) {
+		pbm.addSubscriptionParameters(params);
+	    }
+
+	    public ImportMessage createMessage() {
+		return ImportMessage.importAddSubscription(busMemberID, params);
+	    }
+	});
     }
 
     /** {@inheritDoc} */
     public void regParamsRemoved(final String busMemberID,
 	    final Resource[] params) {
-	refresh(busMemberID, params);
+	refresh(busMemberID, new Updater() {
+
+	    public void update(final ProxyBusMember pbm) {
+		pbm.removeSubscriptionParameters(params);
+	    }
+
+	    public ImportMessage createMessage() {
+		return ImportMessage.importRemoveSubscription(busMemberID,
+			params);
+	    }
+	});
+    }
+
+    private interface Updater {
+	void update(ProxyBusMember pbm);
+
+	ImportMessage createMessage();
     }
 
     /**
@@ -211,12 +234,12 @@ public class Exporter implements IBusMemberRegistryListener {
      * @param busMemberID
      * @param orgigParams
      */
-    private void refresh(final String busMemberID, final Resource[] orgigParams) {
+    private void refresh(final String busMemberID, final Updater up) {
 	// locate local proxy representative in pool
 	final ProxyBusMember pbm = pool.get(busMemberID);
 	if (pbm != null) {
 	    // update proxy registrations
-	    pbm.update(orgigParams);
+	    up.update(pbm);
 	    final Collection<BusMemberReference> refs = pbm
 		    .getRemoteProxiesReferences();
 	    final HashSet<BusMemberReference> toBeRemoved = new HashSet<BusMemberReference>(
@@ -228,8 +251,7 @@ public class Exporter implements IBusMemberRegistryListener {
 		// check the new parameters are allowed to be exported
 		if (s.getExportOperationChain().canBeExported(pbm)
 			.equals(OperationChain.OperationResult.ALLOW)) {
-		    final Message resp = s.sendRequest(ImportMessage
-			    .importRefresh(busMemberID, orgigParams));
+		    final Message resp = s.sendRequest(up.createMessage());
 		    if (resp != null && resp instanceof ImportMessage
 			    && ((ImportMessage) resp).isAccepted()) {
 			toBeAdded.add(new BusMemberReference(s,
@@ -253,8 +275,7 @@ public class Exporter implements IBusMemberRegistryListener {
     public boolean isRemoveExport(final String busMemberId,
 	    final Session session) {
 	final ProxyBusMember member = pool.get(busMemberId);
-	if (member != null
-		&& (member instanceof ServiceCallee || member instanceof ContextPublisher)) {
+	if (isForExport(member)) {
 
 	    member.removeRemoteProxyReferences(session);
 	    if (member.getRemoteProxiesReferences().isEmpty()) {
@@ -263,5 +284,10 @@ public class Exporter implements IBusMemberRegistryListener {
 	    return true;
 	}
 	return false;
+    }
+
+    public static boolean isForExport(final Object member) {
+	return member != null
+		&& (member instanceof ServiceCallee || member instanceof ContextSubscriber);
     }
 }

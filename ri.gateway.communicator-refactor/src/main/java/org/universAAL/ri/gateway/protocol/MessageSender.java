@@ -35,7 +35,7 @@ public interface MessageSender {
     void send(Message message);
 
     /**
-     * Send a request Synchronously to witch a response is expected.
+     * Send a request Synchronously to which a response is expected.
      * 
      * @param message
      *            to send, typically a request message

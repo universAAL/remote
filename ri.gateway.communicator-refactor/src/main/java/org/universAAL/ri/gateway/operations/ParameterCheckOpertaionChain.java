@@ -18,21 +18,14 @@ package org.universAAL.ri.gateway.operations;
 import org.universAAL.middleware.rdf.Resource;
 
 /**
- * Interface to Check whether a proxy is allowed to be imported
+ * Interface to Check whether a BusMember is allowed to be exported, or imported
+ * using it´s params.
  * 
  * @author amedrano
  * 
  */
-public interface ImportOpertaionChain extends OperationChain {
+public interface ParameterCheckOpertaionChain extends OperationChain {
 
-    /**
-     * Check that an import request can be accomplished.
-     * 
-     * @param importParams
-     *            the import Request.
-     * @return {@link OperationResult#ALLOW} iff it is allowed to create (or
-     *         bind) the import proxy.
-     */
-    OperationResult canBeImported(Resource[] importParams);
+    OperationResult check(Resource[] params);
 
 }

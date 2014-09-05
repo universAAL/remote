@@ -15,7 +15,6 @@
  ******************************************************************************/
 package org.universAAL.ri.gateway.proxies;
 
-import org.universAAL.middleware.bus.member.BusMember;
 import org.universAAL.middleware.rdf.Resource;
 
 /**
@@ -25,18 +24,6 @@ import org.universAAL.middleware.rdf.Resource;
  * 
  */
 public class ProxyBusMemberFactory {
-
-    /**
-     * Create a proxy given the local {@link BusMember}.
-     * 
-     * @param bm
-     *            The {@link BusMember} to be proxied.
-     * @return the proxy.
-     */
-    public static ProxyBusMember create(final BusMember bm) {
-	// TODO complete creation according to busmember type ...
-	return null;
-    }
 
     /**
      * Create a proxy given parameters sent by remote peer.

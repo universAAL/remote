@@ -15,7 +15,6 @@
  ******************************************************************************/
 package org.universAAL.ri.gateway;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -31,6 +30,7 @@ import org.universAAL.ri.gateway.proxies.BusMemberReference;
 import org.universAAL.ri.gateway.proxies.ProxyBusMember;
 import org.universAAL.ri.gateway.proxies.ProxyBusMemberFactory;
 import org.universAAL.ri.gateway.proxies.ProxyPool;
+import org.universAAL.ri.gateway.utils.ArraySet;
 
 /**
  * In charge of interpreting import requests coming from remote peer, and
@@ -89,8 +89,7 @@ public class Importer {
 	if (msg.getMessageType().equals(
 		ImportMessage.ImportMessageType.ImportRequest)) {
 	    // request
-	    if (session.getImportOperationChain()
-		    .canBeImported(msg.getParameters())
+	    if (session.getImportOperationChain().check(msg.getParameters())
 		    .equals(OperationChain.OperationResult.ALLOW)) {
 		// it is allowed
 		// search for a compatible proxy
@@ -140,13 +139,8 @@ public class Importer {
 		}
 
 		public Resource[] newParameters(final Resource[] oldParameters) {
-
-		    final Set<Resource> oldSet = new HashSet<Resource>(Arrays
-			    .asList(oldParameters));
-		    final Set<Resource> newSet = new HashSet<Resource>(Arrays
-			    .asList(msg.getParameters()));
-		    newSet.addAll(oldSet);
-		    return newSet.toArray(new Resource[newSet.size()]);
+		    return new ArraySet.Union<Resource>().combine(
+			    oldParameters, msg.getParameters());
 		}
 	    });
 
@@ -161,13 +155,8 @@ public class Importer {
 		}
 
 		public Resource[] newParameters(final Resource[] oldParameters) {
-
-		    final Set<Resource> current = new HashSet<Resource>(Arrays
-			    .asList(oldParameters));
-		    final Set<Resource> tbr = new HashSet<Resource>(Arrays
-			    .asList(msg.getParameters()));
-		    current.removeAll(tbr);
-		    return current.toArray(new Resource[current.size()]);
+		    return new ArraySet.Difference<Resource>().combine(
+			    oldParameters, msg.getParameters());
 		}
 	    });
 
@@ -204,7 +193,7 @@ public class Importer {
 	    final Resource[] newParams = up.newParameters(local
 		    .getSubscriptionParameters());
 
-	    if (session.getImportOperationChain().canBeImported(newParams)
+	    if (session.getImportOperationChain().check(newParams)
 		    .equals(OperationChain.OperationResult.ALLOW)) {
 		// it is allowed by security config.
 
@@ -302,7 +291,7 @@ public class Importer {
 		imports.values());
 	for (final ProxyBusMember pbm : checks) {
 	    if (session.getImportOperationChain()
-		    .canBeImported(pbm.getSubscriptionParameters())
+		    .check(pbm.getSubscriptionParameters())
 		    .equals(OperationChain.OperationResult.DENY)) {
 		pool.removeProxyWithSend(pbm);
 	    }

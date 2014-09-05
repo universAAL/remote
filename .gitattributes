@@ -95,11 +95,10 @@ ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/eimanag
 ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/eimanager/impl/registry/RepoOperation.java -text
 ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/eimanager/impl/security/ExportSecurityOperationInterceptor.java -text
 ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/eimanager/impl/security/ImportSecurityOperationInterceptor.java -text
-ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/operations/ExportOpertaionChain.java -text svneol=unset#text/plain
-ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/operations/ImportOpertaionChain.java -text svneol=unset#text/plain
 ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/operations/MessageOperationChain.java -text svneol=unset#text/plain
 ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/operations/OperationChain.java -text svneol=unset#text/plain
 ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/operations/OperationChainManager.java -text svneol=unset#text/plain
+ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/operations/ParameterCheckOpertaionChain.java -text svneol=unset#text/plain
 ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/protocol/ErrorMessage.java -text svneol=unset#text/plain
 ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/protocol/ImportMessage.java -text svneol=unset#text/plain
 ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/protocol/Message.java -text svneol=unset#text/plain
@@ -115,6 +114,7 @@ ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/proxies
 ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/proxies/ProxyBusMemberFactory.java -text svneol=unset#text/plain
 ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/proxies/ProxyPool.java -text svneol=unset#text/plain
 ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/proxies/ReferencesManager.java -text svneol=unset#text/plain
+ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/utils/ArraySet.java -text svneol=unset#text/plain
 ri.gateway.communicator-refactor/src/main/javadoc/org/universAAL/ri/gateway/doc-files/Design[!!-~]Model.png -text
 ri.gateway.communicator-refactor/src/main/javadoc/org/universAAL/ri/gateway/doc-files/Import-ImportRefresh.png -text
 ri.gateway.communicator-refactor/src/main/javadoc/org/universAAL/ri/gateway/doc-files/Import-ImportRemove.png -text

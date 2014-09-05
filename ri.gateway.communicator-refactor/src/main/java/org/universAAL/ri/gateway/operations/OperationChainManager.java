@@ -34,7 +34,7 @@ public interface OperationChainManager {
      * @TODO interface to be refined!
      * @return
      */
-    ImportOpertaionChain getImportOperationChain();
+    ParameterCheckOpertaionChain getImportOperationChain();
 
     /**
      * The security checks that a {@link BusMember} has to pass in order to be
@@ -44,7 +44,7 @@ public interface OperationChainManager {
      * @TODO interface to be refined!
      * @return
      */
-    ExportOpertaionChain getExportOperationChain();
+    ParameterCheckOpertaionChain getExportOperationChain();
 
     /**
      * The security checks that an incoming {@link WrappedBusMessage} has to

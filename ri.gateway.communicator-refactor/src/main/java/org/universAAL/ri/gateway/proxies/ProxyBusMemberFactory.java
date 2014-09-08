@@ -15,7 +15,10 @@
  ******************************************************************************/
 package org.universAAL.ri.gateway.proxies;
 
+import org.universAAL.middleware.bus.member.BusMember;
+import org.universAAL.middleware.context.ContextSubscriber;
 import org.universAAL.middleware.rdf.Resource;
+import org.universAAL.middleware.service.ServiceCallee;
 
 /**
  * Factory to create Proxies.
@@ -31,8 +34,24 @@ public class ProxyBusMemberFactory {
      * @param regParams
      * @return
      */
-    public static ProxyBusMember create(final Resource[] regParams) {
+    public static ProxyBusMember createImport(final Resource[] regParams) {
 	// TODO complete creation from params
 	return null;
+    }
+
+    /**
+     * Create a proxy for exporting with the given paramenters.
+     * 
+     * @param params
+     * @return
+     */
+    public static ProxyBusMember createExport(final Resource[] params) {
+	// TODO complete creation from params
+	return null;
+    }
+
+    public static boolean isForExport(final BusMember member) {
+        return member != null
+        	&& (member instanceof ServiceCallee || member instanceof ContextSubscriber);
     }
 }

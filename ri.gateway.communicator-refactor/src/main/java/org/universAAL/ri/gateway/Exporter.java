@@ -21,9 +21,7 @@ import java.util.HashSet;
 import java.util.Map;
 
 import org.universAAL.middleware.bus.member.BusMember;
-import org.universAAL.middleware.context.ContextSubscriber;
 import org.universAAL.middleware.rdf.Resource;
-import org.universAAL.middleware.service.ServiceCallee;
 import org.universAAL.middleware.tracker.IBusMemberRegistry;
 import org.universAAL.middleware.tracker.IBusMemberRegistry.BusType;
 import org.universAAL.middleware.tracker.IBusMemberRegistryListener;
@@ -85,7 +83,7 @@ public class Exporter implements IBusMemberRegistryListener {
 	    // get or create
 	    ProxyBusMember exportProxy = pool.searchCompatible(params);
 	    if (exportProxy == null) {
-		exportProxy = ProxyBusMemberFactory.create(params);
+		exportProxy = ProxyBusMemberFactory.createExport(params);
 	    }
 
 	    // send ImportRequest, and wait for response
@@ -150,7 +148,8 @@ public class Exporter implements IBusMemberRegistryListener {
      */
     private boolean isExportable(final BusMember member) {
 	// XXX in future add general security checks.
-	return isForExport(member) && !(member instanceof ProxyBusMember);
+	return !(member instanceof ProxyBusMember)
+		&& ProxyBusMemberFactory.isForExport(member);
 	// and they are not imported proxies!
     }
 
@@ -269,7 +268,7 @@ public class Exporter implements IBusMemberRegistryListener {
     public boolean isRemoveExport(final String busMemberId,
 	    final Session session) {
 	final ProxyBusMember member = pool.get(busMemberId);
-	if (isForExport(member)) {
+	if (ProxyBusMemberFactory.isForExport((BusMember) member)) {
 
 	    member.removeRemoteProxyReferences(session);
 	    if (member.getRemoteProxiesReferences().isEmpty()) {
@@ -278,10 +277,5 @@ public class Exporter implements IBusMemberRegistryListener {
 	    return true;
 	}
 	return false;
-    }
-
-    public static boolean isForExport(final Object member) {
-	return member != null
-		&& (member instanceof ServiceCallee || member instanceof ContextSubscriber);
     }
 }

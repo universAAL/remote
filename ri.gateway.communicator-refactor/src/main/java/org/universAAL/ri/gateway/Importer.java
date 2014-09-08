@@ -96,7 +96,8 @@ public class Importer {
 		ProxyBusMember pbm = pool.searchCompatible(msg.getParameters());
 		if (pbm == null) {
 		    // create a new one otherwise;
-		    pbm = ProxyBusMemberFactory.create(msg.getParameters());
+		    pbm = ProxyBusMemberFactory.createImport(msg
+			    .getParameters());
 		    pool.add(pbm);
 		}
 		// Associate remote proxy
@@ -220,7 +221,7 @@ public class Importer {
 		remove(remoteBusMemberId);
 
 		/*
-		 * no need to check if proxy needs to be deleted, beacuse we
+		 * no need to check if proxy needs to be deleted, because we
 		 * have already checked that the size of the references is more
 		 * than 1, so deleting one reference will always leave at least
 		 * 1.
@@ -230,7 +231,7 @@ public class Importer {
 		ProxyBusMember newPBM = pool.searchCompatible(newParams);
 		if (newPBM == null) {
 		    // create a new one otherwise;
-		    newPBM = ProxyBusMemberFactory.create(newParams);
+		    newPBM = ProxyBusMemberFactory.createImport(newParams);
 		    pool.add(newPBM);
 		}
 		newPBM.addRemoteProxyReference(new BusMemberReference(session,

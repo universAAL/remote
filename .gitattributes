@@ -114,6 +114,10 @@ ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/proxies
 ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/proxies/ProxyBusMemberFactory.java -text svneol=unset#text/plain
 ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/proxies/ProxyPool.java -text svneol=unset#text/plain
 ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/proxies/ReferencesManager.java -text svneol=unset#text/plain
+ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/proxies/exporting/ProxyContextPublisher.java -text svneol=unset#text/plain
+ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/proxies/exporting/ProxySCaller.java -text svneol=unset#text/plain
+ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/proxies/importing/ProxyContextSubscriber.java -text svneol=unset#text/plain
+ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/proxies/importing/ProxySCallee.java -text svneol=unset#text/plain
 ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/proxies/updating/RegistrationParametersAdder.java -text svneol=unset#text/plain
 ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/proxies/updating/RegistrationParametersRemover.java -text svneol=unset#text/plain
 ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/proxies/updating/Updater.java -text svneol=unset#text/plain

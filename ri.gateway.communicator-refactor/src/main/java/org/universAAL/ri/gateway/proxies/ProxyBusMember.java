@@ -20,7 +20,6 @@ import java.util.Collection;
 import org.universAAL.middleware.bus.member.BusMember;
 import org.universAAL.middleware.rdf.Resource;
 import org.universAAL.ri.gateway.Session;
-import org.universAAL.ri.gateway.protocol.MessageSender;
 import org.universAAL.ri.gateway.protocol.WrappedBusMessage;
 
 /**
@@ -71,7 +70,7 @@ public interface ProxyBusMember {
      * @param session
      *            the session that is to be disconnected.
      */
-    void removeRemoteProxyReferences(MessageSender session);
+    void removeRemoteProxyReferences(Session session);
 
     /**
      * List all current references for this proxy. <br>

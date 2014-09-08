@@ -114,6 +114,9 @@ ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/proxies
 ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/proxies/ProxyBusMemberFactory.java -text svneol=unset#text/plain
 ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/proxies/ProxyPool.java -text svneol=unset#text/plain
 ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/proxies/ReferencesManager.java -text svneol=unset#text/plain
+ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/proxies/updating/RegistrationParametersAdder.java -text svneol=unset#text/plain
+ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/proxies/updating/RegistrationParametersRemover.java -text svneol=unset#text/plain
+ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/proxies/updating/Updater.java -text svneol=unset#text/plain
 ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/utils/ArraySet.java -text svneol=unset#text/plain
 ri.gateway.communicator-refactor/src/main/javadoc/org/universAAL/ri/gateway/doc-files/Design[!!-~]Model.png -text
 ri.gateway.communicator-refactor/src/main/javadoc/org/universAAL/ri/gateway/doc-files/Import-ImportRefresh.png -text

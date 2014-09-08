@@ -30,7 +30,9 @@ import org.universAAL.ri.gateway.proxies.BusMemberReference;
 import org.universAAL.ri.gateway.proxies.ProxyBusMember;
 import org.universAAL.ri.gateway.proxies.ProxyBusMemberFactory;
 import org.universAAL.ri.gateway.proxies.ProxyPool;
-import org.universAAL.ri.gateway.utils.ArraySet;
+import org.universAAL.ri.gateway.proxies.updating.RegistrationParametersAdder;
+import org.universAAL.ri.gateway.proxies.updating.RegistrationParametersRemover;
+import org.universAAL.ri.gateway.proxies.updating.Updater;
 
 /**
  * In charge of interpreting import requests coming from remote peer, and
@@ -133,41 +135,17 @@ public class Importer {
 	if (msg.getMessageType().equals(
 		ImportMessage.ImportMessageType.ImportAddSubscription)) {
 	    // refresh add
-	    checkAndRefresh(msg, new Updater() {
-
-		public void update(final ProxyBusMember member) {
-		    member.addSubscriptionParameters(msg.getParameters());
-		}
-
-		public Resource[] newParameters(final Resource[] oldParameters) {
-		    return new ArraySet.Union<Resource>().combine(
-			    oldParameters, msg.getParameters());
-		}
-	    });
+	    checkAndRefresh(msg,
+		    new RegistrationParametersAdder(msg.getParameters()));
 
 	}
 	if (msg.getMessageType().equals(
 		ImportMessage.ImportMessageType.ImportRemoveSubscription)) {
 	    // refresh remove
-	    checkAndRefresh(msg, new Updater() {
-
-		public void update(final ProxyBusMember member) {
-		    member.removeSubscriptionParameters(msg.getParameters());
-		}
-
-		public Resource[] newParameters(final Resource[] oldParameters) {
-		    return new ArraySet.Difference<Resource>().combine(
-			    oldParameters, msg.getParameters());
-		}
-	    });
+	    checkAndRefresh(msg,
+		    new RegistrationParametersRemover(msg.getParameters()));
 
 	}
-    }
-
-    private interface Updater {
-	void update(ProxyBusMember member);
-
-	Resource[] newParameters(Resource[] oldParameters);
     }
 
     /**

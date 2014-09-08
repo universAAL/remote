@@ -32,6 +32,10 @@ import org.universAAL.ri.gateway.proxies.BusMemberReference;
 import org.universAAL.ri.gateway.proxies.ProxyBusMember;
 import org.universAAL.ri.gateway.proxies.ProxyBusMemberFactory;
 import org.universAAL.ri.gateway.proxies.ProxyPool;
+import org.universAAL.ri.gateway.proxies.updating.RegistrationParametersAdder;
+import org.universAAL.ri.gateway.proxies.updating.RegistrationParametersRemover;
+import org.universAAL.ri.gateway.proxies.updating.Updater;
+import org.universAAL.ri.gateway.utils.ArraySet;
 
 /**
  * Tracks {@link BusMember} through the {@link IBusMemberRegistry}, when a new
@@ -47,9 +51,18 @@ import org.universAAL.ri.gateway.proxies.ProxyPool;
  */
 public class Exporter implements IBusMemberRegistryListener {
 
+    /**
+     * Track all busMembers that register to the buses to their actual
+     * registration parameters.
+     */
     private final Map<String, Resource[]> tracked;
 
+    /**
+     * Pool of Proxies.
+     */
     private final ProxyPool pool;
+
+    private final Map<String, ProxyBusMember> exported;
 
     /**
      *  
@@ -57,7 +70,7 @@ public class Exporter implements IBusMemberRegistryListener {
     public Exporter(final ProxyPool pool) {
 	this.pool = pool;
 	tracked = new HashMap<String, Resource[]>();
-	// busMembers = new HashMap<String, String>();
+	exported = new HashMap<String, ProxyBusMember>();
     }
 
     /**
@@ -85,11 +98,11 @@ public class Exporter implements IBusMemberRegistryListener {
 	    if (exportProxy == null) {
 		exportProxy = ProxyBusMemberFactory.createExport(params);
 	    }
-
+	    // annotate export map
+	    exported.put(busMemberId, exportProxy);
 	    // send ImportRequest, and wait for response
 	    final Message resp = session.sendRequest(ImportMessage
-		    .importRequest(exportProxy.getBusMemberId(),
-			    exportProxy.getSubscriptionParameters()));
+		    .importRequest(exportProxy.getBusMemberId(), params));
 	    if (resp != null && resp instanceof ImportMessage
 		    && ((ImportMessage) resp).isAccepted()) {
 		// if response is positive associate
@@ -116,13 +129,6 @@ public class Exporter implements IBusMemberRegistryListener {
     public void newSession(final Session session) {
 	for (final String bmId : tracked.keySet()) {
 	    checkAndExport(bmId, session);
-	}
-    }
-
-    public void busMemberAdded(final BusMember member, final BusType type) {
-	if (isExportable(member)) {
-	    // mark as ready to receive params.
-	    tracked.put(member.getURI(), null);
 	}
     }
 
@@ -153,6 +159,13 @@ public class Exporter implements IBusMemberRegistryListener {
 	// and they are not imported proxies!
     }
 
+    public void busMemberAdded(final BusMember member, final BusType type) {
+	if (isExportable(member)) {
+	    // mark as ready to receive params.
+	    tracked.put(member.getURI(), null);
+	}
+    }
+
     /**
      * Invoked when an existing BusMember is unregistered from the bus.<br>
      * 
@@ -163,9 +176,13 @@ public class Exporter implements IBusMemberRegistryListener {
 	final String bmId = member.getURI();
 	if (tracked.containsKey(bmId)) {
 	    // get proxy representative
-	    final ProxyBusMember pbm = pool.get(bmId);
+	    final ProxyBusMember pbm = exported.get(bmId);
 	    tracked.remove(bmId);
-	    pool.removeProxyWithSend(pbm);
+	    exported.remove(bmId);
+	    // if there are no left export references then remove proxy.
+	    if (!exported.values().contains(pbm)) {
+		pool.removeProxyWithSend(pbm);
+	    }
 	}
     }
 
@@ -178,41 +195,20 @@ public class Exporter implements IBusMemberRegistryListener {
 	    // a virgin busmember has registered, ie a newBusMember!
 	    tracked.put(busMemberID, params);
 	    newBusMember(busMemberID);
-	} else {
-	    refresh(busMemberID, new Updater() {
+	} else if (tracked.containsKey(busMemberID) && currentParams != null) {
+	    tracked.put(busMemberID, new ArraySet.Union<Resource>().combine(
+		    currentParams, params));
+	    refresh(busMemberID, new RegistrationParametersAdder(params));
 
-		public void update(final ProxyBusMember pbm) {
-		    pbm.addSubscriptionParameters(params);
-		}
-
-		public ImportMessage createMessage() {
-		    return ImportMessage.importAddSubscription(busMemberID,
-			    params);
-		}
-	    });
 	}
     }
 
     /** {@inheritDoc} */
     public void regParamsRemoved(final String busMemberID,
 	    final Resource[] params) {
-	refresh(busMemberID, new Updater() {
-
-	    public void update(final ProxyBusMember pbm) {
-		pbm.removeSubscriptionParameters(params);
-	    }
-
-	    public ImportMessage createMessage() {
-		return ImportMessage.importRemoveSubscription(busMemberID,
-			params);
-	    }
-	});
-    }
-
-    private interface Updater {
-	void update(ProxyBusMember pbm);
-
-	ImportMessage createMessage();
+	tracked.put(busMemberID, new ArraySet.Union<Resource>().combine(
+		tracked.get(busMemberID), params));
+	refresh(busMemberID, new RegistrationParametersRemover(params));
     }
 
     /**
@@ -225,13 +221,12 @@ public class Exporter implements IBusMemberRegistryListener {
      * @param orgigParams
      */
     private void refresh(final String busMemberID, final Updater up) {
-	// locate local proxy representative in pool
-	final ProxyBusMember pbm = pool.get(busMemberID);
+	// locate exported proxy representative
+	final ProxyBusMember pbm = exported.get(busMemberID);
 	if (pbm != null) {
 	    // update proxy registrations
 	    up.update(pbm);
-	    // update the tracked record
-	    tracked.put(busMemberID, pbm.getSubscriptionParameters());
+	    // up.newParameters(tracked.get(busMemberID)));
 	    final Collection<BusMemberReference> refs = pbm
 		    .getRemoteProxiesReferences();
 	    final HashSet<BusMemberReference> toBeRemoved = new HashSet<BusMemberReference>(
@@ -241,10 +236,10 @@ public class Exporter implements IBusMemberRegistryListener {
 	    for (final BusMemberReference bmr : refs) {
 		final Session s = bmr.getChannel();
 		// check the new parameters are allowed to be exported
-		if (s.getExportOperationChain()
-			.check(pbm.getSubscriptionParameters())
+		if (s.getExportOperationChain().check(tracked.get(busMemberID))
 			.equals(OperationChain.OperationResult.ALLOW)) {
-		    final Message resp = s.sendRequest(up.createMessage());
+		    final Message resp = s.sendRequest(up
+			    .createExportMessage(pbm.getBusMemberId()));
 		    if (resp != null && resp instanceof ImportMessage
 			    && ((ImportMessage) resp).isAccepted()) {
 			toBeAdded.add(new BusMemberReference(s,
@@ -265,6 +260,14 @@ public class Exporter implements IBusMemberRegistryListener {
 	}
     }
 
+    /**
+     * Called to check (and handle) if the remote {@link Importer} is sending a
+     * remove request.
+     * 
+     * @param busMemberId
+     * @param session
+     * @return
+     */
     public boolean isRemoveExport(final String busMemberId,
 	    final Session session) {
 	final ProxyBusMember member = pool.get(busMemberId);

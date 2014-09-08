@@ -49,4 +49,25 @@ public class ArraySet {
 	}
 
     }
+
+    public static class Equal<T> {
+	public boolean equal(final T[] a, final T[] b) {
+	    if (a.length != b.length) {
+		return false;
+	    }
+	    boolean equal = true;
+	    int i = 0;
+	    while (equal && i < a.length) {
+		boolean e = false;
+		final int j = 0;
+		while (!e && j < b.length) {
+		    e = a[i].equals(b[j]);
+		}
+		equal = e;
+		i++;
+	    }
+	    return equal;
+	}
+    }
+
 }

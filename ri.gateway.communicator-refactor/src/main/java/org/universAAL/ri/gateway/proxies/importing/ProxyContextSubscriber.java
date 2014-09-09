@@ -102,12 +102,15 @@ public class ProxyContextSubscriber extends ContextSubscriber implements
     public void addSubscriptionParameters(final Resource[] newParams) {
 	currentRegParam = new ArraySet.Union<Resource>().combine(
 		currentRegParam, newParams);
+	addNewRegParams((ContextEventPattern[]) newParams);
+
     }
 
     /** {@inheritDoc} */
     public void removeSubscriptionParameters(final Resource[] newParams) {
 	currentRegParam = new ArraySet.Difference<Resource>().combine(
 		currentRegParam, newParams);
+	removeMatchingRegParams((ContextEventPattern[]) newParams);
     }
 
     /** {@inheritDoc} */

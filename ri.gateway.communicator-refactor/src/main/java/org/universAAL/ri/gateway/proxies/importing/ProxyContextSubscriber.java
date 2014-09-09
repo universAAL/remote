@@ -23,98 +23,118 @@ import org.universAAL.middleware.context.ContextEventPattern;
 import org.universAAL.middleware.context.ContextSubscriber;
 import org.universAAL.middleware.rdf.Resource;
 import org.universAAL.ri.gateway.Session;
+import org.universAAL.ri.gateway.operations.OperationChain;
 import org.universAAL.ri.gateway.protocol.WrappedBusMessage;
 import org.universAAL.ri.gateway.proxies.BusMemberReference;
 import org.universAAL.ri.gateway.proxies.ProxyBusMember;
+import org.universAAL.ri.gateway.proxies.ReferencesManager;
+import org.universAAL.ri.gateway.utils.ArraySet;
 
 /**
  * @author amedrano
- *
+ * 
  */
 public class ProxyContextSubscriber extends ContextSubscriber implements
 	ProxyBusMember {
+
+    private final ReferencesManager refsMngr;
+
+    private Resource[] currentRegParam;
 
     /**
      * @param connectingModule
      * @param initialSubscriptions
      */
-    public ProxyContextSubscriber(ModuleContext connectingModule,
-	    ContextEventPattern[] initialSubscriptions) {
+    public ProxyContextSubscriber(final ModuleContext connectingModule,
+	    final ContextEventPattern[] initialSubscriptions) {
 	super(connectingModule, initialSubscriptions);
-	// TODO Auto-generated constructor stub
+	refsMngr = new ReferencesManager();
+	currentRegParam = initialSubscriptions;
     }
 
-    /**{@inheritDoc} */
+    /** {@inheritDoc} */
     public String getBusMemberId() {
-	// TODO Auto-generated method stub
-	return null;
+	return busResourceURI;
     }
 
-    /**{@inheritDoc} */
-    public void addRemoteProxyReference(BusMemberReference remoteReference) {
-	// TODO Auto-generated method stub
-
+    /** {@inheritDoc} */
+    public void addRemoteProxyReference(final BusMemberReference remoteReference) {
+	refsMngr.addRemoteProxyReference(remoteReference);
     }
 
-    /**{@inheritDoc} */
-    public void removeRemoteProxyReference(BusMemberReference remoteReference) {
-	// TODO Auto-generated method stub
-
+    /** {@inheritDoc} */
+    public void removeRemoteProxyReference(
+	    final BusMemberReference remoteReference) {
+	refsMngr.removeRemoteProxyReference(remoteReference);
     }
 
-    /**{@inheritDoc} */
-    public void removeRemoteProxyReferences(Session session) {
-	// TODO Auto-generated method stub
-
+    /** {@inheritDoc} */
+    public void removeRemoteProxyReferences(final Session session) {
+	refsMngr.removeRemoteProxyReferences(session);
     }
 
-    /**{@inheritDoc} */
+    /** {@inheritDoc} */
     public Collection<BusMemberReference> getRemoteProxiesReferences() {
-	// TODO Auto-generated method stub
-	return null;
+	return refsMngr.getRemoteProxiesReferences();
     }
 
-    /**{@inheritDoc} */
+    /** {@inheritDoc} */
     public Resource[] getSubscriptionParameters() {
-	// TODO Auto-generated method stub
-	return null;
+	return currentRegParam;
     }
 
-    /**{@inheritDoc} */
-    public void handleMessage(Session session, WrappedBusMessage busMessage) {
-	// TODO Auto-generated method stub
-
-    }
-
-    /**{@inheritDoc} */
-    public boolean isCompatible(Resource[] registrationParameters) {
-	// TODO Auto-generated method stub
-	return false;
-    }
-
-    /**{@inheritDoc} */
-    public void addSubscriptionParameters(Resource[] newParams) {
-	// TODO Auto-generated method stub
+    /** {@inheritDoc} */
+    public void handleMessage(final Session session,
+	    final WrappedBusMessage busMessage) {
+	// ignored, no message should be received!
 
     }
 
-    /**{@inheritDoc} */
-    public void removeSubscriptionParameters(Resource[] newParams) {
-	// TODO Auto-generated method stub
-
+    /** {@inheritDoc} */
+    public boolean isCompatible(final Resource[] registrationParameters) {
+	return registrationParameters.length > 0
+		&& registrationParameters[0] instanceof ContextEventPattern
+		&& new ArraySet.Equal<Resource>().equal(registrationParameters,
+			currentRegParam);
     }
 
-    /**{@inheritDoc} */
+    /** {@inheritDoc} */
+    public void addSubscriptionParameters(final Resource[] newParams) {
+	currentRegParam = new ArraySet.Union<Resource>().combine(
+		currentRegParam, newParams);
+    }
+
+    /** {@inheritDoc} */
+    public void removeSubscriptionParameters(final Resource[] newParams) {
+	currentRegParam = new ArraySet.Difference<Resource>().combine(
+		currentRegParam, newParams);
+    }
+
+    /** {@inheritDoc} */
     @Override
     public void communicationChannelBroken() {
-	// TODO Auto-generated method stub
+	// XXX disconnect?
 
     }
 
-    /**{@inheritDoc} */
+    /** {@inheritDoc} */
     @Override
-    public void handleContextEvent(ContextEvent event) {
-	// TODO Auto-generated method stub
+    public void handleContextEvent(final ContextEvent event) {
+	final Collection<BusMemberReference> refs = refsMngr
+		.getRemoteProxiesReferences();
+	for (final BusMemberReference bmr : refs) {
+	    final Session s = bmr.getChannel();
+	    if (!event.getScopes().contains(s.getScope())
+		    && s.getOutgoingMessageOperationChain().check(event)
+			    .equals(OperationChain.OperationResult.ALLOW)) {
+		// the origin is not the same as the session
+		// and it is allowed to go there
+		final ContextEvent copy = (ContextEvent) event.deepCopy();
+		copy.clearScopes();
+		s.send(new WrappedBusMessage(bmr.getBusMemberid(), copy));
+		// sends a scope clear event to remote proxy.
+	    }
+	}
 
     }
 

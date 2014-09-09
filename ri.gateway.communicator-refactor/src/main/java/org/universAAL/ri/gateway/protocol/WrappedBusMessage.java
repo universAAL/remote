@@ -65,6 +65,20 @@ public class WrappedBusMessage extends Message {
 		busMessage);
     }
 
+    /**
+     * Constructor for a WrapedMessage response.
+     * 
+     * @param wrappedbusMessageRequest
+     * @param busMessage
+     */
+    public WrappedBusMessage(final WrappedBusMessage wrappedbusMessageRequest,
+	    final ScopedResource busMessage) {
+	super(wrappedbusMessageRequest);
+	content = Gateway.getInstance().serializer.getObject().serialize(
+		busMessage);
+	destination = "response";
+    }
+
     @Override
     public String toString() {
 	if (content != null) {

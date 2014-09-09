@@ -17,6 +17,7 @@ package org.universAAL.ri.gateway.proxies.importing;
 
 import java.util.Collection;
 
+import org.universAAL.middleware.bus.member.BusMember;
 import org.universAAL.middleware.container.ModuleContext;
 import org.universAAL.middleware.context.ContextEvent;
 import org.universAAL.middleware.context.ContextEventPattern;
@@ -31,6 +32,10 @@ import org.universAAL.ri.gateway.proxies.ReferencesManager;
 import org.universAAL.ri.gateway.utils.ArraySet;
 
 /**
+ * Receives the events the remote {@link BusMember} is interested in, and sends
+ * the {@link ContextEvent}s to its representative so it can deliver it to the
+ * remote {@link BusMember}.
+ * 
  * @author amedrano
  * 
  */

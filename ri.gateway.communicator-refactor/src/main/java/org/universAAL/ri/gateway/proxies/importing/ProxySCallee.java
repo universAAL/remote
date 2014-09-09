@@ -39,6 +39,11 @@ import org.universAAL.ri.gateway.proxies.ReferencesManager;
 import org.universAAL.ri.gateway.utils.ArraySet;
 
 /**
+ * Represents remote a {@link ServiceCallee}, with its subscription parameters
+ * synchronized, it is able to get the calls meant for the remote
+ * {@link ServiceCallee} and send them to the remote proxy which, in time, makes
+ * sure a response from the actual {@link ServiceCallee} is transmitted back.
+ * 
  * @author amedrano
  * 
  */

@@ -100,6 +100,10 @@ public class Importer {
 		    // create a new one otherwise;
 		    pbm = ProxyBusMemberFactory.createImport(msg
 			    .getParameters());
+		    if (pbm == null) {
+			session.send(ImportMessage.importResponse(msg, null));
+			return;
+		    }
 		    pool.add(pbm);
 		}
 		// Associate remote proxy
@@ -114,6 +118,7 @@ public class Importer {
 		// import denied
 		session.send(ImportMessage.importResponse(msg, null));
 	    }
+	    return;
 	}
 	if (msg.getMessageType().equals(
 		ImportMessage.ImportMessageType.ImportRemove)) {
@@ -130,13 +135,14 @@ public class Importer {
 		    .isRemoveExport(msg.getBusMemberId(), session)) {
 		remove(msg.getBusMemberId());
 	    }
-
+	    return;
 	}
 	if (msg.getMessageType().equals(
 		ImportMessage.ImportMessageType.ImportAddSubscription)) {
 	    // refresh add
 	    checkAndRefresh(msg,
 		    new RegistrationParametersAdder(msg.getParameters()));
+	    return;
 
 	}
 	if (msg.getMessageType().equals(
@@ -144,6 +150,7 @@ public class Importer {
 	    // refresh remove
 	    checkAndRefresh(msg,
 		    new RegistrationParametersRemover(msg.getParameters()));
+	    return;
 
 	}
     }

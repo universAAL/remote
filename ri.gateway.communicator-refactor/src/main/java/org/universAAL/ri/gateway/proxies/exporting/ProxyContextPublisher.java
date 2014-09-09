@@ -28,6 +28,7 @@ import org.universAAL.middleware.context.owl.ContextProvider;
 import org.universAAL.middleware.rdf.Resource;
 import org.universAAL.middleware.rdf.ScopedResource;
 import org.universAAL.ri.gateway.Session;
+import org.universAAL.ri.gateway.operations.OperationChain;
 import org.universAAL.ri.gateway.protocol.WrappedBusMessage;
 import org.universAAL.ri.gateway.proxies.BusMemberReference;
 import org.universAAL.ri.gateway.proxies.ProxyBusMember;
@@ -61,7 +62,7 @@ public class ProxyContextPublisher extends ContextPublisher implements
 	return cp;
     }
 
-    protected ProxyContextPublisher(final ModuleContext context) {
+    public ProxyContextPublisher(final ModuleContext context) {
 	super(context, constructProvider());
 	refsMngr = new ReferencesManager();
     }
@@ -95,10 +96,10 @@ public class ProxyContextPublisher extends ContextPublisher implements
     public void handleMessage(final Session session,
 	    final WrappedBusMessage busMessage) {
 	final ScopedResource m = busMessage.getMessage();
-	if (m instanceof ContextEvent) {
+	if (m instanceof ContextEvent
+		&& session.getIncomingMessageOperationChain().check(m)
+			.equals(OperationChain.OperationResult.ALLOW)) {
 	    // resolve multitenancy
-	    // final List oldScopes = m.getScopes();
-	    // TODO need analysis of old scopes?
 	    m.clearScopes();
 	    m.addScope(session.getScope()); // Origin Scope.
 	    // inject context Event

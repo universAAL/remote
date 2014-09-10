@@ -31,9 +31,6 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.UUID;
 
-import org.universAAL.middleware.managers.api.TenantManager;
-import org.universAAL.ri.gateway.communicator.Activator;
-
 /**
  * 
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
@@ -93,7 +90,7 @@ public class SessionManager {
     private final Map<SessionKey, UUID> sessions = new HashMap<SessionManager.SessionKey, UUID>();
     private final Map<UUID, SessionKey> uuids = new HashMap<UUID, SessionKey>();
     private final Map<UUID, SessionStatus> links = new HashMap<UUID, SessionManager.SessionStatus>();
-    private TenantManager currentTM = null;
+//    private TenantManager currentTM = null;
 
     private SessionManager() {
 
@@ -138,6 +135,8 @@ public class SessionManager {
 	    uuids.put(uuid, key);
 	}
 	key.description = description;
+	
+	/*
 	if (currentTM == Activator.tenantManager.getObject()
 		&& currentTM != null) {
 	    currentTM.registerTenant(scopeId, description);
@@ -145,7 +144,8 @@ public class SessionManager {
 	    currentTM = Activator.tenantManager.getObject();
 	    changedTenantManager();
 	}
-
+	*/
+	
 	return uuid;
     }
 
@@ -155,7 +155,7 @@ public class SessionManager {
 		.hasNext();) {
 	    final SessionKey key = i.next();
 	    final String scopeId = key.keyParts[SessionKey.SCOPE_IDX];
-	    currentTM.registerTenant(scopeId, key.description);
+	    //currentTM.registerTenant(scopeId, key.description);
 	}
     }
 
@@ -214,7 +214,8 @@ public class SessionManager {
 			"Broken session manger backend, there is unhandled race codintion on data structure or codebase is broken");
 	    }
 	}
-
+	
+	/*	
 	if (currentTM == Activator.tenantManager.getObject()
 		&& currentTM != null) {
 	    currentTM
@@ -223,7 +224,7 @@ public class SessionManager {
 	    currentTM = Activator.tenantManager.getObject();
 	    changedTenantManager();
 	}
-
+	*/
     }
 
     public OutputStream getOutputStream(final UUID session) {

@@ -34,7 +34,6 @@ import java.util.Properties;
 import java.util.Set;
 
 import org.osgi.framework.BundleContext;
-import org.universAAL.middleware.container.osgi.util.BundleConfigHome;
 import org.universAAL.ri.gateway.communicator.Activator;
 import org.universAAL.ri.gateway.communicator.service.GatewayCommunicator;
 import org.universAAL.ri.gateway.eimanager.ExportManager;
@@ -47,6 +46,7 @@ import org.universAAL.ri.gateway.eimanager.ImportManager;
  * @author skallz
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @version $LastChangedRevision$ ($LastChangedDate$)
+ * @deprecated
  * 
  */
 public class CommunicatorStarter {
@@ -163,8 +163,10 @@ public class CommunicatorStarter {
     private void loadConfiguration() {
 	try {
 	    CommunicatorStarter.properties = new Properties();
-	    final File confHome = new File(new BundleConfigHome(Activator.bc
-		    .getBundle().getSymbolicName()).getAbsolutePath());
+	    final File confHome = new File("."); 
+	    /*
+	     * new File(new BundleConfigHome(Activator.bc.getBundle().getSymbolicName()).getAbsolutePath());
+	     */
 	    final String dataDir = confHome.getPath();
 	    final String separator = System.getProperty("file.separator");
 

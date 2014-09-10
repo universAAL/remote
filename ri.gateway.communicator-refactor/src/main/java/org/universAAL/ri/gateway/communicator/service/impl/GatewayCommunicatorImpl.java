@@ -75,6 +75,7 @@ import org.universAAL.ri.gateway.eimanager.impl.importing.ImportRequest;
  * @author skallz
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @version $LastChangedRevision$ ($LastChangedDate$)
+ * @deprecated
  * 
  */
 public class GatewayCommunicatorImpl implements GatewayCommunicator {
@@ -129,11 +130,13 @@ public class GatewayCommunicatorImpl implements GatewayCommunicator {
 	remoteGateways = Collections
 		.synchronizedList(new ArrayList<GatewayAddress>());
 
+	/*
 	if (GatewayConfiguration.getInstance().isServerMode()) {
 	    commHandler = new ServerSocketCommunicationHandler(this);
 	} else {
 	    commHandler = new ClientSocketCommunicationHandler(this);
 	}
+	*/
     }
 
     /**

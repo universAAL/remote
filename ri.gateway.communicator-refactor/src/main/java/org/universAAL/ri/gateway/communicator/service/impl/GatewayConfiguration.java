@@ -27,8 +27,6 @@ import org.universAAL.ri.gateway.communicator.service.GatewayCommunicator;
 import org.universAAL.ri.gateway.communicator.service.GatewayCommunicator.ConnectionMode;
 import org.universAAL.ri.gateway.communicator.service.GatewayCommunicator.RoutingMode;
 
-import com.google.common.net.HostAndPort;
-
 /**
  *
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
@@ -42,7 +40,6 @@ public class GatewayConfiguration {
     private RoutingMode routingMode;
     private ConnectionMode connectionMode;
     private Properties properties;
-    private HostAndPort server;
 
     private GatewayConfiguration() {
 
@@ -65,10 +62,7 @@ public class GatewayConfiguration {
         return connectionMode == GatewayCommunicator.ConnectionMode.SERVER;
     }
 
-    public HostAndPort getServerGateway() {
-        return server;
-    }
-
+    /*
     private void validateConfigurations() {
         final String METHOD = "validateConfigurations";
 
@@ -133,10 +127,11 @@ public class GatewayConfiguration {
         }
 
     }
-
+	*/
+    
     public void setProperty(Properties p) {
         this.properties = p;
-        validateConfigurations();
+        //validateConfigurations();
     }
 
 }

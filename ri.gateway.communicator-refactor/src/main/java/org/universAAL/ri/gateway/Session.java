@@ -18,9 +18,6 @@ package org.universAAL.ri.gateway;
 import java.util.UUID;
 
 import org.universAAL.middleware.container.utils.LogUtils;
-import org.universAAL.ri.gateway.communicator.service.CommunicationHandler;
-import org.universAAL.ri.gateway.communicator.service.ComunicationEventListener;
-import org.universAAL.ri.gateway.communicator.service.LinkContext;
 import org.universAAL.ri.gateway.communicator.service.impl.ClientSocketCommunicationHandler;
 import org.universAAL.ri.gateway.communicator.service.impl.MessageType;
 import org.universAAL.ri.gateway.communicator.service.impl.MessageWrapper;
@@ -46,8 +43,8 @@ import org.universAAL.ri.gateway.proxies.ProxyPool;
  * @author amedrano
  * 
  */
-public class Session implements ComunicationEventListener, MessageSender,
-	MessageReceiver, OperationChainManager {
+public class Session implements MessageSender, MessageReceiver,
+	OperationChainManager {
 
     private Importer importer;
     private final ProxyPool pool;
@@ -58,49 +55,59 @@ public class Session implements ComunicationEventListener, MessageSender,
     public Session(final Configuration config, final ProxyPool proxyPool) {
 	this.config = config;
 	this.pool = proxyPool;
-	
-	if ( config.getConnectionMode() != ConnectionMode.CLIENT ) {
-	    throw new UnsupportedOperationException("Single session supports only the " + ConnectionMode.CLIENT );
+
+	if (config.getConnectionMode() != ConnectionMode.CLIENT) {
+	    throw new UnsupportedOperationException(
+		    "Single session supports only the " + ConnectionMode.CLIENT);
 	}
-	comunication = new ClientSocketCommunicationHandler(null);
+	comunication = new ClientSocketCommunicationHandler(config, this);
     }
 
     public String getScope() {
 	return remoteScope;
     }
 
-    public void send(final Message message) {	
-	org.universAAL.ri.gateway.communicator.service.Message content = 
-		new org.universAAL.ri.gateway.communicator.service.Message(message);
-	MessageWrapper wrap = new MessageWrapper(MessageType.HighPush, content, "");
+    public void send(final Message message) {
+	org.universAAL.ri.gateway.communicator.service.Message content = new org.universAAL.ri.gateway.communicator.service.Message(
+		message);
+	MessageWrapper wrap = new MessageWrapper(MessageType.HighPush, content,
+		"");
 	SessionManager session = SessionManager.getInstance();
 	UUID[] active = session.getSessionIds();
-	if ( active.length != 1 ) {
-	    if ( active.length == 0 ) {
-		throw new IllegalStateException("Trying to send a message but we no active session");
+	if (active.length != 1) {
+	    if (active.length == 0) {
+		throw new IllegalStateException(
+			"Trying to send a message but we no active session");
 	    } else {
-		throw new IllegalStateException("Trying to send a message but we too many session");
+		throw new IllegalStateException(
+			"Trying to send a message but we too many session");
 	    }
 	}
-	comunication.sendMessage(wrap, new String[]{active[0].toString()} );
+	comunication.sendMessage(wrap, new String[] { active[0].toString() });
     }
 
     public Message sendRequest(final Message message) {
-	org.universAAL.ri.gateway.communicator.service.Message content = 
-		new org.universAAL.ri.gateway.communicator.service.Message(message);
-	MessageWrapper wrap = new MessageWrapper(MessageType.HighReqRsp, content, "");
+	org.universAAL.ri.gateway.communicator.service.Message content = new org.universAAL.ri.gateway.communicator.service.Message(
+		message);
+	MessageWrapper wrap = new MessageWrapper(MessageType.HighReqRsp,
+		content, "");
 	SessionManager session = SessionManager.getInstance();
 	UUID[] active = session.getSessionIds();
-	if ( active.length != 1 ) {
-	    if ( active.length == 0 ) {
-		throw new IllegalStateException("Trying to send a message but we no active session");
+	if (active.length != 1) {
+	    if (active.length == 0) {
+		throw new IllegalStateException(
+			"Trying to send a message but we no active session");
 	    } else {
-		throw new IllegalStateException("Trying to send a message but we too many session");
+		throw new IllegalStateException(
+			"Trying to send a message but we too many session");
 	    }
 	}
-	wrap = comunication.sendMessage(wrap, new String[]{active[0].toString()} );
-	if ( wrap.getType() != MessageType.HighReqRsp ) {
-	    throw new IllegalStateException("Expecting HighReqRsp message, but recieved "+wrap.getType() );
+	wrap = comunication.sendMessage(wrap,
+		new String[] { active[0].toString() });
+	if (wrap.getType() != MessageType.HighReqRsp) {
+	    throw new IllegalStateException(
+		    "Expecting HighReqRsp message, but recieved "
+			    + wrap.getType());
 	}
 	return (Message) wrap.getMessage().getContent();
     }

@@ -29,9 +29,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.InetAddress;
 import java.net.Socket;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
@@ -40,12 +37,11 @@ import org.universAAL.log.Logger;
 import org.universAAL.log.LoggerFactory;
 import org.universAAL.middleware.managers.api.AALSpaceManager;
 import org.universAAL.ri.gateway.communicator.Activator;
-import org.universAAL.ri.gateway.communicator.service.ComunicationEventListener;
 import org.universAAL.ri.gateway.communicator.service.GatewayCommunicator;
 import org.universAAL.ri.gateway.communicator.service.GatewayCommunicator.RoutingMode;
+import org.universAAL.ri.gateway.configuration.Configuration;
+import org.universAAL.ri.gateway.protocol.MessageReceiver;
 import org.universAAL.ri.gateway.protocol.link.DisconnectionRequest;
-
-import com.google.common.net.HostAndPort;
 
 /**
  * This class implements gateway in Client mode: TCP connection is initialized
@@ -73,7 +69,7 @@ public class ClientSocketCommunicationHandler extends
 
     public static final long RECONNECT_WAITING_TIME = 2500;
 
-    private final GatewayCommunicator communicator;
+    private final MessageReceiver communicator;
     private final Executor executor;
     private Thread serverThread;
     // flag for stoppping the server thread
@@ -85,8 +81,11 @@ public class ClientSocketCommunicationHandler extends
 
     private LinkHandler currentLinkHandler = null;
 
+    private Configuration config;
+
     public ClientSocketCommunicationHandler(
-	    final GatewayCommunicator communicator) {
+	    final Configuration config, final MessageReceiver communicator) {
+	this.config = config;
 	this.communicator = communicator;
 
 	final String hashKey = CommunicatorStarter.properties
@@ -100,8 +99,7 @@ public class ClientSocketCommunicationHandler extends
     }
 
     public void start() throws IOException {
-	final HostAndPort serverConfig = GatewayConfiguration.getInstance()
-		.getServerGateway();
+	final String serverConfig = config.getConnectionHost()+":"+config.getConnectionPort();
 	log.info("Starting Client Gateway by connecting to Gateway Server at "
 		+ serverConfig);
 
@@ -116,8 +114,8 @@ public class ClientSocketCommunicationHandler extends
 		    final Socket socket;
 		    try {
 			final InetAddress addr = InetAddress
-				.getByName(serverConfig.getHostText());
-			socket = new Socket(addr, serverConfig.getPort());
+				.getByName(config.getConnectionHost());
+			socket = new Socket(addr, config.getConnectionPort());
 		    } catch (final Exception ex) {
 			final String msg = "Failed to estabilished a link between client and server broken due to exception we retry in a bit";
 			log.info(msg);
@@ -157,7 +155,7 @@ public class ClientSocketCommunicationHandler extends
     private class LinkHandler extends AbstractLinkHandler {
 
 	public LinkHandler(final Socket socket,
-		final GatewayCommunicator communicator) {
+		final MessageReceiver communicator) {
 	    super(socket, communicator);
 	}
 

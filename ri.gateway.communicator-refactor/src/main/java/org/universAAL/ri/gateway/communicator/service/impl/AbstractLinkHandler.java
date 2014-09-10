@@ -31,6 +31,8 @@ import org.universAAL.log.LoggerFactory;
 import org.universAAL.middleware.managers.api.AALSpaceManager;
 import org.universAAL.ri.gateway.communicator.Activator;
 import org.universAAL.ri.gateway.communicator.service.GatewayCommunicator;
+import org.universAAL.ri.gateway.protocol.Message;
+import org.universAAL.ri.gateway.protocol.MessageReceiver;
 import org.universAAL.ri.gateway.protocol.link.ConnectionRequest;
 import org.universAAL.ri.gateway.protocol.link.ConnectionResponse;
 import org.universAAL.ri.gateway.protocol.link.DisconnectionRequest;
@@ -53,7 +55,7 @@ public abstract class AbstractLinkHandler implements Runnable {
     private boolean stop = false;
     private final Object LOCK_VAR_LOCAL_STOP = new Object();
     protected UUID currentSession = null;
-    protected final GatewayCommunicator communicator;
+    protected final MessageReceiver communicator;
     protected LinkHandlerStatus state;
     private static final Logger log = LoggerFactory.createLoggerFactory(
 	    Activator.mc).getLogger(AbstractLinkHandler.class);
@@ -92,10 +94,10 @@ public abstract class AbstractLinkHandler implements Runnable {
     }
 
     public AbstractLinkHandler(final Socket socket,
-	    final GatewayCommunicator communicator) {
+	    final MessageReceiver communicator2) {
 	this.state = LinkHandlerStatus.INITIALIZING;
 	this.socket = socket;
-	this.communicator = communicator;
+	this.communicator = communicator2;
 	try {
 	    in = socket.getInputStream();
 	    out = socket.getOutputStream();
@@ -301,7 +303,18 @@ public abstract class AbstractLinkHandler implements Runnable {
 
     protected boolean handleGatewayProtocol(final MessageWrapper msg) {
 	try {
-	    communicator.handleMessage(msg, out);
+	    Message upper = null;
+	    switch (msg.getType()) {
+	    case HighPush:
+	    case HighReqRsp:
+		upper = (Message) msg.getMessage().getContent();
+		break;
+
+	    default:
+		throw new IllegalStateException("Unsupported messega type "
+			+ msg.getType());
+	    }
+	    communicator.handleMessage(upper);
 	} catch (final Exception ex) {
 	    final String txt = "Exception while handling Gateway message "
 		    + msg;

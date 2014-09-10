@@ -21,11 +21,16 @@
  */
 package org.universAAL.ri.api.manager;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.universAAL.middleware.container.ModuleContext;
 import org.universAAL.middleware.context.ContextEvent;
+import org.universAAL.middleware.context.ContextEventPattern;
 import org.universAAL.middleware.service.CallStatus;
 import org.universAAL.middleware.service.ServiceCall;
 import org.universAAL.middleware.service.ServiceResponse;
+import org.universAAL.middleware.service.owls.profile.ServiceProfile;
 import org.universAAL.support.utils.ICListener;
 import org.universAAL.support.utils.ISListener;
 import org.universAAL.support.utils.UAAL;
@@ -55,6 +60,64 @@ public class RemoteUAAL extends UAAL {
      * and they need the node ID for that.
      */
     private String nodeID;
+    
+    /**
+     * These lists contain the URIs of CEPs and SProfiles registered so far.
+     * They are used to disallow registration of the same CEP/Profile more than
+     * once (which may happen with unreliable clients that dont unregister).
+     */ //TODO migrate this to the original UAAL
+    private List<String> cepsList = new ArrayList<String>();
+    private List<String> sprofilesList = new ArrayList<String>();
+
+    /**
+     * Get the list of context event patterns of subscribers registered so far.
+     * 
+     * @return The list of URIs of context event patterns of subscribers
+     */
+    public List<String> getCEPsList() {
+	return cepsList;
+    }
+
+    /**
+     * Get the list of service profiles of callees registered so far.
+     * 
+     * @return The list of URIs of service profiles of callees
+     */
+    public List<String> getSProfilesList() {
+	return sprofilesList;
+    }
+    
+    @Override
+    public void subscribeC(ContextEventPattern[] p, ICListener l) {
+	// This is like super. , but handles the list of registered CEPs
+	for (int i = 0; i < p.length; i++) {
+	    if (!cepsList.contains(p[i].getURI())) {
+		// Only register if not already
+		super.subscribeC(p, l);
+		cepsList.add(p[i].getURI());
+	    }// TODO else log
+	}
+    }
+
+    @Override
+    public void provideS(ServiceProfile[] p, ISListener l) {
+	// This is like super. , but handles the list of registered Profiles
+	for (int i = 0; i < p.length; i++) {
+	    if (!sprofilesList.contains(p[i].getURI())) {
+		// Only register if not already
+		super.provideS(p, l);
+		sprofilesList.add(p[i].getURI());
+	    }// TODO else log
+	}
+    }
+
+    @Override
+    public void terminate() {
+	// This is like super. , but handles the list of registered CEPs and Profiles
+	super.terminate();
+	cepsList.clear();
+	sprofilesList.clear();
+    }
 
     /**
      * Basic constructor. Use this one instead of the UAAL one.
@@ -95,20 +158,27 @@ public class RemoteUAAL extends UAAL {
      * Use this method to create a Listener to be used in the sendC() method of
      * the Utility API, instead of creating it ex profeso.
      * 
+     * @param uri
+     *            The URI of the context event pattern being used for this
+     *            listener
+     * 
      * @return A ICListener
      */
-    public ICListener createCListener() {
-	return new CListener();
+    public ICListener createCListener(String uri) {
+	return new CListener(uri);
     }
 
     /**
      * Use this method to create a Listener to be used in the callS() method of
      * the Utility API, instead of creating it ex profeso.
      * 
+     * @param uri
+     *            The URI of the service profile being used for this listener
+     * 
      * @return A ISListener
      */
-    public ISListener createSListener() {
-	return new SListener();
+    public ISListener createSListener(String uri) {
+	return new SListener(uri);
     }
 
     /**
@@ -119,6 +189,10 @@ public class RemoteUAAL extends UAAL {
      * 
      */
     public class CListener implements ICListener {
+	private String toURI;
+	protected CListener(String uri){
+	    toURI=uri;
+	}
 	/**
 	 * This is called everytime a ContextEvent is addressed to a remote
 	 * node. It will pack the callback message and send it to the client
@@ -135,7 +209,7 @@ public class RemoteUAAL extends UAAL {
 	    new Thread("RemoteUAAL_CListener") {
 		public void run() {
 		    try {
-			PushManager.sendC(nodeID, remoteID, event);
+			PushManager.sendC(nodeID, remoteID, event, toURI);
 		    } catch (Exception e) {
 			e.printStackTrace();
 			Activator.logE("CListener.handleContextEvent",
@@ -160,6 +234,10 @@ public class RemoteUAAL extends UAAL {
      * 
      */
     public class SListener implements ISListener {
+	private String toURI;
+	protected SListener(String uri){
+	    toURI=uri;
+	}
 	/**
 	 * This is called everytime a ServiceCall is addressed to a remote node.
 	 * It will pack the callback message and send it to the client remote
@@ -171,7 +249,7 @@ public class RemoteUAAL extends UAAL {
 	 */
 	public ServiceResponse handleCall(ServiceCall call) {
 	    try {
-		return PushManager.callS(nodeID, remoteID, call);
+		return PushManager.callS(nodeID, remoteID, call, toURI);
 	    } catch (Exception e) {
 		e.printStackTrace();
 		Activator.logE("CListener.handleCall",

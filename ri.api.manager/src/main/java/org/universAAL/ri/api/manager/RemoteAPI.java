@@ -70,6 +70,10 @@ public interface RemoteAPI {
      */
     public static final String KEY_PARAM = "param";
     /**
+     * Parameter in the HTTP request for the identification of the addressee
+     */
+    public static final String KEY_TO = "to";
+    /**
      * Parameter in a HTTP response for a ServiceCall status
      */
     public static final String KEY_STATUS = "status";

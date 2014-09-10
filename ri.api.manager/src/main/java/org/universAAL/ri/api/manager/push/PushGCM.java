@@ -26,6 +26,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
@@ -83,8 +84,9 @@ public class PushGCM {
      *            The client remote node endpoint
      * @param event
      *            The serialized Context Event to send
+     * @param toURI 
      */
-    public static void sendC(String nodeid, String remoteid, ContextEvent event) throws PushException {
+    public static void sendC(String nodeid, String remoteid, ContextEvent event, String toURI) throws PushException {
 	boolean test=Configuration.getGCMDry();
 	
 	int ttl=0; // 4 weeks is the default in GCM
@@ -105,7 +107,8 @@ public class PushGCM {
 	.append(ContextEvent.PROP_RDF_SUBJECT)
 	.append(ContextEvent.PROP_RDF_PREDICATE)
 	.append(ContextEvent.PROP_RDF_OBJECT)
-	.append("method=SENDC");
+	.append("method=SENDC")
+	.append("to=").append(toURI);
 
 	Builder build = new Message.Builder();
 	//If included, allows developers to test their request without actually sending a message
@@ -113,7 +116,8 @@ public class PushGCM {
 	//How long (in seconds) the message should be kept on GCM storage if the device is offline
 	if(ttl>0) build.timeToLive(ttl);
 	//Payload data, expressed as parameters prefixed with data. and suffixed as the key
-	build.addData("method", "SENDC")
+	build.addData(RemoteAPI.KEY_METHOD, "SENDC")
+	.addData(RemoteAPI.KEY_TO, toURI)
 	.addData(ContextEvent.PROP_RDF_SUBJECT, subject)
 	.addData(ContextEvent.PROP_RDF_PREDICATE, predicate)
 	.addData(ContextEvent.PROP_RDF_OBJECT, object);
@@ -145,10 +149,11 @@ public class PushGCM {
      *            The client remote node endpoint
      * @param call
      *            The serialized Service Call to send
+     * @param toURI 
      * @return The Service Response that the client remote node will have sent
      *         as response to the callback
      */
-    public static ServiceResponse callS(String nodeid, String remoteid, ServiceCall call) throws PushException {
+    public static ServiceResponse callS(String nodeid, String remoteid, ServiceCall call, String toURI) throws PushException {
 	boolean test=true;
 
 	List inputs = (List) call.getProperty(ServiceCall.PROP_OWLS_PERFORM_HAS_DATA_FROM);
@@ -161,8 +166,10 @@ public class PushGCM {
 	//If included, allows developers to test their request without actually sending a message
 	if(test) build.dryRun(true);
 	//Payload data, expressed as parameters prefixed with data. and suffixed as the key
-	build.addData("method", "CALLS");
+	build.addData(RemoteAPI.KEY_METHOD, "CALLS");
+	build.addData(RemoteAPI.KEY_TO, toURI);
 	combined.append("method=CALLS");
+	combined.append("to=").append(toURI);
 	if (inputs != null) {
 	    for (Iterator i = inputs.iterator(); i.hasNext();) {
 		Resource binding = (Resource) i.next(), in = (Resource) binding
@@ -296,14 +303,30 @@ public class PushGCM {
 	try{
 	    String line = br.readLine();
 	    while (line != null && !line.equals(RemoteAPI.FLAG_TURTLE)) {
-		String[] parts = line.split("=", 2);
+		String[] parts = line.split("=", 2);//parts[0]: key (output URI)    parts[1]: value
 		if (parts.length == 2) {
 		    if (!parts[0].equals(RemoteAPI.KEY_STATUS) && !parts[0].equals(RemoteAPI.KEY_CALL)) {
-			String[] resource = parts[1].split("@", 2);
-			if (resource[1].startsWith("http://www.w3.org/2001/XMLSchema")) {
-			    sr.addOutput(new ProcessOutput(parts[0], TypeMapper.getJavaInstance(resource[0], resource[1])));
-			} else {
-			    sr.addOutput(new ProcessOutput(parts[0], Resource.getResource(resource[1], resource[0])));
+			String[] resource = parts[1].split("@", 2);//resource[0]: uri    resource[1]: type
+			if (resource.length != 2)
+			    throw new PushException("Required Outputs are not properly defined. " +
+			    		"They must be in the form instanceURI@typeURI");
+			if(resource[0].startsWith("[")){//Its a list
+			    String[] list=resource[0].replace("[", "").replace("]","").trim().split(",");
+			    ArrayList listouts=new ArrayList(list.length);
+			    for(int i=0;i<list.length;i++){
+				if (resource[1].startsWith("http://www.w3.org/2001/XMLSchema")) {//Its datatypes
+				    listouts.add(TypeMapper.getJavaInstance(resource[0], resource[1]));
+				}else{//Its resources
+				    listouts.add(Resource.getResource(resource[1], resource[0]));
+				}
+			    }
+			    sr.addOutput(new ProcessOutput(parts[0],listouts));
+			}else{//Its one item
+			    if (resource[1].startsWith("http://www.w3.org/2001/XMLSchema")) {//Its datatype
+				sr.addOutput(new ProcessOutput(parts[0], TypeMapper.getJavaInstance(resource[0], resource[1])));
+			    } else {//Its resource
+				sr.addOutput(new ProcessOutput(parts[0], Resource.getResource(resource[1], resource[0])));
+			    }
 			}
 		    } else if(parts[0].equals(RemoteAPI.KEY_CALL)){
 			key = parts[1]+"@"+nodeid;//Identifies the call in pendingCalls

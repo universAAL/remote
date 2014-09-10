@@ -112,7 +112,7 @@ public class RemoteAPIImpl implements RemoteAPI {
 		throw new APIImplException("Unable to deserialize pattern");
 	    }
 	    RemoteUAAL node=(RemoteUAAL)nodes.get(id);
-	    node.subscribeC(new ContextEventPattern[]{cp},node.createCListener());
+	    node.subscribeC(new ContextEventPattern[]{cp},node.createCListener(cp.getURI()));
 	}else{
 	    throw new APIImplException("ID not registered");
 	}
@@ -182,7 +182,7 @@ public class RemoteAPIImpl implements RemoteAPI {
 		throw new APIImplException("Unable to deserialize profile");
 	    }
 	    RemoteUAAL node=(RemoteUAAL)nodes.get(id);
-	    node.provideS(new ServiceProfile[]{sp},node.createSListener());
+	    node.provideS(new ServiceProfile[]{sp},node.createSListener(sp.getURI()));
 	}else{
 	    throw new APIImplException("ID not registered");
 	}

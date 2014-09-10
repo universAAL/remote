@@ -178,7 +178,7 @@ public class ProxySCallee extends ServiceCallee implements ProxyBusMember {
     /** {@inheritDoc} */
     public void addSubscriptionParameters(final Resource[] newParams) {
 	currentRegParam = new ArraySet.Union<Resource>().combine(
-		currentRegParam, newParams);
+		currentRegParam, newParams, new Resource[] {});
 	addNewServiceProfiles((ServiceProfile[]) newParams);
 
     }
@@ -186,7 +186,7 @@ public class ProxySCallee extends ServiceCallee implements ProxyBusMember {
     /** {@inheritDoc} */
     public void removeSubscriptionParameters(final Resource[] newParams) {
 	currentRegParam = new ArraySet.Difference<Resource>().combine(
-		currentRegParam, newParams);
+		currentRegParam, newParams, new Resource[] {});
 	removeMatchingProfiles((ServiceProfile[]) newParams);
     }
 

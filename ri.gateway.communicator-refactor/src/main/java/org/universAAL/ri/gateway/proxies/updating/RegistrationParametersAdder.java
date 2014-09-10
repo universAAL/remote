@@ -41,10 +41,11 @@ public class RegistrationParametersAdder implements Updater {
     }
 
     public Resource[] newParameters(final Resource[] oldParameters) {
-	return new ArraySet.Union<Resource>().combine(oldParameters, nParams);
+	return new ArraySet.Union<Resource>().combine(oldParameters, nParams,
+		new Resource[] {});
     }
 
-    public ImportMessage createExportMessage(String busMemberID) {
+    public ImportMessage createExportMessage(final String busMemberID) {
 	return ImportMessage.importAddSubscription(busMemberID, nParams);
     }
 

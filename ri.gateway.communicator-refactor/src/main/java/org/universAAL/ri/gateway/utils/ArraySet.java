@@ -26,42 +26,65 @@ import java.util.Set;
 public class ArraySet {
 
     public interface Combiner<T> {
-	public T[] combine(T[] a, T[] b);
+	public T[] combine(T[] a, T[] b, T[] resultArray);
     }
 
     public static class Union<T> implements Combiner<T> {
 
-	public T[] combine(final T[] a, final T[] b) {
-	    final Set<T> aSet = new HashSet<T>(Arrays.asList(a));
-	    final Set<T> bSet = new HashSet<T>(Arrays.asList(b));
+	public T[] combine(final T[] a, final T[] b, final T[] resultArray) {
+	    final Set<T> aSet;
+	    final Set<T> bSet;
+	    if (a != null) {
+		aSet = new HashSet<T>(Arrays.asList(a));
+	    } else {
+		aSet = new HashSet<T>();
+	    }
+	    if (b != null) {
+		bSet = new HashSet<T>(Arrays.asList(b));
+	    } else {
+		bSet = new HashSet<T>();
+	    }
 	    aSet.addAll(bSet);
-	    return (T[]) aSet.toArray(new Object[aSet.size()]);
+	    return aSet.toArray(resultArray);
 	}
     }
 
     public static class Difference<T> implements Combiner<T> {
 
-	public T[] combine(final T[] a, final T[] b) {
-	    final Set<T> aSet = new HashSet<T>(Arrays.asList(a));
-	    final Set<T> bSet = new HashSet<T>(Arrays.asList(b));
+	public T[] combine(final T[] a, final T[] b, final T[] resultArray) {
+	    final Set<T> aSet;
+	    final Set<T> bSet;
+	    if (a != null) {
+		aSet = new HashSet<T>(Arrays.asList(a));
+	    } else {
+		aSet = new HashSet<T>();
+	    }
+	    if (b != null) {
+		bSet = new HashSet<T>(Arrays.asList(b));
+	    } else {
+		bSet = new HashSet<T>();
+	    }
 	    aSet.removeAll(bSet);
-	    return (T[]) aSet.toArray(new Object[aSet.size()]);
+	    return aSet.toArray(resultArray);
 	}
 
     }
 
     public static class Equal<T> {
 	public boolean equal(final T[] a, final T[] b) {
-	    if (a.length != b.length) {
+	    if (a == null && b == null) {
+		return true;
+	    }
+	    if (a == null || b == null || a.length != b.length) {
 		return false;
 	    }
 	    boolean equal = true;
 	    int i = 0;
 	    while (equal && i < a.length) {
 		boolean e = false;
-		final int j = 0;
+		int j = 0;
 		while (!e && j < b.length) {
-		    e = a[i].equals(b[j]);
+		    e = a[i].equals(b[j++]);
 		}
 		equal = e;
 		i++;

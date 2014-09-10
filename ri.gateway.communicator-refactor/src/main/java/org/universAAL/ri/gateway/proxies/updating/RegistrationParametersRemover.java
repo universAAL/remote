@@ -42,7 +42,7 @@ public class RegistrationParametersRemover implements Updater {
 
     public Resource[] newParameters(final Resource[] oldParameters) {
 	return new ArraySet.Difference<Resource>().combine(oldParameters,
-		nParams);
+		nParams, new Resource[] {});
     }
 
     public ImportMessage createExportMessage(final String busMemberID) {

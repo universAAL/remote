@@ -205,7 +205,7 @@ public class Exporter implements IBusMemberRegistryListener {
 	    newBusMember(busMemberID);
 	} else if (tracked.containsKey(busMemberID) && currentParams != null) {
 	    tracked.put(busMemberID, new ArraySet.Union<Resource>().combine(
-		    currentParams, params));
+		    currentParams, params, new Resource[] {}));
 	    refresh(busMemberID, new RegistrationParametersAdder(params));
 
 	}
@@ -215,7 +215,7 @@ public class Exporter implements IBusMemberRegistryListener {
     public void regParamsRemoved(final String busMemberID,
 	    final Resource[] params) {
 	tracked.put(busMemberID, new ArraySet.Union<Resource>().combine(
-		tracked.get(busMemberID), params));
+		tracked.get(busMemberID), params, new Resource[] {}));
 	refresh(busMemberID, new RegistrationParametersRemover(params));
     }
 

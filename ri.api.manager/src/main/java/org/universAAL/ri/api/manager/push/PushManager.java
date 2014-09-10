@@ -44,14 +44,15 @@ public class PushManager {
      *            The client remote node endpoint
      * @param event
      *            The serialized Context Event to send
+     * @param toURI 
      */
-    public static void sendC(String nodeid, String remoteid, ContextEvent event) throws PushException {
+    public static void sendC(String nodeid, String remoteid, ContextEvent event, String toURI) throws PushException {
 	switch (Configuration.determineEndpoint(remoteid)) {
 	case RemoteAPI.REMOTE_POST:
-	    PushHTTP.sendC(remoteid, event);
+	    PushHTTP.sendC(remoteid, event, toURI);
 	    break;
 	case RemoteAPI.REMOTE_GCM:
-	    PushGCM.sendC(nodeid, remoteid, event);
+	    PushGCM.sendC(nodeid, remoteid, event, toURI);
 	    break;
 	default:
 	    throw new PushException("Unable to determine protocol of remote endpoint");
@@ -66,15 +67,16 @@ public class PushManager {
      *            The client remote node endpoint
      * @param call
      *            The serialized Service Call to send
+     * @param toURI 
      * @return The Service Response that the client remote node will have sent
      *         as response to the callback
      */
-    public static ServiceResponse callS(String nodeid, String remoteid, ServiceCall call) throws PushException {
+    public static ServiceResponse callS(String nodeid, String remoteid, ServiceCall call, String toURI) throws PushException {
 	switch (Configuration.determineEndpoint(remoteid)) {
 	case RemoteAPI.REMOTE_POST:
-	    return PushHTTP.callS(remoteid, call);
+	    return PushHTTP.callS(remoteid, call, toURI);
 	case RemoteAPI.REMOTE_GCM:
-	    return PushGCM.callS(nodeid, remoteid, call);
+	    return PushGCM.callS(nodeid, remoteid, call, toURI);
 	default:
 	    throw new PushException("Unable to determine protocol of remote endpoint");
 	}

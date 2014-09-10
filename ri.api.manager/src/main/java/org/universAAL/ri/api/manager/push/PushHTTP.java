@@ -31,6 +31,7 @@ import java.net.MalformedURLException;
 import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -64,11 +65,13 @@ public class PushHTTP {
      *            The client remote node endpoint
      * @param event
      *            The serialized Context Event to send
+     * @param toURI 
      */
-    public static void sendC(String remoteid, ContextEvent event) throws PushException {
+    public static void sendC(String remoteid, ContextEvent event, String toURI) throws PushException {
 	StringBuilder strb = new StringBuilder();
 	strb.append(RemoteAPI.KEY_METHOD).append("=").append(RemoteAPI.METHOD_SENDC)
 		.append("&").append(RemoteAPI.KEY_PARAM).append("=").append(Activator.getParser().serialize(event))
+		.append("&").append(RemoteAPI.KEY_TO).append("=").append(toURI)
 		.append("&").append(ContextEvent.PROP_RDF_SUBJECT).append("=").append(event.getSubjectURI())
 		.append("&").append(ContextEvent.PROP_RDF_PREDICATE).append("=").append(event.getRDFPredicate())
 		.append("&").append(ContextEvent.PROP_RDF_OBJECT).append("=").append(event.getRDFObject().toString());
@@ -92,14 +95,16 @@ public class PushHTTP {
      *            The client remote node endpoint
      * @param call
      *            The serialized Service Call to send
+     * @param toURI 
      * @return The Service Response that the client remote node will have sent
      *         as response to the callback
      */
-    public static ServiceResponse callS(String remoteid, ServiceCall call) throws PushException {
+    public static ServiceResponse callS(String remoteid, ServiceCall call, String toURI) throws PushException {
 	ServiceResponse sr = new ServiceResponse(CallStatus.serviceSpecificFailure);
 	StringBuilder strb = new StringBuilder();
 	strb.append(RemoteAPI.KEY_METHOD).append("=").append(RemoteAPI.METHOD_CALLS)
-		.append("&").append(RemoteAPI.KEY_PARAM).append("=").append(Activator.getParser().serialize(call));
+		.append("&").append(RemoteAPI.KEY_PARAM).append("=").append(Activator.getParser().serialize(call))
+		.append("&").append(RemoteAPI.KEY_TO).append("=").append(toURI);
 	List inputs = (List) call.getProperty(ServiceCall.PROP_OWLS_PERFORM_HAS_DATA_FROM);
 	if (inputs != null) {
 	    for (Iterator i = inputs.iterator(); i.hasNext();) {
@@ -129,10 +134,24 @@ public class PushHTTP {
 			if (resource.length != 2)
 			    throw new PushException("Required Outputs are not properly defined. " +
 			    		"They must be in the form instanceURI@typeURI");
-			if(resource[1].startsWith("http://www.w3.org/2001/XMLSchema")){
-			    sr.addOutput(new ProcessOutput(parts[0],TypeMapper.getJavaInstance(resource[0], resource[1])));
+			
+			if(resource[0].startsWith("[")){//Its a list
+			    String[] list=resource[0].replace("[", "").replace("]","").trim().split(",");
+			    ArrayList listouts=new ArrayList(list.length);
+			    for(int i=0;i<list.length;i++){
+				if (resource[1].startsWith("http://www.w3.org/2001/XMLSchema")) {//Its datatypes
+				    listouts.add(TypeMapper.getJavaInstance(resource[0], resource[1]));
+				}else{//Its resources
+				    listouts.add(Resource.getResource(resource[1], resource[0]));
+				}
+			    }
+			    sr.addOutput(new ProcessOutput(parts[0],listouts));
 			}else{
-			    sr.addOutput(new ProcessOutput(parts[0], Resource.getResource(resource[1], resource[0])));
+			    if(resource[1].startsWith("http://www.w3.org/2001/XMLSchema")){
+				sr.addOutput(new ProcessOutput(parts[0],TypeMapper.getJavaInstance(resource[0], resource[1])));
+			    }else{
+				sr.addOutput(new ProcessOutput(parts[0], Resource.getResource(resource[1], resource[0])));
+			    }
 			}
 		    }
 		}

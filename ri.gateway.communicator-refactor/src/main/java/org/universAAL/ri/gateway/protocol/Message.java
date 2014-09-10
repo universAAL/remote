@@ -15,6 +15,9 @@
  ******************************************************************************/
 package org.universAAL.ri.gateway.protocol;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
 /**
@@ -77,5 +80,19 @@ public abstract class Message implements Serializable {
 
     public boolean isResponse() {
 	return inResponseTo != -1;
+    }
+
+    public byte[] getBytes() {
+	try {
+	    ByteArrayOutputStream output = new ByteArrayOutputStream();
+	    ObjectOutputStream objOut;
+	    objOut = new ObjectOutputStream(output);
+	    objOut.writeObject(this);
+	    objOut.flush();
+	    objOut.close();
+	    return output.toByteArray();
+	} catch (IOException e) {
+	    throw new RuntimeException("Unable to generates bytes", e);
+	}
     }
 }

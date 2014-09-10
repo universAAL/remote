@@ -70,7 +70,6 @@ public class ServerSocketCommunicationHandler extends
     // private Executor executor;
     private ServerSocket server;
     private Thread serverThread;
-    private final Set<ComunicationEventListener> listeners;
     private final ExecutorService executor;
 
     private final List<LinkHandler> handlers = new ArrayList<LinkHandler>();
@@ -78,8 +77,6 @@ public class ServerSocketCommunicationHandler extends
     public ServerSocketCommunicationHandler(
 	    final GatewayCommunicator communicator) {
 	this.communicator = communicator;
-	this.listeners = Collections
-		.synchronizedSet(new HashSet<ComunicationEventListener>());
 
 	final String hashKey = CommunicatorStarter.properties
 		.getProperty(GatewayCommunicator.HASH_KEY);
@@ -88,7 +85,7 @@ public class ServerSocketCommunicationHandler extends
 
 	this.executor = Executors.newCachedThreadPool();
 	/*
-	 * //TODO Define a maxiumum number of threads
+	 * //TODO Define a maximum number of threads
 	 */
 	// this.executor = Executors.newFixedThreadPool(NUM_THREADS);
 	log.info("Created " + ServerSocketCommunicationHandler.class.getName());

@@ -37,10 +37,6 @@ import org.universAAL.ri.gateway.communicator.service.impl.MessageWrapper;
  */
 public interface CommunicationHandler {
 
-    public boolean addComunicationEventListener(ComunicationEventListener cel);
-
-    public boolean removeComunicationEventListener(ComunicationEventListener cel);
-
     public static final String BROADCAST_SESSION = "#BROADCAST";
 
     /**

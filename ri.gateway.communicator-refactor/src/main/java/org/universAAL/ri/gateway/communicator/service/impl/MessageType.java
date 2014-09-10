@@ -78,7 +78,17 @@ public enum MessageType {
     /**
      * This is the message for closing a link
      */
-    Disconnect;
+    Disconnect, 
+    
+    /**
+     * This is a one way message of the higher level
+     */
+    HighPush,
+    
+    /**
+     * This is a one request-response message of the higher level
+     */
+    HighReqRsp;
 
 
 }

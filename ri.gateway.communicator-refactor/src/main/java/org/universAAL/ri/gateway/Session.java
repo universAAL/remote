@@ -15,11 +15,18 @@
  ******************************************************************************/
 package org.universAAL.ri.gateway;
 
+import java.util.UUID;
+
 import org.universAAL.middleware.container.utils.LogUtils;
 import org.universAAL.ri.gateway.communicator.service.CommunicationHandler;
 import org.universAAL.ri.gateway.communicator.service.ComunicationEventListener;
 import org.universAAL.ri.gateway.communicator.service.LinkContext;
+import org.universAAL.ri.gateway.communicator.service.impl.ClientSocketCommunicationHandler;
+import org.universAAL.ri.gateway.communicator.service.impl.MessageType;
+import org.universAAL.ri.gateway.communicator.service.impl.MessageWrapper;
+import org.universAAL.ri.gateway.communicator.service.impl.SessionManager;
 import org.universAAL.ri.gateway.configuration.Configuration;
+import org.universAAL.ri.gateway.configuration.Configuration.ConnectionMode;
 import org.universAAL.ri.gateway.operations.MessageOperationChain;
 import org.universAAL.ri.gateway.operations.OperationChainManager;
 import org.universAAL.ri.gateway.operations.ParameterCheckOpertaionChain;
@@ -46,42 +53,56 @@ public class Session implements ComunicationEventListener, MessageSender,
     private final ProxyPool pool;
     private final Configuration config;
     private String remoteScope;
+    private ClientSocketCommunicationHandler comunication;
 
     public Session(final Configuration config, final ProxyPool proxyPool) {
 	this.config = config;
 	this.pool = proxyPool;
-	//
-
-    }
-
-    public boolean onConnect(final CommunicationHandler ch, final LinkContext lc) {
-	// TODO Auto-generated method stub
-	return true;
-    }
-
-    public boolean onFailure(final CommunicationHandler ch, final LinkContext lc) {
-	// TODO Auto-generated method stub
-	return true;
-    }
-
-    public boolean onDicconect(final CommunicationHandler ch,
-	    final LinkContext lc) {
-	// TODO Auto-generated method stub
-	return true;
+	
+	if ( config.getConnectionMode() != ConnectionMode.CLIENT ) {
+	    throw new UnsupportedOperationException("Single session supports only the " + ConnectionMode.CLIENT );
+	}
+	comunication = new ClientSocketCommunicationHandler(null);
     }
 
     public String getScope() {
 	return remoteScope;
     }
 
-    public void send(final Message message) {
-	// TODO Auto-generated method stub
-
+    public void send(final Message message) {	
+	org.universAAL.ri.gateway.communicator.service.Message content = 
+		new org.universAAL.ri.gateway.communicator.service.Message(message);
+	MessageWrapper wrap = new MessageWrapper(MessageType.HighPush, content, "");
+	SessionManager session = SessionManager.getInstance();
+	UUID[] active = session.getSessionIds();
+	if ( active.length != 1 ) {
+	    if ( active.length == 0 ) {
+		throw new IllegalStateException("Trying to send a message but we no active session");
+	    } else {
+		throw new IllegalStateException("Trying to send a message but we too many session");
+	    }
+	}
+	comunication.sendMessage(wrap, new String[]{active[0].toString()} );
     }
 
     public Message sendRequest(final Message message) {
-	// TODO Auto-generated method stub
-	return null;
+	org.universAAL.ri.gateway.communicator.service.Message content = 
+		new org.universAAL.ri.gateway.communicator.service.Message(message);
+	MessageWrapper wrap = new MessageWrapper(MessageType.HighReqRsp, content, "");
+	SessionManager session = SessionManager.getInstance();
+	UUID[] active = session.getSessionIds();
+	if ( active.length != 1 ) {
+	    if ( active.length == 0 ) {
+		throw new IllegalStateException("Trying to send a message but we no active session");
+	    } else {
+		throw new IllegalStateException("Trying to send a message but we too many session");
+	    }
+	}
+	wrap = comunication.sendMessage(wrap, new String[]{active[0].toString()} );
+	if ( wrap.getType() != MessageType.HighReqRsp ) {
+	    throw new IllegalStateException("Expecting HighReqRsp message, but recieved "+wrap.getType() );
+	}
+	return (Message) wrap.getMessage().getContent();
     }
 
     public ParameterCheckOpertaionChain getImportOperationChain() {

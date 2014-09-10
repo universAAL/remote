@@ -22,7 +22,6 @@ ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/Session
 ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/communicator/Activator.java -text
 ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/communicator/service/CommunicationException.java -text
 ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/communicator/service/CommunicationHandler.java -text
-ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/communicator/service/ComunicationEventListener.java svneol=native#text/plain
 ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/communicator/service/GatewayCommunicator.java -text
 ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/communicator/service/LinkContext.java svneol=native#text/plain
 ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/communicator/service/Message.java -text

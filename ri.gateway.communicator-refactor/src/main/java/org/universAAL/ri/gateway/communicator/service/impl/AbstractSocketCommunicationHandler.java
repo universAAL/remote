@@ -29,10 +29,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.UUID;
 
 import org.bouncycastle.crypto.CryptoException;
@@ -40,7 +37,6 @@ import org.universAAL.log.Logger;
 import org.universAAL.log.LoggerFactory;
 import org.universAAL.ri.gateway.communicator.Activator;
 import org.universAAL.ri.gateway.communicator.service.CommunicationHandler;
-import org.universAAL.ri.gateway.communicator.service.ComunicationEventListener;
 import org.universAAL.ri.gateway.communicator.service.GatewayCommunicator;
 
 /**
@@ -51,18 +47,12 @@ import org.universAAL.ri.gateway.communicator.service.GatewayCommunicator;
  *          +0200 (Fri, 08 Aug 2014) $)
  * 
  */
-public abstract class AbstractSocketCommunicationHandler implements
-	CommunicationHandler {
+public abstract class AbstractSocketCommunicationHandler implements CommunicationHandler {
 
     public static final Logger log = LoggerFactory.createLoggerFactory(
 	    Activator.mc).getLogger(AbstractSocketCommunicationHandler.class);
 
-    private final Set<ComunicationEventListener> listeners;
-
     public AbstractSocketCommunicationHandler() {
-	this.listeners = Collections
-		.synchronizedSet(new HashSet<ComunicationEventListener>());
-
 	final String hashKey = CommunicatorStarter.properties
 		.getProperty(GatewayCommunicator.HASH_KEY);
 
@@ -121,12 +111,7 @@ public abstract class AbstractSocketCommunicationHandler implements
 	    try {
 		Serializer.sendMessageToStream(toSend, out);
 
-		// TODO Why are we expecting a response? It should be handled
-		// through the while (!stop) { msg = readMessage();
-		// handleMessage(msg); } loop
-		// if the other side sends a Wrapper, we should read it
-		if (!toSend.getType().equals(MessageType.Context)
-			&& !toSend.getType().equals(MessageType.UIResponse)) {
+		if ( toSend.getType() == MessageType.HighReqRsp ) {
 		    resp = Serializer.unmarshalMessage(in);
 		}
 	    } catch (final EOFException ex) {
@@ -138,14 +123,4 @@ public abstract class AbstractSocketCommunicationHandler implements
 	return resp;
     }
 
-    public boolean addComunicationEventListener(
-	    final ComunicationEventListener cel) {
-	listeners.add(cel);
-	return true;
-    }
-
-    public boolean removeComunicationEventListener(
-	    final ComunicationEventListener cel) {
-	return listeners.remove(cel);
-    }
 }

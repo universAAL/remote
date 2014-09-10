@@ -78,7 +78,6 @@ public class ClientSocketCommunicationHandler extends
     private Thread serverThread;
     // flag for stoppping the server thread
     private boolean stopServerThread = false;
-    private final Set<ComunicationEventListener> listeners;
     private final UUID currentSession = null;
 
     private final Object LOCK_VAR_STOP = new Object();
@@ -89,8 +88,6 @@ public class ClientSocketCommunicationHandler extends
     public ClientSocketCommunicationHandler(
 	    final GatewayCommunicator communicator) {
 	this.communicator = communicator;
-	this.listeners = Collections
-		.synchronizedSet(new HashSet<ComunicationEventListener>());
 
 	final String hashKey = CommunicatorStarter.properties
 		.getProperty(GatewayCommunicator.HASH_KEY);

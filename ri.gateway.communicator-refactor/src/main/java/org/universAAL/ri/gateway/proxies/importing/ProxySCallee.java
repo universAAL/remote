@@ -163,7 +163,7 @@ public class ProxySCallee extends ServiceCallee implements ProxyBusMember {
 
     public void handleMessage(final Session session,
 	    final WrappedBusMessage busMessage) {
-	// TODO Auto-generated method stub
+	// no BusMessage sent from remote proxy.
 
     }
 

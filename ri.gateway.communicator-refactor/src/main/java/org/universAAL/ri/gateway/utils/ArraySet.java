@@ -20,17 +20,37 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
+ * Utility class to use raw arrays as mathematical sets.
+ * 
  * @author amedrano
  * 
  */
 public class ArraySet {
 
     public interface Combiner<T> {
+	/**
+	 * Perform combination of sets a and b. resultArray must be an array
+	 * instance of the appropriate type in order to be able to create the
+	 * response.
+	 * 
+	 * @param a
+	 * @param b
+	 * @param resultArray
+	 * @return
+	 */
 	public T[] combine(T[] a, T[] b, T[] resultArray);
     }
 
+    /**
+     * Union of sets.
+     * 
+     * @author amedrano
+     * 
+     * @param <T>
+     */
     public static class Union<T> implements Combiner<T> {
 
+	/** {@inheritDoc} */
 	public T[] combine(final T[] a, final T[] b, final T[] resultArray) {
 	    final Set<T> aSet;
 	    final Set<T> bSet;
@@ -49,6 +69,13 @@ public class ArraySet {
 	}
     }
 
+    /**
+     * Difference of Sets. AKA relative complementation.
+     * 
+     * @author amedrano
+     * 
+     * @param <T>
+     */
     public static class Difference<T> implements Combiner<T> {
 
 	public T[] combine(final T[] a, final T[] b, final T[] resultArray) {
@@ -70,6 +97,15 @@ public class ArraySet {
 
     }
 
+    /**
+     * Equivalence of Sets. The difference with equivalence of arrays, is that
+     * there is no restriction of the order of the elements, nor the repetition
+     * of instances.
+     * 
+     * @author amedrano
+     * 
+     * @param <T>
+     */
     public static class Equal<T> {
 	public boolean equal(final T[] a, final T[] b) {
 	    if (a == null && b == null) {

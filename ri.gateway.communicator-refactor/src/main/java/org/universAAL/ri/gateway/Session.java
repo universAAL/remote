@@ -15,8 +15,10 @@
  ******************************************************************************/
 package org.universAAL.ri.gateway;
 
+import java.io.IOException;
 import java.util.UUID;
 
+import org.bouncycastle.crypto.CryptoException;
 import org.universAAL.middleware.container.utils.LogUtils;
 import org.universAAL.ri.gateway.communicator.service.impl.ClientSocketCommunicationHandler;
 import org.universAAL.ri.gateway.communicator.service.impl.MessageType;
@@ -83,7 +85,13 @@ public class Session implements MessageSender, MessageReceiver,
 			"Trying to send a message but we too many session");
 	    }
 	}
-	comunication.sendMessage(wrap, new String[] { active[0].toString() });
+	try {
+	    comunication.sendMessage(wrap,
+		    new String[] { active[0].toString() });
+	} catch (Exception e) {
+	    throw new RuntimeException(
+		    "Failed to send message due to internal exception", e);
+	}
     }
 
     public Message sendRequest(final Message message) {
@@ -102,14 +110,19 @@ public class Session implements MessageSender, MessageReceiver,
 			"Trying to send a message but we too many session");
 	    }
 	}
-	wrap = comunication.sendMessage(wrap,
-		new String[] { active[0].toString() });
-	if (wrap.getType() != MessageType.HighReqRsp) {
-	    throw new IllegalStateException(
-		    "Expecting HighReqRsp message, but recieved "
-			    + wrap.getType());
+	try {
+	    wrap = comunication.sendMessage(wrap,
+		    new String[] { active[0].toString() });
+	    if (wrap.getType() != MessageType.HighReqRsp) {
+		throw new IllegalStateException(
+			"Expecting HighReqRsp message, but recieved "
+				+ wrap.getType());
+	    }
+	    return (Message) wrap.getMessage().getContent();
+	} catch (Exception e) {
+	    throw new RuntimeException(
+		    "Failed to send message due to internal exception", e);
 	}
-	return (Message) wrap.getMessage().getContent();
     }
 
     public ParameterCheckOpertaionChain getImportOperationChain() {

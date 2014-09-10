@@ -38,7 +38,7 @@ import org.universAAL.ri.gateway.configuration.ConfigurationFile;
 import org.universAAL.ri.gateway.proxies.ProxyPool;
 
 /**
- * Main Class for the AALSpace Gateway. It is incharge of managing
+ * Main Class for the AALSpace Gateway. It is in charge of managing
  * {@link Session Sessions}, and boot them from the configuration folder.
  * 
  * @author amedrano
@@ -112,7 +112,7 @@ public class Gateway implements ModuleActivator {
 
 	for (int i = 0; i < props.length; i++) {
 	    try {
-		// create a new session for each proerties file
+		// create a new session for each properties file
 		final Configuration fc = new ConfigurationFile(props[i]);
 		if (fc.getConnectionMode().equals(ConnectionMode.CLIENT)) {
 		    final Session s = new Session(fc, proxypool);
@@ -122,11 +122,8 @@ public class Gateway implements ModuleActivator {
 		    newServer(props[i].getAbsolutePath(), s);
 		}
 	    } catch (final Exception e) {
-		LogUtils.logError(
-			context,
-			getClass(),
-			"start",
-			new String[] { "unable to start session: "
+		LogUtils.logError(context, getClass(), "start",
+			new String[] { "unable to start instance from : "
 				+ props[i].getAbsolutePath() }, e);
 	    }
 	}

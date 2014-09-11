@@ -175,4 +175,8 @@ public class Gateway implements ModuleActivator {
     public Exporter getExporter() {
 	return exporter;
     }
+
+    public ProxyPool getPool() {
+	return proxypool;
+    }
 }

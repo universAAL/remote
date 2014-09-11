@@ -41,6 +41,7 @@ import org.universAAL.log.Logger;
 import org.universAAL.log.LoggerFactory;
 import org.universAAL.middleware.managers.api.AALSpaceManager;
 import org.universAAL.ri.gateway.Gateway;
+import org.universAAL.ri.gateway.Session;
 import org.universAAL.ri.gateway.communicator.service.GatewayCommunicator;
 import org.universAAL.ri.gateway.configuration.Configuration;
 import org.universAAL.ri.gateway.protocol.MessageReceiver;
@@ -63,7 +64,6 @@ public class ServerSocketCommunicationHandler extends
 	    ServerSocketCommunicationHandler.class);
 
     private static final int NUM_THREADS = 1;
-    private final GatewayCommunicator communicator;
     // private Executor executor;
     private ServerSocket server;
     private Thread serverThread;
@@ -76,7 +76,6 @@ public class ServerSocketCommunicationHandler extends
     public ServerSocketCommunicationHandler(final Configuration config,
 	    final GatewayCommunicator communicator) {
 	this.config = config;
-	this.communicator = communicator;
 
 	final String hashKey = CommunicatorStarter.properties
 		.getProperty(GatewayCommunicator.HASH_KEY);
@@ -110,11 +109,13 @@ public class ServerSocketCommunicationHandler extends
 		    try {
 			final Socket socket = server.accept();
 			log.debug("Got new incoming connection");
-			final ProxyMessageReceiver proxy = new ProxyMessageReceiver();
+			final Gateway gw = Gateway.getInstance();
+			final Session s = new Session(config, gw.getPool());
 			final LinkHandler handler = new LinkHandler(socket,
-				handlers, proxy);
+				handlers, s);
 			handlers.add(handler);
 			executor.execute(handler);
+			gw.newSession(socket.toString(), s);
 		    } catch (final IOException e) {
 			if (server.isClosed()) {
 			    log.debug(

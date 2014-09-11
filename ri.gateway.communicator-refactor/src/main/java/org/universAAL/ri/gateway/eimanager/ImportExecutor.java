@@ -17,14 +17,19 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
-*/
+ */
 package org.universAAL.ri.gateway.eimanager;
 
 import java.io.IOException;
 
 import org.universAAL.middleware.bus.member.BusMember;
 
+@Deprecated
 public interface ImportExecutor {
-    public void internalImportRemoteService(String uuid, BusMember sourceMember, String targetMemberIdRegex, String serverNamespace) throws IOException, ClassNotFoundException;
-    public void removeRemoteBusMember(BusMember sourceMember, String targetMemberIdRegex);
+    public void internalImportRemoteService(String uuid,
+	    BusMember sourceMember, String targetMemberIdRegex,
+	    String serverNamespace) throws IOException, ClassNotFoundException;
+
+    public void removeRemoteBusMember(BusMember sourceMember,
+	    String targetMemberIdRegex);
 }

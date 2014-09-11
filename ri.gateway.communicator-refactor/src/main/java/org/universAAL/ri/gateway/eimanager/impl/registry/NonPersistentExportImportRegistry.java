@@ -17,7 +17,7 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
-*/
+ */
 package org.universAAL.ri.gateway.eimanager.impl.registry;
 
 import java.util.HashMap;
@@ -26,40 +26,40 @@ import java.util.Map;
 import org.universAAL.ri.gateway.eimanager.ImportEntry;
 import org.universAAL.ri.gateway.eimanager.impl.exporting.ExportEntry;
 
+@Deprecated
+public class NonPersistentExportImportRegistry extends AbstractRegistry {
+    private final Map<String, ExportEntry> exportMap;
+    private final Map<String, ImportEntry> importMap;
 
-public class NonPersistentExportImportRegistry extends AbstractRegistry{
-    private Map<String, ExportEntry> exportMap;
-    private Map<String, ImportEntry> importMap;
-    
-    public NonPersistentExportImportRegistry(){
+    public NonPersistentExportImportRegistry() {
 	this.exportMap = new HashMap<String, ExportEntry>();
 	this.importMap = new HashMap<String, ImportEntry>();
     }
-    
-    public void addExportInfo(ExportEntry ee){
+
+    public void addExportInfo(final ExportEntry ee) {
 	exportMap.put(ee.getId(), ee);
-	for(IRegistryListener listener : listeners){
+	for (final IRegistryListener listener : listeners) {
 	    listener.registryEntryAdded(ee);
 	}
     }
-    
-    public void removeExportInfo(ExportEntry ee){
+
+    public void removeExportInfo(final ExportEntry ee) {
 	exportMap.remove(ee.getId());
-	for(IRegistryListener listener : listeners){
+	for (final IRegistryListener listener : listeners) {
 	    listener.registryEntryRemoved(ee);
 	}
     }
-    
-    public void addImportInfo(ImportEntry ie){
+
+    public void addImportInfo(final ImportEntry ie) {
 	importMap.put(ie.getId(), ie);
-	for(IRegistryListener listener : listeners){
+	for (final IRegistryListener listener : listeners) {
 	    listener.registryEntryAdded(ie);
 	}
     }
-    
-    public void removeImportInfo(ImportEntry ie){
+
+    public void removeImportInfo(final ImportEntry ie) {
 	importMap.remove(ie.getId());
-	for(IRegistryListener listener : listeners){
+	for (final IRegistryListener listener : listeners) {
 	    listener.registryEntryRemoved(ie);
 	}
     }

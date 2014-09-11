@@ -17,22 +17,24 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
-*/
+ */
 package org.universAAL.ri.gateway.eimanager.exception;
 
+@Deprecated
 public class InterruptExecutionException extends Exception {
 
-	public InterruptExecutionException(String message, Throwable cause) {
-		super(message, cause);
-	}
+    public InterruptExecutionException(final String message,
+	    final Throwable cause) {
+	super(message, cause);
+    }
 
-	public InterruptExecutionException(String message) {
-		super(message);
-	}
+    public InterruptExecutionException(final String message) {
+	super(message);
+    }
 
-	/**
+    /**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
 }

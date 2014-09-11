@@ -17,25 +17,25 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
-*/
+ */
 package org.universAAL.ri.gateway.eimanager.impl.registry;
 
 import java.util.ArrayList;
 import java.util.List;
 
-
+@Deprecated
 public class AbstractRegistry {
-    protected List<IRegistryListener> listeners; 
-    
-    public AbstractRegistry(){
+    protected List<IRegistryListener> listeners;
+
+    public AbstractRegistry() {
 	listeners = new ArrayList<IRegistryListener>();
     }
-    
-    public void addListener(IRegistryListener listener){
+
+    public void addListener(final IRegistryListener listener) {
 	listeners.add(listener);
     }
-    
-    public void removeListener(IRegistryListener listener){
+
+    public void removeListener(final IRegistryListener listener) {
 	listeners.remove(listener);
     }
 }

@@ -17,7 +17,7 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
-*/
+ */
 package org.universAAL.ri.gateway.eimanager.impl;
 
 import java.io.IOException;
@@ -39,79 +39,84 @@ import org.universAAL.ri.gateway.eimanager.impl.exporting.InternalExportOperatio
 import org.universAAL.ri.gateway.eimanager.impl.exporting.ProxyRegistration;
 import org.universAAL.ri.gateway.eimanager.impl.importing.ImportRequest;
 
-public class ExportManagerImpl implements ExportManager, ExportExecutor{
-    
-    private ExportProcessExecutor exportExecutor;
-    private Thread exportThread;
-    
-    private ExportedProxyManager manager;
-    
+@Deprecated
+public class ExportManagerImpl implements ExportManager, ExportExecutor {
+
+    private final ExportProcessExecutor exportExecutor;
+    private final Thread exportThread;
+
+    private final ExportedProxyManager manager;
+
     private Set<ExportPremise> exportPremises;
-    
-    private BlockingQueue<InternalExportOperation> busMembersToExport;
-    
-    private GatewayCommunicator communicator;
-    
-    public ExportManagerImpl(GatewayCommunicator communicator){
+
+    private final BlockingQueue<InternalExportOperation> busMembersToExport;
+
+    private final GatewayCommunicator communicator;
+
+    public ExportManagerImpl(final GatewayCommunicator communicator) {
 	this.communicator = communicator;
-	
+
 	busMembersToExport = new ArrayBlockingQueue<InternalExportOperation>(5);
-	
+
 	exportExecutor = new ExportProcessExecutor(busMembersToExport);
 	exportThread = new Thread(exportExecutor);
 	exportThread.start();
-	
+
 	manager = new ExportedProxyManager(communicator);
     }
-   
-    public void shutdown(){
+
+    public void shutdown() {
 	exportThread.interrupt();
     }
+
     /*
      * Methods for tracing registered BusMembers
-     * */
-    public void memberAdded(BusMember member) {
-	
-    }
-    
-    public void memberRemoved(BusMember member){
-	
+     */
+    public void memberAdded(final BusMember member) {
+
     }
 
-    public void addExportPremise(ExportPremise premise){
+    public void memberRemoved(final BusMember member) {
+
+    }
+
+    public void addExportPremise(final ExportPremise premise) {
 	exportPremises.add(premise);
     }
-    
-    public void removeExportPremise(ExportPremise premise){
+
+    public void removeExportPremise(final ExportPremise premise) {
 	exportPremises.remove(premise);
     }
 
-    public void exportBusMemberForRemote(BusMember sourceMember) {
+    public void exportBusMemberForRemote(final BusMember sourceMember) {
 	// TODO implement in next release
     }
 
-    public void removeExportedBusMember(BusMember sourceMember) {
+    public void removeExportedBusMember(final BusMember sourceMember) {
 	// TODO implement in next release
-	
+
     }
 
-    public ServiceResponse sendServiceRequest(String sourceId, ServiceCall call, String memberId) {
-	ServiceResponse response = manager.sendServiceRequest(sourceId, call, memberId);
-	if (response == null){
+    public ServiceResponse sendServiceRequest(final String sourceId,
+	    final ServiceCall call, final String memberId) {
+	final ServiceResponse response = manager.sendServiceRequest(sourceId,
+		call, memberId);
+	if (response == null) {
 	    throw new RuntimeException("response == null");
 	}
 	return response;
     }
 
-    public void sendUIRequest(String sourceId, UIRequest request) {
+    public void sendUIRequest(final String sourceId, final UIRequest request) {
 	manager.sendUIRequest(sourceId, request);
     }
 
-    public ProxyRegistration registerProxies(ImportRequest request) throws IOException, ClassNotFoundException {
+    public ProxyRegistration registerProxies(final ImportRequest request)
+	    throws IOException, ClassNotFoundException {
 	return manager.registerProxies(request);
     }
 
-    public void unregisterProxies(ImportRequest request) {
+    public void unregisterProxies(final ImportRequest request) {
 	manager.unregisterProxies(request);
     }
 }

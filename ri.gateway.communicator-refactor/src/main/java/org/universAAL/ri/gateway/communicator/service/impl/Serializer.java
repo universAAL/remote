@@ -33,6 +33,10 @@ import org.universAAL.middleware.serialization.MessageContentSerializer;
 import org.universAAL.ri.gateway.Gateway;
 import org.universAAL.ri.gateway.communicator.service.Message;
 
+/**
+ * @deprecated Using old Message class, remove when it is using the new Message
+ *             class.
+ */
 public enum Serializer {
     Instance;
 

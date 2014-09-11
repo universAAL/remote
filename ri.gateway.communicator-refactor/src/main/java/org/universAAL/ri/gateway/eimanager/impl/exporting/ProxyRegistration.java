@@ -17,13 +17,14 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
-*/
+ */
 package org.universAAL.ri.gateway.eimanager.impl.exporting;
 
 import java.io.Serializable;
 
-public class ProxyRegistration implements Serializable{
-    
+@Deprecated
+public class ProxyRegistration implements Serializable {
+
     /**
      * 
      */
@@ -32,7 +33,7 @@ public class ProxyRegistration implements Serializable{
     private Object returnedValues;
     private boolean success;
     private String errorMessage;
-    
+
     public ProxyRegistration(final String id, final Object returnedValues) {
 	super();
 	this.id = id;
@@ -41,13 +42,13 @@ public class ProxyRegistration implements Serializable{
 	this.errorMessage = "";
     }
 
-    public ProxyRegistration(String errorMessage){
-    	this.id = "";
-    	this.returnedValues = "";
-    	this.success = false;
-    	this.errorMessage = errorMessage;
+    public ProxyRegistration(final String errorMessage) {
+	this.id = "";
+	this.returnedValues = "";
+	this.success = false;
+	this.errorMessage = errorMessage;
     }
-    
+
     public String getId() {
 	return id;
     }
@@ -63,26 +64,26 @@ public class ProxyRegistration implements Serializable{
     public void setReturnedValues(final Object returnedValues) {
 	this.returnedValues = returnedValues;
     }
-    
+
     @Override
     public String toString() {
 	return String.format("Proxy: id: %s, returns: %s", id, returnedValues);
     }
 
-	public boolean isSuccess() {
-		return success;
-	}
+    public boolean isSuccess() {
+	return success;
+    }
 
-	public void setSuccess(boolean success) {
-		this.success = success;
-	}
+    public void setSuccess(final boolean success) {
+	this.success = success;
+    }
 
-	public String getErrorMessage() {
-		return errorMessage;
-	}
+    public String getErrorMessage() {
+	return errorMessage;
+    }
 
-	public void setErrorMessage(String errorMessage) {
-		this.errorMessage = errorMessage;
-	}
-    
+    public void setErrorMessage(final String errorMessage) {
+	this.errorMessage = errorMessage;
+    }
+
 }

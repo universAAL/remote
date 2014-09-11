@@ -42,6 +42,7 @@ import org.universAAL.ri.gateway.eimanager.impl.AbstractProxyManager;
 import org.universAAL.ri.gateway.eimanager.impl.ProxyBusMember;
 import org.universAAL.ri.gateway.eimanager.impl.exporting.ProxyRegistration;
 
+@Deprecated
 public class ImportedProxyManager extends AbstractProxyManager {
 
     private final Map<String, List<ProxyBusMember>> generatedProxies;

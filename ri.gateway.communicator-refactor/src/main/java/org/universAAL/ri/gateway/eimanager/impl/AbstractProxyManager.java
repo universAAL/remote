@@ -17,24 +17,25 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
-*/
+ */
 package org.universAAL.ri.gateway.eimanager.impl;
 
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-public abstract class AbstractProxyManager implements ProxyManager{
-    
+@Deprecated
+public abstract class AbstractProxyManager implements ProxyManager {
+
     protected Map<String, ProxyBusMember> proxiedBusMembers;
-    
-    public AbstractProxyManager(){
+
+    public AbstractProxyManager() {
 	proxiedBusMembers = new HashMap<String, ProxyBusMember>();
     }
-    
+
     public void unregisterAllProxies() {
-	Collection<ProxyBusMember> values =proxiedBusMembers.values();
-	for(ProxyBusMember member : values){
+	final Collection<ProxyBusMember> values = proxiedBusMembers.values();
+	for (final ProxyBusMember member : values) {
 	    member.removeProxy();
 	}
     }

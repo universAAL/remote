@@ -17,7 +17,7 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
-*/
+ */
 package org.universAAL.ri.gateway.eimanager.impl.exporting;
 
 import java.io.IOException;
@@ -28,40 +28,47 @@ import org.universAAL.middleware.context.ContextEventPattern;
 import org.universAAL.middleware.context.ContextSubscriber;
 import org.universAAL.ri.gateway.eimanager.impl.ProxyBusMember;
 
+@Deprecated
 public class ProxyContextSubscriber extends ProxyBusMember {
-    
-    private ContextSubscriber subscriber;
-    
-    public ProxyContextSubscriber(ExportedProxyManager manager, ModuleContext mc, ContextEventPattern[] subscriptions) {
-	super(manager,"","", mc);
+
+    private final ContextSubscriber subscriber;
+
+    public ProxyContextSubscriber(final ExportedProxyManager manager,
+	    final ModuleContext mc, final ContextEventPattern[] subscriptions) {
+	super(manager, "", "", mc);
 	subscriber = new ProxiedContextSubscriber(mc, subscriptions);
     }
 
     class ProxiedContextSubscriber extends ContextSubscriber {
 
-	protected ProxiedContextSubscriber(ModuleContext context,
-		ContextEventPattern[] initialSubscriptions) {
+	protected ProxiedContextSubscriber(final ModuleContext context,
+		final ContextEventPattern[] initialSubscriptions) {
 	    super(context, initialSubscriptions);
 	}
-	
+
+	@Override
 	public void communicationChannelBroken() {
 	}
 
-	public void handleContextEvent(ContextEvent event) {
+	@Override
+	public void handleContextEvent(final ContextEvent event) {
 	    try {
-		((ExportedProxyManager)getManager()).handleContextEvent(subscriber.getMyID(), event);
-	    } catch (IOException e) {
+		((ExportedProxyManager) getManager()).handleContextEvent(
+			subscriber.getMyID(), event);
+	    } catch (final IOException e) {
 		// TODO Auto-generated catch block
 		e.printStackTrace();
 	    }
 	}
-	
+
     }
 
+    @Override
     public void removeProxy() {
 	subscriber.close();
     }
 
+    @Override
     public String getId() {
 	return subscriber.getMyID();
     }

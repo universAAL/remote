@@ -17,12 +17,14 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
-*/
+ */
 package org.universAAL.ri.gateway.eimanager;
 
 import org.universAAL.middleware.bus.member.BusMember;
 
+@Deprecated
 public interface ExportExecutor {
     public void exportBusMemberForRemote(BusMember sourceMember);
+
     public void removeExportedBusMember(BusMember sourceMember);
 }

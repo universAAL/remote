@@ -33,20 +33,23 @@ import org.universAAL.ri.gateway.communicator.service.impl.MessageWrapper;
 /**
  * This interface is used by the ImportExportManager for communication with
  * AALSpace Gateway Communicator via an OSGi service.
- *
+ * 
  * @author skallz
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @version $LastChangedRevision$ ($LastChangedDate$)
- *
+ * 
+ * @deprecated
+ * 
  */
+@Deprecated
 public interface GatewayCommunicator {
 
     public enum RoutingMode {
-        ROUTER, FORWARD
+	ROUTER, FORWARD
     }
 
     public enum ConnectionMode {
-        SERVER, CLIENT
+	SERVER, CLIENT
     }
 
     String HASH_KEY = "hash-key";
@@ -55,15 +58,17 @@ public interface GatewayCommunicator {
      * System property used for specifying remote AAL Space Gateways addresses
      * (host ip and port) in comma separated manner. Example:
      * 192.168.192.1:8001,192.168.192.2.8001
-     *
+     * 
      * @deprecated
      */
+    @Deprecated
     String REMOTE_GATEWAYS_PROP = "remote-gateways";
 
     /**
      * System property used for specifying remote AAL Space Gateways addresses
-     * (host ip and port) that is running in Server Mode and that we should connect to
-     *
+     * (host ip and port) that is running in Server Mode and that we should
+     * connect to
+     * 
      */
     String REMOTE_SOCKET = "remote-gateway-socket";
 
@@ -120,9 +125,9 @@ public interface GatewayCommunicator {
     /**
      * Sends a service request to another AALSpace Gateway Communicator
      * listening at given URL, waits for the response and returns it.
-     *
+     * 
      * Equal to sendServiceRequest(message, to, 0);
-     *
+     * 
      * @param message
      *            request massage to be sent to the remote communicator
      * @param to
@@ -137,7 +142,7 @@ public interface GatewayCommunicator {
      * Sends a service request to another AALSpace Gateway Communicator
      * listening at given URL, waits for the response and returns it if arrived
      * before timing out.
-     *
+     * 
      * @param message
      *            request massage to be sent to the remote communicator
      * @param to
@@ -149,16 +154,16 @@ public interface GatewayCommunicator {
      *             when timed out
      */
     Message[] sendServiceRequest(Message message, URL[] to, long timeout)
-            throws TimeoutException;
+	    throws TimeoutException;
 
     Message[] sendServiceRequest(Message message, long timeout)
-            throws TimeoutException;
+	    throws TimeoutException;
 
     /**
      * Sends a service request to another AALSpace Gateway Communicator
      * listening at given URL, registers callback which will be notified once
      * the response arrives.
-     *
+     * 
      * @param message
      *            request massage to be sent to the remote communicator
      * @param returnTo
@@ -169,12 +174,12 @@ public interface GatewayCommunicator {
      *            callback which will be notified once the response arrives
      */
     void sendServiceRequestAsync(Message message, URL returnTo, URL to,
-            ResponseCallback callback);
+	    ResponseCallback callback);
 
     /**
      * Sends a context event to other AALSpace Gateway Communicators listening
      * at given URL.
-     *
+     * 
      * @param message
      *            context event to be sent
      * @param to
@@ -188,7 +193,7 @@ public interface GatewayCommunicator {
     /**
      * Sends a ui response to other AALSpace Gateway Communicators listening at
      * given URL.
-     *
+     * 
      * @param message
      *            ui response
      * @param to
@@ -202,7 +207,7 @@ public interface GatewayCommunicator {
     /**
      * Sends a ui request to other AALSpace Gateway Communicators listening at
      * given URL.
-     *
+     * 
      * @param message
      *            ui request
      * @param to
@@ -226,7 +231,7 @@ public interface GatewayCommunicator {
     void sendImportRemoval(Message message);
 
     void handleMessage(final MessageWrapper msg, final OutputStream out)
-            throws Exception;
+	    throws Exception;
 
     void stop();
 

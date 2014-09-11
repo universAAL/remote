@@ -36,6 +36,7 @@ import org.universAAL.middleware.service.owls.profile.ServiceProfile;
 import org.universAAL.ri.gateway.Gateway;
 import org.universAAL.ri.gateway.eimanager.impl.ProxyBusMember;
 
+@Deprecated
 public class ProxyServiceCaller extends ProxyBusMember {
 
     private final DefaultServiceCaller caller;

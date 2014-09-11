@@ -17,18 +17,19 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
-*/
+ */
 package org.universAAL.ri.gateway.eimanager.impl.exporting;
 
 import org.universAAL.middleware.bus.member.BusMember;
 import org.universAAL.ri.gateway.eimanager.impl.InternalEIOperation;
 import org.universAAL.ri.gateway.eimanager.impl.registry.RepoOperation;
 
+@Deprecated
 public class InternalExportOperation extends InternalEIOperation {
-    
-    public InternalExportOperation(BusMember member, RepoOperation op) {
+
+    public InternalExportOperation(final BusMember member,
+	    final RepoOperation op) {
 	super(member, op);
     }
 
-   
 }

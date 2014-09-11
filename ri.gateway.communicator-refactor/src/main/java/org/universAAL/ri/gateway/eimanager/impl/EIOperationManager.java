@@ -29,6 +29,7 @@ import org.universAAL.ri.gateway.eimanager.ImportOperationInterceptor;
 import org.universAAL.ri.gateway.eimanager.exception.InterruptExecutionException;
 import org.universAAL.ri.gateway.eimanager.impl.importing.ImportRequest;
 
+@Deprecated
 public enum EIOperationManager // implements SharedObjectListener
 {
     Instance;

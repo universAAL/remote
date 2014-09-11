@@ -27,14 +27,19 @@ package org.universAAL.ri.gateway.communicator.service;
 import java.io.IOException;
 
 import org.bouncycastle.crypto.CryptoException;
+import org.universAAL.ri.gateway.Session;
 import org.universAAL.ri.gateway.communicator.service.impl.MessageWrapper;
+import org.universAAL.ri.gateway.communicator.service.impl.SessionManager;
 
 /**
  * 
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @version $LastChangedRevision$ ($LastChangedDate$)
  * 
+ * @deprecated update to new Message class, and remove String[] sessions? are
+ *             they {@link SessionManager} sessions or {@link Session}s?
  */
+@Deprecated
 public interface CommunicationHandler {
 
     public static final String BROADCAST_SESSION = "#BROADCAST";

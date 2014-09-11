@@ -17,35 +17,34 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
-*/
+ */
 package org.universAAL.ri.gateway.eimanager.impl.registry;
 
 import org.universAAL.ri.gateway.eimanager.impl.InternalEIOperation;
 
+@Deprecated
 public abstract class RegistryEntry {
-	private String id;
-	private InternalEIOperation operation;
+    private String id;
+    private InternalEIOperation operation;
 
-	public RegistryEntry(String id, InternalEIOperation operation) {
-		this.id = id;
-		this.operation = operation;
-	}
+    public RegistryEntry(final String id, final InternalEIOperation operation) {
+	this.id = id;
+	this.operation = operation;
+    }
 
-	public String getId() {
-		return id;
-	}
+    public String getId() {
+	return id;
+    }
 
-	public void setId(String id) {
-		this.id = id;
-	}
+    public void setId(final String id) {
+	this.id = id;
+    }
 
-	public InternalEIOperation getOperation() {
-		return operation;
-	}
+    public InternalEIOperation getOperation() {
+	return operation;
+    }
 
-	public void setOperation(InternalEIOperation operation) {
-		this.operation = operation;
-	}
+    public void setOperation(final InternalEIOperation operation) {
+	this.operation = operation;
+    }
 }
-
-

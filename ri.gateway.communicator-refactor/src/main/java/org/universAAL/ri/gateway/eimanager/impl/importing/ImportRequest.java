@@ -17,7 +17,7 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
-*/
+ */
 package org.universAAL.ri.gateway.eimanager.impl.importing;
 
 import java.io.Serializable;
@@ -25,6 +25,7 @@ import java.util.Arrays;
 
 import org.universAAL.ri.gateway.eimanager.impl.BusMemberType;
 
+@Deprecated
 public class ImportRequest implements Serializable {
     /**
      * 
@@ -47,7 +48,7 @@ public class ImportRequest implements Serializable {
      */
     private String[] subjectURI;
     private String[] cpe;
-    
+
     private String modalityRegex;
 
     public ImportRequest(final BusMemberType member, final String id) {
@@ -105,24 +106,24 @@ public class ImportRequest implements Serializable {
 		+ (serverNamespace != null ? "serverNamespace="
 			+ serverNamespace + ", " : "")
 		+ (serviceType != null ? "serviceType=" + serviceType : "")
-		+ (modalityRegex != null ? "modalityRegex=" + modalityRegex: "")
-		+ "]";
+		+ (modalityRegex != null ? "modalityRegex=" + modalityRegex
+			: "") + "]";
     }
 
-	public String[] getSubjectURIs() {
-		return subjectURI;
-	}
+    public String[] getSubjectURIs() {
+	return subjectURI;
+    }
 
-	public void setSubjectURIs(String[] subjectURI) {
-		this.subjectURI = subjectURI;
-	}
+    public void setSubjectURIs(final String[] subjectURI) {
+	this.subjectURI = subjectURI;
+    }
 
-	public String getModalityRegex() {
-		return modalityRegex;
-	}
+    public String getModalityRegex() {
+	return modalityRegex;
+    }
 
-	public void setModalityRegex(String modalityRegex) {
-		this.modalityRegex = modalityRegex;
-	}
+    public void setModalityRegex(final String modalityRegex) {
+	this.modalityRegex = modalityRegex;
+    }
 
 }

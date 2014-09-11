@@ -17,7 +17,7 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
-*/
+ */
 package org.universAAL.ri.gateway.communicator.service;
 
 import java.io.Serializable;
@@ -27,7 +27,9 @@ import java.io.Serializable;
  * of AALSpace.
  * 
  * @author skallz
+ * @deprecated
  */
+@Deprecated
 public class Message implements Serializable {
 
     /**
@@ -38,12 +40,12 @@ public class Message implements Serializable {
     /**
      * Content of the message.
      */
-    private Object content;
-    
+    private final Object content;
+
     private String remoteProxyRegistrationId;
-    
+
     private String remoteMemberId;
-    
+
     /**
      * Initializes with a message to send.
      * 
@@ -68,7 +70,7 @@ public class Message implements Serializable {
 	if (obj == null || !(obj instanceof Message)) {
 	    return false;
 	}
-	Message o = (Message) obj;
+	final Message o = (Message) obj;
 	if (content == null && o.content == null) {
 	    return true;
 	}
@@ -89,23 +91,24 @@ public class Message implements Serializable {
      * @return content of the message
      */
     public Object getContent() {
-        return content;
+	return content;
     }
 
     public String getRemoteProxyRegistrationId() {
 	return remoteProxyRegistrationId;
     }
 
-    public void setRemoteProxyRegistrationId(String remoteProxyRegistrationId) {
+    public void setRemoteProxyRegistrationId(
+	    final String remoteProxyRegistrationId) {
 	this.remoteProxyRegistrationId = remoteProxyRegistrationId;
     }
 
-	public String getRemoteMemberId() {
-		return remoteMemberId;
-	}
+    public String getRemoteMemberId() {
+	return remoteMemberId;
+    }
 
-	public void setRemoteMemberId(String remoteMemberId) {
-		this.remoteMemberId = remoteMemberId;
-	}
+    public void setRemoteMemberId(final String remoteMemberId) {
+	this.remoteMemberId = remoteMemberId;
+    }
 
 }

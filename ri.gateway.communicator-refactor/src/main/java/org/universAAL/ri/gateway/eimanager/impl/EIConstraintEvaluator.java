@@ -17,19 +17,21 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
-*/
+ */
 package org.universAAL.ri.gateway.eimanager.impl;
 
 import org.universAAL.middleware.bus.member.BusMember;
 
-
+@Deprecated
 public class EIConstraintEvaluator {
-    public static boolean shouldExport(BusMember member, InternalEIOperation operation){
-	//TODO implement in next release
+    public static boolean shouldExport(final BusMember member,
+	    final InternalEIOperation operation) {
+	// TODO implement in next release
 	return true;
     }
 
-    public static boolean shouldImport(BusMember member, InternalEIOperation operation) {
+    public static boolean shouldImport(final BusMember member,
+	    final InternalEIOperation operation) {
 	// TODO implement in next release
 	return false;
     }

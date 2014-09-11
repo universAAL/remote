@@ -17,15 +17,17 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
-*/
+ */
 package org.universAAL.ri.gateway.eimanager;
 
 import org.universAAL.ri.gateway.eimanager.exception.InterruptExecutionException;
 import org.universAAL.ri.gateway.eimanager.impl.importing.ImportRequest;
 
+@Deprecated
 public interface ExportOperationInterceptor {
-	
-	public void process(ImportRequest importRequest) throws InterruptExecutionException;
-	
-	public int getPriority();
+
+    public void process(ImportRequest importRequest)
+	    throws InterruptExecutionException;
+
+    public int getPriority();
 }

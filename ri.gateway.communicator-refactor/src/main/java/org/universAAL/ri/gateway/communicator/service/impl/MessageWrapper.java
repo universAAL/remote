@@ -17,7 +17,7 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
-*/
+ */
 package org.universAAL.ri.gateway.communicator.service.impl;
 
 import java.io.Serializable;
@@ -31,7 +31,9 @@ import org.universAAL.ri.gateway.communicator.service.Message;
  * 
  * @author skallz
  * 
+ * @deprecated
  */
+@Deprecated
 public class MessageWrapper implements Serializable {
 
     /**
@@ -42,22 +44,22 @@ public class MessageWrapper implements Serializable {
     /**
      * An ID to identify during asynchronous communication.
      */
-    private UUID id;
+    private final UUID id;
     /**
      * Type of the message.
      */
-    private MessageType type;
+    private final MessageType type;
     /**
      * The message.
      */
-    private Message message;
+    private final Message message;
     /**
      * where to send back the response (for asynchronous communication only).
      */
     private URL returnTo;
-    
+
     private String sourceId;
-    
+
     /**
      * Wraps a message with a concrete ID (for responses).
      * 

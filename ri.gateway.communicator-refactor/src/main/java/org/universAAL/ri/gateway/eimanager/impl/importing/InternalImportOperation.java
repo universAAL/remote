@@ -17,20 +17,21 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
-*/
+ */
 package org.universAAL.ri.gateway.eimanager.impl.importing;
 
 import java.util.List;
 import java.util.Map;
 
+import org.universAAL.middleware.bus.member.BusMember;
 import org.universAAL.middleware.context.owl.ContextProvider;
 import org.universAAL.middleware.service.owls.profile.ServiceProfile;
-import org.universAAL.middleware.bus.member.BusMember;
 import org.universAAL.middleware.ui.UIHandlerProfile;
 import org.universAAL.ri.gateway.eimanager.ImportEntry;
 import org.universAAL.ri.gateway.eimanager.impl.InternalEIOperation;
 import org.universAAL.ri.gateway.eimanager.impl.registry.RepoOperation;
 
+@Deprecated
 public class InternalImportOperation extends InternalEIOperation {
 
     private String uuid;
@@ -93,12 +94,12 @@ public class InternalImportOperation extends InternalEIOperation {
 	this.importEntry = importEntry;
     }
 
-	public Map<String, List<ServiceProfile>> getRealizedServices() {
-		return realizedServices;
-	}
+    public Map<String, List<ServiceProfile>> getRealizedServices() {
+	return realizedServices;
+    }
 
-	public void setRealizedServices(Map<String, List<ServiceProfile>> realizedServices) {
-		this.realizedServices = realizedServices;
-	}
+    public void setRealizedServices(
+	    final Map<String, List<ServiceProfile>> realizedServices) {
+	this.realizedServices = realizedServices;
+    }
 }
-

@@ -59,6 +59,7 @@ import org.universAAL.ri.gateway.eimanager.impl.ProxyBusMember;
 import org.universAAL.ri.gateway.eimanager.impl.importing.ImportRequest;
 import org.universAAL.ri.gateway.eimanager.impl.registry.RegistryEntry;
 
+@Deprecated
 public class ExportedProxyManager extends AbstractProxyManager implements
 	IBusMemberRegistryListener {
 

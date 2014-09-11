@@ -17,7 +17,7 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
-*/
+ */
 package org.universAAL.ri.gateway.eimanager.impl.importing;
 
 import java.io.IOException;
@@ -32,56 +32,63 @@ import org.universAAL.middleware.ui.UIHandlerProfile;
 import org.universAAL.middleware.ui.UIRequest;
 import org.universAAL.ri.gateway.eimanager.impl.ProxyBusMember;
 
+@Deprecated
 public class ProxyUIHandler extends ProxyBusMember {
 
-	private UIHandler handler;
-	private Set<ServiceProfile> profilesSet;
-	
-	public ProxyUIHandler(UIHandlerProfile[] handlerProfiles,
-			ImportedProxyManager manager, final String targetId,
-			ModuleContext mc) {
-		super(manager, targetId,"", mc);
-		
-		profilesSet = new HashSet<ServiceProfile>();
-		
-		handler = new UIHandler(mc, handlerProfiles) {
+    private UIHandler handler;
+    private Set<ServiceProfile> profilesSet;
 
-			public void handleUICall(UIRequest uicall) {
-				try {
-					((ImportedProxyManager) getManager())
-							.realizeRemoteUIRequest(targetId, uicall);
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
+    public ProxyUIHandler(final UIHandlerProfile[] handlerProfiles,
+	    final ImportedProxyManager manager, final String targetId,
+	    final ModuleContext mc) {
+	super(manager, targetId, "", mc);
 
-			public Resource cutDialog(String dialogID) {
-				return null;
-			}
+	profilesSet = new HashSet<ServiceProfile>();
 
-			public void communicationChannelBroken() {
-			}
+	handler = new UIHandler(mc, handlerProfiles) {
 
-			public void adaptationParametersChanged(String dialogID,
-					String changedProp, Object newVal) {
-			}
-		};
-	}
+	    @Override
+	    public void handleUICall(final UIRequest uicall) {
+		try {
+		    ((ImportedProxyManager) getManager())
+			    .realizeRemoteUIRequest(targetId, uicall);
+		} catch (final IOException e) {
+		    // TODO Auto-generated catch block
+		    e.printStackTrace();
+		}
+	    }
 
-	public void removeProxy() {
-		handler.close();
-	}
+	    @Override
+	    public Resource cutDialog(final String dialogID) {
+		return null;
+	    }
 
-	public String getId() {
-		return handler.getMyID();
-	}
-	
-	public Set<ServiceProfile> getProfilesSet() {
-		return profilesSet;
-	}
+	    @Override
+	    public void communicationChannelBroken() {
+	    }
 
-	public void setProfilesSet(Set<ServiceProfile> profilesSet) {
-		this.profilesSet = profilesSet;
-	}
+	    @Override
+	    public void adaptationParametersChanged(final String dialogID,
+		    final String changedProp, final Object newVal) {
+	    }
+	};
+    }
+
+    @Override
+    public void removeProxy() {
+	handler.close();
+    }
+
+    @Override
+    public String getId() {
+	return handler.getMyID();
+    }
+
+    public Set<ServiceProfile> getProfilesSet() {
+	return profilesSet;
+    }
+
+    public void setProfilesSet(final Set<ServiceProfile> profilesSet) {
+	this.profilesSet = profilesSet;
+    }
 }

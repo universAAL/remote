@@ -27,11 +27,12 @@ package org.universAAL.ri.gateway.communicator.service.impl;
 /**
  * Type for MessageWrapper in order for the servlet to distinguish the message
  * purpose.
- *
+ * 
  * @author skallz
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @version $LastChangedRevision$ ($LastChangedDate$)
- *
+ * 
+ * @deprecated
  */
 public enum MessageType {
     /**
@@ -71,24 +72,24 @@ public enum MessageType {
     ConnectRequest, ConnectResponse,
 
     /**
-     * This is the first message sent when try to recover a link already that was established
+     * This is the first message sent when try to recover a link already that
+     * was established
      */
     Reconnect,
 
     /**
      * This is the message for closing a link
      */
-    Disconnect, 
-    
+    Disconnect,
+
     /**
      * This is a one way message of the higher level
      */
     HighPush,
-    
+
     /**
      * This is a one request-response message of the higher level
      */
     HighReqRsp;
-
 
 }

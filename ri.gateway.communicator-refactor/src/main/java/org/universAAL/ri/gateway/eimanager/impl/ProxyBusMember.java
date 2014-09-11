@@ -17,38 +17,41 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
-*/
+ */
 package org.universAAL.ri.gateway.eimanager.impl;
 
 import org.universAAL.middleware.container.ModuleContext;
 
+@Deprecated
 public abstract class ProxyBusMember {
-    
+
     protected ModuleContext mc;
     protected String targetId;
     protected String remoteBusMemberId;
     private final AbstractProxyManager manager;
-    
-    public ProxyBusMember(AbstractProxyManager manager, String targetId, String remoteBusMemberId, ModuleContext mc){
+
+    public ProxyBusMember(final AbstractProxyManager manager,
+	    final String targetId, final String remoteBusMemberId,
+	    final ModuleContext mc) {
 	this.mc = mc;
 	this.targetId = targetId;
 	this.manager = manager;
 	this.remoteBusMemberId = remoteBusMemberId;
     }
-    
-    public String getRemoteProxyBusMemberId(){
+
+    public String getRemoteProxyBusMemberId() {
 	return targetId;
     }
-    
+
     public abstract void removeProxy();
 
     public AbstractProxyManager getManager() {
 	return manager;
     }
-    
+
     public abstract String getId();
 
-	public String getRemoteBusMemberId() {
-		return remoteBusMemberId;
-	}
+    public String getRemoteBusMemberId() {
+	return remoteBusMemberId;
+    }
 }

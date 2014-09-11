@@ -17,7 +17,7 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
-*/
+ */
 package org.universAAL.ri.gateway.eimanager.impl.importing;
 
 import java.util.concurrent.BlockingQueue;
@@ -25,9 +25,10 @@ import java.util.concurrent.BlockingQueue;
 import org.universAAL.ri.gateway.eimanager.ImportEntry;
 import org.universAAL.ri.gateway.eimanager.impl.registry.EIRepoAccessManager;
 
+@Deprecated
 public class ImportProcessExecutor implements Runnable {
 
-    private BlockingQueue<InternalImportOperation> importQueue;
+    private final BlockingQueue<InternalImportOperation> importQueue;
 
     public ImportProcessExecutor(
 	    final BlockingQueue<InternalImportOperation> queue) {
@@ -41,7 +42,7 @@ public class ImportProcessExecutor implements Runnable {
 	    try {
 		final InternalImportOperation op = importQueue.take();
 		this.process(op);
-	    } catch (InterruptedException e) {
+	    } catch (final InterruptedException e) {
 		// Set interrupted flag.
 		Thread.currentThread().interrupt();
 	    }
@@ -58,7 +59,8 @@ public class ImportProcessExecutor implements Runnable {
 		EIRepoAccessManager.Instance
 			.publishImportToRepo(new ImportEntry(op.getMemberId(),
 				op.getBusMember(), op
-					.getRemoteRegisteredProxyId(), op, true, ""));
+					.getRemoteRegisteredProxyId(), op,
+				true, ""));
 		break;
 
 	    case Purge:

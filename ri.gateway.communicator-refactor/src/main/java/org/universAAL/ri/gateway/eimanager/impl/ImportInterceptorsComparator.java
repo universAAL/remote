@@ -17,18 +17,20 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
-*/
+ */
 package org.universAAL.ri.gateway.eimanager.impl;
 
 import java.util.Comparator;
 
 import org.universAAL.ri.gateway.eimanager.ImportOperationInterceptor;
 
-public class ImportInterceptorsComparator implements Comparator<ImportOperationInterceptor> {
+@Deprecated
+public class ImportInterceptorsComparator implements
+	Comparator<ImportOperationInterceptor> {
 
-	public int compare(ImportOperationInterceptor o1,
-			ImportOperationInterceptor o2) {
-		return Integer.valueOf(o1.getPriority()).compareTo(o2.getPriority());
-	}
+    public int compare(final ImportOperationInterceptor o1,
+	    final ImportOperationInterceptor o2) {
+	return Integer.valueOf(o1.getPriority()).compareTo(o2.getPriority());
+    }
 
 }

@@ -17,7 +17,7 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
-*/
+ */
 package org.universAAL.ri.gateway.eimanager.impl;
 
 import org.universAAL.middleware.bus.member.BusMember;
@@ -26,38 +26,40 @@ import org.universAAL.middleware.tracker.IBusMemberRegistry.BusType;
 import org.universAAL.middleware.tracker.IBusMemberRegistryListener;
 import org.universAAL.ri.gateway.eimanager.RepoEIManager;
 
-public class EIManagerRegistryListener implements IBusMemberRegistryListener{
-    
-    private RepoEIManager manager;
-    
-    public EIManagerRegistryListener(RepoEIManager manager){
+@Deprecated
+public class EIManagerRegistryListener implements IBusMemberRegistryListener {
+
+    private final RepoEIManager manager;
+
+    public EIManagerRegistryListener(final RepoEIManager manager) {
 	this.manager = manager;
     }
-    
-    public void busMemberAdded(BusMember member, BusType type) {
+
+    public void busMemberAdded(final BusMember member, final BusType type) {
 	try {
 	    manager.memberAdded(member);
-	} catch (Exception e) {
+	} catch (final Exception e) {
 	    e.printStackTrace();
 	}
     }
 
-    public void busMemberRemoved(BusMember member, BusType type) {
+    public void busMemberRemoved(final BusMember member, final BusType type) {
 	try {
 	    manager.memberRemoved(member);
-	} catch (Exception e) {
+	} catch (final Exception e) {
 	    e.printStackTrace();
 	}
     }
 
-    public void regParamsAdded(String busMemberID, Resource[] params) {
+    public void regParamsAdded(final String busMemberID, final Resource[] params) {
 	// TODO Auto-generated method stub
-	
+
     }
 
-    public void regParamsRemoved(String busMemberID, Resource[] params) {
+    public void regParamsRemoved(final String busMemberID,
+	    final Resource[] params) {
 	// TODO Auto-generated method stub
-	
+
     }
 
 }

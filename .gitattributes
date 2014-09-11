@@ -47,6 +47,7 @@ ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/configu
 ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/configuration/ConfigurationFile.java -text svneol=unset#text/plain
 ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/configuration/PropertiesFileKeys.java -text svneol=unset#text/plain
 ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/configuration/UpdatedPropertiesFile.java -text svneol=unset#text/plain
+ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/operations/AllowDefault.java -text svneol=unset#text/plain
 ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/operations/MessageOperationChain.java -text svneol=unset#text/plain
 ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/operations/OperationChain.java -text svneol=unset#text/plain
 ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/operations/OperationChainManager.java -text svneol=unset#text/plain

@@ -18,6 +18,7 @@ package org.universAAL.ri.gateway.configuration;
 import java.io.File;
 import java.util.Properties;
 
+import org.universAAL.ri.gateway.operations.AllowDefault;
 import org.universAAL.ri.gateway.operations.MessageOperationChain;
 import org.universAAL.ri.gateway.operations.ParameterCheckOpertaionChain;
 
@@ -85,26 +86,26 @@ public class ConfigurationFile extends UpdatedPropertiesFile implements
 
     /** {@inheritDoc} */
     public ParameterCheckOpertaionChain getImportOperationChain() {
-	// TODO Auto-generated method stub
-	return null;
+	// TODO gather the correct security mechanism;
+	return new AllowDefault();
     }
 
     /** {@inheritDoc} */
     public ParameterCheckOpertaionChain getExportOperationChain() {
-	// TODO Auto-generated method stub
-	return null;
+	// TODO gather the correct security mechanism;
+	return new AllowDefault();
     }
 
     /** {@inheritDoc} */
     public MessageOperationChain getIncomingMessageOperationChain() {
-	// TODO Auto-generated method stub
-	return null;
+	// TODO gather the correct security mechanism;
+	return new AllowDefault();
     }
 
     /** {@inheritDoc} */
     public MessageOperationChain getOutgoingMessageOperationChain() {
-	// TODO Auto-generated method stub
-	return null;
+	// TODO gather the correct security mechanism;
+	return new AllowDefault();
     }
 
     public String getEncryptionKey() {

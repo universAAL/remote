@@ -107,4 +107,8 @@ public class ConfigurationFile extends UpdatedPropertiesFile implements
 	return null;
     }
 
+    public String getEncryptionKey() {
+	return (String) get(HASH_KEY);
+    }
+
 }

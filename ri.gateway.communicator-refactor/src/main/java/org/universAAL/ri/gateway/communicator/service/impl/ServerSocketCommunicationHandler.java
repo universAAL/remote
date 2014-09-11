@@ -42,7 +42,6 @@ import org.universAAL.log.LoggerFactory;
 import org.universAAL.middleware.managers.api.AALSpaceManager;
 import org.universAAL.ri.gateway.Gateway;
 import org.universAAL.ri.gateway.Session;
-import org.universAAL.ri.gateway.communicator.service.GatewayCommunicator;
 import org.universAAL.ri.gateway.configuration.Configuration;
 import org.universAAL.ri.gateway.protocol.MessageReceiver;
 import org.universAAL.ri.gateway.protocol.link.ConnectionRequest;
@@ -73,12 +72,10 @@ public class ServerSocketCommunicationHandler extends
 
     private final Configuration config;
 
-    public ServerSocketCommunicationHandler(final Configuration config,
-	    final GatewayCommunicator communicator) {
+    public ServerSocketCommunicationHandler(final Configuration config) {
 	this.config = config;
 
-	final String hashKey = CommunicatorStarter.properties
-		.getProperty(GatewayCommunicator.HASH_KEY);
+	final String hashKey = this.config.getEncryptionKey();
 
 	SecurityUtils.Instance.initialize(hashKey);
 

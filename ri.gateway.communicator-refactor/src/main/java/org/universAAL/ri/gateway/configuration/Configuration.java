@@ -84,4 +84,10 @@ public interface Configuration extends OperationChainManager {
      */
     int getConnectionPort();
 
+    /**
+     * Get the encryption key to be used for the communication link.
+     * 
+     * @return
+     */
+    String getEncryptionKey();
 }

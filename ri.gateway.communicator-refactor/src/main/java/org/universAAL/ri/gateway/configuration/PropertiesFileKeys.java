@@ -80,4 +80,9 @@ public interface PropertiesFileKeys {
      * Alias' prefix under which the HTTP servlet will be registered.
      */
     String ALIAS_PREFIX = "gateway-communicator";
+
+    /**
+     * The Key for encryption.
+     */
+    String HASH_KEY = "hash-key";
 }

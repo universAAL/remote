@@ -37,8 +37,6 @@ import org.universAAL.log.Logger;
 import org.universAAL.log.LoggerFactory;
 import org.universAAL.middleware.managers.api.AALSpaceManager;
 import org.universAAL.ri.gateway.Gateway;
-import org.universAAL.ri.gateway.communicator.service.GatewayCommunicator;
-import org.universAAL.ri.gateway.communicator.service.GatewayCommunicator.RoutingMode;
 import org.universAAL.ri.gateway.configuration.Configuration;
 import org.universAAL.ri.gateway.protocol.MessageReceiver;
 import org.universAAL.ri.gateway.protocol.link.DisconnectionRequest;
@@ -49,9 +47,9 @@ import org.universAAL.ri.gateway.protocol.link.DisconnectionRequest;
  * message to the Server Gateway.<br>
  * <br>
  * <b>NOTE that:</b> At the moment this mode supports only the routing in
- * {@link RoutingMode#FORWARD}, and so far for supporting also the
- * {@link RoutingMode#ROUTER} the client should be aware of all the peers to
- * join in advance, which is a very limited case
+ * {@link Configuration.RoutingMode#FORWARD}, and so far for supporting also the
+ * {@link Configuration.RoutingMode#ROUTER} the client should be aware of all
+ * the peers to join in advance, which is a very limited case
  * 
  * 
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
@@ -89,8 +87,7 @@ public class ClientSocketCommunicationHandler extends
 	this.config = config;
 	this.communicator = communicator;
 
-	final String hashKey = CommunicatorStarter.properties
-		.getProperty(GatewayCommunicator.HASH_KEY);
+	final String hashKey = this.config.getEncryptionKey();
 
 	SecurityUtils.Instance.initialize(hashKey);
 

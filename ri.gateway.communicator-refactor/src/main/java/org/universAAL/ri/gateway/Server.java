@@ -37,7 +37,7 @@ public class Server {
      * 
      */
     public Server(final Configuration fc) {
-	server = new ServerSocketCommunicationHandler(fc, null);
+	server = new ServerSocketCommunicationHandler(fc);
     }
 
     public void stop() {

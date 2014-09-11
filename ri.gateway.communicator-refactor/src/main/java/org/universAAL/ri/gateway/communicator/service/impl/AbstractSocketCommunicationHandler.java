@@ -37,7 +37,6 @@ import org.universAAL.log.Logger;
 import org.universAAL.log.LoggerFactory;
 import org.universAAL.ri.gateway.Gateway;
 import org.universAAL.ri.gateway.communicator.service.CommunicationHandler;
-import org.universAAL.ri.gateway.communicator.service.GatewayCommunicator;
 
 /**
  * This class implements an abstract gateway based on TCP connection
@@ -54,12 +53,12 @@ public abstract class AbstractSocketCommunicationHandler implements
 	    Gateway.getInstance().context).getLogger(
 	    AbstractSocketCommunicationHandler.class);
 
-    public AbstractSocketCommunicationHandler() {
-	final String hashKey = CommunicatorStarter.properties
-		.getProperty(GatewayCommunicator.HASH_KEY);
-
-	SecurityUtils.Instance.initialize(hashKey);
-    }
+    // public AbstractSocketCommunicationHandler() {
+    // final String hashKey = CommunicatorStarter.properties
+    // .getProperty(GatewayCommunicator.HASH_KEY);
+    //
+    // SecurityUtils.Instance.initialize(hashKey);
+    // }
 
     protected MessageWrapper readMessage(final InputStream in) throws Exception {
 	AbstractSocketCommunicationHandler.log

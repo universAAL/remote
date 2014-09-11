@@ -33,7 +33,6 @@ import java.util.HashSet;
 import java.util.Properties;
 import java.util.Set;
 
-import org.osgi.framework.BundleContext;
 import org.universAAL.ri.gateway.Gateway;
 import org.universAAL.ri.gateway.communicator.service.GatewayCommunicator;
 import org.universAAL.ri.gateway.eimanager.ExportManager;
@@ -64,7 +63,6 @@ public class CommunicatorStarter {
     /**
      * context of a related bundle.
      */
-    private final BundleContext context;
 
     private final GatewayCommunicatorImpl communicator;
 
@@ -87,13 +85,11 @@ public class CommunicatorStarter {
      * @throws Exception
      * @throws RuntimeException
      */
-    public CommunicatorStarter(final BundleContext context, final String id)
-	    throws Exception {
+    public CommunicatorStarter(final String id) throws Exception {
 
 	loadConfiguration();
 	loadSecurityConfiguration();
 
-	this.context = context;
 	this.id = id;
 	this.alias = CommunicatorStarter.createAlias(id);
 
@@ -102,17 +98,6 @@ public class CommunicatorStarter {
 	}
 
 	this.communicator = new GatewayCommunicatorImpl();
-    }
-
-    /**
-     * Starts the worker with default ID: "".
-     * 
-     * @param manager
-     *            a ImportExportManager reference
-     * @throws Exception
-     */
-    public CommunicatorStarter(final BundleContext context) throws Exception {
-	this(context, null);
     }
 
     /**

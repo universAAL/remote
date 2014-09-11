@@ -37,6 +37,8 @@ import org.universAAL.log.Logger;
 import org.universAAL.log.LoggerFactory;
 import org.universAAL.middleware.managers.api.AALSpaceManager;
 import org.universAAL.ri.gateway.Gateway;
+import org.universAAL.ri.gateway.communication.cipher.Blowfish;
+import org.universAAL.ri.gateway.communication.cipher.Cipher;
 import org.universAAL.ri.gateway.configuration.Configuration;
 import org.universAAL.ri.gateway.protocol.MessageReceiver;
 import org.universAAL.ri.gateway.protocol.link.DisconnectionRequest;
@@ -82,6 +84,8 @@ public class ClientSocketCommunicationHandler extends
 
     private final Configuration config;
 
+    private final Cipher cipher;
+
     public ClientSocketCommunicationHandler(final Configuration config,
 	    final MessageReceiver communicator) {
 	this.config = config;
@@ -89,7 +93,7 @@ public class ClientSocketCommunicationHandler extends
 
 	final String hashKey = this.config.getEncryptionKey();
 
-	SecurityUtils.Instance.initialize(hashKey);
+	this.cipher = new Blowfish(this.config.getEncryptionKey());
 
 	this.executor = Executors
 		.newFixedThreadPool(ClientSocketCommunicationHandler.NUM_THREADS);

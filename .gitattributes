@@ -20,6 +20,8 @@ ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/Importe
 ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/ProxyMessageReceiver.java svneol=native#text/plain
 ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/Server.java -text svneol=unset#text/plain
 ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/Session.java -text svneol=unset#text/plain
+ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/communication/cipher/Blowfish.java -text
+ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/communication/cipher/Cipher.java -text svneol=unset#text/plain
 ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/communicator/service/CommunicationException.java -text
 ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/communicator/service/CommunicationHandler.java -text
 ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/communicator/service/GatewayCommunicator.java -text

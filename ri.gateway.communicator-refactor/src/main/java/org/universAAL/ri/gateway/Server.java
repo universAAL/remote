@@ -1,4 +1,8 @@
 /*******************************************************************************
+ * Copyright 2014-2014 CNR-ISTI, http://isti.cnr.it
+ * Institute of Information Science and Technologies
+ * of the Italian National Research Council
+ *   
  * Copyright 2014 Universidad Politécnica de Madrid UPM
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,25 +19,31 @@
  ******************************************************************************/
 package org.universAAL.ri.gateway;
 
+import org.universAAL.ri.gateway.communicator.service.impl.ServerSocketCommunicationHandler;
 import org.universAAL.ri.gateway.configuration.Configuration;
 
 /**
  * @author amedrano
+ * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
+ * @version $LastChangedRevision$ ($LastChangedDate$)
  * 
  */
 public class Server {
+
+    private ServerSocketCommunicationHandler server;
 
     /**
      * @param fc
      * 
      */
     public Server(final Configuration fc) {
-	// TODO Auto-generated constructor stub
+	server = new ServerSocketCommunicationHandler(fc, null);
     }
 
     public void stop() {
-	// TODO Auto-generated method stub
-
+	if ( server != null ) {
+	    server.stop();
+	}
     }
 
 }

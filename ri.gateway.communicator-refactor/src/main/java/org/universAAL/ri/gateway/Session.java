@@ -1,4 +1,8 @@
 /*******************************************************************************
+ * Copyright 2014-2014 CNR-ISTI, http://isti.cnr.it
+ * Institute of Information Science and Technologies
+ * of the Italian National Research Council
+ *   
  * Copyright 2014 Universidad Politécnica de Madrid UPM
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,10 +19,8 @@
  ******************************************************************************/
 package org.universAAL.ri.gateway;
 
-import java.io.IOException;
 import java.util.UUID;
 
-import org.bouncycastle.crypto.CryptoException;
 import org.universAAL.middleware.container.utils.LogUtils;
 import org.universAAL.ri.gateway.communicator.service.impl.ClientSocketCommunicationHandler;
 import org.universAAL.ri.gateway.communicator.service.impl.MessageType;
@@ -43,6 +45,8 @@ import org.universAAL.ri.gateway.proxies.ProxyPool;
  * connecting the communication layer with the Importer and proxies.
  * 
  * @author amedrano
+ * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
+ * @version $LastChangedRevision$ ($LastChangedDate$)
  * 
  */
 public class Session implements MessageSender, MessageReceiver,

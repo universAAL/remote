@@ -32,10 +32,7 @@ import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -43,15 +40,15 @@ import java.util.concurrent.Executors;
 import org.universAAL.log.Logger;
 import org.universAAL.log.LoggerFactory;
 import org.universAAL.middleware.managers.api.AALSpaceManager;
+import org.universAAL.ri.gateway.ProxyMessageReceiver;
 import org.universAAL.ri.gateway.communicator.Activator;
-import org.universAAL.ri.gateway.communicator.service.ComunicationEventListener;
 import org.universAAL.ri.gateway.communicator.service.GatewayCommunicator;
+import org.universAAL.ri.gateway.configuration.Configuration;
+import org.universAAL.ri.gateway.protocol.MessageReceiver;
 import org.universAAL.ri.gateway.protocol.link.ConnectionRequest;
 import org.universAAL.ri.gateway.protocol.link.ConnectionResponse;
 import org.universAAL.ri.gateway.protocol.link.DisconnectionRequest;
 import org.universAAL.ri.gateway.protocol.link.ReconnectionRequest;
-
-import com.google.common.net.HostAndPort;
 
 /**
  * 
@@ -74,8 +71,11 @@ public class ServerSocketCommunicationHandler extends
 
     private final List<LinkHandler> handlers = new ArrayList<LinkHandler>();
 
+    private Configuration config;
+
     public ServerSocketCommunicationHandler(
-	    final GatewayCommunicator communicator) {
+	    final Configuration config, final GatewayCommunicator communicator) {
+	this.config = config;
 	this.communicator = communicator;
 
 	final String hashKey = CommunicatorStarter.properties
@@ -92,15 +92,13 @@ public class ServerSocketCommunicationHandler extends
     }
 
     public void start() throws IOException {
-	final HostAndPort serverConfig = GatewayConfiguration.getInstance()
-		.getServerGateway();
+	final String serverConfig = config.getConnectionHost()+":"+config.getConnectionPort();
 	log.debug("Starting Server Gateway on TCP server on port "
 		+ serverConfig);
 
-	final InetAddress addr = InetAddress.getByName(serverConfig
-		.getHostText());
+	final InetAddress addr = InetAddress.getByName(config.getConnectionHost());
 	server = new ServerSocket();
-	server.bind(new InetSocketAddress(addr, serverConfig.getPort()));
+	server.bind(new InetSocketAddress(addr, config.getConnectionPort()));
 	serverThread = new Thread(new Runnable() {
 
 	    public void run() {
@@ -110,8 +108,9 @@ public class ServerSocketCommunicationHandler extends
 		    try {
 			final Socket socket = server.accept();
 			log.debug("Got new incoming connection");
+			final ProxyMessageReceiver proxy = new ProxyMessageReceiver();
 			final LinkHandler handler = new LinkHandler(socket,
-				handlers, communicator);
+				handlers, proxy);
 			handlers.add(handler);
 			executor.execute(handler);
 		    } catch (final IOException e) {
@@ -139,8 +138,8 @@ public class ServerSocketCommunicationHandler extends
 
 	public LinkHandler(final Socket socket,
 		final List<LinkHandler> handlers,
-		final GatewayCommunicator communicator) {
-	    super(socket, communicator);
+		final MessageReceiver proxy) {
+	    super(socket, proxy);
 	    this.handlerList = handlers;
 	}
 
@@ -231,6 +230,10 @@ public class ServerSocketCommunicationHandler extends
 		    // TODO Close the session
 		}
 		setName("Link Handler[" + session + "]");
+		/*
+		 *  //TODO here we should create Session? but how...
+		 *  //TODO we need to link the UUID so that later on we can "route" the message as expected?
+		 */
 		return true;
 	    }
 
@@ -251,6 +254,9 @@ public class ServerSocketCommunicationHandler extends
 		} catch (final Exception ex) {
 		    log.debug("Error closing the session UUID =" + session, ex);
 		}
+		/*
+		 *  //TODO here we should close the Session and remove the object
+		 */
 		return true;
 	    }
 	    case Reconnect: {

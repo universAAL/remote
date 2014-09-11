@@ -32,10 +32,8 @@ ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/communi
 ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/communicator/service/impl/AbstractSocketCommunicationHandler.java svneol=native#text/plain
 ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/communicator/service/impl/ClientSocketCommunicationHandler.java svneol=native#text/plain
 ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/communicator/service/impl/CommunicationException.java -text
-ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/communicator/service/impl/CommunicatorStarter.java -text
 ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/communicator/service/impl/EncryptionWrapper.java -text
 ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/communicator/service/impl/GatewayAddress.java -text
-ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/communicator/service/impl/GatewayCommunicatorImpl.java -text
 ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/communicator/service/impl/GatewayConfiguration.java svneol=native#text/plain
 ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/communicator/service/impl/MessageType.java -text
 ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/communicator/service/impl/MessageWrapper.java -text
@@ -49,51 +47,6 @@ ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/configu
 ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/configuration/ConfigurationFile.java -text svneol=unset#text/plain
 ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/configuration/PropertiesFileKeys.java -text svneol=unset#text/plain
 ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/configuration/UpdatedPropertiesFile.java -text svneol=unset#text/plain
-ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/eimanager/ExportExecutor.java -text
-ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/eimanager/ExportManager.java -text
-ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/eimanager/ExportOperationInterceptor.java -text
-ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/eimanager/ExportPremise.java -text
-ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/eimanager/ImportEntry.java -text
-ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/eimanager/ImportExecutor.java -text
-ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/eimanager/ImportManager.java -text
-ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/eimanager/ImportOperationInterceptor.java -text
-ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/eimanager/ImportPremise.java -text
-ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/eimanager/RepoEIManager.java -text
-ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/eimanager/exception/InterruptExecutionException.java -text
-ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/eimanager/impl/AbstractProxyManager.java -text
-ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/eimanager/impl/BusMemberType.java -text
-ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/eimanager/impl/EIConstraintEvaluator.java -text
-ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/eimanager/impl/EIManagerRegistryListener.java -text
-ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/eimanager/impl/EIOperationManager.java -text
-ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/eimanager/impl/ExportInterceptorsComparator.java -text
-ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/eimanager/impl/ExportManagerImpl.java -text
-ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/eimanager/impl/ImportInterceptorsComparator.java -text
-ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/eimanager/impl/InternalEIOperation.java -text
-ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/eimanager/impl/ProxyBusMember.java -text
-ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/eimanager/impl/ProxyManager.java -text
-ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/eimanager/impl/exporting/ExportEntry.java -text
-ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/eimanager/impl/exporting/ExportProcessExecutor.java -text
-ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/eimanager/impl/exporting/ExportedProxyManager.java -text
-ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/eimanager/impl/exporting/InternalExportOperation.java -text
-ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/eimanager/impl/exporting/ProxyContextSubscriber.java -text
-ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/eimanager/impl/exporting/ProxyRegistration.java -text
-ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/eimanager/impl/exporting/ProxyServiceCaller.java -text
-ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/eimanager/impl/exporting/ProxyUICaller.java -text
-ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/eimanager/impl/importing/ImportProcessExecutor.java -text
-ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/eimanager/impl/importing/ImportRequest.java -text
-ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/eimanager/impl/importing/ImportedProxyManager.java -text
-ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/eimanager/impl/importing/InternalImportOperation.java -text
-ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/eimanager/impl/importing/ProxyContextPublisher.java -text
-ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/eimanager/impl/importing/ProxyServiceCallee.java -text
-ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/eimanager/impl/importing/ProxyUIHandler.java -text
-ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/eimanager/impl/registry/AbstractRegistry.java -text
-ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/eimanager/impl/registry/EIRepoAccessManager.java -text
-ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/eimanager/impl/registry/IRegistryListener.java -text
-ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/eimanager/impl/registry/NonPersistentExportImportRegistry.java -text
-ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/eimanager/impl/registry/RegistryEntry.java -text
-ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/eimanager/impl/registry/RepoOperation.java -text
-ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/eimanager/impl/security/ExportSecurityOperationInterceptor.java -text
-ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/eimanager/impl/security/ImportSecurityOperationInterceptor.java -text
 ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/operations/MessageOperationChain.java -text svneol=unset#text/plain
 ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/operations/OperationChain.java -text svneol=unset#text/plain
 ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/operations/OperationChainManager.java -text svneol=unset#text/plain

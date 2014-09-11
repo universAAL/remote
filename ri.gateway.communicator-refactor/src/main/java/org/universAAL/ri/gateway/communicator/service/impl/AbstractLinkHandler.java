@@ -29,8 +29,7 @@ import java.util.UUID;
 import org.universAAL.log.Logger;
 import org.universAAL.log.LoggerFactory;
 import org.universAAL.middleware.managers.api.AALSpaceManager;
-import org.universAAL.ri.gateway.communicator.Activator;
-import org.universAAL.ri.gateway.communicator.service.GatewayCommunicator;
+import org.universAAL.ri.gateway.Gateway;
 import org.universAAL.ri.gateway.protocol.Message;
 import org.universAAL.ri.gateway.protocol.MessageReceiver;
 import org.universAAL.ri.gateway.protocol.link.ConnectionRequest;
@@ -58,7 +57,7 @@ public abstract class AbstractLinkHandler implements Runnable {
     protected final MessageReceiver communicator;
     protected LinkHandlerStatus state;
     private static final Logger log = LoggerFactory.createLoggerFactory(
-	    Activator.mc).getLogger(AbstractLinkHandler.class);
+	    Gateway.getInstance().context).getLogger(AbstractLinkHandler.class);
 
     public enum LinkHandlerStatus {
 	/**
@@ -132,7 +131,8 @@ public abstract class AbstractLinkHandler implements Runnable {
     }
 
     protected boolean reconnect() {
-	final AALSpaceManager spaceManager = Activator.spaceManager.getObject();
+	final AALSpaceManager spaceManager = Gateway.getInstance().spaceManager
+		.getObject();
 	final SessionManager sessionManger = SessionManager.getInstance();
 	final String spaceId = spaceManager.getAALSpaceDescriptor()
 		.getSpaceCard().getSpaceID();
@@ -202,7 +202,8 @@ public abstract class AbstractLinkHandler implements Runnable {
     }
 
     protected boolean connect() {
-	final AALSpaceManager spaceManager = Activator.spaceManager.getObject();
+	final AALSpaceManager spaceManager = Gateway.getInstance().spaceManager
+		.getObject();
 	final SessionManager sessionManger = SessionManager.getInstance();
 	final String spaceId = spaceManager.getAALSpaceDescriptor()
 		.getSpaceCard().getSpaceID();
@@ -242,7 +243,8 @@ public abstract class AbstractLinkHandler implements Runnable {
 	    throws Exception;
 
     protected boolean disconnect() {
-	final AALSpaceManager spaceManager = Activator.spaceManager.getObject();
+	final AALSpaceManager spaceManager = Gateway.getInstance().spaceManager
+		.getObject();
 	final String spaceId = spaceManager.getAALSpaceDescriptor()
 		.getSpaceCard().getSpaceID();
 	final String peerId = spaceManager.getMyPeerCard().getPeerID();

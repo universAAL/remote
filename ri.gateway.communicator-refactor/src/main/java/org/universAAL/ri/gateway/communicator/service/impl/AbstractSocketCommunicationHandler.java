@@ -35,7 +35,7 @@ import java.util.UUID;
 import org.bouncycastle.crypto.CryptoException;
 import org.universAAL.log.Logger;
 import org.universAAL.log.LoggerFactory;
-import org.universAAL.ri.gateway.communicator.Activator;
+import org.universAAL.ri.gateway.Gateway;
 import org.universAAL.ri.gateway.communicator.service.CommunicationHandler;
 import org.universAAL.ri.gateway.communicator.service.GatewayCommunicator;
 
@@ -47,10 +47,12 @@ import org.universAAL.ri.gateway.communicator.service.GatewayCommunicator;
  *          +0200 (Fri, 08 Aug 2014) $)
  * 
  */
-public abstract class AbstractSocketCommunicationHandler implements CommunicationHandler {
+public abstract class AbstractSocketCommunicationHandler implements
+	CommunicationHandler {
 
     public static final Logger log = LoggerFactory.createLoggerFactory(
-	    Activator.mc).getLogger(AbstractSocketCommunicationHandler.class);
+	    Gateway.getInstance().context).getLogger(
+	    AbstractSocketCommunicationHandler.class);
 
     public AbstractSocketCommunicationHandler() {
 	final String hashKey = CommunicatorStarter.properties
@@ -111,7 +113,7 @@ public abstract class AbstractSocketCommunicationHandler implements Communicatio
 	    try {
 		Serializer.sendMessageToStream(toSend, out);
 
-		if ( toSend.getType() == MessageType.HighReqRsp ) {
+		if (toSend.getType() == MessageType.HighReqRsp) {
 		    resp = Serializer.unmarshalMessage(in);
 		}
 	    } catch (final EOFException ex) {

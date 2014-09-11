@@ -36,7 +36,7 @@ import java.util.concurrent.Executors;
 import org.universAAL.log.Logger;
 import org.universAAL.log.LoggerFactory;
 import org.universAAL.middleware.managers.api.AALSpaceManager;
-import org.universAAL.ri.gateway.communicator.Activator;
+import org.universAAL.ri.gateway.Gateway;
 import org.universAAL.ri.gateway.communicator.service.GatewayCommunicator;
 import org.universAAL.ri.gateway.communicator.service.GatewayCommunicator.RoutingMode;
 import org.universAAL.ri.gateway.configuration.Configuration;
@@ -63,7 +63,8 @@ public class ClientSocketCommunicationHandler extends
 	AbstractSocketCommunicationHandler {
 
     public static final Logger log = LoggerFactory.createLoggerFactory(
-	    Activator.mc).getLogger(ClientSocketCommunicationHandler.class);
+	    Gateway.getInstance().context).getLogger(
+	    ClientSocketCommunicationHandler.class);
 
     private static final int NUM_THREADS = 1;
 
@@ -81,10 +82,10 @@ public class ClientSocketCommunicationHandler extends
 
     private LinkHandler currentLinkHandler = null;
 
-    private Configuration config;
+    private final Configuration config;
 
-    public ClientSocketCommunicationHandler(
-	    final Configuration config, final MessageReceiver communicator) {
+    public ClientSocketCommunicationHandler(final Configuration config,
+	    final MessageReceiver communicator) {
 	this.config = config;
 	this.communicator = communicator;
 
@@ -99,7 +100,8 @@ public class ClientSocketCommunicationHandler extends
     }
 
     public void start() throws IOException {
-	final String serverConfig = config.getConnectionHost()+":"+config.getConnectionPort();
+	final String serverConfig = config.getConnectionHost() + ":"
+		+ config.getConnectionPort();
 	log.info("Starting Client Gateway by connecting to Gateway Server at "
 		+ serverConfig);
 
@@ -113,8 +115,8 @@ public class ClientSocketCommunicationHandler extends
 		    }
 		    final Socket socket;
 		    try {
-			final InetAddress addr = InetAddress
-				.getByName(config.getConnectionHost());
+			final InetAddress addr = InetAddress.getByName(config
+				.getConnectionHost());
 			socket = new Socket(addr, config.getConnectionPort());
 		    } catch (final Exception ex) {
 			final String msg = "Failed to estabilished a link between client and server broken due to exception we retry in a bit";
@@ -223,7 +225,7 @@ public class ClientSocketCommunicationHandler extends
 
 	@Override
 	protected boolean handleSessionProtocol(final MessageWrapper msg) {
-	    final AALSpaceManager spaceManager = Activator.spaceManager
+	    final AALSpaceManager spaceManager = Gateway.getInstance().spaceManager
 		    .getObject();
 	    final SessionManager sessionManger = SessionManager.getInstance();
 	    switch (msg.getType()) {

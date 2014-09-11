@@ -34,7 +34,7 @@ import java.util.Properties;
 import java.util.Set;
 
 import org.osgi.framework.BundleContext;
-import org.universAAL.ri.gateway.communicator.Activator;
+import org.universAAL.ri.gateway.Gateway;
 import org.universAAL.ri.gateway.communicator.service.GatewayCommunicator;
 import org.universAAL.ri.gateway.eimanager.ExportManager;
 import org.universAAL.ri.gateway.eimanager.ImportManager;
@@ -49,6 +49,7 @@ import org.universAAL.ri.gateway.eimanager.ImportManager;
  * @deprecated
  * 
  */
+@Deprecated
 public class CommunicatorStarter {
 
     /**
@@ -163,9 +164,11 @@ public class CommunicatorStarter {
     private void loadConfiguration() {
 	try {
 	    CommunicatorStarter.properties = new Properties();
-	    final File confHome = new File("."); 
+	    final File confHome = new File(".");
 	    /*
-	     * new File(new BundleConfigHome(Activator.bc.getBundle().getSymbolicName()).getAbsolutePath());
+	     * new File(new
+	     * BundleConfigHome(Activator.bc.getBundle().getSymbolicName
+	     * ()).getAbsolutePath());
 	     */
 	    final String dataDir = confHome.getPath();
 	    final String separator = System.getProperty("file.separator");
@@ -176,8 +179,8 @@ public class CommunicatorStarter {
 	    }
 
 	    CommunicatorStarter.properties.load(new FileInputStream(new File(
-		    confHome + separator, Activator.bc.getBundle()
-			    .getSymbolicName() + ".properties")));
+		    confHome + separator, Gateway.getInstance().context.getID()
+			    + ".properties")));
 
 	    GatewayConfiguration.getInstance().setProperty(
 		    CommunicatorStarter.properties);

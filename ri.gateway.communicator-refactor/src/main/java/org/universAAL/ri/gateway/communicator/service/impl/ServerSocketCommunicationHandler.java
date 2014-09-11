@@ -40,8 +40,7 @@ import java.util.concurrent.Executors;
 import org.universAAL.log.Logger;
 import org.universAAL.log.LoggerFactory;
 import org.universAAL.middleware.managers.api.AALSpaceManager;
-import org.universAAL.ri.gateway.ProxyMessageReceiver;
-import org.universAAL.ri.gateway.communicator.Activator;
+import org.universAAL.ri.gateway.Gateway;
 import org.universAAL.ri.gateway.communicator.service.GatewayCommunicator;
 import org.universAAL.ri.gateway.configuration.Configuration;
 import org.universAAL.ri.gateway.protocol.MessageReceiver;
@@ -60,7 +59,8 @@ public class ServerSocketCommunicationHandler extends
 	AbstractSocketCommunicationHandler {
 
     public static final Logger log = LoggerFactory.createLoggerFactory(
-	    Activator.mc).getLogger(ServerSocketCommunicationHandler.class);
+	    Gateway.getInstance().context).getLogger(
+	    ServerSocketCommunicationHandler.class);
 
     private static final int NUM_THREADS = 1;
     private final GatewayCommunicator communicator;
@@ -71,10 +71,10 @@ public class ServerSocketCommunicationHandler extends
 
     private final List<LinkHandler> handlers = new ArrayList<LinkHandler>();
 
-    private Configuration config;
+    private final Configuration config;
 
-    public ServerSocketCommunicationHandler(
-	    final Configuration config, final GatewayCommunicator communicator) {
+    public ServerSocketCommunicationHandler(final Configuration config,
+	    final GatewayCommunicator communicator) {
 	this.config = config;
 	this.communicator = communicator;
 
@@ -92,11 +92,13 @@ public class ServerSocketCommunicationHandler extends
     }
 
     public void start() throws IOException {
-	final String serverConfig = config.getConnectionHost()+":"+config.getConnectionPort();
+	final String serverConfig = config.getConnectionHost() + ":"
+		+ config.getConnectionPort();
 	log.debug("Starting Server Gateway on TCP server on port "
 		+ serverConfig);
 
-	final InetAddress addr = InetAddress.getByName(config.getConnectionHost());
+	final InetAddress addr = InetAddress.getByName(config
+		.getConnectionHost());
 	server = new ServerSocket();
 	server.bind(new InetSocketAddress(addr, config.getConnectionPort()));
 	serverThread = new Thread(new Runnable() {
@@ -137,8 +139,7 @@ public class ServerSocketCommunicationHandler extends
 	private final List<LinkHandler> handlerList;
 
 	public LinkHandler(final Socket socket,
-		final List<LinkHandler> handlers,
-		final MessageReceiver proxy) {
+		final List<LinkHandler> handlers, final MessageReceiver proxy) {
 	    super(socket, proxy);
 	    this.handlerList = handlers;
 	}
@@ -183,7 +184,7 @@ public class ServerSocketCommunicationHandler extends
 
 	@Override
 	protected boolean handleSessionProtocol(final MessageWrapper msg) {
-	    final AALSpaceManager spaceManager = Activator.spaceManager
+	    final AALSpaceManager spaceManager = Gateway.getInstance().spaceManager
 		    .getObject();
 	    final SessionManager sessionManger = SessionManager.getInstance();
 	    switch (msg.getType()) {
@@ -231,8 +232,9 @@ public class ServerSocketCommunicationHandler extends
 		}
 		setName("Link Handler[" + session + "]");
 		/*
-		 *  //TODO here we should create Session? but how...
-		 *  //TODO we need to link the UUID so that later on we can "route" the message as expected?
+		 * //TODO here we should create Session? but how... //TODO we
+		 * need to link the UUID so that later on we can "route" the
+		 * message as expected?
 		 */
 		return true;
 	    }
@@ -255,7 +257,7 @@ public class ServerSocketCommunicationHandler extends
 		    log.debug("Error closing the session UUID =" + session, ex);
 		}
 		/*
-		 *  //TODO here we should close the Session and remove the object
+		 * //TODO here we should close the Session and remove the object
 		 */
 		return true;
 	    }

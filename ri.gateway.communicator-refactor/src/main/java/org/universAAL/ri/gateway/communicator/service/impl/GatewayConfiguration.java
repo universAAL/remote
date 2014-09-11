@@ -23,9 +23,8 @@ package org.universAAL.ri.gateway.communicator.service.impl;
 
 import java.util.Properties;
 
-import org.universAAL.ri.gateway.communicator.service.GatewayCommunicator;
-import org.universAAL.ri.gateway.communicator.service.GatewayCommunicator.ConnectionMode;
-import org.universAAL.ri.gateway.communicator.service.GatewayCommunicator.RoutingMode;
+import org.universAAL.ri.gateway.configuration.Configuration.ConnectionMode;
+import org.universAAL.ri.gateway.configuration.Configuration.RoutingMode;
 
 /**
  * 
@@ -57,11 +56,11 @@ public class GatewayConfiguration {
     }
 
     public boolean isRouterMode() {
-	return routingMode == GatewayCommunicator.RoutingMode.ROUTER;
+	return routingMode == RoutingMode.ROUTER;
     }
 
     public boolean isServerMode() {
-	return connectionMode == GatewayCommunicator.ConnectionMode.SERVER;
+	return connectionMode == ConnectionMode.SERVER;
     }
 
     /*

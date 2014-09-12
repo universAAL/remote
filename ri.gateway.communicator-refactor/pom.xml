@@ -18,11 +18,11 @@
       <groupId>org.universAAL.support</groupId>
       <artifactId>itests</artifactId>
     </dependency>
-<dependency>
+	<dependency>
       <groupId>org.osgi</groupId>
       <artifactId>org.osgi.core</artifactId>
     </dependency>
-     <!--    <dependency>
+<!--    <dependency>
       <groupId>org.osgi</groupId>
       <artifactId>org.osgi.compendium</artifactId>
     </dependency>

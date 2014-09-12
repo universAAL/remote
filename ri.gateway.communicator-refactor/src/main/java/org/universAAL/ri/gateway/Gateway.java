@@ -91,6 +91,7 @@ public class Gateway implements ModuleActivator {
 	exporter = new Exporter(proxypool);
 
 	sessions = new HashMap<Session, String>();
+	servers = new HashMap<Server, String>();
 
 	spaceManager = new PassiveDependencyProxy<AALSpaceManager>(context,
 		new Object[] { AALSpaceManager.class.getName() });
@@ -103,6 +104,10 @@ public class Gateway implements ModuleActivator {
 		new Object[] { TenantManager.class.getName() });
 
 	final File dir = context.getConfigHome();
+	if (!dir.exists()) {
+	    dir.mkdirs();
+	    return;
+	}
 	final File[] props = dir.listFiles(new FileFilter() {
 
 	    public boolean accept(final File pathname) {
@@ -110,36 +115,38 @@ public class Gateway implements ModuleActivator {
 	    }
 	});
 
-	for (int i = 0; i < props.length; i++) {
-	    final File p = props[i];
-	    try {
-		final Runnable task = new Runnable() {
-		    public void run() {
-			// create a new session for each properties file
-			final Configuration fc = new ConfigurationFile(p);
-			if (fc.getConnectionMode()
-				.equals(ConnectionMode.CLIENT)) {
-			    final Session s = new Session(fc, proxypool);
-			    newSession(p.getAbsolutePath(), s);
-			} else {
-			    final Server s = new Server(fc);
-			    newServer(p.getAbsolutePath(), s);
+	if (props != null) {
+	    for (int i = 0; i < props.length; i++) {
+		final File p = props[i];
+		try {
+		    final Runnable task = new Runnable() {
+			public void run() {
+			    // create a new session for each properties file
+			    final Configuration fc = new ConfigurationFile(p);
+			    if (fc.getConnectionMode().equals(
+				    ConnectionMode.CLIENT)) {
+				final Session s = new Session(fc, proxypool);
+				newSession(p.getAbsolutePath(), s);
+			    } else {
+				final Server s = new Server(fc);
+				newServer(p.getAbsolutePath(), s);
+			    }
 			}
-		    }
-		};
-		new Thread(task, "initialisation of "
-			+ props[i].getAbsolutePath()).start();
-	    } catch (final Exception e) {
-		LogUtils.logError(context, getClass(), "start",
-			new String[] { "unable to start instance from : "
-				+ props[i].getAbsolutePath() }, e);
+		    };
+		    new Thread(task, "initialisation of "
+			    + props[i].getAbsolutePath()).start();
+		} catch (final Exception e) {
+		    LogUtils.logError(context, getClass(), "start",
+			    new String[] { "unable to start instance from : "
+				    + props[i].getAbsolutePath() }, e);
+		}
 	    }
+	    /*
+	     * XXX implement a monitoring mechanism that tracks new files,
+	     * creating new sessions, and stops sessions when their respective
+	     * file is removed
+	     */
 	}
-	/*
-	 * XXX implement a monitoring mechanism that tracks new files, creating
-	 * new sessions, and stops sessions when their respective file is
-	 * removed
-	 */
 
     }
 

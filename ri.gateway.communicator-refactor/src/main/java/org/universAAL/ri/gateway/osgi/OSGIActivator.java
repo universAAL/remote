@@ -38,9 +38,8 @@ public class OSGIActivator implements BundleActivator {
 
     /** {@inheritDoc} */
     public void stop(final BundleContext context) throws Exception {
-	final ModuleContext mc = uAALBundleContainer.THE_CONTAINER
-		.registerModule(new Object[] { context });
-	Gateway.getInstance().stop(mc);
+
+	Gateway.getInstance().stop(Gateway.getInstance().context);
     }
 
 }

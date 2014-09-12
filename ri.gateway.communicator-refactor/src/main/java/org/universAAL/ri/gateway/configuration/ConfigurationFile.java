@@ -56,9 +56,9 @@ public class ConfigurationFile extends UpdatedPropertiesFile implements
 
     /** {@inheritDoc} */
     public RoutingMode getRoutingMode() {
-	if (((String) get(ROUTING_MODE)).equalsIgnoreCase(ROUTER)) {
+	if (getProperty(ROUTING_MODE).equalsIgnoreCase(ROUTER)) {
 	    return RoutingMode.ROUTER;
-	} else if (((String) get(ROUTING_MODE)).equalsIgnoreCase(FORWARD)) {
+	} else if (getProperty(ROUTING_MODE).equalsIgnoreCase(FORWARD)) {
 	    return RoutingMode.FORWARD;
 	}
 	return null;
@@ -66,9 +66,9 @@ public class ConfigurationFile extends UpdatedPropertiesFile implements
 
     /** {@inheritDoc} */
     public ConnectionMode getConnectionMode() {
-	if (((String) get(CONNECTION_MODE)).equalsIgnoreCase(SERVER)) {
+	if (getProperty(CONNECTION_MODE).equalsIgnoreCase(SERVER)) {
 	    return ConnectionMode.SERVER;
-	} else if (((String) get(CONNECTION_MODE)).equalsIgnoreCase(CLIENT)) {
+	} else if (getProperty(CONNECTION_MODE).equalsIgnoreCase(CLIENT)) {
 	    return ConnectionMode.CLIENT;
 	}
 	return null;
@@ -76,12 +76,12 @@ public class ConfigurationFile extends UpdatedPropertiesFile implements
 
     /** {@inheritDoc} */
     public String getConnectionHost() {
-	return (String) get(REMOTE_HOST);
+	return getProperty(REMOTE_HOST);
     }
 
     /** {@inheritDoc} */
     public int getConnectionPort() {
-	return Integer.parseInt((String) get(SOCKET_PORT));
+	return Integer.parseInt(getProperty(SOCKET_PORT));
     }
 
     /** {@inheritDoc} */
@@ -109,7 +109,7 @@ public class ConfigurationFile extends UpdatedPropertiesFile implements
     }
 
     public String getEncryptionKey() {
-	return (String) get(HASH_KEY);
+	return getProperty(HASH_KEY);
     }
 
 }

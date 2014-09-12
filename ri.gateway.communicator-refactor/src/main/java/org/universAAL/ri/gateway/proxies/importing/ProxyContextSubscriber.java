@@ -23,6 +23,7 @@ import org.universAAL.middleware.context.ContextEvent;
 import org.universAAL.middleware.context.ContextEventPattern;
 import org.universAAL.middleware.context.ContextSubscriber;
 import org.universAAL.middleware.rdf.Resource;
+import org.universAAL.middleware.rdf.ScopedResource;
 import org.universAAL.ri.gateway.Session;
 import org.universAAL.ri.gateway.operations.OperationChain;
 import org.universAAL.ri.gateway.protocol.WrappedBusMessage;
@@ -132,13 +133,14 @@ public class ProxyContextSubscriber extends ContextSubscriber implements
 		.getRemoteProxiesReferences();
 	for (final BusMemberReference bmr : refs) {
 	    final Session s = bmr.getChannel();
-	    if (!event.getScopes().contains(s.getScope())
+	    if (event.isSerializableTo(s.getScope())
 		    && s.getOutgoingMessageOperationChain().check(event)
 			    .equals(OperationChain.OperationResult.ALLOW)) {
-		// the origin is not the same as the session
+		// the event may be sent there
 		// and it is allowed to go there
 		final ContextEvent copy = (ContextEvent) event.deepCopy();
 		copy.clearScopes();
+		copy.setProperty(ScopedResource.PROP_ORIG_SCOPE, null);
 		s.send(new WrappedBusMessage(bmr.getBusMemberid(), copy));
 		// sends a scope clear event to remote proxy.
 	    }

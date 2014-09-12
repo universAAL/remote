@@ -111,13 +111,16 @@ public class ProxySCaller extends ServiceCaller implements ProxyBusMember {
 			.equals(OperationChain.OperationResult.ALLOW)) {
 	    // resolve multitenancy
 	    m.clearScopes();
-	    m.addScope(session.getScope()); // Origin Scope.
+	    // Origin Scope.
+	    m.setProperty(ScopedResource.PROP_ORIG_SCOPE, session.getScope());
 	    // invoke service
 	    ServiceResponse sr = inject((ServiceCall) m, localSCeeId);
-	    if (session.getOutgoingMessageOperationChain().check(sr)
-		    .equals(OperationChain.OperationResult.ALLOW)) {
+	    if (sr.isSerializableTo(session.getScope())
+		    && session.getOutgoingMessageOperationChain().check(sr)
+			    .equals(OperationChain.OperationResult.ALLOW)) {
 		// security check for the response
 		sr.clearScopes();
+		sr.setProperty(ScopedResource.PROP_ORIG_SCOPE, null);
 		session.send(new WrappedBusMessage(busMessage, sr));
 	    } else {
 		sr = new ServiceResponse(CallStatus.denied);
@@ -167,14 +170,13 @@ public class ProxySCaller extends ServiceCaller implements ProxyBusMember {
 
     @Override
     public void communicationChannelBroken() {
-	// TODO Auto-generated method stub
-
+	// XXX disconnect?
     }
 
     @Override
     public void handleResponse(final String reqID,
 	    final ServiceResponse response) {
-	// TODO Auto-generated method stub
+	// no response should be received, call is injected.
 
     }
 

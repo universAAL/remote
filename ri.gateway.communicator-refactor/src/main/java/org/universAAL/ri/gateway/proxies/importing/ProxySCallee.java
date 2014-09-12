@@ -23,6 +23,7 @@ import org.universAAL.middleware.container.ModuleContext;
 import org.universAAL.middleware.container.utils.LogUtils;
 import org.universAAL.middleware.context.ContextEvent;
 import org.universAAL.middleware.rdf.Resource;
+import org.universAAL.middleware.rdf.ScopedResource;
 import org.universAAL.middleware.service.CallStatus;
 import org.universAAL.middleware.service.ServiceCall;
 import org.universAAL.middleware.service.ServiceCallee;
@@ -79,8 +80,8 @@ public class ProxySCallee extends ServiceCallee implements ProxyBusMember {
 	for (final BusMemberReference bmr : refs) {
 	    try {
 		final Session s = bmr.getChannel();
-		if (call.getScopes().contains(s.getScope())) {
-		    // in case the scope is the same as the call ignore.
+		if (!call.isSerializableTo(s.getScope())) {
+		    // in case the destination scope is incompatible ignore.
 		    continue;
 		}
 		if (s.getOutgoingMessageOperationChain().check(call)
@@ -88,14 +89,17 @@ public class ProxySCallee extends ServiceCallee implements ProxyBusMember {
 		    // it is allowed to go there
 		    final ContextEvent copy = (ContextEvent) call.deepCopy();
 		    copy.clearScopes();
+		    copy.setProperty(ScopedResource.PROP_ORIG_SCOPE, null);
 		    final Message resp = s.sendRequest(new WrappedBusMessage(
 			    bmr.getBusMemberid(), copy));
-		    // sends a scope clear call to remote proxy.
+		    // sends a scope-clear call to remote proxy.
 		    if (resp != null && resp instanceof WrappedBusMessage) {
 			final ServiceResponse sr = (ServiceResponse) ((WrappedBusMessage) resp)
 				.getMessage();
 			sr.clearScopes();
-			sr.addScope(s.getScope());
+			// set the origin of the response
+			sr.setProperty(ScopedResource.PROP_ORIG_SCOPE,
+				s.getScope());
 
 			responses.add(sr);
 		    } else if (resp instanceof ErrorMessage) {

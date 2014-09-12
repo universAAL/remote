@@ -101,7 +101,8 @@ public class ProxyContextPublisher extends ContextPublisher implements
 			.equals(OperationChain.OperationResult.ALLOW)) {
 	    // resolve multitenancy
 	    m.clearScopes();
-	    m.addScope(session.getScope()); // Origin Scope.
+	    m.setProperty(ScopedResource.PROP_ORIG_SCOPE, session.getScope()); // Origin
+									       // Scope.
 	    // inject context Event
 	    if (AccessControl.INSTANCE.checkPermission(owner, getURI(),
 		    (ContextEvent) m)) {

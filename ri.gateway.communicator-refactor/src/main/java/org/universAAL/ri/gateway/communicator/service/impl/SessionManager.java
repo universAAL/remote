@@ -31,6 +31,9 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.UUID;
 
+import org.universAAL.middleware.managers.api.TenantManager;
+import org.universAAL.ri.gateway.Gateway;
+
 /**
  * 
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
@@ -41,6 +44,7 @@ import java.util.UUID;
 public class SessionManager {
 
     private static SessionManager manager = null;
+    private static final Gateway gw = Gateway.getInstance();
 
     private class SessionKey {
 
@@ -90,7 +94,7 @@ public class SessionManager {
     private final Map<SessionKey, UUID> sessions = new HashMap<SessionManager.SessionKey, UUID>();
     private final Map<UUID, SessionKey> uuids = new HashMap<UUID, SessionKey>();
     private final Map<UUID, SessionStatus> links = new HashMap<UUID, SessionManager.SessionStatus>();
-//    private TenantManager currentTM = null;
+    private TenantManager currentTM = null;
 
     private SessionManager() {
 
@@ -136,15 +140,15 @@ public class SessionManager {
 	}
 	key.description = description;
 	
-	/*
-	if (currentTM == Activator.tenantManager.getObject()
+	
+	if (currentTM == gw.tenantManager.getObject()
 		&& currentTM != null) {
 	    currentTM.registerTenant(scopeId, description);
-	} else if (Activator.tenantManager.getObject() != null) {
-	    currentTM = Activator.tenantManager.getObject();
+	} else if (gw.tenantManager.getObject() != null) {
+	    currentTM = gw.tenantManager.getObject();
 	    changedTenantManager();
 	}
-	*/
+	
 	
 	return uuid;
     }
@@ -215,16 +219,16 @@ public class SessionManager {
 	    }
 	}
 	
-	/*	
-	if (currentTM == Activator.tenantManager.getObject()
+		
+	if (currentTM == gw.tenantManager.getObject()
 		&& currentTM != null) {
 	    currentTM
 		    .unregisterTenant(keyRemoved.keyParts[SessionKey.SCOPE_IDX]);
-	} else if (Activator.tenantManager.getObject() != null) {
-	    currentTM = Activator.tenantManager.getObject();
+	} else if (gw.tenantManager.getObject() != null) {
+	    currentTM = gw.tenantManager.getObject();
 	    changedTenantManager();
 	}
-	*/
+	
     }
 
     public OutputStream getOutputStream(final UUID session) {

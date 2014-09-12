@@ -84,6 +84,7 @@ public class Session implements MessageSender, MessageReceiver,
     }
 
     public void setScope(String scope) {
+	validateRemoteScope(scope);
 	this.remoteScope = scope;
     }
     
@@ -96,11 +97,14 @@ public class Session implements MessageSender, MessageReceiver,
     }
 
     public void send(final Message message) {
+	validateRemoteScope(remoteScope);
 	org.universAAL.ri.gateway.communicator.service.Message content = new org.universAAL.ri.gateway.communicator.service.Message(
 		message);
 	MessageWrapper wrap = new MessageWrapper(MessageType.HighPush, content,
 		"");
 	SessionManager session = SessionManager.getInstance();
+	/*
+	//INFO Commented out for supporting but Client and Server mode
 	UUID[] active = session.getSessionIds();
 	if (active.length != 1) {
 	    if (active.length == 0) {
@@ -111,21 +115,37 @@ public class Session implements MessageSender, MessageReceiver,
 			"Trying to send a message but we too many session");
 	    }
 	}
+	*/
 	try {
 	    comunication.sendMessage(wrap,
-		    new String[] { active[0].toString() });
+		    new String[] { remoteScope });
 	} catch (Exception e) {
 	    throw new RuntimeException(
 		    "Failed to send message due to internal exception", e);
 	}
     }
 
+    private void validateRemoteScope(final String scope) {
+	if ( scope == null ) {
+	    throw new IllegalStateException("Scope cannot set be null, otherwise sending and rieving message will not work");	
+	}
+	try {
+	    UUID.fromString(scope);
+	}catch(Exception e){
+	    throw new IllegalStateException("Scope not valid it has to be an UUID", e);
+	}	
+    }
+
+
     public Message sendRequest(final Message message) {
+	validateRemoteScope(remoteScope);
 	org.universAAL.ri.gateway.communicator.service.Message content = new org.universAAL.ri.gateway.communicator.service.Message(
 		message);
 	MessageWrapper wrap = new MessageWrapper(MessageType.HighReqRsp,
 		content, "");
 	SessionManager session = SessionManager.getInstance();
+	/*
+	//INFO Commented out for supporting but Client and Server mode
 	UUID[] active = session.getSessionIds();
 	if (active.length != 1) {
 	    if (active.length == 0) {
@@ -136,9 +156,10 @@ public class Session implements MessageSender, MessageReceiver,
 			"Trying to send a message but we too many session");
 	    }
 	}
+	*/
 	try {
 	    wrap = comunication.sendMessage(wrap,
-		    new String[] { active[0].toString() });
+		    new String[] { remoteScope });
 	    if (wrap.getType() != MessageType.HighReqRsp) {
 		throw new IllegalStateException(
 			"Expecting HighReqRsp message, but recieved "

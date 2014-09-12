@@ -18,18 +18,15 @@ package org.universAAL.ri.gateway.proxies.exporting;
 import java.util.Collection;
 
 import org.universAAL.middleware.bus.member.BusMember;
-import org.universAAL.middleware.bus.model.AbstractBus;
 import org.universAAL.middleware.container.ModuleContext;
 import org.universAAL.middleware.rdf.Resource;
 import org.universAAL.middleware.rdf.ScopedResource;
 import org.universAAL.middleware.service.CallStatus;
-import org.universAAL.middleware.service.ServiceBus;
-import org.universAAL.middleware.service.ServiceBusFacade;
 import org.universAAL.middleware.service.ServiceCall;
 import org.universAAL.middleware.service.ServiceCallee;
+import org.universAAL.middleware.service.ServiceCaller;
 import org.universAAL.middleware.service.ServiceResponse;
 import org.universAAL.middleware.service.owls.profile.ServiceProfile;
-import org.universAAL.ri.gateway.Gateway;
 import org.universAAL.ri.gateway.Session;
 import org.universAAL.ri.gateway.operations.OperationChain;
 import org.universAAL.ri.gateway.protocol.WrappedBusMessage;
@@ -51,15 +48,13 @@ import org.universAAL.ri.gateway.utils.ArraySet;
  * @author amedrano
  * 
  */
-public class ProxySCaller implements ProxyBusMember {
+public class ProxySCaller extends ServiceCaller implements ProxyBusMember {
 
     private ReferencesManager refsMngr;
 
     private Resource[] currentRegParam;
 
     private String localSCeeId;
-
-    private final ServiceBus bus;
 
     /**
      * Constructor.
@@ -70,11 +65,10 @@ public class ProxySCaller implements ProxyBusMember {
      */
     public ProxySCaller(final ModuleContext context,
 	    final ServiceProfile[] profiles, final String proxiedBusMember) {
-	// super(context);
+	super(context);
 	refsMngr = new ReferencesManager();
 	currentRegParam = profiles;
 	localSCeeId = proxiedBusMember;
-	bus = ServiceBusFacade.fetchBus(Gateway.getInstance().context);
     }
 
     /** {@inheritDoc} */
@@ -119,7 +113,7 @@ public class ProxySCaller implements ProxyBusMember {
 	    m.clearScopes();
 	    m.addScope(session.getScope()); // Origin Scope.
 	    // invoke service
-	    ServiceResponse sr = invoke((ServiceCall) m, localSCeeId);
+	    ServiceResponse sr = inject((ServiceCall) m, localSCeeId);
 	    if (session.getOutgoingMessageOperationChain().check(sr)
 		    .equals(OperationChain.OperationResult.ALLOW)) {
 		// security check for the response
@@ -136,12 +130,6 @@ public class ProxySCaller implements ProxyBusMember {
 	    session.send(new WrappedBusMessage(busMessage, sr));
 	}
 
-    }
-
-    public ServiceResponse invoke(final ServiceCall call, final String memberId) {
-	// XXX only works locally!
-	return ((ServiceCallee) ((AbstractBus) bus).getBusMember(memberId))
-		.handleCall(call);
     }
 
     /**
@@ -170,10 +158,24 @@ public class ProxySCaller implements ProxyBusMember {
     }
 
     /** {@inheritDoc} */
+    @Override
     public void close() {
 	refsMngr = null;
 	localSCeeId = null;
 	currentRegParam = null;
+    }
+
+    @Override
+    public void communicationChannelBroken() {
+	// TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void handleResponse(final String reqID,
+	    final ServiceResponse response) {
+	// TODO Auto-generated method stub
+
     }
 
 }

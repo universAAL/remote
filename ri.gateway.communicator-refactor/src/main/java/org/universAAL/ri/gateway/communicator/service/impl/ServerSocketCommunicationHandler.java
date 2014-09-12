@@ -66,11 +66,12 @@ public class ServerSocketCommunicationHandler extends
 	    ServerSocketCommunicationHandler.class);
 
     private static final int NUM_THREADS = 1;
-    
+
     // private Executor executor;
     private ServerSocket server;
     private Thread serverThread;
     private final ExecutorService executor;
+    private final ServerSocketCommunicationHandler myself;
 
     private final List<LinkHandler> handlers = new ArrayList<LinkHandler>();
 
@@ -86,6 +87,7 @@ public class ServerSocketCommunicationHandler extends
 	this.cipher = new Blowfish(hashKey);
 
 	this.executor = Executors.newCachedThreadPool();
+	this.myself = this;
 	/*
 	 * //TODO Define a maximum number of threads
 	 */
@@ -113,8 +115,8 @@ public class ServerSocketCommunicationHandler extends
 			final Socket socket = server.accept();
 			log.debug("Got new incoming connection");
 			final ProxyMessageReceiver proxy = new ProxyMessageReceiver();
-			final LinkHandler handler = new LinkHandler(socket,
-				handlers, proxy);
+			final LinkHandler handler = new LinkHandler(myself,
+				socket, handlers, proxy);
 			handlers.add(handler);
 			executor.execute(handler);
 		    } catch (final IOException e) {
@@ -139,11 +141,14 @@ public class ServerSocketCommunicationHandler extends
 
 	private String name = "Link Handler";
 	private final List<LinkHandler> handlerList;
+	private final ServerSocketCommunicationHandler server;
 
-	public LinkHandler(final Socket socket,
-		final List<LinkHandler> handlers, final MessageReceiver proxy) {
+	public LinkHandler(final ServerSocketCommunicationHandler server,
+		final Socket socket, final List<LinkHandler> handlers,
+		final MessageReceiver proxy) {
 	    super(socket, proxy);
 	    this.handlerList = handlers;
+	    this.server = server;
 	}
 
 	@Override
@@ -235,14 +240,14 @@ public class ServerSocketCommunicationHandler extends
 		setName("Link Handler[" + session + "]");
 
 		/*
-		 * //TODO we
-		 * need to link the UUID so that later on we can "route" the
-		 * message as expected?
+		 * //TODO we need to link the UUID so that later on we can
+		 * "route" the message as expected?
 		 */
 		final Gateway gw = Gateway.getInstance();
-		final Session s = new Session(config, gw.getPool());
-		gw.newSession(socket.toString(), s);		
-		//XXX This is a dirty why to connect the Session to the link
+		final Session s = new Session(config, gw.getPool(), server);
+		s.setScope(sessionManger.getAALSpaceIdFromSession(currentSession));
+		gw.newSession(socket.toString(), s);
+		// XXX This is a dirty why to connect the Session to the link
 		((ProxyMessageReceiver) super.communicator).setFinalReceiver(s);
 		return true;
 	    }

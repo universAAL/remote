@@ -37,6 +37,7 @@ import org.universAAL.log.Logger;
 import org.universAAL.log.LoggerFactory;
 import org.universAAL.middleware.managers.api.AALSpaceManager;
 import org.universAAL.ri.gateway.Gateway;
+import org.universAAL.ri.gateway.Session;
 import org.universAAL.ri.gateway.communication.cipher.Blowfish;
 import org.universAAL.ri.gateway.communication.cipher.Cipher;
 import org.universAAL.ri.gateway.configuration.Configuration;
@@ -86,11 +87,15 @@ public class ClientSocketCommunicationHandler extends
 
     private final Cipher cipher;
 
+    private final Session creator;
+
     public ClientSocketCommunicationHandler(final Configuration config,
-	    final MessageReceiver communicator) {
+	    final MessageReceiver communicator, final Session s) {
 	this.config = config;
 	this.communicator = communicator;
 
+	this.creator = s;
+	
 	final String hashKey = this.config.getEncryptionKey();
 
 	this.cipher = new Blowfish(this.config.getEncryptionKey());
@@ -130,7 +135,7 @@ public class ClientSocketCommunicationHandler extends
 				+ serverConfig);
 			synchronized (LOCK_VAR_LINK_HANDLER) {
 			    currentLinkHandler = new LinkHandler(socket,
-				    communicator);
+				    communicator, creator);
 			}
 			currentLinkHandler.run();
 			log.debug("Link is down, so we are goging to try again in a "
@@ -157,9 +162,12 @@ public class ClientSocketCommunicationHandler extends
      */
     private class LinkHandler extends AbstractLinkHandler {
 
+	private final Session session;
+	
 	public LinkHandler(final Socket socket,
-		final MessageReceiver communicator) {
+		final MessageReceiver communicator, Session s) {
 	    super(socket, communicator);
+	    session = s;
 	}
 
 	@Override
@@ -186,6 +194,7 @@ public class ClientSocketCommunicationHandler extends
 		}
 	    }
 	    log.debug("SESSION (RE)ESTABILISHED with " + currentSession);
+	    session.setScope(SessionManager.getInstance().getAALSpaceIdFromSession(currentSession));
 	    return true;
 	}
 

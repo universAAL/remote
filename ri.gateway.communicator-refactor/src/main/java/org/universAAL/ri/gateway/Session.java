@@ -22,9 +22,11 @@ package org.universAAL.ri.gateway;
 import java.util.UUID;
 
 import org.universAAL.middleware.container.utils.LogUtils;
+import org.universAAL.ri.gateway.communicator.service.impl.AbstractSocketCommunicationHandler;
 import org.universAAL.ri.gateway.communicator.service.impl.ClientSocketCommunicationHandler;
 import org.universAAL.ri.gateway.communicator.service.impl.MessageType;
 import org.universAAL.ri.gateway.communicator.service.impl.MessageWrapper;
+import org.universAAL.ri.gateway.communicator.service.impl.ServerSocketCommunicationHandler;
 import org.universAAL.ri.gateway.communicator.service.impl.SessionManager;
 import org.universAAL.ri.gateway.configuration.Configuration;
 import org.universAAL.ri.gateway.configuration.Configuration.ConnectionMode;
@@ -56,8 +58,20 @@ public class Session implements MessageSender, MessageReceiver,
     private final ProxyPool pool;
     private final Configuration config;
     private String remoteScope;
-    private ClientSocketCommunicationHandler comunication;
+    private AbstractSocketCommunicationHandler comunication;
 
+    public Session(final Configuration config, final ProxyPool proxyPool, final ServerSocketCommunicationHandler com) {
+	this.config = config;
+	this.pool = proxyPool;
+
+	if (config.getConnectionMode() != ConnectionMode.SERVER) {
+	    throw new IllegalStateException(
+		    "Configuration requires to run in Client mode, but we are creating the session as it was a Server");
+	}
+	this.comunication = com;
+    }
+
+    
     public Session(final Configuration config, final ProxyPool proxyPool) {
 	this.config = config;
 	this.pool = proxyPool;
@@ -66,11 +80,19 @@ public class Session implements MessageSender, MessageReceiver,
 	    throw new UnsupportedOperationException(
 		    "Single session supports only the " + ConnectionMode.CLIENT);
 	}
-	comunication = new ClientSocketCommunicationHandler(config, this);
+	comunication = new ClientSocketCommunicationHandler(config, this, this);
     }
 
+    public void setScope(String scope) {
+	this.remoteScope = scope;
+    }
+    
     public String getScope() {
 	return remoteScope;
+    }
+    
+    public Configuration getConfiguration() {
+	return config;
     }
 
     public void send(final Message message) {

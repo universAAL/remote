@@ -41,6 +41,7 @@ import org.universAAL.log.Logger;
 import org.universAAL.log.LoggerFactory;
 import org.universAAL.middleware.managers.api.AALSpaceManager;
 import org.universAAL.ri.gateway.Gateway;
+import org.universAAL.ri.gateway.ProxyMessageReceiver;
 import org.universAAL.ri.gateway.Session;
 import org.universAAL.ri.gateway.communication.cipher.Blowfish;
 import org.universAAL.ri.gateway.communication.cipher.Cipher;
@@ -65,6 +66,7 @@ public class ServerSocketCommunicationHandler extends
 	    ServerSocketCommunicationHandler.class);
 
     private static final int NUM_THREADS = 1;
+    
     // private Executor executor;
     private ServerSocket server;
     private Thread serverThread;
@@ -110,13 +112,11 @@ public class ServerSocketCommunicationHandler extends
 		    try {
 			final Socket socket = server.accept();
 			log.debug("Got new incoming connection");
-			final Gateway gw = Gateway.getInstance();
-			final Session s = new Session(config, gw.getPool());
+			final ProxyMessageReceiver proxy = new ProxyMessageReceiver();
 			final LinkHandler handler = new LinkHandler(socket,
-				handlers, s);
+				handlers, proxy);
 			handlers.add(handler);
 			executor.execute(handler);
-			gw.newSession(socket.toString(), s);
 		    } catch (final IOException e) {
 			if (server.isClosed()) {
 			    log.debug(
@@ -233,11 +233,17 @@ public class ServerSocketCommunicationHandler extends
 		    // TODO Close the session
 		}
 		setName("Link Handler[" + session + "]");
+
 		/*
-		 * //TODO here we should create Session? but how... //TODO we
+		 * //TODO we
 		 * need to link the UUID so that later on we can "route" the
 		 * message as expected?
 		 */
+		final Gateway gw = Gateway.getInstance();
+		final Session s = new Session(config, gw.getPool());
+		gw.newSession(socket.toString(), s);		
+		//XXX This is a dirty why to connect the Session to the link
+		((ProxyMessageReceiver) super.communicator).setFinalReceiver(s);
 		return true;
 	    }
 

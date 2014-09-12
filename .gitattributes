@@ -52,6 +52,7 @@ ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/operati
 ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/operations/OperationChain.java -text svneol=unset#text/plain
 ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/operations/OperationChainManager.java -text svneol=unset#text/plain
 ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/operations/ParameterCheckOpertaionChain.java -text svneol=unset#text/plain
+ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/osgi/OSGIActivator.java -text svneol=unset#text/plain
 ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/protocol/ErrorMessage.java -text svneol=unset#text/plain
 ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/protocol/ImportMessage.java -text svneol=unset#text/plain
 ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/protocol/Message.java -text svneol=unset#text/plain

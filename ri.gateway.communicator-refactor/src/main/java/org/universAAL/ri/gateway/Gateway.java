@@ -111,16 +111,24 @@ public class Gateway implements ModuleActivator {
 	});
 
 	for (int i = 0; i < props.length; i++) {
+	    final File p = props[i];
 	    try {
-		// create a new session for each properties file
-		final Configuration fc = new ConfigurationFile(props[i]);
-		if (fc.getConnectionMode().equals(ConnectionMode.CLIENT)) {
-		    final Session s = new Session(fc, proxypool);
-		    newSession(props[i].getAbsolutePath(), s);
-		} else {
-		    final Server s = new Server(fc);
-		    newServer(props[i].getAbsolutePath(), s);
-		}
+		final Runnable task = new Runnable() {
+		    public void run() {
+			// create a new session for each properties file
+			final Configuration fc = new ConfigurationFile(p);
+			if (fc.getConnectionMode()
+				.equals(ConnectionMode.CLIENT)) {
+			    final Session s = new Session(fc, proxypool);
+			    newSession(p.getAbsolutePath(), s);
+			} else {
+			    final Server s = new Server(fc);
+			    newServer(p.getAbsolutePath(), s);
+			}
+		    }
+		};
+		new Thread(task, "initialisation of "
+			+ props[i].getAbsolutePath()).start();
 	    } catch (final Exception e) {
 		LogUtils.logError(context, getClass(), "start",
 			new String[] { "unable to start instance from : "

@@ -41,12 +41,19 @@ import org.universAAL.ri.gateway.Gateway;
 public class PassiveDependencyProxy<T> implements DependencyProxy<T>,
 	SharedObjectListener {
 
-    private Object[] filters;
+    private final Object[] filters;
     private T proxy;
     private Object remH;
+    private Class<?> objectType;
 
     public PassiveDependencyProxy(final ModuleContext context,
 	    final Object[] filters) {
+	try {
+	    this.objectType = Class.forName((String) filters[0]);
+	} catch (final ClassNotFoundException ex) {
+	    throw new RuntimeException("Bad filtering", ex);
+	}
+	this.filters = filters;
 	final Object[] ref = context.getContainer().fetchSharedObject(context,
 		filters, this);
 	if (ref != null && ref.length > 0) {
@@ -90,8 +97,8 @@ public class PassiveDependencyProxy<T> implements DependencyProxy<T>,
     public void sharedObjectAdded(final Object sharedObj,
 	    final Object removeHook) {
 	try {
-	    if (sharedObj.getClass().isAssignableFrom(
-		    Class.forName((String) filters[0])) == false) {
+	    if (sharedObj == null
+		    || sharedObj.getClass().isAssignableFrom(objectType) == false) {
 		return;
 		/*
 		 * //XXX This is a workaround: Workaround to avoid issue in the

@@ -58,9 +58,10 @@ public class Session implements MessageSender, MessageReceiver,
     private final ProxyPool pool;
     private final Configuration config;
     private String remoteScope;
-    private AbstractSocketCommunicationHandler comunication;
+    private final AbstractSocketCommunicationHandler comunication;
 
-    public Session(final Configuration config, final ProxyPool proxyPool, final ServerSocketCommunicationHandler com) {
+    public Session(final Configuration config, final ProxyPool proxyPool,
+	    final ServerSocketCommunicationHandler com) {
 	this.config = config;
 	this.pool = proxyPool;
 
@@ -71,7 +72,6 @@ public class Session implements MessageSender, MessageReceiver,
 	this.comunication = com;
     }
 
-    
     public Session(final Configuration config, final ProxyPool proxyPool) {
 	this.config = config;
 	this.pool = proxyPool;
@@ -81,92 +81,88 @@ public class Session implements MessageSender, MessageReceiver,
 		    "Single session supports only the " + ConnectionMode.CLIENT);
 	}
 	comunication = new ClientSocketCommunicationHandler(config, this, this);
+	try {
+	    comunication.start();
+	} catch (final Exception e) {
+	    LogUtils.logError(Gateway.getInstance().context, getClass(),
+		    "Constructor", new String[] { "Unexpected Exceotion" }, e);
+	    throw new RuntimeException(e);
+	}
     }
 
-    public void setScope(String scope) {
+    public void setScope(final String scope) {
 	validateRemoteScope(scope);
 	this.remoteScope = scope;
     }
-    
+
     public String getScope() {
 	return remoteScope;
     }
-    
+
     public Configuration getConfiguration() {
 	return config;
     }
 
     public void send(final Message message) {
 	validateRemoteScope(remoteScope);
-	org.universAAL.ri.gateway.communicator.service.Message content = new org.universAAL.ri.gateway.communicator.service.Message(
+	final org.universAAL.ri.gateway.communicator.service.Message content = new org.universAAL.ri.gateway.communicator.service.Message(
 		message);
-	MessageWrapper wrap = new MessageWrapper(MessageType.HighPush, content,
-		"");
-	SessionManager session = SessionManager.getInstance();
+	final MessageWrapper wrap = new MessageWrapper(MessageType.HighPush,
+		content, "");
+	final SessionManager session = SessionManager.getInstance();
 	/*
-	//INFO Commented out for supporting but Client and Server mode
-	UUID[] active = session.getSessionIds();
-	if (active.length != 1) {
-	    if (active.length == 0) {
-		throw new IllegalStateException(
-			"Trying to send a message but we no active session");
-	    } else {
-		throw new IllegalStateException(
-			"Trying to send a message but we too many session");
-	    }
-	}
-	*/
+	 * //INFO Commented out for supporting but Client and Server mode UUID[]
+	 * active = session.getSessionIds(); if (active.length != 1) { if
+	 * (active.length == 0) { throw new IllegalStateException(
+	 * "Trying to send a message but we no active session"); } else { throw
+	 * new IllegalStateException(
+	 * "Trying to send a message but we too many session"); } }
+	 */
 	try {
-	    comunication.sendMessage(wrap,
-		    new String[] { remoteScope });
-	} catch (Exception e) {
+	    comunication.sendMessage(wrap, new String[] { remoteScope });
+	} catch (final Exception e) {
 	    throw new RuntimeException(
 		    "Failed to send message due to internal exception", e);
 	}
     }
 
     private void validateRemoteScope(final String scope) {
-	if ( scope == null ) {
-	    throw new IllegalStateException("Scope cannot set be null, otherwise sending and rieving message will not work");	
+	if (scope == null) {
+	    throw new IllegalStateException(
+		    "Scope cannot set be null, otherwise sending and rieving message will not work");
 	}
 	try {
 	    UUID.fromString(scope);
-	}catch(Exception e){
-	    throw new IllegalStateException("Scope not valid it has to be an UUID", e);
-	}	
+	} catch (final Exception e) {
+	    throw new IllegalStateException(
+		    "Scope not valid it has to be an UUID", e);
+	}
     }
-
 
     public Message sendRequest(final Message message) {
 	validateRemoteScope(remoteScope);
-	org.universAAL.ri.gateway.communicator.service.Message content = new org.universAAL.ri.gateway.communicator.service.Message(
+	final org.universAAL.ri.gateway.communicator.service.Message content = new org.universAAL.ri.gateway.communicator.service.Message(
 		message);
 	MessageWrapper wrap = new MessageWrapper(MessageType.HighReqRsp,
 		content, "");
-	SessionManager session = SessionManager.getInstance();
+	final SessionManager session = SessionManager.getInstance();
 	/*
-	//INFO Commented out for supporting but Client and Server mode
-	UUID[] active = session.getSessionIds();
-	if (active.length != 1) {
-	    if (active.length == 0) {
-		throw new IllegalStateException(
-			"Trying to send a message but we no active session");
-	    } else {
-		throw new IllegalStateException(
-			"Trying to send a message but we too many session");
-	    }
-	}
-	*/
+	 * //INFO Commented out for supporting but Client and Server mode UUID[]
+	 * active = session.getSessionIds(); if (active.length != 1) { if
+	 * (active.length == 0) { throw new IllegalStateException(
+	 * "Trying to send a message but we no active session"); } else { throw
+	 * new IllegalStateException(
+	 * "Trying to send a message but we too many session"); } }
+	 */
 	try {
-	    wrap = comunication.sendMessage(wrap,
-		    new String[] { remoteScope });
+	    wrap = comunication.sendMessage(wrap, new String[] { remoteScope });
 	    if (wrap.getType() != MessageType.HighReqRsp) {
 		throw new IllegalStateException(
 			"Expecting HighReqRsp message, but recieved "
 				+ wrap.getType());
 	    }
 	    return (Message) wrap.getMessage().getContent();
-	} catch (Exception e) {
+	} catch (final Exception e) {
 	    throw new RuntimeException(
 		    "Failed to send message due to internal exception", e);
 	}

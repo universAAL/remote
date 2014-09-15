@@ -81,6 +81,8 @@ ri.gateway.communicator-refactor/src/main/javadoc/org/universAAL/ri/gateway/doc-
 ri.gateway.communicator-refactor/src/main/javadoc/org/universAAL/ri/gateway/doc-files/Import-ImportRemove.png -text
 ri.gateway.communicator-refactor/src/main/javadoc/org/universAAL/ri/gateway/doc-files/Import-ImportRequest.png -text
 ri.gateway.communicator-refactor/src/main/javadoc/org/universAAL/ri/gateway/package-info.java -text
+ri.gateway.communicator-refactor/src/main/javadoc/org/universAAL/ri/gateway/proxies/exporting/package-info.java -text svneol=unset#text/plain
+ri.gateway.communicator-refactor/src/main/javadoc/org/universAAL/ri/gateway/proxies/importing/package-info.java -text svneol=unset#text/plain
 ri.gateway.communicator-refactor/src/test/java/org/universAAL/ri/gateway/ArraySetTest.java -text svneol=unset#text/plain
 ri.gateway.communicator/ASL2.0.txt -text
 ri.gateway.communicator/NOTICE.txt -text

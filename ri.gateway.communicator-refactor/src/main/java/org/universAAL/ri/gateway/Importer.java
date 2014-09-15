@@ -114,6 +114,12 @@ public class Importer {
 			pbm.getBusMemberId()));
 		// note import
 		imports.put(msg.getBusMemberId(), pbm);
+		LogUtils.logDebug(
+			Gateway.getInstance().context,
+			getClass(),
+			"handleImportMessage",
+			"Imported " + msg.getBusMemberId() + " from "
+				+ session.getScope());
 	    } else {
 		// import denied
 		session.send(ImportMessage.importResponse(msg, null));
@@ -162,6 +168,9 @@ public class Importer {
      * 
      * Initiates Import-refresh protocol: <br>
      * <img src="doc-files/Import-ImportRequest.png">
+     * 
+     * <br>
+     * Where refresh is either add or remove registration parameters.
      * 
      * @param msg
      *            the add or remove subscription message.

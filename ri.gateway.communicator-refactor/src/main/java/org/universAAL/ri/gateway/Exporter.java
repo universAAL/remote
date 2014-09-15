@@ -116,6 +116,9 @@ public class Exporter implements IBusMemberRegistryListener {
 		// if response is positive associate
 		exportProxy.addRemoteProxyReference(new BusMemberReference(
 			session, ((ImportMessage) resp).getBusMemberId()));
+		LogUtils.logDebug(Gateway.getInstance().context, getClass(),
+			"checkAndExport", "Exported " + busMemberId + " to "
+				+ session.getScope());
 	    }
 
 	    if (!exportProxy.getRemoteProxiesReferences().isEmpty()) {

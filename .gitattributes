@@ -7,7 +7,6 @@ gw.pom/tenant.karaf.feature/src/features/features.xml svneol=native#text/xml
 ri.gateway.communicator-refactor/ASL2.0.txt -text
 ri.gateway.communicator-refactor/NOTICE.txt -text
 ri.gateway.communicator-refactor/pom.xml -text
-ri.gateway.communicator-refactor/ri.gateway.multitenant.properties -text
 ri.gateway.communicator-refactor/src/main/java/org/universAAL/ioc/dependencies/DependencyProxy.java svneol=native#text/plain
 ri.gateway.communicator-refactor/src/main/java/org/universAAL/ioc/dependencies/impl/NPEDependencyProxy.java svneol=native#text/plain
 ri.gateway.communicator-refactor/src/main/java/org/universAAL/ioc/dependencies/impl/PassiveDependencyProxy.java -text svneol=unset#text/plain

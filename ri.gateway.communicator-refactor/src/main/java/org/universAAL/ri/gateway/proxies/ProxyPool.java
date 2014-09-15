@@ -16,6 +16,7 @@
 package org.universAAL.ri.gateway.proxies;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -35,7 +36,7 @@ public class ProxyPool {
     /**
      * Collection ProxyID to {@link ProxyBusMember}.
      */
-    Map<String, ProxyBusMember> map;
+    Map<String, ProxyBusMember> map = new HashMap<String, ProxyBusMember>();
 
     /**
      * Get the {@link ProxyBusMember} from its busMemberId (which is not always

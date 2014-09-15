@@ -127,31 +127,31 @@
           <target>1.5</target>
         </configuration>
       </plugin>
-      <plugin>
-        <artifactId>maven-resources-plugin</artifactId>
-        <version>2.5</version>
-        <executions>
-          <execution>
-            <id>copy-resources2</id>
-            <phase>compile</phase>
-            <goals>
-              <goal>copy-resources</goal>
-            </goals>
-            <configuration>
-              <outputDirectory>target/rundir/confadmin/ri.gateway.communicator</outputDirectory>
-              <resources>
-                <resource>
-                  <directory>.</directory>
-                  <filtering>true</filtering>
-                  <includes>
-                    <include>ri.gateway.communicator.properties</include>
-                  </includes>
-                </resource>
-              </resources>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
+<!--       <plugin> -->
+<!--         <artifactId>maven-resources-plugin</artifactId> -->
+<!--         <version>2.5</version> -->
+<!--         <executions> -->
+<!--           <execution> -->
+<!--             <id>copy-resources2</id> -->
+<!--             <phase>compile</phase> -->
+<!--             <goals> -->
+<!--               <goal>copy-resources</goal> -->
+<!--             </goals> -->
+<!--             <configuration> -->
+<!--               <outputDirectory>target/rundir/confadmin/ri.gateway.communicator</outputDirectory> -->
+<!--               <resources> -->
+<!--                 <resource> -->
+<!--                   <directory>.</directory> -->
+<!--                   <filtering>true</filtering> -->
+<!--                   <includes> -->
+<!--                     <include>ri.gateway.communicator.properties</include> -->
+<!--                   </includes> -->
+<!--                 </resource> -->
+<!--               </resources> -->
+<!--             </configuration> -->
+<!--           </execution> -->
+<!--         </executions> -->
+<!--       </plugin> -->
     </plugins>
   </build>
   <profiles>

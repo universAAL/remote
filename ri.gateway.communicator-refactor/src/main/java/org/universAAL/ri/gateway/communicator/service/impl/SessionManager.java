@@ -43,7 +43,7 @@ import org.universAAL.ri.gateway.Gateway;
  */
 public class SessionManager {
 
-    private static SessionManager manager = null;
+    private static SessionManager manager = new SessionManager();
     private static final Gateway gw = Gateway.getInstance();
 
     private class SessionKey {
@@ -101,11 +101,6 @@ public class SessionManager {
     }
 
     public static SessionManager getInstance() {
-        synchronized (SessionManager.class) {
-            if (SessionManager.manager == null) {
-                SessionManager.manager = new SessionManager();
-            }
-        }
         return SessionManager.manager;
     }
 

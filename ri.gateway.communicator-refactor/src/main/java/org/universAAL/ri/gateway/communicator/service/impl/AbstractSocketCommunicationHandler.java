@@ -41,18 +41,18 @@ import org.universAAL.ri.gateway.communicator.service.CommunicationHandler;
 
 /**
  * This class implements an abstract gateway based on TCP connection
- * 
+ *
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @version $LastChangedRevision$ ($LastChangedDate: 2014-08-08 14:46:31
  *          +0200 (Fri, 08 Aug 2014) $)
- * 
+ *
  */
 public abstract class AbstractSocketCommunicationHandler implements
-	CommunicationHandler {
+        CommunicationHandler {
 
     public static final Logger log = LoggerFactory.createLoggerFactory(
-	    Gateway.getInstance().context).getLogger(
-	    AbstractSocketCommunicationHandler.class);
+            Gateway.getInstance().context).getLogger(
+            AbstractSocketCommunicationHandler.class);
     protected Cipher cipher;
 
     // public AbstractSocketCommunicationHandler() {
@@ -63,71 +63,71 @@ public abstract class AbstractSocketCommunicationHandler implements
     // }
 
     public AbstractSocketCommunicationHandler(final Cipher cipher) {
-	this.cipher = cipher;
+        this.cipher = cipher;
     }
 
     protected MessageWrapper readMessage(final InputStream in) throws Exception {
-	AbstractSocketCommunicationHandler.log
-		.debug("Reading a message on the link");
-	final MessageWrapper msg = Serializer.unmarshalMessage(in, cipher);
-	AbstractSocketCommunicationHandler.log.debug("Read message "
-		+ msg.getType() + " going to handle it");
-	return msg;
+        AbstractSocketCommunicationHandler.log
+                .debug("Reading a message on the link");
+        final MessageWrapper msg = Serializer.unmarshalMessage(in, cipher);
+        AbstractSocketCommunicationHandler.log.debug("Read message "
+                + msg.getType() + " going to handle it");
+        return msg;
     }
 
     public MessageWrapper sendMessage(final MessageWrapper toSend,
-	    final String[] sessions) throws IOException,
-	    ClassNotFoundException, CryptoException {
+            final String[] sessions) throws IOException,
+            ClassNotFoundException, CryptoException {
 
-	// TODO Stefano Lenzi: Use the target to select the scope where to send
-	// the message, it should be an UUID
+        // TODO Stefano Lenzi: Use the target to select the scope where to send
+        // the message, it should be an UUID
 
-	MessageWrapper resp = null;
-	final SessionManager sessionManager = SessionManager.getInstance();
+        MessageWrapper resp = null;
+        final SessionManager sessionManager = SessionManager.getInstance();
 
-	final List<UUID> activeSessions = new ArrayList<UUID>();
+        final List<UUID> activeSessions = new ArrayList<UUID>();
 
-	for (int i = 0; i < sessions.length; i++) {
-	    if (CommunicationHandler.BROADCAST_SESSION == sessions[i]
-		    || CommunicationHandler.BROADCAST_SESSION
-			    .equals(sessions[i])) {
-		// TODO Broadcast, something like
-		// sessionManager.getAllSessions();
-	    }
-	    final UUID currentSession = UUID.fromString(sessions[i]);
-	    if (sessionManager.isActive(currentSession) == false) {
-		// TODO that we haven't sent a file: either because the other
-		// peer gently left or because the the link failed and gateway
-		// are training to reconnect each other
-		continue;
-	    }
-	    activeSessions.add(currentSession);
-	}
-	for (final UUID currentSession : activeSessions) {
+        for (int i = 0; i < sessions.length; i++) {
+            if (CommunicationHandler.BROADCAST_SESSION == sessions[i]
+                    || CommunicationHandler.BROADCAST_SESSION
+                            .equals(sessions[i])) {
+                // TODO Broadcast, something like
+                // sessionManager.getAllSessions();
+            }
+            final UUID currentSession = UUID.fromString(sessions[i]);
+            if (sessionManager.isActive(currentSession) == false) {
+                // TODO that we haven't sent a file: either because the other
+                // peer gently left or because the the link failed and gateway
+                // are training to reconnect each other
+                continue;
+            }
+            activeSessions.add(currentSession);
+        }
+        for (final UUID currentSession : activeSessions) {
 
-	    final OutputStream out = sessionManager
-		    .getOutputStream(currentSession);
-	    final InputStream in = sessionManager
-		    .getInputStream(currentSession);
+            final OutputStream out = sessionManager
+                    .getOutputStream(currentSession);
+            final InputStream in = sessionManager
+                    .getInputStream(currentSession);
 
-	    if (out == null || in == null) {
-		// TODO log that we found an invalid-session
-		continue;
-	    }
+            if (out == null || in == null) {
+                // TODO log that we found an invalid-session
+                continue;
+            }
 
-	    try {
-		Serializer.sendMessageToStream(toSend, out, cipher);
+            try {
+                Serializer.sendMessageToStream(toSend, out, cipher);
 
-		if (toSend.getType() == MessageType.HighReqRsp) {
-		    resp = Serializer.unmarshalMessage(in, cipher);
-		}
-	    } catch (final EOFException ex) {
-		// no response (which is not an error) so we just return null
-	    }
-	}
-	// TODO either we change the return type to void/boolean or to
-	// MessageWrapper[]
-	return resp;
+                if (toSend.getType() == MessageType.HighReqRsp) {
+                    resp = Serializer.unmarshalMessage(in, cipher);
+                }
+            } catch (final EOFException ex) {
+                // no response (which is not an error) so we just return null
+            }
+        }
+        // TODO either we change the return type to void/boolean or to
+        // MessageWrapper[]
+        return resp;
     }
 
 }

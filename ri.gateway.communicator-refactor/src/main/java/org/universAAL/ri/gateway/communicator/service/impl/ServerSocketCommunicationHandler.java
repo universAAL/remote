@@ -240,8 +240,7 @@ public class ServerSocketCommunicationHandler extends
                  */
                 final Gateway gw = Gateway.getInstance();
                 final Session s = new Session(config, gw.getPool(), server);
-                s.setScope(sessionManger
-                        .getAALSpaceIdFromSession(session));
+                s.setScope(session.toString());
                 gw.newSession(socket.toString(), s);
                 // XXX This is a dirty why to connect the Session to the link
                 ((ProxyMessageReceiver) super.communicator).setFinalReceiver(s);

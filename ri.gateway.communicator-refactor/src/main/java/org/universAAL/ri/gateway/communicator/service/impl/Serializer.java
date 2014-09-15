@@ -27,6 +27,7 @@ import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
+import java.io.Serializable;
 
 import org.bouncycastle.crypto.CryptoException;
 import org.universAAL.middleware.serialization.MessageContentSerializer;
@@ -151,4 +152,22 @@ public enum Serializer {
 	return obj;
     }
 
+    public static class EncryptionWrapper implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8161296430726209292L;
+
+	public EncryptionWrapper(final byte[] payload) {
+	    this.payload = payload;
+	}
+
+	private final byte[] payload;
+
+	public byte[] getPayload() {
+	    return payload;
+	}
+
+    }
 }

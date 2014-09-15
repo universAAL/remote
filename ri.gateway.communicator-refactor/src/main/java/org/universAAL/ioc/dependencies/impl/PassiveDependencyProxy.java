@@ -90,6 +90,15 @@ public class PassiveDependencyProxy<T> implements DependencyProxy<T>,
     public void sharedObjectAdded(final Object sharedObj,
 	    final Object removeHook) {
 	try {
+	    if (sharedObj.getClass().isAssignableFrom(
+		    Class.forName((String) filters[0])) == false) {
+		return;
+		/*
+		 * //XXX This is a workaround: Workaround to avoid issue in the
+		 * middleware that notifies leaving and departing of
+		 * sharedObject that do not match the filters
+		 */
+	    }
 	    setObject((T) sharedObj);
 	    this.remH = removeHook;
 	} catch (final Exception e) {

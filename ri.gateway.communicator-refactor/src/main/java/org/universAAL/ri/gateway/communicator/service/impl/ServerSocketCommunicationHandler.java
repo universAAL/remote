@@ -44,7 +44,6 @@ import org.universAAL.ri.gateway.Gateway;
 import org.universAAL.ri.gateway.ProxyMessageReceiver;
 import org.universAAL.ri.gateway.Session;
 import org.universAAL.ri.gateway.communication.cipher.Blowfish;
-import org.universAAL.ri.gateway.communication.cipher.Cipher;
 import org.universAAL.ri.gateway.configuration.Configuration;
 import org.universAAL.ri.gateway.protocol.MessageReceiver;
 import org.universAAL.ri.gateway.protocol.link.ConnectionRequest;
@@ -77,14 +76,9 @@ public class ServerSocketCommunicationHandler extends
 
     private final Configuration config;
 
-    private final Cipher cipher;
-
     public ServerSocketCommunicationHandler(final Configuration config) {
+	super(new Blowfish(config.getEncryptionKey()));
 	this.config = config;
-
-	final String hashKey = this.config.getEncryptionKey();
-
-	this.cipher = new Blowfish(hashKey);
 
 	this.executor = Executors.newCachedThreadPool();
 	this.myself = this;
@@ -146,7 +140,7 @@ public class ServerSocketCommunicationHandler extends
 	public LinkHandler(final ServerSocketCommunicationHandler server,
 		final Socket socket, final List<LinkHandler> handlers,
 		final MessageReceiver proxy) {
-	    super(socket, proxy);
+	    super(socket, proxy, cipher);
 	    this.handlerList = handlers;
 	    this.server = server;
 	}
@@ -232,7 +226,8 @@ public class ServerSocketCommunicationHandler extends
 			MessageType.ConnectResponse,
 			Serializer.Instance.marshall(response), source);
 		try {
-		    Serializer.sendMessageToStream(responseMessage, out);
+		    Serializer
+			    .sendMessageToStream(responseMessage, out, cipher);
 		} catch (final Exception e) {
 		    e.printStackTrace();
 		    // TODO Close the session
@@ -245,7 +240,8 @@ public class ServerSocketCommunicationHandler extends
 		 */
 		final Gateway gw = Gateway.getInstance();
 		final Session s = new Session(config, gw.getPool(), server);
-		s.setScope(sessionManger.getAALSpaceIdFromSession(currentSession));
+		s.setScope(sessionManger
+			.getAALSpaceIdFromSession(currentSession));
 		gw.newSession(socket.toString(), s);
 		// XXX This is a dirty why to connect the Session to the link
 		((ProxyMessageReceiver) super.communicator).setFinalReceiver(s);
@@ -300,7 +296,7 @@ public class ServerSocketCommunicationHandler extends
 			MessageType.ConnectResponse,
 			Serializer.Instance.marshall(response), source);
 		try {
-		    Serializer.sendMessageToStream(responseMessage, out);
+		    Serializer.sendMessageToStream(responseMessage, out, null);
 		} catch (final Exception e) {
 		    e.printStackTrace();
 		    // TODO Close the session

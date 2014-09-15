@@ -36,6 +36,7 @@ import org.bouncycastle.crypto.CryptoException;
 import org.universAAL.log.Logger;
 import org.universAAL.log.LoggerFactory;
 import org.universAAL.ri.gateway.Gateway;
+import org.universAAL.ri.gateway.communication.cipher.Cipher;
 import org.universAAL.ri.gateway.communicator.service.CommunicationHandler;
 
 /**
@@ -52,6 +53,7 @@ public abstract class AbstractSocketCommunicationHandler implements
     public static final Logger log = LoggerFactory.createLoggerFactory(
 	    Gateway.getInstance().context).getLogger(
 	    AbstractSocketCommunicationHandler.class);
+    protected Cipher cipher;
 
     // public AbstractSocketCommunicationHandler() {
     // final String hashKey = CommunicatorStarter.properties
@@ -60,10 +62,14 @@ public abstract class AbstractSocketCommunicationHandler implements
     // SecurityUtils.Instance.initialize(hashKey);
     // }
 
+    public AbstractSocketCommunicationHandler(final Cipher cipher) {
+	this.cipher = cipher;
+    }
+
     protected MessageWrapper readMessage(final InputStream in) throws Exception {
 	AbstractSocketCommunicationHandler.log
 		.debug("Reading a message on the link");
-	final MessageWrapper msg = Serializer.unmarshalMessage(in);
+	final MessageWrapper msg = Serializer.unmarshalMessage(in, cipher);
 	AbstractSocketCommunicationHandler.log.debug("Read message "
 		+ msg.getType() + " going to handle it");
 	return msg;
@@ -110,10 +116,10 @@ public abstract class AbstractSocketCommunicationHandler implements
 	    }
 
 	    try {
-		Serializer.sendMessageToStream(toSend, out);
+		Serializer.sendMessageToStream(toSend, out, cipher);
 
 		if (toSend.getType() == MessageType.HighReqRsp) {
-		    resp = Serializer.unmarshalMessage(in);
+		    resp = Serializer.unmarshalMessage(in, cipher);
 		}
 	    } catch (final EOFException ex) {
 		// no response (which is not an error) so we just return null

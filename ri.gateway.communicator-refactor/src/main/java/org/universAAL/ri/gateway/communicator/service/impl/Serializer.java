@@ -31,6 +31,7 @@ import java.io.OutputStream;
 import org.bouncycastle.crypto.CryptoException;
 import org.universAAL.middleware.serialization.MessageContentSerializer;
 import org.universAAL.ri.gateway.Gateway;
+import org.universAAL.ri.gateway.communication.cipher.Cipher;
 import org.universAAL.ri.gateway.communicator.service.Message;
 
 /**
@@ -82,15 +83,17 @@ public enum Serializer {
      *            the wrapper
      * @param out
      *            the stream
+     * @param cipher
+     *            TODO
      * @throws IOException
      *             io exception
      * @throws CryptoException
      */
     public static void sendMessageToStream(final MessageWrapper wrp,
-	    final OutputStream out) throws IOException, CryptoException {
+	    final OutputStream out, final Cipher cipher) throws IOException,
+	    CryptoException {
 
-	final byte[] encrypted = SecurityUtils.Instance
-		.encrypt(toByteArray(wrp));
+	final byte[] encrypted = cipher.encrypt(toByteArray(wrp));
 
 	final EncryptionWrapper enc = new EncryptionWrapper(encrypted);
 
@@ -104,6 +107,8 @@ public enum Serializer {
      * 
      * @param is
      *            input stream to read from a
+     * @param cipher
+     *            TODO
      * @return a message wrapper
      * @throws IOException
      *             io exception
@@ -111,14 +116,14 @@ public enum Serializer {
      *             deserulization exception
      * @throws CryptoException
      */
-    public static MessageWrapper unmarshalMessage(final InputStream is)
-	    throws IOException, ClassNotFoundException, CryptoException {
+    public static MessageWrapper unmarshalMessage(final InputStream is,
+	    final Cipher cipher) throws IOException, ClassNotFoundException,
+	    CryptoException {
 
 	final ObjectInputStream ois = new ObjectInputStream(is);
 	final EncryptionWrapper enc = (EncryptionWrapper) ois.readObject();
 
-	final byte[] decrypted = SecurityUtils.Instance.decrypt(enc
-		.getPayload());
+	final byte[] decrypted = cipher.decrypt(enc.getPayload());
 	final MessageWrapper wrap = (MessageWrapper) toObject(decrypted);
 
 	// ois.close();

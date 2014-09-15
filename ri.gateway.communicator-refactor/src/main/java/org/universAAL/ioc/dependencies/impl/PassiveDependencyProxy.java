@@ -26,6 +26,8 @@ package org.universAAL.ioc.dependencies.impl;
 import org.universAAL.ioc.dependencies.DependencyProxy;
 import org.universAAL.middleware.container.ModuleContext;
 import org.universAAL.middleware.container.SharedObjectListener;
+import org.universAAL.middleware.container.utils.LogUtils;
+import org.universAAL.ri.gateway.Gateway;
 
 /**
  * 
@@ -91,7 +93,9 @@ public class PassiveDependencyProxy<T> implements DependencyProxy<T>,
 	    setObject((T) sharedObj);
 	    this.remH = removeHook;
 	} catch (final Exception e) {
-
+	    LogUtils.logError(Gateway.getInstance().context, getClass(),
+		    "sharedObjectAdded",
+		    new String[] { "unexpected Exception" }, e);
 	}
     }
 

@@ -19,8 +19,8 @@
  ******************************************************************************/
 package org.universAAL.ri.gateway;
 
-import java.io.IOException;
-
+import org.universAAL.ri.gateway.communication.cipher.Blowfish;
+import org.universAAL.ri.gateway.communication.cipher.Cipher;
 import org.universAAL.ri.gateway.communicator.service.impl.ServerSocketCommunicationHandler;
 import org.universAAL.ri.gateway.configuration.Configuration;
 
@@ -32,17 +32,20 @@ import org.universAAL.ri.gateway.configuration.Configuration;
  */
 public class Server {
 
-    private ServerSocketCommunicationHandler server;
+    private final ServerSocketCommunicationHandler server;
+    private final Cipher cipher;
 
     /**
      * @param fc
      * 
      */
     public Server(final Configuration fc) {
+
+	this.cipher = new Blowfish(fc.getEncryptionKey());
 	server = new ServerSocketCommunicationHandler(fc);
 	try {
 	    server.start();
-	} catch (Exception e) {
+	} catch (final Exception e) {
 	    throw new IllegalStateException(
 		    "Failed to start the actual server due a thrwon Exception so this object is invalid",
 		    e);

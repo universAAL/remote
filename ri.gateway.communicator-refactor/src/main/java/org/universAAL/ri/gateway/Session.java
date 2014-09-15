@@ -22,6 +22,8 @@ package org.universAAL.ri.gateway;
 import java.util.UUID;
 
 import org.universAAL.middleware.container.utils.LogUtils;
+import org.universAAL.ri.gateway.communication.cipher.Blowfish;
+import org.universAAL.ri.gateway.communication.cipher.Cipher;
 import org.universAAL.ri.gateway.communicator.service.impl.AbstractSocketCommunicationHandler;
 import org.universAAL.ri.gateway.communicator.service.impl.ClientSocketCommunicationHandler;
 import org.universAAL.ri.gateway.communicator.service.impl.MessageType;
@@ -59,11 +61,13 @@ public class Session implements MessageSender, MessageReceiver,
     private final Configuration config;
     private String remoteScope;
     private final AbstractSocketCommunicationHandler comunication;
+    private final Cipher cipher;
 
     public Session(final Configuration config, final ProxyPool proxyPool,
 	    final ServerSocketCommunicationHandler com) {
 	this.config = config;
 	this.pool = proxyPool;
+	this.cipher = new Blowfish(config.getEncryptionKey());
 
 	if (config.getConnectionMode() != ConnectionMode.SERVER) {
 	    throw new IllegalStateException(
@@ -75,6 +79,7 @@ public class Session implements MessageSender, MessageReceiver,
     public Session(final Configuration config, final ProxyPool proxyPool) {
 	this.config = config;
 	this.pool = proxyPool;
+	this.cipher = new Blowfish(config.getEncryptionKey());
 
 	if (config.getConnectionMode() != ConnectionMode.CLIENT) {
 	    throw new UnsupportedOperationException(
@@ -204,6 +209,10 @@ public class Session implements MessageSender, MessageReceiver,
 		    "handleMessage",
 		    "Received Error Message: " + em.getDescription());
 	}
+    }
+
+    public Cipher getCipher() {
+	return cipher;
     }
 
 }

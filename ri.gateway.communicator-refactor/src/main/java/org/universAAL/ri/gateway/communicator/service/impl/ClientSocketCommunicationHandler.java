@@ -38,8 +38,6 @@ import org.universAAL.log.LoggerFactory;
 import org.universAAL.middleware.managers.api.AALSpaceManager;
 import org.universAAL.ri.gateway.Gateway;
 import org.universAAL.ri.gateway.Session;
-import org.universAAL.ri.gateway.communication.cipher.Blowfish;
-import org.universAAL.ri.gateway.communication.cipher.Cipher;
 import org.universAAL.ri.gateway.configuration.Configuration;
 import org.universAAL.ri.gateway.protocol.MessageReceiver;
 import org.universAAL.ri.gateway.protocol.link.DisconnectionRequest;
@@ -85,20 +83,17 @@ public class ClientSocketCommunicationHandler extends
 
     private final Configuration config;
 
-    private final Cipher cipher;
-
     private final Session creator;
 
     public ClientSocketCommunicationHandler(final Configuration config,
 	    final MessageReceiver communicator, final Session s) {
+	super(s.getCipher());
 	this.config = config;
 	this.communicator = communicator;
 
 	this.creator = s;
-	
-	final String hashKey = this.config.getEncryptionKey();
 
-	this.cipher = new Blowfish(this.config.getEncryptionKey());
+	final String hashKey = this.config.getEncryptionKey();
 
 	this.executor = Executors
 		.newFixedThreadPool(ClientSocketCommunicationHandler.NUM_THREADS);
@@ -163,10 +158,10 @@ public class ClientSocketCommunicationHandler extends
     private class LinkHandler extends AbstractLinkHandler {
 
 	private final Session session;
-	
+
 	public LinkHandler(final Socket socket,
-		final MessageReceiver communicator, Session s) {
-	    super(socket, communicator);
+		final MessageReceiver communicator, final Session s) {
+	    super(socket, communicator, cipher);
 	    session = s;
 	}
 
@@ -194,7 +189,8 @@ public class ClientSocketCommunicationHandler extends
 		}
 	    }
 	    log.debug("SESSION (RE)ESTABILISHED with " + currentSession);
-	    session.setScope(SessionManager.getInstance().getAALSpaceIdFromSession(currentSession));
+	    session.setScope(SessionManager.getInstance()
+		    .getAALSpaceIdFromSession(currentSession));
 	    return true;
 	}
 

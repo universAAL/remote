@@ -30,6 +30,7 @@ import org.universAAL.log.Logger;
 import org.universAAL.log.LoggerFactory;
 import org.universAAL.middleware.managers.api.AALSpaceManager;
 import org.universAAL.ri.gateway.Gateway;
+import org.universAAL.ri.gateway.communication.cipher.Cipher;
 import org.universAAL.ri.gateway.protocol.Message;
 import org.universAAL.ri.gateway.protocol.MessageReceiver;
 import org.universAAL.ri.gateway.protocol.link.ConnectionRequest;
@@ -56,6 +57,7 @@ public abstract class AbstractLinkHandler implements Runnable {
     protected UUID currentSession = null;
     protected final MessageReceiver communicator;
     protected LinkHandlerStatus state;
+    private final Cipher cipher;
     private static final Logger log = LoggerFactory.createLoggerFactory(
 	    Gateway.getInstance().context).getLogger(AbstractLinkHandler.class);
 
@@ -93,10 +95,11 @@ public abstract class AbstractLinkHandler implements Runnable {
     }
 
     public AbstractLinkHandler(final Socket socket,
-	    final MessageReceiver communicator2) {
+	    final MessageReceiver communicator2, final Cipher cipher) {
 	this.state = LinkHandlerStatus.INITIALIZING;
 	this.socket = socket;
 	this.communicator = communicator2;
+	this.cipher = cipher;
 	try {
 	    in = socket.getInputStream();
 	    out = socket.getOutputStream();
@@ -155,7 +158,7 @@ public abstract class AbstractLinkHandler implements Runnable {
 		MessageType.Reconnect, Serializer.Instance.marshall(request),
 		peerId);
 	try {
-	    Serializer.sendMessageToStream(responseMessage, out);
+	    Serializer.sendMessageToStream(responseMessage, out, cipher);
 	    final MessageWrapper rsp = getNextMessage(in);
 	    if (rsp.getType() != MessageType.ConnectResponse) {
 		throw new IllegalArgumentException("Expected "
@@ -216,7 +219,7 @@ public abstract class AbstractLinkHandler implements Runnable {
 		MessageType.ConnectRequest,
 		Serializer.Instance.marshall(request), peerId);
 	try {
-	    Serializer.sendMessageToStream(responseMessage, out);
+	    Serializer.sendMessageToStream(responseMessage, out, cipher);
 	    final MessageWrapper rsp = getNextMessage(in);
 	    if (rsp.getType() != MessageType.ConnectResponse) {
 		throw new IllegalArgumentException("Expected "
@@ -255,7 +258,7 @@ public abstract class AbstractLinkHandler implements Runnable {
 		Serializer.Instance.marshall(disconnectionRequest), peerId);
 	boolean result = true;
 	try {
-	    Serializer.sendMessageToStream(responseMessage, out);
+	    Serializer.sendMessageToStream(responseMessage, out, cipher);
 	} catch (final Exception e) {
 	    e.printStackTrace();
 	    result = false;

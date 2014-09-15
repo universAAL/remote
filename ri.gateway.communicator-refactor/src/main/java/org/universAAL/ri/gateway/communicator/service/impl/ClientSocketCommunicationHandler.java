@@ -139,7 +139,7 @@ public class ClientSocketCommunicationHandler extends
 
 		    } catch (final Exception e) {
 			log.error(
-				"Link betwewn client and server broken due to exception we will try to restore it",
+				"Link between client and server broken due to exception we will try to restore it",
 				e);
 		    }
 

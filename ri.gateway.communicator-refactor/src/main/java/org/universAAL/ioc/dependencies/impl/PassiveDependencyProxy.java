@@ -98,7 +98,7 @@ public class PassiveDependencyProxy<T> implements DependencyProxy<T>,
 	    final Object removeHook) {
 	try {
 	    if (sharedObj == null
-		    || sharedObj.getClass().isAssignableFrom(objectType) == false) {
+		    || objectType.isAssignableFrom(sharedObj.getClass()) == false) {
 		return;
 		/*
 		 * //XXX This is a workaround: Workaround to avoid issue in the

@@ -187,7 +187,7 @@ public class Gateway implements ModuleActivator {
 	for (final Session s : ssns) {
 	    endSession(s);
 	}
-	LoggerFactory.updateModuleContext(null);
+	LoggerFactory.setModuleContextAsStopped(context);
     }
 
     public Exporter getExporter() {

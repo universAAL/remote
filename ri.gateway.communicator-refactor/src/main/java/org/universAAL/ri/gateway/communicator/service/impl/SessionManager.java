@@ -286,8 +286,9 @@ public class SessionManager {
     }
 
     public String getPeerIdFromSession(final UUID session) {
+        final SessionKey key = uuids.get(session);
         synchronized (sessions) {
-            if (uuids.containsKey(session)) {
+            if ( key == null ) {
                 throw new IllegalStateException("No session with UUID "
                         + session);
             }
@@ -296,7 +297,7 @@ public class SessionManager {
     }
 
     public String getAALSpaceIdFromSession(final UUID session) {
-        SessionKey key = uuids.get(session);
+        final SessionKey key = uuids.get(session);
         synchronized (sessions) {
             if ( key == null ) {
                 throw new IllegalStateException("No session with UUID "

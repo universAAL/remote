@@ -296,12 +296,13 @@ public class SessionManager {
     }
 
     public String getAALSpaceIdFromSession(final UUID session) {
+        SessionKey key = uuids.get(session);
         synchronized (sessions) {
-            if (!uuids.containsKey(session)) {
+            if ( key == null ) {
                 throw new IllegalStateException("No session with UUID "
                         + session);
             }
-            return uuids.get(session).keyParts[SessionKey.SPACE_IDX];
+            return key.keyParts[SessionKey.SPACE_IDX];
         }
     }
 

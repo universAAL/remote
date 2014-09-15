@@ -52,17 +52,17 @@ import org.universAAL.ri.gateway.protocol.link.DisconnectionRequest;
 import org.universAAL.ri.gateway.protocol.link.ReconnectionRequest;
 
 /**
- * 
+ *
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @version $LastChangedRevision$ ($LastChangedDate$)
- * 
+ *
  */
 public class ServerSocketCommunicationHandler extends
-	AbstractSocketCommunicationHandler {
+        AbstractSocketCommunicationHandler {
 
     public static final Logger log = LoggerFactory.createLoggerFactory(
-	    Gateway.getInstance().context).getLogger(
-	    ServerSocketCommunicationHandler.class);
+            Gateway.getInstance().context).getLogger(
+            ServerSocketCommunicationHandler.class);
 
     private static final int NUM_THREADS = 1;
 
@@ -77,279 +77,279 @@ public class ServerSocketCommunicationHandler extends
     private final Configuration config;
 
     public ServerSocketCommunicationHandler(final Configuration config) {
-	super(new Blowfish(config.getEncryptionKey()));
-	this.config = config;
+        super(new Blowfish(config.getEncryptionKey()));
+        this.config = config;
 
-	this.executor = Executors.newCachedThreadPool();
-	this.myself = this;
-	/*
-	 * //TODO Define a maximum number of threads
-	 */
-	// this.executor = Executors.newFixedThreadPool(NUM_THREADS);
-	log.info("Created " + ServerSocketCommunicationHandler.class.getName());
+        this.executor = Executors.newCachedThreadPool();
+        this.myself = this;
+        /*
+         * //TODO Define a maximum number of threads
+         */
+        // this.executor = Executors.newFixedThreadPool(NUM_THREADS);
+        log.info("Created " + ServerSocketCommunicationHandler.class.getName());
     }
 
     public void start() throws IOException {
-	final String serverConfig = config.getConnectionHost() + ":"
-		+ config.getConnectionPort();
-	log.debug("Starting Server Gateway on TCP server on port "
-		+ serverConfig);
+        final String serverConfig = config.getConnectionHost() + ":"
+                + config.getConnectionPort();
+        log.debug("Starting Server Gateway on TCP server on port "
+                + serverConfig);
 
-	final InetAddress addr = InetAddress.getByName(config
-		.getConnectionHost());
-	server = new ServerSocket();
-	server.bind(new InetSocketAddress(addr, config.getConnectionPort()));
-	serverThread = new Thread(new Runnable() {
+        final InetAddress addr = InetAddress.getByName(config
+                .getConnectionHost());
+        server = new ServerSocket();
+        server.bind(new InetSocketAddress(addr, config.getConnectionPort()));
+        serverThread = new Thread(new Runnable() {
 
-	    public void run() {
-		log.debug("TCP server started on port " + serverConfig);
-		Thread.currentThread().setName("Space Gateway :: Server");
-		while (!(Thread.currentThread().isInterrupted())) {
-		    try {
-			final Socket socket = server.accept();
-			log.debug("Got new incoming connection");
-			final ProxyMessageReceiver proxy = new ProxyMessageReceiver();
-			final LinkHandler handler = new LinkHandler(myself,
-				socket, handlers, proxy);
-			handlers.add(handler);
-			executor.execute(handler);
-		    } catch (final IOException e) {
-			if (server.isClosed()) {
-			    log.debug(
-				    "Ignoring exception because we are closing the ServerSocket",
-				    e);
-			} else {
-			    log.error(
-				    "Unxpeceted error with the Server Socket",
-				    e);
-			}
-		    }
-		}
-		executor.shutdown();
-	    }
-	});
-	serverThread.start();
+            public void run() {
+                log.debug("TCP server started on port " + serverConfig);
+                Thread.currentThread().setName("Space Gateway :: Server");
+                while (!(Thread.currentThread().isInterrupted())) {
+                    try {
+                        final Socket socket = server.accept();
+                        log.debug("Got new incoming connection");
+                        final ProxyMessageReceiver proxy = new ProxyMessageReceiver();
+                        final LinkHandler handler = new LinkHandler(myself,
+                                socket, handlers, proxy);
+                        handlers.add(handler);
+                        executor.execute(handler);
+                    } catch (final IOException e) {
+                        if (server.isClosed()) {
+                            log.debug(
+                                    "Ignoring exception because we are closing the ServerSocket",
+                                    e);
+                        } else {
+                            log.error(
+                                    "Unxpeceted error with the Server Socket",
+                                    e);
+                        }
+                    }
+                }
+                executor.shutdown();
+            }
+        });
+        serverThread.start();
     }
 
     private class LinkHandler extends AbstractLinkHandler {
 
-	private String name = "Link Handler";
-	private final List<LinkHandler> handlerList;
-	private final ServerSocketCommunicationHandler server;
+        private String name = "Link Handler";
+        private final List<LinkHandler> handlerList;
+        private final ServerSocketCommunicationHandler server;
 
-	public LinkHandler(final ServerSocketCommunicationHandler server,
-		final Socket socket, final List<LinkHandler> handlers,
-		final MessageReceiver proxy) {
-	    super(socket, proxy, cipher);
-	    this.handlerList = handlers;
-	    this.server = server;
-	}
+        public LinkHandler(final ServerSocketCommunicationHandler server,
+                final Socket socket, final List<LinkHandler> handlers,
+                final MessageReceiver proxy) {
+            super(socket, proxy, cipher);
+            this.handlerList = handlers;
+            this.server = server;
+        }
 
-	@Override
-	protected boolean beforeRun() {
-	    return true;
-	}
+        @Override
+        protected boolean beforeRun() {
+            return true;
+        }
 
-	@Override
-	protected boolean loopRun() {
-	    if (socket != null && !socket.isClosed()) {
-		MessageWrapper msg;
-		try {
-		    msg = getNextMessage(in);
-		} catch (final Exception e) {
-		    if (e instanceof EOFException) {
-			log.info("Failed to read message of the stream beacuse it was closed from the other side");
-			return false;
-		    } else {
-			log.debug("Failed to read message from stream", e);
-			return true;
-		    }
-		}
-		if (handleSessionProtocol(msg) == false) {
-		    handleGatewayProtocol(msg);
-		}
-		return true;
-	    } else {
-		return false;
-	    }
-	}
+        @Override
+        protected boolean loopRun() {
+            if (socket != null && !socket.isClosed()) {
+                MessageWrapper msg;
+                try {
+                    msg = getNextMessage(in);
+                } catch (final Exception e) {
+                    if (e instanceof EOFException) {
+                        log.info("Failed to read message of the stream beacuse it was closed from the other side");
+                        return false;
+                    } else {
+                        log.debug("Failed to read message from stream", e);
+                        return true;
+                    }
+                }
+                if (handleSessionProtocol(msg) == false) {
+                    handleGatewayProtocol(msg);
+                }
+                return true;
+            } else {
+                return false;
+            }
+        }
 
-	@Override
-	protected boolean afterRun() {
-	    cleanUpSession();
-	    synchronized (handlerList) {
-		handlerList.remove(this);
-	    }
-	    return true;
-	}
+        @Override
+        protected boolean afterRun() {
+            cleanUpSession();
+            synchronized (handlerList) {
+                handlerList.remove(this);
+            }
+            return true;
+        }
 
-	@Override
-	protected boolean handleSessionProtocol(final MessageWrapper msg) {
-	    final AALSpaceManager spaceManager = Gateway.getInstance().spaceManager
-		    .getObject();
-	    final SessionManager sessionManger = SessionManager.getInstance();
-	    switch (msg.getType()) {
-	    case ConnectRequest: {
-		final ConnectionRequest request = Serializer.Instance
-			.unmarshall(ConnectionRequest.class, msg.getMessage());
-		UUID session = sessionManger.getSession(request.getPeerId(),
-			request.getAALSpaceId(), request.getScopeId());
-		if (session == null) {
-		    session = sessionManger.createSession(request.getPeerId(),
-			    request.getAALSpaceId(), request.getScopeId(),
-			    request.getDescription());
-		    log.debug("CREATED SESSION with " + session
-			    + " pointing at <" + request.getAALSpaceId() + ","
-			    + request.getPeerId() + ">");
-		} else {
-		    try {
-			sessionManger.close(session);
-		    } catch (final Exception ex) {
-			final String txt = "Closing old session " + session
-				+ " and creating a new one";
-			log.info(txt);
-			log.debug(txt, ex);
+        @Override
+        protected boolean handleSessionProtocol(final MessageWrapper msg) {
+            final AALSpaceManager spaceManager = Gateway.getInstance().spaceManager
+                    .getObject();
+            final SessionManager sessionManger = SessionManager.getInstance();
+            switch (msg.getType()) {
+            case ConnectRequest: {
+                final ConnectionRequest request = Serializer.Instance
+                        .unmarshall(ConnectionRequest.class, msg.getMessage());
+                UUID session = sessionManger.getSession(request.getPeerId(),
+                        request.getAALSpaceId(), request.getScopeId());
+                if (session == null) {
+                    session = sessionManger.createSession(request.getPeerId(),
+                            request.getAALSpaceId(), request.getScopeId(),
+                            request.getDescription());
+                    log.debug("CREATED SESSION with " + session
+                            + " pointing at <" + request.getAALSpaceId() + ","
+                            + request.getPeerId() + ">");
+                } else {
+                    try {
+                        sessionManger.close(session);
+                    } catch (final Exception ex) {
+                        final String txt = "Closing old session " + session
+                                + " and creating a new one";
+                        log.info(txt);
+                        log.debug(txt, ex);
 
-		    }
-		    log.warning("SESSION CLASH: the client may be restarted without persistance before the session was broken and deleted. We just create a new session");
-		    session = sessionManger.createSession(request.getPeerId(),
-			    request.getAALSpaceId(), request.getScopeId(),
-			    request.getDescription());
-		}
-		sessionManger.setLink(session, in, out);
-		// TODO Check if it can registers
-		// tenatManager.getTenant(request.getScopeId());
-		final String source = spaceManager.getMyPeerCard().getPeerID();
-		final ConnectionResponse response = new ConnectionResponse(
-			source, request.getAALSpaceId(), session);
-		final MessageWrapper responseMessage = new MessageWrapper(
-			MessageType.ConnectResponse,
-			Serializer.Instance.marshall(response), source);
-		try {
-		    Serializer
-			    .sendMessageToStream(responseMessage, out, cipher);
-		} catch (final Exception e) {
-		    e.printStackTrace();
-		    // TODO Close the session
-		}
-		setName("Link Handler[" + session + "]");
+                    }
+                    log.warning("SESSION CLASH: the client may be restarted without persistance before the session was broken and deleted. We just create a new session");
+                    session = sessionManger.createSession(request.getPeerId(),
+                            request.getAALSpaceId(), request.getScopeId(),
+                            request.getDescription());
+                }
+                sessionManger.setLink(session, in, out);
+                // TODO Check if it can registers
+                // tenatManager.getTenant(request.getScopeId());
+                final String source = spaceManager.getMyPeerCard().getPeerID();
+                final ConnectionResponse response = new ConnectionResponse(
+                        source, request.getAALSpaceId(), session);
+                final MessageWrapper responseMessage = new MessageWrapper(
+                        MessageType.ConnectResponse,
+                        Serializer.Instance.marshall(response), source);
+                try {
+                    Serializer
+                            .sendMessageToStream(responseMessage, out, cipher);
+                } catch (final Exception e) {
+                    e.printStackTrace();
+                    // TODO Close the session
+                }
+                setName("Link Handler[" + session + "]");
 
-		/*
-		 * //TODO we need to link the UUID so that later on we can
-		 * "route" the message as expected?
-		 */
-		final Gateway gw = Gateway.getInstance();
-		final Session s = new Session(config, gw.getPool(), server);
-		s.setScope(sessionManger
-			.getAALSpaceIdFromSession(currentSession));
-		gw.newSession(socket.toString(), s);
-		// XXX This is a dirty why to connect the Session to the link
-		((ProxyMessageReceiver) super.communicator).setFinalReceiver(s);
-		return true;
-	    }
+                /*
+                 * //TODO we need to link the UUID so that later on we can
+                 * "route" the message as expected?
+                 */
+                final Gateway gw = Gateway.getInstance();
+                final Session s = new Session(config, gw.getPool(), server);
+                s.setScope(sessionManger
+                        .getAALSpaceIdFromSession(session));
+                gw.newSession(socket.toString(), s);
+                // XXX This is a dirty why to connect the Session to the link
+                ((ProxyMessageReceiver) super.communicator).setFinalReceiver(s);
+                return true;
+            }
 
-	    case Disconnect: {
-		final DisconnectionRequest request = Serializer.Instance
-			.unmarshall(DisconnectionRequest.class,
-				msg.getMessage());
-		// request.getPeerId()
-		final UUID session = sessionManger.getSession(
-			request.getPeerId(), request.getAALSpaceId(),
-			request.getScopeId());
-		if (session == null) {
-		    log.warning("Received a Disconnect Request ma no matching session");
-		    return true;
-		}
-		try {
-		    sessionManger.close(session);
-		} catch (final Exception ex) {
-		    log.debug("Error closing the session UUID =" + session, ex);
-		}
-		/*
-		 * //TODO here we should close the Session and remove the object
-		 */
-		return true;
-	    }
-	    case Reconnect: {
-		final ReconnectionRequest request = Serializer.Instance
-			.unmarshall(ReconnectionRequest.class, msg.getMessage());
-		// request.getPeerId()
-		UUID session = sessionManger.getSession(request.getPeerId(),
-			request.getAALSpaceId(), request.getScopeId());
-		if (session == null
-			|| request.getSessionId().equals(session) == false) {
-		    // TODO someone is trying to reconnect but we don't have the
-		    // link active so we create a new session
-		    // XXX we should set the session description properly
-		    session = sessionManger
-			    .createSession(request.getPeerId(),
-				    request.getAALSpaceId(),
-				    request.getScopeId(), null);
-		}
-		sessionManger.setLink(session, in, out);
-		// TODO Check if it can registers
-		// tenatManager.getTenant(request.getScopeId());
-		final String source = spaceManager.getMyPeerCard().getPeerID();
-		final ConnectionResponse response = new ConnectionResponse(
-			source, request.getAALSpaceId(), session);
-		final MessageWrapper responseMessage = new MessageWrapper(
-			MessageType.ConnectResponse,
-			Serializer.Instance.marshall(response), source);
-		try {
-		    Serializer.sendMessageToStream(responseMessage, out, null);
-		} catch (final Exception e) {
-		    e.printStackTrace();
-		    // TODO Close the session
-		}
-		return true;
-	    }
-	    default:
-		return false;
+            case Disconnect: {
+                final DisconnectionRequest request = Serializer.Instance
+                        .unmarshall(DisconnectionRequest.class,
+                                msg.getMessage());
+                // request.getPeerId()
+                final UUID session = sessionManger.getSession(
+                        request.getPeerId(), request.getAALSpaceId(),
+                        request.getScopeId());
+                if (session == null) {
+                    log.warning("Received a Disconnect Request ma no matching session");
+                    return true;
+                }
+                try {
+                    sessionManger.close(session);
+                } catch (final Exception ex) {
+                    log.debug("Error closing the session UUID =" + session, ex);
+                }
+                /*
+                 * //TODO here we should close the Session and remove the object
+                 */
+                return true;
+            }
+            case Reconnect: {
+                final ReconnectionRequest request = Serializer.Instance
+                        .unmarshall(ReconnectionRequest.class, msg.getMessage());
+                // request.getPeerId()
+                UUID session = sessionManger.getSession(request.getPeerId(),
+                        request.getAALSpaceId(), request.getScopeId());
+                if (session == null
+                        || request.getSessionId().equals(session) == false) {
+                    // TODO someone is trying to reconnect but we don't have the
+                    // link active so we create a new session
+                    // XXX we should set the session description properly
+                    session = sessionManger
+                            .createSession(request.getPeerId(),
+                                    request.getAALSpaceId(),
+                                    request.getScopeId(), null);
+                }
+                sessionManger.setLink(session, in, out);
+                // TODO Check if it can registers
+                // tenatManager.getTenant(request.getScopeId());
+                final String source = spaceManager.getMyPeerCard().getPeerID();
+                final ConnectionResponse response = new ConnectionResponse(
+                        source, request.getAALSpaceId(), session);
+                final MessageWrapper responseMessage = new MessageWrapper(
+                        MessageType.ConnectResponse,
+                        Serializer.Instance.marshall(response), source);
+                try {
+                    Serializer.sendMessageToStream(responseMessage, out, null);
+                } catch (final Exception e) {
+                    e.printStackTrace();
+                    // TODO Close the session
+                }
+                return true;
+            }
+            default:
+                return false;
 
-	    }
-	}
+            }
+        }
 
-	private void setName(final String name) {
-	    this.name = name;
-	    Thread.currentThread().setName(name);
-	}
+        private void setName(final String name) {
+            this.name = name;
+            Thread.currentThread().setName(name);
+        }
 
-	private String getName() {
-	    return name;
-	}
+        private String getName() {
+            return name;
+        }
 
-	@Override
-	protected MessageWrapper getNextMessage(final InputStream in)
-		throws Exception {
-	    return readMessage(in);
-	}
+        @Override
+        protected MessageWrapper getNextMessage(final InputStream in)
+                throws Exception {
+            return readMessage(in);
+        }
 
-	@Override
-	public void stop() {
-	    super.stop();
-	    disconnect();
-	    cleanUpSession();
-	}
+        @Override
+        public void stop() {
+            super.stop();
+            disconnect();
+            cleanUpSession();
+        }
     }
 
     public void stop() {
-	try {
-	    server.close();
-	} catch (final IOException e) {
-	    final String msg = "Closing the ServerSocket generated an error";
-	    log.info(msg);
-	    log.debug(msg, e);
-	}
-	synchronized (handlers) {
-	    for (final LinkHandler handler : handlers) {
-		try {
-		    handler.stop();
-		} catch (final Exception ex) {
-		    log.debug("Errore closing " + handler.getName(), ex);
-		}
-	    }
-	}
-	serverThread.interrupt();
+        try {
+            server.close();
+        } catch (final IOException e) {
+            final String msg = "Closing the ServerSocket generated an error";
+            log.info(msg);
+            log.debug(msg, e);
+        }
+        synchronized (handlers) {
+            for (final LinkHandler handler : handlers) {
+                try {
+                    handler.stop();
+                } catch (final Exception ex) {
+                    log.debug("Errore closing " + handler.getName(), ex);
+                }
+            }
+        }
+        serverThread.interrupt();
     }
 
 }

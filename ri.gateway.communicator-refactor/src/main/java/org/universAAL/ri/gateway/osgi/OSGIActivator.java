@@ -17,7 +17,6 @@ package org.universAAL.ri.gateway.osgi;
 
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
-import org.universAAL.log.LoggerFactory;
 import org.universAAL.middleware.container.ModuleContext;
 import org.universAAL.middleware.container.osgi.uAALBundleContainer;
 import org.universAAL.ri.gateway.Gateway;
@@ -34,7 +33,6 @@ public class OSGIActivator implements BundleActivator {
     public void start(final BundleContext context) throws Exception {
 	final ModuleContext mc = uAALBundleContainer.THE_CONTAINER
 		.registerModule(new Object[] { context });
-	LoggerFactory.updateModuleContext(mc);
 	new Gateway().start(mc);
     }
 

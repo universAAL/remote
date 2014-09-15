@@ -26,6 +26,7 @@ import java.util.Set;
 import org.universAAL.ioc.dependencies.DependencyProxy;
 import org.universAAL.ioc.dependencies.impl.PassiveDependencyProxy;
 import org.universAAL.ioc.dependencies.impl.WaitingDependencyProxy;
+import org.universAAL.log.LoggerFactory;
 import org.universAAL.middleware.container.ModuleActivator;
 import org.universAAL.middleware.container.ModuleContext;
 import org.universAAL.middleware.container.utils.LogUtils;
@@ -83,6 +84,7 @@ public class Gateway implements ModuleActivator {
 
     public void start(final ModuleContext mc) throws Exception {
 	context = mc;
+	LoggerFactory.updateModuleContext(context);
 	singleton = new WaitingDependencyProxy<Gateway>(new Object[] {});
 	singleton.setObject(this);
 
@@ -185,6 +187,7 @@ public class Gateway implements ModuleActivator {
 	for (final Session s : ssns) {
 	    endSession(s);
 	}
+	LoggerFactory.updateModuleContext(null);
     }
 
     public Exporter getExporter() {

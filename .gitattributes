@@ -21,16 +21,11 @@ ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/Server.
 ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/Session.java -text svneol=unset#text/plain
 ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/communication/cipher/Blowfish.java -text
 ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/communication/cipher/Cipher.java -text svneol=unset#text/plain
-ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/communicator/service/CommunicationException.java -text
 ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/communicator/service/CommunicationHandler.java -text
-ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/communicator/service/GatewayCommunicator.java -text
-ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/communicator/service/LinkContext.java svneol=native#text/plain
 ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/communicator/service/Message.java -text
-ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/communicator/service/ResponseCallback.java -text
 ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/communicator/service/impl/AbstractLinkHandler.java svneol=native#text/plain
 ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/communicator/service/impl/AbstractSocketCommunicationHandler.java svneol=native#text/plain
 ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/communicator/service/impl/ClientSocketCommunicationHandler.java svneol=native#text/plain
-ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/communicator/service/impl/GatewayConfiguration.java svneol=native#text/plain
 ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/communicator/service/impl/MessageType.java -text
 ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/communicator/service/impl/MessageWrapper.java -text
 ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/communicator/service/impl/Serializer.java -text

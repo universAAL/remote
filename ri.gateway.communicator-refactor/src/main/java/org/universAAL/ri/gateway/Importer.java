@@ -166,7 +166,7 @@ public class Importer {
      * Refresh requests (addSubscriptionParameters or
      * removeSubscriptionParameters).<br>
      * 
-     * Initiates Import-refresh protocol: <br>
+     * Responds to Import-refresh protocol: <br>
      * <img src="doc-files/Import-ImportRequest.png">
      * 
      * <br>

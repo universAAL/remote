@@ -111,6 +111,7 @@ public class ProxySCaller extends ServiceCaller implements ProxyBusMember {
 			.equals(OperationChain.OperationResult.ALLOW)) {
 	    // resolve multitenancy
 	    m.clearScopes();
+	    m.addScope(session.getScope());
 	    // Origin Scope.
 	    m.setProperty(ScopedResource.PROP_ORIG_SCOPE, session.getScope());
 	    // invoke service

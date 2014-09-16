@@ -66,7 +66,10 @@ public class Exporter implements IBusMemberRegistryListener {
     private final Map<String, ProxyBusMember> exported;
 
     /**
-     *  
+     * Main Constructor.
+     * 
+     * @param pool
+     *            the pool of proxies to use.
      */
     public Exporter(final ProxyPool pool) {
 	this.pool = pool;
@@ -85,7 +88,7 @@ public class Exporter implements IBusMemberRegistryListener {
      * 
      * @param busMemberId
      *            the id of the busMember to attempt export.
-     * @param channel
+     * @param session
      *            the channel to attempt exporting.
      */
     private void checkAndExport(final String busMemberId, final Session session) {
@@ -190,8 +193,9 @@ public class Exporter implements IBusMemberRegistryListener {
 	    final ProxyBusMember pbm = exported.get(bmId);
 	    tracked.remove(bmId);
 	    exported.remove(bmId);
-	    // if there are no left export references then remove proxy.
+	    // if there are no left busmembers that use this export proxy
 	    if (!exported.values().contains(pbm)) {
+		// then remove proxy.
 		pool.removeProxyWithSend(pbm);
 	    }
 	}
@@ -217,6 +221,10 @@ public class Exporter implements IBusMemberRegistryListener {
     /** {@inheritDoc} */
     public void regParamsRemoved(final String busMemberID,
 	    final Resource[] params) {
+	/*
+	 * TODO check if new params of the BusMember is [], Then ???
+	 */
+
 	tracked.put(busMemberID, new ArraySet.Union<Resource>().combine(
 		tracked.get(busMemberID), params, new Resource[] {}));
 	refresh(busMemberID, new RegistrationParametersRemover(params));
@@ -226,7 +234,8 @@ public class Exporter implements IBusMemberRegistryListener {
      * Called when registration parameters change for an exported proxy.<br>
      * 
      * Initiates Import-refresh protocol: <br>
-     * <img src="doc-files/Import-ImportRefresh.png">
+     * <img src="doc-files/Import-ImportRefresh.png"> <br>
+     * Where refresh is either add or remove registration parameters.
      * 
      * @param busMemberID
      * @param orgigParams

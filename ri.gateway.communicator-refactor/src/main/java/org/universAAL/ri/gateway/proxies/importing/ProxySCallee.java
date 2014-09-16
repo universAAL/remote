@@ -21,7 +21,6 @@ import java.util.List;
 
 import org.universAAL.middleware.container.ModuleContext;
 import org.universAAL.middleware.container.utils.LogUtils;
-import org.universAAL.middleware.context.ContextEvent;
 import org.universAAL.middleware.rdf.Resource;
 import org.universAAL.middleware.rdf.ScopedResource;
 import org.universAAL.middleware.service.CallStatus;
@@ -87,7 +86,7 @@ public class ProxySCallee extends ServiceCallee implements ProxyBusMember {
 		if (s.getOutgoingMessageOperationChain().check(call)
 			.equals(OperationChain.OperationResult.ALLOW)) {
 		    // it is allowed to go there
-		    final ContextEvent copy = (ContextEvent) call.deepCopy();
+		    final ServiceCall copy = (ServiceCall) call.deepCopy();
 		    copy.clearScopes();
 		    copy.setProperty(ScopedResource.PROP_ORIG_SCOPE, null);
 		    final Message resp = s.sendRequest(new WrappedBusMessage(
@@ -96,7 +95,9 @@ public class ProxySCallee extends ServiceCallee implements ProxyBusMember {
 		    if (resp != null && resp instanceof WrappedBusMessage) {
 			final ServiceResponse sr = (ServiceResponse) ((WrappedBusMessage) resp)
 				.getMessage();
+			// Resolve multitenancy
 			sr.clearScopes();
+			sr.addScope(s.getScope());
 			// set the origin of the response
 			sr.setProperty(ScopedResource.PROP_ORIG_SCOPE,
 				s.getScope());

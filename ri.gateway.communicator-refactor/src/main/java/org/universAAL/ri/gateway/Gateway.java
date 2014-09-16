@@ -1,4 +1,8 @@
 /*******************************************************************************
+ * Copyright 2014-2014 CNR-ISTI, http://isti.cnr.it
+ * Institute of Information Science and Technologies
+ * of the Italian National Research Council
+ *
  * Copyright 2014 Universidad Politécnica de Madrid UPM
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -42,6 +46,7 @@ import org.universAAL.ri.gateway.proxies.ProxyPool;
  * Main Class for the AALSpace Gateway. It is in charge of managing
  * {@link Session Sessions}, and boot them from the configuration folder.
  *
+ * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author amedrano
  *
  */
@@ -77,6 +82,10 @@ public class Gateway implements ModuleActivator {
     private ProxyPool proxypool;
 
     private Exporter exporter;
+
+    public Collection<Server> getServers() {
+        return servers.keySet();
+    }
 
     public Collection<Session> getSessions() {
         return sessions.keySet();

@@ -40,6 +40,7 @@ ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/operati
 ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/operations/OperationChain.java -text svneol=unset#text/plain
 ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/operations/OperationChainManager.java -text svneol=unset#text/plain
 ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/operations/ParameterCheckOpertaionChain.java -text svneol=unset#text/plain
+ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/osgi/GatewayCommand.java svneol=native#text/plain
 ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/osgi/OSGIActivator.java -text svneol=unset#text/plain
 ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/protocol/ErrorMessage.java -text svneol=unset#text/plain
 ri.gateway.communicator-refactor/src/main/java/org/universAAL/ri/gateway/protocol/ImportMessage.java -text svneol=unset#text/plain
@@ -71,6 +72,7 @@ ri.gateway.communicator-refactor/src/main/javadoc/org/universAAL/ri/gateway/doc-
 ri.gateway.communicator-refactor/src/main/javadoc/org/universAAL/ri/gateway/package-info.java -text
 ri.gateway.communicator-refactor/src/main/javadoc/org/universAAL/ri/gateway/proxies/exporting/package-info.java -text svneol=unset#text/plain
 ri.gateway.communicator-refactor/src/main/javadoc/org/universAAL/ri/gateway/proxies/importing/package-info.java -text svneol=unset#text/plain
+ri.gateway.communicator-refactor/src/main/resources/OSGI-INF/blueprint/blueprint.xml svneol=native#text/xml
 ri.gateway.communicator-refactor/src/test/java/org/universAAL/ri/gateway/ArraySetTest.java -text svneol=unset#text/plain
 ri.gateway.communicator/ASL2.0.txt -text
 ri.gateway.communicator/NOTICE.txt -text

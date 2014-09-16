@@ -16,7 +16,7 @@
   <modules>
     <module>../ri.servicegateway</module>
     <module>../ri.internetgateway</module>
-    <module>../ri.gateway.communicator</module>
+    <!--<module>../ri.gateway.communicator</module>-->
     <module>../ri.exportComponent/ri.soap.cxf.server</module>
     <module>../ri.exportComponent/ri.soap.cxf.service</module>
     <module>../ri.api.manager</module>

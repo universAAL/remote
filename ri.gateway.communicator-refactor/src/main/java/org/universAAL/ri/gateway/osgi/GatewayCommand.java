@@ -86,6 +86,9 @@ public class GatewayCommand extends OsgiCommandSupport {
 			sm.isActive(id));
 	    }
 	}
+        if (servers.isEmpty() && list.isEmpty()){
+            System.out.println("No Servers, or sessions active.");
+        }
 	return null;
     }
 

@@ -26,6 +26,7 @@ import java.util.UUID;
 import org.apache.felix.gogo.commands.Command;
 import org.apache.karaf.shell.console.OsgiCommandSupport;
 import org.universAAL.ri.gateway.Gateway;
+import org.universAAL.ri.gateway.Server;
 import org.universAAL.ri.gateway.Session;
 import org.universAAL.ri.gateway.communicator.service.impl.SessionManager;
 
@@ -53,23 +54,39 @@ public class GatewayCommand extends OsgiCommandSupport {
     protected Object doExecute() throws Exception {
         final SessionManager sm = SessionManager.getInstance();
         final Gateway gw = Gateway.getInstance();
-        /*
+
         Collection<Server> servers = gw.getServers();
 
-        for (Server server : servers) {
-            server.
-        }
-        */
-        Collection<Session> list = gw.getSessions();
-        System.out.println("List of active sessions:");
-        System.out.printf("%3s - %20s - %20s - %20s - %10s\n", "n#", "name", "session id", "AAL Space", "Status");
-        System.out.println("-----------------------------------------------------------------------");
-        int n = 1;
-        for (Session session : list) {
-            final UUID id = UUID.fromString( session.getScope() );
-            System.out.printf("%03d - %20s - %20s - %20s - %10s\n", n, id, gw.getName(session), sm.getAALSpaceIdFromSession(id), sm.isActive(id));
-        }
-        return null;
+        if (!servers.isEmpty()) {
+	    System.out.println("List of active Servers:");
+	    System.out.printf("%3s - %20s - %20s - %20s - %10s\n", "n#",
+		    "name", "interface", "port", "Status");
+	    System.out
+		    .println("-----------------------------------------------------------------------");
+	    int n = 1;
+	    for (Server server : servers) {
+		System.out.printf("%03d - %20s - %20s - %20s - %10s\n", n++,
+			gw.getName(server), server.getInterface(), server.getPort(),
+			server.isActive());
+	    }
+	}
+        
+	Collection<Session> list = gw.getSessions();
+        if (!list.isEmpty()) {
+	    System.out.println("List of active sessions:");
+	    System.out.printf("%3s - %20s - %20s - %20s - %10s\n", "n#",
+		    "name", "session id", "AAL Space", "Status");
+	    System.out
+		    .println("-----------------------------------------------------------------------");
+	    int n = 1;
+	    for (Session session : list) {
+		final UUID id = UUID.fromString(session.getScope());
+		System.out.printf("%03d - %20s - %20s - %20s - %10s\n", n++, id,
+			gw.getName(session), sm.getAALSpaceIdFromSession(id),
+			sm.isActive(id));
+	    }
+	}
+	return null;
     }
 
 }

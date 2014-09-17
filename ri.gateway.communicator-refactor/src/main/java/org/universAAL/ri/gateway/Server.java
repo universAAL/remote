@@ -34,13 +34,15 @@ public class Server {
 
     private final ServerSocketCommunicationHandler server;
     private final Cipher cipher;
+    private final Configuration config;
+    private boolean running = false;
 
     /**
      * @param fc
      * 
      */
     public Server(final Configuration fc) {
-
+	this.config = fc;
 	this.cipher = new Blowfish(fc.getEncryptionKey());
 	server = new ServerSocketCommunicationHandler(fc);
 	try {
@@ -50,12 +52,25 @@ public class Server {
 		    "Failed to start the actual server due a thrwon Exception so this object is invalid",
 		    e);
 	}
+	running = true;
     }
 
     public void stop() {
 	if (server != null) {
 	    server.stop();
+	    running = false;
 	}
     }
+    
+    public String getInterface(){
+	return config.getConnectionHost();
+    }
+    
+    public int getPort(){
+	return config.getConnectionPort();
+    }
 
+    public boolean isActive(){
+	return running;
+    }
 }

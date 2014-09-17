@@ -179,6 +179,10 @@ public class Gateway implements ModuleActivator {
     public String getName(final Session s) {
         return sessions.get(s);
     }
+    
+    public String getName(final Server s) {
+        return servers.get(s);
+    }
 
     public synchronized void endSession(final Session s) {
         proxypool.sessionEnding(s);

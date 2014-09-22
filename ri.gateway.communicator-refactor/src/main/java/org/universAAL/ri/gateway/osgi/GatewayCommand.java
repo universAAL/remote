@@ -81,15 +81,22 @@ public class GatewayCommand extends OsgiCommandSupport {
 		    .println("-----------------------------------------------------------------------");
 	    int n = 1;
 	    for (Session session : list) {
-		final UUID id;
+		String name;
+		String AALSpace;
+		boolean isActive;
 		if (session.getScope() != null) {
-		    id = UUID.fromString(session.getScope());
+		    UUID id = UUID.fromString(session.getScope());
+		    AALSpace = sm.getAALSpaceIdFromSession(id);
+		    name = id.toString();
+		    isActive = sm.isActive(id);
 		} else {
-		    id = UUID.randomUUID();
+		    name = "UnNamed";
+		    AALSpace = "";
+		    isActive = false;
 		}
 		System.out.printf("%03d - %20s - %20s - %20s - %10s\n", n++,
-			id, gw.getName(session),
-			sm.getAALSpaceIdFromSession(id), sm.isActive(id));
+			name, gw.getName(session),
+			AALSpace, isActive);
 	    }
 	}
 	if (servers.isEmpty() && list.isEmpty()) {

@@ -262,8 +262,13 @@ public class Importer {
 	if (binded != null) {
 	    binded.removeRemoteProxyReferences(session);
 	    imports.remove(remoteBusMemberId);
+	    LogUtils.logDebug(Gateway.getInstance().context, getClass(),
+		    "remove", "removed Reference " + session.getScope()
+			    + "from " + binded.getBusMemberId());
 	    if (binded.getRemoteProxiesReferences().isEmpty()) {
 		pool.removeProxyWithSend(binded);
+		LogUtils.logDebug(Gateway.getInstance().context, getClass(),
+			    "remove", "No more References, removing proxy.");
 	    }
 	} else {
 	    LogUtils.logWarn(

@@ -196,6 +196,9 @@ public class Exporter implements IBusMemberRegistryListener {
 	    // if there are no left busmembers that use this export proxy
 	    if (!exported.values().contains(pbm)) {
 		// then remove proxy.
+		LogUtils.logDebug(Gateway.getInstance().context, getClass(),
+			"busMemberRemoved",
+			"All local BusMember for proxy have been un registered, removing proxy");
 		pool.removeProxyWithSend(pbm);
 	    }
 	}
@@ -241,9 +244,18 @@ public class Exporter implements IBusMemberRegistryListener {
      * @param orgigParams
      */
     private void refresh(final String busMemberID, final Updater up) {
+
+
 	// locate exported proxy representative
 	final ProxyBusMember pbm = exported.get(busMemberID);
 	if (pbm != null) {
+	    LogUtils.logDebug(
+		Gateway.getInstance().context,
+		getClass(),
+		"refresh",
+		"Local BusMember for proxy has changed parameters,"
+		+ " updating proxy (or creating new if shared), "
+		+ "informing remote about parameter change.");
 	    // update proxy registrations
 	    up.update(pbm);
 	    // up.newParameters(tracked.get(busMemberID)));
@@ -267,6 +279,7 @@ public class Exporter implements IBusMemberRegistryListener {
 		    }
 		} else {
 		    // new parameters are not allowed, send remove
+		    LogUtils.logWarn(Gateway.getInstance().context, getClass(), "refresh", "new parameters are not allowed, sending remove.");
 		    s.send(ImportMessage.importRemove(busMemberID));
 		}
 	    }
@@ -276,6 +289,15 @@ public class Exporter implements IBusMemberRegistryListener {
 	    }
 	    for (final BusMemberReference bm : toBeAdded) {
 		pbm.addRemoteProxyReference(bm);
+	    }
+	    if (pbm.getRemoteProxiesReferences().isEmpty()){
+		LogUtils.logDebug(
+			Gateway.getInstance().context,
+			getClass(),
+			"refresh",
+			"Proxy has no references after refresh, deleting proxy.");
+		pool.removeProxyWithSend(pbm);
+		exported.remove(busMemberID);
 	    }
 	}
     }
@@ -290,16 +312,25 @@ public class Exporter implements IBusMemberRegistryListener {
      */
     public boolean isRemoveExport(final String busMemberId,
 	    final Session session) {
-	// final ProxyBusMember member = pool.get(busMemberId);
-	// if (ProxyBusMemberFactory.isForExport((BusMember) member)) {
-	// // BusMember reference here has to change
-	// // (ProxyScaller is not a BusMember)
-	// member.removeRemoteProxyReferences(session);
-	// if (member.getRemoteProxiesReferences().isEmpty()) {
-	// pool.removeProxyWithSend(member);
-	// }
-	// return true;
-	// }
+	if (exported.containsKey(session)){
+	    ProxyBusMember member = exported.get(busMemberId);
+	    LogUtils.logDebug(
+			Gateway.getInstance().context,
+			getClass(),
+			"isRemoveExport",
+			"Remove request from remote importer.");
+	    member.removeRemoteProxyReferences(session);
+	    if (member.getRemoteProxiesReferences().isEmpty()) {
+		LogUtils.logDebug(
+			Gateway.getInstance().context,
+			getClass(),
+			"isRemoveExport",
+			"Proxy has no references after remove, deleting proxy.");
+		pool.removeProxyWithSend(member);
+		exported.remove(busMemberId);
+	    }
+	    return true;
+	}
 	return false;
     }
 }

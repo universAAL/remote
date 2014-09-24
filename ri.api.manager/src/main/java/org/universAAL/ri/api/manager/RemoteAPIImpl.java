@@ -93,6 +93,8 @@ public class RemoteAPIImpl implements RemoteAPI {
 	    if (ce==null) {
 		throw new APIImplException("Unable to deserialize event");
 	    }
+	    ce.addScope(id); // MULTITENANT Add my scope
+	    ce.setProperty(ContextEvent.PROP_ORIG_SCOPE, id); // MULTITENANT Add my scope as origin, so I dont get it back 
 	    ((RemoteUAAL)nodes.get(id)).sendC(ce);
 	}else{
 	    throw new APIImplException("ID not registered");
@@ -132,6 +134,8 @@ public class RemoteAPIImpl implements RemoteAPI {
 		throw new APIImplException("Unable to deserialize request");
 	    }
 	    RemoteUAAL node = (RemoteUAAL) nodes.get(id);
+	    req.addScope(id); // MULTITENANT Add my scope
+	    req.setProperty(ContextEvent.PROP_ORIG_SCOPE, id); // MULTITENANT Add my scope as origin, so I dont get it back 
 	    res = node.callS(req);
 	} else {
 	    throw new APIImplException("ID not registered");

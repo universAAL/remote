@@ -37,6 +37,7 @@ import org.universAAL.middleware.container.utils.LogUtils;
 import org.universAAL.middleware.managers.api.AALSpaceManager;
 import org.universAAL.middleware.managers.api.TenantManager;
 import org.universAAL.middleware.serialization.MessageContentSerializer;
+import org.universAAL.middleware.tracker.IBusMemberRegistry;
 import org.universAAL.ri.gateway.configuration.Configuration;
 import org.universAAL.ri.gateway.configuration.Configuration.ConnectionMode;
 import org.universAAL.ri.gateway.configuration.ConfigurationFile;
@@ -60,8 +61,10 @@ public class Gateway implements ModuleActivator {
 
     public DependencyProxy<MessageContentSerializer> serializer;
 
+    public DependencyProxy<IBusMemberRegistry> busTracker;
+
     public static Gateway getInstance() {
-        return singleton.getObject();
+	return singleton.getObject();
     }
 
     public ModuleContext context;
@@ -84,131 +87,136 @@ public class Gateway implements ModuleActivator {
     private Exporter exporter;
 
     public Collection<Server> getServers() {
-        return servers.keySet();
+	return servers.keySet();
     }
 
     public Collection<Session> getSessions() {
-        return sessions.keySet();
+	return sessions.keySet();
     }
 
     public void start(final ModuleContext mc) throws Exception {
-        context = mc;
-        LoggerFactory.updateModuleContext(context);
-        singleton = new WaitingDependencyProxy<Gateway>(new Object[] {});
-        singleton.setObject(this);
+	context = mc;
+	LoggerFactory.updateModuleContext(context);
+	singleton = new WaitingDependencyProxy<Gateway>(new Object[] {});
+	singleton.setObject(this);
 
-        proxypool = new ProxyPool();
+	proxypool = new ProxyPool();
 
-        exporter = new Exporter(proxypool);
+	exporter = new Exporter(proxypool);
 
-        sessions = new HashMap<Session, String>();
-        servers = new HashMap<Server, String>();
+	sessions = new HashMap<Session, String>();
+	servers = new HashMap<Server, String>();
 
-        spaceManager = new PassiveDependencyProxy<AALSpaceManager>(context,
-                new Object[] { AALSpaceManager.class.getName() });
+	spaceManager = new PassiveDependencyProxy<AALSpaceManager>(context,
+		new Object[] { AALSpaceManager.class.getName() });
 
-        serializer = new PassiveDependencyProxy<MessageContentSerializer>(
-                context,
-                new Object[] { MessageContentSerializer.class.getName() });
+	serializer = new PassiveDependencyProxy<MessageContentSerializer>(
+		context,
+		new Object[] { MessageContentSerializer.class.getName() });
 
-        tenantManager = new PassiveDependencyProxy<TenantManager>(context,
-                new Object[] { TenantManager.class.getName() });
+	tenantManager = new PassiveDependencyProxy<TenantManager>(context,
+		new Object[] { TenantManager.class.getName() });
 
-        final File dir = context.getConfigHome();
-        if (!dir.exists()) {
-            dir.mkdirs();
-            return;
-        }
-        final File[] props = dir.listFiles(new FileFilter() {
+	busTracker = new PassiveDependencyProxy<IBusMemberRegistry>(context,
+		org.universAAL.middleware.tracker.impl.Activator.fetchParams);
 
-            public boolean accept(final File pathname) {
-                return pathname.getName().endsWith(".properties");
-            }
-        });
+	busTracker.getObject().addListener(exporter, true);
 
-        if (props != null) {
-            for (int i = 0; i < props.length; i++) {
-                final File p = props[i];
-                try {
-                    final Runnable task = new Runnable() {
-                        public void run() {
-                            // create a new session for each properties file
-                            final Configuration fc = new ConfigurationFile(p);
-                            if (fc.getConnectionMode().equals(
-                                    ConnectionMode.CLIENT)) {
-                                final Session s = new Session(fc, proxypool);
-                                newSession(p.getAbsolutePath(), s);
-                            } else {
-                                final Server s = new Server(fc);
-                                newServer(p.getAbsolutePath(), s);
-                            }
-                        }
-                    };
-                    new Thread(task, "initialisation of "
-                            + props[i].getAbsolutePath()).start();
-                } catch (final Exception e) {
-                    LogUtils.logError(context, getClass(), "start",
-                            new String[] { "unable to start instance from : "
-                                    + props[i].getAbsolutePath() }, e);
-                }
-            }
-            /*
-             * XXX implement a monitoring mechanism that tracks new files,
-             * creating new sessions, and stops sessions when their respective
-             * file is removed
-             */
-        }
+	final File dir = context.getConfigHome();
+	if (!dir.exists()) {
+	    dir.mkdirs();
+	    return;
+	}
+	final File[] props = dir.listFiles(new FileFilter() {
+
+	    public boolean accept(final File pathname) {
+		return pathname.getName().endsWith(".properties");
+	    }
+	});
+
+	if (props != null) {
+	    for (int i = 0; i < props.length; i++) {
+		final File p = props[i];
+		try {
+		    final Runnable task = new Runnable() {
+			public void run() {
+			    // create a new session for each properties file
+			    final Configuration fc = new ConfigurationFile(p);
+			    if (fc.getConnectionMode().equals(
+				    ConnectionMode.CLIENT)) {
+				final Session s = new Session(fc, proxypool);
+				newSession(p.getAbsolutePath(), s);
+			    } else {
+				final Server s = new Server(fc);
+				newServer(p.getAbsolutePath(), s);
+			    }
+			}
+		    };
+		    new Thread(task, "initialisation of "
+			    + props[i].getAbsolutePath()).start();
+		} catch (final Exception e) {
+		    LogUtils.logError(context, getClass(), "start",
+			    new String[] { "unable to start instance from : "
+				    + props[i].getAbsolutePath() }, e);
+		}
+	    }
+	    /*
+	     * XXX implement a monitoring mechanism that tracks new files,
+	     * creating new sessions, and stops sessions when their respective
+	     * file is removed
+	     */
+	}
 
     }
 
     public synchronized void newServer(final String name, final Server s) {
-        servers.put(s, name);
+	servers.put(s, name);
     }
 
     public synchronized void endServer(final Server s) {
-        // stop server
-        s.stop();
-        servers.remove(s);
+	// stop server
+	s.stop();
+	servers.remove(s);
     }
 
     public synchronized void newSession(final String name, final Session s) {
-        sessions.put(s, name);
-        exporter.newSession(s);
+	sessions.put(s, name);
+	exporter.newSession(s);
     }
 
     public String getName(final Session s) {
-        return sessions.get(s);
+	return sessions.get(s);
     }
-    
+
     public String getName(final Server s) {
-        return servers.get(s);
+	return servers.get(s);
     }
 
     public synchronized void endSession(final Session s) {
-        proxypool.sessionEnding(s);
-        sessions.remove(s);
-        s.stop();
+	proxypool.sessionEnding(s);
+	sessions.remove(s);
+	s.stop();
     }
 
     public void stop(final ModuleContext mc) throws Exception {
-        final Set<Server> srvs = new HashSet<Server>(servers.keySet());
-        // stop all servers
-        for (final Server server : srvs) {
-            server.stop();
-        }
-        final Set<Session> ssns = new HashSet<Session>(sessions.keySet());
-        // end all sessions
-        for (final Session s : ssns) {
-            endSession(s);
-        }
-        LoggerFactory.setModuleContextAsStopped(context);
+	final Set<Server> srvs = new HashSet<Server>(servers.keySet());
+	// stop all servers
+	for (final Server server : srvs) {
+	    server.stop();
+	}
+	final Set<Session> ssns = new HashSet<Session>(sessions.keySet());
+	// end all sessions
+	for (final Session s : ssns) {
+	    endSession(s);
+	}
+	LoggerFactory.setModuleContextAsStopped(context);
     }
 
     public Exporter getExporter() {
-        return exporter;
+	return exporter;
     }
 
     public ProxyPool getPool() {
-        return proxypool;
+	return proxypool;
     }
 }

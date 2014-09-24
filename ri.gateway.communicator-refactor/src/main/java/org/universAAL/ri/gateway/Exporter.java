@@ -176,6 +176,7 @@ public class Exporter implements IBusMemberRegistryListener {
     public void busMemberAdded(final BusMember member, final BusType type) {
 	if (isExportable(member)) {
 	    // mark as ready to receive params.
+	    // TODO check for errors: is this really the first time the busMember is added?
 	    tracked.put(member.getURI(), null);
 	}
     }
@@ -217,8 +218,8 @@ public class Exporter implements IBusMemberRegistryListener {
 	    tracked.put(busMemberID, new ArraySet.Union<Resource>().combine(
 		    currentParams, params, new Resource[] {}));
 	    refresh(busMemberID, new RegistrationParametersAdder(params));
-
 	}
+	// else -> a notification from a non exportable busmember -> ignore.
     }
 
     /** {@inheritDoc} */

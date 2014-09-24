@@ -24,6 +24,7 @@ ri.api.manager/src/main/java/org/universAAL/ri/api/manager/server/persistence/Pe
 ri.api.manager/src/main/java/org/universAAL/ri/api/manager/server/persistence/PersistenceDerby.java -text
 ri.api.manager/src/main/java/org/universAAL/ri/api/manager/server/persistence/package.html -text
 ri.api.manager/src/main/resources/OSGI-INF/cxf/jaxrs/RemoteAPI-model.xml -text
+ri.api.manager/src/test/java/org/universAAL/ri/api/manager/ArtifactIT.java -text
 ri.cxf-dosgi-ri-singlebundle-distribution/META-INF/DEPENDENCIES -text
 ri.cxf-dosgi-ri-singlebundle-distribution/META-INF/LICENSE -text
 ri.cxf-dosgi-ri-singlebundle-distribution/META-INF/MANIFEST.MF -text

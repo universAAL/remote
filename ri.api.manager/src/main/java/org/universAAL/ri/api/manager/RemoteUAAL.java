@@ -209,7 +209,9 @@ public class RemoteUAAL extends UAAL {
 	    new Thread("RemoteUAAL_CListener") {
 		public void run() {
 		    try {
-			PushManager.sendC(nodeID, remoteID, event, toURI);
+			if(event.isSerializableTo(nodeID)){ //MULTITENANT The call is for this scope
+			    PushManager.sendC(nodeID, remoteID, event, toURI);
+			} //MULTITENANT The call is NOT for this scope > ignore
 		    } catch (Exception e) {
 			e.printStackTrace();
 			Activator.logE("CListener.handleContextEvent",
@@ -249,7 +251,11 @@ public class RemoteUAAL extends UAAL {
 	 */
 	public ServiceResponse handleCall(ServiceCall call) {
 	    try {
-		return PushManager.callS(nodeID, remoteID, call, toURI);
+		if(call.isSerializableTo(nodeID)){ //MULTITENANT The call is for this scope
+		    return PushManager.callS(nodeID, remoteID, call, toURI);
+		}else{ //MULTITENANT The call is NOT for this scope > answer Denied
+		    return new ServiceResponse(CallStatus.denied);
+		}
 	    } catch (Exception e) {
 		e.printStackTrace();
 		Activator.logE("CListener.handleCall",

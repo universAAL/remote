@@ -199,6 +199,7 @@ public class Gateway implements ModuleActivator {
     }
 
     public void stop(final ModuleContext mc) throws Exception {
+	busTracker.getObject().removeListener(exporter);
 	final Set<Server> srvs = new HashSet<Server>(servers.keySet());
 	// stop all servers
 	for (final Server server : srvs) {

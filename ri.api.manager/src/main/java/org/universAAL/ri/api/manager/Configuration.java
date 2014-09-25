@@ -57,6 +57,18 @@ public class Configuration {
      */
     private static final String CONF_DERBY_REM = "derby.remove";
     /**
+     * Configuration suffix for derby encryption key
+     */
+    private static final String CONF_DERBY_KEY = "derby.key";
+    /**
+     * Configuration suffix for derby user
+     */
+    private static final String CONF_DERBY_USR = "derby.user";
+    /**
+     * Configuration suffix for derby password
+     */
+    private static final String CONF_DERBY_PWD = "derby.pass";
+    /**
      * Configuration suffix for servlet context path
      */
     private static final String CONF_SERV_CTXT = "serv.context";
@@ -198,5 +210,17 @@ public class Configuration {
 
     public static String getServerPWD() {
 	return System.getProperty(pkgNameDot + CONF_SERV_PWD, "RemoteAPI");
+    }
+
+    public static String getDerbyKey() {
+	return System.getProperty(pkgNameDot + CONF_DERBY_KEY, "R1e2m3o4t5e6A7P8I9");
+    }
+
+    public static String getDerbyUser() {
+	return System.getProperty(pkgNameDot + CONF_DERBY_USR);
+    }
+
+    public static String getDerbyPass() {
+	return System.getProperty(pkgNameDot + CONF_DERBY_PWD);
     }
 }

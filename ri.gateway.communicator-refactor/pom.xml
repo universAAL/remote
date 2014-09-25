@@ -80,6 +80,7 @@
             <Bundle-Activator>org.universAAL.ri.gateway.osgi.OSGIActivator</Bundle-Activator>
             <Bundle-Description>${project.description}</Bundle-Description>
             <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
+<!--             <Import-Package>*,org.universAAL.middleware.tracker.impl.Activator</Import-Package> -->
  <!--           <Import-Package>org.osgi.framework;version="[1,2)",
               org.bouncycastle.crypto,
               org.bouncycastle.crypto.engines,

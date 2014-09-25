@@ -118,7 +118,7 @@ public class Gateway implements ModuleActivator {
 		new Object[] { TenantManager.class.getName() });
 
 	busTracker = new PassiveDependencyProxy<IBusMemberRegistry>(context,
-		org.universAAL.middleware.tracker.impl.Activator.fetchParams);
+		IBusMemberRegistry.busRegistryShareParams);
 
 	busTracker.getObject().addListener(exporter, true);
 

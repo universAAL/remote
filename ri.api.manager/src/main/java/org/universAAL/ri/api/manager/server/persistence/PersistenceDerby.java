@@ -63,13 +63,20 @@ public class PersistenceDerby implements Persistence {
      */
     public void init(RemoteAPI remoteAPI) {
 	this.api = remoteAPI;
-	dbURL = "jdbc:derby:"+Configuration.getDerbyPath()+";create=true";
+	dbURL = "jdbc:derby:" + Configuration.getDerbyPath();
+	String dbUSR=Configuration.getDerbyUser();
+	String dbPWD=Configuration.getDerbyPass();
+	if(dbUSR!=null && dbPWD!=null){
+	    dbURL+=";user="+dbUSR+";password="+dbPWD;
+	}
+	String bootURL=dbURL+";create=true;dataEncryption=true;bootPassword="
+		+ Configuration.getDerbyKey();
 	Connection conn = null;
 	Statement stmt = null;
 	try {
 	    new org.apache.derby.jdbc.EmbeddedDriver();
 	    
-	    conn = DriverManager.getConnection(dbURL);
+	    conn = DriverManager.getConnection(bootURL);
 	    stmt = conn.createStatement();
 	    stmt.setQueryTimeout(30);
 

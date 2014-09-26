@@ -71,7 +71,7 @@ public class ProxyPool {
     public ProxyBusMember searchCompatible(final Resource[] newParameters) {
 	ProxyBusMember match = null;
 	final Iterator<ProxyBusMember> it = map.values().iterator();
-	while (it.hasNext() && match != null) {
+	while (it.hasNext() && match == null) {
 	    final ProxyBusMember pbm = it.next();
 	    if (pbm.isCompatible(newParameters)) {
 		match = pbm;

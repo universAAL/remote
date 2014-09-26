@@ -173,7 +173,7 @@ public class Exporter implements IBusMemberRegistryListener {
 	// and they are not imported proxies!
     }
 
-    public void busMemberAdded(final BusMember member, final BusType type) {
+    public synchronized void busMemberAdded(final BusMember member, final BusType type) {
 	if (isExportable(member)) {
 	    // mark as ready to receive params.
 	    // TODO check for errors: is this really the first time the busMember is added?
@@ -187,7 +187,7 @@ public class Exporter implements IBusMemberRegistryListener {
      * Initiates Import-remove protocol: <br>
      * <img src="doc-files/Import-ImportRemove.png">
      */
-    public void busMemberRemoved(final BusMember member, final BusType type) {
+    public synchronized void busMemberRemoved(final BusMember member, final BusType type) {
 	final String bmId = member.getURI();
 	if (tracked.containsKey(bmId)) {
 	    // get proxy representative
@@ -206,7 +206,7 @@ public class Exporter implements IBusMemberRegistryListener {
     }
 
     /** {@inheritDoc} */
-    public void regParamsAdded(final String busMemberID, final Resource[] params) {
+    public synchronized void regParamsAdded(final String busMemberID, final Resource[] params) {
 
 	final Resource[] currentParams = tracked.get(busMemberID);
 
@@ -223,7 +223,7 @@ public class Exporter implements IBusMemberRegistryListener {
     }
 
     /** {@inheritDoc} */
-    public void regParamsRemoved(final String busMemberID,
+    public synchronized void regParamsRemoved(final String busMemberID,
 	    final Resource[] params) {
 	/*
 	 * TODO check if new params of the BusMember is [], Then ???

@@ -15,7 +15,11 @@
  ******************************************************************************/
 package org.universAAL.ri.gateway.protocol;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.universAAL.middleware.rdf.Resource;
+import org.universAAL.ri.gateway.Gateway;
 import org.universAAL.ri.gateway.proxies.ProxyBusMember;
 
 /**
@@ -28,6 +32,9 @@ public class ImportMessage extends Message {
      * The serial Version
      */
     private static final long serialVersionUID = -3533596854780040065L;
+
+    private static final String PARAMETER_BAG = Resource.uAAL_NAMESPACE_PREFIX
+	    + "parameterGatewayBag";
 
     /**
      * The type of the current {@link ImportMessage}.
@@ -45,7 +52,38 @@ public class ImportMessage extends Message {
      * When a Request or a Refresh type messages are issued, the referred
      * {@link ProxyBusMember} is to have these parameters.
      */
-    private Resource[] parameters;
+    private transient Resource[] parameters;
+
+    /**
+     * @param parameters
+     *            the parameters to set
+     */
+    private synchronized final void setParameters(Resource[] parameters) {
+	this.parameters = parameters;
+	// Serialize parameters.
+	if (parameters.length <= 0) {
+	    throw new RuntimeException("Invalid size of parameters.");
+	}
+	// if (parameters.length == 1) {
+	// serializedParameters = Gateway.getInstance().serializer.getObject()
+	// .serialize(parameters[0]);
+	// }
+	else {
+	    List<Resource> l = new ArrayList<Resource>();
+	    for (Resource p : parameters) {
+		l.add(p);
+	    }
+	    Resource r = new Resource();
+	    r.setProperty(PARAMETER_BAG, l);
+	    serializedParameters = Gateway.getInstance().serializer.getObject()
+		    .serialize(r);
+	}
+    }
+
+    /**
+     * The Serialized version of the parameters.
+     */
+    private String serializedParameters;
 
     /**
      * Different type of import messages.
@@ -75,6 +113,26 @@ public class ImportMessage extends Message {
      * @return the parameters
      */
     public final Resource[] getParameters() {
+	if (parameters == null) {
+	    Object o = Gateway.getInstance().serializer.getObject()
+		    .deserialize(serializedParameters);
+	    // if (o instanceof Resource[]) {
+	    // parameters = (Resource[]) o;
+	    // } else if (o instanceof List) {
+	    // parameters = (Resource[]) ((List) o).toArray(new Resource[] {});
+	    // } else
+	    if (o instanceof Resource) {
+		Resource r = (Resource) o;
+		Object l = r.getProperty(PARAMETER_BAG);
+		if (l != null && l instanceof List) {
+		    parameters = (Resource[]) ((List) l)
+			    .toArray(new Resource[] {});
+		    return parameters;
+		}
+	    }
+	    throw new RuntimeException(
+		    "Parameters weren't properly deserialized");
+	}
 	return parameters;
     }
 
@@ -120,7 +178,7 @@ public class ImportMessage extends Message {
 	final ImportMessage im = new ImportMessage();
 	im.messageType = ImportMessageType.ImportRequest;
 	im.busMemberId = requestedBusMember;
-	im.parameters = busMemberParameters;
+	im.setParameters(busMemberParameters);
 	return im;
     }
 
@@ -167,7 +225,7 @@ public class ImportMessage extends Message {
 	final ImportMessage im = new ImportMessage();
 	im.messageType = ImportMessageType.ImportAddSubscription;
 	im.busMemberId = requestedBusMember;
-	im.parameters = newBusMemberParameters;
+	im.setParameters(newBusMemberParameters);
 	return im;
     }
 
@@ -188,7 +246,7 @@ public class ImportMessage extends Message {
 	final ImportMessage im = new ImportMessage();
 	im.messageType = ImportMessageType.ImportRemoveSubscription;
 	im.busMemberId = requestedBusMember;
-	im.parameters = newBusMemberParameters;
+	im.setParameters(newBusMemberParameters);
 	return im;
     }
 

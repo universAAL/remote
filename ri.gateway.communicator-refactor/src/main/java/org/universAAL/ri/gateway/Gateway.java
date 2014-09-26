@@ -181,7 +181,7 @@ public class Gateway implements ModuleActivator {
 
     public synchronized void newSession(final String name, final Session s) {
 	sessions.put(s, name);
-	exporter.newSession(s);
+	exporter.activatedSession(s);
     }
 
     public String getName(final Session s) {

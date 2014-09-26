@@ -134,13 +134,13 @@ public class Exporter implements IBusMemberRegistryListener {
     }
 
     /**
-     * To be called when a new {@link Session} is created. Checks all the
+     * To be called when a new {@link Session} is become active. Checks all the
      * possible {@link BusMember}s to be exported and checks for each if it
      * should be exported in the new session.
      * 
      * @param session
      */
-    public void newSession(final Session session) {
+    public void activatedSession(final Session session) {
 	for (final String bmId : tracked.keySet()) {
 	    checkAndExport(bmId, session);
 	}
@@ -154,8 +154,10 @@ public class Exporter implements IBusMemberRegistryListener {
 	final Collection<Session> allSessions = Gateway.getInstance()
 		.getSessions();
 	for (final Session s : allSessions) {
-	    // for each session attempt exporting
-	    checkAndExport(busMemberId, s);
+	    if (s.isActive()) {
+		// for each session attempt exporting
+		checkAndExport(busMemberId, s);
+	    }
 	}
     }
 
@@ -173,10 +175,12 @@ public class Exporter implements IBusMemberRegistryListener {
 	// and they are not imported proxies!
     }
 
-    public synchronized void busMemberAdded(final BusMember member, final BusType type) {
+    public synchronized void busMemberAdded(final BusMember member,
+	    final BusType type) {
 	if (isExportable(member)) {
 	    // mark as ready to receive params.
-	    // TODO check for errors: is this really the first time the busMember is added?
+	    // TODO check for errors: is this really the first time the
+	    // busMember is added?
 	    tracked.put(member.getURI(), null);
 	}
     }
@@ -187,7 +191,8 @@ public class Exporter implements IBusMemberRegistryListener {
      * Initiates Import-remove protocol: <br>
      * <img src="doc-files/Import-ImportRemove.png">
      */
-    public synchronized void busMemberRemoved(final BusMember member, final BusType type) {
+    public synchronized void busMemberRemoved(final BusMember member,
+	    final BusType type) {
 	final String bmId = member.getURI();
 	if (tracked.containsKey(bmId)) {
 	    // get proxy representative
@@ -206,7 +211,8 @@ public class Exporter implements IBusMemberRegistryListener {
     }
 
     /** {@inheritDoc} */
-    public synchronized void regParamsAdded(final String busMemberID, final Resource[] params) {
+    public synchronized void regParamsAdded(final String busMemberID,
+	    final Resource[] params) {
 
 	final Resource[] currentParams = tracked.get(busMemberID);
 
@@ -246,17 +252,14 @@ public class Exporter implements IBusMemberRegistryListener {
      */
     private void refresh(final String busMemberID, final Updater up) {
 
-
 	// locate exported proxy representative
 	final ProxyBusMember pbm = exported.get(busMemberID);
 	if (pbm != null) {
-	    LogUtils.logDebug(
-		Gateway.getInstance().context,
-		getClass(),
-		"refresh",
-		"Local BusMember for proxy has changed parameters,"
-		+ " updating proxy (or creating new if shared), "
-		+ "informing remote about parameter change.");
+	    LogUtils.logDebug(Gateway.getInstance().context, getClass(),
+		    "refresh",
+		    "Local BusMember for proxy has changed parameters,"
+			    + " updating proxy (or creating new if shared), "
+			    + "informing remote about parameter change.");
 	    // update proxy registrations
 	    up.update(pbm);
 	    // up.newParameters(tracked.get(busMemberID)));
@@ -280,7 +283,9 @@ public class Exporter implements IBusMemberRegistryListener {
 		    }
 		} else {
 		    // new parameters are not allowed, send remove
-		    LogUtils.logWarn(Gateway.getInstance().context, getClass(), "refresh", "new parameters are not allowed, sending remove.");
+		    LogUtils.logWarn(Gateway.getInstance().context, getClass(),
+			    "refresh",
+			    "new parameters are not allowed, sending remove.");
 		    s.send(ImportMessage.importRemove(busMemberID));
 		}
 	    }
@@ -291,10 +296,8 @@ public class Exporter implements IBusMemberRegistryListener {
 	    for (final BusMemberReference bm : toBeAdded) {
 		pbm.addRemoteProxyReference(bm);
 	    }
-	    if (pbm.getRemoteProxiesReferences().isEmpty()){
-		LogUtils.logDebug(
-			Gateway.getInstance().context,
-			getClass(),
+	    if (pbm.getRemoteProxiesReferences().isEmpty()) {
+		LogUtils.logDebug(Gateway.getInstance().context, getClass(),
 			"refresh",
 			"Proxy has no references after refresh, deleting proxy.");
 		pool.removeProxyWithSend(pbm);
@@ -313,18 +316,13 @@ public class Exporter implements IBusMemberRegistryListener {
      */
     public boolean isRemoveExport(final String busMemberId,
 	    final Session session) {
-	if (exported.containsKey(session)){
-	    ProxyBusMember member = exported.get(busMemberId);
-	    LogUtils.logDebug(
-			Gateway.getInstance().context,
-			getClass(),
-			"isRemoveExport",
-			"Remove request from remote importer.");
+	ProxyBusMember member = exported.get(busMemberId);
+	if (member != null) {
+	    LogUtils.logDebug(Gateway.getInstance().context, getClass(),
+		    "isRemoveExport", "Remove request from remote importer.");
 	    member.removeRemoteProxyReferences(session);
 	    if (member.getRemoteProxiesReferences().isEmpty()) {
-		LogUtils.logDebug(
-			Gateway.getInstance().context,
-			getClass(),
+		LogUtils.logDebug(Gateway.getInstance().context, getClass(),
 			"isRemoveExport",
 			"Proxy has no references after remove, deleting proxy.");
 		pool.removeProxyWithSend(member);

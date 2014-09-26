@@ -67,6 +67,7 @@ public class Session implements MessageSender, MessageReceiver,
             final ServerSocketCommunicationHandler com) {
         this.config = config;
         this.pool = proxyPool;
+	this.importer = new Importer(this, this.pool);
         this.cipher = new Blowfish(config.getEncryptionKey());
 
         if (config.getConnectionMode() != ConnectionMode.SERVER) {
@@ -230,6 +231,17 @@ public class Session implements MessageSender, MessageReceiver,
                     "Closing client session");
             comunication.stop();
         }
+    }
+
+    /**
+     * @return
+     */
+    public boolean isActive() {
+	// TODO Manage "activeness" within this class. 
+
+	final SessionManager sm = SessionManager.getInstance();
+	UUID id = UUID.fromString(getScope());
+	return sm.isActive(id);
     }
 
 }

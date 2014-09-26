@@ -219,11 +219,20 @@ public class Exporter implements IBusMemberRegistryListener {
 	if (tracked.containsKey(busMemberID) && currentParams == null) {
 	    // a virgin busmember has registered, ie a newBusMember!
 	    tracked.put(busMemberID, params);
-	    newBusMember(busMemberID);
+	    new Thread(new Runnable() {
+		public void run() {
+		    newBusMember(busMemberID);
+		}
+	    }, "newBusMember Task").start();;
 	} else if (tracked.containsKey(busMemberID) && currentParams != null) {
 	    tracked.put(busMemberID, new ArraySet.Union<Resource>().combine(
 		    currentParams, params, new Resource[] {}));
-	    refresh(busMemberID, new RegistrationParametersAdder(params));
+	    new Thread(new Runnable() {
+		public void run() {
+		    refresh(busMemberID,
+			    new RegistrationParametersAdder(params));
+		}
+	    }, "refresh Task").start();
 	}
 	// else -> a notification from a non exportable busmember -> ignore.
     }
@@ -237,7 +246,12 @@ public class Exporter implements IBusMemberRegistryListener {
 
 	tracked.put(busMemberID, new ArraySet.Union<Resource>().combine(
 		tracked.get(busMemberID), params, new Resource[] {}));
-	refresh(busMemberID, new RegistrationParametersRemover(params));
+	new Thread(new Runnable() {
+		public void run() {
+		    refresh(busMemberID,
+			    new RegistrationParametersRemover(params));
+		}
+	    }, "refresh Task").start();
     }
 
     /**

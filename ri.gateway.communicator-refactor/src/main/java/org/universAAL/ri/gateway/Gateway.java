@@ -181,6 +181,7 @@ public class Gateway implements ModuleActivator {
 
     public synchronized void newSession(final String name, final Session s) {
 	sessions.put(s, name);
+	//TODO this call should only be done when session is activated!
 	exporter.activatedSession(s);
     }
 

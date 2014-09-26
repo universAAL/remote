@@ -19,6 +19,9 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import org.universAAL.middleware.bus.member.BusMember;
 import org.universAAL.middleware.container.utils.LogUtils;
@@ -63,7 +66,16 @@ public class Exporter implements IBusMemberRegistryListener {
      */
     private final ProxyPool pool;
 
+    /**
+     * Map of Exported BusMemberURIs to Proxies. Several BusMembers can be
+     * represented by the same Proxy.
+     */
     private final Map<String, ProxyBusMember> exported;
+
+    /**
+     * Executor to execute concurrent tasks in order.
+     */
+    private final ExecutorService executor;
 
     /**
      * Main Constructor.
@@ -75,6 +87,7 @@ public class Exporter implements IBusMemberRegistryListener {
 	this.pool = pool;
 	tracked = new HashMap<String, Resource[]>();
 	exported = new HashMap<String, ProxyBusMember>();
+	executor = Executors.newSingleThreadExecutor();
     }
 
     /**
@@ -144,6 +157,29 @@ public class Exporter implements IBusMemberRegistryListener {
 	for (final String bmId : tracked.keySet()) {
 	    checkAndExport(bmId, session);
 	}
+    }
+
+    /**
+     * To be called when a Session is about to be closed. Checks all the
+     * exported proxies sends remove requests to peers and stops them.
+     * 
+     * @param session
+     */
+    public void stopedSession(final Session session) {
+	final Collection<Entry<String, ProxyBusMember>> ex = exported
+		.entrySet();
+	for (final Entry<String, ProxyBusMember> entry : ex) {
+	    final ProxyBusMember pbm = entry.getValue();
+	    pbm.removeRemoteProxyReferences(session);
+	    if (pbm.getRemoteProxiesReferences().isEmpty()) {
+		LogUtils.logDebug(Gateway.getInstance().context, getClass(),
+			"isRemoveExport",
+			"Proxy has no references after remove, deleting proxy.");
+		pool.removeProxyWithSend(pbm);
+		exported.remove(entry.getKey());
+	    }
+	}
+
     }
 
     /**
@@ -219,20 +255,21 @@ public class Exporter implements IBusMemberRegistryListener {
 	if (tracked.containsKey(busMemberID) && currentParams == null) {
 	    // a virgin busmember has registered, ie a newBusMember!
 	    tracked.put(busMemberID, params);
-	    new Thread(new Runnable() {
+	    executor.execute(new Runnable() {
 		public void run() {
 		    newBusMember(busMemberID);
 		}
-	    }, "newBusMember Task").start();;
+	    });
+	    ;
 	} else if (tracked.containsKey(busMemberID) && currentParams != null) {
 	    tracked.put(busMemberID, new ArraySet.Union<Resource>().combine(
 		    currentParams, params, new Resource[] {}));
-	    new Thread(new Runnable() {
+	    executor.execute(new Runnable() {
 		public void run() {
 		    refresh(busMemberID,
 			    new RegistrationParametersAdder(params));
 		}
-	    }, "refresh Task").start();
+	    });
 	}
 	// else -> a notification from a non exportable busmember -> ignore.
     }
@@ -246,12 +283,11 @@ public class Exporter implements IBusMemberRegistryListener {
 
 	tracked.put(busMemberID, new ArraySet.Union<Resource>().combine(
 		tracked.get(busMemberID), params, new Resource[] {}));
-	new Thread(new Runnable() {
-		public void run() {
-		    refresh(busMemberID,
-			    new RegistrationParametersRemover(params));
-		}
-	    }, "refresh Task").start();
+	executor.execute(new Runnable() {
+	    public void run() {
+		refresh(busMemberID, new RegistrationParametersRemover(params));
+	    }
+	});
     }
 
     /**
@@ -330,7 +366,7 @@ public class Exporter implements IBusMemberRegistryListener {
      */
     public boolean isRemoveExport(final String busMemberId,
 	    final Session session) {
-	ProxyBusMember member = exported.get(busMemberId);
+	final ProxyBusMember member = exported.get(busMemberId);
 	if (member != null) {
 	    LogUtils.logDebug(Gateway.getInstance().context, getClass(),
 		    "isRemoveExport", "Remove request from remote importer.");
@@ -345,5 +381,16 @@ public class Exporter implements IBusMemberRegistryListener {
 	    return true;
 	}
 	return false;
+    }
+
+    public synchronized void stop() {
+	// Hardcore stop all pending tasks
+	executor.shutdownNow();
+	final Collection<ProxyBusMember> ex = exported.values();
+	exported.clear();
+	for (final ProxyBusMember pbm : ex) {
+	    pool.removeProxyWithSend(pbm);
+	}
+	tracked.clear();
     }
 }

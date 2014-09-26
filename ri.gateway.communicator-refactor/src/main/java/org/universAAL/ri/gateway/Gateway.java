@@ -46,10 +46,10 @@ import org.universAAL.ri.gateway.proxies.ProxyPool;
 /**
  * Main Class for the AALSpace Gateway. It is in charge of managing
  * {@link Session Sessions}, and boot them from the configuration folder.
- *
+ * 
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author amedrano
- *
+ * 
  */
 public class Gateway implements ModuleActivator {
 
@@ -181,7 +181,7 @@ public class Gateway implements ModuleActivator {
 
     public synchronized void newSession(final String name, final Session s) {
 	sessions.put(s, name);
-	//TODO this call should only be done when session is activated!
+	// TODO this call should only be done when session is activated!
 	exporter.activatedSession(s);
     }
 
@@ -194,8 +194,13 @@ public class Gateway implements ModuleActivator {
     }
 
     public synchronized void endSession(final Session s) {
+	// Remove exports
+	exporter.stopedSession(s);
+	// Remove imports
 	proxypool.sessionEnding(s);
+	// Remove Reference
 	sessions.remove(s);
+	// Stop the session (and it's resources)
 	s.stop();
     }
 
@@ -211,6 +216,7 @@ public class Gateway implements ModuleActivator {
 	for (final Session s : ssns) {
 	    endSession(s);
 	}
+	exporter.stop();
 	LoggerFactory.setModuleContextAsStopped(context);
     }
 

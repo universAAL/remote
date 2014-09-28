@@ -43,6 +43,7 @@ import org.universAAL.middleware.managers.api.AALSpaceManager;
 import org.universAAL.ri.gateway.Gateway;
 import org.universAAL.ri.gateway.ProxyMessageReceiver;
 import org.universAAL.ri.gateway.Session;
+import org.universAAL.ri.gateway.Session.SessionStatus;
 import org.universAAL.ri.gateway.communication.cipher.Blowfish;
 import org.universAAL.ri.gateway.configuration.Configuration;
 import org.universAAL.ri.gateway.protocol.MessageReceiver;
@@ -136,6 +137,7 @@ public class ServerSocketCommunicationHandler extends
         private String name = "Link Handler";
         private final List<LinkHandler> handlerList;
         private final ServerSocketCommunicationHandler server;
+        private Session mySession = null;
 
         public LinkHandler(final ServerSocketCommunicationHandler server,
                 final Socket socket, final List<LinkHandler> handlers,
@@ -239,11 +241,12 @@ public class ServerSocketCommunicationHandler extends
                  * "route" the message as expected?
                  */
                 final Gateway gw = Gateway.getInstance();
-                final Session s = new Session(config, gw.getPool(), server);
-                s.setScope(session.toString());
-                gw.newSession(socket.toString(), s);
+                mySession = new Session(config, gw.getPool(), server);
+                mySession.setScope(session.toString());
+                mySession.setStatus(SessionStatus.CONNECTED);
+                gw.newSession(socket.toString(), mySession);
                 // XXX This is a dirty why to connect the Session to the link
-                ((ProxyMessageReceiver) super.communicator).setFinalReceiver(s);
+                ((ProxyMessageReceiver) super.communicator).setFinalReceiver(mySession);
                 return true;
             }
 
@@ -261,6 +264,7 @@ public class ServerSocketCommunicationHandler extends
                 }
                 try {
                     sessionManger.close(session);
+                	mySession.setStatus(SessionStatus.CLOSED);
                 } catch (final Exception ex) {
                     log.debug("Error closing the session UUID =" + session, ex);
                 }
@@ -325,6 +329,7 @@ public class ServerSocketCommunicationHandler extends
 
         @Override
         public void stop() {
+        	mySession.setStatus(SessionStatus.CLOSED);
             super.stop();
             disconnect();
             cleanUpSession();

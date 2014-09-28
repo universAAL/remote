@@ -55,13 +55,6 @@ public abstract class AbstractSocketCommunicationHandler implements
             AbstractSocketCommunicationHandler.class);
     protected Cipher cipher;
 
-    // public AbstractSocketCommunicationHandler() {
-    // final String hashKey = CommunicatorStarter.properties
-    // .getProperty(GatewayCommunicator.HASH_KEY);
-    //
-    // SecurityUtils.Instance.initialize(hashKey);
-    // }
-
     public AbstractSocketCommunicationHandler(final Cipher cipher) {
         this.cipher = cipher;
     }

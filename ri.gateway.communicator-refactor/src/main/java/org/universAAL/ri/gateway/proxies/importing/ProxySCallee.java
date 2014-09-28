@@ -24,6 +24,7 @@ import org.universAAL.middleware.container.utils.LogUtils;
 import org.universAAL.middleware.rdf.Resource;
 import org.universAAL.middleware.rdf.ScopedResource;
 import org.universAAL.middleware.service.CallStatus;
+import org.universAAL.middleware.service.MultiServiceResponse;
 import org.universAAL.middleware.service.ServiceCall;
 import org.universAAL.middleware.service.ServiceCallee;
 import org.universAAL.middleware.service.ServiceResponse;
@@ -127,9 +128,13 @@ public class ProxySCallee extends ServiceCallee implements ProxyBusMember {
 			new String[] { "Unexpected exception" }, e);
 	    }
 	}
-	// TODO merge all responses
+	// merge all responses
+	MultiServiceResponse msr = new MultiServiceResponse(null);
+	for (ServiceResponse sr : responses) {
+	    msr.addResponse(sr);
+	}
 	if (responses.size() > 0) {
-	    return responses.get(0);
+	    return msr;
 	}
 	final ServiceResponse sr = new ServiceResponse(CallStatus.denied);
 	sr.setResourceComment("Unable to get any response from remote Proxies.");

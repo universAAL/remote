@@ -234,7 +234,7 @@ public class Gateway implements ModuleActivator, SessionEventListener {
 	    // session is activated, check if there is anything to export.
 	    exporter.activatedSession(se.getSession());
 	}
-	else  if(se.getOldStatus() != SessionStatus.CONNECTED) {
+	else  if(se.getOldStatus() == SessionStatus.CONNECTED) {
 	    // it has disconnected have to purge proxies without deleting the
 	    // session
 	    exporter.stopedSession(se.getSession());

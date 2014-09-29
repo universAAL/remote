@@ -25,6 +25,7 @@ import org.universAAL.middleware.context.ContextEventPattern;
 import org.universAAL.middleware.context.ContextPublisher;
 import org.universAAL.middleware.context.ContextSubscriber;
 import org.universAAL.middleware.context.owl.ContextProvider;
+import org.universAAL.middleware.context.owl.ContextProviderType;
 import org.universAAL.middleware.rdf.Resource;
 import org.universAAL.middleware.rdf.ScopedResource;
 import org.universAAL.ri.gateway.Session;
@@ -58,6 +59,8 @@ public class ProxyContextPublisher extends ContextPublisher implements
      */
     private static ContextProvider constructProvider() {
 	final ContextProvider cp = new ContextProvider();
+	// cp is never used anyway...
+	cp.setType(ContextProviderType.reasoner);
 	cp.setProvidedEvents(new ContextEventPattern[] { new ContextEventPattern() });
 	return cp;
     }
@@ -107,6 +110,7 @@ public class ProxyContextPublisher extends ContextPublisher implements
 	    // inject context Event
 	    if (AccessControl.INSTANCE.checkPermission(owner, getURI(),
 		    (ContextEvent) m)) {
+		// XXX should gateway be checking it's own permissions?
 		((ContextBus) theBus).brokerContextEvent(busResourceURI,
 			(ContextEvent) m);
 	    }

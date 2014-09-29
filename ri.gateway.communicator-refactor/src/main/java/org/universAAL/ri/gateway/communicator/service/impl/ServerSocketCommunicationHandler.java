@@ -43,7 +43,8 @@ import org.universAAL.middleware.managers.api.AALSpaceManager;
 import org.universAAL.ri.gateway.Gateway;
 import org.universAAL.ri.gateway.ProxyMessageReceiver;
 import org.universAAL.ri.gateway.Session;
-import org.universAAL.ri.gateway.Session.SessionStatus;
+import org.universAAL.ri.gateway.SessionEvent;
+import org.universAAL.ri.gateway.SessionEvent.SessionStatus;
 import org.universAAL.ri.gateway.communication.cipher.Blowfish;
 import org.universAAL.ri.gateway.configuration.Configuration;
 import org.universAAL.ri.gateway.protocol.MessageReceiver;
@@ -243,7 +244,7 @@ public class ServerSocketCommunicationHandler extends
                 final Gateway gw = Gateway.getInstance();
                 mySession = new Session(config, gw.getPool(), server);
                 mySession.setScope(session.toString());
-                mySession.setStatus(SessionStatus.CONNECTED);
+                mySession.setStatus(SessionEvent.SessionStatus.CONNECTED);
                 gw.newSession(socket.toString(), mySession);
                 // XXX This is a dirty why to connect the Session to the link
                 ((ProxyMessageReceiver) super.communicator).setFinalReceiver(mySession);
@@ -264,7 +265,7 @@ public class ServerSocketCommunicationHandler extends
                 }
                 try {
                     sessionManger.close(session);
-                	mySession.setStatus(SessionStatus.CLOSED);
+                	mySession.setStatus(SessionEvent.SessionStatus.CLOSED);
                 } catch (final Exception ex) {
                     log.debug("Error closing the session UUID =" + session, ex);
                 }
@@ -329,7 +330,7 @@ public class ServerSocketCommunicationHandler extends
 
         @Override
         public void stop() {
-        	mySession.setStatus(SessionStatus.CLOSED);
+        	mySession.setStatus(SessionEvent.SessionStatus.CLOSED);
             super.stop();
             disconnect();
             cleanUpSession();

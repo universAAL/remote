@@ -38,7 +38,8 @@ import org.universAAL.log.LoggerFactory;
 import org.universAAL.middleware.managers.api.AALSpaceManager;
 import org.universAAL.ri.gateway.Gateway;
 import org.universAAL.ri.gateway.Session;
-import org.universAAL.ri.gateway.Session.SessionStatus;
+import org.universAAL.ri.gateway.SessionEvent;
+import org.universAAL.ri.gateway.SessionEvent.SessionStatus;
 import org.universAAL.ri.gateway.configuration.Configuration;
 import org.universAAL.ri.gateway.protocol.MessageReceiver;
 import org.universAAL.ri.gateway.protocol.link.DisconnectionRequest;
@@ -119,7 +120,7 @@ public class ClientSocketCommunicationHandler extends
 						final InetAddress addr = InetAddress.getByName(config
 								.getConnectionHost());
 						socket = new Socket(addr, config.getConnectionPort());
-						creator.setStatus(SessionStatus.CONNECTING);
+						creator.setStatus(SessionEvent.SessionStatus.CONNECTING);
 					} catch (final Exception ex) {
 						final String msg = "Failed to estabilished a link between client and server broken due to exception we retry in a bit";
 						log.info(msg);
@@ -134,12 +135,12 @@ public class ClientSocketCommunicationHandler extends
 									communicator, creator);
 						}
 						currentLinkHandler.run();
-						creator.setStatus(SessionStatus.CONNECTING);
+						creator.setStatus(SessionEvent.SessionStatus.CONNECTING);
 						log.debug("Link is down, so we are goging to try again in a "
 								+ ClientSocketCommunicationHandler.RECONNECT_WAITING_TIME
 								+ "ms");
 					} catch (final Exception e) {
-						creator.setStatus(SessionStatus.CONNECTING);
+						creator.setStatus(SessionEvent.SessionStatus.CONNECTING);
 						log.error(
 								"Link between client and server broken due to exception we will try to restore it",
 								e);
@@ -177,7 +178,7 @@ public class ClientSocketCommunicationHandler extends
 					cleanUpSession();
 					return false;
 				} else {
-					session.setStatus(SessionStatus.CONNECTED);
+					session.setStatus(SessionEvent.SessionStatus.CONNECTED);
 					log.debug("Session created with sessionId "
 							+ currentSession);
 				}
@@ -188,7 +189,7 @@ public class ClientSocketCommunicationHandler extends
 					cleanUpSession();
 					return false;
 				} else {
-					session.setStatus(SessionStatus.CONNECTED);
+					session.setStatus(SessionEvent.SessionStatus.CONNECTED);
 					log.debug("Session with sessionId " + currentSession + " re-established");
 				}
 			}
@@ -262,7 +263,7 @@ public class ClientSocketCommunicationHandler extends
 									+ ">, we just ignore it");
 					return true;
 				}
-				this.session.setStatus(SessionStatus.CLOSED);
+				this.session.setStatus(SessionEvent.SessionStatus.CLOSED);
 				sessionManger.close(session);
 				return true;
 			}
@@ -287,7 +288,7 @@ public class ClientSocketCommunicationHandler extends
 		synchronized (LOCK_VAR_LINK_HANDLER) {
 			currentLinkHandler.stop();
 			currentLinkHandler.disconnect();
-			creator.setStatus(SessionStatus.CLOSED);
+			creator.setStatus(SessionEvent.SessionStatus.CLOSED);
 		}
 	}
 

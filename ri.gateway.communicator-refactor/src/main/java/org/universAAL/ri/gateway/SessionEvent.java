@@ -24,7 +24,6 @@
  */
 package org.universAAL.ri.gateway;
 
-import org.universAAL.ri.gateway.Session.SessionStatus;
 
 /**
  * This is the event used for notifying the {@link SessionEventListener}
@@ -35,10 +34,36 @@ import org.universAAL.ri.gateway.Session.SessionStatus;
  */
 public interface SessionEvent {
 	
+	public enum SessionStatus {
+    	/**
+    	 * This is the first status as soon session object is created. The valid
+    	 * next status are: CONNECTING or CLOSED
+    	 */
+    	OPENING,
+    	/**
+    	 * This status is reached as soon as network is active the session will
+    	 * try to connect, or when the connection was already active but the
+    	 * link used by the session brake. The valid next status are CONNECTED
+    	 * or CLOSED
+    	 */
+    	CONNECTING,
+    	/**
+    	 * The status is 100% up and running. The valid next status are CLOSED
+    	 * or CONNECTING
+    	 */
+    	CONNECTED,
+    	/**
+    	 * The session as been request to close and it is now closed. No other
+    	 * status are valid
+    	 */
+    	CLOSED
+    
+    }
+
 	public Session getSession();
 	
-	public SessionStatus getCurrentStatus();
+	public SessionEvent.SessionStatus getCurrentStatus();
 
-	public SessionStatus getOldStatus();
+	public SessionEvent.SessionStatus getOldStatus();
 	
 }

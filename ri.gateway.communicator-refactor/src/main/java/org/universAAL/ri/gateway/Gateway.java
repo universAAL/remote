@@ -38,6 +38,7 @@ import org.universAAL.middleware.managers.api.AALSpaceManager;
 import org.universAAL.middleware.managers.api.TenantManager;
 import org.universAAL.middleware.serialization.MessageContentSerializer;
 import org.universAAL.middleware.tracker.IBusMemberRegistry;
+import org.universAAL.ri.gateway.SessionEvent.SessionStatus;
 import org.universAAL.ri.gateway.configuration.Configuration;
 import org.universAAL.ri.gateway.configuration.Configuration.ConnectionMode;
 import org.universAAL.ri.gateway.configuration.ConfigurationFile;
@@ -51,7 +52,7 @@ import org.universAAL.ri.gateway.proxies.ProxyPool;
  * @author amedrano
  * 
  */
-public class Gateway implements ModuleActivator {
+public class Gateway implements ModuleActivator, SessionEventListener {
 
     private static WaitingDependencyProxy<Gateway> singleton;
 
@@ -181,8 +182,7 @@ public class Gateway implements ModuleActivator {
 
     public synchronized void newSession(final String name, final Session s) {
 	sessions.put(s, name);
-	// TODO this call should only be done when session is activated!
-	exporter.activatedSession(s);
+	s.addSessionEventListener(this);
     }
 
     public String getName(final Session s) {
@@ -197,7 +197,7 @@ public class Gateway implements ModuleActivator {
 	// Remove exports
 	exporter.stopedSession(s);
 	// Remove imports
-	proxypool.sessionEnding(s);
+	s.removeImports();
 	// Remove Reference
 	sessions.remove(s);
 	// Stop the session (and it's resources)
@@ -226,5 +226,25 @@ public class Gateway implements ModuleActivator {
 
     public ProxyPool getPool() {
 	return proxypool;
+    }
+
+    /** {@ inheritDoc} */
+    public void statusChange(SessionEvent se) {
+	if (se.getCurrentStatus() == SessionStatus.CONNECTED) {
+	    // session is activated, check if there is anything to export.
+	    exporter.activatedSession(se.getSession());
+	}
+	else  if(se.getOldStatus() != SessionStatus.CONNECTED) {
+	    // it has disconnected have to purge proxies without deleting the
+	    // session
+	    exporter.stopedSession(se.getSession());
+	    se.getSession().removeImports();
+	    ;
+	}
+    }
+
+    /** {@ inheritDoc} */
+    public String getName() {
+	return "Gateway Singleton";
     }
 }

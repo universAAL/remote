@@ -20,6 +20,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -160,24 +161,27 @@ public class Exporter implements IBusMemberRegistryListener {
     }
 
     /**
-     * To be called when a Session is about to be closed. Checks all the
-     * exported proxies sends remove requests to peers and stops them.
+     * To be called when a Session is about to be closed, or is disconnected.
+     * Checks all the exported proxies and removes all references, stops them if
+     * required. <br>
+     * Does not send remove-requests to peers, {@link Importer} in peers will be
+     * {@link Importer#reset() reseted} as soon as the connection is lost.
      * 
      * @param session
      */
     public void stopedSession(final Session session) {
 	final Collection<Entry<String, ProxyBusMember>> ex = exported
 		.entrySet();
+	Set<String> tbr = new HashSet<String>();
 	for (final Entry<String, ProxyBusMember> entry : ex) {
 	    final ProxyBusMember pbm = entry.getValue();
 	    pbm.removeRemoteProxyReferences(session);
-	    if (pbm.getRemoteProxiesReferences().isEmpty()) {
-		LogUtils.logDebug(Gateway.getInstance().context, getClass(),
-			"isRemoveExport",
-			"Proxy has no references after remove, deleting proxy.");
-		pool.removeProxyWithSend(pbm);
-		exported.remove(entry.getKey());
+	    if (pool.removeProxyIfOrphan(pbm)) {
+		tbr.add(entry.getKey());
 	    }
+	}
+	for (String id : tbr) {
+	    exported.remove(id);
 	}
 
     }
@@ -371,11 +375,7 @@ public class Exporter implements IBusMemberRegistryListener {
 	    LogUtils.logDebug(Gateway.getInstance().context, getClass(),
 		    "isRemoveExport", "Remove request from remote importer.");
 	    member.removeRemoteProxyReferences(session);
-	    if (member.getRemoteProxiesReferences().isEmpty()) {
-		LogUtils.logDebug(Gateway.getInstance().context, getClass(),
-			"isRemoveExport",
-			"Proxy has no references after remove, deleting proxy.");
-		pool.removeProxyWithSend(member);
+	    if (pool.removeProxyIfOrphan(member)) {
 		exported.remove(busMemberId);
 	    }
 	    return true;

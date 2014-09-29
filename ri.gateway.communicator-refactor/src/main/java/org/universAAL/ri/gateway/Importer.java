@@ -15,6 +15,7 @@
  ******************************************************************************/
 package org.universAAL.ri.gateway;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -265,11 +266,7 @@ public class Importer {
 	    LogUtils.logDebug(Gateway.getInstance().context, getClass(),
 		    "remove", "removed Reference " + session.getScope()
 			    + "from " + binded.getBusMemberId());
-	    if (binded.getRemoteProxiesReferences().isEmpty()) {
-		pool.removeProxyWithSend(binded);
-		LogUtils.logDebug(Gateway.getInstance().context, getClass(),
-			    "remove", "No more References, removing proxy.");
-	    }
+	    pool.removeProxyIfOrphan(binded);
 	} else {
 	    LogUtils.logWarn(
 		    Gateway.getInstance().context,
@@ -280,7 +277,7 @@ public class Importer {
 			    + " Proxy is not in the imported proxies for the session.");
 	}
     }
-
+    
     /**
      * Recheck security method, to check imports when security policies may have
      * changed. Removes any imported {@link ProxyBusMember} that is no longer
@@ -296,5 +293,12 @@ public class Importer {
 		pool.removeProxyWithSend(pbm);
 	    }
 	}
+    }
+
+    /**
+     * @return
+     */
+    public Collection<ProxyBusMember> getImports() {
+	return imports.values();
     }
 }

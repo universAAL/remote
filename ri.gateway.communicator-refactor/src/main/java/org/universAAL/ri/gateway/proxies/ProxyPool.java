@@ -21,7 +21,9 @@ import java.util.Iterator;
 import java.util.Map;
 
 import org.universAAL.middleware.bus.member.BusMember;
+import org.universAAL.middleware.container.utils.LogUtils;
 import org.universAAL.middleware.rdf.Resource;
+import org.universAAL.ri.gateway.Gateway;
 import org.universAAL.ri.gateway.Session;
 import org.universAAL.ri.gateway.protocol.ImportMessage;
 
@@ -102,31 +104,37 @@ public class ProxyPool {
 		.getRemoteProxiesReferences();
 	// send importRemove to all sessions
 	for (final BusMemberReference bmr : allSessionsAssociatedToProxy) {
-	    bmr.getChannel().send(
-		    ImportMessage.importRemove(pbm.getBusMemberId()));
+	    Session s = bmr.getChannel();
+	    if (s.isActive()) {
+		// if session is not active it has been already removed in peer
+		bmr.getChannel().send(
+			ImportMessage.importRemove(pbm.getBusMemberId()));
+	    }
 	}
 	removeProxy(pbm);
+    }
+
+    /**
+     * Check if a Proxy is orphan (is it has no references) if so removes it and
+     * properly closes it.
+     * 
+     * @param pbm
+     *            the Proxy to check.
+     * @return true iff the proxy is orphan => removed.
+     */
+    public boolean removeProxyIfOrphan(final ProxyBusMember pbm) {
+	if (pbm.getRemoteProxiesReferences().isEmpty()) {
+	    LogUtils.logDebug(Gateway.getInstance().context, getClass(),
+		    "removeProxyIfOrphan",
+		    "No more References, removing proxy.");
+	    removeProxy(pbm);
+	    return true;
+	}
+	return false;
     }
 
     private synchronized void removeProxy(final ProxyBusMember pbm) {
 	pbm.close();
 	map.remove(pbm.getBusMemberId());
-    }
-
-    /**
-     * To be called when a specific session is to be closed. <br>
-     * Removes all associations in all proxies with the session, and closes
-     * those left orphan.
-     * 
-     * @param session
-     */
-    public void sessionEnding(final Session session) {
-	final Collection<ProxyBusMember> proxies = all();
-	for (final ProxyBusMember p : proxies) {
-	    p.removeRemoteProxyReferences(session);
-	    if (p.getRemoteProxiesReferences().isEmpty()) {
-		p.close();
-	    }
-	}
     }
 }

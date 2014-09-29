@@ -15,6 +15,8 @@
  ******************************************************************************/
 package org.universAAL.ri.gateway.proxies;
 
+import java.util.Arrays;
+
 import org.universAAL.middleware.bus.member.BusMember;
 import org.universAAL.middleware.context.ContextEventPattern;
 import org.universAAL.middleware.context.ContextSubscriber;
@@ -44,13 +46,15 @@ public class ProxyBusMemberFactory {
     public static ProxyBusMember createImport(final Resource[] regParams) {
 	if (regParams.length > 0) {
 	    if (regParams[0] instanceof ContextEventPattern) {
+		ContextEventPattern[] cep = Arrays.copyOf(regParams,
+			regParams.length, ContextEventPattern[].class);
 		return new ProxyContextSubscriber(
-			Gateway.getInstance().context,
-			(ContextEventPattern[]) regParams);
+			Gateway.getInstance().context, cep);
 	    }
 	    if (regParams[0] instanceof ServiceProfile) {
-		return new ProxySCallee(Gateway.getInstance().context,
-			(ServiceProfile[]) regParams);
+		ServiceProfile[] profiles = Arrays.copyOf(regParams,
+			regParams.length, ServiceProfile[].class);
+		return new ProxySCallee(Gateway.getInstance().context, profiles);
 	    }
 	}
 	return null;
@@ -64,7 +68,7 @@ public class ProxyBusMemberFactory {
      */
     public static ProxyBusMember createExport(final Resource[] regParams,
 	    final String busMemberId) {
-	if (regParams.length > 0) {
+	if (regParams != null && regParams.length > 0) {
 	    if (regParams[0] instanceof ContextEventPattern) {
 		return new ProxyContextPublisher(Gateway.getInstance().context);
 	    }

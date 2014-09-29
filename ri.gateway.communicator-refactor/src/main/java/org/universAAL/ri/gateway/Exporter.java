@@ -119,7 +119,8 @@ public class Exporter implements IBusMemberRegistryListener {
 		if (exportProxy == null) {
 		    LogUtils.logWarn(Gateway.getInstance().context, getClass(),
 			    "checkAndExport",
-			    "could not create a export proxy with the given parameters.");
+			    "could not create a export proxy with the given parameters for "
+			    + busMemberId);
 		    return;
 		}
 	    }
@@ -222,6 +223,10 @@ public class Exporter implements IBusMemberRegistryListener {
 	    // TODO check for errors: is this really the first time the
 	    // busMember is added?
 	    tracked.put(member.getURI(), null);
+	    Resource[] initParams = ProxyBusMemberFactory.initialParameters(member);
+	    if (initParams != null){
+		regParamsAdded(member.getURI(), initParams);
+	    }
 	}
     }
 

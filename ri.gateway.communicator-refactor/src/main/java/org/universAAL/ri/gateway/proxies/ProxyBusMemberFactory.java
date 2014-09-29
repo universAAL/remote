@@ -22,6 +22,7 @@ import org.universAAL.middleware.context.ContextEventPattern;
 import org.universAAL.middleware.context.ContextSubscriber;
 import org.universAAL.middleware.rdf.Resource;
 import org.universAAL.middleware.service.ServiceCallee;
+import org.universAAL.middleware.service.ServiceCaller;
 import org.universAAL.middleware.service.owls.profile.ServiceProfile;
 import org.universAAL.ri.gateway.Gateway;
 import org.universAAL.ri.gateway.proxies.exporting.ProxyContextPublisher;
@@ -83,5 +84,21 @@ public class ProxyBusMemberFactory {
     public static boolean isForExport(final BusMember member) {
 	return member != null
 		&& (member instanceof ServiceCallee || member instanceof ContextSubscriber);
+    }
+
+    /**
+     * Create initial parameters for the given busMember. This is used to
+     * identify those {@link BusMember}s which do not addRegistration
+     * parameters, or do not have registration parameters.
+     * 
+     * @param member
+     *            the busmember to analyze.
+     * @return null if no initial parameters are required
+     */
+    public static Resource[] initialParameters(BusMember member) {
+	if (member instanceof ServiceCaller) {
+	    return new ServiceProfile[] { new ServiceProfile() };
+	}
+	return null;
     }
 }

@@ -133,20 +133,16 @@ public class ProxySCaller extends ServiceCaller implements ProxyBusMember {
 	    sr.setResourceComment("Denied by Incomming message policy in remote.");
 	    session.send(new WrappedBusMessage(busMessage, sr));
 	}
-
     }
 
     /**
-     * a ProxyScaller is created per Exported {@link ServiceCallee}. Thus
-     * everything must be the same to be compatible. <br>
-     * In future a single ProxySCaller may be able to manage all
-     * {@link ProxySCallee}s.
+     * A single ProxySCaller is able to manage all
+     * {@link ProxySCallee}s; thus the first registered {@link ProxySCaller}
+     * is the one that is compatible, and represents all {@link ServiceCaller}s.
      */
     public boolean isCompatible(final Resource[] registrationParameters) {
 	return registrationParameters.length > 0
-		&& registrationParameters[0] instanceof ServiceProfile
-		&& new ArraySet.Equal<Resource>().equal(registrationParameters,
-			currentRegParam);
+		&& registrationParameters[0] instanceof ServiceProfile;
     }
 
     /** {@inheritDoc} */

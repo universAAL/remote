@@ -1,4 +1,6 @@
 * text=auto !eol
+ri.api.manager.mysql/pom.xml -text
+ri.api.manager.mysql/src/main/java/org/universAAL/ri/api/manager/server/persistence/PersistenceMySQL.java -text
 ri.api.manager/ASL2.0.txt -text
 ri.api.manager/NOTICE.txt -text
 ri.api.manager/pom.xml -text

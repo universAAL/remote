@@ -195,9 +195,9 @@ public class ImportMessage extends Message {
     public static ImportMessage importResponse(final ImportMessage request,
 	    final String proxyIdentifyer) {
 	if (!request.getMessageType().equals(ImportMessageType.ImportRequest)
-		|| !request.getMessageType().equals(
+		&& !request.getMessageType().equals(
 			ImportMessageType.ImportAddSubscription)
-		|| !request.getMessageType().equals(
+		&& !request.getMessageType().equals(
 			ImportMessageType.ImportRemoveSubscription)) {
 	    throw new RuntimeException(
 		    "Response must be in response to a request or a subscription change.");

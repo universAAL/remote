@@ -51,23 +51,27 @@ public class Configuration {
     /**
      * Configuration suffix for derby path
      */
-    private static final String CONF_DERBY_PTH = "derby.path";
+    private static final String CONF_DB_PTH = "db.path";
     /**
      * Configuration suffix for derby auto removal
      */
-    private static final String CONF_DERBY_REM = "derby.remove";
+    private static final String CONF_DB_REM = "db.remove";
     /**
      * Configuration suffix for derby encryption key
      */
-    private static final String CONF_DERBY_KEY = "derby.key";
+    private static final String CONF_DB_KEY = "db.cryptokey";
     /**
      * Configuration suffix for derby user
      */
-    private static final String CONF_DERBY_USR = "derby.user";
+    private static final String CONF_DB_USR = "db.user";
     /**
      * Configuration suffix for derby password
      */
-    private static final String CONF_DERBY_PWD = "derby.pass";
+    private static final String CONF_DB_PWD = "db.pass";
+    /**
+     * Configuration suffix for database implementation class
+     */
+    private static final String CONF_DB_CLASS = "db.class";
     /**
      * Configuration suffix for servlet context path
      */
@@ -155,7 +159,7 @@ public class Configuration {
      * @return Path to folder of the DB
      */
     public static String getDerbyPath() {
-	return System.getProperty(pkgNameDot + CONF_DERBY_PTH, "/RAPIPersistence");
+	return System.getProperty(pkgNameDot + CONF_DB_PTH, "/RAPIPersistence");
     }
 
     /**
@@ -166,7 +170,7 @@ public class Configuration {
      *         (data older than this will be removed)
      */
     public static Long getRemovalTime() {
-	return Long.getLong(pkgNameDot + CONF_DERBY_REM, -1l);
+	return Long.getLong(pkgNameDot + CONF_DB_REM, -1l);
     }
 
     /**
@@ -213,14 +217,18 @@ public class Configuration {
     }
 
     public static String getDerbyKey() {
-	return System.getProperty(pkgNameDot + CONF_DERBY_KEY, "R1e2m3o4t5e6A7P8I9");
+	return System.getProperty(pkgNameDot + CONF_DB_KEY, "R1e2m3o4t5e6A7P8I9");
     }
 
     public static String getDerbyUser() {
-	return System.getProperty(pkgNameDot + CONF_DERBY_USR);
+	return System.getProperty(pkgNameDot + CONF_DB_USR);
     }
 
     public static String getDerbyPass() {
-	return System.getProperty(pkgNameDot + CONF_DERBY_PWD);
+	return System.getProperty(pkgNameDot + CONF_DB_PWD);
+    }
+
+    public static String getDBClass() {
+	return System.getProperty(pkgNameDot + CONF_DB_CLASS, "org.universAAL.ri.api.manager.server.persistence.PersistenceDerby");
     }
 }

@@ -27,11 +27,14 @@ package org.universAAL.ri.gateway.communicator.service.impl;
 import java.io.EOFException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.ConnectException;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.util.UUID;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
+
+import javax.sql.ConnectionEvent;
 
 import org.universAAL.log.Logger;
 import org.universAAL.log.LoggerFactory;
@@ -61,235 +64,240 @@ import org.universAAL.ri.gateway.protocol.link.DisconnectionRequest;
  *
  */
 public class ClientSocketCommunicationHandler extends
-		AbstractSocketCommunicationHandler {
+	AbstractSocketCommunicationHandler {
 
-	public static final Logger log = LoggerFactory.createLoggerFactory(
-			Gateway.getInstance().context).getLogger(
-			ClientSocketCommunicationHandler.class);
+    public static final Logger log = LoggerFactory.createLoggerFactory(
+	    Gateway.getInstance().context).getLogger(
+	    ClientSocketCommunicationHandler.class);
 
-	private static final int NUM_THREADS = 1;
+    private static final int NUM_THREADS = 1;
 
-	public static final long RECONNECT_WAITING_TIME = 2500;
+    public static final long RECONNECT_WAITING_TIME = 2500;
 
-	private final MessageReceiver communicator;
-	private final Executor executor;
-	private Thread serverThread;
-	// flag for stoppping the server thread
-	private boolean stopServerThread = false;
-	private final UUID currentSession = null;
+    private final MessageReceiver communicator;
+    private final Executor executor;
+    private Thread serverThread;
+    // flag for stoppping the server thread
+    private boolean stopServerThread = false;
+    private final UUID currentSession = null;
 
-	private final Object LOCK_VAR_STOP = new Object();
-	private final Object LOCK_VAR_LINK_HANDLER = new Object();
+    private final Object LOCK_VAR_STOP = new Object();
+    private final Object LOCK_VAR_LINK_HANDLER = new Object();
 
-	private LinkHandler currentLinkHandler = null;
+    private LinkHandler currentLinkHandler = null;
 
-	private final Configuration config;
+    private final Configuration config;
 
-	private final Session creator;
+    private final Session creator;
 
-	public ClientSocketCommunicationHandler(final Configuration config,
-			final MessageReceiver communicator, final Session s) {
-		super(s.getCipher());
-		this.config = config;
-		this.communicator = communicator;
+    public ClientSocketCommunicationHandler(final Configuration config,
+	    final MessageReceiver communicator, final Session s) {
+	super(s.getCipher());
+	this.config = config;
+	this.communicator = communicator;
 
-		this.creator = s;
+	this.creator = s;
 
-		final String hashKey = this.config.getEncryptionKey();
+	final String hashKey = this.config.getEncryptionKey();
 
-		this.executor = Executors
-				.newFixedThreadPool(ClientSocketCommunicationHandler.NUM_THREADS);
-		log.debug("Created client mode gateway comunication");
-	}
+	this.executor = Executors
+		.newFixedThreadPool(ClientSocketCommunicationHandler.NUM_THREADS);
+	log.debug("Created client mode gateway comunication");
+    }
 
-	public void start() throws IOException {
-		final String serverConfig = config.getConnectionHost() + ":"
-				+ config.getConnectionPort();
-		log.info("Starting Client Gateway by connecting to Gateway Server at "
+    public void start() throws IOException {
+	final String serverConfig = config.getConnectionHost() + ":"
+		+ config.getConnectionPort();
+	log.info("Starting Client Gateway by connecting to Gateway Server at "
+		+ serverConfig);
+	serverThread = new Thread(new Runnable() {
+	    public void run() {
+		Thread.currentThread().setName("Space Gateway :: Client");
+		while (!isStop()) {
+		    try {
+			Thread.sleep(ClientSocketCommunicationHandler.RECONNECT_WAITING_TIME);
+		    } catch (final InterruptedException e) {
+		    }
+		    final Socket socket;
+		    try {
+			final InetAddress addr = InetAddress.getByName(config
+				.getConnectionHost());
+			socket = new Socket(addr, config.getConnectionPort());
+			creator.setStatus(SessionEvent.SessionStatus.CONNECTING);
+		    } catch (ConnectException ce) {
+			final String msg = "Server appears to be down: \"" + ce.getMessage() + "\" retrying in a bit";
+			log.info(msg);
+			continue;
+		    } catch (final Exception ex) {
+			final String msg = "Failed to estabilished a link between client and server broken due to exception we retry in a bit";
+			log.info(msg);
+			log.debug(msg, ex);
+			continue;
+		    }
+		    try {
+			log.debug("Client mode gateway connected to "
 				+ serverConfig);
-		serverThread = new Thread(new Runnable() {
-			public void run() {
-				Thread.currentThread().setName("Space Gateway :: Client");
-				while (!isStop()) {
-					try {
-						Thread.sleep(ClientSocketCommunicationHandler.RECONNECT_WAITING_TIME);
-					} catch (final InterruptedException e) {
-					}
-					final Socket socket;
-					try {
-						final InetAddress addr = InetAddress.getByName(config
-								.getConnectionHost());
-						socket = new Socket(addr, config.getConnectionPort());
-						creator.setStatus(SessionEvent.SessionStatus.CONNECTING);
-					} catch (final Exception ex) {
-						final String msg = "Failed to estabilished a link between client and server broken due to exception we retry in a bit";
-						log.info(msg);
-						log.debug(msg, ex);
-						continue;
-					}
-					try {
-						log.debug("Client mode gateway connected to "
-								+ serverConfig);
-						synchronized (LOCK_VAR_LINK_HANDLER) {
-							currentLinkHandler = new LinkHandler(socket,
-									communicator, creator);
-						}
-						currentLinkHandler.run();
-						creator.setStatus(SessionEvent.SessionStatus.CONNECTING);
-						log.debug("Link is down, so we are goging to try again in a "
-								+ ClientSocketCommunicationHandler.RECONNECT_WAITING_TIME
-								+ "ms");
-					} catch (final Exception e) {
-						creator.setStatus(SessionEvent.SessionStatus.CONNECTING);
-						log.error(
-								"Link between client and server broken due to exception we will try to restore it",
-								e);
-					}
-
-				}
+			synchronized (LOCK_VAR_LINK_HANDLER) {
+			    currentLinkHandler = new LinkHandler(socket,
+				    communicator, creator);
 			}
-		});
-		serverThread.start();
+			currentLinkHandler.run();
+			creator.setStatus(SessionEvent.SessionStatus.CONNECTING);
+			log.debug("Link is down, so we are goging to try again in a "
+				+ ClientSocketCommunicationHandler.RECONNECT_WAITING_TIME
+				+ "ms");
+		    } catch (final Exception e) {
+			creator.setStatus(SessionEvent.SessionStatus.CONNECTING);
+			log.error(
+				"Link between client and server broken due to exception we will try to restore it",
+				e);
+		    }
+
+		}
+	    }
+	});
+	serverThread.start();
+    }
+
+    /**
+     * This thread initializes the connection of the server gateway and managed
+     * the messages
+     *
+     *
+     */
+    private class LinkHandler extends AbstractLinkHandler {
+
+	private final Session session;
+
+	public LinkHandler(final Socket socket,
+		final MessageReceiver communicator, final Session s) {
+	    super(socket, communicator, cipher);
+	    session = s;
 	}
 
-	/**
-	 * This thread initializes the connection of the server gateway and managed
-	 * the messages
-	 *
-	 *
-	 */
-	private class LinkHandler extends AbstractLinkHandler {
-
-		private final Session session;
-
-		public LinkHandler(final Socket socket,
-				final MessageReceiver communicator, final Session s) {
-			super(socket, communicator, cipher);
-			session = s;
+	@Override
+	protected boolean beforeRun() {
+	    Thread.currentThread().setName("Space Gateway :: LinkHandler ");
+	    if (currentSession == null) {
+		log.debug("FIRST loading trying to create a SESSION");
+		if (connect() == false) {
+		    log.debug("Creation of the session failed");
+		    cleanUpSession();
+		    return false;
+		} else {
+		    session.setStatus(SessionEvent.SessionStatus.CONNECTED);
+		    log.debug("Session created with sessionId "
+			    + currentSession);
 		}
+	    } else {
+		log.debug("SESSION was BROKEN by a link failure, trying to RESTORE it");
+		if (reconnect() == false) {
+		    log.debug("Failed to RESTORE the SESSION");
+		    cleanUpSession();
+		    return false;
+		} else {
+		    session.setStatus(SessionEvent.SessionStatus.CONNECTED);
+		    log.debug("Session with sessionId " + currentSession
+			    + " re-established");
+		}
+	    }
+	    log.debug("SESSION (RE)ESTABILISHED with " + currentSession);
+	    session.setScope(currentSession.toString());
+	    return true;
+	}
 
-		@Override
-		protected boolean beforeRun() {
-			Thread.currentThread().setName("Space Gateway :: LinkHandler ");
-			if (currentSession == null) {
-				log.debug("FIRST loading trying to create a SESSION");
-				if (connect() == false) {
-					log.debug("Creation of the session failed");
-					cleanUpSession();
-					return false;
-				} else {
-					session.setStatus(SessionEvent.SessionStatus.CONNECTED);
-					log.debug("Session created with sessionId "
-							+ currentSession);
-				}
-			} else {
-				log.debug("SESSION was BROKEN by a link failure, trying to RESTORE it");
-				if (reconnect() == false) {
-					log.debug("Failed to RESTORE the SESSION");
-					cleanUpSession();
-					return false;
-				} else {
-					session.setStatus(SessionEvent.SessionStatus.CONNECTED);
-					log.debug("Session with sessionId " + currentSession + " re-established");
-				}
-			}
-			log.debug("SESSION (RE)ESTABILISHED with " + currentSession);
-			session.setScope(currentSession.toString());
+	@Override
+	protected boolean loopRun() {
+	    if (socket != null && !socket.isClosed()) {
+		MessageWrapper msg;
+		try {
+		    msg = getNextMessage(in);
+		} catch (final Exception e) {
+		    if (e instanceof EOFException) {
+			log.info("Failed to read message of the stream beacuse it was closed from the other side");
+			return false;
+		    } else {
+			log.debug("Failed to read message from stream", e);
 			return true;
+		    }
 		}
-
-		@Override
-		protected boolean loopRun() {
-			if (socket != null && !socket.isClosed()) {
-				MessageWrapper msg;
-				try {
-					msg = getNextMessage(in);
-				} catch (final Exception e) {
-					if (e instanceof EOFException) {
-						log.info("Failed to read message of the stream beacuse it was closed from the other side");
-						return false;
-					} else {
-						log.debug("Failed to read message from stream", e);
-						return true;
-					}
-				}
-				if (handleSessionProtocol(msg) == false) {
-					handleGatewayProtocol(msg);
-				}
-				return true;
-			} else {
-				return false;
-			}
+		if (handleSessionProtocol(msg) == false) {
+		    handleGatewayProtocol(msg);
 		}
-
-		@Override
-		protected boolean afterRun() {
-			return true;
-		}
-
-		@Override
-		protected MessageWrapper getNextMessage(final InputStream in)
-				throws Exception {
-			return readMessage(in);
-		}
-
-		@Override
-		protected boolean handleSessionProtocol(final MessageWrapper msg) {
-			final AALSpaceManager spaceManager = Gateway.getInstance().spaceManager
-					.getObject();
-			final SessionManager sessionManger = SessionManager.getInstance();
-			switch (msg.getType()) {
-			case Reconnect:
-			case ConnectRequest:
-				throw new IllegalArgumentException(
-						"Receieved unexpected message " + msg.getType());
-
-			case Disconnect: {
-				final DisconnectionRequest request = Serializer.Instance
-						.unmarshall(DisconnectionRequest.class,
-								msg.getMessage());
-				// request.getPeerId()
-				final UUID session = sessionManger.getSession(
-						request.getPeerId(), request.getAALSpaceId(),
-						request.getScopeId());
-				if (session == null) {
-					// TODO Log someone is trying to disconnect from an invalid
-					// session
-					ClientSocketCommunicationHandler.log
-							.warning("Trying to close a-non existing session with <"
-									+ request.getAALSpaceId()
-									+ ","
-									+ request.getPeerId()
-									+ ">, we just ignore it");
-					return true;
-				}
-				this.session.setStatus(SessionEvent.SessionStatus.CLOSED);
-				sessionManger.close(session);
-				return true;
-			}
-
-			default:
-				return false;
-
-			}
-		}
+		return true;
+	    } else {
+		return false;
+	    }
 	}
 
-	public boolean isStop() {
-		synchronized (LOCK_VAR_STOP) {
-			return stopServerThread;
-		}
+	@Override
+	protected boolean afterRun() {
+	    return true;
 	}
 
-	public void stop() {
-		synchronized (LOCK_VAR_STOP) {
-			stopServerThread = true;
-		}
-		synchronized (LOCK_VAR_LINK_HANDLER) {
-			currentLinkHandler.stop();
-			currentLinkHandler.disconnect();
-			creator.setStatus(SessionEvent.SessionStatus.CLOSED);
-		}
+	@Override
+	protected MessageWrapper getNextMessage(final InputStream in)
+		throws Exception {
+	    return readMessage(in);
 	}
+
+	@Override
+	protected boolean handleSessionProtocol(final MessageWrapper msg) {
+	    final AALSpaceManager spaceManager = Gateway.getInstance().spaceManager
+		    .getObject();
+	    final SessionManager sessionManger = SessionManager.getInstance();
+	    switch (msg.getType()) {
+	    case Reconnect:
+	    case ConnectRequest:
+		throw new IllegalArgumentException(
+			"Receieved unexpected message " + msg.getType());
+
+	    case Disconnect: {
+		final DisconnectionRequest request = Serializer.Instance
+			.unmarshall(DisconnectionRequest.class,
+				msg.getMessage());
+		// request.getPeerId()
+		final UUID session = sessionManger.getSession(
+			request.getPeerId(), request.getAALSpaceId(),
+			request.getScopeId());
+		if (session == null) {
+		    // TODO Log someone is trying to disconnect from an invalid
+		    // session
+		    ClientSocketCommunicationHandler.log
+			    .warning("Trying to close a-non existing session with <"
+				    + request.getAALSpaceId()
+				    + ","
+				    + request.getPeerId()
+				    + ">, we just ignore it");
+		    return true;
+		}
+		this.session.setStatus(SessionEvent.SessionStatus.CLOSED);
+		sessionManger.close(session);
+		return true;
+	    }
+
+	    default:
+		return false;
+
+	    }
+	}
+    }
+
+    public boolean isStop() {
+	synchronized (LOCK_VAR_STOP) {
+	    return stopServerThread;
+	}
+    }
+
+    public void stop() {
+	synchronized (LOCK_VAR_STOP) {
+	    stopServerThread = true;
+	}
+	synchronized (LOCK_VAR_LINK_HANDLER) {
+	    currentLinkHandler.stop();
+	    currentLinkHandler.disconnect();
+	    creator.setStatus(SessionEvent.SessionStatus.CLOSED);
+	}
+    }
 
 }

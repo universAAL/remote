@@ -38,7 +38,6 @@ import org.universAAL.middleware.serialization.MessageContentSerializerEx;
 import org.universAAL.ri.api.manager.server.Authenticator;
 import org.universAAL.ri.api.manager.server.RemoteServlet;
 import org.universAAL.ri.api.manager.server.persistence.Persistence;
-import org.universAAL.ri.api.manager.server.persistence.PersistenceDerby;
 
 /**
  * OSGi Activator to start everything.
@@ -123,10 +122,25 @@ public class Activator implements BundleActivator {
 	remoteAPI=new RemoteAPIImpl(uaalContext);
 	remoteServlet=new RemoteServlet(remoteAPI);
 	//Instance persistence DB once API impl is ready and before it is public in servlet
-	persistence=new PersistenceDerby();
+	try{
+	persistence = (Persistence) Class.forName(Configuration.getDBClass())
+		.getConstructor(new Class[] {}).newInstance(new Object[] {});
 	persistence.init(remoteAPI);
 	persistence.restore();
-
+	} catch (RuntimeException ex){
+	    ex.printStackTrace();
+	} catch (Exception e) {
+	    // If we cannot get the Backend, abort.
+	    String cause = "The store implementation passed as configuration"
+		    + " parameter could not be used. Make sure it is a "
+		    + "class that implements "
+		    + "org.universAAL.context.che.database.Backend or "
+		    + "remove that configuration parameter to use the "
+		    + "default engine.";
+	    LogUtils.logError(uaalContext, this.getClass(), "start",
+		new Object[] { cause }, null);
+	}
+	
 	// For CXF
 //	Dictionary<String, Object> props = new Hashtable<String, Object>();
 //	props.put("service.exported.interfaces", "*");

@@ -47,10 +47,10 @@ import org.universAAL.ri.gateway.proxies.ProxyPool;
 /**
  * Main Class for the AALSpace Gateway. It is in charge of managing
  * {@link Session Sessions}, and boot them from the configuration folder.
- * 
+ *
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author amedrano
- * 
+ *
  */
 public class Gateway implements ModuleActivator, SessionEventListener {
 
@@ -65,7 +65,7 @@ public class Gateway implements ModuleActivator, SessionEventListener {
     public DependencyProxy<IBusMemberRegistry> busTracker;
 
     public static Gateway getInstance() {
-	return singleton.getObject();
+        return singleton.getObject();
     }
 
     public ModuleContext context;
@@ -88,163 +88,180 @@ public class Gateway implements ModuleActivator, SessionEventListener {
     private Exporter exporter;
 
     public Collection<Server> getServers() {
-	return servers.keySet();
+        return servers.keySet();
     }
 
     public Collection<Session> getSessions() {
-	return sessions.keySet();
+        return sessions.keySet();
     }
 
     public void start(final ModuleContext mc) throws Exception {
-	context = mc;
-	LoggerFactory.updateModuleContext(context);
-	singleton = new WaitingDependencyProxy<Gateway>(new Object[] {});
-	singleton.setObject(this);
+        context = mc;
+        LoggerFactory.updateModuleContext(context);
+        try {
+            actualStart(mc);
+        } catch (Exception ex) {
+            LoggerFactory.setModuleContextAsStopped(context);
+            throw ex;
+        }
+    }
 
-	proxypool = new ProxyPool();
+    public void actualStart(final ModuleContext mc) throws Exception {
+        singleton = new WaitingDependencyProxy<Gateway>(new Object[] {});
+        singleton.setObject(this);
 
-	exporter = new Exporter(proxypool);
+        proxypool = new ProxyPool();
 
-	sessions = new HashMap<Session, String>();
-	servers = new HashMap<Server, String>();
+        exporter = new Exporter(proxypool);
 
-	spaceManager = new PassiveDependencyProxy<AALSpaceManager>(context,
-		new Object[] { AALSpaceManager.class.getName() });
+        sessions = new HashMap<Session, String>();
+        servers = new HashMap<Server, String>();
 
-	serializer = new PassiveDependencyProxy<MessageContentSerializer>(
-		context,
-		new Object[] { MessageContentSerializer.class.getName() });
+        spaceManager = new PassiveDependencyProxy<AALSpaceManager>(context,
+                new Object[] { AALSpaceManager.class.getName() });
 
-	tenantManager = new PassiveDependencyProxy<TenantManager>(context,
-		new Object[] { TenantManager.class.getName() });
+        serializer = new PassiveDependencyProxy<MessageContentSerializer>(
+                context,
+                new Object[] { MessageContentSerializer.class.getName() });
 
-	busTracker = new PassiveDependencyProxy<IBusMemberRegistry>(context,
-		IBusMemberRegistry.busRegistryShareParams);
+        tenantManager = new PassiveDependencyProxy<TenantManager>(context,
+                new Object[] { TenantManager.class.getName() });
 
-	busTracker.getObject().addListener(exporter, true);
+        busTracker = new PassiveDependencyProxy<IBusMemberRegistry>(context,
+                IBusMemberRegistry.busRegistryShareParams);
 
-	final File dir = context.getConfigHome();
-	if (!dir.exists()) {
-	    dir.mkdirs();
-	    return;
-	}
-	final File[] props = dir.listFiles(new FileFilter() {
+        busTracker.getObject().addListener(exporter, true);
 
-	    public boolean accept(final File pathname) {
-		return pathname.getName().endsWith(".properties");
-	    }
-	});
+        final File dir = context.getConfigHome();
+        if (!dir.exists()) {
+            dir.mkdirs();
+            return;
+        }
+        final File[] props = dir.listFiles(new FileFilter() {
 
-	if (props != null) {
-	    for (int i = 0; i < props.length; i++) {
-		final File p = props[i];
-		try {
-		    final Runnable task = new Runnable() {
-			public void run() {
-			    // create a new session for each properties file
-			    final Configuration fc = new ConfigurationFile(p);
-			    if (fc.getConnectionMode().equals(
-				    ConnectionMode.CLIENT)) {
-				final Session s = new Session(fc, proxypool);
-				newSession(p.getAbsolutePath(), s);
-			    } else {
-				final Server s = new Server(fc);
-				newServer(p.getAbsolutePath(), s);
-			    }
-			}
-		    };
-		    new Thread(task, "initialisation of "
-			    + props[i].getAbsolutePath()).start();
-		} catch (final Exception e) {
-		    LogUtils.logError(context, getClass(), "start",
-			    new String[] { "unable to start instance from : "
-				    + props[i].getAbsolutePath() }, e);
-		}
-	    }
-	    /*
-	     * XXX implement a monitoring mechanism that tracks new files,
-	     * creating new sessions, and stops sessions when their respective
-	     * file is removed
-	     */
-	}
+            public boolean accept(final File pathname) {
+                return pathname.getName().endsWith(".properties");
+            }
+        });
+
+        if (props != null) {
+            for (int i = 0; i < props.length; i++) {
+                final File p = props[i];
+                try {
+                    final Runnable task = new Runnable() {
+                        public void run() {
+                            // create a new session for each properties file
+                            final Configuration fc = new ConfigurationFile(p);
+                            if (fc.getConnectionMode().equals(
+                                    ConnectionMode.CLIENT)) {
+                                final Session s = new Session(fc, proxypool);
+                                newSession(p.getAbsolutePath(), s);
+                            } else {
+                                final Server s = new Server(fc);
+                                newServer(p.getAbsolutePath(), s);
+                            }
+                        }
+                    };
+                    new Thread(task, "initialisation of "
+                            + props[i].getAbsolutePath()).start();
+                } catch (final Exception e) {
+                    LogUtils.logError(context, getClass(), "start",
+                            new String[] { "unable to start instance from : "
+                                    + props[i].getAbsolutePath() }, e);
+                }
+            }
+            /*
+             * XXX implement a monitoring mechanism that tracks new files,
+             * creating new sessions, and stops sessions when their respective
+             * file is removed
+             */
+        }
 
     }
 
     public synchronized void newServer(final String name, final Server s) {
-	servers.put(s, name);
+        servers.put(s, name);
     }
 
     public synchronized void endServer(final Server s) {
-	// stop server
-	s.stop();
-	servers.remove(s);
+        // stop server
+        s.stop();
+        servers.remove(s);
     }
 
     public synchronized void newSession(final String name, final Session s) {
-	sessions.put(s, name);
-	s.addSessionEventListener(this);
+        sessions.put(s, name);
+        s.addSessionEventListener(this);
     }
 
     public String getName(final Session s) {
-	return sessions.get(s);
+        return sessions.get(s);
     }
 
     public String getName(final Server s) {
-	return servers.get(s);
+        return servers.get(s);
     }
 
     public synchronized void endSession(final Session s) {
-	// Remove exports
-	exporter.stopedSession(s);
-	// Remove imports
-	s.removeImports();
-	// Remove Reference
-	sessions.remove(s);
-	// Stop the session (and it's resources)
-	s.stop();
+        // Remove exports
+        exporter.stopedSession(s);
+        // Remove imports
+        s.removeImports();
+        // Remove Reference
+        sessions.remove(s);
+        // Stop the session (and it's resources)
+        s.stop();
     }
 
     public void stop(final ModuleContext mc) throws Exception {
-	busTracker.getObject().removeListener(exporter);
-	final Set<Server> srvs = new HashSet<Server>(servers.keySet());
-	// stop all servers
-	for (final Server server : srvs) {
-	    server.stop();
-	}
-	final Set<Session> ssns = new HashSet<Session>(sessions.keySet());
-	// end all sessions
-	for (final Session s : ssns) {
-	    endSession(s);
-	}
-	exporter.stop();
-	LoggerFactory.setModuleContextAsStopped(context);
+        try {
+            actualStop(mc);
+            LoggerFactory.setModuleContextAsStopped(context);
+        } catch (Exception ex) {
+            LoggerFactory.setModuleContextAsStopped(context);
+            throw ex;
+        }
+    }
+
+    public void actualStop(final ModuleContext mc) throws Exception {
+        busTracker.getObject().removeListener(exporter);
+        final Set<Server> srvs = new HashSet<Server>(servers.keySet());
+        // stop all servers
+        for (final Server server : srvs) {
+            server.stop();
+        }
+        final Set<Session> ssns = new HashSet<Session>(sessions.keySet());
+        // end all sessions
+        for (final Session s : ssns) {
+            endSession(s);
+        }
+        exporter.stop();
     }
 
     public Exporter getExporter() {
-	return exporter;
+        return exporter;
     }
 
     public ProxyPool getPool() {
-	return proxypool;
+        return proxypool;
     }
 
     /** {@ inheritDoc} */
     public void statusChange(SessionEvent se) {
-	if (se.getCurrentStatus() == SessionStatus.CONNECTED) {
-	    // session is activated, check if there is anything to export.
-	    exporter.activatedSession(se.getSession());
-	}
-	else  if(se.getOldStatus() == SessionStatus.CONNECTED) {
-	    // it has disconnected have to purge proxies without deleting the
-	    // session
-	    exporter.stopedSession(se.getSession());
-	    se.getSession().removeImports();
-	    ;
-	}
+        if (se.getCurrentStatus() == SessionStatus.CONNECTED) {
+            // session is activated, check if there is anything to export.
+            exporter.activatedSession(se.getSession());
+        } else if (se.getOldStatus() == SessionStatus.CONNECTED) {
+            // it has disconnected have to purge proxies without deleting the
+            // session
+            exporter.stopedSession(se.getSession());
+            se.getSession().removeImports();
+            ;
+        }
     }
 
     /** {@ inheritDoc} */
     public String getName() {
-	return "Gateway Singleton";
+        return "Gateway Singleton";
     }
 }

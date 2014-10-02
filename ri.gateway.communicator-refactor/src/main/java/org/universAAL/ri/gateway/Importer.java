@@ -102,6 +102,12 @@ public class Importer {
 		    pbm = ProxyBusMemberFactory.createImport(msg
 			    .getParameters());
 		    if (pbm == null) {
+			LogUtils.logError(
+				Gateway.getInstance().context,
+				getClass(),
+				"handleImportMessage",
+				"Unable to create import proxy for: "
+					+ msg.getBusMemberId());
 			session.send(ImportMessage.importResponse(msg, null));
 			return;
 		    }
@@ -113,6 +119,7 @@ public class Importer {
 		// send response
 		session.send(ImportMessage.importResponse(msg,
 			pbm.getBusMemberId()));
+
 		// note import
 		imports.put(msg.getBusMemberId(), pbm);
 		LogUtils.logDebug(
@@ -277,7 +284,7 @@ public class Importer {
 			    + " Proxy is not in the imported proxies for the session.");
 	}
     }
-    
+
     /**
      * Recheck security method, to check imports when security policies may have
      * changed. Removes any imported {@link ProxyBusMember} that is no longer

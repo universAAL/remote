@@ -126,6 +126,12 @@ public class Exporter implements IBusMemberRegistryListener {
 	    }
 	    // annotate export map
 	    exported.put(busMemberId, exportProxy);
+	    
+
+		LogUtils.logDebug(Gateway.getInstance().context, getClass(),
+			"checkAndExport", "Requesting import " + busMemberId + " in "
+				+ session.getScope());
+		
 	    // send ImportRequest, and wait for response
 	    final Message resp = session.sendRequest(ImportMessage
 		    .importRequest(exportProxy.getBusMemberId(), params));

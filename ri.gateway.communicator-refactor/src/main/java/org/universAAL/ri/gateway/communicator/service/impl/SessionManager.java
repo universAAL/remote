@@ -31,6 +31,8 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.UUID;
 
+import org.universAAL.log.Logger;
+import org.universAAL.log.LoggerFactory;
 import org.universAAL.middleware.managers.api.TenantManager;
 import org.universAAL.ri.gateway.Gateway;
 
@@ -43,6 +45,9 @@ import org.universAAL.ri.gateway.Gateway;
  */
 public class SessionManager {
 
+    public static final Logger log = LoggerFactory.createLoggerFactory(
+            Gateway.getInstance().context).getLogger(
+            SessionManager.class);
     private static SessionManager manager = new SessionManager();
     private static final Gateway gw = Gateway.getInstance();
 
@@ -267,13 +272,32 @@ public class SessionManager {
         }
     }
 
+    public boolean isDuplicatedSession(final UUID sessionId, final String peerId,
+            final String aalSpaceId, final String scopeId) {
+        final SessionKey stored = uuids.get(sessionId);
+        if ( stored == null ) return false;
+        final SessionKey key = new SessionKey(peerId, aalSpaceId, scopeId);
+        if (key.equals(stored) == false ) return false;
+        synchronized (sessions) {
+            if (sessions.containsKey(key)) return true;
+        }
+        return false;
+    }
+
     public void storeSession(final UUID sessionId, final String peerId,
             final String aalSpaceId, final String scopeId) {
         final SessionKey key = new SessionKey(peerId, aalSpaceId, scopeId);
+
+        final UUID oldUUID = sessions.get(key);
+        if (isDuplicatedSession(sessionId, peerId, aalSpaceId, scopeId)) {
+            throw new IllegalStateException("Session " + key
+                    + " already exists with the same UUID = " + oldUUID);
+        }
         synchronized (sessions) {
             if (sessions.containsKey(key)) {
-                throw new IllegalStateException("Session " + key
-                        + " already exists with UUID = " + sessions.get(key));
+                log.info("Replacing existing session with a new UUID from "+oldUUID+" to "+sessionId);
+                uuids.remove(oldUUID);
+                links.remove(oldUUID);
             }
             sessions.put(key, sessionId);
             uuids.put(sessionId, key);

@@ -26,7 +26,6 @@ import java.util.UUID;
 import org.universAAL.log.Logger;
 import org.universAAL.log.LoggerFactory;
 import org.universAAL.middleware.container.utils.LogUtils;
-import org.universAAL.ri.gateway.SessionEvent.SessionStatus;
 import org.universAAL.ri.gateway.communication.cipher.Blowfish;
 import org.universAAL.ri.gateway.communication.cipher.Cipher;
 import org.universAAL.ri.gateway.communicator.service.impl.AbstractSocketCommunicationHandler;
@@ -52,11 +51,11 @@ import org.universAAL.ri.gateway.proxies.ProxyPool;
 /**
  * Representation of a one to one link between 2 ASGs. It is in charge of
  * connecting the communication layer with the Importer and proxies.
- *
+ * 
  * @author amedrano
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @version $LastChangedRevision$ ($LastChangedDate$)
- *
+ * 
  */
 public class Session implements MessageSender, MessageReceiver,
 	OperationChainManager {
@@ -66,9 +65,9 @@ public class Session implements MessageSender, MessageReceiver,
 	private final SessionEvent.SessionStatus old;
 	private final SessionEvent.SessionStatus current;
 
-	public SessionStatusEvent(Session session,
-		SessionEvent.SessionStatus old,
-		SessionEvent.SessionStatus current) {
+	public SessionStatusEvent(final Session session,
+		final SessionEvent.SessionStatus old,
+		final SessionEvent.SessionStatus current) {
 	    this.session = session;
 	    this.old = old;
 	    this.current = current;
@@ -86,6 +85,7 @@ public class Session implements MessageSender, MessageReceiver,
 	    return old;
 	}
 
+	@Override
 	public String toString() {
 	    return this.getClass().getSimpleName() + "[" + session
 		    + ": status from " + old + " to " + current + "]";
@@ -103,7 +103,7 @@ public class Session implements MessageSender, MessageReceiver,
     private final Cipher cipher;
 
     private SessionEvent.SessionStatus state;
-    private HashSet<SessionEventListener> listeners = new HashSet<SessionEventListener>();
+    private final HashSet<SessionEventListener> listeners = new HashSet<SessionEventListener>();
 
     private Session(final Configuration config) {
 	this.config = config;
@@ -286,8 +286,8 @@ public class Session implements MessageSender, MessageReceiver,
      *            the listener to add
      * @return true if the listener has been registered
      */
-    public boolean addSessionEventListener(SessionEventListener listener) {
-	boolean flag = this.listeners.add(listener);
+    public boolean addSessionEventListener(final SessionEventListener listener) {
+	final boolean flag = this.listeners.add(listener);
 	if (flag) {
 	    log.debug("Adding SessionEventListener " + listener.getName());
 	}
@@ -302,31 +302,32 @@ public class Session implements MessageSender, MessageReceiver,
      *            the listener to remove
      * @return true if the listener has been removed
      */
-    public boolean removeSessionEventListener(SessionEventListener listener) {
-	boolean flag = this.listeners.remove(listener);
+    public boolean removeSessionEventListener(
+	    final SessionEventListener listener) {
+	final boolean flag = this.listeners.remove(listener);
 	if (flag) {
 	    log.debug("Removed SessionEventListener " + listener.getName());
 	}
 	return flag;
     }
 
-    public void setStatus(SessionEvent.SessionStatus status) {
+    public void setStatus(final SessionEvent.SessionStatus status) {
 	if (state == status) {
 	    return;
 	}
-	SessionStatusEvent e = new SessionStatusEvent(this, state, status);
+	final SessionStatusEvent e = new SessionStatusEvent(this, state, status);
 	log.debug("Generated the new event " + e);
 	state = status;
 	notifySessionEventListeners(e);
     }
 
-    private void notifySessionEventListeners(SessionStatusEvent e) {
-	SessionEventListener[] notifyList = listeners
+    private void notifySessionEventListeners(final SessionStatusEvent e) {
+	final SessionEventListener[] notifyList = listeners
 		.toArray(new SessionEventListener[] {});
 	for (int i = 0; i < notifyList.length; i++) {
 	    try {
 		notifyList[i].statusChange(e);
-	    } catch (Throwable ex) {
+	    } catch (final Throwable ex) {
 		log.error(
 			"Failed to notify with success "
 				+ notifyList[i].getName(), ex);

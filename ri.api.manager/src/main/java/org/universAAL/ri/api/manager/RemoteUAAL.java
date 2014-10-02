@@ -206,20 +206,21 @@ public class RemoteUAAL extends UAAL {
 	 *            The event to send back to the client
 	 */
 	public void handleContextEvent(final ContextEvent event) {
-	    new Thread("RemoteUAAL_CListener") {
-		public void run() {
-		    try {
-			if(event.isSerializableTo(nodeID)){ //MULTITENANT The call is for this scope
-			    PushManager.sendC(nodeID, remoteID, event, toURI);
-			} //MULTITENANT The call is NOT for this scope > ignore
-		    } catch (Exception e) {
-			e.printStackTrace();
-			Activator.logE("CListener.handleContextEvent",
-				"Unable to send the proxied Context Event to the remote node. "
-					+ e.getMessage());
-		    }
-		}
-	    }.start();
+	    Activator.getThreadsPool().execute(
+		    new Thread("RemoteUAAL_CListener") {
+			public void run() {
+			    try {
+				if(event.isSerializableTo(nodeID)){ //MULTITENANT The call is for this scope
+				    PushManager.sendC(nodeID, remoteID, event, toURI);
+				} //MULTITENANT The call is NOT for this scope > ignore
+			    } catch (Exception e) {
+				e.printStackTrace();
+				Activator.logE("CListener.handleContextEvent",
+					"Unable to send the proxied Context Event to the remote node. "
+						+ e.getMessage());
+			    }
+			}
+		    });
 	}
     }
 

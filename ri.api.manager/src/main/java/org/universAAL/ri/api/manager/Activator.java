@@ -21,6 +21,9 @@
  */
 package org.universAAL.ri.api.manager;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 
@@ -96,7 +99,11 @@ public class Activator implements BundleActivator {
      * OSGi service listener for uAAL serializer
      */
     private SerializerListener serializerListener;
-
+    /**
+     * Creates a Thread Pool to be used throughout the manager (currently only
+     * in CListeners)
+     */
+    private static ExecutorService threadsPool;
     // For CXF
     // private ServiceRegistration registration = null;
 
@@ -121,6 +128,8 @@ public class Activator implements BundleActivator {
 	//Instance the API impl before DB is ready (it wont be called yet) then the servlet, then the DB
 	remoteAPI=new RemoteAPIImpl(uaalContext);
 	remoteServlet=new RemoteServlet(remoteAPI);
+	threadsPool=Executors.newFixedThreadPool(100);//TODO check what amount is best
+	
 	//Instance persistence DB once API impl is ready and before it is public in servlet
 	try{
 	persistence = (Persistence) Class.forName(Configuration.getDBClass())
@@ -182,6 +191,7 @@ public class Activator implements BundleActivator {
 	    serializerListener.serviceChanged(new ServiceEvent(ServiceEvent.UNREGISTERING, referencesSerializer[i]));
 	}
 	//Stop all wrappers, without affecting the backup DB.
+	threadsPool.shutdownNow();
 	remoteAPI.unregisterAll();
 	remoteServlet=null;
 	remoteAPI=null;
@@ -361,6 +371,16 @@ public class Activator implements BundleActivator {
      */
     public static boolean isHardcoded() {
 	return hard;
+    }
+    
+    /**
+     * Get an instance of ExecutorService that provides access to a Fixed size
+     * Thread Pool
+     * 
+     * @return ExecutorService instance
+     */
+    public static ExecutorService getThreadsPool() {
+        return threadsPool;
     }
 	
 }

@@ -159,7 +159,7 @@ public class SessionManager {
                 .hasNext();) {
             final SessionKey key = i.next();
             final String scopeId = key.keyParts[SessionKey.SCOPE_IDX];
-            //currentTM.registerTenant(scopeId, key.description);
+            currentTM.registerTenant(scopeId, key.description);
         }
     }
 

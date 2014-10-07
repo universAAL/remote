@@ -46,8 +46,7 @@ import org.universAAL.ri.gateway.Gateway;
 public class SessionManager {
 
     public static final Logger log = LoggerFactory.createLoggerFactory(
-            Gateway.getInstance().context).getLogger(
-            SessionManager.class);
+            Gateway.getInstance().context).getLogger(SessionManager.class);
     private static SessionManager manager = new SessionManager();
     private static final Gateway gw = Gateway.getInstance();
 
@@ -140,15 +139,12 @@ public class SessionManager {
         }
         key.description = description;
 
-
-        if (currentTM == gw.tenantManager.getObject()
-                && currentTM != null) {
+        if (currentTM == gw.tenantManager.getObject() && currentTM != null) {
             currentTM.registerTenant(scopeId, description);
         } else if (gw.tenantManager.getObject() != null) {
             currentTM = gw.tenantManager.getObject();
             changedTenantManager();
         }
-
 
         return uuid;
     }
@@ -219,9 +215,7 @@ public class SessionManager {
             }
         }
 
-
-        if (currentTM == gw.tenantManager.getObject()
-                && currentTM != null) {
+        if (currentTM == gw.tenantManager.getObject() && currentTM != null) {
             currentTM
                     .unregisterTenant(keyRemoved.keyParts[SessionKey.SCOPE_IDX]);
         } else if (gw.tenantManager.getObject() != null) {
@@ -272,14 +266,17 @@ public class SessionManager {
         }
     }
 
-    public boolean isDuplicatedSession(final UUID sessionId, final String peerId,
-            final String aalSpaceId, final String scopeId) {
+    public boolean isDuplicatedSession(final UUID sessionId,
+            final String peerId, final String aalSpaceId, final String scopeId) {
         final SessionKey stored = uuids.get(sessionId);
-        if ( stored == null ) return false;
+        if (stored == null)
+            return false;
         final SessionKey key = new SessionKey(peerId, aalSpaceId, scopeId);
-        if (key.equals(stored) == false ) return false;
+        if (key.equals(stored) == false)
+            return false;
         synchronized (sessions) {
-            if (sessions.containsKey(key)) return true;
+            if (sessions.containsKey(key))
+                return true;
         }
         return false;
     }
@@ -295,7 +292,8 @@ public class SessionManager {
         }
         synchronized (sessions) {
             if (sessions.containsKey(key)) {
-                log.info("Replacing existing session with a new UUID from "+oldUUID+" to "+sessionId);
+                log.info("Replacing existing session with a new UUID from "
+                        + oldUUID + " to " + sessionId);
                 uuids.remove(oldUUID);
                 links.remove(oldUUID);
             }
@@ -307,9 +305,11 @@ public class SessionManager {
     public String getPeerIdFromSession(final UUID session) {
         final SessionKey key = uuids.get(session);
         synchronized (sessions) {
-            if ( key == null ) {
-                throw new IllegalStateException("No session with UUID "
-                        + session);
+            if (key == null) {
+                log.debug(
+                        "Unable to get PeerId because no session exists with the given UUID: "
+                                + session);
+                return null;
             }
             return uuids.get(session).keyParts[SessionKey.PEER_IDX];
         }
@@ -318,9 +318,11 @@ public class SessionManager {
     public String getAALSpaceIdFromSession(final UUID session) {
         final SessionKey key = uuids.get(session);
         synchronized (sessions) {
-            if ( key == null ) {
-                throw new IllegalStateException("No session with UUID "
-                        + session);
+            if (key == null) {
+                log.debug(
+                        "Unable to get SpaceId because no session exists with the given UUID: "
+                                + session);
+                return null;
             }
             return key.keyParts[SessionKey.SPACE_IDX];
         }

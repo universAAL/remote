@@ -267,7 +267,7 @@ public class Session implements MessageSender, MessageReceiver,
     }
 
     public void stop() {
-        if (config.getConnectionMode() != ConnectionMode.SERVER) {
+        if (config.getConnectionMode() == ConnectionMode.SERVER) {
             LogUtils.logInfo(
                     Gateway.getInstance().context,
                     getClass(),

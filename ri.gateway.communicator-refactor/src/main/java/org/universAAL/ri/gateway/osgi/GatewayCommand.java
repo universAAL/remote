@@ -45,7 +45,7 @@ public class GatewayCommand extends OsgiCommandSupport {
 
     /*
      * private enum Subcommands { CONFIG, }
-     * 
+     *
      * @Option(name = "-c", aliases = "--config", description =
      * "Shows the active configurations", required = false, multiValued = false)
      * EnumSet<Subcommands> config = EnumSet.of(Subcommands.CONFIG);
@@ -53,54 +53,55 @@ public class GatewayCommand extends OsgiCommandSupport {
 
     @Override
     protected Object doExecute() throws Exception {
-	final SessionManager sm = SessionManager.getInstance();
-	final Gateway gw = Gateway.getInstance();
+        final SessionManager sm = SessionManager.getInstance();
+        final Gateway gw = Gateway.getInstance();
 
-	Collection<Server> servers = gw.getServers();
+        Collection<Server> servers = gw.getServers();
 
-	if (!servers.isEmpty()) {
-	    System.out.println("List of active Servers:");
-	    System.out.printf("%3s - %20s - %20s - %20s - %10s\n", "n#",
-		    "name", "interface", "port", "Status");
-	    System.out
-		    .println("-----------------------------------------------------------------------");
-	    int n = 1;
-	    for (Server server : servers) {
-		System.out.printf("%03d - %20s - %20s - %20s - %10s\n", n++,
-			gw.getName(server), server.getInterface(),
-			server.getPort(), server.isActive());
-	    }
-	}
+        if (!servers.isEmpty()) {
+            System.out.println("List of active Servers:");
+            System.out.printf("%3s - %20s - %20s - %20s - %10s\n", "n#",
+                    "name", "interface", "port", "Status");
+            System.out
+                    .println("-----------------------------------------------------------------------");
+            int n = 1;
+            for (Server server : servers) {
+                System.out.printf("%03d - %20s - %20s - %20s - %10s\n", n++,
+                        gw.getName(server), server.getInterface(),
+                        server.getPort(), server.isActive());
+            }
+        }
 
-	Collection<Session> list = gw.getSessions();
-	if (!list.isEmpty()) {
-	    System.out.println("List of active sessions:");
-	    System.out.printf("%3s - %20s - %20s - %20s - %10s\n", "n#",
-		    "name", "session id", "AAL Space", "Status");
-	    System.out
-		    .println("-----------------------------------------------------------------------");
-	    int n = 1;
-	    for (Session session : list) {
-		String name;
-		String AALSpace;
-		boolean isActive = session.isActive();
-		if (session.getScope() != null) {
-		    UUID id = UUID.fromString(session.getScope());
-		    AALSpace = sm.getAALSpaceIdFromSession(id);
-		    name = id.toString();
-		} else {
-		    name = "UnNamed";
-		    AALSpace = "";
-		}
-		System.out.printf("%03d - %20s - %20s - %20s - %10s\n", n++,
-			name, gw.getName(session),
-			AALSpace, isActive);
-	    }
-	}
-	if (servers.isEmpty() && list.isEmpty()) {
-	    System.out.println("No Servers, or sessions active.");
-	}
-	return null;
+        Collection<Session> list = gw.getSessions();
+        if (!list.isEmpty()) {
+            System.out.println("List of active sessions:");
+            System.out.printf("%3s - %20s - %20s - %20s - %10s\n", "n#",
+                    "name", "session id", "AAL Space", "Status");
+            System.out
+                    .println("-----------------------------------------------------------------------");
+            int n = 1;
+            for (Session session : list) {
+                String name = null;
+                boolean isActive = session.isActive();
+                final String scope = session.getScope();
+                String AALSpace = sm.getAALSpaceIdFromSession(scope != null ? UUID.fromString(scope) : null );
+                if (scope != null && AALSpace != null ) {
+                    name = scope;
+                } else if ( scope == null ) {
+                    name = "Broken Session Manager -> Invalid Scope";
+                } else if (scope != null && AALSpace == null ) {
+                    name = scope;
+                    AALSpace = "<LeftOver Session>";
+                }
+                System.out.printf("%03d - %20s - %20s - %20s - %10s\n", n++,
+                        name, gw.getName(session),
+                        AALSpace, isActive);
+            }
+        }
+        if (servers.isEmpty() && list.isEmpty()) {
+            System.out.println("No Servers, or sessions active.");
+        }
+        return null;
     }
 
 }

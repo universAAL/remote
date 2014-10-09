@@ -26,8 +26,8 @@ package org.universAAL.ri.gateway.communicator.service.impl;
 
 import java.io.EOFException;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -59,7 +59,8 @@ public abstract class AbstractSocketCommunicationHandler implements
         this.cipher = cipher;
     }
 
-    protected MessageWrapper readMessage(final InputStream in) throws Exception {
+    protected MessageWrapper readMessage(final ObjectInputStream in)
+            throws Exception {
         AbstractSocketCommunicationHandler.log
                 .debug("Reading a message on the link");
         final MessageWrapper msg = Serializer.unmarshalMessage(in, cipher);
@@ -98,10 +99,10 @@ public abstract class AbstractSocketCommunicationHandler implements
         }
         for (final UUID currentSession : activeSessions) {
 
-            final OutputStream out = sessionManager
-                    .getOutputStream(currentSession);
-            final InputStream in = sessionManager
-                    .getInputStream(currentSession);
+            final ObjectOutputStream out = sessionManager
+                    .getObjectOutputStream(currentSession);
+            final ObjectInputStream in = sessionManager
+                    .getObjectInputStream(currentSession);
 
             if (out == null || in == null) {
                 // TODO log that we found an invalid-session

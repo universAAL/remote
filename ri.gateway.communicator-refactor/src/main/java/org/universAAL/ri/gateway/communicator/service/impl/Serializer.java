@@ -20,14 +20,11 @@ limitations under the License.
  */
 package org.universAAL.ri.gateway.communicator.service.impl;
 
-import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.OutputStream;
 import java.io.Serializable;
 
 import org.bouncycastle.crypto.CryptoException;
@@ -44,47 +41,47 @@ public enum Serializer {
     Instance;
 
     public Message marshallObject(final Object objectToMarshall)
-            throws IOException {
-        final MessageContentSerializer contentSerializer = Gateway
-                .getInstance().serializer.getObject();
-        return new Message(contentSerializer.serialize(objectToMarshall));
-        // Object serialized = Base64.encodeObject(objectToMarshall);
-        // Message m = new Message(serialized);
-        // return m;
+	    throws IOException {
+	final MessageContentSerializer contentSerializer = Gateway
+		.getInstance().serializer.getObject();
+	return new Message(contentSerializer.serialize(objectToMarshall));
+	// Object serialized = Base64.encodeObject(objectToMarshall);
+	// Message m = new Message(serialized);
+	// return m;
     }
 
     public <T> T unmarshallObject(final Class<T> clazz, final Message message)
-            throws IOException, ClassNotFoundException {
-        final MessageContentSerializer contentSerializer = Gateway
-                .getInstance().serializer.getObject();
-        // return (T) Base64.decodeToObject((String) message.getContent());
-        return (T) contentSerializer.deserialize((String) message.getContent());
+	    throws IOException, ClassNotFoundException {
+	final MessageContentSerializer contentSerializer = Gateway
+		.getInstance().serializer.getObject();
+	// return (T) Base64.decodeToObject((String) message.getContent());
+	return (T) contentSerializer.deserialize((String) message.getContent());
     }
 
     public <T> T unmarshallObject(final Class<T> clazz, final Object obj,
-            final ClassLoader cl) throws IOException, ClassNotFoundException {
-        final MessageContentSerializer contentSerializer = Gateway
-                .getInstance().serializer.getObject();
-        // return (T) Base64.decodeToObject((String) obj, Base64.NO_OPTIONS,
-        // cl);
-        return (T) contentSerializer.deserialize((String) obj);
+	    final ClassLoader cl) throws IOException, ClassNotFoundException {
+	final MessageContentSerializer contentSerializer = Gateway
+		.getInstance().serializer.getObject();
+	// return (T) Base64.decodeToObject((String) obj, Base64.NO_OPTIONS,
+	// cl);
+	return (T) contentSerializer.deserialize((String) obj);
     }
 
     public Message marshall(final Object obj) {
-        return new Message(obj);
+	return new Message(obj);
     }
 
     public <T> T unmarshall(final Class<T> clazz, final Message message) {
-        return (T) message.getContent();
+	return (T) message.getContent();
     }
 
     /**
-     * Deserializes the wrapper and sends to a ready stream.
-     *
+     * Deserialize the wrapper and sends to a ready stream.
+     * 
      * @param wrp
      *            the wrapper
      * @param out
-     *            the stream
+     *            the ObjectOutputStream where to write data to
      * @param cipher
      *            TODO
      * @throws IOException
@@ -92,23 +89,22 @@ public enum Serializer {
      * @throws CryptoException
      */
     public static void sendMessageToStream(final MessageWrapper wrp,
-            final OutputStream out, final Cipher cipher) throws IOException,
-            CryptoException {
+	    final ObjectOutputStream out, final Cipher cipher)
+	    throws IOException, CryptoException {
 
-        final byte[] encrypted = cipher.encrypt(toByteArray(wrp));
+	final byte[] encrypted = cipher.encrypt(toByteArray(wrp));
 
-        final EncryptionWrapper enc = new EncryptionWrapper(encrypted);
+	final EncryptionWrapper enc = new EncryptionWrapper(encrypted);
 
-        final ObjectOutputStream oos = new ObjectOutputStream(out);
-        oos.writeObject(enc);
-        oos.flush();
+	out.writeObject(enc);
+	out.flush();
     }
 
     /**
      * Reads a message wrapper from a stream.
-     *
-     * @param is
-     *            input stream to read from a
+     * 
+     * @param ois
+     *            ObjectInputStream to read from a
      * @param cipher
      *            TODO
      * @return a message wrapper
@@ -118,59 +114,61 @@ public enum Serializer {
      *             deserulization exception
      * @throws CryptoException
      */
-    public static MessageWrapper unmarshalMessage(final InputStream is,
-            final Cipher cipher) throws IOException, ClassNotFoundException,
-            CryptoException {
+    public static MessageWrapper unmarshalMessage(final ObjectInputStream ois,
+	    final Cipher cipher) throws IOException, ClassNotFoundException,
+	    CryptoException {
 
-        final BufferedInputStream bis = new BufferedInputStream(is);
+	/*
+	 * final BufferedInputStream bis = new BufferedInputStream(is);
+	 * 
+	 * final ObjectInputStream ois = new ObjectInputStream(bis);
+	 */
+	final EncryptionWrapper enc = (EncryptionWrapper) ois.readObject();
 
-        final ObjectInputStream ois = new ObjectInputStream(bis);
-        final EncryptionWrapper enc = (EncryptionWrapper) ois.readObject();
+	final byte[] decrypted = cipher.decrypt(enc.getPayload());
+	final MessageWrapper wrap = (MessageWrapper) toObject(decrypted);
 
-        final byte[] decrypted = cipher.decrypt(enc.getPayload());
-        final MessageWrapper wrap = (MessageWrapper) toObject(decrypted);
-
-        // ois.close();
-        return wrap;
+	// ois.close();
+	return wrap;
     }
 
     private static byte[] toByteArray(final Object obj) throws IOException {
-        byte[] bytes = null;
-        final ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        final ObjectOutputStream oos = new ObjectOutputStream(bos);
-        oos.writeObject(obj);
-        oos.flush();
-        oos.close();
-        bos.close();
-        bytes = bos.toByteArray();
-        return bytes;
+	byte[] bytes = null;
+	final ByteArrayOutputStream bos = new ByteArrayOutputStream();
+	final ObjectOutputStream oos = new ObjectOutputStream(bos);
+	oos.writeObject(obj);
+	oos.flush();
+	oos.close();
+	bos.close();
+	bytes = bos.toByteArray();
+	return bytes;
     }
 
     private static Object toObject(final byte[] bytes) throws IOException,
-            ClassNotFoundException {
-        Object obj = null;
-        final ByteArrayInputStream bis = new ByteArrayInputStream(bytes);
-        final ObjectInputStream ois = new ObjectInputStream(bis);
-        obj = ois.readObject();
-        return obj;
+	    ClassNotFoundException {
+	Object obj = null;
+	final ByteArrayInputStream bis = new ByteArrayInputStream(bytes);
+	final ObjectInputStream ois = new ObjectInputStream(bis);
+	obj = ois.readObject();
+	return obj;
     }
 
     public static class EncryptionWrapper implements Serializable {
 
-        /**
+	/**
          *
          */
-        private static final long serialVersionUID = 8161296430726209292L;
+	private static final long serialVersionUID = 8161296430726209292L;
 
-        public EncryptionWrapper(final byte[] payload) {
-            this.payload = payload;
-        }
+	public EncryptionWrapper(final byte[] payload) {
+	    this.payload = payload;
+	}
 
-        private final byte[] payload;
+	private final byte[] payload;
 
-        public byte[] getPayload() {
-            return payload;
-        }
+	public byte[] getPayload() {
+	    return payload;
+	}
 
     }
 }

@@ -26,7 +26,7 @@ package org.universAAL.ri.gateway.communicator.service.impl;
 
 import java.io.EOFException;
 import java.io.IOException;
-import java.io.InputStream;
+import java.io.ObjectInputStream;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
@@ -44,7 +44,6 @@ import org.universAAL.ri.gateway.Gateway;
 import org.universAAL.ri.gateway.ProxyMessageReceiver;
 import org.universAAL.ri.gateway.Session;
 import org.universAAL.ri.gateway.SessionEvent;
-import org.universAAL.ri.gateway.SessionEvent.SessionStatus;
 import org.universAAL.ri.gateway.communication.cipher.Blowfish;
 import org.universAAL.ri.gateway.configuration.Configuration;
 import org.universAAL.ri.gateway.protocol.MessageReceiver;
@@ -158,7 +157,8 @@ public class ServerSocketCommunicationHandler extends
             if (socket != null && !socket.isClosed()) {
                 MessageWrapper msg;
                 try {
-                    msg = getNextMessage(in);
+                    msg = getNextMessage(refSM
+                            .getObjectInputStream(currentSession));
                 } catch (final Exception e) {
                     if (e instanceof EOFException) {
                         log.info("Failed to read message of the stream beacuse it was closed from the other side");
@@ -229,8 +229,9 @@ public class ServerSocketCommunicationHandler extends
                         MessageType.ConnectResponse,
                         Serializer.Instance.marshall(response), source);
                 try {
-                    Serializer
-                            .sendMessageToStream(responseMessage, out, cipher);
+                    Serializer.sendMessageToStream(responseMessage,
+                            sessionManger.getObjectOutputStream(session),
+                            cipher);
                 } catch (final Exception e) {
                     e.printStackTrace();
                     // TODO Close the session
@@ -247,7 +248,8 @@ public class ServerSocketCommunicationHandler extends
                 mySession.setStatus(SessionEvent.SessionStatus.CONNECTED);
                 gw.newSession(socket.toString(), mySession);
                 // XXX This is a dirty why to connect the Session to the link
-                ((ProxyMessageReceiver) super.communicator).setFinalReceiver(mySession);
+                ((ProxyMessageReceiver) super.communicator)
+                        .setFinalReceiver(mySession);
                 return true;
             }
 
@@ -265,7 +267,7 @@ public class ServerSocketCommunicationHandler extends
                 }
                 try {
                     sessionManger.close(session);
-                        mySession.setStatus(SessionEvent.SessionStatus.CLOSED);
+                    mySession.setStatus(SessionEvent.SessionStatus.CLOSED);
                 } catch (final Exception ex) {
                     log.debug("Error closing the session UUID =" + session, ex);
                 }
@@ -300,7 +302,8 @@ public class ServerSocketCommunicationHandler extends
                         MessageType.ConnectResponse,
                         Serializer.Instance.marshall(response), source);
                 try {
-                    Serializer.sendMessageToStream(responseMessage, out, null);
+                    Serializer.sendMessageToStream(responseMessage,
+                            sessionManger.getObjectOutputStream(session), null);
                 } catch (final Exception e) {
                     e.printStackTrace();
                     // TODO Close the session
@@ -323,14 +326,14 @@ public class ServerSocketCommunicationHandler extends
         }
 
         @Override
-        protected MessageWrapper getNextMessage(final InputStream in)
+        protected MessageWrapper getNextMessage(final ObjectInputStream in)
                 throws Exception {
             return readMessage(in);
         }
 
         @Override
         public void stop() {
-                mySession.setStatus(SessionEvent.SessionStatus.CLOSED);
+            mySession.setStatus(SessionEvent.SessionStatus.CLOSED);
             super.stop();
             disconnect();
             cleanUpSession();

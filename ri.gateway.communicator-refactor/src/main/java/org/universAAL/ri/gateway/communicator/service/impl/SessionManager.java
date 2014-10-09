@@ -21,8 +21,12 @@
 
 package org.universAAL.ri.gateway.communicator.service.impl;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.util.Arrays;
 import java.util.Collection;
@@ -93,6 +97,8 @@ public class SessionManager {
         boolean connected;
         InputStream in;
         OutputStream out;
+        ObjectInputStream ois;
+        ObjectOutputStream oos;
     }
 
     private final Map<SessionKey, UUID> sessions = new HashMap<SessionManager.SessionKey, UUID>();
@@ -176,6 +182,27 @@ public class SessionManager {
                     status.connected = true;
                     status.in = in;
                     status.out = out;
+                    try {
+                        status.ois = new ObjectInputStream(
+                                new BufferedInputStream(status.in));
+                        status.oos = new ObjectOutputStream(
+                                new BufferedOutputStream(status.out));
+                    } catch (IOException ex) {
+                        log.error(
+                                "Failed to create Object{Input,Output}Strean",
+                                ex);
+                        status.connected = false;
+                        try {
+                            in.close();
+                        } catch (IOException e) {
+                            log.error("Failed to clean up InputStream", ex);
+                        }
+                        try {
+                            out.close();
+                        } catch (IOException e) {
+                            log.error("Failed to clean up OutputStream", ex);
+                        }
+                    }
                 }
             }
         }
@@ -225,7 +252,7 @@ public class SessionManager {
 
     }
 
-    public OutputStream getOutputStream(final UUID session) {
+    private OutputStream getOutputStream(final UUID session) {
         SessionStatus info = null;
         synchronized (links) {
             info = links.get(session);
@@ -237,7 +264,7 @@ public class SessionManager {
         return info.out;
     }
 
-    public InputStream getInputStream(final UUID session) {
+    private InputStream getInputStream(final UUID session) {
         SessionStatus info = null;
         synchronized (links) {
             info = links.get(session);
@@ -247,6 +274,30 @@ public class SessionManager {
             return null;
         }
         return info.in;
+    }
+
+    public ObjectInputStream getObjectInputStream(final UUID session) {
+        SessionStatus info = null;
+        synchronized (links) {
+            info = links.get(session);
+        }
+        if (info == null || info.connected == false) {
+            // TODO Log the issue
+            return null;
+        }
+        return info.ois;
+    }
+
+    public ObjectOutputStream getObjectOutputStream(final UUID session) {
+        SessionStatus info = null;
+        synchronized (links) {
+            info = links.get(session);
+        }
+        if (info == null || info.connected == false) {
+            // TODO Log the issue
+            return null;
+        }
+        return info.oos;
     }
 
     public boolean isActive(final UUID session) {
@@ -306,9 +357,8 @@ public class SessionManager {
         final SessionKey key = uuids.get(session);
         synchronized (sessions) {
             if (key == null) {
-                log.debug(
-                        "Unable to get PeerId because no session exists with the given UUID: "
-                                + session);
+                log.debug("Unable to get PeerId because no session exists with the given UUID: "
+                        + session);
                 return null;
             }
             return uuids.get(session).keyParts[SessionKey.PEER_IDX];
@@ -319,9 +369,8 @@ public class SessionManager {
         final SessionKey key = uuids.get(session);
         synchronized (sessions) {
             if (key == null) {
-                log.debug(
-                        "Unable to get SpaceId because no session exists with the given UUID: "
-                                + session);
+                log.debug("Unable to get SpaceId because no session exists with the given UUID: "
+                        + session);
                 return null;
             }
             return key.keyParts[SessionKey.SPACE_IDX];

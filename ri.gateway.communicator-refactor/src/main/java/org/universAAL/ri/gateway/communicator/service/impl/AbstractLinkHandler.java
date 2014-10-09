@@ -22,6 +22,7 @@ package org.universAAL.ri.gateway.communicator.service.impl;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.ObjectInputStream;
 import java.io.OutputStream;
 import java.net.Socket;
 import java.util.UUID;
@@ -58,6 +59,8 @@ public abstract class AbstractLinkHandler implements Runnable {
     protected final MessageReceiver communicator;
     protected LinkHandlerStatus state;
     private final Cipher cipher;
+    protected final SessionManager refSM = SessionManager.getInstance();
+
     private static final Logger log = LoggerFactory.createLoggerFactory(
             Gateway.getInstance().context).getLogger(AbstractLinkHandler.class);
 
@@ -136,18 +139,16 @@ public abstract class AbstractLinkHandler implements Runnable {
     protected boolean reconnect() {
         final AALSpaceManager spaceManager = Gateway.getInstance().spaceManager
                 .getObject();
-        final SessionManager sessionManger = SessionManager.getInstance();
         final String spaceId = spaceManager.getAALSpaceDescriptor()
                 .getSpaceCard().getSpaceID();
         final String peerId = spaceManager.getMyPeerCard().getPeerID();
 
-        if (spaceId.equals(sessionManger
-                .getAALSpaceIdFromSession(currentSession)) == false) {
+        if (spaceId.equals(refSM.getAALSpaceIdFromSession(currentSession)) == false) {
             throw new IllegalStateException(
                     "We joined a different AAL Space, during the automatic reconnection of the Gateway,");
         }
 
-        if (peerId.equals(sessionManger.getPeerIdFromSession(currentSession)) == false) {
+        if (peerId.equals(refSM.getPeerIdFromSession(currentSession)) == false) {
             throw new IllegalStateException(
                     "Between the automatic reconnection of the Gateway we changed our PeerId something strange happened");
         }
@@ -158,8 +159,10 @@ public abstract class AbstractLinkHandler implements Runnable {
                 MessageType.Reconnect, Serializer.Instance.marshall(request),
                 peerId);
         try {
-            Serializer.sendMessageToStream(responseMessage, out, cipher);
-            final MessageWrapper rsp = getNextMessage(in);
+            Serializer.sendMessageToStream(responseMessage,
+                    refSM.getObjectOutputStream(currentSession), cipher);
+            final MessageWrapper rsp = getNextMessage(refSM
+                    .getObjectInputStream(currentSession));
             if (rsp.getType() != MessageType.ConnectResponse) {
                 throw new IllegalArgumentException("Expected "
                         + MessageType.ConnectResponse + " message after a "
@@ -179,7 +182,7 @@ public abstract class AbstractLinkHandler implements Runnable {
                  */
                 currentSession = response.getSessionId();
             }
-            sessionManger.setLink(currentSession, socket.getInputStream(),
+            refSM.setLink(currentSession, socket.getInputStream(),
                     socket.getOutputStream());
             return true;
         } catch (final Exception e) {
@@ -191,7 +194,7 @@ public abstract class AbstractLinkHandler implements Runnable {
     protected void cleanUpSession() {
         try {
             if (currentSession != null) {
-                SessionManager.getInstance().close(currentSession);
+                refSM.close(currentSession);
             }
         } catch (final Exception ex) {
             ex.printStackTrace();
@@ -207,7 +210,6 @@ public abstract class AbstractLinkHandler implements Runnable {
     protected boolean connect() {
         final AALSpaceManager spaceManager = Gateway.getInstance().spaceManager
                 .getObject();
-        final SessionManager sessionManger = SessionManager.getInstance();
         final String spaceId = spaceManager.getAALSpaceDescriptor()
                 .getSpaceCard().getSpaceID();
         final String spaceName = spaceManager.getAALSpaceDescriptor()
@@ -219,8 +221,10 @@ public abstract class AbstractLinkHandler implements Runnable {
                 MessageType.ConnectRequest,
                 Serializer.Instance.marshall(request), peerId);
         try {
-            Serializer.sendMessageToStream(responseMessage, out, cipher);
-            final MessageWrapper rsp = getNextMessage(in);
+            Serializer.sendMessageToStream(responseMessage,
+                    refSM.getObjectOutputStream(currentSession), cipher);
+            final MessageWrapper rsp = getNextMessage(refSM
+                    .getObjectInputStream(currentSession));
             if (rsp.getType() != MessageType.ConnectResponse) {
                 throw new IllegalArgumentException("Expected "
                         + MessageType.ConnectResponse + " message after a "
@@ -234,10 +238,10 @@ public abstract class AbstractLinkHandler implements Runnable {
              * recoverying an old one, in that case we don't have to store the
              * session
              */
-            if (sessionManger.isDuplicatedSession(response.getSessionId(),
+            if (refSM.isDuplicatedSession(response.getSessionId(),
                     response.getPeerId(), response.getAALSpaceId(),
                     response.getScopeId()) == false) {
-                sessionManger.storeSession(response.getSessionId(),
+                refSM.storeSession(response.getSessionId(),
                         response.getPeerId(), response.getAALSpaceId(),
                         response.getScopeId());
             }
@@ -246,7 +250,7 @@ public abstract class AbstractLinkHandler implements Runnable {
              * if we are recovering the old TCP link is no more valid
              */
             currentSession = response.getSessionId();
-            sessionManger.setLink(currentSession, socket.getInputStream(),
+            refSM.setLink(currentSession, socket.getInputStream(),
                     socket.getOutputStream());
             return true;
         } catch (final Exception e) {
@@ -255,7 +259,7 @@ public abstract class AbstractLinkHandler implements Runnable {
         return false;
     }
 
-    protected abstract MessageWrapper getNextMessage(InputStream in)
+    protected abstract MessageWrapper getNextMessage(ObjectInputStream ois)
             throws Exception;
 
     protected boolean disconnect() {
@@ -271,7 +275,8 @@ public abstract class AbstractLinkHandler implements Runnable {
                 Serializer.Instance.marshall(disconnectionRequest), peerId);
         boolean result = true;
         try {
-            Serializer.sendMessageToStream(responseMessage, out, cipher);
+            Serializer.sendMessageToStream(responseMessage,
+                    refSM.getObjectOutputStream(currentSession), cipher);
         } catch (final Exception e) {
             e.printStackTrace();
             result = false;

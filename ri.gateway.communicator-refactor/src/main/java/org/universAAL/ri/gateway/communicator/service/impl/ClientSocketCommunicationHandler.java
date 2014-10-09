@@ -26,7 +26,7 @@ package org.universAAL.ri.gateway.communicator.service.impl;
 
 import java.io.EOFException;
 import java.io.IOException;
-import java.io.InputStream;
+import java.io.ObjectInputStream;
 import java.net.ConnectException;
 import java.net.InetAddress;
 import java.net.Socket;
@@ -34,15 +34,12 @@ import java.util.UUID;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
-import javax.sql.ConnectionEvent;
-
 import org.universAAL.log.Logger;
 import org.universAAL.log.LoggerFactory;
 import org.universAAL.middleware.managers.api.AALSpaceManager;
 import org.universAAL.ri.gateway.Gateway;
 import org.universAAL.ri.gateway.Session;
 import org.universAAL.ri.gateway.SessionEvent;
-import org.universAAL.ri.gateway.SessionEvent.SessionStatus;
 import org.universAAL.ri.gateway.configuration.Configuration;
 import org.universAAL.ri.gateway.protocol.MessageReceiver;
 import org.universAAL.ri.gateway.protocol.link.DisconnectionRequest;
@@ -125,7 +122,9 @@ public class ClientSocketCommunicationHandler extends
                         socket = new Socket(addr, config.getConnectionPort());
                         creator.setStatus(SessionEvent.SessionStatus.CONNECTING);
                     } catch (ConnectException ce) {
-                        final String msg = "Server appears to be down: \"" + ce.getMessage() + "\" retrying in "+RECONNECT_WAITING_TIME+"ms";
+                        final String msg = "Server appears to be down: \""
+                                + ce.getMessage() + "\" retrying in "
+                                + RECONNECT_WAITING_TIME + "ms";
                         log.info(msg);
                         continue;
                     } catch (final Exception ex) {
@@ -202,8 +201,9 @@ public class ClientSocketCommunicationHandler extends
                 }
             }
             log.debug("SESSION (RE)ESTABILISHED with " + currentSession);
-            //session.setScope(currentSession.toString());
-            session.setScope(SessionManager.getInstance().getAALSpaceIdFromSession(currentSession));
+            // session.setScope(currentSession.toString());
+            session.setScope(SessionManager.getInstance()
+                    .getAALSpaceIdFromSession(currentSession));
             return true;
         }
 
@@ -212,7 +212,8 @@ public class ClientSocketCommunicationHandler extends
             if (socket != null && !socket.isClosed()) {
                 MessageWrapper msg;
                 try {
-                    msg = getNextMessage(in);
+                    msg = getNextMessage(refSM
+                            .getObjectInputStream(currentSession));
                 } catch (final Exception e) {
                     if (e instanceof EOFException) {
                         log.info("Failed to read message of the stream beacuse it was closed from the other side");
@@ -237,7 +238,7 @@ public class ClientSocketCommunicationHandler extends
         }
 
         @Override
-        protected MessageWrapper getNextMessage(final InputStream in)
+        protected MessageWrapper getNextMessage(final ObjectInputStream in)
                 throws Exception {
             return readMessage(in);
         }
@@ -295,7 +296,7 @@ public class ClientSocketCommunicationHandler extends
             stopServerThread = true;
         }
         synchronized (LOCK_VAR_LINK_HANDLER) {
-            if ( currentLinkHandler != null ) {
+            if (currentLinkHandler != null) {
                 currentLinkHandler.stop();
                 currentLinkHandler.disconnect();
                 creator.setStatus(SessionEvent.SessionStatus.CLOSED);

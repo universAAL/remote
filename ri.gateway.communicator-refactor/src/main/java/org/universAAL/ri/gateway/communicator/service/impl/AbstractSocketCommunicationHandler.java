@@ -29,6 +29,8 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -70,39 +72,53 @@ public abstract class AbstractSocketCommunicationHandler implements
     }
 
     public MessageWrapper sendMessage(final MessageWrapper toSend,
-            final String[] sessions) throws IOException,
-            ClassNotFoundException, CryptoException {
+            final String[] scopes) throws IOException, ClassNotFoundException,
+            CryptoException {
 
         // TODO Stefano Lenzi: Use the target to select the scope where to send
         // the message, it should be an UUID
 
         MessageWrapper resp = null;
-        final SessionManager sessionManager = SessionManager.getInstance();
+        final SessionManager refSM = SessionManager.getInstance();
 
-        final List<UUID> activeSessions = new ArrayList<UUID>();
+        final List<UUID> targetLinks;
+        Arrays.sort(scopes);
 
-        for (int i = 0; i < sessions.length; i++) {
-            if (CommunicationHandler.BROADCAST_SESSION == sessions[i]
-                    || CommunicationHandler.BROADCAST_SESSION
-                            .equals(sessions[i])) {
-                // TODO Broadcast, something like
-                // sessionManager.getAllSessions();
+        if (isBroadcat(scopes)) {
+            targetLinks = Arrays.asList(refSM.getSessionIds());
+            if (scopes.length > 1) {
+                log.warning("Sending a message with multiple scopes, but on of them is BROADCAST so we sent to all");
             }
-            final UUID currentSession = UUID.fromString(sessions[i]);
-            if (sessionManager.isActive(currentSession) == false) {
-                // TODO that we haven't sent a file: either because the other
-                // peer gently left or because the the link failed and gateway
-                // are training to reconnect each other
+            log.debug("The message is meant to be send as BROADCAST");
+        } else {
+            /*
+             * is a multi-cast or unicast so we have to find the target manually
+             */
+            log.debug("Sending a messages as multicast or unicast");
+            targetLinks = new ArrayList<UUID>();
+            UUID[] sessions = refSM.getSessionIds();
+
+            for (int i = 0; i < sessions.length; i++) {
+                String spaceId = refSM.getAALSpaceIdFromSession(sessions[i]);
+                if (Arrays.binarySearch(scopes, spaceId) >= 0) {
+                    targetLinks.add(sessions[i]);
+                }
+            }
+            log.debug("Found the following target "
+                    + Arrays.toString(targetLinks.toArray())
+                    + " for the message that had the following scopes "
+                    + Arrays.toString(scopes));
+        }
+        for (UUID link : targetLinks) {
+            if (refSM.isActive(link) == false) {
+                /*
+                 * The session is not active so we are not sending to it
+                 */
+                log.warning("The selected session "+link+" is UNACTIVE so no message will be sent to it");
                 continue;
             }
-            activeSessions.add(currentSession);
-        }
-        for (final UUID currentSession : activeSessions) {
-
-            final ObjectOutputStream out = sessionManager
-                    .getObjectOutputStream(currentSession);
-            final ObjectInputStream in = sessionManager
-                    .getObjectInputStream(currentSession);
+            final ObjectOutputStream out = refSM.getObjectOutputStream(link);
+            final ObjectInputStream in = refSM.getObjectInputStream(link);
 
             if (out == null || in == null) {
                 // TODO log that we found an invalid-session
@@ -119,9 +135,20 @@ public abstract class AbstractSocketCommunicationHandler implements
                 // no response (which is not an error) so we just return null
             }
         }
+
         // TODO either we change the return type to void/boolean or to
         // MessageWrapper[]
         return resp;
+    }
+
+    private boolean isBroadcat(String[] scopes) {
+        for (int i = 0; i < scopes.length; i++) {
+            if (CommunicationHandler.BROADCAST_SESSION == scopes[i]
+                    || CommunicationHandler.BROADCAST_SESSION.equals(scopes[i])) {
+                return true;
+            }
+        }
+        return false;
     }
 
 }

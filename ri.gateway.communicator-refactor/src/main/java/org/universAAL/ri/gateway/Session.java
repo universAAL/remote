@@ -143,11 +143,24 @@ public class Session implements MessageSender, MessageReceiver,
         }
     }
 
+    /**
+     *
+     * @param scope
+     *            the {@link String} representing the scope of this Session. At
+     *            the moment the Scope is represented by the AALSpaceId of the
+     *            AALSpace that we are connected to
+     */
     public void setScope(final String scope) {
         validateRemoteScope(scope);
         this.remoteScope = scope;
     }
 
+    /**
+     *
+     * @return the {@link String} representing the scope of this Session. At the
+     *         moment the Scope is represented by the AALSpaceId of the AALSpace
+     *         that we are connected to
+     */
     public String getScope() {
         return remoteScope;
     }
@@ -184,15 +197,11 @@ public class Session implements MessageSender, MessageReceiver,
             throw new IllegalStateException(
                     "Scope cannot set be null, otherwise sending and rieving message will not work");
         }
-        try {
-            UUID.fromString(scope);
-        } catch (final Exception e) {
-            throw new IllegalStateException(
-                    "Scope "
-                            + scope
-                            + " is not a valid value we are expecting scope to be an UUID",
-                    e);
-        }
+        /*
+         * try { UUID.fromString(scope); } catch (final Exception e) { throw new
+         * IllegalStateException( "Scope " + scope +
+         * " is not a valid value we are expecting scope to be an UUID", e); }
+         */
     }
 
     public Message sendRequest(final Message message) {

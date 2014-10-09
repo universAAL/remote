@@ -294,9 +294,11 @@ public class ClientSocketCommunicationHandler extends
             stopServerThread = true;
         }
         synchronized (LOCK_VAR_LINK_HANDLER) {
-            currentLinkHandler.stop();
-            currentLinkHandler.disconnect();
-            creator.setStatus(SessionEvent.SessionStatus.CLOSED);
+            if ( currentLinkHandler != null ) {
+                currentLinkHandler.stop();
+                currentLinkHandler.disconnect();
+                creator.setStatus(SessionEvent.SessionStatus.CLOSED);
+            }
         }
     }
 

@@ -20,9 +20,12 @@
  */
 package org.universAAL.ri.gateway.communicator.service.impl;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.net.Socket;
 import java.util.UUID;
@@ -51,8 +54,8 @@ import org.universAAL.ri.gateway.protocol.link.ReconnectionRequest;
 public abstract class AbstractLinkHandler implements Runnable {
 
     protected final Socket socket;
-    protected final InputStream in;
-    protected final OutputStream out;
+    protected ObjectInputStream in;
+    protected ObjectOutputStream out;
     private boolean stop = false;
     private final Object LOCK_VAR_LOCAL_STOP = new Object();
     protected UUID currentSession = null;
@@ -98,14 +101,16 @@ public abstract class AbstractLinkHandler implements Runnable {
     }
 
     public AbstractLinkHandler(final Socket socket,
-            final MessageReceiver communicator2, final Cipher cipher) {
+            final MessageReceiver communicator, final Cipher cipher) {
         this.state = LinkHandlerStatus.INITIALIZING;
         this.socket = socket;
-        this.communicator = communicator2;
+        this.communicator = communicator;
         this.cipher = cipher;
         try {
-            in = socket.getInputStream();
-            out = socket.getOutputStream();
+            in = new ObjectInputStream(new BufferedInputStream(
+                    socket.getInputStream()));
+            out = new ObjectOutputStream(new BufferedOutputStream(
+                    socket.getOutputStream()));
         } catch (final Exception e) {
             cleanUpSession();
             log.error("SESSION BROKEN due to exception", e);
@@ -161,8 +166,7 @@ public abstract class AbstractLinkHandler implements Runnable {
         try {
             Serializer.sendMessageToStream(responseMessage,
                     refSM.getObjectOutputStream(currentSession), cipher);
-            final MessageWrapper rsp = getNextMessage(refSM
-                    .getObjectInputStream(currentSession));
+            final MessageWrapper rsp = getNextMessage(in);
             if (rsp.getType() != MessageType.ConnectResponse) {
                 throw new IllegalArgumentException("Expected "
                         + MessageType.ConnectResponse + " message after a "
@@ -182,8 +186,7 @@ public abstract class AbstractLinkHandler implements Runnable {
                  */
                 currentSession = response.getSessionId();
             }
-            refSM.setLink(currentSession, socket.getInputStream(),
-                    socket.getOutputStream());
+            refSM.setLink(currentSession, in, out);
             return true;
         } catch (final Exception e) {
             e.printStackTrace();
@@ -221,10 +224,8 @@ public abstract class AbstractLinkHandler implements Runnable {
                 MessageType.ConnectRequest,
                 Serializer.Instance.marshall(request), peerId);
         try {
-            Serializer.sendMessageToStream(responseMessage,
-                    refSM.getObjectOutputStream(currentSession), cipher);
-            final MessageWrapper rsp = getNextMessage(refSM
-                    .getObjectInputStream(currentSession));
+            Serializer.sendMessageToStream(responseMessage, out, cipher);
+            final MessageWrapper rsp = getNextMessage(in);
             if (rsp.getType() != MessageType.ConnectResponse) {
                 throw new IllegalArgumentException("Expected "
                         + MessageType.ConnectResponse + " message after a "
@@ -250,8 +251,7 @@ public abstract class AbstractLinkHandler implements Runnable {
              * if we are recovering the old TCP link is no more valid
              */
             currentSession = response.getSessionId();
-            refSM.setLink(currentSession, socket.getInputStream(),
-                    socket.getOutputStream());
+            refSM.setLink(currentSession, in, out);
             return true;
         } catch (final Exception e) {
             e.printStackTrace();

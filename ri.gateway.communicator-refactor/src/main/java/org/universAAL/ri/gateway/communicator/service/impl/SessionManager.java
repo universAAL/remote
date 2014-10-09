@@ -95,7 +95,13 @@ public class SessionManager {
 
     private class SessionStatus {
         boolean connected;
+        /**
+         * @deprecated
+         */
         InputStream in;
+        /**
+         * @deprecated
+         */
         OutputStream out;
         ObjectInputStream ois;
         ObjectOutputStream oos;
@@ -165,8 +171,8 @@ public class SessionManager {
         }
     }
 
-    public void setLink(final UUID session, final InputStream in,
-            final OutputStream out) {
+    public void setLink(final UUID session, final ObjectInputStream in,
+            final ObjectOutputStream out) {
         synchronized (sessions) {
             if (sessions.containsValue(session) == false) {
                 throw new IllegalArgumentException(
@@ -182,27 +188,8 @@ public class SessionManager {
                     status.connected = true;
                     status.in = in;
                     status.out = out;
-                    try {
-                        status.ois = new ObjectInputStream(
-                                new BufferedInputStream(status.in));
-                        status.oos = new ObjectOutputStream(
-                                new BufferedOutputStream(status.out));
-                    } catch (IOException ex) {
-                        log.error(
-                                "Failed to create Object{Input,Output}Strean",
-                                ex);
-                        status.connected = false;
-                        try {
-                            in.close();
-                        } catch (IOException e) {
-                            log.error("Failed to clean up InputStream", ex);
-                        }
-                        try {
-                            out.close();
-                        } catch (IOException e) {
-                            log.error("Failed to clean up OutputStream", ex);
-                        }
-                    }
+                    status.ois = in;
+                    status.oos = out;
                 }
             }
         }
@@ -252,6 +239,12 @@ public class SessionManager {
 
     }
 
+    /**
+     *
+     * @param session
+     * @return
+     * @deprecated
+     */
     private OutputStream getOutputStream(final UUID session) {
         SessionStatus info = null;
         synchronized (links) {
@@ -264,6 +257,12 @@ public class SessionManager {
         return info.out;
     }
 
+    /**
+     *
+     * @param session
+     * @return
+     * @deprecated
+     */
     private InputStream getInputStream(final UUID session) {
         SessionStatus info = null;
         synchronized (links) {

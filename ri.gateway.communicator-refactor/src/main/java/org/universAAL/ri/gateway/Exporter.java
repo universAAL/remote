@@ -248,11 +248,11 @@ public class Exporter implements IBusMemberRegistryListener {
 	if (tracked.containsKey(bmId)) {
 	    // get proxy representative
 	    final ProxyBusMember pbm = exported.get(bmId);
+	    tracked.remove(bmId);
+	    exported.remove(bmId);
 	    if (pbm == null){
 		return;
 	    }
-	    tracked.remove(bmId);
-	    exported.remove(bmId);
 	    // if there are no left busmembers that use this export proxy
 	    if (!exported.values().contains(pbm)) {
 		// then remove proxy.

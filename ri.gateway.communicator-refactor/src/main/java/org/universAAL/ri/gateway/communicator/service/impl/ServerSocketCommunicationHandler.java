@@ -26,7 +26,7 @@ package org.universAAL.ri.gateway.communicator.service.impl;
 
 import java.io.EOFException;
 import java.io.IOException;
-import java.io.ObjectInputStream;
+import java.io.InputStream;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
@@ -157,15 +157,14 @@ public class ServerSocketCommunicationHandler extends
             if (socket != null && !socket.isClosed()) {
                 MessageWrapper msg;
                 try {
-                    msg = getNextMessage(refSM
-                            .getObjectInputStream(currentSession));
+                    msg = getNextMessage(in);
                 } catch (final Exception e) {
                     if (e instanceof EOFException) {
                         log.info("Failed to read message of the stream beacuse it was closed from the other side");
                         return false;
                     } else {
                         log.debug("Failed to read message from stream", e);
-                        return true;
+                        return false;
                     }
                 }
                 if (handleSessionProtocol(msg) == false) {
@@ -229,9 +228,8 @@ public class ServerSocketCommunicationHandler extends
                         MessageType.ConnectResponse,
                         Serializer.Instance.marshall(response), source);
                 try {
-                    Serializer.sendMessageToStream(responseMessage,
-                            sessionManger.getObjectOutputStream(session),
-                            cipher);
+                    Serializer
+                            .sendMessageToStream(responseMessage, out, cipher);
                 } catch (final Exception e) {
                     e.printStackTrace();
                     // TODO Close the session
@@ -302,8 +300,7 @@ public class ServerSocketCommunicationHandler extends
                         MessageType.ConnectResponse,
                         Serializer.Instance.marshall(response), source);
                 try {
-                    Serializer.sendMessageToStream(responseMessage,
-                            sessionManger.getObjectOutputStream(session), null);
+                    Serializer.sendMessageToStream(responseMessage, out, null);
                 } catch (final Exception e) {
                     e.printStackTrace();
                     // TODO Close the session
@@ -326,7 +323,7 @@ public class ServerSocketCommunicationHandler extends
         }
 
         @Override
-        protected MessageWrapper getNextMessage(final ObjectInputStream in)
+        protected MessageWrapper getNextMessage(final InputStream in)
                 throws Exception {
             return readMessage(in);
         }

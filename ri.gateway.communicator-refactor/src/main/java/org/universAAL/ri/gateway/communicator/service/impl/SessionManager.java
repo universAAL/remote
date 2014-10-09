@@ -21,12 +21,8 @@
 
 package org.universAAL.ri.gateway.communicator.service.impl;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.util.Arrays;
 import java.util.Collection;
@@ -103,8 +99,6 @@ public class SessionManager {
          * @deprecated
          */
         OutputStream out;
-        ObjectInputStream ois;
-        ObjectOutputStream oos;
     }
 
     private final Map<SessionKey, UUID> sessions = new HashMap<SessionManager.SessionKey, UUID>();
@@ -171,8 +165,8 @@ public class SessionManager {
         }
     }
 
-    public void setLink(final UUID session, final ObjectInputStream in,
-            final ObjectOutputStream out) {
+    public void setLink(final UUID session, final InputStream in,
+            final OutputStream out) {
         synchronized (sessions) {
             if (sessions.containsValue(session) == false) {
                 throw new IllegalArgumentException(
@@ -188,8 +182,6 @@ public class SessionManager {
                     status.connected = true;
                     status.in = in;
                     status.out = out;
-                    status.ois = in;
-                    status.oos = out;
                 }
             }
         }
@@ -239,13 +231,7 @@ public class SessionManager {
 
     }
 
-    /**
-     *
-     * @param session
-     * @return
-     * @deprecated
-     */
-    private OutputStream getOutputStream(final UUID session) {
+    public OutputStream getOutputStream(final UUID session) {
         SessionStatus info = null;
         synchronized (links) {
             info = links.get(session);
@@ -257,13 +243,7 @@ public class SessionManager {
         return info.out;
     }
 
-    /**
-     *
-     * @param session
-     * @return
-     * @deprecated
-     */
-    private InputStream getInputStream(final UUID session) {
+    public InputStream getInputStream(final UUID session) {
         SessionStatus info = null;
         synchronized (links) {
             info = links.get(session);
@@ -273,30 +253,6 @@ public class SessionManager {
             return null;
         }
         return info.in;
-    }
-
-    public ObjectInputStream getObjectInputStream(final UUID session) {
-        SessionStatus info = null;
-        synchronized (links) {
-            info = links.get(session);
-        }
-        if (info == null || info.connected == false) {
-            // TODO Log the issue
-            return null;
-        }
-        return info.ois;
-    }
-
-    public ObjectOutputStream getObjectOutputStream(final UUID session) {
-        SessionStatus info = null;
-        synchronized (links) {
-            info = links.get(session);
-        }
-        if (info == null || info.connected == false) {
-            // TODO Log the issue
-            return null;
-        }
-        return info.oos;
     }
 
     public boolean isActive(final UUID session) {

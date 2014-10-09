@@ -20,12 +20,8 @@
  */
 package org.universAAL.ri.gateway.communicator.service.impl;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.net.Socket;
 import java.util.UUID;
@@ -54,8 +50,8 @@ import org.universAAL.ri.gateway.protocol.link.ReconnectionRequest;
 public abstract class AbstractLinkHandler implements Runnable {
 
     protected final Socket socket;
-    protected ObjectInputStream in;
-    protected ObjectOutputStream out;
+    protected final InputStream in;
+    protected final OutputStream out;
     private boolean stop = false;
     private final Object LOCK_VAR_LOCAL_STOP = new Object();
     protected UUID currentSession = null;
@@ -107,10 +103,8 @@ public abstract class AbstractLinkHandler implements Runnable {
         this.communicator = communicator;
         this.cipher = cipher;
         try {
-            in = new ObjectInputStream(new BufferedInputStream(
-                    socket.getInputStream()));
-            out = new ObjectOutputStream(new BufferedOutputStream(
-                    socket.getOutputStream()));
+            in = socket.getInputStream();
+            out = socket.getOutputStream();
         } catch (final Exception e) {
             cleanUpSession();
             log.error("SESSION BROKEN due to exception", e);
@@ -118,10 +112,25 @@ public abstract class AbstractLinkHandler implements Runnable {
         }
     }
 
+    /**
+     * The method is invoked before the main loop during which theh {@link #loopRun()} is executed
+     *
+     * @return true if the intialization was a SUCCES false will exit the execution
+     */
     protected abstract boolean beforeRun();
 
+    /**
+     * The actual action that is performed eveytime. The method should return <code>false</code> to stop the looping
+     *
+     * @return false to stop the looping
+     */
     protected abstract boolean loopRun();
 
+    /**
+     * The method is invoked after the main loop during which theh {@link #loopRun()} for cleaning up
+     *
+     * @return false if cleaning up failed
+     */
     protected abstract boolean afterRun();
 
     public void run() {
@@ -164,8 +173,7 @@ public abstract class AbstractLinkHandler implements Runnable {
                 MessageType.Reconnect, Serializer.Instance.marshall(request),
                 peerId);
         try {
-            Serializer.sendMessageToStream(responseMessage,
-                    refSM.getObjectOutputStream(currentSession), cipher);
+            Serializer.sendMessageToStream(responseMessage, out, cipher);
             final MessageWrapper rsp = getNextMessage(in);
             if (rsp.getType() != MessageType.ConnectResponse) {
                 throw new IllegalArgumentException("Expected "
@@ -259,7 +267,7 @@ public abstract class AbstractLinkHandler implements Runnable {
         return false;
     }
 
-    protected abstract MessageWrapper getNextMessage(ObjectInputStream ois)
+    protected abstract MessageWrapper getNextMessage(InputStream in)
             throws Exception;
 
     protected boolean disconnect() {
@@ -275,8 +283,7 @@ public abstract class AbstractLinkHandler implements Runnable {
                 Serializer.Instance.marshall(disconnectionRequest), peerId);
         boolean result = true;
         try {
-            Serializer.sendMessageToStream(responseMessage,
-                    refSM.getObjectOutputStream(currentSession), cipher);
+            Serializer.sendMessageToStream(responseMessage, out, cipher);
         } catch (final Exception e) {
             e.printStackTrace();
             result = false;

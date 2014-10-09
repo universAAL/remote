@@ -20,11 +20,14 @@ limitations under the License.
  */
 package org.universAAL.ri.gateway.communicator.service.impl;
 
+import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.OutputStream;
 import java.io.Serializable;
 
 import org.bouncycastle.crypto.CryptoException;
@@ -89,15 +92,16 @@ public enum Serializer {
      * @throws CryptoException
      */
     public static void sendMessageToStream(final MessageWrapper wrp,
-	    final ObjectOutputStream out, final Cipher cipher)
-	    throws IOException, CryptoException {
+            final OutputStream out, final Cipher cipher) throws IOException,
+            CryptoException {
 
 	final byte[] encrypted = cipher.encrypt(toByteArray(wrp));
 
 	final EncryptionWrapper enc = new EncryptionWrapper(encrypted);
 
-	out.writeObject(enc);
-	out.flush();
+        final ObjectOutputStream oos = new ObjectOutputStream(out);
+        oos.writeObject(enc);
+        oos.flush();
     }
 
     /**
@@ -114,15 +118,13 @@ public enum Serializer {
      *             deserulization exception
      * @throws CryptoException
      */
-    public static MessageWrapper unmarshalMessage(final ObjectInputStream ois,
+    public static MessageWrapper unmarshalMessage(final InputStream is,
 	    final Cipher cipher) throws IOException, ClassNotFoundException,
 	    CryptoException {
 
-	/*
-	 * final BufferedInputStream bis = new BufferedInputStream(is);
-	 * 
-	 * final ObjectInputStream ois = new ObjectInputStream(bis);
-	 */
+        final BufferedInputStream bis = new BufferedInputStream(is);
+
+        final ObjectInputStream ois = new ObjectInputStream(bis);
 	final EncryptionWrapper enc = (EncryptionWrapper) ois.readObject();
 
 	final byte[] decrypted = cipher.decrypt(enc.getPayload());

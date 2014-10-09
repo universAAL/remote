@@ -26,7 +26,7 @@ package org.universAAL.ri.gateway.communicator.service.impl;
 
 import java.io.EOFException;
 import java.io.IOException;
-import java.io.ObjectInputStream;
+import java.io.InputStream;
 import java.net.ConnectException;
 import java.net.InetAddress;
 import java.net.Socket;
@@ -212,15 +212,14 @@ public class ClientSocketCommunicationHandler extends
             if (socket != null && !socket.isClosed()) {
                 MessageWrapper msg;
                 try {
-                    msg = getNextMessage(refSM
-                            .getObjectInputStream(currentSession));
+                    msg = getNextMessage(in);
                 } catch (final Exception e) {
                     if (e instanceof EOFException) {
                         log.info("Failed to read message of the stream beacuse it was closed from the other side");
                         return false;
                     } else {
                         log.debug("Failed to read message from stream", e);
-                        return true;
+                        return false;
                     }
                 }
                 if (handleSessionProtocol(msg) == false) {
@@ -238,7 +237,7 @@ public class ClientSocketCommunicationHandler extends
         }
 
         @Override
-        protected MessageWrapper getNextMessage(final ObjectInputStream in)
+        protected MessageWrapper getNextMessage(final InputStream in)
                 throws Exception {
             return readMessage(in);
         }

@@ -105,7 +105,7 @@ public class ServerSocketCommunicationHandler extends
 
             public void run() {
                 log.debug("TCP server started on port " + serverConfig);
-                Thread.currentThread().setName("Space Gateway :: Server");
+                Thread.currentThread().setName("GW :: Server");
                 while (!(Thread.currentThread().isInterrupted())) {
                     try {
                         final Socket socket = server.accept();
@@ -265,7 +265,7 @@ public class ServerSocketCommunicationHandler extends
                 }
                 try {
                     sessionManger.close(session);
-                	mySession.setStatus(SessionEvent.SessionStatus.CLOSED);
+                        mySession.setStatus(SessionEvent.SessionStatus.CLOSED);
                 } catch (final Exception ex) {
                     log.debug("Error closing the session UUID =" + session, ex);
                 }
@@ -330,7 +330,7 @@ public class ServerSocketCommunicationHandler extends
 
         @Override
         public void stop() {
-        	mySession.setStatus(SessionEvent.SessionStatus.CLOSED);
+                mySession.setStatus(SessionEvent.SessionStatus.CLOSED);
             super.stop();
             disconnect();
             cleanUpSession();

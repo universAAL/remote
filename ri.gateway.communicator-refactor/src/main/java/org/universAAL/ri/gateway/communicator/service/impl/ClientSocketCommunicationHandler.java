@@ -112,7 +112,7 @@ public class ClientSocketCommunicationHandler extends
                 + serverConfig);
         serverThread = new Thread(new Runnable() {
             public void run() {
-                Thread.currentThread().setName("Space Gateway :: Client");
+                Thread.currentThread().setName("GW :: Client");
                 while (!isStop()) {
                     try {
                         Thread.sleep(RECONNECT_WAITING_TIME);
@@ -202,7 +202,8 @@ public class ClientSocketCommunicationHandler extends
                 }
             }
             log.debug("SESSION (RE)ESTABILISHED with " + currentSession);
-            session.setScope(currentSession.toString());
+            //session.setScope(currentSession.toString());
+            session.setScope(SessionManager.getInstance().getAALSpaceIdFromSession(currentSession));
             return true;
         }
 

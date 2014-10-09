@@ -118,7 +118,7 @@ public abstract class AbstractLinkHandler implements Runnable {
 
     public void run() {
         this.state = LinkHandlerStatus.STARTING;
-        Thread.currentThread().setName("Space Gateway :: AbstractLinkHandler ");
+        Thread.currentThread().setName("GW :: AbstractLinkHandler ");
         if (!beforeRun()) {
             this.state = LinkHandlerStatus.CLOSED;
             return;

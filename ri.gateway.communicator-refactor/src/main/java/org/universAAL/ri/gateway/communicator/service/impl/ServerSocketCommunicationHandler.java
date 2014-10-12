@@ -242,7 +242,8 @@ public class ServerSocketCommunicationHandler extends
                  */
                 final Gateway gw = Gateway.getInstance();
                 mySession = new Session(config, gw.getPool(), server);
-                mySession.setScope(session.toString());
+                final String scope = SessionManager.getInstance().getAALSpaceIdFromSession(session);
+                mySession.setScope(scope);
                 mySession.setStatus(SessionEvent.SessionStatus.CONNECTED);
                 gw.newSession(socket.toString(), mySession);
                 // XXX This is a dirty why to connect the Session to the link

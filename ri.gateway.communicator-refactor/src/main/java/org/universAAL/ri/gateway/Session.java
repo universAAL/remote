@@ -47,6 +47,7 @@ import org.universAAL.ri.gateway.protocol.MessageSender;
 import org.universAAL.ri.gateway.protocol.WrappedBusMessage;
 import org.universAAL.ri.gateway.proxies.ProxyBusMember;
 import org.universAAL.ri.gateway.proxies.ProxyPool;
+import org.universAAL.ri.gateway.utils.CallSynchronizer;
 
 /**
  * Representation of a one to one link between 2 ASGs. It is in charge of
@@ -92,6 +93,16 @@ public class Session implements MessageSender, MessageReceiver,
         }
     }
 
+    private class MessageSynchronizer extends CallSynchronizer<Short, Message, Message>{
+
+	/** {@ inheritDoc}	 */
+	@Override
+	protected void operate(Short callerID, Message input) {
+	    send(input);
+	}
+	
+    }
+    
     public static final Logger log = LoggerFactory.createLoggerFactory(
             Gateway.getInstance().context).getLogger(Session.class);
 
@@ -101,6 +112,7 @@ public class Session implements MessageSender, MessageReceiver,
     private String remoteScope;
     private AbstractSocketCommunicationHandler comunication;
     private final Cipher cipher;
+    private CallSynchronizer<Short, Message, Message> synchronizer = new MessageSynchronizer();
 
     private SessionEvent.SessionStatus state;
     private final HashSet<SessionEventListener> listeners = new HashSet<SessionEventListener>();
@@ -205,32 +217,38 @@ public class Session implements MessageSender, MessageReceiver,
     }
 
     public Message sendRequest(final Message message) {
-        validateRemoteScope(remoteScope);
-        final org.universAAL.ri.gateway.communicator.service.Message content = new org.universAAL.ri.gateway.communicator.service.Message(
-                message);
-        MessageWrapper wrap = new MessageWrapper(MessageType.HighReqRsp,
-                content, "");
-        final SessionManager session = SessionManager.getInstance();
-        /*
-         * //INFO Commented out for supporting but Client and Server mode UUID[]
-         * active = session.getSessionIds(); if (active.length != 1) { if
-         * (active.length == 0) { throw new IllegalStateException(
-         * "Trying to send a message but we no active session"); } else { throw
-         * new IllegalStateException(
-         * "Trying to send a message but we too many session"); } }
-         */
-        try {
-            wrap = comunication.sendMessage(wrap, new String[] { remoteScope });
-            if (wrap.getType() != MessageType.HighReqRsp) {
-                throw new IllegalStateException(
-                        "Expecting HighReqRsp message, but recieved "
-                                + wrap.getType());
-            }
-            return (Message) wrap.getMessage().getContent();
-        } catch (final Exception e) {
-            throw new RuntimeException(
-                    "Failed to send message due to internal exception", e);
-        }
+//        validateRemoteScope(remoteScope);
+//        final org.universAAL.ri.gateway.communicator.service.Message content = new org.universAAL.ri.gateway.communicator.service.Message(
+//                message);
+//        MessageWrapper wrap = new MessageWrapper(MessageType.HighReqRsp,
+//                content, "");
+//        final SessionManager session = SessionManager.getInstance();
+//        /*
+//         * //INFO Commented out for supporting but Client and Server mode UUID[]
+//         * active = session.getSessionIds(); if (active.length != 1) { if
+//         * (active.length == 0) { throw new IllegalStateException(
+//         * "Trying to send a message but we no active session"); } else { throw
+//         * new IllegalStateException(
+//         * "Trying to send a message but we too many session"); } }
+//         */
+//        try {
+//            wrap = comunication.sendMessage(wrap, new String[] { remoteScope });
+//            if (wrap.getType() != MessageType.HighReqRsp) {
+//                throw new IllegalStateException(
+//                        "Expecting HighReqRsp message, but recieved "
+//                                + wrap.getType());
+//            }
+//            return (Message) wrap.getMessage().getContent();
+//        } catch (final Exception e) {
+//            throw new RuntimeException(
+//                    "Failed to send message due to internal exception", e);
+//        }
+	try {
+	    return synchronizer.performCall(message.getSequence(), message);
+	} catch (InterruptedException e) {
+	    // Just interrupted probably because response is cancelled.
+	    throw new RuntimeException( "Request Interrupted", e);
+	}
     }
 
     public ParameterCheckOpertaionChain getImportOperationChain() {
@@ -254,7 +272,10 @@ public class Session implements MessageSender, MessageReceiver,
      * appropriate subcomponent.
      */
     public void handleMessage(final Message msg) {
-        if (msg instanceof ImportMessage) {
+	if (msg.isResponse()){
+	    synchronizer.performResponse(msg.getInResponseTo(), msg);
+	}
+	else if (msg instanceof ImportMessage) {
             importer.handleImportMessage((ImportMessage) msg);
         } else if (msg instanceof WrappedBusMessage) {
             final WrappedBusMessage wbm = (WrappedBusMessage) msg;

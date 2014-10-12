@@ -20,7 +20,6 @@ limitations under the License.
  */
 package org.universAAL.ri.gateway.communicator.service.impl;
 
-import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -29,6 +28,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.io.Serializable;
+import java.nio.ByteBuffer;
 
 import org.bouncycastle.crypto.CryptoException;
 import org.universAAL.middleware.serialization.MessageContentSerializer;
@@ -99,9 +99,21 @@ public enum Serializer {
 
 	final EncryptionWrapper enc = new EncryptionWrapper(encrypted);
 
+//	String data = Base64.encodeBytes(enc.getPayload());
+	int size = enc.getPayload().length;
+	
+	ByteBuffer buffer = ByteBuffer.allocate(4);
+	buffer.putInt(size);
+	byte[] intAsByte = buffer.array();
+	out.write(intAsByte);
+	out.write(enc.getPayload());
+	out.flush();
+
+	/*
         final ObjectOutputStream oos = new ObjectOutputStream(out);
         oos.writeObject(enc);
         oos.flush();
+        */
     }
 
     /**
@@ -121,13 +133,36 @@ public enum Serializer {
     public static MessageWrapper unmarshalMessage(final InputStream is,
 	    final Cipher cipher) throws IOException, ClassNotFoundException,
 	    CryptoException {
-
+	
+	int read = 0;
+	int idx = 0;
+	byte[] intAsArray = new byte[4];
+	do {
+	    read = is.read(intAsArray, idx, intAsArray.length - idx);
+	    if ( read >= 0) {
+		idx+= read;
+	    }	    
+	}while ( idx < 4 );
+	ByteBuffer buffer = ByteBuffer.wrap(intAsArray);
+	int size = buffer.getInt();
+	byte[] dataBuffer = new byte[size];
+	idx = 0;
+	do {
+	    read = is.read(dataBuffer, idx, dataBuffer.length - idx);
+	    if ( read >= 0) {
+		idx+= read;
+	    }	    
+	}while ( idx < size );
+	/*
         final BufferedInputStream bis = new BufferedInputStream(is);
 
         final ObjectInputStream ois = new ObjectInputStream(bis);
 	final EncryptionWrapper enc = (EncryptionWrapper) ois.readObject();
+		
 
-	final byte[] decrypted = cipher.decrypt(enc.getPayload());
+	final byte[] decrypted = cipher.decrypt(enc.getPayload()); 
+	*/
+	final byte[] decrypted = cipher.decrypt(dataBuffer);
 	final MessageWrapper wrap = (MessageWrapper) toObject(decrypted);
 
 	// ois.close();

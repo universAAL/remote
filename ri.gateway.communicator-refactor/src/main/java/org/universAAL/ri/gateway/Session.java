@@ -297,6 +297,7 @@ public class Session implements MessageSender, MessageReceiver,
     }
 
     public void stop() {
+	synchronizer.purge();
         if (config.getConnectionMode() == ConnectionMode.SERVER) {
             LogUtils.logInfo(
                     Gateway.getInstance().context,

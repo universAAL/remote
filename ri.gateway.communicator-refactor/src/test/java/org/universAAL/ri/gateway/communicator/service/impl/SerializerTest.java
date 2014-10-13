@@ -61,6 +61,9 @@ public class SerializerTest {
 
     @Test
     public void testSendingMessage() {
+        final int TCP_TEST_PORT = 7777;
+        final int TOTALE_MESSAGE_SENT = 250;
+        final double MAXIMUM_WAITING_TIME = 500.0;
         Enumeration<NetworkInterface> ifs = null;
         try {
             ifs = NetworkInterface.getNetworkInterfaces();
@@ -103,9 +106,9 @@ public class SerializerTest {
             public void run() {
                 ServerSocket server;
                 try {
-                    server = new ServerSocket(7777, 1, selected);
+                    server = new ServerSocket(TCP_TEST_PORT, 1, selected);
                     Socket serverPart = server.accept();
-                    for (int i = 0; i < 500; i++) {
+                    for (int i = 0; i < TOTALE_MESSAGE_SENT; i++) {
                         MessageWrapper readBack = Serializer.unmarshalMessage(
                                 serverPart.getInputStream(), cipher);
                         assertEquals("Checking message type",
@@ -129,10 +132,12 @@ public class SerializerTest {
         } catch (InterruptedException ex) {
         }
         try {
-            Socket client = new Socket(selected, 7777);
-            for (int i = 0; i < 500; i++) {
+            Socket client = new Socket(selected, TCP_TEST_PORT);
+            for (int i = 0; i < TOTALE_MESSAGE_SENT; i++) {
                 Serializer.sendMessageToStream(expected,
                         client.getOutputStream(), cipher);
+                double waiting =  Math.random() * MAXIMUM_WAITING_TIME;
+                Thread.sleep((long) waiting);
             }
         } catch (Exception e) {
             e.printStackTrace();

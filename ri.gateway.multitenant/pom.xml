@@ -3,16 +3,19 @@
   xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <groupId>org.universAAL.remote.multitenant</groupId>
-    <artifactId>gw.pom</artifactId>
+    <groupId>org.universAAL.remote</groupId>
+    <artifactId>ri.pom</artifactId>
     <version>3.1.1-SNAPSHOT</version>
-    <relativePath>../gw.pom</relativePath>
+    <relativePath>../ri.pom</relativePath>
   </parent>
   <artifactId>ri.gateway.multitenant</artifactId>
   <version>3.1.2-SNAPSHOT</version>
   <packaging>bundle</packaging>
   <name>universAAL Remote Interoperability AALSpace Gateway</name>
-  <description>Module for inter-AALSpace communication</description>
+  <description>Module for inter-AALSpace communication with multitenant capabilities.</description>
+  <properties>
+     <separatedGroupIds>org.universAAL.middleware</separatedGroupIds>
+  </properties>
   <dependencies>
     <dependency>
       <groupId>org.apache.karaf.shell</groupId>
@@ -27,10 +30,6 @@
       <groupId>org.osgi</groupId>
       <artifactId>org.osgi.core</artifactId>
     </dependency>
-<!--    <dependency>
-      <groupId>org.osgi</groupId>
-      <artifactId>org.osgi.compendium</artifactId>
-    </dependency> -->
     <dependency>
        <groupId>org.universAAL.middleware</groupId>
        <artifactId>mw.container.osgi</artifactId>
@@ -80,32 +79,6 @@
             <Bundle-Activator>org.universAAL.ri.gateway.osgi.OSGIActivator</Bundle-Activator>
             <Bundle-Description>${project.description}</Bundle-Description>
             <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
-<!--             <Import-Package>*,org.universAAL.middleware.tracker.impl.Activator</Import-Package> -->
- <!--           <Import-Package>org.osgi.framework;version="[1,2)",
-              org.bouncycastle.crypto,
-              org.bouncycastle.crypto.engines,
-              org.bouncycastle.crypto.modes,
-              org.bouncycastle.crypto.paddings,
-              org.bouncycastle.crypto.params,
-              org.universAAL.middleware.bus.member,
-              org.universAAL.middleware.bus.model,
-              org.universAAL.middleware.container,
-              org.universAAL.middleware.container.osgi,
-              org.universAAL.middleware.container.osgi.util,
-              org.universAAL.middleware.container.utils,
-              org.universAAL.middleware.context,
-              org.universAAL.middleware.interfaces,
-              org.universAAL.middleware.interfaces.aalspace,
-              org.universAAL.middleware.context.owl,
-              org.universAAL.middleware.rdf,
-              org.universAAL.middleware.serialization,
-              org.universAAL.middleware.service.*,
-              org.universAAL.middleware.owl.*,
-              org.universAAL.middleware.tracker,
-              org.universAAL.middleware.ui,
-              org.universAAL.middleware.managers.api,
-              com.google.common.net.*
-            </Import-Package> -->
             <Export-Package>
               org.universAAL.ri.gateway.communicator.service,
               org.universAAL.log,
@@ -124,42 +97,6 @@
           <target>1.5</target>
         </configuration>
       </plugin>
-<!--       <plugin> -->
-<!--         <artifactId>maven-resources-plugin</artifactId> -->
-<!--         <version>2.5</version> -->
-<!--         <executions> -->
-<!--           <execution> -->
-<!--             <id>copy-resources2</id> -->
-<!--             <phase>compile</phase> -->
-<!--             <goals> -->
-<!--               <goal>copy-resources</goal> -->
-<!--             </goals> -->
-<!--             <configuration> -->
-<!--               <outputDirectory>target/rundir/confadmin/ri.gateway.communicator</outputDirectory> -->
-<!--               <resources> -->
-<!--                 <resource> -->
-<!--                   <directory>.</directory> -->
-<!--                   <filtering>true</filtering> -->
-<!--                   <includes> -->
-<!--                     <include>ri.gateway.communicator.properties</include> -->
-<!--                   </includes> -->
-<!--                 </resource> -->
-<!--               </resources> -->
-<!--             </configuration> -->
-<!--           </execution> -->
-<!--         </executions> -->
-<!--       </plugin> -->
     </plugins>
   </build>
-  <profiles>
-    <profile>
-      <id>uAAL-Runtime</id>
-      <dependencies>
-        <dependency>
-          <groupId>org.universAAL.middleware</groupId>
-          <artifactId>mw.container.osgi</artifactId>
-        </dependency>
-      </dependencies>
-    </profile>
-  </profiles>
 </project>

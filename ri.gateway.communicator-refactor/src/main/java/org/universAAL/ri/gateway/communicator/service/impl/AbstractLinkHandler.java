@@ -341,7 +341,7 @@ public abstract class AbstractLinkHandler implements Runnable {
                 break;
 
             default:
-                throw new IllegalStateException("Unsupported messega type "
+                throw new IllegalStateException("Unsupported message type "
                         + msg.getType());
             }
             communicator.handleMessage(upper);

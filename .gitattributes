@@ -77,6 +77,7 @@ ri.gateway.communicator-refactor/src/main/javadoc/org/universAAL/ri/gateway/prox
 ri.gateway.communicator-refactor/src/main/javadoc/org/universAAL/ri/gateway/proxies/importing/package-info.java -text svneol=unset#text/plain
 ri.gateway.communicator-refactor/src/main/resources/OSGI-INF/blueprint/blueprint.xml svneol=native#text/xml
 ri.gateway.communicator-refactor/src/test/java/org/universAAL/ri/gateway/ArraySetTest.java -text svneol=unset#text/plain
+ri.gateway.communicator-refactor/src/test/java/org/universAAL/ri/gateway/communicator/service/impl/SerializerTest.java svneol=native#text/plain
 ri.gateway.communicator/ASL2.0.txt -text
 ri.gateway.communicator/NOTICE.txt -text
 ri.gateway.communicator/pom.xml -text

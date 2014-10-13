@@ -18,11 +18,11 @@ ri.exportComponent/ri.soap.cxf.service/.classpath
 ri.exportComponent/ri.soap.cxf.service/.project
 ri.exportComponent/ri.soap.cxf.service/.settings
 ri.exportComponent/ri.soap.cxf.service/target
-ri.gateway.communicator/.classpath
-ri.gateway.communicator/.project
-ri.gateway.communicator/.settings
-ri.gateway.communicator/target
-ri.gateway.communicator/uAAL.log
+ri.gateway.multitenant/.classpath
+ri.gateway.multitenant/.project
+ri.gateway.multitenant/.settings
+ri.gateway.multitenant/target
+ri.gateway.multitenant/uAAL.log
 ri.internetgateway/.classpath
 ri.internetgateway/.project
 ri.internetgateway/.settings

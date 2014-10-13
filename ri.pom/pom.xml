@@ -16,7 +16,7 @@
   <modules>
     <module>../ri.servicegateway</module>
     <module>../ri.internetgateway</module>
-    <!--<module>../ri.gateway.communicator</module>-->
+    <module>../ri.gateway.multitenant</module>
     <module>../ri.exportComponent/ri.soap.cxf.server</module>
     <module>../ri.exportComponent/ri.soap.cxf.service</module>
     <module>../ri.api.manager</module>
@@ -68,8 +68,8 @@
       </dependency>
       <dependency>
         <groupId>org.universAAL.remote</groupId>
-        <artifactId>ri.gateway.communicator</artifactId>
-        <version>3.1.1-SNAPSHOT</version>
+        <artifactId>ri.gateway.multitenant</artifactId>
+        <version>3.1.2-SNAPSHOT</version>
       </dependency>
       <dependency>
         <groupId>org.universAAL.remote</groupId>

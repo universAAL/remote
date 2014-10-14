@@ -7,13 +7,13 @@
 	<repository>mvn:org.universAAL.security/security.karaf.feature/${security.karaf.feature.version}/xml/features</repository>
 	
 	<feature name="uAAL-RI.RAPI" description="Remote API."
-		version="${ri.servicegateway.version}" resolver='(obr)'>
+		version="${ri.api.manager.version}" resolver='(obr)'>
 		<feature>uAAL-MW</feature>
 		<bundle start-level='60'>wrap:mvn:org.universAAL.support/uAAL.utils/3.1.1-SNAPSHOT</bundle>
 		<feature>http</feature> 
 		<bundle start-level='60' start='true'>mvn:com.google.android.gcm/derby/10.10.1.1</bundle>
 		<bundle start-level='60'>wrap:mvn:org.universAAL.support/gcm-server/1.0.2</bundle>
-		<bundle start-level='70' start='true'>mvn:org.universAAL.remote/ri.servicegateway/${ri.servicegateway.version}</bundle>
+		<bundle start-level='70' start='true'>mvn:org.universAAL.remote/ri.api.manager/${ri.api.manager.version}</bundle>
 	</feature>
 
 

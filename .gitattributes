@@ -210,6 +210,7 @@ ri.gateway.multitenant/src/main/javadoc/org/universAAL/ri/gateway/proxies/export
 ri.gateway.multitenant/src/main/javadoc/org/universAAL/ri/gateway/proxies/importing/package-info.java -text svneol=unset#text/plain
 ri.gateway.multitenant/src/main/resources/OSGI-INF/blueprint/blueprint.xml svneol=native#text/xml
 ri.gateway.multitenant/src/test/java/org/universAAL/ri/gateway/ArraySetTest.java -text svneol=unset#text/plain
+ri.gateway.multitenant/src/test/java/org/universAAL/ri/gateway/communicator/service/impl/SerializerTest.java svneol=native#text/plain
 ri.internetgateway/ASL2.0.txt -text
 ri.internetgateway/NOTICE.txt -text
 ri.internetgateway/pom.xml -text

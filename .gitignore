@@ -5,3 +5,8 @@ ri.pom/ri.karaf.feature/.project
 ri.pom/ri.karaf.feature/.settings
 ri.pom/ri.karaf.feature/target
 ri.pom/target
+ri.servicegateway/*.log
+ri.servicegateway/.classpath
+ri.servicegateway/.project
+ri.servicegateway/.settings
+ri.servicegateway/target

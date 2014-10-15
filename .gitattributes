@@ -4,3 +4,15 @@ ri.pom/ri.karaf.feature/ASL2.0.txt -text
 ri.pom/ri.karaf.feature/NOTICE.txt -text
 ri.pom/ri.karaf.feature/pom.xml -text
 ri.pom/ri.karaf.feature/src/features/features.xml -text
+ri.servicegateway/ASL2.0.txt -text
+ri.servicegateway/LICENSE-CPL-JUnit -text
+ri.servicegateway/LICENSE-MIT11-httpunit -text
+ri.servicegateway/NOTICE.txt -text
+ri.servicegateway/old[!!-~]test/LoginServletTest.java -text
+ri.servicegateway/pom.xml -text
+ri.servicegateway/src/main/java/org/universAAL/ri/servicegateway/GatewayPort.java -text
+ri.servicegateway/src/main/java/org/universAAL/ri/servicegateway/impl/Base64.java -text
+ri.servicegateway/src/main/java/org/universAAL/ri/servicegateway/osgi/Activator.java -text
+ri.servicegateway/src/main/java/org/universAAL/ri/servicegateway/osgi/GatewayPortTracker.java -text
+ri.servicegateway/src/test/java/org/universAAL/ri/servicegateway/test/ArtifactIT.java -text
+ri.servicegateway/src/test/java/org/universAAL/ri/servicegateway/test/GatewayPortTestImpl.java -text

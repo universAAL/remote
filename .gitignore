@@ -1,3 +1,7 @@
+ri.exportComponent/ri.soap.cxf.service/.classpath
+ri.exportComponent/ri.soap.cxf.service/.project
+ri.exportComponent/ri.soap.cxf.service/.settings
+ri.exportComponent/ri.soap.cxf.service/target
 ri.gateway.multitenant/.classpath
 ri.gateway.multitenant/.project
 ri.gateway.multitenant/.settings

@@ -1,0 +1,20 @@
+Internet Gateway
+
+Copyright 2007-2014 CERTH-ITI, http://www.iti.gr
+Centre of Research and Technology Hellas 
+Information Technologies Institute
+
+
+I. Included Software
+
+Software developed by CERTH ITI within the OASIS FP7 project is used as the initial version for further developments within the universAAL project.
+
+
+II. Used Software
+
+This product uses software developed at
+Axis2 (http://axis.apache.org/axis2/java/core/).
+Licensed under Apache License 2.0
+
+III. License Summary
+- Apache License 2.0

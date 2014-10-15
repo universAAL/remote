@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<features name="universAAL-RemoteInteroperability" xmlns="http://karaf.apache.org/xmlns/features/v1.0.0">
+
+	<!-- Change version of repository accordingly -->
+	<repository>mvn:org.universAAL.middleware/mw.karaf.feature/${mw.karaf.feature.version}/xml/features</repository>
+	<repository>mvn:org.universAAL.ontology/ont.karaf.feature/${ont.karaf.feature.version}/xml/features</repository>
+	<repository>mvn:org.universAAL.security/security.karaf.feature/${security.karaf.feature.version}/xml/features</repository>
+	
+	<feature name="uAAL-RI.RAPI" description="Remote API."
+		version="${ri.api.manager.version}" resolver='(obr)'>
+		<feature>uAAL-MW</feature>
+		<bundle start-level='60'>wrap:mvn:org.universAAL.support/uAAL.utils/3.2.0</bundle>
+		<feature>http</feature> 
+		<bundle start-level='60' start='true'>mvn:com.google.android.gcm/derby/10.10.1.1</bundle>
+		<bundle start-level='60'>wrap:mvn:org.universAAL.support/gcm-server/1.0.2</bundle>
+		<bundle start-level='70' start='true'>mvn:org.universAAL.remote/ri.api.manager/${ri.api.manager.version}</bundle>
+	</feature>
+
+
+	<feature name="uAAL-RI.Gateway.Multitenant" description="AALSpace to AALSpace multitenant communicator."
+		version="${ri.gateway.multitenant.version}" resolver='(obr)'>
+		<feature>uAAL-MW</feature>
+		<bundle start-level='70' start='true'>mvn:org.universAAL.remote/ri.gateway.multitenant/${ri.gateway.multitenant.version}</bundle>
+	</feature>
+
+
+	<feature name="uAAL-RI.Service.Gateway" description="AALSpace to/from web services."
+		version="${ri.servicegateway.version}" resolver='(obr)'>
+		<feature>uAAL-Security.Authenticator.UserPassword.Client</feature>
+		<feature>http</feature> 
+			<!-- These are only for testing of the artifact, they should not be here! -->
+<!-- 		<bundle start-level='70'>wrap:mvn:cglib/cglib-nodep/${cglib-nodep.version}</bundle> -->
+<!-- 		<bundle start-level='71' start='true'>mvn:org.objenesis/objenesis/${objenesis.version}</bundle> -->
+<!-- 		<bundle start-level='72' start='true'>mvn:org.easymock/easymock/${easymock.version}</bundle> -->
+		<bundle start-level='73' start='true'>mvn:org.universAAL.remote/ri.servicegateway/${ri.servicegateway.version}</bundle>
+	</feature>
+</features>

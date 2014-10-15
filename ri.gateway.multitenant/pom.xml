@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
-  xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.universAAL.remote</groupId>
     <artifactId>ri.pom</artifactId>
-    <version>3.1.1-SNAPSHOT</version>
+    <version>3.2.0</version>
     <relativePath>../ri.pom</relativePath>
   </parent>
   <artifactId>ri.gateway.multitenant</artifactId>
-  <version>3.1.2-SNAPSHOT</version>
+  <version>3.2.0</version>
   <packaging>bundle</packaging>
   <name>universAAL Remote Interoperability AALSpace Gateway</name>
   <description>Module for inter-AALSpace communication with multitenant capabilities.</description>
   <properties>
-     <separatedGroupIds>org.universAAL.middleware</separatedGroupIds>
+    <separatedGroupIds>org.universAAL.middleware</separatedGroupIds>
   </properties>
   <dependencies>
     <dependency>
@@ -26,13 +26,13 @@
       <groupId>org.universAAL.support</groupId>
       <artifactId>itests</artifactId>
     </dependency>
-   <dependency>
+    <dependency>
       <groupId>org.osgi</groupId>
       <artifactId>org.osgi.core</artifactId>
     </dependency>
     <dependency>
-       <groupId>org.universAAL.middleware</groupId>
-       <artifactId>mw.container.osgi</artifactId>
+      <groupId>org.universAAL.middleware</groupId>
+      <artifactId>mw.container.osgi</artifactId>
     </dependency>
     <dependency>
       <groupId>org.universAAL.middleware</groupId>
@@ -62,7 +62,7 @@
       <groupId>org.bouncycastle</groupId>
       <artifactId>jce.jdk13</artifactId>
     </dependency>
-  <dependency>
+    <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
     </dependency>
@@ -79,14 +79,10 @@
             <Bundle-Activator>org.universAAL.ri.gateway.osgi.OSGIActivator</Bundle-Activator>
             <Bundle-Description>${project.description}</Bundle-Description>
             <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
-            <Export-Package>
-              org.universAAL.ri.gateway.communicator.service,
-              org.universAAL.log,
-            </Export-Package>
-            <Private-Package>
-              org.universAAL.ioc.dependencies.*,
-              org.universAAL.ri.gateway.*
-            </Private-Package>
+            <Export-Package>org.universAAL.ri.gateway.communicator.service,
+              org.universAAL.log,</Export-Package>
+            <Private-Package>org.universAAL.ioc.dependencies.*,
+              org.universAAL.ri.gateway.*</Private-Package>
           </instructions>
         </configuration>
       </plugin>

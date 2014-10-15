@@ -1,0 +1,22 @@
+<model xmlns="http://cxf.apache.org/jaxrs">
+ <resource name="org.universaal.ri.api.manager.RemoteAPI" path="uaal">
+    <operation name="register" verb="POST" consumes="multipart/form-data">
+       <param name="id" type="FORM"/>
+    </operation>
+    <operation name="sendC" verb="POST" consumes="multipart/form-data">
+       <param name="cevent" type="FORM"/>
+    </operation>
+    <operation name="subscribeC" verb="POST" consumes="multipart/form-data">
+       <param name="cpattern" type="FORM"/>
+    </operation>
+    <operation name="callS" verb="POST" consumes="multipart/form-data" produces="text/plain">
+       <param name="srequest" type="FORM"/>
+    </operation>
+    <operation name="provideS" verb="POST" consumes="multipart/form-data">
+       <param name="sprofile" type="FORM"/>
+    </operation>
+    <operation name="unregister" verb="POST" consumes="multipart/form-data">
+       <param name="id" type="FORM"/>
+    </operation>
+ </resource>
+</model>

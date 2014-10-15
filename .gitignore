@@ -1,3 +1,7 @@
+ri.api.manager/.classpath
+ri.api.manager/.project
+ri.api.manager/.settings
+ri.api.manager/target
 ri.exportComponent/ri.soap.cxf.server/.classpath
 ri.exportComponent/ri.soap.cxf.server/.project
 ri.exportComponent/ri.soap.cxf.server/.settings

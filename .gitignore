@@ -1,3 +1,8 @@
+ri.gateway.multitenant/.classpath
+ri.gateway.multitenant/.project
+ri.gateway.multitenant/.settings
+ri.gateway.multitenant/target
+ri.gateway.multitenant/uAAL.log
 ri.internetgateway/.classpath
 ri.internetgateway/.project
 ri.internetgateway/.settings

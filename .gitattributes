@@ -853,6 +853,11 @@ ri.pom-3.0.1-SNAPSHOT/ri.karaf.feature/ASL2.0.txt -text
 ri.pom-3.0.1-SNAPSHOT/ri.karaf.feature/NOTICE.txt -text
 ri.pom-3.0.1-SNAPSHOT/ri.karaf.feature/pom.xml -text
 ri.pom-3.0.1-SNAPSHOT/ri.karaf.feature/src/features/features.xml -text
+ri.pom-3.1.1-SNAPSHOT/pom.xml -text
+ri.pom-3.1.1-SNAPSHOT/ri.karaf.feature/ASL2.0.txt -text
+ri.pom-3.1.1-SNAPSHOT/ri.karaf.feature/NOTICE.txt -text
+ri.pom-3.1.1-SNAPSHOT/ri.karaf.feature/pom.xml -text
+ri.pom-3.1.1-SNAPSHOT/ri.karaf.feature/src/features/features.xml -text
 ri.servicegateway-1.0.1-SNAPSHOT/LICENSE -text
 ri.servicegateway-1.0.1-SNAPSHOT/LICENSE-CPL-JUnit -text
 ri.servicegateway-1.0.1-SNAPSHOT/LICENSE-JGCL -text

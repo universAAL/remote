@@ -149,6 +149,13 @@ ri.pom-3.0.1-SNAPSHOT/ri.karaf.feature/.project
 ri.pom-3.0.1-SNAPSHOT/ri.karaf.feature/.settings
 ri.pom-3.0.1-SNAPSHOT/ri.karaf.feature/target
 ri.pom-3.0.1-SNAPSHOT/target
+ri.pom-3.1.1-SNAPSHOT/*.project
+ri.pom-3.1.1-SNAPSHOT/*.settings
+ri.pom-3.1.1-SNAPSHOT/ri.karaf.feature/.classpath
+ri.pom-3.1.1-SNAPSHOT/ri.karaf.feature/.project
+ri.pom-3.1.1-SNAPSHOT/ri.karaf.feature/.settings
+ri.pom-3.1.1-SNAPSHOT/ri.karaf.feature/target
+ri.pom-3.1.1-SNAPSHOT/target
 ri.servicegateway-1.0.1-SNAPSHOT/.classpath
 ri.servicegateway-1.0.1-SNAPSHOT/.project
 ri.servicegateway-1.0.1-SNAPSHOT/.settings

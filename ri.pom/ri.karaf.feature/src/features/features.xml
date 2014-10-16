@@ -11,8 +11,8 @@
 		<feature>uAAL-MW</feature>
 		<bundle start-level='60'>wrap:mvn:org.universAAL.support/uAAL.utils/3.2.0</bundle>
 		<feature>http</feature> 
-		<bundle start-level='60' start='true'>mvn:com.google.android.gcm/derby/10.10.1.1</bundle>
-		<bundle start-level='60'>wrap:mvn:org.universAAL.support/gcm-server/1.0.2</bundle>
+		<bundle start-level='60' start='true'>mvn:org.apache.derby/derby/10.10.1.1</bundle>
+		<bundle start-level='60'>wrap:mvn:com.google.android.gcm/gcm-server/1.0.2</bundle>
 		<bundle start-level='70' start='true'>mvn:org.universAAL.remote/ri.api.manager/${ri.api.manager.version}</bundle>
 	</feature>
 

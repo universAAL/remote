@@ -105,8 +105,6 @@ ri.gateway.multitenant/src/main/java/org/universAAL/ri/gateway/operations/Messag
 ri.gateway.multitenant/src/main/java/org/universAAL/ri/gateway/operations/OperationChain.java -text svneol=unset#text/plain
 ri.gateway.multitenant/src/main/java/org/universAAL/ri/gateway/operations/OperationChainManager.java -text svneol=unset#text/plain
 ri.gateway.multitenant/src/main/java/org/universAAL/ri/gateway/operations/ParameterCheckOpertaionChain.java -text svneol=unset#text/plain
-ri.gateway.multitenant/src/main/java/org/universAAL/ri/gateway/osgi/GatewayCommand.java svneol=native#text/plain
-ri.gateway.multitenant/src/main/java/org/universAAL/ri/gateway/osgi/OSGIActivator.java -text svneol=unset#text/plain
 ri.gateway.multitenant/src/main/java/org/universAAL/ri/gateway/protocol/ErrorMessage.java -text svneol=unset#text/plain
 ri.gateway.multitenant/src/main/java/org/universAAL/ri/gateway/protocol/ImportMessage.java -text svneol=unset#text/plain
 ri.gateway.multitenant/src/main/java/org/universAAL/ri/gateway/protocol/Message.java -text svneol=unset#text/plain
@@ -139,5 +137,3 @@ ri.gateway.multitenant/src/main/javadoc/org/universAAL/ri/gateway/package-info.j
 ri.gateway.multitenant/src/main/javadoc/org/universAAL/ri/gateway/proxies/exporting/package-info.java -text svneol=unset#text/plain
 ri.gateway.multitenant/src/main/javadoc/org/universAAL/ri/gateway/proxies/importing/package-info.java -text svneol=unset#text/plain
 ri.gateway.multitenant/src/main/resources/OSGI-INF/blueprint/blueprint.xml svneol=native#text/xml
-ri.gateway.multitenant/src/test/java/org/universAAL/ri/gateway/ArraySetTest.java -text svneol=unset#text/plain
-ri.gateway.multitenant/src/test/java/org/universAAL/ri/gateway/communicator/service/impl/SerializerTest.java svneol=native#text/plain

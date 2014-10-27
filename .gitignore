@@ -1,8 +1,3 @@
-ri.gateway.communicator/.classpath
-ri.gateway.communicator/.project
-ri.gateway.communicator/.settings
-ri.gateway.communicator/target
-ri.gateway.communicator/uAAL.log
 ri.gateway.multitenant/.classpath
 ri.gateway.multitenant/.project
 ri.gateway.multitenant/.settings

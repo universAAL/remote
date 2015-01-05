@@ -1,0 +1,75 @@
+* text=auto !eol
+/ASL2.0.txt -text
+/NOTICE.txt -text
+/pom.xml -text
+src/main/java/org/universAAL/ioc/dependencies/DependencyProxy.java svneol=native#text/plain
+src/main/java/org/universAAL/ioc/dependencies/impl/NPEDependencyProxy.java svneol=native#text/plain
+src/main/java/org/universAAL/ioc/dependencies/impl/PassiveDependencyProxy.java -text svneol=unset#text/plain
+src/main/java/org/universAAL/ioc/dependencies/impl/WaitingDependencyProxy.java svneol=native#text/plain
+src/main/java/org/universAAL/log/Logger.java svneol=native#text/plain
+src/main/java/org/universAAL/log/LoggerFactory.java svneol=native#text/plain
+src/main/java/org/universAAL/ri/gateway/Exporter.java -text svneol=unset#text/plain
+src/main/java/org/universAAL/ri/gateway/Gateway.java -text svneol=unset#text/plain
+src/main/java/org/universAAL/ri/gateway/Importer.java -text
+src/main/java/org/universAAL/ri/gateway/ProxyMessageReceiver.java svneol=native#text/plain
+src/main/java/org/universAAL/ri/gateway/Server.java -text svneol=unset#text/plain
+src/main/java/org/universAAL/ri/gateway/Session.java -text svneol=unset#text/plain
+src/main/java/org/universAAL/ri/gateway/SessionEvent.java -text
+src/main/java/org/universAAL/ri/gateway/SessionEventListener.java -text
+src/main/java/org/universAAL/ri/gateway/communication/cipher/Blowfish.java -text
+src/main/java/org/universAAL/ri/gateway/communication/cipher/Cipher.java -text svneol=unset#text/plain
+src/main/java/org/universAAL/ri/gateway/communicator/service/CommunicationHandler.java -text
+src/main/java/org/universAAL/ri/gateway/communicator/service/Message.java -text
+src/main/java/org/universAAL/ri/gateway/communicator/service/impl/AbstractLinkHandler.java svneol=native#text/plain
+src/main/java/org/universAAL/ri/gateway/communicator/service/impl/AbstractSocketCommunicationHandler.java svneol=native#text/plain
+src/main/java/org/universAAL/ri/gateway/communicator/service/impl/ClientSocketCommunicationHandler.java svneol=native#text/plain
+src/main/java/org/universAAL/ri/gateway/communicator/service/impl/MessageType.java -text
+src/main/java/org/universAAL/ri/gateway/communicator/service/impl/MessageWrapper.java -text
+src/main/java/org/universAAL/ri/gateway/communicator/service/impl/Serializer.java -text
+src/main/java/org/universAAL/ri/gateway/communicator/service/impl/ServerSocketCommunicationHandler.java -text
+src/main/java/org/universAAL/ri/gateway/communicator/service/impl/SessionManager.java svneol=native#text/plain
+src/main/java/org/universAAL/ri/gateway/configuration/Configuration.java -text svneol=unset#text/plain
+src/main/java/org/universAAL/ri/gateway/configuration/ConfigurationFile.java -text svneol=unset#text/plain
+src/main/java/org/universAAL/ri/gateway/configuration/PropertiesFileKeys.java -text svneol=unset#text/plain
+src/main/java/org/universAAL/ri/gateway/configuration/UpdatedPropertiesFile.java -text svneol=unset#text/plain
+src/main/java/org/universAAL/ri/gateway/operations/AllowDefault.java -text svneol=unset#text/plain
+src/main/java/org/universAAL/ri/gateway/operations/MessageOperationChain.java -text svneol=unset#text/plain
+src/main/java/org/universAAL/ri/gateway/operations/OperationChain.java -text svneol=unset#text/plain
+src/main/java/org/universAAL/ri/gateway/operations/OperationChainManager.java -text svneol=unset#text/plain
+src/main/java/org/universAAL/ri/gateway/operations/ParameterCheckOpertaionChain.java -text svneol=unset#text/plain
+src/main/java/org/universAAL/ri/gateway/osgi/GatewayCommand.java svneol=native#text/plain
+src/main/java/org/universAAL/ri/gateway/osgi/OSGIActivator.java -text svneol=unset#text/plain
+src/main/java/org/universAAL/ri/gateway/protocol/ErrorMessage.java -text svneol=unset#text/plain
+src/main/java/org/universAAL/ri/gateway/protocol/ImportMessage.java -text svneol=unset#text/plain
+src/main/java/org/universAAL/ri/gateway/protocol/Message.java -text svneol=unset#text/plain
+src/main/java/org/universAAL/ri/gateway/protocol/MessageReceiver.java -text svneol=unset#text/plain
+src/main/java/org/universAAL/ri/gateway/protocol/MessageSender.java -text svneol=unset#text/plain
+src/main/java/org/universAAL/ri/gateway/protocol/WrappedBusMessage.java -text svneol=unset#text/plain
+src/main/java/org/universAAL/ri/gateway/protocol/link/ConnectionRequest.java svneol=native#text/plain
+src/main/java/org/universAAL/ri/gateway/protocol/link/ConnectionResponse.java svneol=native#text/plain
+src/main/java/org/universAAL/ri/gateway/protocol/link/DisconnectionRequest.java svneol=native#text/plain
+src/main/java/org/universAAL/ri/gateway/protocol/link/ReconnectionRequest.java svneol=native#text/plain
+src/main/java/org/universAAL/ri/gateway/proxies/BusMemberReference.java -text svneol=unset#text/plain
+src/main/java/org/universAAL/ri/gateway/proxies/ProxyBusMember.java -text svneol=unset#text/plain
+src/main/java/org/universAAL/ri/gateway/proxies/ProxyBusMemberFactory.java -text svneol=unset#text/plain
+src/main/java/org/universAAL/ri/gateway/proxies/ProxyPool.java -text svneol=unset#text/plain
+src/main/java/org/universAAL/ri/gateway/proxies/ReferencesManager.java -text svneol=unset#text/plain
+src/main/java/org/universAAL/ri/gateway/proxies/exporting/ProxyContextPublisher.java -text svneol=unset#text/plain
+src/main/java/org/universAAL/ri/gateway/proxies/exporting/ProxySCaller.java -text svneol=unset#text/plain
+src/main/java/org/universAAL/ri/gateway/proxies/importing/ProxyContextSubscriber.java -text svneol=unset#text/plain
+src/main/java/org/universAAL/ri/gateway/proxies/importing/ProxySCallee.java -text svneol=unset#text/plain
+src/main/java/org/universAAL/ri/gateway/proxies/updating/RegistrationParametersAdder.java -text svneol=unset#text/plain
+src/main/java/org/universAAL/ri/gateway/proxies/updating/RegistrationParametersRemover.java -text svneol=unset#text/plain
+src/main/java/org/universAAL/ri/gateway/proxies/updating/Updater.java -text svneol=unset#text/plain
+src/main/java/org/universAAL/ri/gateway/utils/ArraySet.java -text svneol=unset#text/plain
+src/main/java/org/universAAL/ri/gateway/utils/CallSynchronizer.java -text
+src/main/javadoc/org/universAAL/ri/gateway/doc-files/Design[!!-~]Model.png -text
+src/main/javadoc/org/universAAL/ri/gateway/doc-files/Import-ImportRefresh.png -text
+src/main/javadoc/org/universAAL/ri/gateway/doc-files/Import-ImportRemove.png -text
+src/main/javadoc/org/universAAL/ri/gateway/doc-files/Import-ImportRequest.png -text
+src/main/javadoc/org/universAAL/ri/gateway/package-info.java -text
+src/main/javadoc/org/universAAL/ri/gateway/proxies/exporting/package-info.java -text svneol=unset#text/plain
+src/main/javadoc/org/universAAL/ri/gateway/proxies/importing/package-info.java -text svneol=unset#text/plain
+src/main/resources/OSGI-INF/blueprint/blueprint.xml svneol=native#text/xml
+src/test/java/org/universAAL/ri/gateway/ArraySetTest.java -text svneol=unset#text/plain
+src/test/java/org/universAAL/ri/gateway/communicator/service/impl/SerializerTest.java svneol=native#text/plain

@@ -21,7 +21,6 @@ package org.universAAL.ri.gateway;
 
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.UUID;
 
 import org.universAAL.log.Logger;
 import org.universAAL.log.LoggerFactory;
@@ -30,8 +29,6 @@ import org.universAAL.ri.gateway.communication.cipher.Blowfish;
 import org.universAAL.ri.gateway.communication.cipher.Cipher;
 import org.universAAL.ri.gateway.communicator.service.impl.AbstractSocketCommunicationHandler;
 import org.universAAL.ri.gateway.communicator.service.impl.ClientSocketCommunicationHandler;
-import org.universAAL.ri.gateway.communicator.service.impl.MessageType;
-import org.universAAL.ri.gateway.communicator.service.impl.MessageWrapper;
 import org.universAAL.ri.gateway.communicator.service.impl.ServerSocketCommunicationHandler;
 import org.universAAL.ri.gateway.communicator.service.impl.SessionManager;
 import org.universAAL.ri.gateway.configuration.Configuration;
@@ -184,10 +181,6 @@ public class Session implements MessageSender, MessageReceiver,
 
     public void send(final Message message) {
         validateRemoteScope(remoteScope);
-        final org.universAAL.ri.gateway.communicator.service.Message content = new org.universAAL.ri.gateway.communicator.service.Message(
-                message);
-        final MessageWrapper wrap = new MessageWrapper(MessageType.HighPush,
-                content, "");
         final SessionManager session = SessionManager.getInstance();
         /*
          * //INFO Commented out for supporting but Client and Server mode UUID[]
@@ -198,7 +191,8 @@ public class Session implements MessageSender, MessageReceiver,
          * "Trying to send a message but we too many session"); } }
          */
         try {
-            comunication.sendMessage(wrap, new String[] { remoteScope });
+            // comunication.sendMessage(wrap, new String[] { remoteScope });
+            comunication.sendMessage(message, new String[] { remoteScope });
         } catch (final Exception e) {
             throw new RuntimeException(
                     "Failed to send message due to internal exception", e);

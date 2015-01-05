@@ -1,11 +1,7 @@
 /*
-    Copyright 2014-2014 CNR-ISTI, http://isti.cnr.it
+    Copyright 2015-2015 CNR-ISTI, http://isti.cnr.it
     Institute of Information Science and Technologies
     of the Italian National Research Council
-
-    Copyright 2011-2014 AGH-UST, http://www.agh.edu.pl
-    Faculty of Computer Science, Electronics and Telecommunications
-    Department of Computer Science
 
     See the NOTICE file distributed with this work for additional
     information regarding copyright ownership
@@ -22,28 +18,36 @@
     See the License for the specific language governing permissions and
     limitations under the License.
  */
-package org.universAAL.ri.gateway.communicator.service;
-
-import org.universAAL.ri.gateway.Session;
-import org.universAAL.ri.gateway.communicator.service.impl.SessionManager;
-import org.universAAL.ri.gateway.protocol.Message;
+package org.universAAL.ri.gateway.protocol;
 
 /**
  *
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @version $LastChangedRevision$ ($LastChangedDate$)
  *
- * @deprecated update to new Message class, and remove String[] sessions? are
- *             they {@link SessionManager} sessions or {@link Session}s?
  */
-@Deprecated
-public interface CommunicationHandler {
+public abstract class LinkMessage extends Message{
 
-    public static final String BROADCAST_SESSION = "#BROADCAST";
+    /**
+     *
+     */
+    private static final long serialVersionUID = -5253428613643147326L;
 
-    public Message sendMessage(Message msg, final String[] session);
+    public LinkMessage(){
+        super();
+    }
 
-    public void start() throws Exception;
+    public LinkMessage(LinkMessage msg){
+        super(msg);
+    }
 
-    public void stop();
+    public enum LinkMessageType {
+        CONNECTION_REQUEST,
+        CONNECTION_RESPONSE,
+        DISCONNECTION_REQUEST,
+        RECONNECTION_REQUEST,
+    }
+
+    public abstract int getType();
+
 }

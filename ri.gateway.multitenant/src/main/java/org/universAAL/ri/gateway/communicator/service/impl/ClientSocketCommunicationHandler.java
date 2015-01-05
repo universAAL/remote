@@ -41,6 +41,9 @@ import org.universAAL.ri.gateway.Gateway;
 import org.universAAL.ri.gateway.Session;
 import org.universAAL.ri.gateway.SessionEvent;
 import org.universAAL.ri.gateway.configuration.Configuration;
+import org.universAAL.ri.gateway.protocol.LinkMessage;
+import org.universAAL.ri.gateway.protocol.LinkMessage.LinkMessageType;
+import org.universAAL.ri.gateway.protocol.Message;
 import org.universAAL.ri.gateway.protocol.MessageReceiver;
 import org.universAAL.ri.gateway.protocol.link.DisconnectionRequest;
 
@@ -210,7 +213,7 @@ public class ClientSocketCommunicationHandler extends
         @Override
         protected boolean loopRun() {
             if (socket != null && !socket.isClosed()) {
-                MessageWrapper msg;
+                Message msg;
                 try {
                     msg = getNextMessage(in);
                 } catch (final Exception e) {
@@ -237,26 +240,30 @@ public class ClientSocketCommunicationHandler extends
         }
 
         @Override
-        protected MessageWrapper getNextMessage(final InputStream in)
-                throws Exception {
+        protected Message getNextMessage(final InputStream in) throws Exception {
             return readMessage(in);
         }
 
         @Override
-        protected boolean handleSessionProtocol(final MessageWrapper msg) {
+        protected boolean handleSessionProtocol(final Message msg) {
             final AALSpaceManager spaceManager = Gateway.getInstance().spaceManager
                     .getObject();
             final SessionManager sessionManger = SessionManager.getInstance();
-            switch (msg.getType()) {
-            case Reconnect:
-            case ConnectRequest:
+            LinkMessage link = null;
+            if (msg instanceof LinkMessage) {
+                link = (LinkMessage) msg;
+            }
+            if (link == null) {
+                return false;
+            } else if (link.getType() == LinkMessageType.RECONNECTION_REQUEST
+                    .ordinal()
+                    || link.getType() == LinkMessageType.CONNECTION_REQUEST
+                            .ordinal()) {
                 throw new IllegalArgumentException(
-                        "Receieved unexpected message " + msg.getType());
-
-            case Disconnect: {
-                final DisconnectionRequest request = Serializer.Instance
-                        .unmarshall(DisconnectionRequest.class,
-                                msg.getMessage());
+                        "Receieved unexpected message " + link.getType());
+            } else if (link.getType() == LinkMessageType.DISCONNECTION_REQUEST
+                    .ordinal()) {
+                final DisconnectionRequest request = (DisconnectionRequest) link;
                 // request.getPeerId()
                 final UUID session = sessionManger.getSession(
                         request.getPeerId(), request.getAALSpaceId(),
@@ -277,10 +284,9 @@ public class ClientSocketCommunicationHandler extends
                 return true;
             }
 
-            default:
-                return false;
-
-            }
+            throw new IllegalStateException(
+                    "Unable to handle the message msg it is neither a LinkMessage nor other known message types: "
+                            + msg);
         }
     }
 

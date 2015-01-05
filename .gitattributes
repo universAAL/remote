@@ -157,12 +157,10 @@ ri.gateway.multitenant/src/main/java/org/universAAL/ri/gateway/SessionEventListe
 ri.gateway.multitenant/src/main/java/org/universAAL/ri/gateway/communication/cipher/Blowfish.java -text
 ri.gateway.multitenant/src/main/java/org/universAAL/ri/gateway/communication/cipher/Cipher.java -text svneol=unset#text/plain
 ri.gateway.multitenant/src/main/java/org/universAAL/ri/gateway/communicator/service/CommunicationHandler.java -text
-ri.gateway.multitenant/src/main/java/org/universAAL/ri/gateway/communicator/service/Message.java -text
 ri.gateway.multitenant/src/main/java/org/universAAL/ri/gateway/communicator/service/impl/AbstractLinkHandler.java svneol=native#text/plain
 ri.gateway.multitenant/src/main/java/org/universAAL/ri/gateway/communicator/service/impl/AbstractSocketCommunicationHandler.java svneol=native#text/plain
 ri.gateway.multitenant/src/main/java/org/universAAL/ri/gateway/communicator/service/impl/ClientSocketCommunicationHandler.java svneol=native#text/plain
 ri.gateway.multitenant/src/main/java/org/universAAL/ri/gateway/communicator/service/impl/MessageType.java -text
-ri.gateway.multitenant/src/main/java/org/universAAL/ri/gateway/communicator/service/impl/MessageWrapper.java -text
 ri.gateway.multitenant/src/main/java/org/universAAL/ri/gateway/communicator/service/impl/Serializer.java -text
 ri.gateway.multitenant/src/main/java/org/universAAL/ri/gateway/communicator/service/impl/ServerSocketCommunicationHandler.java -text
 ri.gateway.multitenant/src/main/java/org/universAAL/ri/gateway/communicator/service/impl/SessionManager.java svneol=native#text/plain
@@ -179,6 +177,7 @@ ri.gateway.multitenant/src/main/java/org/universAAL/ri/gateway/osgi/GatewayComma
 ri.gateway.multitenant/src/main/java/org/universAAL/ri/gateway/osgi/OSGIActivator.java -text svneol=unset#text/plain
 ri.gateway.multitenant/src/main/java/org/universAAL/ri/gateway/protocol/ErrorMessage.java -text svneol=unset#text/plain
 ri.gateway.multitenant/src/main/java/org/universAAL/ri/gateway/protocol/ImportMessage.java -text svneol=unset#text/plain
+ri.gateway.multitenant/src/main/java/org/universAAL/ri/gateway/protocol/LinkMessage.java -text
 ri.gateway.multitenant/src/main/java/org/universAAL/ri/gateway/protocol/Message.java -text svneol=unset#text/plain
 ri.gateway.multitenant/src/main/java/org/universAAL/ri/gateway/protocol/MessageReceiver.java -text svneol=unset#text/plain
 ri.gateway.multitenant/src/main/java/org/universAAL/ri/gateway/protocol/MessageSender.java -text svneol=unset#text/plain

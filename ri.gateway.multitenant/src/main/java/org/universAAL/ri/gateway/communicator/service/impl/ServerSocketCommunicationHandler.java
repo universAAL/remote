@@ -46,7 +46,10 @@ import org.universAAL.ri.gateway.Session;
 import org.universAAL.ri.gateway.SessionEvent;
 import org.universAAL.ri.gateway.communication.cipher.Blowfish;
 import org.universAAL.ri.gateway.configuration.Configuration;
+import org.universAAL.ri.gateway.protocol.LinkMessage;
+import org.universAAL.ri.gateway.protocol.Message;
 import org.universAAL.ri.gateway.protocol.MessageReceiver;
+import org.universAAL.ri.gateway.protocol.LinkMessage.LinkMessageType;
 import org.universAAL.ri.gateway.protocol.link.ConnectionRequest;
 import org.universAAL.ri.gateway.protocol.link.ConnectionResponse;
 import org.universAAL.ri.gateway.protocol.link.DisconnectionRequest;
@@ -155,7 +158,7 @@ public class ServerSocketCommunicationHandler extends
         @Override
         protected boolean loopRun() {
             if (socket != null && !socket.isClosed()) {
-                MessageWrapper msg;
+                Message msg;
                 try {
                     msg = getNextMessage(in);
                 } catch (final Exception e) {
@@ -186,14 +189,23 @@ public class ServerSocketCommunicationHandler extends
         }
 
         @Override
-        protected boolean handleSessionProtocol(final MessageWrapper msg) {
+        protected boolean handleSessionProtocol(final Message msg) {
             final AALSpaceManager spaceManager = Gateway.getInstance().spaceManager
                     .getObject();
             final SessionManager sessionManger = SessionManager.getInstance();
-            switch (msg.getType()) {
-            case ConnectRequest: {
-                final ConnectionRequest request = Serializer.Instance
-                        .unmarshall(ConnectionRequest.class, msg.getMessage());
+            LinkMessage link = null;
+            if (msg instanceof LinkMessage) {
+                link = (LinkMessage) msg;
+            }
+            if (link == null) {
+                return false;
+            } else if (link.getType() == LinkMessageType.CONNECTION_RESPONSE
+                    .ordinal()) {
+                throw new IllegalArgumentException(
+                        "Receieved unexpected message " + link.getType());
+            } else if (link.getType() == LinkMessageType.CONNECTION_REQUEST
+                    .ordinal()) {
+                final ConnectionRequest request = (ConnectionRequest) link;
                 UUID session = sessionManger.getSession(request.getPeerId(),
                         request.getAALSpaceId(), request.getScopeId());
                 if (session == null) {
@@ -223,13 +235,9 @@ public class ServerSocketCommunicationHandler extends
                 // tenatManager.getTenant(request.getScopeId());
                 final String source = spaceManager.getMyPeerCard().getPeerID();
                 final ConnectionResponse response = new ConnectionResponse(
-                        source, request.getAALSpaceId(), session);
-                final MessageWrapper responseMessage = new MessageWrapper(
-                        MessageType.ConnectResponse,
-                        Serializer.Instance.marshall(response), source);
+                        link, source, request.getAALSpaceId(), session);
                 try {
-                    Serializer
-                            .sendMessageToStream(responseMessage, out, cipher);
+                    Serializer.cypherAndSend(response.getBytes(), out, cipher);
                 } catch (final Exception e) {
                     e.printStackTrace();
                     // TODO Close the session
@@ -242,7 +250,8 @@ public class ServerSocketCommunicationHandler extends
                  */
                 final Gateway gw = Gateway.getInstance();
                 mySession = new Session(config, gw.getPool(), server);
-                final String scope = SessionManager.getInstance().getAALSpaceIdFromSession(session);
+                final String scope = SessionManager.getInstance()
+                        .getAALSpaceIdFromSession(session);
                 mySession.setScope(scope);
                 mySession.setStatus(SessionEvent.SessionStatus.CONNECTED);
                 gw.newSession(socket.toString(), mySession);
@@ -250,12 +259,10 @@ public class ServerSocketCommunicationHandler extends
                 ((ProxyMessageReceiver) super.communicator)
                         .setFinalReceiver(mySession);
                 return true;
-            }
+            } else if (link.getType() == LinkMessageType.DISCONNECTION_REQUEST
+                    .ordinal()) {
 
-            case Disconnect: {
-                final DisconnectionRequest request = Serializer.Instance
-                        .unmarshall(DisconnectionRequest.class,
-                                msg.getMessage());
+                final DisconnectionRequest request = (DisconnectionRequest) link;
                 // request.getPeerId()
                 final UUID session = sessionManger.getSession(
                         request.getPeerId(), request.getAALSpaceId(),
@@ -274,10 +281,9 @@ public class ServerSocketCommunicationHandler extends
                  * //TODO here we should close the Session and remove the object
                  */
                 return true;
-            }
-            case Reconnect: {
-                final ReconnectionRequest request = Serializer.Instance
-                        .unmarshall(ReconnectionRequest.class, msg.getMessage());
+            } else if (link.getType() == LinkMessageType.RECONNECTION_REQUEST
+                    .ordinal()) {
+                final ReconnectionRequest request = (ReconnectionRequest) link;
                 // request.getPeerId()
                 UUID session = sessionManger.getSession(request.getPeerId(),
                         request.getAALSpaceId(), request.getScopeId());
@@ -296,22 +302,18 @@ public class ServerSocketCommunicationHandler extends
                 // tenatManager.getTenant(request.getScopeId());
                 final String source = spaceManager.getMyPeerCard().getPeerID();
                 final ConnectionResponse response = new ConnectionResponse(
-                        source, request.getAALSpaceId(), session);
-                final MessageWrapper responseMessage = new MessageWrapper(
-                        MessageType.ConnectResponse,
-                        Serializer.Instance.marshall(response), source);
+                        link, source, request.getAALSpaceId(), session);
                 try {
-                    Serializer.sendMessageToStream(responseMessage, out, null);
+                    Serializer.cypherAndSend(response.getBytes(), out, cipher);
                 } catch (final Exception e) {
                     e.printStackTrace();
                     // TODO Close the session
                 }
                 return true;
             }
-            default:
-                return false;
-
-            }
+            throw new IllegalStateException(
+                    "Unable to handle the message msg it is neither a LinkMessage nor other known message types: "
+                            + msg);
         }
 
         private void setName(final String name) {
@@ -324,8 +326,7 @@ public class ServerSocketCommunicationHandler extends
         }
 
         @Override
-        protected MessageWrapper getNextMessage(final InputStream in)
-                throws Exception {
+        protected Message getNextMessage(final InputStream in) throws Exception {
             return readMessage(in);
         }
 

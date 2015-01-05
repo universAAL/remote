@@ -23,13 +23,16 @@ package org.universAAL.ri.gateway.protocol.link;
 import java.io.Serializable;
 import java.util.UUID;
 
+import org.universAAL.ri.gateway.protocol.LinkMessage;
+import org.universAAL.ri.gateway.protocol.LinkMessage.LinkMessageType;
+
 /**
  *
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @version $LastChangedRevision$ ($LastChangedDate$)
  *
  */
-public class ConnectionResponse implements Serializable {
+public class ConnectionResponse extends LinkMessage implements Serializable {
 
     /**
      *
@@ -39,8 +42,8 @@ public class ConnectionResponse implements Serializable {
     private String aalSpaceId;
     private UUID sessionId;
 
-    public ConnectionResponse(final String peer, final String space, final UUID session) {
-        super();
+    public ConnectionResponse(final LinkMessage request, final String peer, final String space, final UUID session) {
+        super(request);
         this.peerId = peer;
         this.aalSpaceId = space;
         this.sessionId = session;
@@ -72,4 +75,8 @@ public class ConnectionResponse implements Serializable {
         return sessionId;
     }
 
+    @Override
+    public int getType() {
+        return LinkMessageType.CONNECTION_RESPONSE.ordinal();
+    }
 }

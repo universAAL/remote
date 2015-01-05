@@ -1,10 +1,11 @@
 package org.universAAL.ri.gateway.communicator.service.impl;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.fail;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.net.Inet6Address;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
@@ -15,7 +16,8 @@ import java.util.Enumeration;
 
 import org.junit.Test;
 import org.universAAL.ri.gateway.communication.cipher.Blowfish;
-import org.universAAL.ri.gateway.communicator.service.Message;
+import org.universAAL.ri.gateway.protocol.ErrorMessage;
+import org.universAAL.ri.gateway.protocol.Message;
 
 /**
  * This class test marshalling and unmarshalling of message, to avoid that
@@ -29,12 +31,12 @@ public class SerializerTest {
 
     @Test
     public void testSendMessageToStream() {
-        MessageWrapper wrap = new MessageWrapper(MessageType.HighPush,
-                new Message("Hello World Sending!"), "JUnit");
+
+        ErrorMessage wrap = new ErrorMessage ("Hello World Sending!");
         Blowfish cipher = new Blowfish("A radom key");
         ByteArrayOutputStream output = new ByteArrayOutputStream();
         try {
-            Serializer.sendMessageToStream(wrap, output, cipher);
+            Serializer.cypherAndSend(wrap.getBytes(), output, cipher);
             output.close();
         } catch (Exception e) {
             e.printStackTrace();
@@ -42,20 +44,17 @@ public class SerializerTest {
         }
         ByteArrayInputStream input = new ByteArrayInputStream(
                 output.toByteArray());
-        MessageWrapper readBack = null;
+        Message readBack = null;
         try {
-            readBack = Serializer.unmarshalMessage(input, cipher);
+            readBack = Serializer.readAndDecypher(input, cipher);
         } catch (Exception e) {
             e.printStackTrace();
             fail("Failed due to exception");
         }
-        assertEquals("Checking message type", wrap.getType(),
-                readBack.getType());
+        assertEquals("Checking message type", wrap.getClass(),
+                readBack.getClass());
         assertEquals("Checking message content",
-                wrap.getMessage().getContent(), readBack.getMessage()
-                        .getContent());
-        assertEquals("Checking message source", wrap.getSourceId(),
-                readBack.getSourceId());
+                wrap.getDescription(), ((ErrorMessage) readBack).getDescription() );
     }
 
     @Test
@@ -96,9 +95,7 @@ public class SerializerTest {
         }
         final InetAddress selected = using;
         System.out.println(using);
-        final MessageWrapper expected = new MessageWrapper(
-                MessageType.HighPush, new Message("Hello World Sending!"),
-                "JUnit");
+        final ErrorMessage expected = new ErrorMessage ("Hello World Sending!");
         final Blowfish cipher = new Blowfish("A radom key");
         Thread serverThread = new Thread(new Runnable() {
 
@@ -108,15 +105,17 @@ public class SerializerTest {
                     server = new ServerSocket(TCP_TEST_PORT, 1, selected);
                     Socket serverPart = server.accept();
                     for (int i = 0; i < TOTALE_MESSAGE_SENT; i++) {
-                        MessageWrapper readBack = Serializer.unmarshalMessage(
-                                serverPart.getInputStream(), cipher);
-                        assertEquals("Checking message type",
-                                expected.getType(), readBack.getType());
-                        assertEquals("Checking message content", expected
-                                .getMessage().getContent(), readBack
-                                .getMessage().getContent());
-                        assertEquals("Checking message source",
-                                expected.getSourceId(), readBack.getSourceId());
+                        Message readBack = null;
+                        try {
+                            readBack = Serializer.readAndDecypher(serverPart.getInputStream(), cipher);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            fail("Failed due to exception");
+                        }
+                        assertEquals("Checking message type", expected.getClass(),
+                                readBack.getClass());
+                        assertEquals("Checking message content",
+                                expected.getDescription(), ((ErrorMessage) readBack).getDescription() );
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -133,7 +132,7 @@ public class SerializerTest {
         try {
             Socket client = new Socket(selected, TCP_TEST_PORT);
             for (int i = 0; i < TOTALE_MESSAGE_SENT; i++) {
-                Serializer.sendMessageToStream(expected,
+                Serializer.cypherAndSend(expected.getBytes(),
                         client.getOutputStream(), cipher);
                 double waiting =  Math.random() * MAXIMUM_WAITING_TIME;
                 Thread.sleep((long) waiting);

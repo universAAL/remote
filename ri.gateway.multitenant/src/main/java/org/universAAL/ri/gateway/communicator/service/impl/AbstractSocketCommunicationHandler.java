@@ -25,7 +25,6 @@
 package org.universAAL.ri.gateway.communicator.service.impl;
 
 import java.io.EOFException;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
@@ -33,7 +32,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
-import org.bouncycastle.crypto.CryptoException;
 import org.universAAL.log.Logger;
 import org.universAAL.log.LoggerFactory;
 import org.universAAL.ri.gateway.Gateway;

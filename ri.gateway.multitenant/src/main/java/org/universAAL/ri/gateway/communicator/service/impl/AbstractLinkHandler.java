@@ -31,6 +31,8 @@ import org.universAAL.log.LoggerFactory;
 import org.universAAL.middleware.managers.api.AALSpaceManager;
 import org.universAAL.ri.gateway.Gateway;
 import org.universAAL.ri.gateway.communication.cipher.Cipher;
+import org.universAAL.ri.gateway.communicator.service.CommunicationHandler;
+import org.universAAL.ri.gateway.communicator.service.CommunicationHelper;
 import org.universAAL.ri.gateway.protocol.LinkMessage;
 import org.universAAL.ri.gateway.protocol.LinkMessage.LinkMessageType;
 import org.universAAL.ri.gateway.protocol.Message;
@@ -176,7 +178,7 @@ public abstract class AbstractLinkHandler implements Runnable {
         final ReconnectionRequest request = new ReconnectionRequest(peerId,
                 spaceId, currentSession);
         try {
-            Serializer.cypherAndSend(request.getBytes(), out, cipher);
+            CommunicationHelper.cypherAndSend(request, out, cipher);
             final Message rsp = getNextMessage(in);
             LinkMessage linkMessage = null;
             if (rsp instanceof LinkMessage) {
@@ -238,7 +240,7 @@ public abstract class AbstractLinkHandler implements Runnable {
         final ConnectionRequest request = new ConnectionRequest(peerId,
                 spaceId, spaceName);
         try {
-            Serializer.cypherAndSend(request.getBytes(), out, cipher);
+            CommunicationHelper.cypherAndSend(request, out, cipher);
             final Message rsp = getNextMessage(in);
             LinkMessage linkMessage = null;
             if (rsp instanceof LinkMessage) {
@@ -287,12 +289,11 @@ public abstract class AbstractLinkHandler implements Runnable {
         final String spaceId = spaceManager.getAALSpaceDescriptor()
                 .getSpaceCard().getSpaceID();
         final String peerId = spaceManager.getMyPeerCard().getPeerID();
-        final DisconnectionRequest disconnectionRequest = new DisconnectionRequest(
-                peerId, spaceId, currentSession);
+        final DisconnectionRequest request = new DisconnectionRequest(peerId,
+                spaceId, currentSession);
         boolean result = true;
         try {
-            Serializer.cypherAndSend(disconnectionRequest.getBytes(), out,
-                    cipher);
+            CommunicationHelper.cypherAndSend(request, out, cipher);
         } catch (final Exception e) {
             e.printStackTrace();
             result = false;

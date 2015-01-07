@@ -39,6 +39,7 @@ import org.universAAL.log.LoggerFactory;
 import org.universAAL.ri.gateway.Gateway;
 import org.universAAL.ri.gateway.communication.cipher.Cipher;
 import org.universAAL.ri.gateway.communicator.service.CommunicationHandler;
+import org.universAAL.ri.gateway.communicator.service.CommunicationHelper;
 import org.universAAL.ri.gateway.protocol.Message;
 
 /**
@@ -64,16 +65,15 @@ public abstract class AbstractSocketCommunicationHandler implements
     protected Message readMessage(final InputStream in) throws Exception {
         AbstractSocketCommunicationHandler.log
                 .debug("Reading a message on the link");
-        final Message msg = Serializer.readAndDecypher(in, cipher);
+        final Message msg = CommunicationHelper.readAndDecypher(in, cipher);
         AbstractSocketCommunicationHandler.log.debug("Read message " + msg
                 + " going to handle it");
         return msg;
     }
 
     public void sendMessage(final Message msg, final String scope) {
-        sendMessage(msg, new String[]{scope});
+        sendMessage(msg, new String[] { scope });
     }
-
 
     public void sendMessage(final Message msg, final String[] scopes) {
 
@@ -125,7 +125,7 @@ public abstract class AbstractSocketCommunicationHandler implements
             }
 
             try {
-                Serializer.cypherAndSend(msg.getBytes(), out, cipher);
+                CommunicationHelper.cypherAndSend(msg, out, cipher);
             } catch (final EOFException e) {
                 log.debug("Connection closed");
             } catch (final Exception ex) {

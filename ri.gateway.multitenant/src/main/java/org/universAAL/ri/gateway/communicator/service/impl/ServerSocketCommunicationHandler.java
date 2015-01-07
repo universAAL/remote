@@ -45,6 +45,7 @@ import org.universAAL.ri.gateway.ProxyMessageReceiver;
 import org.universAAL.ri.gateway.Session;
 import org.universAAL.ri.gateway.SessionEvent;
 import org.universAAL.ri.gateway.communication.cipher.Blowfish;
+import org.universAAL.ri.gateway.communicator.service.CommunicationHelper;
 import org.universAAL.ri.gateway.configuration.Configuration;
 import org.universAAL.ri.gateway.protocol.LinkMessage;
 import org.universAAL.ri.gateway.protocol.Message;
@@ -237,7 +238,7 @@ public class ServerSocketCommunicationHandler extends
                 final ConnectionResponse response = new ConnectionResponse(
                         link, source, request.getAALSpaceId(), session);
                 try {
-                    Serializer.cypherAndSend(response.getBytes(), out, cipher);
+                    CommunicationHelper.cypherAndSend(response, out, cipher);
                 } catch (final Exception e) {
                     e.printStackTrace();
                     // TODO Close the session
@@ -304,7 +305,7 @@ public class ServerSocketCommunicationHandler extends
                 final ConnectionResponse response = new ConnectionResponse(
                         link, source, request.getAALSpaceId(), session);
                 try {
-                    Serializer.cypherAndSend(response.getBytes(), out, cipher);
+                    CommunicationHelper.cypherAndSend(response, out, cipher);
                 } catch (final Exception e) {
                     e.printStackTrace();
                     // TODO Close the session

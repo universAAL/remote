@@ -157,10 +157,10 @@ ri.gateway.multitenant/src/main/java/org/universAAL/ri/gateway/SessionEventListe
 ri.gateway.multitenant/src/main/java/org/universAAL/ri/gateway/communication/cipher/Blowfish.java -text
 ri.gateway.multitenant/src/main/java/org/universAAL/ri/gateway/communication/cipher/Cipher.java -text svneol=unset#text/plain
 ri.gateway.multitenant/src/main/java/org/universAAL/ri/gateway/communicator/service/CommunicationHandler.java -text
+ri.gateway.multitenant/src/main/java/org/universAAL/ri/gateway/communicator/service/CommunicationHelper.java -text
 ri.gateway.multitenant/src/main/java/org/universAAL/ri/gateway/communicator/service/impl/AbstractLinkHandler.java svneol=native#text/plain
 ri.gateway.multitenant/src/main/java/org/universAAL/ri/gateway/communicator/service/impl/AbstractSocketCommunicationHandler.java svneol=native#text/plain
 ri.gateway.multitenant/src/main/java/org/universAAL/ri/gateway/communicator/service/impl/ClientSocketCommunicationHandler.java svneol=native#text/plain
-ri.gateway.multitenant/src/main/java/org/universAAL/ri/gateway/communicator/service/impl/Serializer.java -text
 ri.gateway.multitenant/src/main/java/org/universAAL/ri/gateway/communicator/service/impl/ServerSocketCommunicationHandler.java -text
 ri.gateway.multitenant/src/main/java/org/universAAL/ri/gateway/communicator/service/impl/SessionManager.java svneol=native#text/plain
 ri.gateway.multitenant/src/main/java/org/universAAL/ri/gateway/configuration/Configuration.java -text svneol=unset#text/plain

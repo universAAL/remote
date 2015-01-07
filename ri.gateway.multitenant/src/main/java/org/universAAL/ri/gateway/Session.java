@@ -182,17 +182,8 @@ public class Session implements MessageSender, MessageReceiver,
     public void send(final Message message) {
         validateRemoteScope(remoteScope);
         final SessionManager session = SessionManager.getInstance();
-        /*
-         * //INFO Commented out for supporting but Client and Server mode UUID[]
-         * active = session.getSessionIds(); if (active.length != 1) { if
-         * (active.length == 0) { throw new IllegalStateException(
-         * "Trying to send a message but we no active session"); } else { throw
-         * new IllegalStateException(
-         * "Trying to send a message but we too many session"); } }
-         */
         try {
-            // comunication.sendMessage(wrap, new String[] { remoteScope });
-            comunication.sendMessage(message, new String[] { remoteScope });
+            comunication.sendMessage(message, remoteScope );
         } catch (final Exception e) {
             throw new RuntimeException(
                     "Failed to send message due to internal exception", e);

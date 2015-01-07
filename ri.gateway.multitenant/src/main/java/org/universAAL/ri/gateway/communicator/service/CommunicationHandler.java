@@ -24,8 +24,6 @@
  */
 package org.universAAL.ri.gateway.communicator.service;
 
-import org.universAAL.ri.gateway.Session;
-import org.universAAL.ri.gateway.communicator.service.impl.SessionManager;
 import org.universAAL.ri.gateway.protocol.Message;
 
 /**
@@ -33,15 +31,37 @@ import org.universAAL.ri.gateway.protocol.Message;
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @version $LastChangedRevision$ ($LastChangedDate$)
  *
- * @deprecated update to new Message class, and remove String[] sessions? are
- *             they {@link SessionManager} sessions or {@link Session}s?
  */
-@Deprecated
 public interface CommunicationHandler {
 
+    /**
+     * @deprecated Broadcasting is now perfomed by the high level part of the
+     *             Gateway by inspecting the message
+     */
     public static final String BROADCAST_SESSION = "#BROADCAST";
 
-    public Message sendMessage(Message msg, final String[] session);
+    /**
+     * Send the given message to a specific scope
+     *
+     * @param msg
+     *            the {@link Message} to send
+     * @param scope
+     *            the scope of the destination of the message
+     */
+    public void sendMessage(Message msg, final String scope);
+
+    /**
+     * Send the given message to a set of scope
+     *
+     * @param msg
+     *            the {@link Message} to send
+     * @param scope
+     *            the set of scope as destination of the message
+     * @deprecated {@link #sendMessage(Message, String)} should be used because
+     *             the Gateway will perform security check for simulating
+     *             multi-casting or broad-casting when needed
+     */
+    public void sendMessage(Message msg, final String[] scope);
 
     public void start() throws Exception;
 

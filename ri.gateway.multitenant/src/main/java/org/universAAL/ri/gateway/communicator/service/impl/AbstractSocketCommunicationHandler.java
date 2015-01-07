@@ -70,10 +70,12 @@ public abstract class AbstractSocketCommunicationHandler implements
         return msg;
     }
 
-    public Message sendMessage(final Message msg, final String[] scopes) {
+    public void sendMessage(final Message msg, final String scope) {
+        sendMessage(msg, new String[]{scope});
+    }
 
-        // TODO Stefano Lenzi: Use the target to select the scope where to send
-        // the message, it should be an UUID
+
+    public void sendMessage(final Message msg, final String[] scopes) {
 
         final SessionManager refSM = SessionManager.getInstance();
 
@@ -124,21 +126,12 @@ public abstract class AbstractSocketCommunicationHandler implements
 
             try {
                 Serializer.cypherAndSend(msg.getBytes(), out, cipher);
-                return null;
-                /*
-                 * if (toSend.getType() == MessageType.HighReqRsp) { resp =
-                 * Serializer.unmarshalMessage(in, cipher); }
-                 */
             } catch (final EOFException e) {
                 log.debug("Connection closed");
             } catch (final Exception ex) {
                 log.error("Unable to send msg " + msg + " due to exception", ex);
             }
         }
-
-        // TODO either we change the return type to void/boolean or to
-        // MessageWrapper[]
-        return null;
     }
 
     private boolean isBroadcat(String[] scopes) {

@@ -93,13 +93,7 @@ public class SessionManager {
 
     private class SessionStatus {
         boolean connected;
-        /**
-         * @deprecated
-         */
         InputStream in;
-        /**
-         * @deprecated
-         */
         OutputStream out;
     }
 

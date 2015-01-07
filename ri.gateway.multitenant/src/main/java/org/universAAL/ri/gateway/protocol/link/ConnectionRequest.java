@@ -79,6 +79,16 @@ public class ConnectionRequest extends LinkMessage implements Serializable {
         return peerId;
     }
 
+    /**
+     *
+     * This method return the ScopeId<br>
+     * <br>
+     * <b>NOTE:</b>From version 3.2.0 to now the ScopeId has ALWAYS the same
+     * value of the SpaceId, but it may differ in the future
+     *
+     * @return the scope of the session.
+     *
+     */
     public String getScopeId() {
         return aalSpaceId;
     }

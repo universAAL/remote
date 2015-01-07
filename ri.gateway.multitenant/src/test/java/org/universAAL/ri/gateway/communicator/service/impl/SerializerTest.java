@@ -16,6 +16,7 @@ import java.util.Enumeration;
 
 import org.junit.Test;
 import org.universAAL.ri.gateway.communication.cipher.Blowfish;
+import org.universAAL.ri.gateway.communicator.service.CommunicationHelper;
 import org.universAAL.ri.gateway.protocol.ErrorMessage;
 import org.universAAL.ri.gateway.protocol.Message;
 
@@ -24,7 +25,8 @@ import org.universAAL.ri.gateway.protocol.Message;
  * changes in the code breaks the communication level
  *
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
- * @version $LastChangedRevision$ ($LastChangedDate$)
+ * @version $LastChangedRevision$ ($LastChangedDate: 2015-01-05 18:58:58
+ *          +0100 (Mon, 05 Jan 2015) $)
  *
  */
 public class SerializerTest {
@@ -32,11 +34,11 @@ public class SerializerTest {
     @Test
     public void testSendMessageToStream() {
 
-        ErrorMessage wrap = new ErrorMessage ("Hello World Sending!");
+        ErrorMessage wrap = new ErrorMessage("Hello World Sending!");
         Blowfish cipher = new Blowfish("A radom key");
         ByteArrayOutputStream output = new ByteArrayOutputStream();
         try {
-            Serializer.cypherAndSend(wrap.getBytes(), output, cipher);
+            CommunicationHelper.cypherAndSend(wrap, output, cipher);
             output.close();
         } catch (Exception e) {
             e.printStackTrace();
@@ -46,15 +48,15 @@ public class SerializerTest {
                 output.toByteArray());
         Message readBack = null;
         try {
-            readBack = Serializer.readAndDecypher(input, cipher);
+            readBack = CommunicationHelper.readAndDecypher(input, cipher);
         } catch (Exception e) {
             e.printStackTrace();
             fail("Failed due to exception");
         }
         assertEquals("Checking message type", wrap.getClass(),
                 readBack.getClass());
-        assertEquals("Checking message content",
-                wrap.getDescription(), ((ErrorMessage) readBack).getDescription() );
+        assertEquals("Checking message content", wrap.getDescription(),
+                ((ErrorMessage) readBack).getDescription());
     }
 
     @Test
@@ -95,7 +97,7 @@ public class SerializerTest {
         }
         final InetAddress selected = using;
         System.out.println(using);
-        final ErrorMessage expected = new ErrorMessage ("Hello World Sending!");
+        final ErrorMessage expected = new ErrorMessage("Hello World Sending!");
         final Blowfish cipher = new Blowfish("A radom key");
         Thread serverThread = new Thread(new Runnable() {
 
@@ -107,15 +109,17 @@ public class SerializerTest {
                     for (int i = 0; i < TOTALE_MESSAGE_SENT; i++) {
                         Message readBack = null;
                         try {
-                            readBack = Serializer.readAndDecypher(serverPart.getInputStream(), cipher);
+                            readBack = CommunicationHelper.readAndDecypher(
+                                    serverPart.getInputStream(), cipher);
                         } catch (Exception e) {
                             e.printStackTrace();
                             fail("Failed due to exception");
                         }
-                        assertEquals("Checking message type", expected.getClass(),
-                                readBack.getClass());
+                        assertEquals("Checking message type",
+                                expected.getClass(), readBack.getClass());
                         assertEquals("Checking message content",
-                                expected.getDescription(), ((ErrorMessage) readBack).getDescription() );
+                                expected.getDescription(),
+                                ((ErrorMessage) readBack).getDescription());
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -132,9 +136,9 @@ public class SerializerTest {
         try {
             Socket client = new Socket(selected, TCP_TEST_PORT);
             for (int i = 0; i < TOTALE_MESSAGE_SENT; i++) {
-                Serializer.cypherAndSend(expected.getBytes(),
+                CommunicationHelper.cypherAndSend(expected,
                         client.getOutputStream(), cipher);
-                double waiting =  Math.random() * MAXIMUM_WAITING_TIME;
+                double waiting = Math.random() * MAXIMUM_WAITING_TIME;
                 Thread.sleep((long) waiting);
             }
         } catch (Exception e) {

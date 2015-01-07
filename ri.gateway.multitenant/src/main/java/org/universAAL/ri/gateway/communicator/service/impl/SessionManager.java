@@ -24,11 +24,13 @@ package org.universAAL.ri.gateway.communicator.service.impl;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 import org.universAAL.log.Logger;
@@ -125,6 +127,24 @@ public class SessionManager {
             final String scopeId) {
         return createSession(peerId, aalSpaceId, scopeId, "AAL Space with Id:"
                 + aalSpaceId);
+    }
+
+
+    /**
+     *
+     * @param scopeId the AAL Space Id to use for the research
+     * @return an array of UUID for all the session matching the given Scope Id
+     * @since 3.3.0
+     */
+    public UUID[] getSessionFromAALScopeId(final String scopeId){
+        Set<SessionKey> keys = sessions.keySet();
+        ArrayList<UUID> aux = new ArrayList<UUID>();
+        for (SessionKey key : keys) {
+            if ( key.keyParts[SessionKey.SCOPE_IDX].equals(scopeId) ) {
+                aux.add(sessions.get(key));
+            }
+        }
+        return aux.toArray(new UUID[]{});
     }
 
     public UUID createSession(final String peerId, final String aalSpaceId,

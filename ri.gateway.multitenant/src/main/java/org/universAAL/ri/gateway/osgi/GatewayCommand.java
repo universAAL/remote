@@ -84,7 +84,13 @@ public class GatewayCommand extends OsgiCommandSupport {
                 String name = null;
                 boolean isActive = session.isActive();
                 final String scope = session.getScope();
-                String AALSpace = sm.getAALSpaceIdFromSession(scope != null ? UUID.fromString(scope) : null );
+                UUID[] infos = sm.getSessionFromAALScopeId(scope);
+                String AALSpace = null;
+                if ( infos.length > 1 ) {
+                    name = "Broken Session Manager -> Too many UUID linked to a single Scope";
+                } else {
+                    AALSpace = sm.getAALSpaceIdFromSession( infos[0] );
+                }
                 if (scope != null && AALSpace != null ) {
                     name = scope;
                 } else if ( scope == null ) {

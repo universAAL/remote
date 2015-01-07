@@ -48,9 +48,9 @@ import org.universAAL.ri.gateway.communication.cipher.Blowfish;
 import org.universAAL.ri.gateway.communicator.service.CommunicationHelper;
 import org.universAAL.ri.gateway.configuration.Configuration;
 import org.universAAL.ri.gateway.protocol.LinkMessage;
+import org.universAAL.ri.gateway.protocol.LinkMessage.LinkMessageType;
 import org.universAAL.ri.gateway.protocol.Message;
 import org.universAAL.ri.gateway.protocol.MessageReceiver;
-import org.universAAL.ri.gateway.protocol.LinkMessage.LinkMessageType;
 import org.universAAL.ri.gateway.protocol.link.ConnectionRequest;
 import org.universAAL.ri.gateway.protocol.link.ConnectionResponse;
 import org.universAAL.ri.gateway.protocol.link.DisconnectionRequest;
@@ -82,6 +82,7 @@ public class ServerSocketCommunicationHandler extends
     private final Configuration config;
 
     public ServerSocketCommunicationHandler(final Configuration config) {
+    	//TODO: make chiper configurable
         super(new Blowfish(config.getEncryptionKey()));
         this.config = config;
 

@@ -58,8 +58,10 @@ public interface Persistence {
      *            The id used to uniquely identify the remote node
      * @param remote
      *            The remote access information for a remote node
+     * @param v
+     *            The version of client invoking the API. Descriptive only. Can be null.
      */
-    public void storeRegister(String id, String remote);
+    public void storeRegister(String id, String remote, String v);
 
     /**
      * Eliminate all persisted info (node registration, subscribers and callees)

@@ -82,7 +82,7 @@ public class PersistenceDerby implements Persistence {
 
 	    String createREGISTERS = "CREATE TABLE " + DBNAME
 		    + ".registers ( id varchar(512) PRIMARY KEY NOT NULL, remote  varchar(512)," +
-		    " tstmp timestamp )";
+		    " tstmp timestamp, version varchar(25) )";
 	    String createSUBSCRIBERS = "CREATE TABLE " + DBNAME
 		    + ".subscribers (rowid integer PRIMARY KEY NOT NULL GENERATED ALWAYS AS IDENTITY " +
 		    "(START WITH 1, INCREMENT BY 1), id varchar(512) NOT NULL, pattern varchar(5120)," +
@@ -161,19 +161,18 @@ public class PersistenceDerby implements Persistence {
     /* (non-Javadoc)
      * @see org.universAAL.ri.api.manager.server.persistence.Persistence#storeRegister(java.lang.String, java.lang.String)
      */
-    public void storeRegister(String id, String remote) {
+    public void storeRegister(String id, String remote, String v) {
 	Timestamp t = new Timestamp(System.currentTimeMillis());
 	String storeREGISTERS;
 	if (checkUserFromREGISTERS(id)) {
-	    // This id already registered -> update remote and t
+	    // This id already registered -> update remote and t and v
 	    storeREGISTERS = "update " + DBNAME + ".registers SET remote='"
-		    + remote + "', tstmp='" + t + "' WHERE id='" + id + "'";
+		    + remote + "', tstmp='" + t +"'"+ (v!=null?", version='"+v+"'":"") +" WHERE id='" + id + "'";
 	}else{
 	    //New id - > insert all
 	    storeREGISTERS = "insert into " + DBNAME
-		    + ".registers (id, remote, tstmp) values ('" + id + "','"
-		    + remote + "','" + t.toString() + "')";
-	    
+		    + ".registers (id, remote, tstmp, version) values ('" + id + "','"
+		    + remote + "','" + t.toString() + "', " + (v!=null?"'"+v+"'":"NULL") +")";
 	}
 	executeGeneric(storeREGISTERS);
     }

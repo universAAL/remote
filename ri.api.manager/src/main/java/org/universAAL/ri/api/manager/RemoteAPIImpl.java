@@ -119,6 +119,19 @@ public class RemoteAPIImpl implements RemoteAPI {
 	    throw new APIImplException("ID not registered");
 	}
     }
+    
+    public boolean isPatternAdded(String id, String cpattern) {
+	if(nodes.containsKey(id)){
+	    ContextEventPattern cp=(ContextEventPattern) Activator.getParser().deserialize(cpattern);
+	    if (cp==null) {
+		return false;
+	    }
+	    RemoteUAAL node=(RemoteUAAL)nodes.get(id);
+	    return node.isPatternAdded(cp.getURI());
+	}else{
+	    return false;
+	}
+    }
 
     /* (non-Javadoc)
      * @see org.universAAL.ri.api.manager.RemoteAPI#callS(java.lang.String, java.lang.String)
@@ -189,6 +202,19 @@ public class RemoteAPIImpl implements RemoteAPI {
 	    node.provideS(new ServiceProfile[]{sp},node.createSListener(sp.getURI()));
 	}else{
 	    throw new APIImplException("ID not registered");
+	}
+    }
+    
+    public boolean isProfileAdded(String id, String sprofile) {
+	if(nodes.containsKey(id)){
+	    ServiceProfile sp=(ServiceProfile) Activator.getParser().deserialize(sprofile);
+	    if (sp==null) {
+		return false;
+	    }
+	    RemoteUAAL node=(RemoteUAAL)nodes.get(id);
+	    return node.isProfileAdded(sp.getURI());
+	}else{
+	    return false;
 	}
     }
 

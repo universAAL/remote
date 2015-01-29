@@ -260,14 +260,14 @@ public class PushGCM {
 		String canon = res.getCanonicalRegistrationId();
 		if(canon!=null){
 		    Activator.getRemoteAPI().register(nodeid, canon); //This just updates the remoteid
-		    Activator.getPersistence().storeRegister(nodeid, canon);
+		    Activator.getPersistence().storeRegister(nodeid, canon, null);
 		}
 	    }else{
 		if(res.getErrorCodeName().equals("NotRegistered")){
 		    //Remote node app was uninstalled/updated/unregistered/refreshed by Google
 		    //Maintain the MW wrappers, but dont allow push messages until remote node updates itself
 		    Activator.getRemoteAPI().register(nodeid, REG_ID_OUTDATED); //This just updates the remoteid
-		    Activator.getPersistence().storeRegister(nodeid, REG_ID_OUTDATED);
+		    Activator.getPersistence().storeRegister(nodeid, REG_ID_OUTDATED, null);
 		}
 		throw new PushException("Error sending to GCM. Error code received: "+res.getErrorCodeName());
 	    }

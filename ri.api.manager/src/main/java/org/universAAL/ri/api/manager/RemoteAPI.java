@@ -70,6 +70,10 @@ public interface RemoteAPI {
      */
     public static final String KEY_PARAM = "param";
     /**
+     * Parameter in the HTTP request (optional) for the version of the client
+     */
+    public static final String KEY_VERSION = "v";
+    /**
      * Parameter in the HTTP request for the identification of the addressee
      */
     public static final String KEY_TO = "to";

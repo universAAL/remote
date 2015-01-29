@@ -98,6 +98,10 @@ public class RemoteUAAL extends UAAL {
 	    }// TODO else log
 	}
     }
+    
+    public boolean isPatternAdded(String uri){
+	return sprofilesList.contains(uri);
+    }
 
     @Override
     public void provideS(ServiceProfile[] p, ISListener l) {
@@ -109,6 +113,10 @@ public class RemoteUAAL extends UAAL {
 		sprofilesList.add(p[i].getURI());
 	    }// TODO else log
 	}
+    }
+    
+    public boolean isProfileAdded(String uri){
+	return sprofilesList.contains(uri);
     }
 
     @Override

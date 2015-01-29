@@ -31,6 +31,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.universAAL.ri.api.manager.Activator;
 import org.universAAL.ri.api.manager.Configuration;
 import org.universAAL.ri.api.manager.RemoteAPI;
+import org.universAAL.ri.api.manager.RemoteAPIImpl;
 import org.universAAL.ri.api.manager.push.PushGCM;
 
 /**
@@ -97,6 +98,7 @@ public class RemoteServlet extends javax.servlet.http.HttpServlet{
 
 	String method = req.getParameter(RemoteAPI.KEY_METHOD);
 	String param = req.getParameter(RemoteAPI.KEY_PARAM);
+	String version = req.getParameter(RemoteAPI.KEY_VERSION);
 	
 	if (user == null || method == null || param == null) {
 	    resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
@@ -115,17 +117,19 @@ public class RemoteServlet extends javax.servlet.http.HttpServlet{
 	    try {
 		if (RemoteAPI.METHOD_REGISTER.equals(method)) {
 		    remoteAPI.register(user, param);
-		    Activator.getPersistence().storeRegister(user, param);
+		    Activator.getPersistence().storeRegister(user, param, version);
 		} else if (RemoteAPI.METHOD_SENDC.equals(method)) {
 		    remoteAPI.sendC(user, param);
 		} else if (RemoteAPI.METHOD_SUBSCRIBEC.equals(method)) {
+		    boolean added=((RemoteAPIImpl)remoteAPI).isPatternAdded(user, param);
 		    remoteAPI.subscribeC(user, param);
-		    Activator.getPersistence().storeSubscriber(user, param);
+		    if(!added)Activator.getPersistence().storeSubscriber(user, param);
 		} else if (RemoteAPI.METHOD_CALLS.equals(method)) {
 		    servResp = remoteAPI.callS(user, param);
 		} else if (RemoteAPI.METHOD_PROVIDES.equals(method)) {
+		    boolean added=((RemoteAPIImpl)remoteAPI).isProfileAdded(user, param);
 		    remoteAPI.provideS(user, param);
-		    Activator.getPersistence().storeCallee(user, param);
+		    if(!added)Activator.getPersistence().storeCallee(user, param);
 		} else if (RemoteAPI.METHOD_UNREGISTER.equals(method)) {
 		    remoteAPI.unregister(user);
 		    Activator.getPersistence().removeRegister(user);

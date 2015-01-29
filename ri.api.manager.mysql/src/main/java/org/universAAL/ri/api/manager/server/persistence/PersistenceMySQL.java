@@ -87,7 +87,7 @@ public class PersistenceMySQL implements Persistence {
 		    + " DEFAULT CHARACTER SET utf8 ";
 	    String createREGISTERS = "CREATE TABLE IF NOT EXISTS " + DBNAME
 		    + ".registers ( id VARCHAR(254) PRIMARY KEY NOT NULL, remote VARCHAR(512)," +
-		    " tstmp TIMESTAMP )";
+		    " tstmp TIMESTAMP, version VARCHAR(25) )";
 	    String createSUBSCRIBERS = "CREATE TABLE IF NOT EXISTS " + DBNAME
 		    + ".subscribers (rowid INTEGER PRIMARY KEY NOT NULL AUTO_INCREMENT " +
 		    ", id VARCHAR(254) NOT NULL, pattern VARCHAR(5120)," +
@@ -130,18 +130,18 @@ public class PersistenceMySQL implements Persistence {
     /* (non-Javadoc)
      * @see org.universAAL.ri.api.manager.server.persistence.Persistence#storeRegister(java.lang.String, java.lang.String)
      */
-    public void storeRegister(String id, String remote) {
+    public void storeRegister(String id, String remote, String v) {
 	Timestamp t = new Timestamp(System.currentTimeMillis());
 	String storeREGISTERS;
 	if (checkUserFromREGISTERS(id)) {
 	    // This id already registered -> update remote and t
 	    storeREGISTERS = "UPDATE " + DBNAME + ".registers SET remote='"
-		    + remote + "', tstmp='" + t + "' WHERE id='" + id + "'";
+		    + remote + "', tstmp='" + t + "'"+ (v!=null?", version='"+v+"'":"") +" WHERE id='" + id + "'";
 	}else{
 	    //New id - > insert all
 	    storeREGISTERS = "INSERT INTO " + DBNAME
-		    + ".registers (id, remote, tstmp) VALUES ('" + id + "','"
-		    + remote + "','" + t.toString() + "')";
+		    + ".registers (id, remote, tstmp, version) VALUES ('" + id + "','"
+		    + remote + "','" + t.toString() + "', " + (v!=null?"'"+v+"'":"NULL") +")";
 	    
 	}
 	executeGeneric(storeREGISTERS);

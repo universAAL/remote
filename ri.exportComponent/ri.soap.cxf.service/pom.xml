@@ -37,7 +37,7 @@
                   <pluginExecutionFilter>
                     <groupId>org.apache.felix</groupId>
                     <artifactId>maven-bundle-plugin</artifactId>
-                    <versionRange>[2.3.7,)</versionRange>
+                    <versionRange>[2.3.6,)</versionRange>
                     <goals>
                       <goal>manifest</goal>
                     </goals>

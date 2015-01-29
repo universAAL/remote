@@ -20,6 +20,7 @@
     <module>../ri.exportComponent/ri.soap.cxf.server</module>
     <module>../ri.exportComponent/ri.soap.cxf.service</module>
     <module>../ri.api.manager</module>
+    <module>../ri.api.manager.mysql</module>
     <module>ri.karaf.feature</module>
   </modules>
   <scm>

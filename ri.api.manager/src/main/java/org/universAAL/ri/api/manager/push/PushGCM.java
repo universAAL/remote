@@ -154,7 +154,7 @@ public class PushGCM {
      *         as response to the callback
      */
     public static ServiceResponse callS(String nodeid, String remoteid, ServiceCall call, String toURI) throws PushException {
-	boolean test=true;
+	boolean test=Configuration.getGCMDry();
 
 	List inputs = (List) call.getProperty(ServiceCall.PROP_OWLS_PERFORM_HAS_DATA_FROM);
 	String serial=Activator.getParser().serialize(call);

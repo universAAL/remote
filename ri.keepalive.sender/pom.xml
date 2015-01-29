@@ -4,6 +4,7 @@
     <groupId>org.universAAL.remote</groupId>
     <artifactId>ri.pom</artifactId>
     <version>3.2.1-SNAPSHOT</version>
+    <relativePath>../ri.pom</relativePath>
   </parent>
   <artifactId>ri.keepalive.sender</artifactId>
   <version>3.2.1-SNAPSHOT</version>

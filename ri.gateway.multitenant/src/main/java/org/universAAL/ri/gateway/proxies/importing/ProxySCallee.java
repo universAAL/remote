@@ -87,7 +87,7 @@ public class ProxySCallee extends ServiceCallee implements ProxyBusMember {
 		if (s.getOutgoingMessageOperationChain().check(call)
 			.equals(OperationChain.OperationResult.ALLOW)) {
 		    // it is allowed to go there
-		    final ServiceCall copy = (ServiceCall) call.deepCopy();
+		    final ServiceCall copy = (ServiceCall) call.copy(false);
 		    copy.clearScopes();
 		    copy.setProperty(ScopedResource.PROP_ORIG_SCOPE, null);
 		    final Message resp = s.sendRequest(new WrappedBusMessage(

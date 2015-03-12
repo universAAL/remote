@@ -30,7 +30,6 @@ import org.universAAL.ri.gateway.communication.cipher.Cipher;
 import org.universAAL.ri.gateway.communicator.service.impl.AbstractSocketCommunicationHandler;
 import org.universAAL.ri.gateway.communicator.service.impl.ClientSocketCommunicationHandler;
 import org.universAAL.ri.gateway.communicator.service.impl.ServerSocketCommunicationHandler;
-import org.universAAL.ri.gateway.communicator.service.impl.SessionManager;
 import org.universAAL.ri.gateway.configuration.Configuration;
 import org.universAAL.ri.gateway.configuration.Configuration.ConnectionMode;
 import org.universAAL.ri.gateway.operations.MessageOperationChain;
@@ -181,7 +180,6 @@ public class Session implements MessageSender, MessageReceiver,
 
     public void send(final Message message) {
         validateRemoteScope(remoteScope);
-        final SessionManager session = SessionManager.getInstance();
         try {
             comunication.sendMessage(message, remoteScope );
         } catch (final Exception e) {

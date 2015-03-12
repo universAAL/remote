@@ -342,14 +342,13 @@ public abstract class AbstractLinkHandler implements Runnable {
 
     protected boolean handleGatewayProtocol(final Message msg) {
         try {
-            Message upper = null;
             if (msg instanceof LinkMessage == true) {
                 log.info("The handling of Message "
                         + msg
                         + " is not expected to be performed by the Upper Layer of Gateway because it is LinkMessage thus the message is SKIPPED");
                 return false;
             }
-            communicator.handleMessage(upper);
+            communicator.handleMessage(msg);
         } catch (final Exception ex) {
             final String txt = "Exception while handling Gateway message "
                     + msg;

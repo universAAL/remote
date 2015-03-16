@@ -8,7 +8,7 @@
   </parent>
   <artifactId>ri.keepalive.sender</artifactId>
   <version>3.2.1-SNAPSHOT</version>
-  <name>Keep-alive Event Sender</name>
+  <name>universAAL Remote Interoperability Keep-alive Sender</name>
   <description>This bundle sends Context Events with SpO "SystemInfo-alive-true" periodically, to indicate the system is still running.</description>
 	<packaging>bundle</packaging>
 	<dependencies>

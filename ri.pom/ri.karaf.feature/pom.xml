@@ -46,6 +46,18 @@
     </dependency>
     <dependency>
       <groupId>org.universAAL.remote</groupId>
+      <artifactId>ri.api.manager.mysql</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.universAAL.remote</groupId>
+      <artifactId>ri.keepalive.sender</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.universAAL.remote</groupId>
+      <artifactId>ri.keepalive.receiver</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.universAAL.remote</groupId>
       <artifactId>ri.internetgateway</artifactId>
     </dependency>
     <dependency>

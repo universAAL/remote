@@ -8,7 +8,7 @@
   </parent>
   <artifactId>ri.keepalive.receiver</artifactId>
   <version>3.2.1-SNAPSHOT</version>
-  <name>Keep-alive Event Receiver</name>
+  <name>universAAL Remote Interoperability Keep-alive Receiver</name>
   <description>Bundle that receives Events with SpO "System-alive-true" and checks periodically if a tenant has stopped sending them.</description>
 	<packaging>bundle</packaging>
 	<dependencies>
@@ -44,6 +44,11 @@
 			<groupId>org.universAAL.ontology</groupId>
 			<artifactId>ont.sysinfo</artifactId>
 			<version>3.2.2-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>javax.mail</groupId>
+			<artifactId>mail</artifactId>
+			<version>1.4</version>
 		</dependency>
 	</dependencies>
 	<build>

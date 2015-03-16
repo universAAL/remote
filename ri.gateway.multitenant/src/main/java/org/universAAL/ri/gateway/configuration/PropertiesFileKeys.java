@@ -48,6 +48,9 @@ public interface PropertiesFileKeys {
 
     String ROUTING_MODE = "routing-mode";
 
+    String SECURITY_DEFINITION = "security-definition-file";
+    
+    
     /**
      * Property used for specifying bus members that are allowed to be imported
      * into this AAL Space. List of comma separated regular expressions related

@@ -22,6 +22,7 @@
 package org.universAAL.ri.keepalive.receiver;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 
 import org.universAAL.middleware.container.ModuleContext;
@@ -34,6 +35,7 @@ import org.universAAL.ontology.sysinfo.SystemInfo;
 public class CSubscriber extends ContextSubscriber {
 
     private static HashMap<String, Long> lastknownof = new HashMap<String, Long>();
+    private static HashSet<String> missing = new HashSet<String>();
 
     protected CSubscriber(ModuleContext context,
 	    ContextEventPattern[] initialSubscriptions) {
@@ -66,6 +68,7 @@ public class CSubscriber extends ContextSubscriber {
 	for (String scope : scopes) {
 	    if (scope != null && !scope.isEmpty()) {
 		lastknownof.put(scope, tst);
+		missing.remove(scope);
 	    }
 	}
     }
@@ -74,4 +77,7 @@ public class CSubscriber extends ContextSubscriber {
         return lastknownof;
     }
 
+    public static HashSet<String> getMissing() {
+        return missing;
+    }
 }

@@ -39,10 +39,12 @@ public class Checker extends TimerTask {
 	    while (keys.hasNext()) {
 		String key = keys.next();
 		Long tst = current.get(key);
-		if ((now - tst) > (Activator.multiplier * 36000/*00*/)) {// If lastknown tst is before "multiplier hours" ago
-		    LogUtils.logDebug(Activator.context, Checker.class, "run", "Missing keep-alive signal from tenant "+key);
+		if ((now - tst) > (Activator.multiplier * 3600000)) {// If lastknown tst is before "multiplier hours" ago
 		    System.out.println("Missing keep-alive signal from tenant "+key);
-		    // TODO Mail?
+		    if(!CSubscriber.getMissing().contains(key)){
+			LogUtils.logInfo(Activator.context, Checker.class, "run", "Missing keep-alive signal from tenant "+key);
+			CSubscriber.getMissing().add(key);
+		    }
 		}
 	    }
 	}

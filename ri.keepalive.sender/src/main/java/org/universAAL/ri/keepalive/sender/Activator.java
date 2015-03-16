@@ -71,7 +71,7 @@ public class Activator implements BundleActivator {
 		    "Invalid period property entered, using default (1x) : "
 			    + e);
 	}
-	t.scheduleAtFixedRate(sender, 10000, multiplier * 36000/*00*/);
+	t.scheduleAtFixedRate(sender, 10000, multiplier * 3600000);
     }
 
     public void stop(BundleContext arg0) throws Exception {

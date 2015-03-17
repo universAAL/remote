@@ -105,10 +105,10 @@ public class TurtleFileSecurityDefinition implements OperationChainManager {
 		
 		boolean isMember(Matchable match){
 			for (Object m : this.match) {
-				if (m instanceof Matchable && !((Matchable)m).matches(match))
-					return false;
+				if (m instanceof Matchable && ((Matchable)m).matches(match))
+					return true;
 			}
-			return true;
+			return false;
 		}
 	}
 	

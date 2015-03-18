@@ -42,15 +42,15 @@ public class TurtleFileSecurityDefinition implements OperationChainManager {
 
     public static final String NAMESPACE = "http://ontology.universAAL.org/Gateway.owl#";
 	
-	private static final String INBOUND_POLICY = NAMESPACE+"inboundPolicy";
-	private static final String INBOUND_MATCH = NAMESPACE+"inboundMatches";
-	private static final String OUTBOUND_POLICY = NAMESPACE+"outboundPolicy";
-	private static final String OUTBOUND_MATCH = NAMESPACE+"outboundMatches";
+	public static final String INBOUND_POLICY = NAMESPACE+"inboundPolicy";
+	public static final String INBOUND_MATCH = NAMESPACE+"inboundMatches";
+	public static final String OUTBOUND_POLICY = NAMESPACE+"outboundPolicy";
+	public static final String OUTBOUND_MATCH = NAMESPACE+"outboundMatches";
 
-	private static final String IMPORT_POLICY = NAMESPACE+"importPolicy";
-	private static final String IMPORT_MATCH = NAMESPACE+"importMatches";
-	private static final String EXPORT_POLICY = NAMESPACE+"exportPolicy";
-	private static final String EXPORT_MATCH = NAMESPACE+"exportMatches";
+	public static final String IMPORT_POLICY = NAMESPACE+"importPolicy";
+	public static final String IMPORT_MATCH = NAMESPACE+"importMatches";
+	public static final String EXPORT_POLICY = NAMESPACE+"exportPolicy";
+	public static final String EXPORT_MATCH = NAMESPACE+"exportMatches";
 	
 	private Resource def;
 
@@ -213,7 +213,7 @@ public class TurtleFileSecurityDefinition implements OperationChainManager {
 		if (match instanceof List)
 			return new RegChecker((List)match, policy.contains("Whitelist"));
 		LogUtils.logWarn(Gateway.getInstance().context, getClass(), 
-				"getIncommingMessageOperationChain", 
+				"getImportOperationChain", 
 				"Not matchable security definition, assuming Deny by default.");
 		return new DenyDefault();
 	}
@@ -227,7 +227,7 @@ public class TurtleFileSecurityDefinition implements OperationChainManager {
 		if (match instanceof List)
 			return new RegChecker((List)match, policy.contains("Whitelist"));
 		LogUtils.logWarn(Gateway.getInstance().context, getClass(), 
-				"getIncommingMessageOperationChain", 
+				"getExportOperationChain", 
 				"Not matchable security definition, assuming Deny by default.");
 		return new DenyDefault();
 	}
@@ -255,7 +255,7 @@ public class TurtleFileSecurityDefinition implements OperationChainManager {
 		if (match instanceof List)
 			return new MessageChecker((List)match, policy.contains("Whitelist"));
 		LogUtils.logWarn(Gateway.getInstance().context, getClass(), 
-				"getIncommingMessageOperationChain", 
+				"getOutgoingMessageOperationChain", 
 				"Not matchable security definition, assuming Deny by default.");
 		return new DenyDefault();
 	}

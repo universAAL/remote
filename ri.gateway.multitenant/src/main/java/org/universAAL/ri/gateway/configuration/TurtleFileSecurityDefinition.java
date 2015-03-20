@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
@@ -66,7 +67,7 @@ public class TurtleFileSecurityDefinition implements OperationChainManager {
 		} catch (IOException e) {
 			throw new RuntimeException("URL: " + url.toString() + " cannot be loaded for security definition", e);
 		} catch (RuntimeException e) {
-			throw new RuntimeException("URL: " + url.toString() + " cannot be loaded for security definition", e);
+			throw new RuntimeException("URL: " + url + " cannot be loaded for security definition", e);
 		}
 	}
 	
@@ -136,7 +137,7 @@ public class TurtleFileSecurityDefinition implements OperationChainManager {
 					return false;
 				}
 			}
-			return true;
+			return matchl.size() !=0;
 		}
 		
 		/**
@@ -208,6 +209,8 @@ public class TurtleFileSecurityDefinition implements OperationChainManager {
 	public ParameterCheckOpertaionChain getImportOperationChain() {
 		String policy = (String) def.getProperty(IMPORT_POLICY);
 		Object match = def.getProperty(IMPORT_MATCH);
+		if (match instanceof Resource && ((Resource)match).getURI().equals("http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"))
+			match = Collections.EMPTY_LIST;
 		if (match instanceof Matchable)
 			return new RegChecker((Matchable)match, policy.contains("Whitelist"));
 		if (match instanceof List)
@@ -222,6 +225,8 @@ public class TurtleFileSecurityDefinition implements OperationChainManager {
 	public ParameterCheckOpertaionChain getExportOperationChain() {
 		String policy = (String) def.getProperty(EXPORT_POLICY);
 		Object match = def.getProperty(EXPORT_MATCH);
+		if (match instanceof Resource && ((Resource)match).getURI().equals("http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"))
+			match = Collections.EMPTY_LIST;
 		if (match instanceof Matchable)
 			return new RegChecker((Matchable)match, policy.contains("Whitelist"));
 		if (match instanceof List)
@@ -235,7 +240,9 @@ public class TurtleFileSecurityDefinition implements OperationChainManager {
 	/** {@inheritDoc} */
 	public MessageOperationChain getIncomingMessageOperationChain() {
 		String policy = (String) def.getProperty(INBOUND_POLICY);
-		Matchable match = (Matchable) def.getProperty(INBOUND_MATCH);
+		Object match = (Matchable) def.getProperty(INBOUND_MATCH);
+		if (match instanceof Resource && ((Resource)match).getURI().equals("http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"))
+			match = Collections.EMPTY_LIST;
 		if (match instanceof Matchable)
 			return new MessageChecker((Matchable)match, policy.contains("Whitelist"));
 		if (match instanceof List)
@@ -249,7 +256,9 @@ public class TurtleFileSecurityDefinition implements OperationChainManager {
 	/** {@inheritDoc} */
 	public MessageOperationChain getOutgoingMessageOperationChain() {
 		String policy = (String) def.getProperty(OUTBOUND_POLICY);
-		Matchable match = (Matchable) def.getProperty(OUTBOUND_MATCH);
+		Object match = (Matchable) def.getProperty(OUTBOUND_MATCH);
+		if (match instanceof Resource && ((Resource)match).getURI().equals("http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"))
+			match = Collections.EMPTY_LIST;
 		if (match instanceof Matchable)
 			return new MessageChecker((Matchable)match, policy.contains("Whitelist"));
 		if (match instanceof List)

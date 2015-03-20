@@ -1,0 +1,15 @@
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix : <http://ontology.universAAL.org/Gateway.owl#> .
+_:BN000000  :exportPolicy "Whitelist"^^xsd:string ;
+  :exportMatches (
+ ) ;
+  :importPolicy "Whitelist"^^xsd:string ;
+  :importMatches (
+ ) ;
+  :inboundPolicy "Whitelist"^^xsd:string ;
+  :inboundMatches (
+ ) ;
+  :outboundPolicy "Whitelist"^^xsd:string ;
+  :outboundMatches (
+ ) .
+

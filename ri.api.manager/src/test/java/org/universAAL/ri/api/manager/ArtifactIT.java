@@ -148,13 +148,13 @@ public class ArtifactIT extends IntegrationTest {
 	} catch (APIImplException e) {
 	    Assert.fail("Failed REGISTER "+e.toString());
 	}
-    }
+    //}
 
     /**
      * Test 3: Check SENDC/SUBSCRIBEC
      */
-    public void test2CONTEXT(){
-	RemoteAPIImpl api = Activator.getRemoteAPI();
+    //public void test2CONTEXT(){
+	//RemoteAPIImpl api = Activator.getRemoteAPI();
 	// subscribe c
 	try {
 	    api.subscribeC(ID, CPATTERN);
@@ -167,13 +167,13 @@ public class ArtifactIT extends IntegrationTest {
 	} catch (APIImplException e) {
 	    Assert.fail("Failed SENDC "+e.toString());
 	}
-    }
+    //}
 
     /**
      * Test 4: Check CALLS/PROVIDES
      */
-    public void test3SERVICE() {
-	RemoteAPIImpl api = Activator.getRemoteAPI();
+    //public void test3SERVICE() {
+	//RemoteAPIImpl	api = Activator.getRemoteAPI();
 	// provide s
 	try {
 	    api.provideS(ID, SPROFILE);

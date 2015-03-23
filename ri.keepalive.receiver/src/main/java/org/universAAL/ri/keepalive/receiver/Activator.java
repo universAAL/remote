@@ -47,7 +47,7 @@ public class Activator implements BundleActivator {
 	multiplier = 2;
 	try {
 	    multiplier = Integer.parseInt(System.getProperty(
-		    "org.universAAL.ri.keepalive.client.period", "2"));
+		    "org.universAAL.ri.keepalive.receiver.period", "2"));
 	} catch (Exception e) {
 	    LogUtils.logError(context, Activator.class, "start",
 		    "Invalid period property entered, using default (2x) : "

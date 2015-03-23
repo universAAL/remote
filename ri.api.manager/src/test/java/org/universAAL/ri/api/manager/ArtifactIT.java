@@ -120,19 +120,19 @@ public class ArtifactIT extends IntegrationTest {
 	try {
 	    api.register(ID, REMOTE);
 	} catch (APIImplException e) {
-	    Assert.fail("Failed REGISTER");
+	    Assert.fail("Failed REGISTER "+e.toString());
 	}
 	// send c and correct
 	try {
 	    api.sendC(ID, CEVENT);
 	} catch (APIImplException e) {
-	    Assert.fail("Failed SENDC");
+	    Assert.fail("Failed SENDC "+e.toString());
 	}
 	// unregister
 	try {
 	    api.unregister(ID);
 	} catch (APIImplException e) {
-	    Assert.fail("Failed UNREGISTER");
+	    Assert.fail("Failed UNREGISTER "+e.toString());
 	}
 	// send c and fail
 	try {
@@ -146,7 +146,7 @@ public class ArtifactIT extends IntegrationTest {
 	try {
 	    api.register(ID, REMOTE);
 	} catch (APIImplException e) {
-	    Assert.fail("Failed REGISTER");
+	    Assert.fail("Failed REGISTER "+e.toString());
 	}
     }
 
@@ -159,13 +159,13 @@ public class ArtifactIT extends IntegrationTest {
 	try {
 	    api.subscribeC(ID, CPATTERN);
 	} catch (APIImplException e) {
-	    Assert.fail("Failed SUBSCRIBEC");
+	    Assert.fail("Failed SUBSCRIBEC "+e.toString());
 	}
 	// send c and receive c correctly
 	try {
 	    api.sendC(ID, CEVENT);
 	} catch (APIImplException e) {
-	    Assert.fail("Failed SENDC");
+	    Assert.fail("Failed SENDC "+e.toString());
 	}
     }
 
@@ -178,14 +178,14 @@ public class ArtifactIT extends IntegrationTest {
 	try {
 	    api.provideS(ID, SPROFILE);
 	} catch (APIImplException e) {
-	    Assert.fail("Failed PROVIDES");
+	    Assert.fail("Failed PROVIDES "+e.toString());
 	}
 	// call s
 	String resp = null;
 	try {
 	    resp = api.callS(ID, SREQUEST);
 	} catch (APIImplException e) {
-	    Assert.fail("Failed CALLS");
+	    Assert.fail("Failed CALLS "+e.toString());
 	}
 	// get resp
 	Assert.assertNotNull("Received response is null",resp);

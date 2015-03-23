@@ -98,14 +98,14 @@ public class ArtifactIT extends IntegrationTest {
     /**
      * Test 1: Check all artifacts in the log
      */
-    public void testComposite() {
+    public void test0Composite() {
 	logAllBundles();
     }
 
     /**
      * Test 2: Check UN/REGISTER
      */
-    public void testREGISTER(){
+    public void test1REGISTER(){
 	boolean testFlag=false;
 	RemoteAPIImpl api = Activator.getRemoteAPI();
 	// send c and fail
@@ -153,7 +153,7 @@ public class ArtifactIT extends IntegrationTest {
     /**
      * Test 3: Check SENDC/SUBSCRIBEC
      */
-    public void testCONTEXT(){
+    public void test2CONTEXT(){
 	RemoteAPIImpl api = Activator.getRemoteAPI();
 	// subscribe c
 	try {
@@ -172,7 +172,7 @@ public class ArtifactIT extends IntegrationTest {
     /**
      * Test 4: Check CALLS/PROVIDES
      */
-    public void testSERVICE() {
+    public void test3SERVICE() {
 	RemoteAPIImpl api = Activator.getRemoteAPI();
 	// provide s
 	try {

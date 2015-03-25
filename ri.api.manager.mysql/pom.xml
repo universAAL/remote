@@ -1,42 +1,40 @@
 <?xml version="1.0"?>
-<project
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
-	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-	<modelVersion>4.0.0</modelVersion>
-	<parent>
-		<groupId>org.universAAL.remote</groupId>
-		<artifactId>ri.pom</artifactId>
-		<version>3.2.1-SNAPSHOT</version>
-		<relativePath>../ri.pom</relativePath>
-	</parent>
-	<artifactId>ri.api.manager.mysql</artifactId>
-	<version>3.2.1-SNAPSHOT</version>
-	<packaging>bundle</packaging>
-	<name>universAAL Remote Interoperability Remote-API MySQL Add-on</name>
-	<description>Additional Fragment for Remote-API Manager that enables the use of MySQL for the persitence database</description>
-	<dependencies>
-		<dependency>
-			<groupId>org.universAAL.remote</groupId>
-			<artifactId>ri.api.manager</artifactId>
-			<version>3.2.1-SNAPSHOT</version>
-		</dependency>
-	</dependencies>
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.felix</groupId>
-				<artifactId>maven-bundle-plugin</artifactId>
-				<extensions>true</extensions>
-				<configuration>
-					<instructions>
-						<Bundle-Name>${project.name}</Bundle-Name>
-						<Bundle-Description>${project.description}</Bundle-Description>
-						<Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
-						<Fragment-Host>ri.api.manager</Fragment-Host>
-						<Import-Package>com.mysql.jdbc,org.apache.derby.jdbc,org.universAAL.ri.api.manager</Import-Package>
-					</instructions>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.universAAL.remote</groupId>
+    <artifactId>ri.pom</artifactId>
+    <version>3.3.0</version>
+    <relativePath>../ri.pom</relativePath>
+  </parent>
+  <artifactId>ri.api.manager.mysql</artifactId>
+  <version>3.3.0</version>
+  <packaging>bundle</packaging>
+  <name>universAAL Remote Interoperability Remote-API MySQL Add-on</name>
+  <description>Additional Fragment for Remote-API Manager that enables the use of MySQL for the persitence database</description>
+  <dependencies>
+    <dependency>
+      <groupId>org.universAAL.remote</groupId>
+      <artifactId>ri.api.manager</artifactId>
+    </dependency>
+  </dependencies>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.felix</groupId>
+        <artifactId>maven-bundle-plugin</artifactId>
+        <extensions>true</extensions>
+        <configuration>
+          <instructions>
+            <Bundle-Name>${project.name}</Bundle-Name>
+            <Bundle-Description>${project.description}</Bundle-Description>
+            <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
+            <Fragment-Host>ri.api.manager</Fragment-Host>
+            <Import-Package>com.mysql.jdbc,org.apache.derby.jdbc,org.universAAL.ri.api.manager</Import-Package>
+          </instructions>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
 </project>

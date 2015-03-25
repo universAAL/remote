@@ -5,11 +5,11 @@
   <parent>
     <groupId>org.universAAL.remote</groupId>
     <artifactId>ri.pom</artifactId>
-    <version>3.3.0</version>
+    <version>3.3.1-SNAPSHOT</version>
     <relativePath>../</relativePath>
   </parent>
   <artifactId>ri.karaf.feature</artifactId>
-  <version>3.3.0</version>
+  <version>3.3.1-SNAPSHOT</version>
   <name>universAAL Remote Interoperability Karaf Feature</name>
   <scm>
     <connection>${svn.base}/ri.pom/${project.artifactId}</connection>

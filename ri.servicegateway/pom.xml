@@ -70,7 +70,7 @@
 				org.universAAL.middleware.container.utils,
 				org.universAAL.ontology.profile,
 				org.universAAL.security.authenticator.client</Import-Package>
-            <Include-Resource>src/main/resources</Include-Resource>
+            <!--Include-Resource>src/main/resources</Include-Resource-->
           </instructions>
         </configuration>
       </plugin>

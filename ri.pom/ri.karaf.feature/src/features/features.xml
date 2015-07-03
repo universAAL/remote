@@ -31,18 +31,18 @@
 	</feature>
 
 	<feature name="uAAL-RI.KeepAlive.Sender" description="Keep-Alive Event Sender"
-		version="${ri.keepalive.sender}" resolver='(obr)'>
+		version="${ri.keepalive.sender.version}" resolver='(obr)'>
 		<feature>uAAL-MW</feature>
 		<feature>uAAL-Ont.SysInfo</feature> 
 		<bundle start-level='70' start='true'>mvn:org.universAAL.remote/ri.keepalive.sender/${ri.api.manager.version}</bundle>
 	</feature>
 
 	<feature name="uAAL-RI.KeepAlive.Receiver" description="Keep-Alive Event Receiver and Warning"
-		version="${ri.keepalive.receiver}" resolver='(obr)'>
+		version="${ri.keepalive.receiver.version}" resolver='(obr)'>
 		<feature>uAAL-MW</feature>
 		<feature>uAAL-Ont.SysInfo</feature>
 		<feature>http</feature>
-		<bundle start-level='70' start='true'>mvn:org.universAAL.remote/ri.keepalve.receiver/${ri.api.manager.version}</bundle>
+		<bundle start-level='70' start='true'>mvn:org.universAAL.remote/ri.keepalive.receiver/${ri.api.manager.version}</bundle>
 	</feature>
 
 	<feature name="uAAL-RI.Gateway.Multitenant" description="AALSpace to AALSpace multitenant communicator."

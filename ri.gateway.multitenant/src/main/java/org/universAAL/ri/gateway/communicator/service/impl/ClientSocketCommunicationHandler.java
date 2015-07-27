@@ -187,6 +187,8 @@ public class ClientSocketCommunicationHandler extends
                     cleanUpSession();
                     return false;
                 } else {
+                    session.setScope(SessionManager.getInstance()
+                            .getAALSpaceIdFromSession(currentSession));
                     session.setStatus(SessionEvent.SessionStatus.CONNECTED);
                     log.debug("Session created with sessionId "
                             + currentSession);
@@ -198,6 +200,8 @@ public class ClientSocketCommunicationHandler extends
                     cleanUpSession();
                     return false;
                 } else {
+                    session.setScope(SessionManager.getInstance()
+                            .getAALSpaceIdFromSession(currentSession));
                     session.setStatus(SessionEvent.SessionStatus.CONNECTED);
                     log.debug("Session with sessionId " + currentSession
                             + " re-established");
@@ -205,8 +209,8 @@ public class ClientSocketCommunicationHandler extends
             }
             log.debug("SESSION (RE)ESTABILISHED with " + currentSession);
             // session.setScope(currentSession.toString());
-            session.setScope(SessionManager.getInstance()
-                    .getAALSpaceIdFromSession(currentSession));
+//            session.setScope(SessionManager.getInstance()
+//                    .getAALSpaceIdFromSession(currentSession));
             return true;
         }
 

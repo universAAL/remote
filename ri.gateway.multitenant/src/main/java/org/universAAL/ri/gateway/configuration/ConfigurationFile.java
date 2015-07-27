@@ -48,21 +48,25 @@ public class ConfigurationFile extends UpdatedPropertiesFile implements
 	super(propFile);
     }
 
-    private OperationChainManager getChainManager(){
-    	if (chainMNG == null || checkPropertiesVersion()){
-    		 try {
-    			chainMNG = new TurtleFileSecurityDefinition(
-    					new URL(getProperty(SECURITY_DEFINITION)));
-    		} catch (Exception e) {
-    			LogUtils.logError(Gateway.getInstance().context, 
-    					getClass(),
-    					"getChainManager", 
-    					new String[]{"unable to load file", "default to DenyAll"},
-    					e);
-    			chainMNG = new DenyDefault();
-    		}
-    	}
-    	return chainMNG;
+    private OperationChainManager getChainManager() {
+	if (chainMNG == null || checkPropertiesVersion()) {
+	    try {
+		String secFile = getProperty(SECURITY_DEFINITION);
+		if (secFile != null) {
+		    chainMNG = new TurtleFileSecurityDefinition(
+			    new URL(secFile));
+		} else {
+		    chainMNG = new NoSecurityDefinition();
+		}
+	    } catch (Exception e) {
+		LogUtils.logError(Gateway.getInstance().context, getClass(),
+			"getChainManager", new String[] {
+				"unable to load file", "default to DenyAll" },
+			e);
+		chainMNG = new DenyDefault();
+	    }
+	}
+	return chainMNG;
     }
     
     @Override

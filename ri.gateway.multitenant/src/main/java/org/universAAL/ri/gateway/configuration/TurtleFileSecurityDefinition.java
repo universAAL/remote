@@ -240,7 +240,7 @@ public class TurtleFileSecurityDefinition implements OperationChainManager {
 	/** {@inheritDoc} */
 	public MessageOperationChain getIncomingMessageOperationChain() {
 		String policy = (String) def.getProperty(INBOUND_POLICY);
-		Object match = (Matchable) def.getProperty(INBOUND_MATCH);
+		Object match = def.getProperty(INBOUND_MATCH);
 		if (match instanceof Resource && ((Resource)match).getURI().equals("http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"))
 			match = Collections.EMPTY_LIST;
 		if (match instanceof Matchable)
@@ -256,7 +256,7 @@ public class TurtleFileSecurityDefinition implements OperationChainManager {
 	/** {@inheritDoc} */
 	public MessageOperationChain getOutgoingMessageOperationChain() {
 		String policy = (String) def.getProperty(OUTBOUND_POLICY);
-		Object match = (Matchable) def.getProperty(OUTBOUND_MATCH);
+		Object match = def.getProperty(OUTBOUND_MATCH);
 		if (match instanceof Resource && ((Resource)match).getURI().equals("http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"))
 			match = Collections.EMPTY_LIST;
 		if (match instanceof Matchable)

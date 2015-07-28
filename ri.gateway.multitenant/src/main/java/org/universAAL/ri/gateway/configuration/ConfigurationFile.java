@@ -35,8 +35,6 @@ public class ConfigurationFile extends UpdatedPropertiesFile implements
 
     private static final String CLIENT = "CLIENT";
     private static final String SERVER = "SERVER";
-    private static final String FORWARD = "FORWARD";
-    private static final String ROUTER = "ROUTER";
     /**
      * 
      */
@@ -76,18 +74,8 @@ public class ConfigurationFile extends UpdatedPropertiesFile implements
 
     @Override
     protected void addDefaults(final Properties defaults) {
-	defaults.put(ROUTING_MODE, ROUTER);
+	//defaults.put(ROUTING_MODE, ROUTER);
 	defaults.put(CONNECTION_MODE, CLIENT);
-    }
-
-    /** {@inheritDoc} */
-    public RoutingMode getRoutingMode() {
-	if (getProperty(ROUTING_MODE).equalsIgnoreCase(ROUTER)) {
-	    return RoutingMode.ROUTER;
-	} else if (getProperty(ROUTING_MODE).equalsIgnoreCase(FORWARD)) {
-	    return RoutingMode.FORWARD;
-	}
-	return null;
     }
 
     /** {@inheritDoc} */

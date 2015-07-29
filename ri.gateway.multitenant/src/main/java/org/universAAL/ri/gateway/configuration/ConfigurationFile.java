@@ -35,6 +35,7 @@ public class ConfigurationFile extends UpdatedPropertiesFile implements
 
     private static final String CLIENT = "CLIENT";
     private static final String SERVER = "SERVER";
+    private static final String NONE = "NONE";
     /**
      * 
      */
@@ -51,10 +52,26 @@ public class ConfigurationFile extends UpdatedPropertiesFile implements
 	    try {
 		String secFile = getProperty(SECURITY_DEFINITION);
 		if (secFile != null) {
-		    chainMNG = new TurtleFileSecurityDefinition(
+		    if(secFile.toUpperCase().equals(NONE)){
+			LogUtils.logDebug(Gateway.getInstance().context, getClass(),
+				"getChainManager", new String[] {
+					"Security definition disabled" }, null);
+			chainMNG = new NoSecurityDefinition();
+		    }else{
+			LogUtils.logDebug(Gateway.getInstance().context, getClass(),
+				"getChainManager", new String[] {
+					"Loading Security definition from", secFile }, null);
+			chainMNG = new TurtleFileSecurityDefinition(
 			    new URL(secFile));
+		    }
 		} else {
-		    chainMNG = new NoSecurityDefinition();
+		    LogUtils.logDebug(
+			    Gateway.getInstance().context,
+			    getClass(),
+			    "getChainManager",
+			    new String[] { "Security definition not set, default to DenyAll" },
+			    null);
+		    chainMNG = new DenyDefault();
 		}
 	    } catch (Exception e) {
 		LogUtils.logError(Gateway.getInstance().context, getClass(),

@@ -255,6 +255,7 @@ public class ServerSocketCommunicationHandler extends
                 final String scope = SessionManager.getInstance()
                         .getAALSpaceIdFromSession(session);
                 mySession.setScope(scope);
+                mySession.addSessionEventListener(gw);
                 mySession.setStatus(SessionEvent.SessionStatus.CONNECTED);
                 gw.newSession(socket.toString(), mySession);
                 // XXX This is a dirty why to connect the Session to the link

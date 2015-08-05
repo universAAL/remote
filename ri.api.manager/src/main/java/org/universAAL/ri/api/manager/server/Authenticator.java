@@ -73,7 +73,7 @@ public class Authenticator implements HttpContext{
 	resp.setHeader("WWW-Authenticate", "Basic realm=\"" + REALM + "\"");
 	resp.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 	resp.sendError(HttpServletResponse.SC_UNAUTHORIZED,
-		"Authorization information missing");
+		"Authorization information missing or incorrect");
 	return false;
     }
 

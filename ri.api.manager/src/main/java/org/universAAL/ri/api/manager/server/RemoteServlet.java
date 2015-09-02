@@ -148,6 +148,7 @@ public class RemoteServlet extends javax.servlet.http.HttpServlet{
 		return;
 	    }
 	    resp.setStatus(HttpServletResponse.SC_OK);
+	    resp.setCharacterEncoding("UTF-8");
 	    PrintWriter os = resp.getWriter();
 	    if (servResp != null)
 		os.print(servResp);

@@ -5,11 +5,11 @@
   <parent>
     <groupId>org.universAAL.remote</groupId>
     <artifactId>ri.pom</artifactId>
-    <version>3.4.0</version>
+    <version>3.4.1-SNAPSHOT</version>
     <relativePath>../ri.pom</relativePath>
   </parent>
   <artifactId>ri.api.manager.mysql</artifactId>
-  <version>3.4.0</version>
+  <version>3.4.1-SNAPSHOT</version>
   <packaging>bundle</packaging>
   <name>universAAL Remote Interoperability Remote-API MySQL Add-on</name>
   <description>Additional Fragment for Remote-API Manager that enables the use of MySQL for the persitence database</description>

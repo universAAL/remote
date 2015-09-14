@@ -5,11 +5,11 @@
   <parent>
     <groupId>org.universAAL.remote</groupId>
     <artifactId>ri.pom</artifactId>
-    <version>3.3.1-SNAPSHOT</version>
+    <version>3.4.0</version>
     <relativePath>../ri.pom</relativePath>
   </parent>
   <artifactId>ri.internetgateway</artifactId>
-  <version>3.3.1-SNAPSHOT</version>
+  <version>3.4.0</version>
   <packaging>bundle</packaging>
   <name>universAAL Remote Interoperability Internet Gateway</name>
   <description>Internet Gateway</description>
@@ -65,7 +65,6 @@
             <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
             <Export-Package>org.universAAL.ri.internetgateway,
 							org.universAAL.ri.internetgateway.impl</Export-Package>
-            <!--Include-Resource>src/main/resources</Include-Resource-->
             <Export-Package>org.universAAL.ri.internetgateway,
 							org.universAAL.ri.internetgateway.impl,
 							org.universAAL.ri.wsdlToolkit.ioApi,
@@ -74,7 +73,6 @@
 							org.universAAL.ri.wsdlToolkit.invocation</Export-Package>
             <Embed-Dependency>*;scope=compile|runtime</Embed-Dependency>
             <Embed-Transitive>true</Embed-Transitive>
-            <!--Include-Resource>src/main/resources</Include-Resource-->
             <Import-Package>*;resolution:=optional</Import-Package>
           </instructions>
         </configuration>

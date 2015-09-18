@@ -71,11 +71,14 @@ public class ProxyBusMemberFactory {
 	    final String busMemberId) {
 	if (regParams != null && regParams.length > 0) {
 	    if (regParams[0] instanceof ContextEventPattern) {
+		// TODO Context publisher patterns?
 		return new ProxyContextPublisher(Gateway.getInstance().context);
 	    }
 	    if (regParams[0] instanceof ServiceProfile) {
+		ServiceProfile[] profiles = Arrays.copyOf(regParams,
+			regParams.length, ServiceProfile[].class);
 		return new ProxySCaller(Gateway.getInstance().context,
-			(ServiceProfile[]) regParams, busMemberId);
+			profiles, busMemberId);
 	    }
 	}
 	return null;

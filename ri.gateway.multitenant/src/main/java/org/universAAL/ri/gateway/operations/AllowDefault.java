@@ -25,7 +25,7 @@ import org.universAAL.middleware.rdf.ScopedResource;
  * 
  */
 public class AllowDefault implements MessageOperationChain,
-	ParameterCheckOpertaionChain {
+	ParameterCheckOpertaionChain, OperationChainManager {
 
     public OperationResult check(final Resource[] params) {
 	return OperationResult.ALLOW;
@@ -35,4 +35,23 @@ public class AllowDefault implements MessageOperationChain,
 	return OperationResult.ALLOW;
     }
 
+	/** {@inheritDoc} */
+	public ParameterCheckOpertaionChain getImportOperationChain() {
+		return this;
+	}
+
+	/** {@inheritDoc} */
+	public ParameterCheckOpertaionChain getExportOperationChain() {
+		return this;
+	}
+
+	/** {@inheritDoc} */
+	public MessageOperationChain getIncomingMessageOperationChain() {
+		return this;
+	}
+
+	/** {@inheritDoc} */
+	public MessageOperationChain getOutgoingMessageOperationChain() {
+		return this;
+	}
 }

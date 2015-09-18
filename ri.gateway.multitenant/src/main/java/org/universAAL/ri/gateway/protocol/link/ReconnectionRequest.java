@@ -23,13 +23,16 @@ package org.universAAL.ri.gateway.protocol.link;
 import java.io.Serializable;
 import java.util.UUID;
 
+import org.universAAL.ri.gateway.protocol.LinkMessage;
+import org.universAAL.ri.gateway.protocol.LinkMessage.LinkMessageType;
+
 /**
  *
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @version $LastChangedRevision$ ($LastChangedDate$)
  *
  */
-public class ReconnectionRequest implements Serializable {
+public class ReconnectionRequest extends LinkMessage implements Serializable {
 
     /**
      *
@@ -70,5 +73,10 @@ public class ReconnectionRequest implements Serializable {
 
     public UUID getSessionId() {
         return sessionId;
+    }
+
+    @Override
+    public int getType() {
+        return LinkMessageType.RECONNECTION_REQUEST.ordinal();
     }
 }

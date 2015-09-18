@@ -25,7 +25,6 @@
 package org.universAAL.ri.gateway.communicator.service.impl;
 
 import java.io.EOFException;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
@@ -33,12 +32,13 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
-import org.bouncycastle.crypto.CryptoException;
 import org.universAAL.log.Logger;
 import org.universAAL.log.LoggerFactory;
 import org.universAAL.ri.gateway.Gateway;
 import org.universAAL.ri.gateway.communication.cipher.Cipher;
 import org.universAAL.ri.gateway.communicator.service.CommunicationHandler;
+import org.universAAL.ri.gateway.communicator.service.CommunicationHelper;
+import org.universAAL.ri.gateway.protocol.Message;
 
 /**
  * This class implements an abstract gateway based on TCP connection
@@ -60,23 +60,21 @@ public abstract class AbstractSocketCommunicationHandler implements
         this.cipher = cipher;
     }
 
-    protected MessageWrapper readMessage(final InputStream in) throws Exception {
+    protected Message readMessage(final InputStream in) throws Exception {
         AbstractSocketCommunicationHandler.log
                 .debug("Reading a message on the link");
-        final MessageWrapper msg = Serializer.unmarshalMessage(in, cipher);
-        AbstractSocketCommunicationHandler.log.debug("Read message "
-                + msg.getType() + " going to handle it");
+        final Message msg = CommunicationHelper.readAndDecypher(in, cipher);
+        AbstractSocketCommunicationHandler.log.debug("Read message " + msg
+                + " going to handle it");
         return msg;
     }
 
-    public MessageWrapper sendMessage(final MessageWrapper toSend,
-            final String[] scopes) throws IOException, ClassNotFoundException,
-            CryptoException {
+    public void sendMessage(final Message msg, final String scope) {
+        sendMessage(msg, new String[] { scope });
+    }
 
-        // TODO Stefano Lenzi: Use the target to select the scope where to send
-        // the message, it should be an UUID
+    public void sendMessage(final Message msg, final String[] scopes) {
 
-        MessageWrapper resp = null;
         final SessionManager refSM = SessionManager.getInstance();
 
         final List<UUID> targetLinks;
@@ -112,7 +110,8 @@ public abstract class AbstractSocketCommunicationHandler implements
                 /*
                  * The session is not active so we are not sending to it
                  */
-                log.warning("The selected session "+link+" is UNACTIVE so no message will be sent to it");
+                log.warning("The selected session " + link
+                        + " is UNACTIVE so no message will be sent to it");
                 continue;
             }
             final OutputStream out = refSM.getOutputStream(link);
@@ -124,19 +123,13 @@ public abstract class AbstractSocketCommunicationHandler implements
             }
 
             try {
-                Serializer.sendMessageToStream(toSend, out, cipher);
-
-                if (toSend.getType() == MessageType.HighReqRsp) {
-                    resp = Serializer.unmarshalMessage(in, cipher);
-                }
-            } catch (final EOFException ex) {
-                // no response (which is not an error) so we just return null
+                CommunicationHelper.cypherAndSend(msg, out, cipher);
+            } catch (final EOFException e) {
+                log.debug("Connection closed");
+            } catch (final Exception ex) {
+                log.error("Unable to send msg " + msg + " due to exception", ex);
             }
         }
-
-        // TODO either we change the return type to void/boolean or to
-        // MessageWrapper[]
-        return resp;
     }
 
     private boolean isBroadcat(String[] scopes) {

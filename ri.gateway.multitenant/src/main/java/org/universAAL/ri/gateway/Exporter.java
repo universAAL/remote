@@ -162,9 +162,13 @@ public class Exporter implements IBusMemberRegistryListener {
      * @param session
      */
     public void activatedSession(final Session session) {
-	for (final String bmId : tracked.keySet()) {
-	    checkAndExport(bmId, session);
-	}
+	new Thread(new Runnable() {
+	    public void run() {
+		for (final String bmId : tracked.keySet()) {
+		    checkAndExport(bmId, session);
+		}
+	    }
+	}, "Exporter-Activation").start();
     }
 
     /**

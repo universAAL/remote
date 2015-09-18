@@ -97,14 +97,17 @@ public abstract class UpdatedPropertiesFile extends Properties {
 
     /**
      * Checks for updates the properties file, and updates the properties.
+     * @return true if the properties have been updated.
      */
-    protected void checkPropertiesVersion() {
+    protected boolean checkPropertiesVersion() {
     	if (propertiesFile != null
     			&& (propertiesVersion != propertiesFile.lastModified())){;
     		try {
 				loadProperties();
+				return true;
 			} catch (IOException e) {}
     	}
+    	return false;
     }
     
     /**

@@ -138,7 +138,7 @@ public class ProxyContextSubscriber extends ContextSubscriber implements
 			    .equals(OperationChain.OperationResult.ALLOW)) {
 		// the event may be sent there
 		// and it is allowed to go there
-		final ContextEvent copy = (ContextEvent) event.deepCopy();
+		final ContextEvent copy = (ContextEvent) event.copy(false);
 		copy.clearScopes();
 		copy.setProperty(ScopedResource.PROP_ORIG_SCOPE, null);
 		s.send(new WrappedBusMessage(bmr.getBusMemberid(), copy));

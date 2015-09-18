@@ -27,16 +27,6 @@ import org.universAAL.ri.gateway.operations.OperationChainManager;
 public interface Configuration extends OperationChainManager {
 
     /**
-     * Define the Routing Mode.
-     * 
-     * @author amedrano
-     * 
-     */
-    public enum RoutingMode {
-	ROUTER, FORWARD
-    }
-
-    /**
      * Definition of the Connection mode.
      * 
      * @author amedrano
@@ -45,14 +35,6 @@ public interface Configuration extends OperationChainManager {
     public enum ConnectionMode {
 	SERVER, CLIENT
     }
-
-    /**
-     * Get the Routing mode intended for the {@link Session} represented by this
-     * configuration.
-     * 
-     * @return the Routing mode.
-     */
-    RoutingMode getRoutingMode();
 
     /**
      * Get the Connection mode intended for the {@link Session} represented by

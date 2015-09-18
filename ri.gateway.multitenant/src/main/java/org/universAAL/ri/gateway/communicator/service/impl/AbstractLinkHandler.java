@@ -31,6 +31,9 @@ import org.universAAL.log.LoggerFactory;
 import org.universAAL.middleware.managers.api.AALSpaceManager;
 import org.universAAL.ri.gateway.Gateway;
 import org.universAAL.ri.gateway.communication.cipher.Cipher;
+import org.universAAL.ri.gateway.communicator.service.CommunicationHelper;
+import org.universAAL.ri.gateway.protocol.LinkMessage;
+import org.universAAL.ri.gateway.protocol.LinkMessage.LinkMessageType;
 import org.universAAL.ri.gateway.protocol.Message;
 import org.universAAL.ri.gateway.protocol.MessageReceiver;
 import org.universAAL.ri.gateway.protocol.link.ConnectionRequest;
@@ -113,21 +116,25 @@ public abstract class AbstractLinkHandler implements Runnable {
     }
 
     /**
-     * The method is invoked before the main loop during which theh {@link #loopRun()} is executed
+     * The method is invoked before the main loop during which theh
+     * {@link #loopRun()} is executed
      *
-     * @return true if the intialization was a SUCCES false will exit the execution
+     * @return true if the intialization was a SUCCES false will exit the
+     *         execution
      */
     protected abstract boolean beforeRun();
 
     /**
-     * The actual action that is performed eveytime. The method should return <code>false</code> to stop the looping
+     * The actual action that is performed eveytime. The method should return
+     * <code>false</code> to stop the looping
      *
      * @return false to stop the looping
      */
     protected abstract boolean loopRun();
 
     /**
-     * The method is invoked after the main loop during which theh {@link #loopRun()} for cleaning up
+     * The method is invoked after the main loop during which theh
+     * {@link #loopRun()} for cleaning up
      *
      * @return false if cleaning up failed
      */
@@ -169,20 +176,23 @@ public abstract class AbstractLinkHandler implements Runnable {
 
         final ReconnectionRequest request = new ReconnectionRequest(peerId,
                 spaceId, currentSession);
-        final MessageWrapper responseMessage = new MessageWrapper(
-                MessageType.Reconnect, Serializer.Instance.marshall(request),
-                peerId);
         try {
-            Serializer.sendMessageToStream(responseMessage, out, cipher);
-            final MessageWrapper rsp = getNextMessage(in);
-            if (rsp.getType() != MessageType.ConnectResponse) {
-                throw new IllegalArgumentException("Expected "
-                        + MessageType.ConnectResponse + " message after a "
-                        + MessageType.Reconnect + " but recieved "
-                        + rsp.getType());
+            CommunicationHelper.cypherAndSend(request, out, cipher);
+            final Message rsp = getNextMessage(in);
+            LinkMessage linkMessage = null;
+            if (rsp instanceof LinkMessage) {
+                linkMessage = (LinkMessage) rsp;
             }
-            final ConnectionResponse response = Serializer.Instance.unmarshall(
-                    ConnectionResponse.class, rsp.getMessage());
+            if (linkMessage == null
+                    || linkMessage.getType() != LinkMessageType.CONNECTION_RESPONSE
+                            .ordinal()) {
+                throw new IllegalArgumentException("Expected "
+                        + LinkMessageType.CONNECTION_RESPONSE
+                        + " message after a "
+                        + LinkMessageType.RECONNECTION_REQUEST
+                        + " but recieved " + rsp);
+            }
+            final ConnectionResponse response = (ConnectionResponse) linkMessage;
             if (response.getScopeId().equals(currentSession)) {
                 /*
                  * Session has been restore
@@ -228,23 +238,26 @@ public abstract class AbstractLinkHandler implements Runnable {
         final String peerId = spaceManager.getMyPeerCard().getPeerID();
         final ConnectionRequest request = new ConnectionRequest(peerId,
                 spaceId, spaceName);
-        final MessageWrapper responseMessage = new MessageWrapper(
-                MessageType.ConnectRequest,
-                Serializer.Instance.marshall(request), peerId);
         try {
-            Serializer.sendMessageToStream(responseMessage, out, cipher);
-            final MessageWrapper rsp = getNextMessage(in);
-            if (rsp.getType() != MessageType.ConnectResponse) {
-                throw new IllegalArgumentException("Expected "
-                        + MessageType.ConnectResponse + " message after a "
-                        + MessageType.ConnectRequest + " but recieved "
-                        + rsp.getType());
+            CommunicationHelper.cypherAndSend(request, out, cipher);
+            final Message rsp = getNextMessage(in);
+            LinkMessage linkMessage = null;
+            if (rsp instanceof LinkMessage) {
+                linkMessage = (LinkMessage) rsp;
             }
-            final ConnectionResponse response = Serializer.Instance.unmarshall(
-                    ConnectionResponse.class, rsp.getMessage());
+            if (linkMessage == null
+                    || linkMessage.getType() != LinkMessageType.CONNECTION_RESPONSE
+                            .ordinal()) {
+                throw new IllegalArgumentException("Expected "
+                        + LinkMessageType.CONNECTION_RESPONSE
+                        + " message after a "
+                        + LinkMessageType.CONNECTION_REQUEST + " but recieved "
+                        + rsp);
+            }
+            final ConnectionResponse response = (ConnectionResponse) linkMessage;
             /*
              * We have to check if it is a real new session or if the server is
-             * recoverying an old one, in that case we don't have to store the
+             * recovering an old one, in that case we don't have to store the
              * session
              */
             if (refSM.isDuplicatedSession(response.getSessionId(),
@@ -267,8 +280,7 @@ public abstract class AbstractLinkHandler implements Runnable {
         return false;
     }
 
-    protected abstract MessageWrapper getNextMessage(InputStream in)
-            throws Exception;
+    protected abstract Message getNextMessage(InputStream in) throws Exception;
 
     protected boolean disconnect() {
         final AALSpaceManager spaceManager = Gateway.getInstance().spaceManager
@@ -276,14 +288,11 @@ public abstract class AbstractLinkHandler implements Runnable {
         final String spaceId = spaceManager.getAALSpaceDescriptor()
                 .getSpaceCard().getSpaceID();
         final String peerId = spaceManager.getMyPeerCard().getPeerID();
-        final DisconnectionRequest disconnectionRequest = new DisconnectionRequest(
-                peerId, spaceId, currentSession);
-        final MessageWrapper responseMessage = new MessageWrapper(
-                MessageType.Disconnect,
-                Serializer.Instance.marshall(disconnectionRequest), peerId);
+        final DisconnectionRequest request = new DisconnectionRequest(peerId,
+                spaceId, currentSession);
         boolean result = true;
         try {
-            Serializer.sendMessageToStream(responseMessage, out, cipher);
+            CommunicationHelper.cypherAndSend(request, out, cipher);
         } catch (final Exception e) {
             e.printStackTrace();
             result = false;
@@ -331,20 +340,15 @@ public abstract class AbstractLinkHandler implements Runnable {
 
     }
 
-    protected boolean handleGatewayProtocol(final MessageWrapper msg) {
+    protected boolean handleGatewayProtocol(final Message msg) {
         try {
-            Message upper = null;
-            switch (msg.getType()) {
-            case HighPush:
-            case HighReqRsp:
-                upper = (Message) msg.getMessage().getContent();
-                break;
-
-            default:
-                throw new IllegalStateException("Unsupported message type "
-                        + msg.getType());
+            if (msg instanceof LinkMessage == true) {
+                log.info("The handling of Message "
+                        + msg
+                        + " is not expected to be performed by the Upper Layer of Gateway because it is LinkMessage thus the message is SKIPPED");
+                return false;
             }
-            communicator.handleMessage(upper);
+            communicator.handleMessage(msg);
         } catch (final Exception ex) {
             final String txt = "Exception while handling Gateway message "
                     + msg;
@@ -355,7 +359,7 @@ public abstract class AbstractLinkHandler implements Runnable {
         return true;
     }
 
-    protected abstract boolean handleSessionProtocol(final MessageWrapper msg);
+    protected abstract boolean handleSessionProtocol(final Message msg);
 
     public boolean isStopping() {
         synchronized (LOCK_VAR_LOCAL_STOP) {

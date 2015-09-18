@@ -44,37 +44,17 @@ public interface PropertiesFileKeys {
      */
     String SOCKET_PORT = "socket-port";
 
+    /**
+     * System property used to determine if the connection should be set up as
+     * a client (use value CLIENT) or as a server (use value SERVER).
+     */
     String CONNECTION_MODE = "connection-mode";
-
-    String ROUTING_MODE = "routing-mode";
-
+    
     /**
-     * Property used for specifying bus members that are allowed to be imported
-     * into this AAL Space. List of comma separated regular expressions related
-     * to service, context or ui URI.
+     * System property that defines the turtle file that defines which
+     * imports, exports, and messages are allowed or denyed.
      */
-    String IMPORT_SECURITY_CONSTRAINT_ALLOW = "import-security-constraint-allow";
-
-    /**
-     * Property used for specifying bus members that are allowed to be exported
-     * to remote AAL Spaces. List of comma separated regular expressions related
-     * to service, context or ui URI.
-     */
-    String EXPORT_SECURITY_CONSTRAINT_ALLOW = "export-security-constraint-allow";
-
-    /**
-     * Property used for specifying bus members that are denied to be imported
-     * into this AAL Space. List of comma separated regular expressions related
-     * to service, context or ui URI.
-     */
-    String IMPORT_SECURITY_CONSTRAINT_DENY = "import-security-constraint-deny";
-
-    /**
-     * Property used for specifying bus members that are denied to be exported
-     * to remote AAL Spaces. List of comma separated regular expressions related
-     * to service, context or ui URI.
-     */
-    String EXPORT_SECURITY_CONSTRAINT_DENY = "export-security-constraint-deny";
+    String SECURITY_DEFINITION = "security-definition-file";
 
     /**
      * Alias' prefix under which the HTTP servlet will be registered.

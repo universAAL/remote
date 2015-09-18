@@ -16,10 +16,14 @@
 package org.universAAL.ri.gateway.configuration;
 
 import java.io.File;
+import java.net.URL;
 import java.util.Properties;
 
-import org.universAAL.ri.gateway.operations.AllowDefault;
+import org.universAAL.middleware.container.utils.LogUtils;
+import org.universAAL.ri.gateway.Gateway;
+import org.universAAL.ri.gateway.operations.DenyDefault;
 import org.universAAL.ri.gateway.operations.MessageOperationChain;
+import org.universAAL.ri.gateway.operations.OperationChainManager;
 import org.universAAL.ri.gateway.operations.ParameterCheckOpertaionChain;
 
 /**
@@ -31,17 +35,55 @@ public class ConfigurationFile extends UpdatedPropertiesFile implements
 
     private static final String CLIENT = "CLIENT";
     private static final String SERVER = "SERVER";
-    private static final String FORWARD = "FORWARD";
-    private static final String ROUTER = "ROUTER";
+    private static final String NONE = "NONE";
     /**
      * 
      */
     private static final long serialVersionUID = 1L;
+    
+    private OperationChainManager chainMNG = null;
 
     public ConfigurationFile(final File propFile) {
 	super(propFile);
     }
 
+    private OperationChainManager getChainManager() {
+	if (chainMNG == null || checkPropertiesVersion()) {
+	    try {
+		String secFile = getProperty(SECURITY_DEFINITION);
+		if (secFile != null) {
+		    if(secFile.toUpperCase().equals(NONE)){
+			LogUtils.logDebug(Gateway.getInstance().context, getClass(),
+				"getChainManager", new String[] {
+					"Security definition disabled" }, null);
+			chainMNG = new NoSecurityDefinition();
+		    }else{
+			LogUtils.logDebug(Gateway.getInstance().context, getClass(),
+				"getChainManager", new String[] {
+					"Loading Security definition from", secFile }, null);
+			chainMNG = new TurtleFileSecurityDefinition(
+			    new URL(secFile));
+		    }
+		} else {
+		    LogUtils.logDebug(
+			    Gateway.getInstance().context,
+			    getClass(),
+			    "getChainManager",
+			    new String[] { "Security definition not set, default to DenyAll" },
+			    null);
+		    chainMNG = new DenyDefault();
+		}
+	    } catch (Exception e) {
+		LogUtils.logError(Gateway.getInstance().context, getClass(),
+			"getChainManager", new String[] {
+				"unable to load file", "default to DenyAll" },
+			e);
+		chainMNG = new DenyDefault();
+	    }
+	}
+	return chainMNG;
+    }
+    
     @Override
     public String getComments() {
 	return "Configuration of a connection instance";
@@ -49,19 +91,8 @@ public class ConfigurationFile extends UpdatedPropertiesFile implements
 
     @Override
     protected void addDefaults(final Properties defaults) {
-	// TODO add Deny all imports and exports by default.
-	defaults.put(ROUTING_MODE, ROUTER);
+	//defaults.put(ROUTING_MODE, ROUTER);
 	defaults.put(CONNECTION_MODE, CLIENT);
-    }
-
-    /** {@inheritDoc} */
-    public RoutingMode getRoutingMode() {
-	if (getProperty(ROUTING_MODE).equalsIgnoreCase(ROUTER)) {
-	    return RoutingMode.ROUTER;
-	} else if (getProperty(ROUTING_MODE).equalsIgnoreCase(FORWARD)) {
-	    return RoutingMode.FORWARD;
-	}
-	return null;
     }
 
     /** {@inheritDoc} */
@@ -86,26 +117,22 @@ public class ConfigurationFile extends UpdatedPropertiesFile implements
 
     /** {@inheritDoc} */
     public ParameterCheckOpertaionChain getImportOperationChain() {
-	// TODO gather the correct security mechanism;
-	return new AllowDefault();
+    	return getChainManager().getImportOperationChain();
     }
 
     /** {@inheritDoc} */
     public ParameterCheckOpertaionChain getExportOperationChain() {
-	// TODO gather the correct security mechanism;
-	return new AllowDefault();
+    	return getChainManager().getExportOperationChain();
     }
 
     /** {@inheritDoc} */
     public MessageOperationChain getIncomingMessageOperationChain() {
-	// TODO gather the correct security mechanism;
-	return new AllowDefault();
+    	return getChainManager().getIncomingMessageOperationChain();
     }
 
     /** {@inheritDoc} */
     public MessageOperationChain getOutgoingMessageOperationChain() {
-	// TODO gather the correct security mechanism;
-	return new AllowDefault();
+    	return getChainManager().getOutgoingMessageOperationChain();
     }
 
     public String getEncryptionKey() {

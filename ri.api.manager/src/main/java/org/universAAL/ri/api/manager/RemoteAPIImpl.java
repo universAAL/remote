@@ -21,8 +21,7 @@
  */
 package org.universAAL.ri.api.manager;
 
-import java.util.Enumeration;
-import java.util.Hashtable;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
@@ -48,7 +47,9 @@ public class RemoteAPIImpl implements RemoteAPI {
      * method) into the server. Each of these nodes, identified by a unique
      * token, have an associated UAAL instance.
      */
-    private static Hashtable<String, RemoteUAAL> nodes = new Hashtable<String, RemoteUAAL>();
+    public static HashMap<String, String> scopesToRemotes = new HashMap<String, String>();
+    
+    private static RemoteUAAL uAALAPI ;
     /**
      * The uAAL context.
      */
@@ -62,94 +63,76 @@ public class RemoteAPIImpl implements RemoteAPI {
      */
     public RemoteAPIImpl(ModuleContext ctxt) {
 	this.context = ctxt;
+	uAALAPI = new RemoteUAAL(context);
     }
 
-    /* (non-Javadoc)
-     * @see org.universAAL.ri.api.manager.RemoteAPI#register(java.lang.String, java.lang.String)
-     */
-    public void register(String id, String remote) throws APIImplException{
+    public void register(String idx, String remote) throws APIImplException{
 	if(Configuration.getLogDebug()){
-	    Activator.logI("RemoteAPIImpl.register()", "Received call from remote node > REGISTER, sender: "+id);
+	    Activator.logI("RemoteAPIImpl.register()", "Received call from remote node > REGISTER, sender: "+idx);
 	}
 	if (Configuration.determineEndpoint(remote) == RemoteAPI.REMOTE_UNKNOWN){ // No POST nor GCM
 	    throw new APIImplException("Unable to determine protocol of remote endpoint");
 	}
-	if(nodes.containsKey(id)){
-	    ((RemoteUAAL)nodes.get(id)).setRemoteID(remote);
-	}else{
-	    nodes.put(id, new RemoteUAAL(context,id,remote));
-	}
+	scopesToRemotes.put(idx, remote);
     }
 
-    /* (non-Javadoc)
-     * @see org.universAAL.ri.api.manager.RemoteAPI#sendC(java.lang.String, java.lang.String)
-     */
-    public void sendC(String id, String cevent) throws APIImplException {
+    public void sendC(String idx, String cevent) throws APIImplException {
 	if(Configuration.getLogDebug()){
-	    Activator.logI("RemoteAPIImpl.sendC()", "Received call from remote node > SENDC, sender: "+id);
+	    Activator.logI("RemoteAPIImpl.sendC()", "Received call from remote node > SENDC, sender: "+idx);
 	}
-	if(nodes.containsKey(id)){
+	if(uAALAPI!=null && scopesToRemotes.containsKey(idx)){//Just to pretend we need register
 	    ContextEvent ce=(ContextEvent) Activator.getParser().deserialize(cevent);
 	    if (ce==null) {
 		throw new APIImplException("Unable to deserialize event");
 	    }
-	    ce.addScope(id); // MULTITENANT Add my scope
-	    ce.setProperty(ContextEvent.PROP_ORIG_SCOPE, id); // MULTITENANT Add my scope as origin, so I dont get it back 
-	    ((RemoteUAAL)nodes.get(id)).sendC(ce);
+	    ce.addScope(idx); // MULTITENANT Add my scope
+	    ce.setProperty(ContextEvent.PROP_ORIG_SCOPE, idx); //? MULTITENANT Add my scope as origin, so I dont get it back 
+	    uAALAPI.sendC(ce);
 	}else{
 	    throw new APIImplException("ID not registered");
 	}
     }
 
-    /* (non-Javadoc)
-     * @see org.universAAL.ri.api.manager.RemoteAPI#subscribeC(java.lang.String, java.lang.String)
-     */
-    public void subscribeC(String id, String cpattern) throws APIImplException {
+    public void subscribeC(String idx, String cpattern) throws APIImplException {
 	if(Configuration.getLogDebug()){
-	    Activator.logI("RemoteAPIImpl.subscribeC()", "Received call from remote node > SUBSCRIBEC, sender: "+id);
+	    Activator.logI("RemoteAPIImpl.subscribeC()", "Received call from remote node > SUBSCRIBEC, sender: "+idx);
 	}
-	if(nodes.containsKey(id)){
+	if(uAALAPI!=null && scopesToRemotes.containsKey(idx)){//Just to pretend we need register
 	    ContextEventPattern cp=(ContextEventPattern) Activator.getParser().deserialize(cpattern);
 	    if (cp==null) {
 		throw new APIImplException("Unable to deserialize pattern");
 	    }
-	    RemoteUAAL node=(RemoteUAAL)nodes.get(id);
-	    node.subscribeC(new ContextEventPattern[]{cp},node.createCListener(cp.getURI()));
+	    uAALAPI.subscribeC(new ContextEventPattern[]{cp});
 	}else{
 	    throw new APIImplException("ID not registered");
 	}
     }
     
-    public boolean isPatternAdded(String id, String cpattern) {
-	if(nodes.containsKey(id)){
+    public boolean isPatternAdded(String idx, String cpattern) {
+	if(uAALAPI!=null){
 	    ContextEventPattern cp=(ContextEventPattern) Activator.getParser().deserialize(cpattern);
 	    if (cp==null) {
 		return false;
 	    }
-	    RemoteUAAL node=(RemoteUAAL)nodes.get(id);
-	    return node.isPatternAdded(cp.getURI());
+	    return uAALAPI.isPatternAdded(cp.getURI());
 	}else{
 	    return false;
 	}
     }
 
-    /* (non-Javadoc)
-     * @see org.universAAL.ri.api.manager.RemoteAPI#callS(java.lang.String, java.lang.String)
-     */
-    public String callS(String id, String srequest) throws APIImplException {
+    public String callS(String idx, String srequest) throws APIImplException {
 	if(Configuration.getLogDebug()){
-	    Activator.logI("RemoteAPIImpl.callS()", "Received call from remote node > CALLS, sender: "+id);
+	    Activator.logI("RemoteAPIImpl.callS()", "Received call from remote node > CALLS, sender: "+idx);
 	}
 	ServiceResponse res = null;
-	if (nodes.containsKey(id)) {
+	if (uAALAPI!=null && scopesToRemotes.containsKey(idx)){//Just to pretend we need register
 	    ServiceRequest req = (ServiceRequest) Activator.getParser().deserialize(srequest);
 	    if (req == null) {
 		throw new APIImplException("Unable to deserialize request");
 	    }
-	    RemoteUAAL node = (RemoteUAAL) nodes.get(id);
-	    req.addScope(id); // MULTITENANT Add my scope
-	    req.setProperty(ContextEvent.PROP_ORIG_SCOPE, id); // MULTITENANT Add my scope as origin, so I dont get it back 
-	    res = node.callS(req);
+	    req.addScope(idx); // MULTITENANT Add my scope
+	    req.setProperty(ContextEvent.PROP_ORIG_SCOPE, idx); // MULTITENANT Add my scope as origin, so I dont get it back 
+	    res = uAALAPI.callS(req);
 	} else {
 	    throw new APIImplException("ID not registered");
 	}
@@ -186,68 +169,48 @@ public class RemoteAPIImpl implements RemoteAPI {
 	}
     }
 
-    /* (non-Javadoc)
-     * @see org.universAAL.ri.api.manager.RemoteAPI#provideS(java.lang.String, java.lang.String)
-     */
     public void provideS(String id, String sprofile) throws APIImplException {
 	if(Configuration.getLogDebug()){
 	    Activator.logI("RemoteAPIImpl.provideS()", "Received call from remote node > PROVIDES, sender: "+id);
 	}
-	if(nodes.containsKey(id)){
+	if(uAALAPI!=null && scopesToRemotes.containsKey(id)){//Just to pretend we need register
 	    ServiceProfile sp=(ServiceProfile) Activator.getParser().deserialize(sprofile);
 	    if (sp==null) {
 		throw new APIImplException("Unable to deserialize profile");
 	    }
-	    RemoteUAAL node=(RemoteUAAL)nodes.get(id);
-	    node.provideS(new ServiceProfile[]{sp},node.createSListener(sp.getURI()));
+	    uAALAPI.provideS(new ServiceProfile[]{sp});
 	}else{
 	    throw new APIImplException("ID not registered");
 	}
     }
     
     public boolean isProfileAdded(String id, String sprofile) {
-	if(nodes.containsKey(id)){
+	if(uAALAPI!=null){
 	    ServiceProfile sp=(ServiceProfile) Activator.getParser().deserialize(sprofile);
 	    if (sp==null) {
 		return false;
 	    }
-	    RemoteUAAL node=(RemoteUAAL)nodes.get(id);
-	    return node.isProfileAdded(sp.getURI());
+	    return uAALAPI.isProfileAdded(sp.getURI());
 	}else{
 	    return false;
 	}
     }
 
-    /* (non-Javadoc)
-     * @see org.universAAL.ri.api.manager.RemoteAPI#unregister(java.lang.String)
-     */
     public void unregister(String id) throws APIImplException {
 	if(Configuration.getLogDebug()){
 	    Activator.logI("RemoteAPIImpl.unregister()", "Received call from remote node > UNREGISTER, sender: "+id);
 	}
-	if(!nodes.containsKey(id)){
+	if(!scopesToRemotes.containsKey(id)){
 	    throw new APIImplException("ID not registered");
 	}
-	RemoteUAAL uaal=nodes.remove(id);
-	if(uaal!=null){
-	    uaal.terminate();
-	}else{
-	    throw new APIImplException("No instance for this ID");
-	}
+	scopesToRemotes.remove(id);
+	//TODO remove registrations of this scope
+	//But now if not removed R API will try to send them to the remoteID and fail or timeout
     }
     
-    /* (non-Javadoc)
-     * @see org.universAAL.ri.api.manager.RemoteAPI#unregisterAll()
-     */
     public void unregisterAll() {
-	Enumeration<String> keys = nodes.keys();
-	while (keys.hasMoreElements()) {
-	    RemoteUAAL uaal = nodes.remove(keys.nextElement());
-	    if (uaal != null) {
-		uaal.terminate();
-	    } else {
-		Activator.logE("RemoteAPIImpl.unregisterAll()", "No instance for this ID");
-	    }
-	}
+	scopesToRemotes.clear();
+	uAALAPI.terminate();
     }
+    
 }

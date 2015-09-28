@@ -84,9 +84,8 @@ public class PushGCM {
      *            The client remote node endpoint
      * @param event
      *            The serialized Context Event to send
-     * @param toURI 
      */
-    public static void sendC(String nodeid, String remoteid, ContextEvent event, String toURI) throws PushException {
+    public static void sendC(String nodeid, String remoteid, ContextEvent event) throws PushException {
 	boolean test=Configuration.getGCMDry();
 	
 	int ttl=0; // 4 weeks is the default in GCM
@@ -107,8 +106,7 @@ public class PushGCM {
 	.append(ContextEvent.PROP_RDF_SUBJECT)
 	.append(ContextEvent.PROP_RDF_PREDICATE)
 	.append(ContextEvent.PROP_RDF_OBJECT)
-	.append("method=SENDC")
-	.append("to=").append(toURI);
+	.append("method=SENDC");
 
 	Builder build = new Message.Builder();
 	//If included, allows developers to test their request without actually sending a message
@@ -117,7 +115,6 @@ public class PushGCM {
 	if(ttl>0) build.timeToLive(ttl);
 	//Payload data, expressed as parameters prefixed with data. and suffixed as the key
 	build.addData(RemoteAPI.KEY_METHOD, "SENDC")
-	.addData(RemoteAPI.KEY_TO, toURI)
 	.addData(ContextEvent.PROP_RDF_SUBJECT, subject)
 	.addData(ContextEvent.PROP_RDF_PREDICATE, predicate)
 	.addData(ContextEvent.PROP_RDF_OBJECT, object);

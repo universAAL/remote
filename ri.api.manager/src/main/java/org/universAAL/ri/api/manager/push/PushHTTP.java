@@ -65,13 +65,11 @@ public class PushHTTP {
      *            The client remote node endpoint
      * @param event
      *            The serialized Context Event to send
-     * @param toURI 
      */
-    public static void sendC(String remoteid, ContextEvent event, String toURI) throws PushException {
+    public static void sendC(String remoteid, ContextEvent event) throws PushException {
 	StringBuilder strb = new StringBuilder();
 	strb.append(RemoteAPI.KEY_METHOD).append("=").append(RemoteAPI.METHOD_SENDC)
 		.append("&").append(RemoteAPI.KEY_PARAM).append("=").append(Activator.getParser().serialize(event))
-		.append("&").append(RemoteAPI.KEY_TO).append("=").append(toURI)
 		.append("&").append(ContextEvent.PROP_RDF_SUBJECT).append("=").append(event.getSubjectURI())
 		.append("&").append(ContextEvent.PROP_RDF_PREDICATE).append("=").append(event.getRDFPredicate())
 		.append("&").append(ContextEvent.PROP_RDF_OBJECT).append("=").append(event.getRDFObject().toString());

@@ -27,13 +27,20 @@ import java.util.List;
 import org.universAAL.middleware.container.ModuleContext;
 import org.universAAL.middleware.context.ContextEvent;
 import org.universAAL.middleware.context.ContextEventPattern;
+import org.universAAL.middleware.context.ContextPublisher;
+import org.universAAL.middleware.context.ContextSubscriber;
+import org.universAAL.middleware.context.owl.ContextProvider;
+import org.universAAL.middleware.context.owl.ContextProviderType;
 import org.universAAL.middleware.service.CallStatus;
+import org.universAAL.middleware.service.DefaultServiceCaller;
 import org.universAAL.middleware.service.ServiceCall;
+import org.universAAL.middleware.service.ServiceCallee;
+import org.universAAL.middleware.service.ServiceCaller;
+import org.universAAL.middleware.service.ServiceRequest;
 import org.universAAL.middleware.service.ServiceResponse;
+import org.universAAL.middleware.service.owls.process.ProcessOutput;
 import org.universAAL.middleware.service.owls.profile.ServiceProfile;
-import org.universAAL.support.utils.ICListener;
-import org.universAAL.support.utils.ISListener;
-import org.universAAL.support.utils.UAAL;
+import org.universAAL.support.utils.context.mid.UtilPublisher;
 import org.universAAL.ri.api.manager.push.PushManager;
 
 /**
@@ -43,23 +50,7 @@ import org.universAAL.ri.api.manager.push.PushManager;
  * @author alfiva
  * 
  */
-public class RemoteUAAL extends UAAL {
-
-    /**
-     * Remote node endpoint information. Currently, for clients running in
-     * PCs/servers, it should be the URL where a server should be getting the
-     * POST callbacks (context events and service calls) sent by this server.
-     * For Android devices, it should be a Google Cloud Messaging Key.
-     */
-    private String remoteID;
-    
-    /**
-     * Sadly I had to include this because when using GCM, the remoteID can be
-     * changed by the GCM server for whatever reason. Thus the listeners, if
-     * using GCM, must be able to update this.remoteID and the Persistence DB,
-     * and they need the node ID for that.
-     */
-    private String nodeID;
+public class RemoteUAAL {
     
     /**
      * These lists contain the URIs of CEPs and SProfiles registered so far.
@@ -68,6 +59,16 @@ public class RemoteUAAL extends UAAL {
      */ //TODO migrate this to the original UAAL
     private List<String> cepsList = new ArrayList<String>();
     private List<String> sprofilesList = new ArrayList<String>();
+    
+    private MyServiceCallee scee;
+    private ServiceCaller scer;
+    private ContextPublisher cpub;
+    private MyContextSubscriber csub;
+    private ModuleContext context;
+    
+    public RemoteUAAL(ModuleContext context) {
+	this.context=context;
+    }
 
     /**
      * Get the list of context event patterns of subscribers registered so far.
@@ -87,13 +88,31 @@ public class RemoteUAAL extends UAAL {
 	return sprofilesList;
     }
     
-    @Override
-    public void subscribeC(ContextEventPattern[] p, ICListener l) {
-	// This is like super. , but handles the list of registered CEPs
+    public void sendC(ContextEvent e) {
+	ContextProvider cp = e.getProvider();
+	// Because we are building the provider here, it will not be the same object
+	// This would fail the match in bus and not send the event. Remove it so it is set by the bus:
+	if(cp!=null) e.changeProperty(ContextEvent.PROP_CONTEXT_PROVIDER,null);
+	if (cpub == null) {
+	    cpub = new UtilPublisher(
+		    context,
+		    "http://ontology.universAAL.org/SimpleUAAL.owl#ContextEventsProvider",
+		     ContextProviderType.controller, (String) null, null,
+		    null);
+
+	}//TODO Get rid of uaal utils and use a normal publisher
+	cpub.publish(e);
+    }
+
+    public void subscribeC(ContextEventPattern[] p) {
 	for (int i = 0; i < p.length; i++) {
 	    if (!cepsList.contains(p[i].getURI())) {
 		// Only register if not already
-		super.subscribeC(p, l);
+		if(csub!=null){
+		    csub.addMorePatterns(new ContextEventPattern[]{p[i]});
+		}else{
+		    csub=new MyContextSubscriber(context, new ContextEventPattern[]{p[i]});
+		}
 		cepsList.add(p[i].getURI());
 	    }// TODO else log
 	}
@@ -103,92 +122,108 @@ public class RemoteUAAL extends UAAL {
 	return sprofilesList.contains(uri);
     }
 
-    @Override
-    public void provideS(ServiceProfile[] p, ISListener l) {
+
+    public void provideS(ServiceProfile[] p) {
 	// This is like super. , but handles the list of registered Profiles
 	for (int i = 0; i < p.length; i++) {
 	    if (!sprofilesList.contains(p[i].getURI())) {
 		// Only register if not already
-		super.provideS(p, l);
+		if(scee!=null){
+		    scee.addMoreProfiles(new ServiceProfile[]{p[i]});
+		}else{
+		    scee=new MyServiceCallee(context, new ServiceProfile[]{p[i]});
+		}
 		sprofilesList.add(p[i].getURI());
 	    }// TODO else log
 	}
+    }
+    
+    public ServiceResponse callS(ServiceRequest r) {
+	if (scer == null) {
+	    scer = new DefaultServiceCaller(context);
+	}
+	return scer.call(r);
     }
     
     public boolean isProfileAdded(String uri){
 	return sprofilesList.contains(uri);
     }
 
-    @Override
     public void terminate() {
-	// This is like super. , but handles the list of registered CEPs and Profiles
-	super.terminate();
+	scer.close();
+	scee.close();
+	csub.close();
+	cpub.close();
 	cepsList.clear();
 	sprofilesList.clear();
     }
-
+    
     /**
-     * Basic constructor. Use this one instead of the UAAL one.
+     * Custom ISListener to be used in the callS() method of the Utility API. It
+     * has access to the client remote node endpoint information.
      * 
-     * @param context
-     *            The uAAL context
-     * @param node
-     *            The client remote node unique identifier
-     * @param remote
-     *            The client remote node endpoint information.
+     * This is called from the single ServiceStrategy thread. This method will
+     * perform network operations, which will take time. Unfortunately it cannot
+     * use a Thread for them because it is a synchronous execution that must
+     * return a response, and it would block anyway.
+     * 
+     * @author alfiva
+     * 
      */
-    public RemoteUAAL(ModuleContext context, String node, String remote) {
-	super(context);
-	remoteID = remote;
-	nodeID=node;
-    }
+    public class MyServiceCallee extends ServiceCallee {
+	protected MyServiceCallee(ModuleContext context,
+		ServiceProfile[] realizedServices) {
+	    super(context, realizedServices);
+	    // TODO Auto-generated constructor stub
+	}
 
-    /**
-     * Get the client remote node endpoint information.
-     * 
-     * @return remote endpoint.
-     */
-    public String getRemoteID() {
-	return remoteID;
-    }
+	/**
+	 * This is called everytime a ServiceCall is addressed to a remote node.
+	 * It will pack the callback message and send it to the client remote
+	 * node endpoint.
+	 * 
+	 * @param call
+	 *            The call to send back to the client
+	 * @return The response that the client will have created
+	 */
+	public ServiceResponse handleCall(ServiceCall call) {
+	    try {
+		List<String> scopes = call.getScopes();
+		ServiceResponse finalresp=new ServiceResponse(CallStatus.succeeded);
+		if(scopes.isEmpty()){
+		    Activator.logE("CListener.handleCall", "No scopes");
+			return new ServiceResponse(CallStatus.denied);
+		}
+		for(String scope:scopes){
+		    if(call.isSerializableTo(scope)){ //MULTITENANT The call is for this scope
+			String procuri=call.getProcessURI();
+			String spuri=procuri.substring(0, procuri.length()-7);//uri-"Process"
+			ServiceResponse partialresp = PushManager.callS(scope, RemoteAPIImpl.scopesToRemotes.get(scope), call, spuri);
+			for(ProcessOutput out:partialresp.getOutputs()){
+			    finalresp.addOutput(out);
+			}
+		    }
+		}
+		return finalresp;
+	    } catch (Exception e) {
+		e.printStackTrace();
+		Activator.logE("CListener.handleCall",
+			"Unable to send the proxied Service Call to the remote node. "
+				+ e.getMessage());
+		return new ServiceResponse(CallStatus.serviceSpecificFailure);
+	    }
+	}
+	
+	public void addMoreProfiles(ServiceProfile[] sp){
+	    this.addNewServiceProfiles(sp);
+	}
 
-    /**
-     * Set the client remote node endpoint information.
-     * 
-     * @param remote
-     *            endpoint.
-     */
-    public void setRemoteID(String remote) {
-	this.remoteID = remote;
+	@Override
+	public void communicationChannelBroken() {
+	    // TODO Auto-generated method stub
+	}
     }
-
-    /**
-     * Use this method to create a Listener to be used in the sendC() method of
-     * the Utility API, instead of creating it ex profeso.
-     * 
-     * @param uri
-     *            The URI of the context event pattern being used for this
-     *            listener
-     * 
-     * @return A ICListener
-     */
-    public ICListener createCListener(String uri) {
-	return new CListener(uri);
-    }
-
-    /**
-     * Use this method to create a Listener to be used in the callS() method of
-     * the Utility API, instead of creating it ex profeso.
-     * 
-     * @param uri
-     *            The URI of the service profile being used for this listener
-     * 
-     * @return A ISListener
-     */
-    public ISListener createSListener(String uri) {
-	return new SListener(uri);
-    }
-
+    
     /**
      * Custom ICListener to be used in the sendC() method of the Utility API. It
      * has access to the client remote node endpoint information.
@@ -196,11 +231,13 @@ public class RemoteUAAL extends UAAL {
      * @author alfiva
      * 
      */
-    public class CListener implements ICListener {
-	private String toURI;
-	protected CListener(String uri){
-	    toURI=uri;
+    public class MyContextSubscriber extends ContextSubscriber {
+	protected MyContextSubscriber(ModuleContext connectingModule,
+		ContextEventPattern[] initialSubscriptions) {
+	    super(connectingModule, initialSubscriptions);
+	    // TODO Auto-generated constructor stub
 	}
+
 	/**
 	 * This is called everytime a ContextEvent is addressed to a remote
 	 * node. It will pack the callback message and send it to the client
@@ -218,9 +255,13 @@ public class RemoteUAAL extends UAAL {
 		    new Thread("RemoteUAAL_CListener") {
 			public void run() {
 			    try {
-				if(event.isSerializableTo(nodeID)){ //MULTITENANT The call is for this scope
-				    PushManager.sendC(nodeID, remoteID, event, toURI);
+				List<String> scopes = event.getScopes();
+				for(String scope:scopes){
+				    if(event.isSerializableTo(scope)){ //MULTITENANT The call is for this scope
+				    PushManager.sendC(scope, RemoteAPIImpl.scopesToRemotes.get(scope), event);
 				} //MULTITENANT The call is NOT for this scope > ignore
+				}
+				
 			    } catch (Exception e) {
 				e.printStackTrace();
 				Activator.logE("CListener.handleContextEvent",
@@ -230,48 +271,14 @@ public class RemoteUAAL extends UAAL {
 			}
 		    });
 	}
-    }
 
-    /**
-     * Custom ISListener to be used in the callS() method of the Utility API. It
-     * has access to the client remote node endpoint information.
-     * 
-     * This is called from the single ServiceStrategy thread. This method will
-     * perform network operations, which will take time. Unfortunately it cannot
-     * use a Thread for them because it is a synchronous execution that must
-     * return a response, and it would block anyway.
-     * 
-     * @author alfiva
-     * 
-     */
-    public class SListener implements ISListener {
-	private String toURI;
-	protected SListener(String uri){
-	    toURI=uri;
+	@Override
+	public void communicationChannelBroken() {
+	    // TODO Auto-generated method stub
 	}
-	/**
-	 * This is called everytime a ServiceCall is addressed to a remote node.
-	 * It will pack the callback message and send it to the client remote
-	 * node endpoint.
-	 * 
-	 * @param call
-	 *            The call to send back to the client
-	 * @return The response that the client will have created
-	 */
-	public ServiceResponse handleCall(ServiceCall call) {
-	    try {
-		if(call.isSerializableTo(nodeID)){ //MULTITENANT The call is for this scope
-		    return PushManager.callS(nodeID, remoteID, call, toURI);
-		}else{ //MULTITENANT The call is NOT for this scope > answer Denied
-		    return new ServiceResponse(CallStatus.denied);
-		}
-	    } catch (Exception e) {
-		e.printStackTrace();
-		Activator.logE("CListener.handleCall",
-			"Unable to send the proxied Service Call to the remote node. "
-				+ e.getMessage());
-		return new ServiceResponse(CallStatus.serviceSpecificFailure);
-	    }
+	
+	public void addMorePatterns(ContextEventPattern[] cp){
+	    this.addNewRegParams(cp);
 	}
-    }//TODO Change UAALutils to use async handleRequest also/instead of handleCall, which will allow threading here
+    }
 }

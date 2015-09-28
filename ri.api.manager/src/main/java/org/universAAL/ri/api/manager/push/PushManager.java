@@ -44,15 +44,14 @@ public class PushManager {
      *            The client remote node endpoint
      * @param event
      *            The serialized Context Event to send
-     * @param toURI 
      */
-    public static void sendC(String nodeid, String remoteid, ContextEvent event, String toURI) throws PushException {
+    public static void sendC(String nodeid, String remoteid, ContextEvent event) throws PushException {
 	switch (Configuration.determineEndpoint(remoteid)) {
 	case RemoteAPI.REMOTE_POST:
-	    PushHTTP.sendC(remoteid, event, toURI);
+	    PushHTTP.sendC(remoteid, event);
 	    break;
 	case RemoteAPI.REMOTE_GCM:
-	    PushGCM.sendC(nodeid, remoteid, event, toURI);
+	    PushGCM.sendC(nodeid, remoteid, event);
 	    break;
 	default:
 	    throw new PushException("Unable to determine protocol of remote endpoint");

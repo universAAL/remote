@@ -176,7 +176,7 @@ public class PushGCM {
 			.getProperty(OutputBinding.PROP_OWLS_BINDING_TO_PARAM);
 		if (in != null) {
 		    build.addData(in.getURI(), call.getInputValue(in.getURI()).toString());
-		    combined.append(in.getURI()).append(in.getURI());
+		    combined.append(in.getURI()).append(call.getInputValue(in.getURI()).toString());
 		}
 	    }
 	}
@@ -200,33 +200,24 @@ public class PushGCM {
 	
 	// First we say we are waiting for a call (timeout response as default)
 	ServiceResponse sr=new ServiceResponse(CallStatus.responseTimedOut);
-	pendingCalls.put(call.getURI()+"@"+nodeid,sr); //For multitenancy, where 1 call can address N nodes
+	String callID=call.getURI()+"@"+nodeid;
+	pendingCalls.put(callID,sr); //For multitenancy, where 1 call can address N nodes
 	//Do it before sending to avoid getting answer before putting the pendingCall
 	
 	Message msg=build.build();
 	send(nodeid, remoteid, msg);
 	
-	long t=System.currentTimeMillis()+30000l;
 	try {
-	    synchronized (pendingCalls) {
-		while (System.currentTimeMillis()<t){
-		    // Wait for servlet to write a non-timeout response for the call
-		    Activator.logD("PushGCM.callS", "WAITING FOR RESPONSE");
-		    pendingCalls.wait(30000);
-		    ServiceResponse srfinal=pendingCalls.get(call.getURI()+"@"+nodeid);
-		    if(!srfinal.getCallStatus().equals(CallStatus.responseTimedOut)){
-			Activator.logD("PushGCM.callS", "GOT RESPONSE");
-			return pendingCalls.remove(call.getURI()+"@"+nodeid);//if so, return it and remove from pending
-		    }
-		    Activator.logD("PushGCM.callS", "NO RESPONSE YET");
-		    //If is still responseTimedOut it means servlet updated other call, not this one. Wait again
-		}
+	    synchronized (sr) {
+		Activator.logD("PushGCM.callS", "WAITING FOR RESPONSE");
+		sr.wait(30000);
+		return pendingCalls.remove(callID);
 	    }
 	} catch (InterruptedException e) {
 	    e.printStackTrace();
-	    pendingCalls.put(call.getURI()+"@"+nodeid, new ServiceResponse(CallStatus.serviceSpecificFailure));
+	    pendingCalls.remove(callID);
+	    return new ServiceResponse(CallStatus.serviceSpecificFailure);
 	}
-	return pendingCalls.remove(call.getURI()+"@"+nodeid);
     }
     
     /**
@@ -307,9 +298,13 @@ public class PushGCM {
 		if (parts.length == 2) {
 		    if (!parts[0].equals(RemoteAPI.KEY_STATUS) && !parts[0].equals(RemoteAPI.KEY_CALL)) {
 			String[] resource = parts[1].split("@", 2);//resource[0]: uri    resource[1]: type
-			if (resource.length != 2)
-			    throw new PushException("Required Outputs are not properly defined. " +
-			    		"They must be in the form instanceURI@typeURI");
+			if (resource.length != 2) {
+			    if (key != null) {
+				notifyResponse(key, new ServiceResponse(CallStatus.serviceSpecificFailure));
+			    }
+			    throw new PushException("Required Outputs are not properly defined. "
+					    + "They must be in the form instanceURI@typeURI");
+			}
 			if(resource[0].startsWith("[")){//Its a list
 			    String[] list=resource[0].replace("[", "").replace("]","").trim().split(",");
 			    ArrayList listouts=new ArrayList(list.length);
@@ -347,32 +342,35 @@ public class PushGCM {
 	    }
 	    br.close();
 	} catch (IOException e) {//Do not send response, it will timeout.
+	    if (key != null) {
+		notifyResponse(key, new ServiceResponse(CallStatus.serviceSpecificFailure));
+	    }
 	    throw new PushException("Unable to read Response message from client"); 
 	}
 	String serialized = strb.toString();
 	if (key==null){ //Do not send response, it will timeout.
 	    throw new PushException("Response message from client does not contain a call identifier"); 
 	}
+	Activator.logD("PushGCM.handleResponse", "SCANNED RESPONSE: "+key);
 	if (serialized.isEmpty()) {
 	    // no serialized response included, rely on the built sr
-	    synchronized (pendingCalls) {
-		if (pendingCalls.containsKey(key)) {
-		    // IF there is a call waiting for this sr, put it in the pending and wake up thread
-		    pendingCalls.put(key, sr);
-		    pendingCalls.notifyAll();
-		}
-	    }
+	    notifyResponse(key, sr);
 	}else{
 	    Object parsedsr = Activator.getParser().deserialize(serialized);
 	    if (parsedsr instanceof ServiceResponse) {
-		Activator.logD("PushGCM.handleResponse", "UPDATING RESPONSE");
-		synchronized (pendingCalls) {
-		    if (pendingCalls.containsKey(key)){
-			//IF there is a call waiting for this sr, put it in the pending and wake up thread
-			pendingCalls.put(key, (ServiceResponse) parsedsr);
-			pendingCalls.notifyAll();
-		    }
-		}
+		notifyResponse(key, (ServiceResponse) parsedsr);
+	    }
+	}
+    }
+    
+    private static void notifyResponse(String key, ServiceResponse sr) {
+	Activator.logD("PushGCM.handleResponse", "NOTIFYING RESPONSE: "+key+", "+sr.getCallStatus().toString());
+	ServiceResponse lock = pendingCalls.get(key);
+	if (lock != null) {
+	    synchronized (lock) {
+		pendingCalls.put(key, sr);
+		Activator.logD("PushGCM.handleResponse", "UPDATING RESPONSE: "+key+", "+sr.getCallStatus().toString());
+		lock.notify();
 	    }
 	}
     }

@@ -81,6 +81,8 @@ public class RemoteServlet extends javax.servlet.http.HttpServlet{
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 	    throws ServletException, IOException {
+	long tst=System.currentTimeMillis();
+	Activator.logD("doPost", "STATS Servicing "+req.toString());
 	resp.setContentType("text/plain");
 	resp.setStatus(HttpServletResponse.SC_ACCEPTED);
 
@@ -104,6 +106,7 @@ public class RemoteServlet extends javax.servlet.http.HttpServlet{
 	    resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 	    resp.sendError(HttpServletResponse.SC_BAD_REQUEST,
 		    "Missing parameter");
+	    Activator.logE("doPost", "STATS failed "+method+" for "+req.toString()+" in "+(System.currentTimeMillis()-tst)+" because Missing parameter");
 	    return;
 	}
 
@@ -111,6 +114,7 @@ public class RemoteServlet extends javax.servlet.http.HttpServlet{
 	    resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 	    resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
 		    "API not available");
+	    Activator.logE("doPost", "STATS failed "+method+" for "+req.toString()+" in "+(System.currentTimeMillis()-tst)+" because API not available");
 	    return;
 	} else {
 	    String servResp = null;
@@ -139,12 +143,14 @@ public class RemoteServlet extends javax.servlet.http.HttpServlet{
 		    resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 		    resp.sendError(HttpServletResponse.SC_BAD_REQUEST,
 			    "No such method");
+		    Activator.logE("doPost", "STATS failed "+method+" for "+req.toString()+" in "+(System.currentTimeMillis()-tst)+" because No such method");
 		    return;
 		}
 	    } catch (Exception e) {
 		resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 		resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
 			e.toString()+"\n"+e.getMessage());
+		Activator.logE("doPost", "STATS failed "+method+" for "+req.toString()+" in "+(System.currentTimeMillis()-tst)+" because "+e);
 		return;
 	    }
 	    resp.setStatus(HttpServletResponse.SC_OK);
@@ -154,6 +160,7 @@ public class RemoteServlet extends javax.servlet.http.HttpServlet{
 		os.print(servResp);
 	    os.flush();
 	    os.close();
+	    Activator.logD("doPost", "STATS Serviced "+method+" for "+req.toString()+" in "+(System.currentTimeMillis()-tst));
 	}
     }
 }

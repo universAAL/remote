@@ -1,0 +1,31 @@
+Remote API Manager
+
+Copyright 2015 ITACA-SABIEN, http://www.tsb.upv.es
+Instituto Tecnologico de Aplicaciones de Comunicacion 
+Avanzadas - Grupo Tecnologias para la Salud y el 
+Bienestar (SABIEN)
+
+I. Included Software
+
+This does not include any software developed by 3rd parties
+
+
+II. Used Software
+
+This product uses software developed at
+The Apache Software Foundation (http://www.apache.org/).
+Licensed under the Apache License 2.0.
+
+This product uses software developed at
+The OPS4J (http://www.ops4j.org)
+Licensed under the Apache License 2.0.
+
+This product uses software developed at
+Google Cloud Messaging for Android (https://code.google.com/p/gcm/)
+Copyright (c) 2012 Google Inc.
+Licensed under the Apache License 2.0.
+
+
+III. License Summary
+- Apache License 2.0
+

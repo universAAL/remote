@@ -22,6 +22,7 @@
 package org.universAAL.ri.rest.manager.wrappers;
 
 import org.universAAL.middleware.container.ModuleContext;
+import org.universAAL.middleware.service.CallStatus;
 import org.universAAL.middleware.service.ServiceCall;
 import org.universAAL.middleware.service.ServiceCallee;
 import org.universAAL.middleware.service.ServiceResponse;
@@ -47,7 +48,7 @@ public class CalleeWrapper extends ServiceCallee{
     @Override
     public ServiceResponse handleCall(ServiceCall call) {
 	// TODO Auto-generated method stub
-	return null;
+	return new ServiceResponse(CallStatus.succeeded);
     }
 
 }

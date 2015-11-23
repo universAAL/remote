@@ -110,12 +110,12 @@ public class Caller {
     }
     
     @POST
-    @Consumes(Activator.TYPES)
-    @Produces(Activator.TYPES)
-    public Response executeCallerCall(String call){
+    @Consumes(Activator.TYPES_TXT)
+    @Produces(Activator.TYPES_TXT)
+    public Response executeCallerCall(@PathParam("id") String id, @PathParam("subid") String subid, String call){
 	SpaceWrapper tenant = UaalWrapper.getInstance().getTenant(id);
 	if(tenant!=null){
-	    CallerWrapper cerwrap = tenant.getServiceCaller(id);
+	    CallerWrapper cerwrap = tenant.getServiceCaller(subid);
 	    if(cerwrap!=null){
 		ServiceRequest sreq=(ServiceRequest) Activator.parser.deserialize(call);
 		if(sreq!=null){

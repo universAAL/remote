@@ -121,15 +121,15 @@ public class Publisher {
     }
 
     @POST
-    @Consumes(Activator.TYPES)
-    public Response executePublisherPublish(String event){
+    @Consumes(Activator.TYPES_TXT)
+    public Response executePublisherPublish(@PathParam("id") String id, @PathParam("subid") String subid, String event){
 	SpaceWrapper tenant = UaalWrapper.getInstance().getTenant(id);
 	if(tenant!=null){
-	    PublisherWrapper pubwrap = tenant.getContextPublisher(id);
+	    PublisherWrapper pubwrap = tenant.getContextPublisher(subid);
 	    if(pubwrap!=null){
 		ContextEvent ev = (ContextEvent) Activator.parser.deserialize(event);
 		if(ev!=null){
-		    tenant.getContextPublisher(id).publish(ev);
+		    pubwrap.publish(ev);
 		    return Response.ok().build();
 		}else{
 		    return Response.status(Status.BAD_REQUEST).build();

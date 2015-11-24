@@ -92,7 +92,7 @@ public class Subscribers {
         if(tenant!=null){
             Enumeration<SubscriberWrapper> subenum = tenant.getContextSubscribers();
             while(subenum.hasMoreElements()){
-        	subs.add(subenum.nextElement().resource);
+        	subs.add(subenum.nextElement().getResource());
             }
         }
 	
@@ -109,11 +109,13 @@ public class Subscribers {
 	sub.setSelf(Link.fromPath("/uaal/spaces/"+id+"/context/subscribers/"+sub.getId()).rel("self").build());
 	SpaceWrapper tenant = UaalWrapper.getInstance().getTenant(id);
 	if(tenant!=null){
-	    if(Activator.parser!=null){
+	    if(Activator.getParser()!=null){
 		if(sub.getPattern()!=null){
-		    ContextEventPattern cep=(ContextEventPattern) Activator.parser.deserialize(sub.getPattern());
+		    ContextEventPattern cep=(ContextEventPattern) Activator.getParser().deserialize(sub.getPattern());
 		    if(cep!=null){
-			tenant.addContextSubscriber(new SubscriberWrapper(Activator.uaalContext, new ContextEventPattern[]{cep}, sub));
+			tenant.addContextSubscriber(new SubscriberWrapper(
+				Activator.getUaalContext(),
+				new ContextEventPattern[] { cep }, sub, id));
 			return Response.created(new URI("uaal/spaces/"+id+"/context/subscribers/"+sub.getId())).build();
 		    }else{
 			return Response.status(Status.BAD_REQUEST).build();

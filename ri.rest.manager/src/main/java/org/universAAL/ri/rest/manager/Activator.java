@@ -32,6 +32,7 @@ import org.osgi.framework.ServiceListener;
 import org.osgi.framework.ServiceReference;
 import org.universAAL.middleware.container.ModuleContext;
 import org.universAAL.middleware.container.osgi.uAALBundleContainer;
+import org.universAAL.middleware.container.utils.LogUtils;
 import org.universAAL.middleware.managers.api.TenantManager;
 import org.universAAL.middleware.serialization.MessageContentSerializerEx;
 import org.universAAL.ri.rest.manager.resources.Uaal;
@@ -39,14 +40,17 @@ import org.universAAL.ri.rest.manager.server.Authenticator;
 import org.universAAL.ri.rest.manager.wrappers.UaalWrapper;
 
 public class Activator implements BundleActivator {
-    public static BundleContext osgiContext = null;
-    public static ModuleContext uaalContext = null;
+    private static BundleContext osgiContext = null;
+    private static ModuleContext uaalContext = null;
+
     private SerializerListener serializerListener;
     private ServiceReference[] referencesSerializer;
-    public static MessageContentSerializerEx parser;
+    private static MessageContentSerializerEx parser;
+
     private TenantListener tenantListener = null;
     private ServiceReference[] tenantRefs;
-    public static TenantManager tenantMngr = null;
+    private static TenantManager tenantMngr = null;
+
     public static final String TYPES="application/json, application/xml;charset=UTF-8;version=1, text/xml;charset=UTF-8;version=1, application/octet-stream";
     public static final String TYPES_TXT="text/plain;charset=UTF-8";
 
@@ -130,4 +134,65 @@ public class Activator implements BundleActivator {
 		}
 	    }
     }
+    
+    public static MessageContentSerializerEx getParser() {
+        return parser;
+    }
+
+    public static TenantManager getTenantMngr() {
+        return tenantMngr;
+    }
+    
+    public static ModuleContext getUaalContext() {
+        return uaalContext;
+    }
+    
+    /**
+     * Helper method to log DEBUG messages
+     * 
+     * @param method
+     *            The method calling to log
+     * @param msg
+     *            The messge to log
+     */
+    public static void logD(String method, String msg){
+	LogUtils.logDebug(uaalContext, Activator.class, method, msg);
+    }
+    
+    /**
+     * Helper method to log INFO messages
+     * 
+     * @param method
+     *            The method calling to log
+     * @param msg
+     *            The messge to log
+     */
+    public static void logI(String method, String msg){
+	LogUtils.logInfo(uaalContext, Activator.class, method, msg);
+    }
+    
+    /**
+     * Helper method to log WARN messages
+     * 
+     * @param method
+     *            The method calling to log
+     * @param msg
+     *            The messge to log
+     */
+    public static void logW(String method, String msg){
+	LogUtils.logWarn(uaalContext, Activator.class, method, msg);
+    }
+    
+    /**
+     * Helper method to log ERROR messages
+     * 
+     * @param method
+     *            The method calling to log
+     * @param msg
+     *            The messge to log
+     */
+    public static void logE(String method, String msg){
+	LogUtils.logError(uaalContext, Activator.class, method, msg);
+    }
+    
 }

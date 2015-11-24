@@ -79,7 +79,7 @@ public class Spaces {
         
         Enumeration<SpaceWrapper> tenants = UaalWrapper.getInstance().getTenants();
         while (tenants.hasMoreElements()){
-            spaces.add(tenants.nextElement().resource);
+            spaces.add(tenants.nextElement().getResource());
         }
         
         /*if(Activator.tenantMngr!=null){
@@ -103,8 +103,8 @@ public class Spaces {
 	space.setContext(Link.fromPath("/uaal/spaces/"+space.getId()+"/context").rel("context").build());
 	space.setService(Link.fromPath("/uaal/spaces/"+space.getId()+"/service").rel("service").build());
 	UaalWrapper.getInstance().addTenant(new SpaceWrapper(space));
-	if(Activator.tenantMngr!=null){
-	    Activator.tenantMngr.registerTenant(space.getId(), "SpaceWrapper created through REST interface");
+	if(Activator.getTenantMngr()!=null){
+	    Activator.getTenantMngr().registerTenant(space.getId(), "SpaceWrapper created through REST interface");
 	}
 	return Response.created(new URI("uaal/spaces/"+space.getId())).build();
     }

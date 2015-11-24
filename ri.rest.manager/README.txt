@@ -28,18 +28,18 @@ Either deploy or install. Step 5 should prevent "Cannot find any registered Http
 ==========THE (INTENDED) REST API==========
 
 http://www.tsb.es/uaal										GET													->	<spaces>
-http://www.tsb.es/uaal/spaces								GET, POST/DELETE <Id>								->	<123,234,345,...>
-http://www.tsb.es/uaal/spaces/123							GET													->	<context,service>
+http://www.tsb.es/uaal/spaces								GET, POST <123>										->	<123,234,345,...>
+http://www.tsb.es/uaal/spaces/123							GET, PUT/DELETE <123>								->	<context,service>
 http://www.tsb.es/uaal/spaces/123/context					GET													->	<publishers,subscribers>
-http://www.tsb.es/uaal/spaces/123/context/publishers		GET, POST/DELETE/PUT <Id,ProviderInfo>				->	<456,567,678,...>
-http://www.tsb.es/uaal/spaces/123/context/publishers/456	GET, POST <ContextEvent>							->	<Id,ProviderInfo>
-http://www.tsb.es/uaal/spaces/123/context/subscribers		GET, POST/DELETE/PUT <Id,Url,ContextEventPattern>	->	<789,890,901,...>
-http://www.tsb.es/uaal/spaces/123/context/subscribers/789	GET, DELETE/PUT <Id,Url,ContextEventPattern>		->	<Id,Url,ContextEventPattern>
+http://www.tsb.es/uaal/spaces/123/context/publishers		GET, POST <456>										->	<456,567,678,...>
+http://www.tsb.es/uaal/spaces/123/context/publishers/456	GET, PUT/DELETE <456>, POST <ContextEvent>			->	<Id,ProviderInfo>
+http://www.tsb.es/uaal/spaces/123/context/subscribers		GET, POST <789>										->	<789,890,901,...>
+http://www.tsb.es/uaal/spaces/123/context/subscribers/789	GET, PUT/DELETE <789>								->	<Id,Url,ContextEventPattern>
 http://www.tsb.es/uaal/spaces/123/service					GET													->	<callers,callees>
-http://www.tsb.es/uaal/spaces/123/service/callers			GET													->	<654,543,432,...>
-http://www.tsb.es/uaal/spaces/123/service/callers/654		GET, POST <ServiceRequest>							->	<ServiceResponse>
-http://www.tsb.es/uaal/spaces/123/service/callees			GET, POST/DELETE/PUT <Id,Url,ServiceProfile>		->	<987,876,765,...>
-http://www.tsb.es/uaal/spaces/123/service/callees/987		GET, DELETE/PUT <Id,Url,ServiceProfile>				->	<Id,Url,ServiceProfile>
+http://www.tsb.es/uaal/spaces/123/service/callers			GET, POST <654>										->	<654,543,432,...>
+http://www.tsb.es/uaal/spaces/123/service/callers/654		GET, PUT/DELETE <654>, POST <ServiceRequest>		->	<Id>, <ServiceResponse>
+http://www.tsb.es/uaal/spaces/123/service/callees			GET, POST <987>										->	<987,876,765,...>
+http://www.tsb.es/uaal/spaces/123/service/callees/987		GET, PUT/DELETE <987>, POST <ServiceResponse>		->	<Id,Url,ServiceProfile>
 
 
 
@@ -230,6 +230,7 @@ SPACE________________________________
 {
   "space": {
     "@id": "23",
+    "callback": "callbackURLorGCMkey",
     "link": [
       {
         "@href": "/uaal/spaces/23",
@@ -252,4 +253,5 @@ SPACE________________________________
     <link href="/uaal/spaces/23" rel="self"/>
     <link href="/uaal/spaces/23/context" rel="context"/>
     <link href="/uaal/spaces/23/service" rel="service"/>
+    <callback>callbackURLorGCMkey</callback>
 </space>

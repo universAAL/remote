@@ -67,6 +67,11 @@
 			</exclusion>
 			</exclusions> -->
 		</dependency>
+		<dependency>
+			<groupId>com.google.android.gcm</groupId>
+			<artifactId>gcm-server</artifactId>
+			<version>1.0.3</version>
+		</dependency>
 	</dependencies>
 	<build>
 		<plugins>

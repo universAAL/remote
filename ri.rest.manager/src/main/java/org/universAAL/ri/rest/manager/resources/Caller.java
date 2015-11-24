@@ -21,10 +21,14 @@
  */
 package org.universAAL.ri.rest.manager.resources;
 
+import java.net.URI;
+import java.net.URISyntaxException;
+
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -93,7 +97,7 @@ public class Caller {
 	if(tenant!=null){
 	    CallerWrapper wrapper = tenant.getServiceCaller(subid);
 	    if(wrapper!=null){
-		return wrapper.resource;
+		return wrapper.getResource();
 	    }
 	}
 	return null;
@@ -117,10 +121,10 @@ public class Caller {
 	if(tenant!=null){
 	    CallerWrapper cerwrap = tenant.getServiceCaller(subid);
 	    if(cerwrap!=null){
-		ServiceRequest sreq=(ServiceRequest) Activator.parser.deserialize(call);
+		ServiceRequest sreq=(ServiceRequest) Activator.getParser().deserialize(call);
 		if(sreq!=null){
 		    ServiceResponse sr = cerwrap.call(sreq);
-		    return Response.ok(Activator.parser.serialize(sr)).build();
+		    return Response.ok(Activator.getParser().serialize(sr)).build();
 		}else{
 		    return Response.status(Status.BAD_REQUEST).build();
 		}
@@ -129,6 +133,37 @@ public class Caller {
 	    }
 	}else{
 	    return Response.status(Status.NOT_FOUND).build();
+	}
+    }
+    
+    @PUT
+    @Consumes(Activator.TYPES)
+    public Response putCallerResource(@PathParam("id") String id, @PathParam("subid") String subid, Caller cer) throws URISyntaxException{
+	//The cer generated from the PUT body does not contain any "link" elements, but I wouldnt have allowed it anyway
+	if (subid.equals(cer.id)) {// Do not allow changes to id
+	    SpaceWrapper tenant = UaalWrapper.getInstance().getTenant(id);
+	    if (tenant != null) {
+		if(Activator.getParser()!=null){
+		    CallerWrapper original = tenant.getServiceCaller(subid);
+		    if (original != null) {//Can only change existing ones
+			cer.setSelf(Link.fromPath("/uaal/spaces/"+id+"/service/callees/"+cer.getId()).rel("self").build());
+			original.setResource(cer);
+			if(tenant.updateServiceCaller(original)){
+			    return Response.created(new URI("uaal/spaces/"+id+"/service/callees/"+cer.getId())).build();
+			}else{
+			    return Response.notModified().build();
+			}
+		    } else {
+			return Response.status(Status.NOT_FOUND).build();
+		    }
+		}else{
+		    return Response.serverError().build();
+		}
+	    } else {
+		return Response.status(Status.NOT_FOUND).build();
+	    }
+	} else {
+	    return Response.notModified().build();
 	}
     }
 

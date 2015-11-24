@@ -21,10 +21,14 @@
  */
 package org.universAAL.ri.rest.manager.resources;
 
+import java.net.URI;
+import java.net.URISyntaxException;
+
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -40,6 +44,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import org.universAAL.middleware.context.ContextEvent;
+import org.universAAL.middleware.context.owl.ContextProvider;
 import org.universAAL.ri.rest.manager.Activator;
 import org.universAAL.ri.rest.manager.wrappers.UaalWrapper;
 import org.universAAL.ri.rest.manager.wrappers.PublisherWrapper;
@@ -104,7 +109,7 @@ public class Publisher {
 	if(tenant!=null){
 	    PublisherWrapper wrapper = tenant.getContextPublisher(subid);
 	    if(wrapper!=null){
-		return wrapper.resource;
+		return wrapper.getResource();
 	    }
 	}
 	return null;
@@ -127,7 +132,7 @@ public class Publisher {
 	if(tenant!=null){
 	    PublisherWrapper pubwrap = tenant.getContextPublisher(subid);
 	    if(pubwrap!=null){
-		ContextEvent ev = (ContextEvent) Activator.parser.deserialize(event);
+		ContextEvent ev = (ContextEvent) Activator.getParser().deserialize(event);
 		if(ev!=null){
 		    pubwrap.publish(ev);
 		    return Response.ok().build();
@@ -139,6 +144,47 @@ public class Publisher {
 	    }
 	}else{
 	    return Response.status(Status.NOT_FOUND).build();
+	}
+    }
+    
+    @PUT
+    @Consumes(Activator.TYPES)
+    public Response putPublisherResource(@PathParam("id") String id, @PathParam("subid") String subid, Publisher pub) throws URISyntaxException{
+	//The pub generated from the PUT body does not contain any "link" elements, but I wouldnt have allowed it anyway
+	if (subid.equals(pub.id)) {// Do not allow changes to id
+	    SpaceWrapper tenant = UaalWrapper.getInstance().getTenant(id);
+	    if (tenant != null) {
+		if(Activator.getParser()!=null){
+		    if (pub.getProviderinfo() != null) {
+			ContextProvider cp = (ContextProvider) Activator
+				.getParser().deserialize(pub.getProviderinfo());
+			if (cp != null) { //Just check that it is OK
+			    PublisherWrapper original = tenant.getContextPublisher(subid);
+			    if (original != null) {//Can only change existing ones
+				pub.setSelf(Link.fromPath("/uaal/spaces/"+id+"/service/callees/"+pub.getId()).rel("self").build());
+				original.setResource(pub);
+				if(tenant.updateContextPublisher(original)){
+				    return Response.created(new URI("uaal/spaces/"+id+"/service/callees/"+pub.getId())).build();
+				}else{
+				    return Response.notModified().build();
+				}
+			    } else {
+				return Response.status(Status.NOT_FOUND).build();
+			    }
+			} else {
+			    return Response.status(Status.BAD_REQUEST).build();
+			}
+		    } else {
+			return Response.status(Status.BAD_REQUEST).build();
+		    }
+		}else{
+		    return Response.serverError().build();
+		}
+	    } else {
+		return Response.status(Status.NOT_FOUND).build();
+	    }
+	} else {
+	    return Response.notModified().build();
 	}
     }
     

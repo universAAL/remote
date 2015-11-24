@@ -43,13 +43,28 @@ public class UaalWrapper {
     }
     
     public void addTenant(SpaceWrapper t){
-	tenants.put(t.resource.getId(), t);
+	tenants.put(t.getResource().getId(), t);
     }
     
     public void removeTenant(String id){
 	SpaceWrapper t = tenants.remove(id);
 	if(t!=null){
 	    t.close();
+	}
+    }
+    
+    public boolean updateTenant(SpaceWrapper t) {
+	try {
+	    SpaceWrapper original = tenants.remove(t.getResource().getId());
+	    if (original != null) {
+		tenants.put(t.getResource().getId(), t);
+		return true;
+	    } else {
+		return false;
+	    }
+	} catch (Exception e) {
+	    e.printStackTrace();
+	    return false;
 	}
     }
     

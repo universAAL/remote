@@ -92,7 +92,7 @@ public class Callees {
         if(tenant!=null){
             Enumeration<CalleeWrapper> calleeenum = tenant.getServiceCallees();
             while(calleeenum.hasMoreElements()){
-        	cees.add(calleeenum.nextElement().resource);
+        	cees.add(calleeenum.nextElement().getResource());
             }
         }
 
@@ -109,11 +109,13 @@ public class Callees {
 	cee.setSelf(Link.fromPath("/uaal/spaces/"+id+"/service/callees/"+cee.getId()).rel("self").build());
 	SpaceWrapper tenant = UaalWrapper.getInstance().getTenant(id);
 	if(tenant!=null){
-	    if(Activator.parser!=null){
+	    if(Activator.getParser()!=null){
 		if(cee.getProfile()!=null){
-		    ServiceProfile sp=(ServiceProfile) Activator.parser.deserialize(cee.getProfile());
+		    ServiceProfile sp=(ServiceProfile) Activator.getParser().deserialize(cee.getProfile());
 		    if(sp!=null){
-			tenant.addServiceCallee(new CalleeWrapper(Activator.uaalContext, new ServiceProfile[]{sp}, cee));
+			tenant.addServiceCallee(new CalleeWrapper(Activator
+				.getUaalContext(), new ServiceProfile[] { sp },
+				cee, id));
 			return Response.created(new URI("uaal/spaces/"+id+"/service/callees/"+cee.getId())).build();
 		    }else{
 			return Response.status(Status.BAD_REQUEST).build();

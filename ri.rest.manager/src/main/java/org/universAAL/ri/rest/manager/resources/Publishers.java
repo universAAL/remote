@@ -92,7 +92,7 @@ public class Publishers {
         if(tenant!=null){
             Enumeration<PublisherWrapper> pubenum = tenant.getContextPublishers();
             while(pubenum.hasMoreElements()){
-        	pubs.add(pubenum.nextElement().resource);
+        	pubs.add(pubenum.nextElement().getResource());
             }
         }
 	
@@ -109,11 +109,11 @@ public class Publishers {
 	pub.setSelf(Link.fromPath("/uaal/spaces/"+id+"/context/publishers/"+pub.getId()).rel("self").build());
 	SpaceWrapper tenant = UaalWrapper.getInstance().getTenant(id);
 	if(tenant!=null){
-	    if(Activator.parser!=null){
+	    if(Activator.getParser()!=null){
 		if (pub.getProviderinfo()!=null){
-		    ContextProvider cp=(ContextProvider) Activator.parser.deserialize(pub.getProviderinfo());
+		    ContextProvider cp=(ContextProvider) Activator.getParser().deserialize(pub.getProviderinfo());
 		    if(cp!=null){
-			tenant.addContextPublisher(new PublisherWrapper(Activator.uaalContext, cp, pub));
+			tenant.addContextPublisher(new PublisherWrapper(Activator.getUaalContext(), cp, pub));
 			return Response.created(new URI("uaal/spaces/"+id+"/context/publishers/"+pub.getId())).build();
 		    }else{
 			return Response.status(Status.BAD_REQUEST).build();

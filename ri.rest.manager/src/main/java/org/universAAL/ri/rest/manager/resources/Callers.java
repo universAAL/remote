@@ -91,7 +91,7 @@ public class Callers {
         if(tenant!=null){
             Enumeration<CallerWrapper> callerenum = tenant.getServiceCallers();
             while(callerenum.hasMoreElements()){
-        	cers.add(callerenum.nextElement().resource);
+        	cers.add(callerenum.nextElement().getResource());
             }
         }
         
@@ -108,7 +108,7 @@ public class Callers {
 	cer.setSelf(Link.fromPath("/uaal/spaces/"+id+"/service/callers/"+cer.getId()).rel("self").build());
 	SpaceWrapper tenant = UaalWrapper.getInstance().getTenant(id);
         if(tenant!=null){
-            tenant.addServiceCaller(new CallerWrapper(Activator.uaalContext, cer));
+            tenant.addServiceCaller(new CallerWrapper(Activator.getUaalContext(), cer));
             return Response.created(new URI("uaal/spaces/"+id+"/service/callers/"+cer.getId())).build();
         }else{
 	    return Response.status(Status.NOT_FOUND).build();

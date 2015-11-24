@@ -25,16 +25,30 @@ import org.universAAL.middleware.container.ModuleContext;
 import org.universAAL.middleware.context.ContextEvent;
 import org.universAAL.middleware.context.ContextEventPattern;
 import org.universAAL.middleware.context.ContextSubscriber;
+import org.universAAL.middleware.service.CallStatus;
+import org.universAAL.middleware.service.ServiceResponse;
+import org.universAAL.ri.rest.manager.push.PushException;
+import org.universAAL.ri.rest.manager.push.PushManager;
 import org.universAAL.ri.rest.manager.resources.Subscriber;
 
 public class SubscriberWrapper extends ContextSubscriber{
     
-    public Subscriber resource;
+    private Subscriber resource;
+    private String tenant;
+
+    public Subscriber getResource() {
+        return resource;
+    }
+
+    public void setResource(Subscriber resource) {
+        this.resource = resource;
+    }
 
     public SubscriberWrapper(ModuleContext connectingModule,
-	    ContextEventPattern[] initialSubscriptions, Subscriber r) {
+	    ContextEventPattern[] initialSubscriptions, Subscriber r, String t) {
 	super(connectingModule, initialSubscriptions);
 	resource=r;
+	tenant=t;
     }
 
     @Override
@@ -45,8 +59,24 @@ public class SubscriberWrapper extends ContextSubscriber{
 
     @Override
     public void handleContextEvent(ContextEvent event) {
-	// TODO Auto-generated method stub
-	
+	try {
+	    String callback=resource.getCallback();
+	    if(callback==null || callback.isEmpty()){
+		//Use generic callback of the tenant
+		SpaceWrapper t = UaalWrapper.getInstance().getTenant(tenant);
+		if(t!=null){
+		    callback=t.getResource().getCallback();
+		    if(callback==null){
+			return;
+		    }
+		}
+	    }
+	    
+	    PushManager.pushContextEvent(callback, resource.getId(), event);
+	} catch (PushException e) {
+	    // TODO Auto-generated catch block
+	    e.printStackTrace();
+	}
     }
 
 }

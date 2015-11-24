@@ -28,7 +28,15 @@ import org.universAAL.ri.rest.manager.resources.Space;
 
 public class SpaceWrapper {
     
-    public Space resource;
+    private Space resource;
+    
+    public Space getResource() {
+        return resource;
+    }
+
+    public void setResource(Space resource) {
+        this.resource = resource;
+    }
 
     private ConcurrentHashMap<String, PublisherWrapper> publishers = new ConcurrentHashMap<String, PublisherWrapper>();
     private ConcurrentHashMap<String, SubscriberWrapper> subscribers = new ConcurrentHashMap<String, SubscriberWrapper>();
@@ -72,19 +80,19 @@ public class SpaceWrapper {
     }
 
     public void addContextPublisher(PublisherWrapper w) {
-	publishers.put(w.resource.getId(), w);
+	publishers.put(w.getResource().getId(), w);
     }
 
     public void addContextSubscriber(SubscriberWrapper w) {
-	subscribers.put(w.resource.getId(), w);
+	subscribers.put(w.getResource().getId(), w);
     }
 
     public void addServiceCallee(CalleeWrapper w) {
-	callees.put(w.resource.getId(), w);
+	callees.put(w.getResource().getId(), w);
     }
 
     public void addServiceCaller(CallerWrapper w) {
-	callers.put(w.resource.getId(), w);
+	callers.put(w.getResource().getId(), w);
     }
 
     public void removeContextPublisher(String id) {
@@ -112,6 +120,66 @@ public class SpaceWrapper {
 	CallerWrapper w = callers.remove(id);
 	if(w!=null){
 	    w.close();
+	}
+    }
+    
+    public boolean updateContextPublisher(PublisherWrapper w){
+	try {
+	    PublisherWrapper original = publishers.remove(w.getResource().getId());
+	    if (original != null) {
+		publishers.put(w.getResource().getId(), w);
+		return true;
+	    } else {
+		return false;
+	    }
+	} catch (Exception e) {
+	    e.printStackTrace();
+	    return false;
+	}
+    }
+    
+    public boolean updateContextSubscriber(SubscriberWrapper w){
+	try {
+	    SubscriberWrapper original = subscribers.remove(w.getResource().getId());
+	    if (original != null) {
+		subscribers.put(w.getResource().getId(), w);
+		return true;
+	    } else {
+		return false;
+	    }
+	} catch (Exception e) {
+	    e.printStackTrace();
+	    return false;
+	}
+    }
+    
+    public boolean updateServiceCallee(CalleeWrapper w){
+	try {
+	    CalleeWrapper original = callees.remove(w.getResource().getId());
+	    if (original != null) {
+		callees.put(w.getResource().getId(), w);
+		return true;
+	    } else {
+		return false;
+	    }
+	} catch (Exception e) {
+	    e.printStackTrace();
+	    return false;
+	}
+    }
+    
+    public boolean updateServiceCaller(CallerWrapper w){
+	try {
+	    CallerWrapper original = callers.remove(w.getResource().getId());
+	    if (original != null) {
+		callers.put(w.getResource().getId(), w);
+		return true;
+	    } else {
+		return false;
+	    }
+	} catch (Exception e) {
+	    e.printStackTrace();
+	    return false;
 	}
     }
     

@@ -28,7 +28,15 @@ import org.universAAL.ri.rest.manager.resources.Publisher;
 
 public class PublisherWrapper extends ContextPublisher{
     
-    public Publisher resource;
+    private Publisher resource;
+
+    public Publisher getResource() {
+        return resource;
+    }
+
+    public void setResource(Publisher resource) {
+        this.resource = resource;
+    }
 
     public PublisherWrapper(ModuleContext context,
 	    ContextProvider providerInfo, Publisher r) {

@@ -21,8 +21,13 @@
  */
 package org.universAAL.ri.rest.manager.resources;
 
+import java.net.URI;
+import java.net.URISyntaxException;
+
+import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -37,6 +42,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
+import org.universAAL.middleware.context.ContextEventPattern;
 import org.universAAL.ri.rest.manager.Activator;
 import org.universAAL.ri.rest.manager.wrappers.UaalWrapper;
 import org.universAAL.ri.rest.manager.wrappers.SubscriberWrapper;
@@ -114,7 +120,7 @@ public class Subscriber {
 	if(tenant!=null){
 	    SubscriberWrapper wrapper = tenant.getContextSubscriber(subid);
 	    if(wrapper!=null){
-		return wrapper.resource;
+		return wrapper.getResource();
 	    }
 	}
 	return null;
@@ -128,6 +134,47 @@ public class Subscriber {
 	    return Response.ok().build();//.nocontent?
 	}
 	return Response.status(Status.NOT_FOUND).build();
+    }
+    
+    @PUT
+    @Consumes(Activator.TYPES)
+    public Response putCalleeResource(@PathParam("id") String id, @PathParam("subid") String subid, Subscriber sub) throws URISyntaxException{
+	//The sub generated from the PUT body does not contain any "link" elements, but I wouldnt have allowed it anyway
+	if (subid.equals(sub.id)) {// Do not allow changes to id
+	    SpaceWrapper tenant = UaalWrapper.getInstance().getTenant(id);
+	    if (tenant != null) {
+		if(Activator.getParser()!=null){
+		    if (sub.getPattern() != null) {
+			ContextEventPattern cep = (ContextEventPattern) Activator
+				.getParser().deserialize(sub.getPattern());
+			if (cep != null) { //Just check that they are OK
+			    SubscriberWrapper original = tenant.getContextSubscriber(subid);
+			    if (original != null) {//Can only change existing ones
+				sub.setSelf(Link.fromPath("/uaal/spaces/"+id+"/service/callees/"+sub.getId()).rel("self").build());
+				original.setResource(sub);
+				if(tenant.updateContextSubscriber(original)){
+				    return Response.created(new URI("uaal/spaces/"+id+"/service/callees/"+sub.getId())).build();
+				}else{
+				    return Response.notModified().build();
+				}
+			    } else {
+				return Response.status(Status.NOT_FOUND).build();
+			    }
+			} else {
+			    return Response.status(Status.BAD_REQUEST).build();
+			}
+		    } else {
+			return Response.status(Status.BAD_REQUEST).build();
+		    }
+		}else{
+		    return Response.serverError().build();
+		}
+	    } else {
+		return Response.status(Status.NOT_FOUND).build();
+	    }
+	} else {
+	    return Response.notModified().build();
+	}
     }
 
 }

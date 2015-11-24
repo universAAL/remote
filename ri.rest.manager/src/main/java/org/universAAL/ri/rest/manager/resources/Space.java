@@ -21,13 +21,19 @@
  */
 package org.universAAL.ri.rest.manager.resources;
 
+import java.net.URI;
+import java.net.URISyntaxException;
+
+import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Link;
 import javax.ws.rs.core.Link.JaxbAdapter;
+import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.Response;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -37,6 +43,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import org.universAAL.ri.rest.manager.Activator;
+import org.universAAL.ri.rest.manager.wrappers.SpaceWrapper;
 import org.universAAL.ri.rest.manager.wrappers.UaalWrapper;
 
 @XmlAccessorType(XmlAccessType.NONE)
@@ -59,6 +66,9 @@ public class Space {
     @XmlElement(name = "link")
     @XmlJavaTypeAdapter(JaxbAdapter.class)
     private Link service;
+    
+    @XmlElement(name = "callback")
+    private String callback;
 
     public Link getSelf() {
 	return self;
@@ -91,13 +101,22 @@ public class Space {
     public void setId(String id) {
 	this.id = id;
     }
+    
+    public String getCallback() {
+        return callback;
+    }
+
+    public void setCallback(String callback) {
+        this.callback = callback;
+    }
 
     public Space() {
 
     }
 
-    public Space(String id) {
+    public Space(String id, String callback) {
 	this.id = id;
+	this.callback = callback;
 	setSelf(Link.fromPath("/uaal/spaces/"+id).rel("self").build());
 	setContext(Link.fromPath("/uaal/spaces/"+id+"/context").rel("context").build());
 	setService(Link.fromPath("/uaal/spaces/"+id+"/service").rel("service").build());
@@ -108,17 +127,46 @@ public class Space {
     @GET		// GET localhost:9000/uaal/spaces/123      (Redirected from Spaces class)
     @Produces(Activator.TYPES)
     public Space getSpaceResource(@PathParam("id") String id){
-	Space space=new Space(id);
-	return space;
+	SpaceWrapper tenant = UaalWrapper.getInstance().getTenant(id);
+	if(tenant!=null){
+	    return tenant.getResource();
+	}else{
+	    return null;
+	}
     }
     
     @DELETE		// DEL localhost:9000/uaal/spaces/123
     public Response deleteSpaceResource(){
-	if(Activator.tenantMngr!=null){
-	    Activator.tenantMngr.unregisterTenant(this.id);
+	if(Activator.getTenantMngr()!=null){
+	    Activator.getTenantMngr().unregisterTenant(this.id);
 	}
 	UaalWrapper.getInstance().removeTenant(id);
 	return Response.ok().build();//.nocontent?
+    }
+    
+    @PUT	// PUT localhost:9000/uaal/spaces/123      <Body: Space>
+    @Consumes(Activator.TYPES)
+    public Response putSpaceResource(@PathParam("id") String id, Space space) throws URISyntaxException {
+	if (id.equals(space.id)) {//Do not allow changes to id
+	    SpaceWrapper original = UaalWrapper.getInstance().getTenant(id);
+	    if (original != null) {//Can only change existing ones
+		// The space generated from the PUT body does not contain any "link"
+		space.setSelf(Link.fromPath("/uaal/spaces/" + space.getId()).rel("self").build());
+		space.setContext(Link.fromPath("/uaal/spaces/" + space.getId() + "/context").rel("context").build());
+		space.setService(Link.fromPath("/uaal/spaces/" + space.getId() + "/service").rel("service").build());
+		// Reuse the original to keep the wrappers it already has
+		original.setResource(space);
+		if(UaalWrapper.getInstance().updateTenant(original)){
+		    return Response.created(new URI("uaal/spaces/" + space.getId())).build();
+		}else{
+		    return Response.notModified().build();
+		}
+	    } else {
+		return Response.status(Status.NOT_FOUND).build();
+	    }
+	} else {
+	    return Response.notModified().build();
+	}
     }
     
     @Path("/context")	// GET localhost:9000/uaal/spaces/123/context     (Redirects to Context class)

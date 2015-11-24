@@ -28,7 +28,15 @@ import org.universAAL.ri.rest.manager.resources.Caller;
 
 public class CallerWrapper extends ServiceCaller{
     
-    public Caller resource;
+    private Caller resource;
+
+    public Caller getResource() {
+        return resource;
+    }
+
+    public void setResource(Caller resource) {
+        this.resource = resource;
+    }
 
     public CallerWrapper(ModuleContext context, Caller r) {
 	super(context);

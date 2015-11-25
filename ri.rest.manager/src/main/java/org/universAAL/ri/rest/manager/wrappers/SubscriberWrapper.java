@@ -25,8 +25,6 @@ import org.universAAL.middleware.container.ModuleContext;
 import org.universAAL.middleware.context.ContextEvent;
 import org.universAAL.middleware.context.ContextEventPattern;
 import org.universAAL.middleware.context.ContextSubscriber;
-import org.universAAL.middleware.service.CallStatus;
-import org.universAAL.middleware.service.ServiceResponse;
 import org.universAAL.ri.rest.manager.push.PushException;
 import org.universAAL.ri.rest.manager.push.PushManager;
 import org.universAAL.ri.rest.manager.resources.Subscriber;

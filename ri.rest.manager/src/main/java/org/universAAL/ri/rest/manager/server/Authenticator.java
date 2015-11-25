@@ -21,6 +21,8 @@
  */
 package org.universAAL.ri.rest.manager.server;
 
+import java.util.Hashtable;
+
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerRequestFilter;
 import javax.ws.rs.core.Response;
@@ -28,8 +30,19 @@ import javax.ws.rs.core.Response;
 import org.apache.cxf.configuration.security.AuthorizationPolicy;
 import org.apache.cxf.jaxrs.utils.JAXRSUtils;
 import org.apache.cxf.message.Message;
+import org.universAAL.ri.rest.manager.Activator;
 
 public class Authenticator implements ContainerRequestFilter {
+    
+    /**
+     * Authentication realm
+     */
+    private static final String REALM = "universAAL";
+    /**
+     * In memory list of user-pwd pairs, to avoid constant use of the DB
+     */
+    private static Hashtable<String, String> users = new Hashtable<String, String>(); //TODO Clean from time to time?
+    
     public void filter(ContainerRequestContext context) {
 	Message m = JAXRSUtils.getCurrentMessage();
 	AuthorizationPolicy policy = (AuthorizationPolicy) m.get(AuthorizationPolicy.class);
@@ -37,7 +50,7 @@ public class Authenticator implements ContainerRequestFilter {
 	    String username = policy.getUserName();
 	    String password = policy.getPassword();
 	    if (isAuthenticated(username, password)) {
-		// let request to continue
+		// let request continue
 		return;
 		// TODO initialize org.apache.cxf.security.SecurityContext with
 		// Principals representing the user and its roles (if
@@ -47,13 +60,36 @@ public class Authenticator implements ContainerRequestFilter {
 	// else > authentication failed or is not present,
 	// request the authentication, add the realm
 	// name if needed to the value of WWW-Authenticate
-	Response resp = Response.status(401).header("WWW-Authenticate", "Basic").build();
+	Response resp = Response.status(401).header("WWW-Authenticate", "Basic realm=\"" + REALM + "\"").build();
 	context.abortWith(resp);
 	// ClassResourceInfo cri = m.getExchange().get(OperationResourceInfo.class).getClassResourceInfo();
     }
 
     private boolean isAuthenticated(String username, String password) {
-	// TODO Auto-generated method stub
-	return (username.equals("usr") && password.equals("pwd"));
+	String storedpass = users.get(username);
+	if (storedpass != null) {
+	    // user already in the memory list
+	    return storedpass.equals(password);
+	} else {
+	    // user not in the memory list, check DB
+	    if (Activator.getPersistence().checkUser(username)) {
+		// user in the DB
+		if (Activator.getPersistence().checkUserPWD(username, password)) {
+		    // good pwd
+		    users.put(username, password);
+		    return true;
+		} else {
+		    // This user does not have the same PWD it registered.
+		    // Impostor!
+		    return false;
+		}
+	    } else {
+		// user not in DB
+		Activator.getPersistence().storeUserPWD(username, password);
+		users.put(username, password);
+		return true;
+		// New users are always welcome
+	    }
+	}
     }
 }

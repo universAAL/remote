@@ -108,6 +108,7 @@ public class Caller {
 	SpaceWrapper tenant = UaalWrapper.getInstance().getTenant(id);
 	if(tenant!=null){
 	    tenant.removeServiceCaller(subid);
+	    Activator.getPersistence().removeCaller(id, subid);
 	    return Response.ok().build();//.nocontent?
 	}
 	return Response.status(Status.NOT_FOUND).build();
@@ -149,6 +150,7 @@ public class Caller {
 			cer.setSelf(Link.fromPath("/uaal/spaces/"+id+"/service/callees/"+cer.getId()).rel("self").build());
 			original.setResource(cer);
 			if(tenant.updateServiceCaller(original)){
+			    Activator.getPersistence().storeCaller(id, cer);
 			    return Response.created(new URI("uaal/spaces/"+id+"/service/callees/"+cer.getId())).build();
 			}else{
 			    return Response.notModified().build();

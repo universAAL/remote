@@ -109,6 +109,7 @@ public class Callers {
 	SpaceWrapper tenant = UaalWrapper.getInstance().getTenant(id);
         if(tenant!=null){
             tenant.addServiceCaller(new CallerWrapper(Activator.getUaalContext(), cer));
+            Activator.getPersistence().storeCaller(id, cer);
             return Response.created(new URI("uaal/spaces/"+id+"/service/callers/"+cer.getId())).build();
         }else{
 	    return Response.status(Status.NOT_FOUND).build();

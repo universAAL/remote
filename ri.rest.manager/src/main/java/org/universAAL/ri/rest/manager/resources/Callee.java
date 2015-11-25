@@ -132,6 +132,7 @@ public class Callee {
 	SpaceWrapper tenant = UaalWrapper.getInstance().getTenant(id);
 	if(tenant!=null){
 	    tenant.removeServiceCallee(subid);
+	    Activator.getPersistence().removeCallee(id, subid);
 	    return Response.ok().build();//.nocontent?
 	}
 	return Response.status(Status.NOT_FOUND).build();
@@ -176,6 +177,7 @@ public class Callee {
 				cee.setSelf(Link.fromPath("/uaal/spaces/"+id+"/service/callees/"+cee.getId()).rel("self").build());
 				original.setResource(cee);
 				if(tenant.updateServiceCallee(original)){
+				    Activator.getPersistence().storeCallee(id, cee);
 				    return Response.created(new URI("uaal/spaces/"+id+"/service/callees/"+cee.getId())).build();
 				}else{
 				    return Response.notModified().build();

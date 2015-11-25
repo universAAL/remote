@@ -131,6 +131,7 @@ public class Subscriber {
 	SpaceWrapper tenant = UaalWrapper.getInstance().getTenant(id);
 	if(tenant!=null){
 	    tenant.removeContextSubscriber(subid);
+	    Activator.getPersistence().removeSubscriber(id, subid);
 	    return Response.ok().build();//.nocontent?
 	}
 	return Response.status(Status.NOT_FOUND).build();
@@ -153,6 +154,7 @@ public class Subscriber {
 				sub.setSelf(Link.fromPath("/uaal/spaces/"+id+"/service/callees/"+sub.getId()).rel("self").build());
 				original.setResource(sub);
 				if(tenant.updateContextSubscriber(original)){
+				    Activator.getPersistence().storeSubscriber(id, sub);
 				    return Response.created(new URI("uaal/spaces/"+id+"/service/callees/"+sub.getId())).build();
 				}else{
 				    return Response.notModified().build();

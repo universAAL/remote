@@ -37,11 +37,14 @@ import org.universAAL.middleware.managers.api.TenantManager;
 import org.universAAL.middleware.serialization.MessageContentSerializerEx;
 import org.universAAL.ri.rest.manager.resources.Uaal;
 import org.universAAL.ri.rest.manager.server.Authenticator;
+import org.universAAL.ri.rest.manager.server.Configuration;
+import org.universAAL.ri.rest.manager.server.persistence.Persistence;
 import org.universAAL.ri.rest.manager.wrappers.UaalWrapper;
 
 public class Activator implements BundleActivator {
     private static BundleContext osgiContext = null;
     private static ModuleContext uaalContext = null;
+    private static Persistence persistence;
 
     private SerializerListener serializerListener;
     private ServiceReference[] referencesSerializer;
@@ -77,6 +80,21 @@ public class Activator implements BundleActivator {
 	for (int i = 0; referencesSerializer != null && i < referencesSerializer.length; i++) {
 	    serializerListener.serviceChanged(new ServiceEvent(ServiceEvent.REGISTERED,
 		    referencesSerializer[i]));
+	}
+	
+	//Instance persistence DB and before it is public in servlet
+	try{
+	    persistence = (Persistence) Class.forName(Configuration.getDBClass())
+		    .getConstructor(new Class[] {}).newInstance(new Object[] {});
+	    persistence.init();
+	    persistence.restore();
+	} catch (RuntimeException ex){
+	    ex.printStackTrace();
+	} catch (Exception e) {
+	    String cause = "The store passed in org.universAAL.ri.rest.manager.db.class"
+		    + " is not a valid implementation of "
+		    + "org.universAAL.context.che.database.Backend";
+	    logE("start", cause);
 	}
 
 	// Start REST servlet
@@ -145,6 +163,10 @@ public class Activator implements BundleActivator {
     
     public static ModuleContext getUaalContext() {
         return uaalContext;
+    }
+    
+    public static Persistence getPersistence() {
+	return persistence;
     }
     
     /**

@@ -120,6 +120,7 @@ public class Publisher {
 	SpaceWrapper tenant = UaalWrapper.getInstance().getTenant(id);
 	if(tenant!=null){
 	    tenant.removeContextPublisher(subid);
+	    Activator.getPersistence().removePublisher(id, subid);
 	    return Response.ok().build();//.nocontent?
 	}
 	return Response.status(Status.NOT_FOUND).build();
@@ -164,6 +165,7 @@ public class Publisher {
 				pub.setSelf(Link.fromPath("/uaal/spaces/"+id+"/service/callees/"+pub.getId()).rel("self").build());
 				original.setResource(pub);
 				if(tenant.updateContextPublisher(original)){
+				    Activator.getPersistence().storePublisher(id, pub);
 				    return Response.created(new URI("uaal/spaces/"+id+"/service/callees/"+pub.getId())).build();
 				}else{
 				    return Response.notModified().build();

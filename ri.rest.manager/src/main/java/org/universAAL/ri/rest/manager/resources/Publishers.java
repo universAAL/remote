@@ -114,6 +114,7 @@ public class Publishers {
 		    ContextProvider cp=(ContextProvider) Activator.getParser().deserialize(pub.getProviderinfo());
 		    if(cp!=null){
 			tenant.addContextPublisher(new PublisherWrapper(Activator.getUaalContext(), cp, pub));
+			Activator.getPersistence().storePublisher(id, pub);
 			return Response.created(new URI("uaal/spaces/"+id+"/context/publishers/"+pub.getId())).build();
 		    }else{
 			return Response.status(Status.BAD_REQUEST).build();

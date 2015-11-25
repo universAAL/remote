@@ -45,30 +45,30 @@ public class Configuration {
 //     * Configuration suffix for log debug
 //     */
 //    private static final String CONF_LOG_DBG = "debug.log";
-//    /**
-//     * Configuration suffix for derby path
-//     */
-//    private static final String CONF_DB_PTH = "db.path";
-//    /**
-//     * Configuration suffix for derby auto removal
-//     */
-//    private static final String CONF_DB_REM = "db.remove";
-//    /**
-//     * Configuration suffix for derby encryption key
-//     */
-//    private static final String CONF_DB_KEY = "db.cryptokey";
-//    /**
-//     * Configuration suffix for derby user
-//     */
-//    private static final String CONF_DB_USR = "db.user";
-//    /**
-//     * Configuration suffix for derby password
-//     */
-//    private static final String CONF_DB_PWD = "db.pass";
-//    /**
-//     * Configuration suffix for database implementation class
-//     */
-//    private static final String CONF_DB_CLASS = "db.class";
+    /**
+     * Configuration suffix for derby path
+     */
+    private static final String CONF_DB_PTH = "db.path";
+    /**
+     * Configuration suffix for derby auto removal
+     */
+    private static final String CONF_DB_REM = "db.remove";
+    /**
+     * Configuration suffix for derby encryption key
+     */
+    private static final String CONF_DB_KEY = "db.cryptokey";
+    /**
+     * Configuration suffix for derby user
+     */
+    private static final String CONF_DB_USR = "db.user";
+    /**
+     * Configuration suffix for derby password
+     */
+    private static final String CONF_DB_PWD = "db.pass";
+    /**
+     * Configuration suffix for database implementation class
+     */
+    private static final String CONF_DB_CLASS = "db.class";
 //    /**
 //     * Configuration suffix for servlet context path
 //     */
@@ -123,26 +123,26 @@ public class Configuration {
 //		"true");
 //    }
 //
-//    /**
-//     * Get the path where the folder containing the Derby DB will be
-//     * read/created. Only used if using Derby DB persistence (default).
-//     * 
-//     * @return Path to folder of the DB
-//     */
-//    public static String getDerbyPath() {
-//	return System.getProperty(pkgNameDot + CONF_DB_PTH, "/RAPIPersistence");
-//    }
-//
-//    /**
-//     * Get the value, in milliseconds, of time at which removal of older stored
-//     * data will be removed. Only for Derby DB Persistence.
-//     * 
-//     * @return Minimum age, in milliseconds, at which the data will be removed
-//     *         (data older than this will be removed)
-//     */
-//    public static Long getRemovalTime() {
-//	return Long.getLong(pkgNameDot + CONF_DB_REM, -1l);
-//    }
+    /**
+     * Get the path where the folder containing the Derby DB will be
+     * read/created. Only used if using Derby DB persistence (default).
+     * 
+     * @return Path to folder of the DB
+     */
+    public static String getDerbyPath() {
+	return System.getProperty(pkgNameDot + CONF_DB_PTH, "/RAPIPersistence");
+    }
+
+    /**
+     * Get the value, in milliseconds, of time at which removal of older stored
+     * data will be removed. Only for Derby DB Persistence.
+     * 
+     * @return Minimum age, in milliseconds, at which the data will be removed
+     *         (data older than this will be removed)
+     */
+    public static Long getRemovalTime() {
+	return Long.getLong(pkgNameDot + CONF_DB_REM, -1l);
+    }
 //
 //    /**
 //     * Get the context path part of the URL to be used as "alias" when
@@ -186,20 +186,20 @@ public class Configuration {
     public static String getServerPWD() {
 	return System.getProperty(pkgNameDot + CONF_SERV_PWD, "RemoteAPI");
     }
-//
-//    public static String getDerbyKey() {
-//	return System.getProperty(pkgNameDot + CONF_DB_KEY, "R1e2m3o4t5e6A7P8I9");
-//    }
-//
-//    public static String getDerbyUser() {
-//	return System.getProperty(pkgNameDot + CONF_DB_USR);
-//    }
-//
-//    public static String getDerbyPass() {
-//	return System.getProperty(pkgNameDot + CONF_DB_PWD);
-//    }
-//
-//    public static String getDBClass() {
-//	return System.getProperty(pkgNameDot + CONF_DB_CLASS, "org.universAAL.ri.api.manager.server.persistence.PersistenceDerby");
-//    }
+
+    public static String getDerbyKey() {
+	return System.getProperty(pkgNameDot + CONF_DB_KEY, "R1e2m3o4t5e6A7P8I9");
+    }
+
+    public static String getDerbyUser() {
+	return System.getProperty(pkgNameDot + CONF_DB_USR);
+    }
+
+    public static String getDerbyPass() {
+	return System.getProperty(pkgNameDot + CONF_DB_PWD);
+    }
+
+    public static String getDBClass() {
+	return System.getProperty(pkgNameDot + CONF_DB_CLASS, "org.universAAL.ri.api.manager.server.persistence.PersistenceDerby");
+    }
 }

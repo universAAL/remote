@@ -141,6 +141,7 @@ public class Space {
 	    Activator.getTenantMngr().unregisterTenant(this.id);
 	}
 	UaalWrapper.getInstance().removeTenant(id);
+	Activator.getPersistence().removeSpace(id);
 	return Response.ok().build();//.nocontent?
     }
     
@@ -157,6 +158,7 @@ public class Space {
 		// Reuse the original to keep the wrappers it already has
 		original.setResource(space);
 		if(UaalWrapper.getInstance().updateTenant(original)){
+		    Activator.getPersistence().storeSpace(space, (String)null);
 		    return Response.created(new URI("uaal/spaces/" + space.getId())).build();
 		}else{
 		    return Response.notModified().build();

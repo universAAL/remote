@@ -116,6 +116,7 @@ public class Subscribers {
 			tenant.addContextSubscriber(new SubscriberWrapper(
 				Activator.getUaalContext(),
 				new ContextEventPattern[] { cep }, sub, id));
+			Activator.getPersistence().storeSubscriber(id, sub);
 			return Response.created(new URI("uaal/spaces/"+id+"/context/subscribers/"+sub.getId())).build();
 		    }else{
 			return Response.status(Status.BAD_REQUEST).build();

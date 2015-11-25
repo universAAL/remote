@@ -106,6 +106,7 @@ public class Spaces {
 	if(Activator.getTenantMngr()!=null){
 	    Activator.getTenantMngr().registerTenant(space.getId(), "SpaceWrapper created through REST interface");
 	}
+	Activator.getPersistence().storeSpace(space, (String)null);
 	return Response.created(new URI("uaal/spaces/"+space.getId())).build();
     }
     

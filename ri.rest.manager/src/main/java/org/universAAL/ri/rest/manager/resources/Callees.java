@@ -116,6 +116,7 @@ public class Callees {
 			tenant.addServiceCallee(new CalleeWrapper(Activator
 				.getUaalContext(), new ServiceProfile[] { sp },
 				cee, id));
+			Activator.getPersistence().storeCallee(id, cee);
 			return Response.created(new URI("uaal/spaces/"+id+"/service/callees/"+cee.getId())).build();
 		    }else{
 			return Response.status(Status.BAD_REQUEST).build();

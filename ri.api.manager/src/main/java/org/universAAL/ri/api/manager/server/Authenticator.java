@@ -31,6 +31,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.osgi.service.http.HttpContext;
 import org.universAAL.ri.api.manager.Activator;
+import org.universAAL.ri.api.manager.RemoteAPI;
 
 /**
  * Implementatino of OSGi HttpContext to be used by the Servlet. It is used only
@@ -63,7 +64,9 @@ public class Authenticator implements HttpContext{
 
 	if (authHeader != null) {
 	    String[] userPass = getUserAndPass(authHeader);
-	    if (authenticate(userPass[0],userPass[1])) {
+	    if (authenticate(userPass[0], userPass[1],
+		    RemoteAPI.METHOD_REGISTER.equals(req
+			    .getParameter(RemoteAPI.KEY_METHOD)))) {
 		req.setAttribute(HttpContext.AUTHENTICATION_TYPE, "Basic");
 		req.setAttribute(HttpContext.REMOTE_USER, userPass[0]);
 		return true;
@@ -78,21 +81,25 @@ public class Authenticator implements HttpContext{
     }
 
     /**
-     * Method that checks the proper authentication of a user-pwd pair.
+     * Method that checks the proper authentication of a user-pwd pair. User-PWD
+     * are kept in memory to avoid abusing the DB. If the pair is not there, it
+     * is checked against the DB. If the user is not present, it is stored with
+     * the PWD. If the request is a REGISTER, the in-memory pairs are ignored,
+     * in case the PWD has been changed externally in the DB and needs to be
+     * re-checked.
      * 
      * @param user
      *            User
      * @param pass
      *            Password
+     * @param isregister
+     *            If the request is attempting to do a REGISTER
      * @return true if authentication is correct and no errors occured
      */
-    private boolean authenticate(String user, String pass) {
+    private boolean authenticate(String user, String pass, boolean isregister) {
 	String storedpass = users.get(user);
-	if (storedpass != null) {
-	    // user already in the memory list
-	    return storedpass.equals(pass);
-	} else {
-	    // user not in the memory list, check DB
+	if (isregister || storedpass==null){
+	    // user not in the memory list or logging in for 1st time, check DB
 	    if (Activator.getPersistence().checkUser(user)) {
 		// user in the DB
 		if (Activator.getPersistence().checkUserPWD(user, pass)) {
@@ -111,6 +118,9 @@ public class Authenticator implements HttpContext{
 		return true;
 		// New users are always welcome
 	    }
+	}else{
+	 // user already in the memory list and not attempting to register for 1st time
+	    return storedpass.equals(pass);
 	}
     }
 

@@ -130,7 +130,7 @@ public class Configuration {
      * @return Path to folder of the DB
      */
     public static String getDerbyPath() {
-	return System.getProperty(pkgNameDot + CONF_DB_PTH, "/RAPIPersistence");
+	return System.getProperty(pkgNameDot + CONF_DB_PTH, "/RESTPersistence");
     }
 
     /**

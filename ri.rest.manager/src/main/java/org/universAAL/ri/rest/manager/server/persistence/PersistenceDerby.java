@@ -56,12 +56,12 @@ public class PersistenceDerby implements Persistence {
 
     private static final String DB_MAIN = "RESTDB";
     private static final String DB_PWDS = "PWDRESTDB";
-    private static final String T_SPACES = DB_MAIN+".spaces";
-    private static final String T_CALLEES = DB_MAIN+".callees";
-    private static final String T_CALLERS = DB_MAIN+".callers";
-    private static final String T_SUBSCRIBERS = DB_MAIN+".subscribers";
-    private static final String T_PUBLISHERS = DB_MAIN+".publishers";
-    private static final String T_PWDS = DB_PWDS+".pwds";
+    private static final String T_SPACES = DB_MAIN+".SPACES";
+    private static final String T_CALLEES = DB_MAIN+".CALLEES";
+    private static final String T_CALLERS = DB_MAIN+".CALLERS";
+    private static final String T_SUBSCRIBERS = DB_MAIN+".SUBSCRIBERS";
+    private static final String T_PUBLISHERS = DB_MAIN+".PUBLISHERS";
+    private static final String T_PWDS = DB_PWDS+".PWDS";
 
     private String dbURL;
     
@@ -86,10 +86,10 @@ public class PersistenceDerby implements Persistence {
 	    stmt.setQueryTimeout(30);
 
 	    String execSpace = "CREATE TABLE " + T_SPACES+" ( id varchar(512) NOT NULL , callback varchar(512), tstmp timestamp, version varchar(25), PRIMARY KEY (id) )";
-	    String execSub = "CREATE TABLE " + T_SUBSCRIBERS + " ( id varchar(512) NOT NULL, subid varchar(512) NOT NULL, serial varchar(5120) NOT NULL, callback varchar(512), tstmp timestamp, PRIMARY KEY (id,subid), CONSTRAINT subid_fk FOREIGN KEY (id) REFERENCES "+ T_SPACES +"(id))";
-	    String execPub = "CREATE TABLE " + T_PUBLISHERS + " ( id varchar(512) NOT NULL, subid varchar(512) NOT NULL, serial varchar(5120) NOT NULL, tstmp timestamp, PRIMARY KEY (id,subid), CONSTRAINT subid_fk FOREIGN KEY (id) REFERENCES "+ T_SPACES +"(id))";
-	    String execCee = "CREATE TABLE " + T_CALLEES + " ( id varchar(512) NOT NULL, subid varchar(512) NOT NULL, serial varchar(5120) NOT NULL, callback varchar(512), tstmp timestamp, PRIMARY KEY (id,subid), CONSTRAINT subid_fk FOREIGN KEY (id) REFERENCES "+ T_SPACES +"(id))";
-	    String execCer = "CREATE TABLE " + T_CALLERS + " ( id varchar(512) NOT NULL, subid varchar(512) NOT NULL, tstmp timestamp, PRIMARY KEY (id,subid), CONSTRAINT subid_fk FOREIGN KEY (id) REFERENCES "+ T_SPACES +"(id))";
+	    String execSub = "CREATE TABLE " + T_SUBSCRIBERS + " ( id varchar(512) NOT NULL, subid varchar(512) NOT NULL, serial varchar(5120) NOT NULL, callback varchar(512), tstmp timestamp, PRIMARY KEY (id,subid), CONSTRAINT sub_fk FOREIGN KEY (id) REFERENCES "+ T_SPACES +"(id))";
+	    String execPub = "CREATE TABLE " + T_PUBLISHERS + " ( id varchar(512) NOT NULL, subid varchar(512) NOT NULL, serial varchar(5120) NOT NULL, tstmp timestamp, PRIMARY KEY (id,subid), CONSTRAINT pub_fk FOREIGN KEY (id) REFERENCES "+ T_SPACES +"(id))";
+	    String execCee = "CREATE TABLE " + T_CALLEES + " ( id varchar(512) NOT NULL, subid varchar(512) NOT NULL, serial varchar(5120) NOT NULL, callback varchar(512), tstmp timestamp, PRIMARY KEY (id,subid), CONSTRAINT cee_fk FOREIGN KEY (id) REFERENCES "+ T_SPACES +"(id))";
+	    String execCer = "CREATE TABLE " + T_CALLERS + " ( id varchar(512) NOT NULL, subid varchar(512) NOT NULL, tstmp timestamp, PRIMARY KEY (id,subid), CONSTRAINT cer_fk FOREIGN KEY (id) REFERENCES "+ T_SPACES +"(id))";
 	    String execPwd = "CREATE TABLE " + T_PWDS + " ( id varchar(512) PRIMARY KEY NOT NULL, pwd  varchar(100) )";
 
 	    // create tables. Put individual try/catch to ignore already created. I dont trust addBatch.
@@ -97,7 +97,7 @@ public class PersistenceDerby implements Persistence {
 		stmt.executeUpdate(execSpace);
 	    } catch (SQLException e) {
 		if (e.getSQLState().equals("X0Y32")) {
-		    Activator.logI("PersistenceDerby.init", "Database already exists");
+		    Activator.logI("PersistenceDerby.init", "Database already exists, spaces");
 		}else{
 		    Activator.logE("PersistenceDerby.init", "Error creating database, spaces");
 		    e.printStackTrace();
@@ -107,7 +107,7 @@ public class PersistenceDerby implements Persistence {
 		stmt.executeUpdate(execSub);
 	    } catch (SQLException e) {
 		if (e.getSQLState().equals("X0Y32")) {
-		    Activator.logI("PersistenceDerby.init", "Database already exists");
+		    Activator.logI("PersistenceDerby.init", "Database already exists, subscribers");
 		}else{
 		    Activator.logE("PersistenceDerby.init", "Error creating database, subscribers");
 		    e.printStackTrace();
@@ -117,7 +117,7 @@ public class PersistenceDerby implements Persistence {
 		stmt.executeUpdate(execPub);
 	    } catch (SQLException e) {
 		if (e.getSQLState().equals("X0Y32")) {
-		    Activator.logI("PersistenceDerby.init", "Database already exists");
+		    Activator.logI("PersistenceDerby.init", "Database already exists, publishers");
 		}else{
 		    Activator.logE("PersistenceDerby.init", "Error creating database, publishers");
 		    e.printStackTrace();
@@ -127,7 +127,7 @@ public class PersistenceDerby implements Persistence {
 		stmt.executeUpdate(execCee);
 	    } catch (SQLException e) {
 		if (e.getSQLState().equals("X0Y32")) {
-		    Activator.logI("PersistenceDerby.init", "Database already exists");
+		    Activator.logI("PersistenceDerby.init", "Database already exists, callees");
 		}else{
 		    Activator.logE("PersistenceDerby.init", "Error creating database, callees");
 		    e.printStackTrace();
@@ -137,7 +137,7 @@ public class PersistenceDerby implements Persistence {
 		stmt.executeUpdate(execCer);
 	    } catch (SQLException e) {
 		if (e.getSQLState().equals("X0Y32")) {
-		    Activator.logI("PersistenceDerby.init", "Database already exists");
+		    Activator.logI("PersistenceDerby.init", "Database already exists, callers");
 		}else{
 		    Activator.logE("PersistenceDerby.init", "Error creating database, callers");
 		    e.printStackTrace();
@@ -147,7 +147,7 @@ public class PersistenceDerby implements Persistence {
 		stmt.executeUpdate(execPwd);
 	    } catch (SQLException e) {
 		if (e.getSQLState().equals("X0Y32")) {
-		    Activator.logI("PersistenceDerby.init", "Database already exists");
+		    Activator.logI("PersistenceDerby.init", "Database already exists, pwds");
 		}else{
 		    Activator.logE("PersistenceDerby.init", "Error creating database, pwds");
 		    e.printStackTrace();
@@ -174,7 +174,7 @@ public class PersistenceDerby implements Persistence {
 	removeOlderThan(Configuration.getRemovalTime());// -1 : Disabled
     }
 
-    public void storeSpace(Space s, String... v) {
+    public void storeSpace(Space s, String v) {
 	Timestamp t = new Timestamp(System.currentTimeMillis());
 	String storeREGISTERS;
 	if (checkIdExists(s.getId(),T_SPACES)) {

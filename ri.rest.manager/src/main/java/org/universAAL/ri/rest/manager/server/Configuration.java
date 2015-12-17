@@ -180,11 +180,11 @@ public class Configuration {
 //    }
 //
     public static String getServerUSR() {
-	return System.getProperty(pkgNameDot + CONF_SERV_USR, "RemoteAPI");
+	return System.getProperty(pkgNameDot + CONF_SERV_USR, "RESTAPI");
     }
 
     public static String getServerPWD() {
-	return System.getProperty(pkgNameDot + CONF_SERV_PWD, "RemoteAPI");
+	return System.getProperty(pkgNameDot + CONF_SERV_PWD, "RESTAPI");
     }
 
     public static String getDerbyKey() {
@@ -200,6 +200,6 @@ public class Configuration {
     }
 
     public static String getDBClass() {
-	return System.getProperty(pkgNameDot + CONF_DB_CLASS, "org.universAAL.ri.api.manager.server.persistence.PersistenceDerby");
+	return System.getProperty(pkgNameDot + CONF_DB_CLASS, "org.universAAL.ri.rest.manager.server.persistence.PersistenceDerby");
     }
 }

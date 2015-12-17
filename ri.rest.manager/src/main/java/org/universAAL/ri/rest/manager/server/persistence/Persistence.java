@@ -48,7 +48,7 @@ public interface Persistence {
 
     public void init();
 
-    public void storeSpace(Space s, String... v);
+    public void storeSpace(Space s, String v);
 
     public void removeSpace(String id);
 

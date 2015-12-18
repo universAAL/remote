@@ -22,14 +22,20 @@
 package org.universAAL.ri.rest.manager.server;
 
 import java.util.Hashtable;
+//import java.util.List;
 
+//import javax.security.auth.Subject;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerRequestFilter;
+//import javax.ws.rs.core.PathSegment;
 import javax.ws.rs.core.Response;
 
+//import org.apache.cxf.common.security.SimplePrincipal;
 import org.apache.cxf.configuration.security.AuthorizationPolicy;
+//import org.apache.cxf.interceptor.security.DefaultSecurityContext;
 import org.apache.cxf.jaxrs.utils.JAXRSUtils;
 import org.apache.cxf.message.Message;
+//import org.apache.cxf.security.SecurityContext;
 import org.universAAL.ri.rest.manager.Activator;
 
 public class Authenticator implements ContainerRequestFilter {
@@ -49,12 +55,12 @@ public class Authenticator implements ContainerRequestFilter {
 	if (policy != null) {
 	    String username = policy.getUserName();
 	    String password = policy.getPassword();
-	    if (isAuthenticated(username, password)) {
+	    if (isAuthenticated(username, password) && isAuthorized(username, context.getUriInfo().getPath())) {
+		// initialize org.apache.cxf.security.SecurityContext with
+		// Principals representing the user and its roles (if available).
+		// m.put(SecurityContext.class, new DefaultSecurityContext(new SimplePrincipal(username), new Subject())); 
 		// let request continue
 		return;
-		// TODO initialize org.apache.cxf.security.SecurityContext with
-		// Principals representing the user and its roles (if
-		// available).
 	    }
 	}
 	// else > authentication failed or is not present,
@@ -66,30 +72,38 @@ public class Authenticator implements ContainerRequestFilter {
     }
 
     private boolean isAuthenticated(String username, String password) {
-	String storedpass = users.get(username);
-	if (storedpass != null) {
-	    // user already in the memory list
-	    return storedpass.equals(password);
-	} else {
-	    // user not in the memory list, check DB
-	    if (Activator.getPersistence().checkUser(username)) {
-		// user in the DB
-		if (Activator.getPersistence().checkUserPWD(username, password)) {
-		    // good pwd
-		    users.put(username, password);
-		    return true;
-		} else {
-		    // This user does not have the same PWD it registered.
-		    // Impostor!
-		    return false;
-		}
-	    } else {
-		// user not in DB
-		Activator.getPersistence().storeUserPWD(username, password);
+	// TODO Evaluate if it is worth it to have an in-memory user-pass list
+	// to ease the pressure on the DB, if that means implementing additional
+	// managing features to keep it sync with the DB.
+	if (Activator.getPersistence().checkUser(username)) {
+	    // user in the DB
+	    if (Activator.getPersistence().checkUserPWD(username, password)) {
+		// good pwd
 		users.put(username, password);
 		return true;
-		// New users are always welcome
+	    } else {
+		// This user does not have the same PWD it registered.
+		return false;
 	    }
+	} else {
+	    // user not in DB
+	    Activator.getPersistence().storeUserPWD(username, password);
+	    users.put(username, password);
+	    return true;
+	    // New users are always welcome
 	}
     }
+    
+    private boolean isAuthorized(String username, String p) {
+	//TODO Rough authorization strategy. Only allow access to space if you created it.
+//	List<PathSegment> s = JAXRSUtils.getPathSegments(p, false);
+//	if(s.size()>2){ // /uaal and /uaal/spaces for everyone TODO ??
+//	    PathSegment segment = s.get(2);
+//	    String space=segment.toString();
+//	    return Activator.getPersistence().checkUserSpace(username, space));
+//	}
+	//TODO Use native mechanisms for authorization
+	return true;
+    }
+
 }

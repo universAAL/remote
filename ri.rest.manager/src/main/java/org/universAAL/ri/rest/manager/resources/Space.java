@@ -35,6 +35,7 @@ import javax.ws.rs.core.Link;
 import javax.ws.rs.core.Link.JaxbAdapter;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.Response;
+//import javax.ws.rs.core.SecurityContext;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
@@ -126,7 +127,7 @@ public class Space {
     
     @GET		// GET localhost:9000/uaal/spaces/123      (Redirected from Spaces class)
     @Produces(Activator.TYPES)
-    public Space getSpaceResource(@PathParam("id") String id){
+    public Space getSpaceResource(@PathParam("id") String id/*, @javax.ws.rs.core.Context SecurityContext ctxt*/){
 	SpaceWrapper tenant = UaalWrapper.getInstance().getTenant(id);
 	if(tenant!=null){
 	    return tenant.getResource();

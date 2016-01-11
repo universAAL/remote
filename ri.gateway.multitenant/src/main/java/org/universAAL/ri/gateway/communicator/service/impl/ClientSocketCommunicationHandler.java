@@ -145,9 +145,9 @@ public class ClientSocketCommunicationHandler extends
                         }
                         currentLinkHandler.run();
                         creator.setStatus(SessionEvent.SessionStatus.CONNECTING);
-                        log.debug("Link is down, so we are goging to try again in a "
+                        log.debug("Link is down, so we are goging to try again in "
                                 + ClientSocketCommunicationHandler.RECONNECT_WAITING_TIME
-                                + "ms");
+                                + " ms");
                     } catch (final Exception e) {
                         creator.setStatus(SessionEvent.SessionStatus.CONNECTING);
                         log.error(

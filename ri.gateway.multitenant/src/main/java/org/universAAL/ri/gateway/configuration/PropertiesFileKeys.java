@@ -57,11 +57,6 @@ public interface PropertiesFileKeys {
     String SECURITY_DEFINITION = "security-definition-file";
 
     /**
-     * Alias' prefix under which the HTTP servlet will be registered.
-     */
-    String ALIAS_PREFIX = "gateway-communicator";
-
-    /**
      * The Key for encryption.
      */
     String HASH_KEY = "hash-key";

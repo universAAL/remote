@@ -38,6 +38,7 @@ import org.universAAL.middleware.container.ModuleContext;
 import org.universAAL.middleware.container.osgi.uAALBundleContainer;
 import org.universAAL.middleware.container.utils.LogUtils;
 import org.universAAL.middleware.serialization.MessageContentSerializerEx;
+import org.universAAL.ri.api.manager.push.CryptUtil;
 import org.universAAL.ri.api.manager.server.Authenticator;
 import org.universAAL.ri.api.manager.server.RemoteServlet;
 import org.universAAL.ri.api.manager.server.persistence.Persistence;
@@ -62,6 +63,11 @@ public class Activator implements BundleActivator {
      * authenticator as opposed to using a web container.
      */
     private static boolean hard = Configuration.getHardcoded();
+    /**
+     * Identifies if an encryption key has been setup and therefore encryption
+     * is enabled for communication with GCM.
+     */
+    private static boolean crypt = Configuration.getGCMCrypt() != null;
     /**
      * Singleton instance of the actual RemoteAPI
      */
@@ -124,6 +130,9 @@ public class Activator implements BundleActivator {
 	    serializerListener.serviceChanged(new ServiceEvent(ServiceEvent.REGISTERED,
 		    referencesSerializer[i]));
 	}
+	
+	// Initialize encryption if enabled
+	if (crypt) CryptUtil.init(Configuration.getGCMCrypt());
 	
 	//Instance the API impl before DB is ready (it wont be called yet) then the servlet, then the DB
 	remoteAPI=new RemoteAPIImpl(uaalContext);
@@ -371,6 +380,16 @@ public class Activator implements BundleActivator {
      */
     public static boolean isHardcoded() {
 	return hard;
+    }
+    
+    /**
+     * Identifies if an encryption key has been setup and therefore encryption
+     * is enabled for communication with GCM.
+     * 
+     * @return true if encryption is enabled.
+     */
+    public static boolean isGCMEncrypted() {
+	return crypt;
     }
     
     /**

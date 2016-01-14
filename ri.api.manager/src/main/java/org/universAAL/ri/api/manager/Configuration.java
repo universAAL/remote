@@ -45,6 +45,10 @@ public class Configuration {
      */
     private static final String CONF_GCM_DRY = "gcm.dry";
     /**
+     * Configuration suffix for GCM encryption
+     */
+    private static final String CONF_GCM_CRP = "gcm.crypt";
+    /**
      * Configuration suffix for log debug
      */
     private static final String CONF_LOG_DBG = "debug.log";
@@ -139,6 +143,15 @@ public class Configuration {
     public static boolean getGCMDry() {
 	return System.getProperty(pkgNameDot + CONF_GCM_DRY, "false")
 		.equals("true");
+    }
+    
+    /**
+     * Get encryption key for messages sent through GCM.
+     * 
+     * @return The path to the key to use for encryption, or null if encryption is disabled
+     */
+    public static String getGCMCrypt() {
+	return System.getProperty(pkgNameDot + CONF_GCM_CRP);
     }
 
     /**

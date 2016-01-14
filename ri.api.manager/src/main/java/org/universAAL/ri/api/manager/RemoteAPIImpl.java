@@ -34,6 +34,7 @@ import org.universAAL.middleware.service.ServiceResponse;
 import org.universAAL.middleware.service.owls.process.ProcessOutput;
 import org.universAAL.middleware.service.owls.profile.ServiceProfile;
 import org.universAAL.ri.api.manager.exceptions.APIImplException;
+import org.universAAL.ri.api.manager.push.CryptUtil;
 
 /**
  * Implementation of the RemoteAPI interface.
@@ -67,18 +68,32 @@ public class RemoteAPIImpl implements RemoteAPI {
     /* (non-Javadoc)
      * @see org.universAAL.ri.api.manager.RemoteAPI#register(java.lang.String, java.lang.String)
      */
-    public void register(String id, String remote) throws APIImplException{
+    public String register(String id, String remote) throws Exception{
+	String key=null;
 	if(Configuration.getLogDebug()){
 	    Activator.logI("RemoteAPIImpl.register()", "Received call from remote node > REGISTER, sender: "+id);
 	}
-	if (Configuration.determineEndpoint(remote) == RemoteAPI.REMOTE_UNKNOWN){ // No POST nor GCM
+	int type = Configuration.determineEndpoint(remote);
+	if (type == RemoteAPI.REMOTE_UNKNOWN){ // No POST nor GCM
 	    throw new APIImplException("Unable to determine protocol of remote endpoint");
 	}
-	if(nodes.containsKey(id)){
-	    ((RemoteUAAL)nodes.get(id)).setRemoteID(remote);
-	}else{
-	    nodes.put(id, new RemoteUAAL(context,id,remote));
+	if (nodes.containsKey(id)) {
+	    if (type == RemoteAPI.REMOTE_GCM && Activator.isGCMEncrypted()) {
+		String originalKey = ((RemoteUAAL) nodes.get(id)).getKey();
+		if (originalKey != null) {
+		    key = originalKey; //If it has one, dont generate again
+		} else {
+		    key = CryptUtil.generateClientKey(id);
+		}
+	    }
+	    ((RemoteUAAL) nodes.get(id)).setRemoteID(remote, key);
+	} else {
+	    if (type == RemoteAPI.REMOTE_GCM && Activator.isGCMEncrypted()) {
+		key = CryptUtil.generateClientKey(id);
+	    }
+	    nodes.put(id, new RemoteUAAL(context, id, remote, key));
 	}
+	return key;
     }
 
     /* (non-Javadoc)
@@ -248,6 +263,15 @@ public class RemoteAPIImpl implements RemoteAPI {
 	    } else {
 		Activator.logE("RemoteAPIImpl.unregisterAll()", "No instance for this ID");
 	    }
+	}
+    }
+
+    public String getCryptKey(String id) {
+	if(nodes.containsKey(id)){
+	    RemoteUAAL node=(RemoteUAAL)nodes.get(id);
+	    return node.getKey();
+	}else{
+	    return null;
 	}
     }
 }

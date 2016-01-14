@@ -119,7 +119,7 @@ public class ArtifactIT extends IntegrationTest {
 	// register
 	try {
 	    api.register(ID, REMOTE);
-	} catch (APIImplException e) {
+	} catch (Exception e) {
 	    Assert.fail("Failed REGISTER "+e.toString());
 	}
 	// send c and correct
@@ -145,7 +145,7 @@ public class ArtifactIT extends IntegrationTest {
 	// register (for next tests)
 	try {
 	    api.register(ID, REMOTE);
-	} catch (APIImplException e) {
+	} catch (Exception e) {
 	    Assert.fail("Failed REGISTER "+e.toString());
 	}
     //}

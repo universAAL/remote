@@ -62,6 +62,12 @@ public class RemoteUAAL extends UAAL {
     private String nodeID;
     
     /**
+     * Encryption key used to encrypt messages sent via GCM. If this remote node
+     * does not use GCM for callbakcs, it will be null.
+     */
+    private String key;
+    
+    /**
      * These lists contain the URIs of CEPs and SProfiles registered so far.
      * They are used to disallow registration of the same CEP/Profile more than
      * once (which may happen with unreliable clients that dont unregister).
@@ -136,11 +142,14 @@ public class RemoteUAAL extends UAAL {
      *            The client remote node unique identifier
      * @param remote
      *            The client remote node endpoint information.
+     * @param key
+     *            encryption key to use for GCM, or null if it does not apply
      */
-    public RemoteUAAL(ModuleContext context, String node, String remote) {
+    public RemoteUAAL(ModuleContext context, String node, String remote, String key) {
 	super(context);
 	remoteID = remote;
 	nodeID=node;
+	this.key=key;
     }
 
     /**
@@ -151,15 +160,27 @@ public class RemoteUAAL extends UAAL {
     public String getRemoteID() {
 	return remoteID;
     }
+    
+    /**
+     * Get the client remote node encryption key to use for GCM
+     * 
+     * @return encryption key to use for GCM, or null if it does not apply
+     */
+    public String getKey() {
+	return key;
+    }
 
     /**
      * Set the client remote node endpoint information.
      * 
      * @param remote
      *            endpoint.
+     * @param key
+     *            encryption key to use for GCM, or null if it does not apply
      */
-    public void setRemoteID(String remote) {
+    public void setRemoteID(String remote, String key) {
 	this.remoteID = remote;
+	this.key=key;
     }
 
     /**

@@ -117,10 +117,10 @@ public class RemoteServlet extends javax.servlet.http.HttpServlet{
 	    Activator.logE("doPost", "STATS failed "+method+" for "+req.toString()+" in "+(System.currentTimeMillis()-tst)+" because API not available");
 	    return;
 	} else {
-	    String servResp = null;
+	    String body = null;
 	    try {
 		if (RemoteAPI.METHOD_REGISTER.equals(method)) {
-		    remoteAPI.register(user, param);
+		    body = remoteAPI.register(user, param);
 		    Activator.getPersistence().storeRegister(user, param, version);
 		} else if (RemoteAPI.METHOD_SENDC.equals(method)) {
 		    remoteAPI.sendC(user, param);
@@ -129,7 +129,7 @@ public class RemoteServlet extends javax.servlet.http.HttpServlet{
 		    remoteAPI.subscribeC(user, param);
 		    if(!added)Activator.getPersistence().storeSubscriber(user, param);
 		} else if (RemoteAPI.METHOD_CALLS.equals(method)) {
-		    servResp = remoteAPI.callS(user, param);
+		    body = remoteAPI.callS(user, param);
 		} else if (RemoteAPI.METHOD_PROVIDES.equals(method)) {
 		    boolean added=((RemoteAPIImpl)remoteAPI).isProfileAdded(user, param);
 		    remoteAPI.provideS(user, param);
@@ -156,8 +156,8 @@ public class RemoteServlet extends javax.servlet.http.HttpServlet{
 	    resp.setStatus(HttpServletResponse.SC_OK);
 	    resp.setCharacterEncoding("UTF-8");
 	    PrintWriter os = resp.getWriter();
-	    if (servResp != null)
-		os.print(servResp);
+	    if (body != null)
+		os.print(body);
 	    os.flush();
 	    os.close();
 	    Activator.logD("doPost", "STATS Serviced "+method+" for "+req.toString()+" in "+(System.currentTimeMillis()-tst));

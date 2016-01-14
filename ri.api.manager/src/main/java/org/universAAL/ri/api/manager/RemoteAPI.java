@@ -115,11 +115,13 @@ public interface RemoteAPI {
      * @param remote
      *            Identifies the client endpoint where the push responses and
      *            callbacks will be sent by the server
+     * @return The encryption key used to encrypt GCM messages, or null if this
+     *         does not apply
      * @throws Exception
      *             If any problem arose during the registration and it was not
      *             successful
      */
-    void register(String id, String remote) throws Exception;
+    String register(String id, String remote) throws Exception;
 
     /**
      * Sends a Context Event.
@@ -229,4 +231,13 @@ public interface RemoteAPI {
      * 
      */
     void unregisterAll();
+    
+    /**
+     * Get the encryption key to use to encrypt messages via GCM if proceeds.
+     * 
+     * @param id
+     *            The token that uniquely identifies the client remote node
+     * @return The encryption key or null if it does not apply.
+     */
+    String getCryptKey(String id);
 }

@@ -26,10 +26,13 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
+
+import javax.crypto.SecretKey;
 
 import org.universAAL.middleware.context.ContextEvent;
 import org.universAAL.middleware.rdf.Resource;
@@ -100,6 +103,21 @@ public class PushGCM {
 	String predicate=event.getRDFPredicate();
 	String object=event.getRDFObject().toString();
 	String serial=Activator.getParser().serialize(event);
+	String toUri=toURI;
+	try {
+	    if (Activator.isGCMEncrypted()) {
+		String key=Activator.getRemoteAPI().getCryptKey(nodeid);
+		SecretKey secretkey = CryptUtil.genKey(key.getBytes("UTF-8"));
+		subject = CryptUtil.encrypt(subject, secretkey);
+		predicate = CryptUtil.encrypt(predicate, secretkey);
+		object = CryptUtil.encrypt(object, secretkey);
+		serial = CryptUtil.encrypt(serial, secretkey);
+		toUri = CryptUtil.encrypt(toURI, secretkey);
+	    }
+	} catch (Exception e) {
+	    e.printStackTrace();
+	    Activator.logE("sendC", "Cannot encrypt message content - Message will not be sent");
+	}
 	
 	int size=0; //Find out size of the WHOLE payload
 	StringBuilder combined=new StringBuilder(serial)
@@ -108,7 +126,7 @@ public class PushGCM {
 	.append(ContextEvent.PROP_RDF_PREDICATE)
 	.append(ContextEvent.PROP_RDF_OBJECT)
 	.append("method=SENDC")
-	.append("to=").append(toURI);
+	.append("to=").append(toUri);
 
 	Builder build = new Message.Builder();
 	//If included, allows developers to test their request without actually sending a message
@@ -117,7 +135,7 @@ public class PushGCM {
 	if(ttl>0) build.timeToLive(ttl);
 	//Payload data, expressed as parameters prefixed with data. and suffixed as the key
 	build.addData(RemoteAPI.KEY_METHOD, "SENDC")
-	.addData(RemoteAPI.KEY_TO, toURI)
+	.addData(RemoteAPI.KEY_TO, toUri)
 	.addData(ContextEvent.PROP_RDF_SUBJECT, subject)
 	.addData(ContextEvent.PROP_RDF_PREDICATE, predicate)
 	.addData(ContextEvent.PROP_RDF_OBJECT, object);
@@ -165,37 +183,60 @@ public class PushGCM {
 	Builder build = new Message.Builder();
 	//If included, allows developers to test their request without actually sending a message
 	if(test) build.dryRun(true);
-	//Payload data, expressed as parameters prefixed with data. and suffixed as the key
-	build.addData(RemoteAPI.KEY_METHOD, "CALLS");
-	build.addData(RemoteAPI.KEY_TO, toURI);
-	combined.append("method=CALLS");
-	combined.append("to=").append(toURI);
-	if (inputs != null) {
-	    for (Iterator i = inputs.iterator(); i.hasNext();) {
-		Resource binding = (Resource) i.next(), in = (Resource) binding
-			.getProperty(OutputBinding.PROP_OWLS_BINDING_TO_PARAM);
-		if (in != null) {
-		    build.addData(in.getURI(), call.getInputValue(in.getURI()).toString());
-		    combined.append(in.getURI()).append(call.getInputValue(in.getURI()).toString());
+	boolean crypt=Activator.isGCMEncrypted();
+	try {
+	    SecretKey secretkey=null;
+	    if(crypt){
+		String key=Activator.getRemoteAPI().getCryptKey(nodeid);
+		secretkey = CryptUtil.genKey(key.getBytes("UTF-8"));
+	    }
+	    //Payload data, expressed as parameters prefixed with data. and suffixed as the key
+	    build.addData(RemoteAPI.KEY_METHOD, "CALLS");
+	    build.addData(RemoteAPI.KEY_TO, crypt?CryptUtil.encrypt(toURI,secretkey):toURI);
+	    combined.append("method=CALLS");
+	    combined.append("to=").append(crypt?CryptUtil.encrypt(toURI,secretkey):toURI);
+	    if (inputs != null) {
+		for (Iterator i = inputs.iterator(); i.hasNext();) {
+		    Resource binding = (Resource) i.next(), in = (Resource) binding
+			    .getProperty(OutputBinding.PROP_OWLS_BINDING_TO_PARAM);
+		    if (in != null) {
+			build.addData(
+				in.getURI(),
+				crypt ? CryptUtil.encrypt(call.getInputValue(
+					in.getURI()).toString(),secretkey) : call
+					.getInputValue(in.getURI()).toString());
+			combined.append(in.getURI()).append(
+				crypt ? CryptUtil.encrypt(call.getInputValue(
+					in.getURI()).toString(),secretkey) : call
+					.getInputValue(in.getURI()).toString());
+		    }
 		}
 	    }
-	}
-	
-	//Add the call URI so the remote node can assign its response to the call
-	build.addData(RemoteAPI.KEY_CALL, call.getURI());
-	combined.append(RemoteAPI.KEY_CALL).append(call.getURI());
-	
-	//There is no limit on the number of key/value pairs, though there is a limit on the total size of the message (4kb)
-	try {
-	    size=combined.toString().getBytes("UTF-8").length; 
-	} catch (UnsupportedEncodingException e) {
-	    size=serial.length()*4; // worst case, 4 bytes for all chars
+
+	    //Add the call URI so the remote node can assign its response to the call
+	    build.addData(RemoteAPI.KEY_CALL, crypt ? CryptUtil.encrypt(call.getURI(),secretkey):call.getURI());
+	    combined.append(RemoteAPI.KEY_CALL).append(crypt ? CryptUtil.encrypt(call.getURI(),secretkey):call.getURI());
+
+	    //There is no limit on the number of key/value pairs, though there is a limit on the total size of the message (4kb)
+	    try {
+		size=combined.toString().getBytes("UTF-8").length; 
+	    } catch (UnsupportedEncodingException e) {
+		size=serial.length()*4; // worst case, 4 bytes for all chars
+		e.printStackTrace();
+	    }
+	    if((size+serial.length()*4)<4000){ //If basic params + the serial still <4k, send the full serial too
+		try {
+		    build.addData("param", crypt ? CryptUtil.encrypt(serial,secretkey):serial);
+		} catch (Exception e) {
+		    Activator.logW("PushGCM.callS", "Payload could not be encrypted. Sending just the input URIs");
+		}
+	    }else{
+		Activator.logW("PushGCM.callS", "Payload data too big. Sending just the input URIs");
+	    }
+
+	} catch (Exception e) {
 	    e.printStackTrace();
-	}
-	if(size<4000){ //If >4k, dont send the serial, just the inputs (4000 to round up)
-	    build.addData("param", serial);
-	}else{
-	    Activator.logW("PushGCM.callS", "Payload data too big. Sending just the input URIs");
+	    Activator.logE("PushGCM.callS", "Cannot encrypt message content - Message will not be sent");
 	}
 	
 	// First we say we are waiting for a call (timeout response as default)
@@ -262,13 +303,14 @@ public class PushGCM {
 		}
 		throw new PushException("Error sending to GCM. Error code received: "+res.getErrorCodeName());
 	    }
-	} catch (IOException e) {
-	    e.printStackTrace();
-	    throw new PushException("Error sending to GCM. Unable to use communication channel: "+e.getMessage());
+
 	} catch (APIImplException e) {
 	    e.printStackTrace();
 	    Activator.logW("PushGCM.send",
 		    "Unable to register new remoteID of node. The stored remoteID will remain the old invalid one");
+	} catch (Exception e) {
+	    e.printStackTrace();
+	    throw new PushException("Error sending to GCM. Unable to use communication channel: "+e.getMessage());
 	}
     }
 

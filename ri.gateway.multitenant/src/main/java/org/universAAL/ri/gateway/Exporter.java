@@ -413,8 +413,8 @@ public class Exporter implements IBusMemberRegistryListener {
     }
     
     /**
-     * Check whether the URI corresponds to a local {@link BusMember} (excluding {@link ProxyBusMember}s)
-     * @param bmURI the String containing the URI of the BusMember to check
+     * Check whether the URI corresponds to a local {@link BusMember} (excluding {@link ProxyBusMember}s).
+     * @param bmURI the String containing the URI of the BusMember to check.
      * @return true iif there is a local {@link BusMember} that corresponds to bmURI.
      */
     public boolean isTracked(String bmURI){

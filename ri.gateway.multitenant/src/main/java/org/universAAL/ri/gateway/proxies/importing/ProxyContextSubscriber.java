@@ -140,7 +140,7 @@ public class ProxyContextSubscriber extends ContextSubscriber implements
 		// and it is allowed to go there
 		final ContextEvent copy = (ContextEvent) event.copy(false);
 		copy.clearScopes();
-		copy.setProperty(ScopedResource.PROP_ORIG_SCOPE, null);
+		copy.changeProperty(ScopedResource.PROP_ORIG_SCOPE, null);
 		s.send(new WrappedBusMessage(bmr.getBusMemberid(), copy));
 		// sends a scope clear event to remote proxy.
 	    }

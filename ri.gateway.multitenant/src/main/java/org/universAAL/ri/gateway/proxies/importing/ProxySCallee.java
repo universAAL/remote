@@ -89,7 +89,7 @@ public class ProxySCallee extends ServiceCallee implements ProxyBusMember {
 		    // it is allowed to go there
 		    final ServiceCall copy = (ServiceCall) call.copy(false);
 		    copy.clearScopes();
-		    copy.setProperty(ScopedResource.PROP_ORIG_SCOPE, null);
+		    copy.setOriginScope( null);
 		    final Message resp = s.sendRequest(new WrappedBusMessage(
 			    bmr.getBusMemberid(), copy));
 		    // sends a scope-clear call to remote proxy.
@@ -100,8 +100,7 @@ public class ProxySCallee extends ServiceCallee implements ProxyBusMember {
 			sr.clearScopes();
 			sr.addScope(s.getScope());
 			// set the origin of the response
-			sr.setProperty(ScopedResource.PROP_ORIG_SCOPE,
-				s.getScope());
+			sr.setOriginScope(s.getScope());
 
 			responses.add(sr);
 		    } else if (resp instanceof ErrorMessage) {

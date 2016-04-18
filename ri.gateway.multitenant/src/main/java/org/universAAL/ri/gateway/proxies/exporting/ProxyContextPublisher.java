@@ -106,7 +106,7 @@ public class ProxyContextPublisher extends ContextPublisher implements
 	    m.clearScopes();
 	    m.addScope(session.getScope());
 	    // set Origin to avoid message looping
-	    m.changeProperty(ScopedResource.PROP_ORIG_SCOPE, session.getScope());
+	    m.setOriginScope(session.getScope());
 	    // inject context Event
 	    if (AccessControl.INSTANCE.checkPermission(owner, getURI(),
 		    (ContextEvent) m)) {

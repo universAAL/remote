@@ -113,7 +113,7 @@ public class ProxySCaller extends ServiceCaller implements ProxyBusMember {
 	    m.clearScopes();
 	    m.addScope(session.getScope());
 	    // Origin Scope.
-	    m.setProperty(ScopedResource.PROP_ORIG_SCOPE, session.getScope());
+	    m.setOriginScope(session.getScope());
 	    // invoke service
 	    ServiceResponse sr = inject((ServiceCall) m, localSCeeId);
 	    if (sr.isSerializableTo(session.getScope())
@@ -121,7 +121,7 @@ public class ProxySCaller extends ServiceCaller implements ProxyBusMember {
 			    .equals(OperationChain.OperationResult.ALLOW)) {
 		// security check for the response
 		sr.clearScopes();
-		sr.setProperty(ScopedResource.PROP_ORIG_SCOPE, null);
+		sr.setOriginScope(null);
 		session.send(new WrappedBusMessage(busMessage, sr));
 	    } else {
 		sr = new ServiceResponse(CallStatus.denied);

@@ -160,6 +160,7 @@ public class SessionManager {
         key.description = description;
 
         if (currentTM == gw.tenantManager.getObject() && currentTM != null) {
+        	//FIXME scopeID can be in use, and this will spoof previous scopeId!!
             currentTM.registerTenant(scopeId, description);
         } else if (gw.tenantManager.getObject() != null) {
             currentTM = gw.tenantManager.getObject();
@@ -175,6 +176,7 @@ public class SessionManager {
                 .hasNext();) {
             final SessionKey key = i.next();
             final String scopeId = key.keyParts[SessionKey.SCOPE_IDX];
+        	//FIXME scopeID can be in use, and this will spoof previous scopeId!!
             currentTM.registerTenant(scopeId, key.description);
         }
     }

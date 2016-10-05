@@ -5,6 +5,7 @@
 	<repository>mvn:org.universAAL.middleware/mw.karaf.feature/${mw.karaf.feature.version}/xml/features</repository>
 	<repository>mvn:org.universAAL.ontology/ont.karaf.feature/${ont.karaf.feature.version}/xml/features</repository>
 	<repository>mvn:org.universAAL.security/security.karaf.feature/${security.karaf.feature.version}/xml/features</repository>
+	<repository>http://repo1.maven.org/maven2/org/apache/cxf/karaf/apache-cxf/3.0.2/apache-cxf-3.0.2-features.xml</repository>
 	
 	<feature name="uAAL-RI.RAPI" description="Remote API."
 		version="${ri.api.manager.version}" resolver='(obr)'>
@@ -15,6 +16,19 @@
 		<bundle start-level='60'>wrap:mvn:com.googlecode.json-simple/json-simple/1.1</bundle>
 		<bundle start-level='60'>wrap:mvn:com.google.android.gcm/gcm-server/1.0.2</bundle>
 		<bundle start-level='70' start='true'>mvn:org.universAAL.remote/ri.api.manager/${ri.api.manager.version}</bundle>
+	</feature>
+
+	<feature name="uAAL-RI.RESTAPI" description="Remote API."
+		version="${ri.api.manager.version}" resolver='(obr)'>
+		<feature>cxf-jaxrs</feature>
+		<bundle start-level='59' start='true'>mvn:org.apache.cxf/cxf-rt-transports-http-jetty/3.0.2</bundle>
+		<feature>uAAL-MW</feature>
+		<bundle start-level='60'>wrap:mvn:org.universAAL.support/uAAL.utils/3.2.0</bundle>
+		<feature>http</feature> 
+		<bundle start-level='60' start='true'>mvn:org.apache.derby/derby/10.10.1.1</bundle>
+		<bundle start-level='60'>wrap:mvn:com.googlecode.json-simple/json-simple/1.1</bundle>
+		<bundle start-level='60'>wrap:mvn:com.google.android.gcm/gcm-server/1.0.2</bundle>
+		<bundle start-level='70' start='true'>mvn:org.universAAL.remote/ri.rest.manager/${ri.api.manager.version}</bundle>
 	</feature>
 
 	<feature name="uAAL-RI.RAPI.MySQL" description="Remote API MySQL."

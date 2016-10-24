@@ -63,6 +63,7 @@
 	<feature name="uAAL-RI.Gateway.Multitenant" description="AALSpace to AALSpace multitenant communicator."
 		version="${ri.gateway.multitenant.version}" resolver='(obr)'>
 		<feature>uAAL-MW</feature>
+		<feature>uAAL-Support.IoC</feature>
 		<bundle start-level='70' start='true'>mvn:org.universAAL.remote/ri.gateway.multitenant/${ri.gateway.multitenant.version}</bundle>
 	</feature>
 

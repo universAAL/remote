@@ -16,18 +16,6 @@
   </properties>
   <dependencies>
     <dependency>
-      <groupId>org.universAAL.middleware</groupId>
-      <artifactId>mw.karaf.feature</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.universAAL.ontology</groupId>
-      <artifactId>ont.karaf.feature</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.universAAL.security</groupId>
-      <artifactId>security.karaf.feature</artifactId>
-    </dependency>
-    <dependency>
       <groupId>org.universAAL.remote</groupId>
       <artifactId>ri.servicegateway</artifactId>
     </dependency>
@@ -62,6 +50,22 @@
     <dependency>
       <groupId>org.universAAL.remote</groupId>
       <artifactId>ri.soap.cxf.server</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.universAAL.middleware</groupId>
+      <artifactId>mw.karaf.feature</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.universAAL.ontology</groupId>
+      <artifactId>ont.karaf.feature</artifactId>
+    </dependency>
+    <dependency>
+	  <groupId>org.universAAL.support</groupId>
+      <artifactId>utilities.karaf.feature</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.universAAL.security</groupId>
+      <artifactId>security.karaf.feature</artifactId>
     </dependency>
   </dependencies>
   <build>

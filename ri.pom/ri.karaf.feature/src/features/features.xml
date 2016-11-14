@@ -6,7 +6,7 @@
 	<repository>mvn:org.universAAL.ontology/ont.karaf.feature/${ont.karaf.feature.version}/xml/features</repository>
 	<repository>mvn:org.universAAL.security/security.karaf.feature/${security.karaf.feature.version}/xml/features</repository>
 	<repository>mvn:org.universAAL.support/utilities.karaf.feature/${utilities.karaf.feature.version}/xml/features</repository>
-	<repository>http://repo1.maven.org/maven2/org/apache/cxf/karaf/apache-cxf/3.0.2/apache-cxf-3.0.2-features.xml</repository>
+	<repository>mvn:org.apache.cxf.karaf/apache-cxf/3.0.2/xml/features</repository>
 	
 	<feature name="uAAL-RI.RAPI" description="Remote API."
 		version="${ri.api.manager.version}" resolver='(obr)'>

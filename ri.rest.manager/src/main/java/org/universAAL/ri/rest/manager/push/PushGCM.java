@@ -115,7 +115,7 @@ public class PushGCM {
 	send(callback, id, msg);
     }
 
-    public static void pushServiceCall(String callback, String id, ServiceCall call) throws PushException {
+    public static void pushServiceCall(String callback, String id, ServiceCall call, String origin) throws PushException {
 	boolean test=Configuration.getGCMDry();
 
 	List inputs = (List) call.getProperty(ServiceCall.PROP_OWLS_PERFORM_HAS_DATA_FROM);
@@ -132,6 +132,7 @@ public class PushGCM {
 	build.addData("to", id);
 	combined.append("method=CALLS");
 	combined.append("to=").append(id);
+	combined.append("o=").append(origin);
 	if (inputs != null) {
 	    for (Iterator i = inputs.iterator(); i.hasNext();) {
 		Resource binding = (Resource) i.next(), in = (Resource) binding

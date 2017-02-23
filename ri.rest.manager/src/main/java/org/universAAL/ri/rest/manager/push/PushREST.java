@@ -55,10 +55,10 @@ public class PushREST {
 	}
     }
 
-    public static void pushServiceCall(String callback, ServiceCall call) throws PushException {
+    public static void pushServiceCall(String callback, ServiceCall call, String origin) throws PushException {
 	try {
 	    String serial=Activator.getParser().serialize(call);
-	    send(callback, serial);
+	    send(callback+"?o="+origin, serial);
 	} catch (MalformedURLException e) {
 	    throw new PushException("Unable to send message to malformed URL: "+e.getMessage());
 	} catch (IOException e) {
@@ -69,7 +69,7 @@ public class PushREST {
     private static String send(String callback, String body) throws IOException, MalformedURLException {
 	URL url = new URL(callback);
 	HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-	String auth=Base64.encodeBytes(("Basic "+Configuration.getServerUSR()+":"+Configuration.getServerPWD()).getBytes("UTF-8"));
+	String auth="Basic "+Base64.encodeBytes((Configuration.getServerUSR()+":"+Configuration.getServerPWD()).getBytes("UTF-8"));
 	byte[] data = body.getBytes(Charset.forName("UTF-8"));
 	conn.setRequestMethod("POST");
 	conn.setInstanceFollowRedirects(false);

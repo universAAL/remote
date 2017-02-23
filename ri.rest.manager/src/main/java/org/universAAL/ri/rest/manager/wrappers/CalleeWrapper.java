@@ -22,6 +22,7 @@
 package org.universAAL.ri.rest.manager.wrappers;
 
 import java.util.Hashtable;
+import java.util.UUID;
 
 import org.universAAL.middleware.container.ModuleContext;
 import org.universAAL.middleware.service.CallStatus;
@@ -64,9 +65,10 @@ public class CalleeWrapper extends ServiceCallee{
 
     @Override
     public ServiceResponse handleCall(ServiceCall call) {
+	String origin = UUID.randomUUID().toString();
 	try {
 	    ServiceResponse srlock = new ServiceResponse(CallStatus.responseTimedOut);
-	    pendingCalls.put(call.getURI(), srlock);
+	    pendingCalls.put(origin, srlock);
 	    
 	    String callback=resource.getCallback();
 	    if(callback==null || callback.isEmpty()){
@@ -79,24 +81,24 @@ public class CalleeWrapper extends ServiceCallee{
 		    }
 		}
 	    }
-
-	    PushManager.pushServiceCall(callback,resource.getId(), call);
 	    
 	    synchronized (srlock) {
+		PushManager.pushServiceCall(callback,resource.getId(), call, origin);
 		srlock.wait(30000);
-		return pendingCalls.remove(call.getURI());
+		return pendingCalls.remove(origin);
 	    }
 	} catch (Exception e) {
 	    e.printStackTrace();
-	    pendingCalls.remove(call.getURI());
+	    pendingCalls.remove(origin);
 	    return new ServiceResponse(CallStatus.serviceSpecificFailure);
 	}
 //	return new ServiceResponse(CallStatus.succeeded);
     }
 
-    public void handleResponse(ServiceResponse newresponse) {
-	String originalcall = (String) newresponse.getProperty(PROP_ORIGIN_CALL);
-	if (originalcall != null) {
+    public void handleResponse(ServiceResponse newresponse, String origin) {
+//	String originalcall = (String) newresponse.getProperty(PROP_ORIGIN_CALL);
+	String originalcall=origin!=null?origin:PROP_ORIGIN_CALL;
+//	if (originalcall != null) {
 	    ServiceResponse originalresponse = pendingCalls.get(originalcall);
 	    if (originalresponse != null) {
 		synchronized (originalresponse) {
@@ -104,7 +106,7 @@ public class CalleeWrapper extends ServiceCallee{
 		    originalresponse.notify();
 		}
 	    }
-	}
+//	}
     }
 
 }

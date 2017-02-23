@@ -32,6 +32,7 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Link;
 import javax.ws.rs.core.Link.JaxbAdapter;
 import javax.ws.rs.core.Response;
@@ -140,14 +141,14 @@ public class Callee {
     
     @POST
     @Consumes(Activator.TYPES_TXT)
-    public Response executeCalleeResponse(@PathParam("id") String id, @PathParam("subid") String subid, String sresp){
+    public Response executeCalleeResponse(@PathParam("id") String id, @PathParam("subid") String subid, @QueryParam("o") String origin, String sresp){
 	SpaceWrapper tenant = UaalWrapper.getInstance().getTenant(id);
 	if(tenant!=null){
 	    CalleeWrapper ceewrap = tenant.getServiceCallee(subid);
 	    if(ceewrap!=null){
 		ServiceResponse sr=(ServiceResponse) Activator.getParser().deserialize(sresp);
 		if(sr!=null){
-		    ceewrap.handleResponse(sr);
+		    ceewrap.handleResponse(sr, origin);
 		    return Response.ok().build();
 		}else{
 		    return Response.status(Status.BAD_REQUEST).build();

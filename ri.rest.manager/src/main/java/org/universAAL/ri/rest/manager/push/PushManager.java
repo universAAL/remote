@@ -61,12 +61,14 @@ public class PushManager {
 	}
     }
 
-    public static void pushServiceCall(String callback, String id, ServiceCall call) throws PushException {
+    public static void pushServiceCall(String callback, String id, ServiceCall call, String origin) throws PushException {
 	switch (determineEndpoint(callback)) {
 	case REMOTE_POST:
-	    PushREST.pushServiceCall(callback, call);
+	    PushREST.pushServiceCall(callback, call, origin);
+	    break;
 	case REMOTE_GCM:
-	    PushGCM.pushServiceCall(callback, id, call);
+	    PushGCM.pushServiceCall(callback, id, call, origin);
+	    break;
 	default:
 	    throw new PushException("Unable to determine protocol of remote endpoint");
 	}

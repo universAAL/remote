@@ -24,6 +24,8 @@ package org.universAAL.ri.rest.manager.wrappers;
 import java.util.Enumeration;
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.universAAL.ri.rest.manager.Activator;
+
 public class UaalWrapper {
     
     private static UaalWrapper instance=new UaalWrapper();
@@ -63,6 +65,7 @@ public class UaalWrapper {
 		return false;
 	    }
 	} catch (Exception e) {
+	    Activator.logE("UaalWrapper.updateTenant", e.toString());
 	    e.printStackTrace();
 	    return false;
 	}

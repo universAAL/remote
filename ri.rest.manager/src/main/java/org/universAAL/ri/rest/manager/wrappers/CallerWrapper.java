@@ -24,6 +24,7 @@ package org.universAAL.ri.rest.manager.wrappers;
 import org.universAAL.middleware.container.ModuleContext;
 import org.universAAL.middleware.service.ServiceCaller;
 import org.universAAL.middleware.service.ServiceResponse;
+import org.universAAL.ri.rest.manager.Activator;
 import org.universAAL.ri.rest.manager.resources.Caller;
 
 public class CallerWrapper extends ServiceCaller{
@@ -45,14 +46,12 @@ public class CallerWrapper extends ServiceCaller{
 
     @Override
     public void communicationChannelBroken() {
-	// TODO Auto-generated method stub
-	
+	Activator.logW("CallerWrapper.communicationChannelBroken", "communication Channel Broken");
     }
 
     @Override
     public void handleResponse(String reqID, ServiceResponse response) {
-	// TODO Auto-generated method stub
-	
+	Activator.logW("CallerWrapper.handleResponse", "REST API Caller does not handle asynchronous calls");
     }
 
 }

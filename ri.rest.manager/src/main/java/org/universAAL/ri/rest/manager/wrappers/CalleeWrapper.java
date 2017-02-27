@@ -30,6 +30,7 @@ import org.universAAL.middleware.service.ServiceCall;
 import org.universAAL.middleware.service.ServiceCallee;
 import org.universAAL.middleware.service.ServiceResponse;
 import org.universAAL.middleware.service.owls.profile.ServiceProfile;
+import org.universAAL.ri.rest.manager.Activator;
 import org.universAAL.ri.rest.manager.push.PushManager;
 import org.universAAL.ri.rest.manager.resources.Callee;
 
@@ -59,13 +60,15 @@ public class CalleeWrapper extends ServiceCallee{
 
     @Override
     public void communicationChannelBroken() {
-	// TODO Auto-generated method stub
-	
+	Activator.logW("CalleeWrapper.communicationChannelBroken", "communication Channel Broken");
     }
 
     @Override
     public ServiceResponse handleCall(ServiceCall call) {
 	String origin = UUID.randomUUID().toString();
+	Activator.logI("CalleeWrapper.handleCall",
+		"Received Service Call "+origin+" for tenant " + tenant
+			+ ". Sending to callback");
 	try {
 	    ServiceResponse srlock = new ServiceResponse(CallStatus.responseTimedOut);
 	    pendingCalls.put(origin, srlock);
@@ -88,25 +91,25 @@ public class CalleeWrapper extends ServiceCallee{
 		return pendingCalls.remove(origin);
 	    }
 	} catch (Exception e) {
+	    Activator.logW("CalleeWrapper.handleCall", "Exception "
+		    + e.toString() + " while waiting or handling the call "
+		    + origin
+		    + ". Sending Service Specific Failure as a response.");
 	    e.printStackTrace();
 	    pendingCalls.remove(origin);
 	    return new ServiceResponse(CallStatus.serviceSpecificFailure);
 	}
-//	return new ServiceResponse(CallStatus.succeeded);
     }
 
     public void handleResponse(ServiceResponse newresponse, String origin) {
-//	String originalcall = (String) newresponse.getProperty(PROP_ORIGIN_CALL);
-	String originalcall=origin!=null?origin:PROP_ORIGIN_CALL;
-//	if (originalcall != null) {
-	    ServiceResponse originalresponse = pendingCalls.get(originalcall);
-	    if (originalresponse != null) {
-		synchronized (originalresponse) {
-		    pendingCalls.put(originalcall, newresponse);
-		    originalresponse.notify();
-		}
+	String originalcall = origin != null ? origin : PROP_ORIGIN_CALL;
+	ServiceResponse originalresponse = pendingCalls.get(originalcall);
+	if (originalresponse != null) {
+	    synchronized (originalresponse) {
+		pendingCalls.put(originalcall, newresponse);
+		originalresponse.notify();
 	    }
-//	}
+	}
     }
 
 }

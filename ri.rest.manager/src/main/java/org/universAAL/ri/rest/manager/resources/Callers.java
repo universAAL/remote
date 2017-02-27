@@ -84,6 +84,7 @@ public class Callers {
     @GET
     @Produces(Activator.TYPES)
     public Callers getCallersResource(@PathParam("id") String id){
+	Activator.logI("Callers.getCallersResource", "GET host:port/uaal/spaces/X/service/callers");
 	Callers allcers=new Callers();
         ArrayList<Caller> cers = new ArrayList<Caller>();
         
@@ -103,6 +104,7 @@ public class Callers {
     @POST
     @Consumes(Activator.TYPES)
     public Response addCallerResource(@PathParam("id") String id, Caller cer) throws URISyntaxException{
+	Activator.logI("Callers.addCallerResource", "POST host:port/uaal/spaces/X/service/callers");
 	//The cer generated from the POST body does not contain any "link" elements, but I wouldnt have allowed it anyway
 	//Set the links manually, like in the cer constructor
 	cer.setSelf(Link.fromPath("/uaal/spaces/"+id+"/service/callers/"+cer.getId()).rel("self").build());
@@ -119,6 +121,7 @@ public class Callers {
     @Path("/{subid}")
     @Produces(Activator.TYPES)
     public Caller getCallerResourceLocator(){
+	Activator.logI("Callers.getCallerResourceLocator", ">>>GET host:port/uaal/spaces/X/service/callers/Y");
 	return new Caller();
     }
 

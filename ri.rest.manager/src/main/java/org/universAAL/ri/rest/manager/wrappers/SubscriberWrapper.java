@@ -25,6 +25,7 @@ import org.universAAL.middleware.container.ModuleContext;
 import org.universAAL.middleware.context.ContextEvent;
 import org.universAAL.middleware.context.ContextEventPattern;
 import org.universAAL.middleware.context.ContextSubscriber;
+import org.universAAL.ri.rest.manager.Activator;
 import org.universAAL.ri.rest.manager.push.PushException;
 import org.universAAL.ri.rest.manager.push.PushManager;
 import org.universAAL.ri.rest.manager.resources.Subscriber;
@@ -51,12 +52,14 @@ public class SubscriberWrapper extends ContextSubscriber{
 
     @Override
     public void communicationChannelBroken() {
-	// TODO Auto-generated method stub
-	
+	Activator.logW("SubscriberWrapper.communicationChannelBroken", "communication Channel Broken");
     }
 
     @Override
     public void handleContextEvent(ContextEvent event) {
+	Activator.logI("SubscriberWrapper.handleContextEvent",
+		"Received Context Event "+event.getURI()+" for tenant " + tenant
+			+ ". Sending to callback");
 	try {
 	    String callback=resource.getCallback();
 	    if(callback==null || callback.isEmpty()){
@@ -69,10 +72,9 @@ public class SubscriberWrapper extends ContextSubscriber{
 		    }
 		}
 	    }
-	    
 	    PushManager.pushContextEvent(callback, resource.getId(), event);
 	} catch (PushException e) {
-	    // TODO Auto-generated catch block
+	    Activator.logE("SubscriberWrapper.handleContextEvent", e.toString());
 	    e.printStackTrace();
 	}
     }

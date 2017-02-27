@@ -108,10 +108,11 @@ public class PushGCM {
 	if(size<4000){ //If >4k, dont send the serial, just the SpO (4000 to round up)
 	    build.addData("param", serial);
 	}else{
-	    Activator.logW("PushGCM.sendC", "Payload data too big. Sending just the SpO triple");
+	    Activator.logW("PushGCM.pushContextEvent", "Payload data too big. Sending just the SpO triple");
 	}
 	
 	Message msg=build.build();
+	Activator.logI("PushGCM.pushContextEvent", "Attempting to send event "+event.getURI()+" to callback "+callback);
 	send(callback, id, msg);
     }
 
@@ -154,10 +155,11 @@ public class PushGCM {
 	if(size<4000){ //If >4k, dont send the serial, just the inputs (4000 to round up)
 	    build.addData("param", serial);
 	}else{
-	    Activator.logW("PushGCM.callS", "Payload data too big. Sending just the input URIs");
+	    Activator.logW("PushGCM.pushServiceCall", "Payload data too big. Sending just the input URIs");
 	}
 	
 	Message msg=build.build();
+	Activator.logI("PushGCM.pushServiceCall", "Attempting to send call "+origin+" to callback "+callback);
 	send(callback, id, msg);
     }
     

@@ -41,10 +41,10 @@ public class Configuration {
      * Configuration suffix for GCM dry
      */
     private static final String CONF_GCM_DRY = "gcm.dry";
-//    /**
-//     * Configuration suffix for log debug
-//     */
-//    private static final String CONF_LOG_DBG = "debug.log";
+    /**
+     * Configuration suffix for log debug
+     */
+    private static final String CONF_LOG_DBG = "debug.log";
     /**
      * Configuration suffix for derby path
      */
@@ -111,18 +111,18 @@ public class Configuration {
 	return System.getProperty(pkgNameDot + CONF_GCM_DRY, "false")
 		.equals("true");
     }
-//
-//    /**
-//     * Determine if additional debug logging is available. This is used when the
-//     * information to be logged may contain sensitive data.
-//     * 
-//     * @return true if everything should be logged
-//     */
-//    public static boolean getLogDebug() {
-//	return System.getProperty(pkgNameDot + CONF_LOG_DBG, "false").equals(
-//		"true");
-//    }
-//
+
+    /**
+     * Determine if additional INFO logging is available. This is used when the
+     * information to be logged may contain sensitive data.
+     * 
+     * @return true if everything should be logged
+     */
+    public static boolean getLogDebug() {
+	return System.getProperty(pkgNameDot + CONF_LOG_DBG, "false").equals(
+		"true");
+    }
+
     /**
      * Get the path where the folder containing the Derby DB will be
      * read/created. Only used if using Derby DB persistence (default).

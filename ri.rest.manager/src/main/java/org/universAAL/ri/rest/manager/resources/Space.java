@@ -128,6 +128,7 @@ public class Space {
     @GET		// GET localhost:9000/uaal/spaces/123      (Redirected from Spaces class)
     @Produces(Activator.TYPES)
     public Space getSpaceResource(@PathParam("id") String id/*, @javax.ws.rs.core.Context SecurityContext ctxt*/){
+	Activator.logI("Space.getSpaceResource", "GET host:port/uaal/spaces/X ");
 	SpaceWrapper tenant = UaalWrapper.getInstance().getTenant(id);
 	if(tenant!=null){
 	    return tenant.getResource();
@@ -138,6 +139,7 @@ public class Space {
     
     @DELETE		// DEL localhost:9000/uaal/spaces/123
     public Response deleteSpaceResource(){
+	Activator.logI("Space.deleteSpaceResource", "DELETE host:port/uaal/spaces/X ");
 	if(Activator.getTenantMngr()!=null){
 	    Activator.getTenantMngr().unregisterTenant(this.id);
 	}
@@ -149,6 +151,7 @@ public class Space {
     @PUT	// PUT localhost:9000/uaal/spaces/123      <Body: Space>
     @Consumes(Activator.TYPES)
     public Response putSpaceResource(@PathParam("id") String id, Space space) throws URISyntaxException {
+	Activator.logI("Space.putSpaceResource", "PUT host:port/uaal/spaces/X ");
 	if (id.equals(space.id)) {//Do not allow changes to id
 	    SpaceWrapper original = UaalWrapper.getInstance().getTenant(id);
 	    if (original != null) {//Can only change existing ones
@@ -175,12 +178,14 @@ public class Space {
     @Path("/context")	// GET localhost:9000/uaal/spaces/123/context     (Redirects to Context class)
     @Produces(Activator.TYPES)
     public Context getContextResource(){
+	Activator.logI("Space.getContextResource", ">>>GET host:port/uaal/spaces/X/context ");
 	return new Context();
     }
     
     @Path("/service")	// GET localhost:9000/uaal/spaces/123/service     (Redirects to Service class)
     @Produces(Activator.TYPES)
     public Service getServiceResource(){
+	Activator.logI("Space.getServiceResource", ">>>GET host:port/uaal/spaces/X/service ");
 	return new Service();
     }
     

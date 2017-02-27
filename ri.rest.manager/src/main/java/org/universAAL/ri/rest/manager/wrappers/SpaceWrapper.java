@@ -24,6 +24,7 @@ package org.universAAL.ri.rest.manager.wrappers;
 import java.util.Enumeration;
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.universAAL.ri.rest.manager.Activator;
 import org.universAAL.ri.rest.manager.resources.Space;
 
 public class SpaceWrapper {
@@ -133,6 +134,7 @@ public class SpaceWrapper {
 		return false;
 	    }
 	} catch (Exception e) {
+	    Activator.logE("SpaceWrapper.updateContextPublisher", e.toString());
 	    e.printStackTrace();
 	    return false;
 	}
@@ -148,6 +150,7 @@ public class SpaceWrapper {
 		return false;
 	    }
 	} catch (Exception e) {
+	    Activator.logE("SpaceWrapper.updateContextSubscriber", e.toString());
 	    e.printStackTrace();
 	    return false;
 	}
@@ -163,6 +166,7 @@ public class SpaceWrapper {
 		return false;
 	    }
 	} catch (Exception e) {
+	    Activator.logE("SpaceWrapper.updateServiceCallee", e.toString());
 	    e.printStackTrace();
 	    return false;
 	}
@@ -178,6 +182,7 @@ public class SpaceWrapper {
 		return false;
 	    }
 	} catch (Exception e) {
+	    Activator.logE("SpaceWrapper.updateServiceCaller", e.toString());
 	    e.printStackTrace();
 	    return false;
 	}

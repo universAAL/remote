@@ -53,6 +53,7 @@ public class Activator implements BundleActivator {
     private TenantListener tenantListener = null;
     private ServiceReference[] tenantRefs;
     private static TenantManager tenantMngr = null;
+    private static boolean logDebug=Configuration.getLogDebug();
 
     public static final String TYPES="application/json, application/xml;charset=UTF-8;version=1, text/xml;charset=UTF-8;version=1, application/octet-stream";
     public static final String TYPES_TXT="text/plain;charset=UTF-8";
@@ -182,15 +183,18 @@ public class Activator implements BundleActivator {
     }
     
     /**
-     * Helper method to log INFO messages
+     * Helper method to log INFO messages. Only logs them if log debug config
+     * option is true.
      * 
      * @param method
      *            The method calling to log
      * @param msg
      *            The messge to log
      */
-    public static void logI(String method, String msg){
-	LogUtils.logInfo(uaalContext, Activator.class, method, msg);
+    public static void logI(String method, String msg) {
+	if (logDebug) {
+	    LogUtils.logInfo(uaalContext, Activator.class, method, msg);
+	}
     }
     
     /**

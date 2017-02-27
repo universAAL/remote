@@ -93,6 +93,7 @@ public class Caller {
     @GET
     @Produces(Activator.TYPES)
     public Caller getCallerResource(@PathParam("id") String id, @PathParam("subid") String subid){
+	Activator.logI("Caller.getCallerResource", "GET host:port/uaal/spaces/X/service/callers/Y");
 	SpaceWrapper tenant = UaalWrapper.getInstance().getTenant(id);
 	if(tenant!=null){
 	    CallerWrapper wrapper = tenant.getServiceCaller(subid);
@@ -105,6 +106,7 @@ public class Caller {
     
     @DELETE
     public Response deleteCallerResource(@PathParam("id") String id, @PathParam("subid") String subid){
+	Activator.logI("Caller.deleteCallerResource", "DELETE host:port/uaal/spaces/X/service/callers/Y");
 	SpaceWrapper tenant = UaalWrapper.getInstance().getTenant(id);
 	if(tenant!=null){
 	    tenant.removeServiceCaller(subid);
@@ -118,6 +120,7 @@ public class Caller {
     @Consumes(Activator.TYPES_TXT)
     @Produces(Activator.TYPES_TXT)
     public Response executeCallerCall(@PathParam("id") String id, @PathParam("subid") String subid, String call){
+	Activator.logI("Caller.executeCallerCall", "POST host:port/uaal/spaces/X/service/callers/Y");
 	SpaceWrapper tenant = UaalWrapper.getInstance().getTenant(id);
 	if(tenant!=null){
 	    CallerWrapper cerwrap = tenant.getServiceCaller(subid);
@@ -140,6 +143,7 @@ public class Caller {
     @PUT
     @Consumes(Activator.TYPES)
     public Response putCallerResource(@PathParam("id") String id, @PathParam("subid") String subid, Caller cer) throws URISyntaxException{
+	Activator.logI("Caller.putCallerResource", "PUT host:port/uaal/spaces/X/service/callers/Y");
 	//The cer generated from the PUT body does not contain any "link" elements, but I wouldnt have allowed it anyway
 	if (subid.equals(cer.id)) {// Do not allow changes to id
 	    SpaceWrapper tenant = UaalWrapper.getInstance().getTenant(id);

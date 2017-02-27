@@ -118,6 +118,7 @@ public class Callee {
     @GET
     @Produces(Activator.TYPES)
     public Callee getCalleeResource(@PathParam("id") String id, @PathParam("subid") String subid){
+	Activator.logI("Callee.getCalleeResource", "GET host:port/uaal/spaces/X/service/callees/Y");
 	SpaceWrapper tenant = UaalWrapper.getInstance().getTenant(id);
 	if(tenant!=null){
 	    CalleeWrapper wrapper = tenant.getServiceCallee(subid);
@@ -130,6 +131,7 @@ public class Callee {
     
     @DELETE
     public Response deleteCalleeResource(@PathParam("id") String id, @PathParam("subid") String subid){
+	Activator.logI("Callee.deleteCalleeResource", "DELETE host:port/uaal/spaces/X/service/callees/Y");
 	SpaceWrapper tenant = UaalWrapper.getInstance().getTenant(id);
 	if(tenant!=null){
 	    tenant.removeServiceCallee(subid);
@@ -142,6 +144,7 @@ public class Callee {
     @POST
     @Consumes(Activator.TYPES_TXT)
     public Response executeCalleeResponse(@PathParam("id") String id, @PathParam("subid") String subid, @QueryParam("o") String origin, String sresp){
+	Activator.logI("Callee.executeCalleeResponse", "DELETE host:port/uaal/spaces/X/service/callees/Y");
 	SpaceWrapper tenant = UaalWrapper.getInstance().getTenant(id);
 	if(tenant!=null){
 	    CalleeWrapper ceewrap = tenant.getServiceCallee(subid);
@@ -164,6 +167,7 @@ public class Callee {
     @PUT
     @Consumes(Activator.TYPES)
     public Response putCalleeResource(@PathParam("id") String id, @PathParam("subid") String subid, Callee cee) throws URISyntaxException{
+	Activator.logI("Callee.putCalleeResource", "PUT host:port/uaal/spaces/X/service/callees/Y");
 	//The cee generated from the PUT body does not contain any "link" elements, but I wouldnt have allowed it anyway
 	if (subid.equals(cee.id)) {// Do not allow changes to id
 	    SpaceWrapper tenant = UaalWrapper.getInstance().getTenant(id);

@@ -85,6 +85,7 @@ public class Publishers {
     @GET
     @Produces(Activator.TYPES)
     public Publishers getPublishersResource(@PathParam("id") String id){
+	Activator.logI("Publishers.getPublishersResource", "GET host:port/uaal/spaces/X/context/publishers");
 	Publishers allpubs=new Publishers();
         ArrayList<Publisher> pubs = new ArrayList<Publisher>();
         
@@ -104,6 +105,7 @@ public class Publishers {
     @POST
     @Consumes(Activator.TYPES)
     public Response addPublisherResource(@PathParam("id") String id, Publisher pub) throws URISyntaxException{
+	Activator.logI("Publishers.addPublisherResource", "POST host:port/uaal/spaces/X/context/publishers");
 	//The pub generated from the POST body does not contain any "link" elements, but I wouldnt have allowed it anyway
 	//Set the links manually, like in the pub constructor
 	pub.setSelf(Link.fromPath("/uaal/spaces/"+id+"/context/publishers/"+pub.getId()).rel("self").build());
@@ -134,6 +136,7 @@ public class Publishers {
     @Path("/{subid}")
     @Produces(Activator.TYPES)
     public Publisher getPublisherResourceLocator(){
+	Activator.logI("Publishers.getPublisherResourceLocator", ">>>GET host:port/uaal/spaces/X/context/publishers/Y");
 	return new Publisher();
     }
 

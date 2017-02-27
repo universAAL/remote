@@ -116,6 +116,7 @@ public class Subscriber {
     @GET
     @Produces(Activator.TYPES)
     public Subscriber getSubscriberResource(@PathParam("id") String id, @PathParam("subid") String subid){
+	Activator.logI("Subscriber.getSubscriberResource", "GET host:port/uaal/spaces/X/context/subscribers/Y");
 	SpaceWrapper tenant = UaalWrapper.getInstance().getTenant(id);
 	if(tenant!=null){
 	    SubscriberWrapper wrapper = tenant.getContextSubscriber(subid);
@@ -128,6 +129,7 @@ public class Subscriber {
     
     @DELETE
     public Response deleteSubscriberResource(@PathParam("id") String id, @PathParam("subid") String subid){
+	Activator.logI("Subscriber.deleteSubscriberResource", "DELETE host:port/uaal/spaces/X/context/subscribers/Y");
 	SpaceWrapper tenant = UaalWrapper.getInstance().getTenant(id);
 	if(tenant!=null){
 	    tenant.removeContextSubscriber(subid);
@@ -140,6 +142,7 @@ public class Subscriber {
     @PUT
     @Consumes(Activator.TYPES)
     public Response putCalleeResource(@PathParam("id") String id, @PathParam("subid") String subid, Subscriber sub) throws URISyntaxException{
+	Activator.logI("Subscriber.putCalleeResource", "PUT host:port/uaal/spaces/X/context/subscribers/Y");
 	//The sub generated from the PUT body does not contain any "link" elements, but I wouldnt have allowed it anyway
 	if (subid.equals(sub.id)) {// Do not allow changes to id
 	    SpaceWrapper tenant = UaalWrapper.getInstance().getTenant(id);

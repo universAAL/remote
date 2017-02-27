@@ -105,6 +105,7 @@ public class Publisher {
     @GET
     @Produces(Activator.TYPES)
     public Publisher getPublisherResource(@PathParam("id") String id, @PathParam("subid") String subid){
+	Activator.logI("Publisher.getPublisherResource", "GET host:port/uaal/spaces/X/context/publishers/Y");
 	SpaceWrapper tenant = UaalWrapper.getInstance().getTenant(id);
 	if(tenant!=null){
 	    PublisherWrapper wrapper = tenant.getContextPublisher(subid);
@@ -117,6 +118,7 @@ public class Publisher {
     
     @DELETE
     public Response deletePublisherResource(@PathParam("id") String id, @PathParam("subid") String subid){
+	Activator.logI("Publisher.deletePublisherResource", "DELETE host:port/uaal/spaces/X/context/publishers/Y");
 	SpaceWrapper tenant = UaalWrapper.getInstance().getTenant(id);
 	if(tenant!=null){
 	    tenant.removeContextPublisher(subid);
@@ -129,6 +131,7 @@ public class Publisher {
     @POST
     @Consumes(Activator.TYPES_TXT)
     public Response executePublisherPublish(@PathParam("id") String id, @PathParam("subid") String subid, String event){
+	Activator.logI("Publisher.executePublisherPublish", "POST host:port/uaal/spaces/X/context/publishers/Y");
 	SpaceWrapper tenant = UaalWrapper.getInstance().getTenant(id);
 	if(tenant!=null){
 	    PublisherWrapper pubwrap = tenant.getContextPublisher(subid);
@@ -151,6 +154,7 @@ public class Publisher {
     @PUT
     @Consumes(Activator.TYPES)
     public Response putPublisherResource(@PathParam("id") String id, @PathParam("subid") String subid, Publisher pub) throws URISyntaxException{
+	Activator.logI("Publisher.putPublisherResource", "PUT host:port/uaal/spaces/X/context/publishers/Y");
 	//The pub generated from the PUT body does not contain any "link" elements, but I wouldnt have allowed it anyway
 	if (subid.equals(pub.id)) {// Do not allow changes to id
 	    SpaceWrapper tenant = UaalWrapper.getInstance().getTenant(id);

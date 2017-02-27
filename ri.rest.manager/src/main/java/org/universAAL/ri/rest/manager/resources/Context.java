@@ -91,18 +91,21 @@ public class Context {
     @GET
     @Produces(Activator.TYPES)
     public Context getContextResource(@PathParam("id") String id){
+	Activator.logI("Context.getContextResource", "GET host:port/uaal/spaces/X/context");
 	return new Context(id);
     }
     
     @Path("/publishers")
     @Produces(Activator.TYPES)
     public Publishers getPublishersResource(){
+	Activator.logI("Context.getPublishersResource", ">>>GET host:port/uaal/spaces/X/context/publishers");
 	return new Publishers();
     }
     
     @Path("/subscribers")
     @Produces(Activator.TYPES)
     public Subscribers getSubscribersResource(){
+	Activator.logI("Context.getSubscribersResource", ">>>GET host:port/uaal/spaces/X/context/subscribers");
 	return new Subscribers();
     }
 }

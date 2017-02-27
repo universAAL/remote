@@ -24,6 +24,7 @@ package org.universAAL.ri.rest.manager.wrappers;
 import org.universAAL.middleware.container.ModuleContext;
 import org.universAAL.middleware.context.ContextPublisher;
 import org.universAAL.middleware.context.owl.ContextProvider;
+import org.universAAL.ri.rest.manager.Activator;
 import org.universAAL.ri.rest.manager.resources.Publisher;
 
 public class PublisherWrapper extends ContextPublisher{
@@ -46,8 +47,7 @@ public class PublisherWrapper extends ContextPublisher{
 
     @Override
     public void communicationChannelBroken() {
-	// TODO Auto-generated method stub
-	
+	Activator.logW("PublisherWrapper.communicationChannelBroken", "communication Channel Broken");
     }
 
 }

@@ -85,6 +85,7 @@ public class Callees {
     @GET
     @Produces(Activator.TYPES)
     public Callees getCalleesResource(@PathParam("id") String id){
+	Activator.logI("Callees.getCalleesResource", "GET host:port/uaal/spaces/X/service/callees");
 	Callees allcees=new Callees();
         ArrayList<Callee> cees = new ArrayList<Callee>();
         
@@ -104,6 +105,7 @@ public class Callees {
     @POST
     @Consumes(Activator.TYPES)
     public Response addCalleeResource(@PathParam("id") String id, Callee cee) throws URISyntaxException{
+	Activator.logI("Callees.addCalleeResource", "POST host:port/uaal/spaces/X/service/callees");
 	//The cee generated from the POST body does not contain any "link" elements, but I wouldnt have allowed it anyway
 	//Set the links manually, like in the cee constructor
 	cee.setSelf(Link.fromPath("/uaal/spaces/"+id+"/service/callees/"+cee.getId()).rel("self").build());
@@ -135,6 +137,7 @@ public class Callees {
     @Path("/{subid}")
     @Produces(Activator.TYPES)
     public Callee getCalleeResourceLocator(){
+	Activator.logI("Callees.getCalleeResourceLocator", ">>>GET host:port/uaal/spaces/X/service/callees/Y");
 	return new Callee();
     }
 

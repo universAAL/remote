@@ -74,6 +74,7 @@ public class Spaces {
     @GET		// GET localhost:9000/uaal/spaces      (redirected from Uaal class)
     @Produces(Activator.TYPES)
     public Spaces getSpacesResource(){
+	Activator.logI("Spaces.getSpacesResource", "GET host:port/uaal/spaces ");
 	Spaces allspaces=new Spaces();
         ArrayList<Space> spaces = new ArrayList<Space>();
         
@@ -97,6 +98,7 @@ public class Spaces {
     @POST	// POST localhost:9000/uaal/spaces      <Body: Space>
     @Consumes(Activator.TYPES)
     public Response addSpaceResource(Space space) throws URISyntaxException{
+	Activator.logI("Spaces.addSpaceResource", "POST host:port/uaal/spaces ");
 	//The space generated from the POST body does not contain any "link" elements, but I wouldnt have allowed it anyway
 	//Set the links manually, like in the space constructor
 	space.setSelf(Link.fromPath("/uaal/spaces/"+space.getId()).rel("self").build());
@@ -113,6 +115,7 @@ public class Spaces {
     @Path("/{id}")		// GET localhost:9000/uaal/spaces/123     (Redirects to Space class)
     @Produces(Activator.TYPES)
     public Space getSpaceResourceLocator(){
+	Activator.logI("Spaces.getSpaceResourceLocator", ">>>GET host:port/uaal/spaces/X ");
 	return new Space();
     }
 

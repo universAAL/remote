@@ -91,18 +91,21 @@ public class Service {
     @GET
     @Produces(Activator.TYPES)
     public Service getServiceResource(@PathParam("id") String id){
+	Activator.logI("Service.getServiceResource", "GET host:port/uaal/spaces/X/service ");
 	return new Service(id);
     }
     
     @Path("/callers")
     @Produces(Activator.TYPES)
     public Callers getCallersResource(){
+	Activator.logI("Service.getCallersResource", ">>>GET host:port/uaal/spaces/X/service/callers ");
 	return new Callers();
     }
     
     @Path("/callees")
     @Produces(Activator.TYPES)
-    public Callees CalleesResource(){
+    public Callees getCalleesResource(){
+	Activator.logI("Service.getCalleesResource", ">>>GET host:port/uaal/spaces/X/service/callees ");
 	return new Callees();
     }
 }

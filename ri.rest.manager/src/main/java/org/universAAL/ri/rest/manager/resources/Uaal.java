@@ -32,6 +32,8 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
+import org.universAAL.ri.rest.manager.Activator;
+
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlRootElement(name = "uaal")
 @Path("/uaal")
@@ -69,13 +71,15 @@ public class Uaal {
     
     @GET    // GET localhost:9000/uaal
     @Produces("application/xml;charset=UTF-8;version=1")
-    public Uaal getUaalResource(){		
+    public Uaal getUaalResource(){
+	Activator.logI("Uaal.getUaalResource", "GET host:port/uaal");
 	return new Uaal();
     }
     
     @Path("/spaces")	// GET localhost:9000/uaal/spaces     (redirects to Spaces class)
     @Produces("application/xml;charset=UTF-8;version=1")
     public Spaces getSpacesResourceLocator(){
+	Activator.logI("Uaal.getSpacesResourceLocator", ">>>GET host:port/uaal/spaces");
 	return new Spaces();
     }
 }

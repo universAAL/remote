@@ -315,11 +315,6 @@
 	 
 	 <dependency>
       <groupId>org.universAAL.middleware</groupId>
-      <artifactId>mw.container.xfaces.osgi</artifactId>
-      <version>${universaal.version}</version>
-    </dependency>
-	 <dependency>
-      <groupId>org.universAAL.middleware</groupId>
       <artifactId>mw.container.osgi</artifactId>
       <version>${universaal.version}</version>
     </dependency>

@@ -35,7 +35,6 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
-import org.universAAL.middleware.container.osgi.util.BundleConfigHome;
 import org.universAAL.middleware.container.utils.LogUtils;
 
 public class SendMail {
@@ -44,9 +43,8 @@ public class SendMail {
 	Properties props;
 	try {
 	    props = new Properties();
-	    InputStream in = new FileInputStream(new File(new BundleConfigHome(
-		    "ri.keepalive").getAbsolutePath(),
-		    "keepalive.mail.properties"));
+	    InputStream in = new FileInputStream(
+		    new File(Activator.context.getConfigHome(), "keepalive.mail.properties"));
 	    props.load(in);
 	    in.close();
 	} catch (Exception e) {

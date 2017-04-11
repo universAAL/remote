@@ -28,6 +28,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
 
+import org.universAAL.middleware.container.ModuleContext;
 import org.universAAL.ri.api.manager.Activator;
 import org.universAAL.ri.api.manager.Configuration;
 import org.universAAL.ri.api.manager.RemoteAPI;
@@ -61,16 +62,16 @@ public class PersistenceDerby implements Persistence {
     /* (non-Javadoc)
      * @see org.universAAL.ri.api.manager.server.persistence.Persistence#init(org.universAAL.ri.api.manager.RemoteAPI)
      */
-    public void init(RemoteAPI remoteAPI) {
+    public void init(RemoteAPI remoteAPI, ModuleContext context) {
 	this.api = remoteAPI;
-	dbURL = "jdbc:derby:" + Configuration.getDerbyPath();
-	String dbUSR=Configuration.getDerbyUser();
-	String dbPWD=Configuration.getDerbyPass();
+	dbURL = "jdbc:derby:" + Configuration.getDBPath(context);
+	String dbUSR=Configuration.getDBUser();
+	String dbPWD=Configuration.getDBPass();
 	if(dbUSR!=null && dbPWD!=null){
 	    dbURL+=";user="+dbUSR+";password="+dbPWD;
 	}
 	String bootURL=dbURL+";create=true;dataEncryption=true;bootPassword="
-		+ Configuration.getDerbyKey();
+		+ Configuration.getDBKey();
 	Connection conn = null;
 	Statement stmt = null;
 	try {

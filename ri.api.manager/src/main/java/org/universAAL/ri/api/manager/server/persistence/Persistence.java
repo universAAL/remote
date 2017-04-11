@@ -21,6 +21,7 @@
  */
 package org.universAAL.ri.api.manager.server.persistence;
 
+import org.universAAL.middleware.container.ModuleContext;
 import org.universAAL.ri.api.manager.RemoteAPI;
 
 /**
@@ -48,8 +49,10 @@ public interface Persistence {
      * 
      * @param remoteAPI
      *            The Remote API instance being used in the manager
+     * @param context
+     *            Module Context of universAAL
      */
-    public void init(RemoteAPI remoteAPI);
+    public void init(RemoteAPI remoteAPI, ModuleContext context);
 
     /**
      * Persist a request to have a registration of a remote node

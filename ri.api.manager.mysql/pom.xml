@@ -31,7 +31,7 @@
             <Bundle-Description>${project.description}</Bundle-Description>
             <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
             <Fragment-Host>ri.api.manager</Fragment-Host>
-            <Import-Package>com.mysql.jdbc,org.apache.derby.jdbc,org.universAAL.ri.api.manager</Import-Package>
+            <Import-Package>com.mysql.jdbc,org.apache.derby.jdbc,org.universAAL.ri.api.manager,org.universAAL.middleware.container</Import-Package>
           </instructions>
         </configuration>
       </plugin>

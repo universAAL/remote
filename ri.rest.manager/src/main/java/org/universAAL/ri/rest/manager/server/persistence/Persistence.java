@@ -21,6 +21,7 @@
  */
 package org.universAAL.ri.rest.manager.server.persistence;
 
+import org.universAAL.middleware.container.ModuleContext;
 import org.universAAL.ri.rest.manager.resources.Callee;
 import org.universAAL.ri.rest.manager.resources.Caller;
 import org.universAAL.ri.rest.manager.resources.Publisher;
@@ -46,7 +47,7 @@ import org.universAAL.ri.rest.manager.resources.Subscriber;
  */
 public interface Persistence {
 
-    public void init();
+    public void init(ModuleContext context);
 
     public void storeSpace(Space s, String v);
 

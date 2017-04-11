@@ -143,7 +143,7 @@ public class Activator implements BundleActivator {
 	try{
 	persistence = (Persistence) Class.forName(Configuration.getDBClass())
 		.getConstructor(new Class[] {}).newInstance(new Object[] {});
-	persistence.init(remoteAPI);
+	persistence.init(remoteAPI, uaalContext);
 	persistence.restore();
 	} catch (RuntimeException ex){
 	    ex.printStackTrace();

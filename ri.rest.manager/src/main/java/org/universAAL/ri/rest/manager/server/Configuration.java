@@ -21,6 +21,8 @@
  */
 package org.universAAL.ri.rest.manager.server;
 
+import org.universAAL.middleware.container.ModuleContext;
+
 /**
  * Helper class to centralized access to configuration parameters, which should
  * help when porting to uAAL Config Manager.
@@ -46,23 +48,23 @@ public class Configuration {
      */
     private static final String CONF_LOG_DBG = "debug.log";
     /**
-     * Configuration suffix for derby path
+     * Configuration suffix for DB path
      */
     private static final String CONF_DB_PTH = "db.path";
     /**
-     * Configuration suffix for derby auto removal
+     * Configuration suffix for DB auto removal
      */
     private static final String CONF_DB_REM = "db.remove";
     /**
-     * Configuration suffix for derby encryption key
+     * Configuration suffix for DB encryption key
      */
     private static final String CONF_DB_KEY = "db.cryptokey";
     /**
-     * Configuration suffix for derby user
+     * Configuration suffix for DB user
      */
     private static final String CONF_DB_USR = "db.user";
     /**
-     * Configuration suffix for derby password
+     * Configuration suffix for DB password
      */
     private static final String CONF_DB_PWD = "db.pass";
     /**
@@ -124,13 +126,13 @@ public class Configuration {
     }
 
     /**
-     * Get the path where the folder containing the Derby DB will be
+     * Get the path where the folder containing the DB will be
      * read/created. Only used if using Derby DB persistence (default).
      * 
      * @return Path to folder of the DB
      */
-    public static String getDerbyPath() {
-	return System.getProperty(pkgNameDot + CONF_DB_PTH, "/RESTPersistence");
+    public static String getDBPath(ModuleContext context) {
+	return System.getProperty(pkgNameDot + CONF_DB_PTH, context.getDataFolder()+"/RESTPersistence");
     }
 
     /**
@@ -187,15 +189,15 @@ public class Configuration {
 	return System.getProperty(pkgNameDot + CONF_SERV_PWD, "RESTAPI");
     }
 
-    public static String getDerbyKey() {
+    public static String getDBKey() {
 	return System.getProperty(pkgNameDot + CONF_DB_KEY, "R1e2m3o4t5e6A7P8I9");
     }
 
-    public static String getDerbyUser() {
+    public static String getDBUser() {
 	return System.getProperty(pkgNameDot + CONF_DB_USR);
     }
 
-    public static String getDerbyPass() {
+    public static String getDBPass() {
 	return System.getProperty(pkgNameDot + CONF_DB_PWD);
     }
 

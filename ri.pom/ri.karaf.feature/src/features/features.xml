@@ -11,7 +11,7 @@
 	<feature name="uAAL-RI.RAPI" description="Remote API."
 		version="${ri.api.manager.version}" resolver='(obr)'>
 		<feature>uAAL-MW</feature>
-		<bundle start-level='60'>wrap:mvn:org.universAAL.support/uAAL.utils/3.2.0</bundle>
+		<bundle start-level='60'>wrap:mvn:org.universAAL.support/uAAL.utils/${uAAL.utils.version}</bundle>
 		<feature>http</feature> 
 		<bundle start-level='60' start='true'>mvn:org.apache.derby/derby/10.10.1.1</bundle>
 		<bundle start-level='60'>wrap:mvn:com.googlecode.json-simple/json-simple/1.1</bundle>
@@ -24,7 +24,7 @@
 		<feature>cxf-jaxrs</feature>
 		<bundle start-level='59' start='true'>mvn:org.apache.cxf/cxf-rt-transports-http-jetty/3.0.2</bundle>
 		<feature>uAAL-MW</feature>
-		<bundle start-level='60'>wrap:mvn:org.universAAL.support/uAAL.utils/3.2.0</bundle>
+		<bundle start-level='60'>wrap:mvn:org.universAAL.support/uAAL.utils/${uAAL.utils.version}</bundle>
 		<feature>http</feature> 
 		<bundle start-level='60' start='true'>mvn:org.apache.derby/derby/10.10.1.1</bundle>
 		<bundle start-level='60'>wrap:mvn:com.googlecode.json-simple/json-simple/1.1</bundle>
@@ -35,7 +35,7 @@
 	<feature name="uAAL-RI.RAPI.MySQL" description="Remote API MySQL."
 		version="${ri.api.manager.version}" resolver='(obr)'>
 		<feature>uAAL-MW</feature>
-		<bundle start-level='60'>wrap:mvn:org.universAAL.support/uAAL.utils/3.2.0</bundle>
+		<bundle start-level='60'>wrap:mvn:org.universAAL.support/uAAL.utils/${uAAL.utils.version}</bundle>
 		<feature>http</feature> 
 		<bundle start-level='60' start='true'>wrap:mvn:mysql/mysql-connector-java/5.1.17</bundle>
 		<bundle start-level='60' start='true'>mvn:org.apache.derby/derby/10.10.1.1</bundle>

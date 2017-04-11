@@ -181,7 +181,7 @@ public class PersistenceMySQL implements Persistence {
 	Connection conn = null;
 	Statement stmt = null;
 	try {
-	    new org.apache.derby.jdbc.EmbeddedDriver();
+//	    new org.apache.derby.jdbc.EmbeddedDriver();
 	    
 	    if(dbUSR!=null && dbPWD!=null){
 		conn = DriverManager.getConnection(dbURL,dbUSR,dbPWD);
@@ -217,7 +217,7 @@ public class PersistenceMySQL implements Persistence {
 	Connection conn = null;
 	Statement stmt = null;
 	try {
-	    new org.apache.derby.jdbc.EmbeddedDriver();
+//	    new org.apache.derby.jdbc.EmbeddedDriver();
 
 	    if(dbUSR!=null && dbPWD!=null){
 		conn = DriverManager.getConnection(dbURL,dbUSR,dbPWD);
@@ -259,7 +259,7 @@ public class PersistenceMySQL implements Persistence {
 	Connection conn = null;
 	Statement stmt = null;
 	try {
-	    new org.apache.derby.jdbc.EmbeddedDriver();
+//	    new org.apache.derby.jdbc.EmbeddedDriver();
 	    
 	    if(dbUSR!=null && dbPWD!=null){
 		conn = DriverManager.getConnection(dbURL,dbUSR,dbPWD);
@@ -334,7 +334,7 @@ public class PersistenceMySQL implements Persistence {
 	Connection conn = null;
 	Statement stmt = null;
 	try {
-	    new org.apache.derby.jdbc.EmbeddedDriver();
+//	    new org.apache.derby.jdbc.EmbeddedDriver();
 
 	    if(dbUSR!=null && dbPWD!=null){
 		conn = DriverManager.getConnection(dbURL,dbUSR,dbPWD);
@@ -398,7 +398,7 @@ public class PersistenceMySQL implements Persistence {
 	Statement stmt = null;
 	boolean result=false;
 	try {
-	    new org.apache.derby.jdbc.EmbeddedDriver();
+//	    new org.apache.derby.jdbc.EmbeddedDriver();
 	    
 	    if(dbUSR!=null && dbPWD!=null){
 		conn = DriverManager.getConnection(dbURL,dbUSR,dbPWD);
@@ -470,7 +470,7 @@ public class PersistenceMySQL implements Persistence {
 	Statement stmt = null;
 	boolean result=false;
 	try {
-	    new org.apache.derby.jdbc.EmbeddedDriver();
+//	    new org.apache.derby.jdbc.EmbeddedDriver();
 	    
 	    if(dbUSR!=null && dbPWD!=null){
 		conn = DriverManager.getConnection(dbURL,dbUSR,dbPWD);

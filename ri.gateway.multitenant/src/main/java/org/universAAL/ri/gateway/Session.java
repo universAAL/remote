@@ -25,7 +25,6 @@ import java.util.HashSet;
 import org.universAAL.log.Logger;
 import org.universAAL.log.LoggerFactory;
 import org.universAAL.middleware.container.utils.LogUtils;
-import org.universAAL.ri.gateway.communication.cipher.Blowfish;
 import org.universAAL.ri.gateway.communication.cipher.Cipher;
 import org.universAAL.ri.gateway.communicator.service.impl.AbstractSocketCommunicationHandler;
 import org.universAAL.ri.gateway.communicator.service.impl.ClientSocketCommunicationHandler;
@@ -116,7 +115,7 @@ public class Session implements MessageSender, MessageReceiver,
 
     private Session(final Configuration config) {
         this.config = config;
-        this.cipher = new Blowfish(config.getEncryptionKey());
+        this.cipher = config.getCipher();
         this.state = SessionEvent.SessionStatus.OPENING;
     }
 

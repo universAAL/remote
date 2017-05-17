@@ -98,8 +98,6 @@ public class ClientSocketCommunicationHandler extends
 
         this.creator = s;
 
-        final String hashKey = this.config.getEncryptionKey();
-
         this.executor = Executors
                 .newFixedThreadPool(ClientSocketCommunicationHandler.NUM_THREADS);
         log.debug("Created client mode gateway comunication");

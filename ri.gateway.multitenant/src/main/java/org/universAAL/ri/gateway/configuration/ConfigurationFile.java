@@ -21,6 +21,8 @@ import java.util.Properties;
 
 import org.universAAL.middleware.container.utils.LogUtils;
 import org.universAAL.ri.gateway.Gateway;
+import org.universAAL.ri.gateway.communication.cipher.Blowfish;
+import org.universAAL.ri.gateway.communication.cipher.Cipher;
 import org.universAAL.ri.gateway.operations.DenyDefault;
 import org.universAAL.ri.gateway.operations.MessageOperationChain;
 import org.universAAL.ri.gateway.operations.OperationChainManager;
@@ -42,6 +44,7 @@ public class ConfigurationFile extends UpdatedPropertiesFile implements
     private static final long serialVersionUID = 1L;
     
     private OperationChainManager chainMNG = null;
+	private Blowfish cipher;
 
     public ConfigurationFile(final File propFile) {
 	super(propFile);
@@ -138,5 +141,14 @@ public class ConfigurationFile extends UpdatedPropertiesFile implements
     public String getEncryptionKey() {
 	return getProperty(HASH_KEY);
     }
+
+	/** {@inheritDoc} */
+	public Cipher getCipher() {
+		//TODO in future parse for different types of cipher
+		if (cipher == null) {
+			cipher = new Blowfish(getProperty(HASH_KEY));
+		}
+		return cipher;
+	}
 
 }

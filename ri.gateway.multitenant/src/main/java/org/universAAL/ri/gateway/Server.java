@@ -19,7 +19,6 @@
  ******************************************************************************/
 package org.universAAL.ri.gateway;
 
-import org.universAAL.ri.gateway.communication.cipher.Blowfish;
 import org.universAAL.ri.gateway.communication.cipher.Cipher;
 import org.universAAL.ri.gateway.communicator.service.impl.ServerSocketCommunicationHandler;
 import org.universAAL.ri.gateway.configuration.Configuration;
@@ -43,7 +42,7 @@ public class Server {
      */
     public Server(final Configuration fc) {
 	this.config = fc;
-	this.cipher = new Blowfish(fc.getEncryptionKey());
+	this.cipher = fc.getCipher();
 	server = new ServerSocketCommunicationHandler(fc);
 	try {
 	    server.start();

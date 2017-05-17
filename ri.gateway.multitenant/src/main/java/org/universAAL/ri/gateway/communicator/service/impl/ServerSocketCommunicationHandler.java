@@ -44,7 +44,6 @@ import org.universAAL.ri.gateway.Gateway;
 import org.universAAL.ri.gateway.ProxyMessageReceiver;
 import org.universAAL.ri.gateway.Session;
 import org.universAAL.ri.gateway.SessionEvent;
-import org.universAAL.ri.gateway.communication.cipher.Blowfish;
 import org.universAAL.ri.gateway.communicator.service.CommunicationHelper;
 import org.universAAL.ri.gateway.configuration.Configuration;
 import org.universAAL.ri.gateway.protocol.LinkMessage;
@@ -83,7 +82,7 @@ public class ServerSocketCommunicationHandler extends
 
     public ServerSocketCommunicationHandler(final Configuration config) {
     	//TODO: make chiper configurable
-        super(new Blowfish(config.getEncryptionKey()));
+        super(config.getCipher());
         this.config = config;
 
         this.executor = Executors.newCachedThreadPool();

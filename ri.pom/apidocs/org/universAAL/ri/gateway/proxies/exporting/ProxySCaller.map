@@ -1,0 +1,8 @@
+<map id="G" name="G">
+<area shape="rect" id="c16481" href="../ProxyBusMember.html" title="org.universAAL.ri.gateway.proxies.ProxyBusMember" alt="" coords="16,11,141,53"/>
+<area shape="rect" id="node1" href="../ProxyBusMember.html" title="&lt;TABLE&gt;" alt="" coords="5,6,152,58"/>
+<area shape="rect" id="c16483" href="./ProxySCaller.html" title="org.universAAL.ri.gateway.proxies.exporting.ProxySCaller" alt="" coords="109,118,206,143"/>
+<area shape="rect" id="node2" href="./ProxySCaller.html" title="&lt;TABLE&gt;" alt="" coords="99,107,216,155"/>
+<area shape="rect" id="c16527" href="http://java.sun.com/j2se/1.4.2/docs/api/org/universAAL/middleware/service/ServiceCaller.html" title="org.universAAL.middleware.service.ServiceCaller" alt="" coords="187,19,285,45"/>
+<area shape="rect" id="node3" href="http://java.sun.com/j2se/1.4.2/docs/api/org/universAAL/middleware/service/ServiceCaller.html" title="&lt;TABLE&gt;" alt="" coords="176,8,296,56"/>
+</map>

@@ -1,0 +1,14 @@
+<map id="G" name="G">
+<area shape="rect" id="c967" href="./WSOperationOutput.html" title="org.universAAL.ri.wsdlToolkit.ioApi.WSOperationOutput" alt="" coords="15,17,153,42"/>
+<area shape="rect" id="node1" href="./WSOperationOutput.html" title="&lt;TABLE&gt;" alt="" coords="5,5,163,53"/>
+<area shape="rect" id="c968" href="./WSOperation.html" title="org.universAAL.ri.wsdlToolkit.ioApi.WSOperation" alt="" coords="197,17,296,42"/>
+<area shape="rect" id="node2" href="./WSOperation.html" title="&lt;TABLE&gt;" alt="" coords="187,5,307,53"/>
+<area shape="rect" id="c969" href="./WSOperationInput.html" title="org.universAAL.ri.wsdlToolkit.ioApi.WSOperationInput" alt="" coords="341,17,469,42"/>
+<area shape="rect" id="node3" href="./WSOperationInput.html" title="&lt;TABLE&gt;" alt="" coords="331,5,480,53"/>
+<area shape="rect" id="c970" href="./ParsedWSDLDefinition.html" title="org.universAAL.ri.wsdlToolkit.ioApi.ParsedWSDLDefinition" alt="" coords="514,17,670,42"/>
+<area shape="rect" id="node4" href="./ParsedWSDLDefinition.html" title="&lt;TABLE&gt;" alt="" coords="504,5,680,53"/>
+<area shape="rect" id="c971" href="./NativeObject.html" title="org.universAAL.ri.wsdlToolkit.ioApi.NativeObject" alt="" coords="714,17,811,42"/>
+<area shape="rect" id="node5" href="./NativeObject.html" title="&lt;TABLE&gt;" alt="" coords="704,5,821,53"/>
+<area shape="rect" id="c972" href="./ComplexObject.html" title="org.universAAL.ri.wsdlToolkit.ioApi.ComplexObject" alt="" coords="855,17,966,42"/>
+<area shape="rect" id="node6" href="./ComplexObject.html" title="&lt;TABLE&gt;" alt="" coords="845,5,976,53"/>
+</map>

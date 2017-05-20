@@ -1,0 +1,460 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!--
+Licensed to the Apache Software Foundation (ASF) under one
+or more contributor license agreements.  See the NOTICE file
+distributed with this work for additional information
+regarding copyright ownership.  The ASF licenses this file
+to you under the Apache License, Version 2.0 (the
+"License"); you may not use this file except in compliance
+with the License.  You may obtain a copy of the License at
+
+  http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing,
+software distributed under the License is distributed on an
+"AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+KIND, either express or implied.  See the License for the
+specific language governing permissions and limitations
+under the License.
+-->
+<rss version="0.91">
+  <channel>
+    <title>universAAL Remote Interoperability Internet Gateway - Checkstyle report</title>
+    <link>http://remote/ri.internetgateway/</link>
+    <description>universAAL Remote Interoperability Internet Gateway - Checkstyle report</description>
+    <language>en-us</language>
+    <copyright>&#169;2017 universAAL Consortium</copyright>
+    <item>
+      <title>File: 29,
+             Errors: 610,
+             Warnings: 346,
+             Infos: 13286
+      </title>
+            <link>http://remote/ri.internetgateway//checkstyle.html</link>
+      <description>
+        <p>Click <a href="http://remote/ri.internetgateway//checkstyle.html">here</a> for the full Checkstyle report.</p>
+
+        <table summary="Files" boder="1">
+          <thead>
+            <tr>
+              <th>Files</th>
+              <th style="width:30px;"><abbr title="Info">I</abbr></th>
+              <th style="width:30px;"><abbr title="Warning">W</abbr></th>
+              <th style="width:30px;"><abbr title="Error">E</abbr></th>
+            </tr>
+          </thead>
+          <tbody>
+                          <tr>
+                <td>
+                  <a href="http://remote/ri.internetgateway//checkstyle.html#org.universAAL.ri.wsdlToolkit.parser.MitsosParser.java">org/universAAL/ri/wsdlToolkit/parser/MitsosParser.java</a>
+                </td>
+                <td>
+                  1999
+                </td>
+                <td>
+                  65
+                </td>
+                <td>
+                  28
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://remote/ri.internetgateway//checkstyle.html#org.universAAL.ri.wsdlToolkit.ioApi.WSOperationInput.java">org/universAAL/ri/wsdlToolkit/ioApi/WSOperationInput.java</a>
+                </td>
+                <td>
+                  38
+                </td>
+                <td>
+                  3
+                </td>
+                <td>
+                  19
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://remote/ri.internetgateway//checkstyle.html#org.universAAL.ri.wsdlToolkit.invocation.Axis2InvocationResultHandler.java">org/universAAL/ri/wsdlToolkit/invocation/Axis2InvocationResultHandler.java</a>
+                </td>
+                <td>
+                  203
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  18
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://remote/ri.internetgateway//checkstyle.html#org.universAAL.ri.wsdlToolkit.invocation.Axis2InvocationResultHandler_RpcEncoded.java">org/universAAL/ri/wsdlToolkit/invocation/Axis2InvocationResultHandler_RpcEncoded.java</a>
+                </td>
+                <td>
+                  130
+                </td>
+                <td>
+                  15
+                </td>
+                <td>
+                  10
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://remote/ri.internetgateway//checkstyle.html#org.universAAL.ri.wsdlToolkit.ioApi.ComplexObject.java">org/universAAL/ri/wsdlToolkit/ioApi/ComplexObject.java</a>
+                </td>
+                <td>
+                  241
+                </td>
+                <td>
+                  18
+                </td>
+                <td>
+                  65
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://remote/ri.internetgateway//checkstyle.html#org.universAAL.ri.wsdlToolkit.invocation.Axis2_RpcEncodedMessageBuilder.java">org/universAAL/ri/wsdlToolkit/invocation/Axis2_RpcEncodedMessageBuilder.java</a>
+                </td>
+                <td>
+                  402
+                </td>
+                <td>
+                  7
+                </td>
+                <td>
+                  9
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://remote/ri.internetgateway//checkstyle.html#org.universAAL.ri.wsdlToolkit.axis2Parser.SimpleTypesParser.java">org/universAAL/ri/wsdlToolkit/axis2Parser/SimpleTypesParser.java</a>
+                </td>
+                <td>
+                  555
+                </td>
+                <td>
+                  2
+                </td>
+                <td>
+                  4
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://remote/ri.internetgateway//checkstyle.html#org.universAAL.ri.internetgateway.Activator.java">org/universAAL/ri/internetgateway/Activator.java</a>
+                </td>
+                <td>
+                  11
+                </td>
+                <td>
+                  3
+                </td>
+                <td>
+                  6
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://remote/ri.internetgateway//checkstyle.html#org.universAAL.ri.wsdlToolkit.parser.WSDL_XSD_SchemaToolkit.java">org/universAAL/ri/wsdlToolkit/parser/WSDL_XSD_SchemaToolkit.java</a>
+                </td>
+                <td>
+                  369
+                </td>
+                <td>
+                  35
+                </td>
+                <td>
+                  5
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://remote/ri.internetgateway//checkstyle.html#org.universAAL.ri.wsdlToolkit.parser.Axis1ParserWrapper.java">org/universAAL/ri/wsdlToolkit/parser/Axis1ParserWrapper.java</a>
+                </td>
+                <td>
+                  1105
+                </td>
+                <td>
+                  11
+                </td>
+                <td>
+                  13
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://remote/ri.internetgateway//checkstyle.html#org.universAAL.ri.restToolkit.RestClient.java">org/universAAL/ri/restToolkit/RestClient.java</a>
+                </td>
+                <td>
+                  36
+                </td>
+                <td>
+                  1
+                </td>
+                <td>
+                  4
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://remote/ri.internetgateway//checkstyle.html#org.universAAL.ri.wsdlToolkit.invocation.InvocationResult.java">org/universAAL/ri/wsdlToolkit/invocation/InvocationResult.java</a>
+                </td>
+                <td>
+                  11
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  17
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://remote/ri.internetgateway//checkstyle.html#org.universAAL.ri.wsdlToolkit.axis2Parser.ComplexTypesParser.java">org/universAAL/ri/wsdlToolkit/axis2Parser/ComplexTypesParser.java</a>
+                </td>
+                <td>
+                  862
+                </td>
+                <td>
+                  13
+                </td>
+                <td>
+                  6
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://remote/ri.internetgateway//checkstyle.html#org.universAAL.ri.wsdlToolkit.ioApi.WSOperation.java">org/universAAL/ri/wsdlToolkit/ioApi/WSOperation.java</a>
+                </td>
+                <td>
+                  17
+                </td>
+                <td>
+                  7
+                </td>
+                <td>
+                  36
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://remote/ri.internetgateway//checkstyle.html#org.universAAL.ri.wsdlToolkit.axis2Parser.AdditionalTypesParser.java">org/universAAL/ri/wsdlToolkit/axis2Parser/AdditionalTypesParser.java</a>
+                </td>
+                <td>
+                  2370
+                </td>
+                <td>
+                  14
+                </td>
+                <td>
+                  14
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://remote/ri.internetgateway//checkstyle.html#org.universAAL.ri.internetgateway.InternetGateway.java">org/universAAL/ri/internetgateway/InternetGateway.java</a>
+                </td>
+                <td>
+                  41
+                </td>
+                <td>
+                  4
+                </td>
+                <td>
+                  6
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://remote/ri.internetgateway//checkstyle.html#org.universAAL.ri.restToolkit.ClientHttpRequest.java">org/universAAL/ri/restToolkit/ClientHttpRequest.java</a>
+                </td>
+                <td>
+                  134
+                </td>
+                <td>
+                  15
+                </td>
+                <td>
+                  112
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://remote/ri.internetgateway//checkstyle.html#org.universAAL.ri.wsdlToolkit.axis2Parser.ParsingUtils.java">org/universAAL/ri/wsdlToolkit/axis2Parser/ParsingUtils.java</a>
+                </td>
+                <td>
+                  190
+                </td>
+                <td>
+                  29
+                </td>
+                <td>
+                  15
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://remote/ri.internetgateway//checkstyle.html#org.universAAL.ri.wsdlToolkit.invocation.Axis2InvocationResultHandler_RPC.java">org/universAAL/ri/wsdlToolkit/invocation/Axis2InvocationResultHandler_RPC.java</a>
+                </td>
+                <td>
+                  206
+                </td>
+                <td>
+                  1
+                </td>
+                <td>
+                  18
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://remote/ri.internetgateway//checkstyle.html#org.universAAL.ri.wsdlToolkit.parser.WSDLParser.java">org/universAAL/ri/wsdlToolkit/parser/WSDLParser.java</a>
+                </td>
+                <td>
+                  321
+                </td>
+                <td>
+                  6
+                </td>
+                <td>
+                  7
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://remote/ri.internetgateway//checkstyle.html#org.universAAL.ri.wsdlToolkit.invocation.Axis1WebServiceInvoker.java">org/universAAL/ri/wsdlToolkit/invocation/Axis1WebServiceInvoker.java</a>
+                </td>
+                <td>
+                  29
+                </td>
+                <td>
+                  2
+                </td>
+                <td>
+                  6
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://remote/ri.internetgateway//checkstyle.html#org.universAAL.ri.wsdlToolkit.ioApi.WSOperationOutput.java">org/universAAL/ri/wsdlToolkit/ioApi/WSOperationOutput.java</a>
+                </td>
+                <td>
+                  33
+                </td>
+                <td>
+                  3
+                </td>
+                <td>
+                  19
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://remote/ri.internetgateway//checkstyle.html#org.universAAL.ri.wsdlToolkit.parser.LoggingOutputStream.java">org/universAAL/ri/wsdlToolkit/parser/LoggingOutputStream.java</a>
+                </td>
+                <td>
+                  13
+                </td>
+                <td>
+                  2
+                </td>
+                <td>
+                  5
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://remote/ri.internetgateway//checkstyle.html#org.universAAL.ri.wsdlToolkit.parser.StdOutErrLevel.java">org/universAAL/ri/wsdlToolkit/parser/StdOutErrLevel.java</a>
+                </td>
+                <td>
+                  10
+                </td>
+                <td>
+                  5
+                </td>
+                <td>
+                  8
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://remote/ri.internetgateway//checkstyle.html#org.universAAL.ri.wsdlToolkit.invocation.Axis2WebServiceInvoker.java">org/universAAL/ri/wsdlToolkit/invocation/Axis2WebServiceInvoker.java</a>
+                </td>
+                <td>
+                  102
+                </td>
+                <td>
+                  3
+                </td>
+                <td>
+                  11
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://remote/ri.internetgateway//checkstyle.html#org.universAAL.ri.wsdlToolkit.parser.DocumentStyleWSDLParser.java">org/universAAL/ri/wsdlToolkit/parser/DocumentStyleWSDLParser.java</a>
+                </td>
+                <td>
+                  1903
+                </td>
+                <td>
+                  50
+                </td>
+                <td>
+                  16
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://remote/ri.internetgateway//checkstyle.html#org.universAAL.ri.wsdlToolkit.ioApi.ParsedWSDLDefinition.java">org/universAAL/ri/wsdlToolkit/ioApi/ParsedWSDLDefinition.java</a>
+                </td>
+                <td>
+                  22
+                </td>
+                <td>
+                  16
+                </td>
+                <td>
+                  74
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://remote/ri.internetgateway//checkstyle.html#org.universAAL.ri.wsdlToolkit.axis2Parser.Axis2ParserWrapper.java">org/universAAL/ri/wsdlToolkit/axis2Parser/Axis2ParserWrapper.java</a>
+                </td>
+                <td>
+                  1897
+                </td>
+                <td>
+                  7
+                </td>
+                <td>
+                  11
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://remote/ri.internetgateway//checkstyle.html#org.universAAL.ri.wsdlToolkit.ioApi.NativeObject.java">org/universAAL/ri/wsdlToolkit/ioApi/NativeObject.java</a>
+                </td>
+                <td>
+                  36
+                </td>
+                <td>
+                  9
+                </td>
+                <td>
+                  48
+                </td>
+              </tr>
+                      </tbody>
+        </table>
+        
+      </description>
+    </item>
+  </channel>
+</rss>
+

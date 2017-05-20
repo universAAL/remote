@@ -1,0 +1,866 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!--
+Licensed to the Apache Software Foundation (ASF) under one
+or more contributor license agreements.  See the NOTICE file
+distributed with this work for additional information
+regarding copyright ownership.  The ASF licenses this file
+to you under the Apache License, Version 2.0 (the
+"License"); you may not use this file except in compliance
+with the License.  You may obtain a copy of the License at
+
+  http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing,
+software distributed under the License is distributed on an
+"AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+KIND, either express or implied.  See the License for the
+specific language governing permissions and limitations
+under the License.
+-->
+<rss version="0.91">
+  <channel>
+    <title>universAAL Remote Interoperability AALSpace Gateway - Checkstyle report</title>
+    <link>http://remote/ri.gateway.multitenant/</link>
+    <description>universAAL Remote Interoperability AALSpace Gateway - Checkstyle report</description>
+    <language>en-us</language>
+    <copyright>&#169;2017 universAAL Consortium</copyright>
+    <item>
+      <title>File: 58,
+             Errors: 738,
+             Warnings: 130,
+             Infos: 724
+      </title>
+            <link>http://remote/ri.gateway.multitenant//checkstyle.html</link>
+      <description>
+        <p>Click <a href="http://remote/ri.gateway.multitenant//checkstyle.html">here</a> for the full Checkstyle report.</p>
+
+        <table summary="Files" boder="1">
+          <thead>
+            <tr>
+              <th>Files</th>
+              <th style="width:30px;"><abbr title="Info">I</abbr></th>
+              <th style="width:30px;"><abbr title="Warning">W</abbr></th>
+              <th style="width:30px;"><abbr title="Error">E</abbr></th>
+            </tr>
+          </thead>
+          <tbody>
+                          <tr>
+                <td>
+                  <a href="http://remote/ri.gateway.multitenant//checkstyle.html#org.universAAL.ri.gateway.Session.java">org/universAAL/ri/gateway/Session.java</a>
+                </td>
+                <td>
+                  15
+                </td>
+                <td>
+                  7
+                </td>
+                <td>
+                  62
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://remote/ri.gateway.multitenant//checkstyle.html#org.universAAL.ri.gateway.proxies.exporting.ProxyContextPublisher.java">org/universAAL/ri/gateway/proxies/exporting/ProxyContextPublisher.java</a>
+                </td>
+                <td>
+                  13
+                </td>
+                <td>
+                  1
+                </td>
+                <td>
+                  23
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://remote/ri.gateway.multitenant//checkstyle.html#org.universAAL.ri.gateway.communicator.service.impl.AbstractLinkHandler.java">org/universAAL/ri/gateway/communicator/service/impl/AbstractLinkHandler.java</a>
+                </td>
+                <td>
+                  9
+                </td>
+                <td>
+                  14
+                </td>
+                <td>
+                  48
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://remote/ri.gateway.multitenant//checkstyle.html#org.universAAL.ri.gateway.communicator.service.CommunicationHandler.java">org/universAAL/ri/gateway/communicator/service/CommunicationHandler.java</a>
+                </td>
+                <td>
+                  5
+                </td>
+                <td>
+                  1
+                </td>
+                <td>
+                  4
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://remote/ri.gateway.multitenant//checkstyle.html#org.universAAL.ri.gateway.proxies.updating.RegistrationParametersAdder.java">org/universAAL/ri/gateway/proxies/updating/RegistrationParametersAdder.java</a>
+                </td>
+                <td>
+                  5
+                </td>
+                <td>
+                  2
+                </td>
+                <td>
+                  8
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://remote/ri.gateway.multitenant//checkstyle.html#org.universAAL.ri.gateway.protocol.link.DisconnectionRequest.java">org/universAAL/ri/gateway/protocol/link/DisconnectionRequest.java</a>
+                </td>
+                <td>
+                  2
+                </td>
+                <td>
+                  4
+                </td>
+                <td>
+                  14
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://remote/ri.gateway.multitenant//checkstyle.html#org.universAAL.ri.gateway.configuration.TurtleFileSecurityDefinition.java">org/universAAL/ri/gateway/configuration/TurtleFileSecurityDefinition.java</a>
+                </td>
+                <td>
+                  135
+                </td>
+                <td>
+                  20
+                </td>
+                <td>
+                  37
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://remote/ri.gateway.multitenant//checkstyle.html#org.universAAL.ri.gateway.communication.cipher.Cipher.java">org/universAAL/ri/gateway/communication/cipher/Cipher.java</a>
+                </td>
+                <td>
+                  7
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  2
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://remote/ri.gateway.multitenant//checkstyle.html#org.universAAL.ri.gateway.protocol.link.ReconnectionRequest.java">org/universAAL/ri/gateway/protocol/link/ReconnectionRequest.java</a>
+                </td>
+                <td>
+                  2
+                </td>
+                <td>
+                  4
+                </td>
+                <td>
+                  14
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://remote/ri.gateway.multitenant//checkstyle.html#org.universAAL.ri.gateway.protocol.link.ConnectionRequest.java">org/universAAL/ri/gateway/protocol/link/ConnectionRequest.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  6
+                </td>
+                <td>
+                  12
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://remote/ri.gateway.multitenant//checkstyle.html#org.universAAL.ri.gateway.protocol.link.ConnectionResponse.java">org/universAAL/ri/gateway/protocol/link/ConnectionResponse.java</a>
+                </td>
+                <td>
+                  2
+                </td>
+                <td>
+                  4
+                </td>
+                <td>
+                  14
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://remote/ri.gateway.multitenant//checkstyle.html#org.universAAL.ri.gateway.configuration.UpdatedPropertiesFile.java">org/universAAL/ri/gateway/configuration/UpdatedPropertiesFile.java</a>
+                </td>
+                <td>
+                  39
+                </td>
+                <td>
+                  2
+                </td>
+                <td>
+                  10
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://remote/ri.gateway.multitenant//checkstyle.html#org.universAAL.ri.gateway.proxies.BusMemberReference.java">org/universAAL/ri/gateway/proxies/BusMemberReference.java</a>
+                </td>
+                <td>
+                  10
+                </td>
+                <td>
+                  3
+                </td>
+                <td>
+                  6
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://remote/ri.gateway.multitenant//checkstyle.html#org.universAAL.ri.gateway.protocol.ImportMessage.java">org/universAAL/ri/gateway/protocol/ImportMessage.java</a>
+                </td>
+                <td>
+                  20
+                </td>
+                <td>
+                  2
+                </td>
+                <td>
+                  15
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://remote/ri.gateway.multitenant//checkstyle.html#org.universAAL.ri.gateway.protocol.WrappedBusMessage.java">org/universAAL/ri/gateway/protocol/WrappedBusMessage.java</a>
+                </td>
+                <td>
+                  12
+                </td>
+                <td>
+                  1
+                </td>
+                <td>
+                  10
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://remote/ri.gateway.multitenant//checkstyle.html#org.universAAL.ri.gateway.configuration.NoSecurityDefinition.java">org/universAAL/ri/gateway/configuration/NoSecurityDefinition.java</a>
+                </td>
+                <td>
+                  2
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  4
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://remote/ri.gateway.multitenant//checkstyle.html#org.universAAL.ri.gateway.communicator.service.impl.AbstractSocketCommunicationHandler.java">org/universAAL/ri/gateway/communicator/service/impl/AbstractSocketCommunicationHandler.java</a>
+                </td>
+                <td>
+                  5
+                </td>
+                <td>
+                  3
+                </td>
+                <td>
+                  12
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://remote/ri.gateway.multitenant//checkstyle.html#org.universAAL.ri.gateway.communication.cipher.Blowfish.java">org/universAAL/ri/gateway/communication/cipher/Blowfish.java</a>
+                </td>
+                <td>
+                  5
+                </td>
+                <td>
+                  1
+                </td>
+                <td>
+                  8
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://remote/ri.gateway.multitenant//checkstyle.html#org.universAAL.ri.gateway.SessionEvent.java">org/universAAL/ri/gateway/SessionEvent.java</a>
+                </td>
+                <td>
+                  9
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  5
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://remote/ri.gateway.multitenant//checkstyle.html#org.universAAL.ri.gateway.operations.MessageOperationChain.java">org/universAAL/ri/gateway/operations/MessageOperationChain.java</a>
+                </td>
+                <td>
+                  6
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  2
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://remote/ri.gateway.multitenant//checkstyle.html#org.universAAL.ri.gateway.proxies.ProxyBusMember.java">org/universAAL/ri/gateway/proxies/ProxyBusMember.java</a>
+                </td>
+                <td>
+                  19
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  3
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://remote/ri.gateway.multitenant//checkstyle.html#org.universAAL.ri.gateway.protocol.MessageSender.java">org/universAAL/ri/gateway/protocol/MessageSender.java</a>
+                </td>
+                <td>
+                  7
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  1
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://remote/ri.gateway.multitenant//checkstyle.html#org.universAAL.ri.gateway.communicator.service.impl.SessionManager.java">org/universAAL/ri/gateway/communicator/service/impl/SessionManager.java</a>
+                </td>
+                <td>
+                  17
+                </td>
+                <td>
+                  12
+                </td>
+                <td>
+                  42
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://remote/ri.gateway.multitenant//checkstyle.html#org.universAAL.ri.gateway.SessionEventListener.java">org/universAAL/ri/gateway/SessionEventListener.java</a>
+                </td>
+                <td>
+                  7
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  2
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://remote/ri.gateway.multitenant//checkstyle.html#org.universAAL.ri.gateway.operations.AllowDefault.java">org/universAAL/ri/gateway/operations/AllowDefault.java</a>
+                </td>
+                <td>
+                  6
+                </td>
+                <td>
+                  1
+                </td>
+                <td>
+                  8
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://remote/ri.gateway.multitenant//checkstyle.html#org.universAAL.ri.gateway.protocol.ErrorMessage.java">org/universAAL/ri/gateway/protocol/ErrorMessage.java</a>
+                </td>
+                <td>
+                  8
+                </td>
+                <td>
+                  3
+                </td>
+                <td>
+                  5
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://remote/ri.gateway.multitenant//checkstyle.html#org.universAAL.ri.gateway.configuration.PropertiesFileKeys.java">org/universAAL/ri/gateway/configuration/PropertiesFileKeys.java</a>
+                </td>
+                <td>
+                  7
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  2
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://remote/ri.gateway.multitenant//checkstyle.html#org.universAAL.ri.gateway.operations.OperationChainManager.java">org/universAAL/ri/gateway/operations/OperationChainManager.java</a>
+                </td>
+                <td>
+                  16
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  4
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://remote/ri.gateway.multitenant//checkstyle.html#org.universAAL.log.LoggerFactory.java">org/universAAL/log/LoggerFactory.java</a>
+                </td>
+                <td>
+                  7
+                </td>
+                <td>
+                  6
+                </td>
+                <td>
+                  28
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://remote/ri.gateway.multitenant//checkstyle.html#org.universAAL.ri.gateway.configuration.ConfigurationFile.java">org/universAAL/ri/gateway/configuration/ConfigurationFile.java</a>
+                </td>
+                <td>
+                  19
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  17
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://remote/ri.gateway.multitenant//checkstyle.html#org.universAAL.ri.gateway.proxies.exporting.ProxySCaller.java">org/universAAL/ri/gateway/proxies/exporting/ProxySCaller.java</a>
+                </td>
+                <td>
+                  17
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  19
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://remote/ri.gateway.multitenant//checkstyle.html#org.universAAL.ri.gateway.Importer.java">org/universAAL/ri/gateway/Importer.java</a>
+                </td>
+                <td>
+                  24
+                </td>
+                <td>
+                  2
+                </td>
+                <td>
+                  10
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://remote/ri.gateway.multitenant//checkstyle.html#org.universAAL.ri.gateway.proxies.ReferencesManager.java">org/universAAL/ri/gateway/proxies/ReferencesManager.java</a>
+                </td>
+                <td>
+                  12
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  13
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://remote/ri.gateway.multitenant//checkstyle.html#org.universAAL.log.Logger.java">org/universAAL/log/Logger.java</a>
+                </td>
+                <td>
+                  5
+                </td>
+                <td>
+                  1
+                </td>
+                <td>
+                  5
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://remote/ri.gateway.multitenant//checkstyle.html#org.universAAL.ri.gateway.operations.DenyDefault.java">org/universAAL/ri/gateway/operations/DenyDefault.java</a>
+                </td>
+                <td>
+                  6
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  8
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://remote/ri.gateway.multitenant//checkstyle.html#org.universAAL.ri.gateway.proxies.importing.ProxySCallee.java">org/universAAL/ri/gateway/proxies/importing/ProxySCallee.java</a>
+                </td>
+                <td>
+                  13
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  16
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://remote/ri.gateway.multitenant//checkstyle.html#org.universAAL.ri.gateway.osgi.GatewayCommand.java">org/universAAL/ri/gateway/osgi/GatewayCommand.java</a>
+                </td>
+                <td>
+                  12
+                </td>
+                <td>
+                  2
+                </td>
+                <td>
+                  2
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://remote/ri.gateway.multitenant//checkstyle.html#org.universAAL.ri.gateway.protocol.MessageReceiver.java">org/universAAL/ri/gateway/protocol/MessageReceiver.java</a>
+                </td>
+                <td>
+                  6
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  1
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://remote/ri.gateway.multitenant//checkstyle.html#org.universAAL.ri.gateway.ProxyMessageReceiver.java">org/universAAL/ri/gateway/ProxyMessageReceiver.java</a>
+                </td>
+                <td>
+                  9
+                </td>
+                <td>
+                  1
+                </td>
+                <td>
+                  5
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://remote/ri.gateway.multitenant//checkstyle.html#org.universAAL.ri.gateway.utils.ArraySet.java">org/universAAL/ri/gateway/utils/ArraySet.java</a>
+                </td>
+                <td>
+                  14
+                </td>
+                <td>
+                  1
+                </td>
+                <td>
+                  10
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://remote/ri.gateway.multitenant//checkstyle.html#org.universAAL.ri.gateway.communicator.service.impl.ClientSocketCommunicationHandler.java">org/universAAL/ri/gateway/communicator/service/impl/ClientSocketCommunicationHandler.java</a>
+                </td>
+                <td>
+                  16
+                </td>
+                <td>
+                  10
+                </td>
+                <td>
+                  23
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://remote/ri.gateway.multitenant//checkstyle.html#org.universAAL.ri.gateway.Exporter.java">org/universAAL/ri/gateway/Exporter.java</a>
+                </td>
+                <td>
+                  34
+                </td>
+                <td>
+                  3
+                </td>
+                <td>
+                  24
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://remote/ri.gateway.multitenant//checkstyle.html#org.universAAL.ri.gateway.protocol.Message.java">org/universAAL/ri/gateway/protocol/Message.java</a>
+                </td>
+                <td>
+                  8
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  10
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://remote/ri.gateway.multitenant//checkstyle.html#org.universAAL.ri.gateway.osgi.OSGIActivator.java">org/universAAL/ri/gateway/osgi/OSGIActivator.java</a>
+                </td>
+                <td>
+                  7
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  2
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://remote/ri.gateway.multitenant//checkstyle.html#org.universAAL.ri.gateway.operations.OperationChain.java">org/universAAL/ri/gateway/operations/OperationChain.java</a>
+                </td>
+                <td>
+                  5
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  3
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://remote/ri.gateway.multitenant//checkstyle.html#org.universAAL.ri.gateway.proxies.importing.ProxyContextSubscriber.java">org/universAAL/ri/gateway/proxies/importing/ProxyContextSubscriber.java</a>
+                </td>
+                <td>
+                  9
+                </td>
+                <td>
+                  1
+                </td>
+                <td>
+                  14
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://remote/ri.gateway.multitenant//checkstyle.html#org.universAAL.ri.gateway.protocol.LinkMessage.java">org/universAAL/ri/gateway/protocol/LinkMessage.java</a>
+                </td>
+                <td>
+                  4
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  8
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://remote/ri.gateway.multitenant//checkstyle.html#org.universAAL.ri.gateway.Server.java">org/universAAL/ri/gateway/Server.java</a>
+                </td>
+                <td>
+                  14
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  13
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://remote/ri.gateway.multitenant//checkstyle.html#org.universAAL.ri.gateway.proxies.updating.Updater.java">org/universAAL/ri/gateway/proxies/updating/Updater.java</a>
+                </td>
+                <td>
+                  6
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  3
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://remote/ri.gateway.multitenant//checkstyle.html#org.universAAL.ri.gateway.communicator.service.impl.ServerSocketCommunicationHandler.java">org/universAAL/ri/gateway/communicator/service/impl/ServerSocketCommunicationHandler.java</a>
+                </td>
+                <td>
+                  12
+                </td>
+                <td>
+                  7
+                </td>
+                <td>
+                  21
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://remote/ri.gateway.multitenant//checkstyle.html#org.universAAL.ri.gateway.proxies.updating.RegistrationParametersRemover.java">org/universAAL/ri/gateway/proxies/updating/RegistrationParametersRemover.java</a>
+                </td>
+                <td>
+                  5
+                </td>
+                <td>
+                  1
+                </td>
+                <td>
+                  8
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://remote/ri.gateway.multitenant//checkstyle.html#org.universAAL.ri.gateway.operations.ParameterCheckOpertaionChain.java">org/universAAL/ri/gateway/operations/ParameterCheckOpertaionChain.java</a>
+                </td>
+                <td>
+                  5
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  1
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://remote/ri.gateway.multitenant//checkstyle.html#org.universAAL.ri.gateway.utils.CallSynchronizer.java">org/universAAL/ri/gateway/utils/CallSynchronizer.java</a>
+                </td>
+                <td>
+                  15
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  20
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://remote/ri.gateway.multitenant//checkstyle.html#org.universAAL.ri.gateway.proxies.ProxyBusMemberFactory.java">org/universAAL/ri/gateway/proxies/ProxyBusMemberFactory.java</a>
+                </td>
+                <td>
+                  13
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  5
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://remote/ri.gateway.multitenant//checkstyle.html#org.universAAL.ri.gateway.proxies.ProxyPool.java">org/universAAL/ri/gateway/proxies/ProxyPool.java</a>
+                </td>
+                <td>
+                  13
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  12
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://remote/ri.gateway.multitenant//checkstyle.html#org.universAAL.ri.gateway.configuration.Configuration.java">org/universAAL/ri/gateway/configuration/Configuration.java</a>
+                </td>
+                <td>
+                  14
+                </td>
+                <td>
+                  1
+                </td>
+                <td>
+                  3
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://remote/ri.gateway.multitenant//checkstyle.html#org.universAAL.ri.gateway.communicator.service.CommunicationHelper.java">org/universAAL/ri/gateway/communicator/service/CommunicationHelper.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  3
+                </td>
+                <td>
+                  12
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://remote/ri.gateway.multitenant//checkstyle.html#org.universAAL.ri.gateway.Gateway.java">org/universAAL/ri/gateway/Gateway.java</a>
+                </td>
+                <td>
+                  10
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  45
+                </td>
+              </tr>
+                      </tbody>
+        </table>
+        
+      </description>
+    </item>
+  </channel>
+</rss>
+

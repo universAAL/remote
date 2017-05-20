@@ -1,0 +1,10 @@
+<map id="G" name="G">
+<area shape="rect" id="c4584" href="./SendMail.html" title="org.universAAL.ri.keepalive.receiver.SendMail" alt="" coords="16,17,91,42"/>
+<area shape="rect" id="node1" href="./SendMail.html" title="&lt;TABLE&gt;" alt="" coords="5,5,101,53"/>
+<area shape="rect" id="c4585" href="./Activator.html" title="org.universAAL.ri.keepalive.receiver.Activator" alt="" coords="135,17,209,42"/>
+<area shape="rect" id="node2" href="./Activator.html" title="&lt;TABLE&gt;" alt="" coords="125,5,219,53"/>
+<area shape="rect" id="c4586" href="./CSubscriber.html" title="org.universAAL.ri.keepalive.receiver.CSubscriber" alt="" coords="253,17,347,42"/>
+<area shape="rect" id="node3" href="./CSubscriber.html" title="&lt;TABLE&gt;" alt="" coords="243,5,357,53"/>
+<area shape="rect" id="c4587" href="./Checker.html" title="org.universAAL.ri.keepalive.receiver.Checker" alt="" coords="392,17,461,42"/>
+<area shape="rect" id="node4" href="./Checker.html" title="&lt;TABLE&gt;" alt="" coords="381,5,472,53"/>
+</map>

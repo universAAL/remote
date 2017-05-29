@@ -27,8 +27,8 @@ under the License.
     <item>
       <title>File: 17,
              Errors: 300,
-             Warnings: 214,
-             Infos: 1676
+             Warnings: 51,
+             Infos: 1369
       </title>
             <link>http://remote/ri.api.manager//checkstyle.html</link>
       <description>
@@ -49,7 +49,7 @@ under the License.
                   <a href="http://remote/ri.api.manager//checkstyle.html#org.universAAL.ri.api.manager.Configuration.java">org/universAAL/ri/api/manager/Configuration.java</a>
                 </td>
                 <td>
-                  30
+                  26
                 </td>
                 <td>
                   1
@@ -63,7 +63,7 @@ under the License.
                   <a href="http://remote/ri.api.manager//checkstyle.html#org.universAAL.ri.api.manager.exceptions.RAPIException.java">org/universAAL/ri/api/manager/exceptions/RAPIException.java</a>
                 </td>
                 <td>
-                  12
+                  11
                 </td>
                 <td>
                   0
@@ -77,10 +77,10 @@ under the License.
                   <a href="http://remote/ri.api.manager//checkstyle.html#org.universAAL.ri.api.manager.push.CryptUtil.java">org/universAAL/ri/api/manager/push/CryptUtil.java</a>
                 </td>
                 <td>
-                  33
+                  32
                 </td>
                 <td>
-                  4
+                  2
                 </td>
                 <td>
                   35
@@ -91,10 +91,10 @@ under the License.
                   <a href="http://remote/ri.api.manager//checkstyle.html#org.universAAL.ri.api.manager.server.persistence.PersistenceDerby.java">org/universAAL/ri/api/manager/server/persistence/PersistenceDerby.java</a>
                 </td>
                 <td>
-                  279
+                  230
                 </td>
                 <td>
-                  10
+                  0
                 </td>
                 <td>
                   26
@@ -105,10 +105,10 @@ under the License.
                   <a href="http://remote/ri.api.manager//checkstyle.html#org.universAAL.ri.api.manager.push.PushGCM.java">org/universAAL/ri/api/manager/push/PushGCM.java</a>
                 </td>
                 <td>
-                  344
+                  279
                 </td>
                 <td>
-                  21
+                  0
                 </td>
                 <td>
                   8
@@ -119,10 +119,10 @@ under the License.
                   <a href="http://remote/ri.api.manager//checkstyle.html#org.universAAL.ri.api.manager.RemoteUAAL.java">org/universAAL/ri/api/manager/RemoteUAAL.java</a>
                 </td>
                 <td>
-                  87
+                  76
                 </td>
                 <td>
-                  2
+                  0
                 </td>
                 <td>
                   22
@@ -133,10 +133,10 @@ under the License.
                   <a href="http://remote/ri.api.manager//checkstyle.html#org.universAAL.ri.api.manager.Activator.java">org/universAAL/ri/api/manager/Activator.java</a>
                 </td>
                 <td>
-                  121
+                  90
                 </td>
                 <td>
-                  2
+                  0
                 </td>
                 <td>
                   31
@@ -147,7 +147,7 @@ under the License.
                   <a href="http://remote/ri.api.manager//checkstyle.html#org.universAAL.ri.api.manager.push.PushManager.java">org/universAAL/ri/api/manager/push/PushManager.java</a>
                 </td>
                 <td>
-                  27
+                  23
                 </td>
                 <td>
                   0
@@ -161,7 +161,7 @@ under the License.
                   <a href="http://remote/ri.api.manager//checkstyle.html#org.universAAL.ri.api.manager.exceptions.APIImplException.java">org/universAAL/ri/api/manager/exceptions/APIImplException.java</a>
                 </td>
                 <td>
-                  12
+                  11
                 </td>
                 <td>
                   0
@@ -175,7 +175,7 @@ under the License.
                   <a href="http://remote/ri.api.manager//checkstyle.html#org.universAAL.ri.api.manager.exceptions.PushException.java">org/universAAL/ri/api/manager/exceptions/PushException.java</a>
                 </td>
                 <td>
-                  12
+                  11
                 </td>
                 <td>
                   0
@@ -189,7 +189,7 @@ under the License.
                   <a href="http://remote/ri.api.manager//checkstyle.html#org.universAAL.ri.api.manager.RemoteAPI.java">org/universAAL/ri/api/manager/RemoteAPI.java</a>
                 </td>
                 <td>
-                  38
+                  19
                 </td>
                 <td>
                   0
@@ -203,10 +203,10 @@ under the License.
                   <a href="http://remote/ri.api.manager//checkstyle.html#org.universAAL.ri.api.manager.server.Authenticator.java">org/universAAL/ri/api/manager/server/Authenticator.java</a>
                 </td>
                 <td>
-                  43
+                  38
                 </td>
                 <td>
-                  1
+                  0
                 </td>
                 <td>
                   10
@@ -217,10 +217,10 @@ under the License.
                   <a href="http://remote/ri.api.manager//checkstyle.html#org.universAAL.ri.api.manager.server.RemoteServlet.java">org/universAAL/ri/api/manager/server/RemoteServlet.java</a>
                 </td>
                 <td>
-                  132
+                  125
                 </td>
                 <td>
-                  3
+                  0
                 </td>
                 <td>
                   5
@@ -231,7 +231,7 @@ under the License.
                   <a href="http://remote/ri.api.manager//checkstyle.html#org.universAAL.ri.api.manager.server.persistence.Persistence.java">org/universAAL/ri/api/manager/server/persistence/Persistence.java</a>
                 </td>
                 <td>
-                  33
+                  22
                 </td>
                 <td>
                   0
@@ -245,7 +245,7 @@ under the License.
                   <a href="http://remote/ri.api.manager//checkstyle.html#org.universAAL.ri.api.manager.RemoteAPIImpl.java">org/universAAL/ri/api/manager/RemoteAPIImpl.java</a>
                 </td>
                 <td>
-                  176
+                  150
                 </td>
                 <td>
                   0
@@ -259,10 +259,10 @@ under the License.
                   <a href="http://remote/ri.api.manager//checkstyle.html#org.universAAL.ri.api.manager.server.Base64.java">org/universAAL/ri/api/manager/server/Base64.java</a>
                 </td>
                 <td>
-                  189
+                  149
                 </td>
                 <td>
-                  167
+                  48
                 </td>
                 <td>
                   79
@@ -273,10 +273,10 @@ under the License.
                   <a href="http://remote/ri.api.manager//checkstyle.html#org.universAAL.ri.api.manager.push.PushHTTP.java">org/universAAL/ri/api/manager/push/PushHTTP.java</a>
                 </td>
                 <td>
-                  108
+                  77
                 </td>
                 <td>
-                  3
+                  0
                 </td>
                 <td>
                   3

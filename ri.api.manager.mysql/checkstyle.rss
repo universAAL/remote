@@ -27,8 +27,8 @@ under the License.
     <item>
       <title>File: 1,
              Errors: 28,
-             Warnings: 11,
-             Infos: 319
+             Warnings: 1,
+             Infos: 280
       </title>
             <link>http://remote/ri.api.manager.mysql//checkstyle.html</link>
       <description>
@@ -49,10 +49,10 @@ under the License.
                   <a href="http://remote/ri.api.manager.mysql//checkstyle.html#org.universAAL.ri.api.manager.server.persistence.PersistenceMySQL.java">org/universAAL/ri/api/manager/server/persistence/PersistenceMySQL.java</a>
                 </td>
                 <td>
-                  319
+                  280
                 </td>
                 <td>
-                  11
+                  1
                 </td>
                 <td>
                   28

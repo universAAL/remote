@@ -26,9 +26,9 @@ under the License.
     <copyright>&#169;2017 universAAL Consortium</copyright>
     <item>
       <title>File: 4,
-             Errors: 137,
-             Warnings: 188,
-             Infos: 265
+             Errors: 135,
+             Warnings: 52,
+             Infos: 203
       </title>
             <link>http://remote/ri.servicegateway//checkstyle.html</link>
       <description>
@@ -49,13 +49,13 @@ under the License.
                   <a href="http://remote/ri.servicegateway//checkstyle.html#org.universAAL.ri.servicegateway.osgi.Activator.java">org/universAAL/ri/servicegateway/osgi/Activator.java</a>
                 </td>
                 <td>
-                  12
+                  10
                 </td>
                 <td>
-                  3
+                  1
                 </td>
                 <td>
-                  11
+                  10
                 </td>
               </tr>
                           <tr>
@@ -63,10 +63,10 @@ under the License.
                   <a href="http://remote/ri.servicegateway//checkstyle.html#org.universAAL.ri.servicegateway.impl.Base64.java">org/universAAL/ri/servicegateway/impl/Base64.java</a>
                 </td>
                 <td>
-                  189
+                  149
                 </td>
                 <td>
-                  168
+                  49
                 </td>
                 <td>
                   79
@@ -77,10 +77,10 @@ under the License.
                   <a href="http://remote/ri.servicegateway//checkstyle.html#org.universAAL.ri.servicegateway.osgi.GatewayPortTracker.java">org/universAAL/ri/servicegateway/osgi/GatewayPortTracker.java</a>
                 </td>
                 <td>
-                  24
+                  20
                 </td>
                 <td>
-                  7
+                  1
                 </td>
                 <td>
                   25
@@ -91,13 +91,13 @@ under the License.
                   <a href="http://remote/ri.servicegateway//checkstyle.html#org.universAAL.ri.servicegateway.GatewayPort.java">org/universAAL/ri/servicegateway/GatewayPort.java</a>
                 </td>
                 <td>
-                  40
+                  24
                 </td>
                 <td>
-                  10
+                  1
                 </td>
                 <td>
-                  22
+                  21
                 </td>
               </tr>
                       </tbody>

@@ -27,8 +27,8 @@ under the License.
     <item>
       <title>File: 4,
              Errors: 31,
-             Warnings: 4,
-             Infos: 61
+             Warnings: 1,
+             Infos: 41
       </title>
             <link>http://remote/ri.keepalive.receiver//checkstyle.html</link>
       <description>
@@ -49,10 +49,10 @@ under the License.
                   <a href="http://remote/ri.keepalive.receiver//checkstyle.html#org.universAAL.ri.keepalive.receiver.Checker.java">org/universAAL/ri/keepalive/receiver/Checker.java</a>
                 </td>
                 <td>
-                  10
+                  8
                 </td>
                 <td>
-                  1
+                  0
                 </td>
                 <td>
                   2
@@ -63,7 +63,7 @@ under the License.
                   <a href="http://remote/ri.keepalive.receiver//checkstyle.html#org.universAAL.ri.keepalive.receiver.SendMail.java">org/universAAL/ri/keepalive/receiver/SendMail.java</a>
                 </td>
                 <td>
-                  24
+                  12
                 </td>
                 <td>
                   0
@@ -77,7 +77,7 @@ under the License.
                   <a href="http://remote/ri.keepalive.receiver//checkstyle.html#org.universAAL.ri.keepalive.receiver.CSubscriber.java">org/universAAL/ri/keepalive/receiver/CSubscriber.java</a>
                 </td>
                 <td>
-                  16
+                  12
                 </td>
                 <td>
                   0
@@ -91,10 +91,10 @@ under the License.
                   <a href="http://remote/ri.keepalive.receiver//checkstyle.html#org.universAAL.ri.keepalive.receiver.Activator.java">org/universAAL/ri/keepalive/receiver/Activator.java</a>
                 </td>
                 <td>
-                  11
+                  9
                 </td>
                 <td>
-                  3
+                  1
                 </td>
                 <td>
                   15

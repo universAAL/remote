@@ -91,6 +91,10 @@ public class Configuration {
      * Configuration suffix for GET debug mode
      */
     private static final String CONF_SERV_PWD = "serv.pass";
+    /**
+     * Configuration suffix for host and port
+     */
+    private static final String CONF_HOSTPORT = "serv.host";
 
     /**
      * Get the Server Application Google Cloud Messaging Key. There is a
@@ -203,5 +207,9 @@ public class Configuration {
 
     public static String getDBClass() {
 	return System.getProperty(pkgNameDot + CONF_DB_CLASS, "org.universAAL.ri.rest.manager.server.persistence.PersistenceDerby");
+    }
+
+    public static String getHostPort() {
+	return System.getProperty(pkgNameDot + CONF_HOSTPORT, "http://localhost:9000/");
     }
 }

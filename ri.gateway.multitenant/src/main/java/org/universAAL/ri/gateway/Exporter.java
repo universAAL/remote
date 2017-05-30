@@ -204,14 +204,101 @@ public class Exporter implements IBusMemberRegistryListener {
 	}
 
 	/**
+	 * A task to handle Refresh task per {@link BusMemberReference}.
+	 * It checks if the new parameters are allowed by remote {@link Session},
+	 * if not remote {@link BusMemberReference} is removed from {@link ProxyBusMember}.
+	 * If it is allowed remote importer will be notified about the update,
+	 * Remote may deny new parameters, or something in the communication is wrong;
+	 * then {@link BusMemberReference} is removed.
+	 * If Local parameters are allowed and accepted by remote, then local {@link ProxyBusMember}
+	 * is updated (via remove then add BMR).
+	 * Finally the task checks if the {@link ProxyBusMember} is still connected, and recycles ioc.
+	 * 
+	 * @author amedrano
+	 *
+	 */
+	private class RefresSubTask extends ExporterTask implements Runnable {
+	    
+	    ProxyBusMember pbm;
+	    BusMemberReference bmr;
+	    Updater up;
+	    /**
+	     * @param pbm
+	     * @param bmr
+	     */
+	    public RefresSubTask(ProxyBusMember pbm, BusMemberReference bmr, Updater up) {
+		super();
+		this.pbm = pbm;
+		this.bmr = bmr;
+		this.up = up;
+	    }
+	    /** {@ inheritDoc}	 */
+	    public void run() {
+		final Session s = bmr.getChannel();
+		String busMemberID = bmr.getBusMemberid();
+		// check the new parameters are allowed to be exported
+		if (s.getExportOperationChain()
+				.check(tracked.get(busMemberID))
+				.equals(OperationChain.OperationResult.ALLOW)) {
+			Message resp = null;
+			try {
+				resp = s.sendRequest(up.createExportMessage(pbm
+						.getBusMemberId()));
+			} catch (TimeoutException e) {
+			    reattempt();
+			    return;
+			}
+			if (resp != null && resp instanceof ImportMessage
+					&& ((ImportMessage) resp).isAccepted()) {
+//				toBeAdded.add(new BusMemberReference(s,
+//						((ImportMessage) resp).getBusMemberId()));
+			    pbm.removeRemoteProxyReference(bmr);
+			    pbm.addRemoteProxyReference(bmr);
+			} else {
+				// Either Update Rejected from remote or something
+				// went wrong
+			    pbm.removeRemoteProxyReference(bmr);
+				LogUtils.logWarn(
+						Gateway.getInstance().context,
+						getClass(),
+						"run",
+						"The new parameters of proxy: "
+								+ pbm.getBusMemberId()
+								+ " could not be updated remotely for scope: "
+								+ s.getScope());
+			}
+		} else {    
+			// new parameters are not allowed, remove
+		    pbm.removeRemoteProxyReference(bmr);
+			LogUtils.logWarn(Gateway.getInstance().context,
+					getClass(), "refresh",
+					"new parameters are not allowed locally, sending remove.");
+			// and send remove message
+			s.send(ImportMessage.importRemove(busMemberID));
+		}		
+		// Check the bmr is still connected
+		if (pbm.getRemoteProxiesReferences().isEmpty()) {
+		    // if not recycle
+			LogUtils.logDebug(Gateway.getInstance().context,
+					getClass(), "refresh",
+					"Proxy has no references after refresh, deleting proxy: "
+							+ pbm.getBusMemberId());
+			pool.removeProxyWithSend(pbm);
+			exported.remove(busMemberID);
+		}
+	    }
+	    
+	    
+	    
+	}
+	
+	/**
 	 * Executed when registration parameters change for an exported proxy.<br>
 	 * 
 	 * Initiates Import-refresh protocol: <br>
 	 * <img src="doc-files/Import-ImportRefresh.png"> <br>
 	 * Where refresh is either add or remove registration parameters.
 	 * 
-	 * @param busMemberID
-	 * @param orgigParams
 	 */
 	private class RefreshTask implements Runnable {
 
@@ -239,63 +326,26 @@ public class Exporter implements IBusMemberRegistryListener {
 				// up.newParameters(tracked.get(busMemberID)));
 				final Collection<BusMemberReference> refs = pbm
 						.getRemoteProxiesReferences();
-				final HashSet<BusMemberReference> toBeRemoved = new HashSet<BusMemberReference>(
-						refs);
-				final HashSet<BusMemberReference> toBeAdded = new HashSet<BusMemberReference>();
 				// Send refresh message per channel.
 				for (final BusMemberReference bmr : refs) {
-					final Session s = bmr.getChannel();
-					// check the new parameters are allowed to be exported
-					if (s.getExportOperationChain()
-							.check(tracked.get(busMemberID))
-							.equals(OperationChain.OperationResult.ALLOW)) {
-						Message resp = null;
-						try {
-							resp = s.sendRequest(up.createExportMessage(pbm
-									.getBusMemberId()));
-						} catch (TimeoutException e) {
-							// TODO now what?
-						}
-						if (resp != null && resp instanceof ImportMessage
-								&& ((ImportMessage) resp).isAccepted()) {
-							toBeAdded.add(new BusMemberReference(s,
-									((ImportMessage) resp).getBusMemberId()));
-						} else {
-							// Either Update Rejected from remote or something
-							// went wrong
-							// since the reference is removed but not added it
-							// will be later managed.
-							LogUtils.logWarn(
-									Gateway.getInstance().context,
-									getClass(),
-									"run",
-									"The new parameters of proxy: "
-											+ pbm.getBusMemberId()
-											+ " could not be updated remotely for scope: "
-											+ s.getScope());
-						}
-					} else {
-						// new parameters are not allowed, send remove
-						LogUtils.logWarn(Gateway.getInstance().context,
-								getClass(), "refresh",
-								"new parameters are not allowed locally, sending remove.");
-						s.send(ImportMessage.importRemove(busMemberID));
+					// add new task per BMR
+				    executor.execute(new RefresSubTask(pbm, bmr, up));
+				}
+			} else {
+			    /* 
+			     * busmember is not exported, maybe it used to be exported 
+			     * then it was updated to no longer be exported,
+			     * and now it is being once more updated and export may be posiible
+			     * attempt export
+			     */
+			 // check all sessions
+				final Collection<Session> allSessions = Gateway.getInstance()
+						.getSessions();
+				for (final Session s : allSessions) {
+					if (s.isActive()) {
+						// for each session attempt exporting
+						executor.execute(new ExportTask(busMemberID, s));
 					}
-				}
-				// update all references
-				for (final BusMemberReference bm : toBeRemoved) {
-					pbm.removeRemoteProxyReference(bm);
-				}
-				for (final BusMemberReference bm : toBeAdded) {
-					pbm.addRemoteProxyReference(bm);
-				}
-				if (pbm.getRemoteProxiesReferences().isEmpty()) {
-					LogUtils.logDebug(Gateway.getInstance().context,
-							getClass(), "refresh",
-							"Proxy has no references after refresh, deleting proxy: "
-									+ pbm.getBusMemberId());
-					pool.removeProxyWithSend(pbm);
-					exported.remove(busMemberID);
 				}
 			}
 		}

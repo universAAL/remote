@@ -15,6 +15,8 @@
  ******************************************************************************/
 package org.universAAL.ri.gateway.protocol;
 
+import java.util.concurrent.TimeoutException;
+
 /**
  * Interface to be implemented by artifacts capable of sending a message to a
  * remote ASG, and used by dose classes that need to send messages to remote
@@ -40,7 +42,8 @@ public interface MessageSender {
      * @param message
      *            to send, typically a request message
      * @return the response message, typically a response message.
+     * @throws TimeoutException 
      */
-    Message sendRequest(Message message);
+    Message sendRequest(Message message) throws TimeoutException;
 
 }

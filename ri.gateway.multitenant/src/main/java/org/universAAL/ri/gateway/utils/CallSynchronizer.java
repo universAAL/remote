@@ -19,6 +19,7 @@ package org.universAAL.ri.gateway.utils;
 
 import java.util.Hashtable;
 import java.util.Map;
+import java.util.concurrent.TimeoutException;
 
 /**
  * A Helper class that enables to perform calls and wait for the asynchronous
@@ -28,11 +29,12 @@ import java.util.Map;
  * 
  */
 public abstract class CallSynchronizer<ID, INPUT, OUTPUT> {
-
+	
     private class CallStatus {
 	OUTPUT output = null;
 	boolean returned = false;
 	boolean purged = false;
+	boolean timeout = false;
 
 	void setResutlt(OUTPUT o) {
 	    synchronized (this) {
@@ -47,7 +49,20 @@ public abstract class CallSynchronizer<ID, INPUT, OUTPUT> {
      * The pile of waiting calls.
      */
     Map<ID, CallStatus> waiting;
+    
+    /**
+     * The timeout selected
+     */
+    long timeout = 2500;
 
+    /**
+     * Constructor.
+     */
+    public CallSynchronizer(long timeout) {
+	waiting = new Hashtable<ID, CallStatus>();
+	this.timeout = timeout;  
+    }
+    
     /**
      * Constructor.
      */
@@ -68,23 +83,30 @@ public abstract class CallSynchronizer<ID, INPUT, OUTPUT> {
      * 
      * @throws InterruptedException
      *             when the call was aborted by other thread.
+     * @throws TimeoutException 
+     * 				when the timeout wait limit for response has been exceeded.
      * @see CallSynchronizer#performResponse(ID, Object)
      */
     public OUTPUT performCall(ID callerID, INPUT input)
-	    throws InterruptedException {
+	    throws InterruptedException, TimeoutException {
 	CallStatus status = new CallStatus();
 	synchronized (waiting) {
 	    waiting.put(callerID, status);
 	}
 	operate(callerID, input);
 	synchronized (status) {
-	    while (!status.returned) {
+	    while (!status.returned && !status.purged && !status.timeout) {
 		try {
-		    status.wait();
+		    status.wait(timeout);
 		} catch (InterruptedException e) {
+			status.timeout = true;
 		}
 	    }
 	}
+	if (status.timeout){
+		throw new TimeoutException();
+	}
+	
 	if (status.purged) {
 	    throw new InterruptedException();
 	}

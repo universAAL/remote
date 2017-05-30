@@ -21,6 +21,7 @@ package org.universAAL.ri.gateway;
 
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.concurrent.TimeoutException;
 
 import org.universAAL.log.Logger;
 import org.universAAL.log.LoggerFactory;
@@ -199,7 +200,7 @@ public class Session implements MessageSender, MessageReceiver,
          */
     }
 
-    public Message sendRequest(final Message message) {
+    public Message sendRequest(final Message message) throws TimeoutException {
         // validateRemoteScope(remoteScope);
         // final org.universAAL.ri.gateway.communicator.service.Message content
         // = new org.universAAL.ri.gateway.communicator.service.Message(

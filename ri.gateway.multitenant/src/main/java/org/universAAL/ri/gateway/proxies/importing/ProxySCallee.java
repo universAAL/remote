@@ -18,11 +18,11 @@ package org.universAAL.ri.gateway.proxies.importing;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.concurrent.TimeoutException;
 
 import org.universAAL.middleware.container.ModuleContext;
 import org.universAAL.middleware.container.utils.LogUtils;
 import org.universAAL.middleware.rdf.Resource;
-import org.universAAL.middleware.rdf.ScopedResource;
 import org.universAAL.middleware.service.CallStatus;
 import org.universAAL.middleware.service.MultiServiceResponse;
 import org.universAAL.middleware.service.ServiceCall;
@@ -90,8 +90,21 @@ public class ProxySCallee extends ServiceCallee implements ProxyBusMember {
 		    final ServiceCall copy = (ServiceCall) call.copy(false);
 		    copy.clearScopes();
 		    copy.setOriginScope( null);
-		    final Message resp = s.sendRequest(new WrappedBusMessage(
-			    bmr.getBusMemberid(), copy));
+		    Message resp = null;
+			try {
+				resp = s.sendRequest(new WrappedBusMessage(
+				    bmr.getBusMemberid(), copy));
+			} catch (TimeoutException e) {
+				// TODO sure you want to report directly a timeout, and not reattempt?
+				final ServiceResponse sr = new ServiceResponse(CallStatus.responseTimedOut);
+					// Resolve multitenancy
+					sr.clearScopes();
+					sr.addScope(s.getScope());
+					// set the origin of the response
+					sr.setOriginScope(s.getScope());
+
+					responses.add(sr);
+			}
 		    // sends a scope-clear call to remote proxy.
 		    if (resp != null && resp instanceof WrappedBusMessage) {
 			final ServiceResponse sr = (ServiceResponse) ((WrappedBusMessage) resp)

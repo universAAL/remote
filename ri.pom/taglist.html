@@ -127,12 +127,12 @@
 <th>Tag strings used by tag class</th></tr>
 <tr class="b">
 <td><a href="#tag_class_1">Todo Work</a></td>
-<td>74</td>
+<td>78</td>
 <td>todo, FIXME, XXX</td></tr></table>
 <p>Each tag is detailed below:</p>
 <div class="section">
 <h3><a name="Todo_Work"></a><a name="tag_class_1">Todo Work</a></h3>
-<p><b>Number of occurrences found in the code: 74</b></p>
+<p><b>Number of occurrences found in the code: 78</b></p>
 <table border="0" class="bodyTable">
 <tr class="a">
 <th>org.universAAL.ri.api.manager.Activator</th>
@@ -276,14 +276,20 @@
 <th>org.universAAL.ri.gateway.Exporter</th>
 <th>Line</th></tr>
 <tr class="b">
+<td>configure reAttempts from session config this.remaining_attempts = this.session.getConfiguration().getAttempts();</td>
+<td>139</td></tr>
+<tr class="a">
+<td>now what?</td>
+<td>257</td></tr>
+<tr class="b">
 <td>in future add general security checks.</td>
-<td>223</td></tr>
+<td>351</td></tr>
 <tr class="a">
 <td>check for errors: is this really the first time the busMember is added?</td>
-<td>233</td></tr>
+<td>361</td></tr>
 <tr class="b">
 <td>check if new params of the BusMember is [], Then ???</td>
-<td>303</td></tr>
+<td>435</td></tr>
 <tr class="a">
 <th>org.universAAL.ri.gateway.Gateway</th>
 <th>Line</th></tr>
@@ -307,43 +313,43 @@
 <th>Line</th></tr>
 <tr class="b">
 <td>Log someone is trying to disconnect from an invalid session</td>
-<td>276</td></tr>
+<td>274</td></tr>
 <tr class="a">
 <th>org.universAAL.ri.gateway.communicator.service.impl.ServerSocketCommunicationHandler</th>
 <th>Line</th></tr>
 <tr class="b">
 <td>make chiper configurable</td>
-<td>85</td></tr>
+<td>84</td></tr>
 <tr class="a">
 <td>Define a maximum number of threads</td>
-<td>92</td></tr>
+<td>91</td></tr>
 <tr class="b">
 <td>Check if it can registers tenatManager.getTenant(request.getScopeId());</td>
-<td>236</td></tr>
+<td>235</td></tr>
 <tr class="a">
 <td>Close the session</td>
-<td>245</td></tr>
+<td>244</td></tr>
 <tr class="b">
 <td>we need to link the UUID so that later on we can</td>
-<td>250</td></tr>
+<td>249</td></tr>
 <tr class="a">
 <td>This is a dirty why to connect the Session to the link</td>
-<td>261</td></tr>
+<td>260</td></tr>
 <tr class="b">
 <td>here we should close the Session and remove the object</td>
-<td>284</td></tr>
+<td>283</td></tr>
 <tr class="a">
 <td>someone is trying to reconnect but we don't have the link active so we create a new session</td>
-<td>295</td></tr>
+<td>294</td></tr>
 <tr class="b">
 <td>we should set the session description properly</td>
-<td>297</td></tr>
+<td>296</td></tr>
 <tr class="a">
 <td>Check if it can registers tenatManager.getTenant(request.getScopeId());</td>
-<td>304</td></tr>
+<td>303</td></tr>
 <tr class="b">
 <td>Close the session</td>
-<td>313</td></tr>
+<td>312</td></tr>
 <tr class="a">
 <th>org.universAAL.ri.gateway.communicator.service.impl.SessionManager</th>
 <th>Line</th></tr>
@@ -359,6 +365,12 @@
 <tr class="a">
 <td>Log the issue</td>
 <td>268</td></tr>
+<tr class="b">
+<th>org.universAAL.ri.gateway.configuration.ConfigurationFile</th>
+<th>Line</th></tr>
+<tr class="a">
+<td>in future parse for different types of cipher</td>
+<td>147</td></tr>
 <tr class="b">
 <th>org.universAAL.ri.gateway.proxies.ProxyBusMemberFactory</th>
 <th>Line</th></tr>
@@ -393,42 +405,45 @@
 <td>disconnect?</td>
 <td>70</td></tr>
 <tr class="a">
+<td>sure you want to report directly a timeout, and not reattempt?</td>
+<td>98</td></tr>
+<tr class="b">
 <th>org.universAAL.ri.keepalive.receiver.CSubscriber</th>
 <th>Line</th></tr>
-<tr class="b">
+<tr class="a">
 <td>Auto-generated method stub</td>
 <td>61</td></tr>
-<tr class="a">
+<tr class="b">
 <td>Use SystemInfo URI instead?</td>
 <td>66</td></tr>
-<tr class="b">
+<tr class="a">
 <th>org.universAAL.ri.keepalive.sender.Sender</th>
 <th>Line</th></tr>
-<tr class="a">
+<tr class="b">
 <td>Set right URI, but now it doesnt matter because what is used in receiver is tenant id.</td>
 <td>33</td></tr>
-<tr class="b">
+<tr class="a">
 <th>org.universAAL.ri.servicegateway.osgi.GatewayPortTracker</th>
 <th>Line</th></tr>
-<tr class="a">
+<tr class="b">
 <td>Auto-generated catch block</td>
 <td>157</td></tr>
-<tr class="b">
+<tr class="a">
 <td>Auto-generated catch block</td>
 <td>160</td></tr>
-<tr class="a">
+<tr class="b">
 <td>Auto-generated catch block</td>
 <td>191</td></tr>
-<tr class="b">
+<tr class="a">
 <td>Auto-generated catch block</td>
 <td>194</td></tr>
-<tr class="a">
+<tr class="b">
 <td>Auto-generated catch block</td>
 <td>197</td></tr>
-<tr class="b">
+<tr class="a">
 <th>org.universAAL.ri.wsdlToolkit.axis2Parser.AdditionalTypesParser</th>
 <th>Line</th></tr>
-<tr class="a">
+<tr class="b">
 <td>Analyze this attribute theDefinition.getContainingErrors().add(&quot;ERROR - WARNING @ line ~663!!!... mpike edw... check ti ginetai edw...&quot;); System.out.println(&quot;ERROR - WARNING @ line ~663!!!&quot;);</td>
 <td>3129</td></tr></table></div></div>
       </div>

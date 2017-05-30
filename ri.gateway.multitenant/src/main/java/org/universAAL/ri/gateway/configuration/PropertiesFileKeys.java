@@ -45,14 +45,14 @@ public interface PropertiesFileKeys {
     String SOCKET_PORT = "socket-port";
 
     /**
-     * System property used to determine if the connection should be set up as
-     * a client (use value CLIENT) or as a server (use value SERVER).
+     * System property used to determine if the connection should be set up as a
+     * client (use value CLIENT) or as a server (use value SERVER).
      */
     String CONNECTION_MODE = "connection-mode";
-    
+
     /**
-     * System property that defines the turtle file that defines which
-     * imports, exports, and messages are allowed or denyed.
+     * System property that defines the turtle file that defines which imports,
+     * exports, and messages are allowed or denyed.
      */
     String SECURITY_DEFINITION = "security-definition-file";
 

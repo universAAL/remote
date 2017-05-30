@@ -35,24 +35,24 @@ public class DenyDefault implements MessageOperationChain,
 	return OperationResult.DENY;
     }
 
-	/** {@inheritDoc} */
-	public ParameterCheckOpertaionChain getImportOperationChain() {
-		return this;
-	}
+    /** {@inheritDoc} */
+    public ParameterCheckOpertaionChain getImportOperationChain() {
+	return this;
+    }
 
-	/** {@inheritDoc} */
-	public ParameterCheckOpertaionChain getExportOperationChain() {
-		return this;
-	}
+    /** {@inheritDoc} */
+    public ParameterCheckOpertaionChain getExportOperationChain() {
+	return this;
+    }
 
-	/** {@inheritDoc} */
-	public MessageOperationChain getIncomingMessageOperationChain() {
-		return this;
-	}
+    /** {@inheritDoc} */
+    public MessageOperationChain getIncomingMessageOperationChain() {
+	return this;
+    }
 
-	/** {@inheritDoc} */
-	public MessageOperationChain getOutgoingMessageOperationChain() {
-		return this;
-	}
+    /** {@inheritDoc} */
+    public MessageOperationChain getOutgoingMessageOperationChain() {
+	return this;
+    }
 
 }

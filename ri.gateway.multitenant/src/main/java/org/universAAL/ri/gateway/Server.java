@@ -60,16 +60,16 @@ public class Server {
 	    running = false;
 	}
     }
-    
-    public String getInterface(){
+
+    public String getInterface() {
 	return config.getConnectionHost();
     }
-    
-    public int getPort(){
+
+    public int getPort() {
 	return config.getConnectionPort();
     }
 
-    public boolean isActive(){
+    public boolean isActive() {
 	return running;
     }
 }

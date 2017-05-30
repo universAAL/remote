@@ -32,17 +32,16 @@ import org.universAAL.ri.gateway.protocol.MessageReceiver;
 public class ProxyMessageReceiver implements MessageReceiver {
 
     private MessageReceiver finalReceiver = null;
-    
+
     public void handleMessage(Message msg) {
 	synchronized (this) {
-	    if ( finalReceiver == null ) {
+	    if (finalReceiver == null) {
 		return;
 	    }
 	    finalReceiver.handleMessage(msg);
 	}
-	
-    }
 
+    }
 
     public synchronized void setFinalReceiver(MessageReceiver finalReceiver) {
 	this.finalReceiver = finalReceiver;

@@ -34,8 +34,8 @@ import org.universAAL.middleware.container.utils.LogUtils;
 /**
  * 
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
- * @version $LastChangedRevision$ ($LastChangedDate: 2014-07-24 16:42:23
- *          +0200 (Thu, 24 Jul 2014) $)
+ * @version $LastChangedRevision$ ($LastChangedDate: 2014-07-24 16:42:23 +0200
+ *          (Thu, 24 Jul 2014) $)
  * 
  */
 public class LoggerFactory {

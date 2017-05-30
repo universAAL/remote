@@ -34,89 +34,89 @@ import org.universAAL.middleware.managers.api.MatchingResult;
  */
 public class DummyAALSPaceManager implements AALSpaceManager {
 
-	/** {@inheritDoc} */
-	public void loadConfigurations(Dictionary configurations) {
-		// TODO Auto-generated method stub
+    /** {@inheritDoc} */
+    public void loadConfigurations(Dictionary configurations) {
+	// TODO Auto-generated method stub
 
-	}
+    }
 
-	/** {@inheritDoc} */
-	public boolean init() {
-		// TODO Auto-generated method stub
-		return true;
-	}
+    /** {@inheritDoc} */
+    public boolean init() {
+	// TODO Auto-generated method stub
+	return true;
+    }
 
-	/** {@inheritDoc} */
-	public void dispose() {
-		// TODO Auto-generated method stub
+    /** {@inheritDoc} */
+    public void dispose() {
+	// TODO Auto-generated method stub
 
-	}
+    }
 
-	/** {@inheritDoc} */
-	public PeerCard getMyPeerCard() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    /** {@inheritDoc} */
+    public PeerCard getMyPeerCard() {
+	// TODO Auto-generated method stub
+	return null;
+    }
 
-	/** {@inheritDoc} */
-	public Set<AALSpaceCard> getAALSpaces() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    /** {@inheritDoc} */
+    public Set<AALSpaceCard> getAALSpaces() {
+	// TODO Auto-generated method stub
+	return null;
+    }
 
-	/** {@inheritDoc} */
-	public AALSpaceDescriptor getAALSpaceDescriptor() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    /** {@inheritDoc} */
+    public AALSpaceDescriptor getAALSpaceDescriptor() {
+	// TODO Auto-generated method stub
+	return null;
+    }
 
-	/** {@inheritDoc} */
-	public Map<String, AALSpaceDescriptor> getManagedAALSpaces() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    /** {@inheritDoc} */
+    public Map<String, AALSpaceDescriptor> getManagedAALSpaces() {
+	// TODO Auto-generated method stub
+	return null;
+    }
 
-	/** {@inheritDoc} */
-	public void join(AALSpaceCard spaceCard) {
-		// TODO Auto-generated method stub
+    /** {@inheritDoc} */
+    public void join(AALSpaceCard spaceCard) {
+	// TODO Auto-generated method stub
 
-	}
+    }
 
-	/** {@inheritDoc} */
-	public void leaveAALSpace(AALSpaceDescriptor spaceDescriptor) {
-		// TODO Auto-generated method stub
+    /** {@inheritDoc} */
+    public void leaveAALSpace(AALSpaceDescriptor spaceDescriptor) {
+	// TODO Auto-generated method stub
 
-	}
+    }
 
-	/** {@inheritDoc} */
-	public Map<String, PeerCard> getPeers() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    /** {@inheritDoc} */
+    public Map<String, PeerCard> getPeers() {
+	// TODO Auto-generated method stub
+	return null;
+    }
 
-	/** {@inheritDoc} */
-	public MatchingResult getMatchingPeers(Map<String, Serializable> filter) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    /** {@inheritDoc} */
+    public MatchingResult getMatchingPeers(Map<String, Serializable> filter) {
+	// TODO Auto-generated method stub
+	return null;
+    }
 
-	/** {@inheritDoc} */
-	public Map<String, Serializable> getPeerAttributes(List<String> attributes,
-			PeerCard target) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    /** {@inheritDoc} */
+    public Map<String, Serializable> getPeerAttributes(List<String> attributes,
+	    PeerCard target) {
+	// TODO Auto-generated method stub
+	return null;
+    }
 
-	/** {@inheritDoc} */
-	public void addAALSpaceListener(AALSpaceListener listener) {
-		// TODO Auto-generated method stub
+    /** {@inheritDoc} */
+    public void addAALSpaceListener(AALSpaceListener listener) {
+	// TODO Auto-generated method stub
 
-	}
+    }
 
-	/** {@inheritDoc} */
-	public void removeAALSpaceListener(AALSpaceListener listener) {
-		// TODO Auto-generated method stub
+    /** {@inheritDoc} */
+    public void removeAALSpaceListener(AALSpaceListener listener) {
+	// TODO Auto-generated method stub
 
-	}
+    }
 
 }

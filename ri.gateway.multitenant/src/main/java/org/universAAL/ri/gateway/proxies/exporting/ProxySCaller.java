@@ -136,9 +136,9 @@ public class ProxySCaller extends ServiceCaller implements ProxyBusMember {
     }
 
     /**
-     * A single ProxySCaller is able to manage all
-     * {@link ProxySCallee}s; thus the first registered {@link ProxySCaller}
-     * is the one that is compatible, and represents all {@link ServiceCaller}s.
+     * A single ProxySCaller is able to manage all {@link ProxySCallee}s; thus
+     * the first registered {@link ProxySCaller} is the one that is compatible,
+     * and represents all {@link ServiceCaller}s.
      */
     public boolean isCompatible(final Resource[] registrationParameters) {
 	return registrationParameters.length > 0

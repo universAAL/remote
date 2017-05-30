@@ -42,41 +42,42 @@ public class ConnectionResponse extends LinkMessage implements Serializable {
     private String aalSpaceId;
     private UUID sessionId;
 
-    public ConnectionResponse(final LinkMessage request, final String peer, final String space, final UUID session) {
-        super(request);
-        this.peerId = peer;
-        this.aalSpaceId = space;
-        this.sessionId = session;
+    public ConnectionResponse(final LinkMessage request, final String peer,
+	    final String space, final UUID session) {
+	super(request);
+	this.peerId = peer;
+	this.aalSpaceId = space;
+	this.sessionId = session;
     }
 
     @Override
     public String toString() {
-        return "ConnectionResponse ["
-                + (peerId != null ? "peerId =" + peerId  + ", " : "")
-                + (aalSpaceId != null ? "aalSpaceId =" + aalSpaceId  + ", " : "")
-                + (aalSpaceId != null ? "scopeId=" + aalSpaceId + ", " : "")
-                + (sessionId != null ? "sessionId=" + sessionId + " " : "")
-                + "]";
+	return "ConnectionResponse ["
+		+ (peerId != null ? "peerId =" + peerId + ", " : "")
+		+ (aalSpaceId != null ? "aalSpaceId =" + aalSpaceId + ", " : "")
+		+ (aalSpaceId != null ? "scopeId=" + aalSpaceId + ", " : "")
+		+ (sessionId != null ? "sessionId=" + sessionId + " " : "")
+		+ "]";
     }
 
     public String getAALSpaceId() {
-        return aalSpaceId;
+	return aalSpaceId;
     }
 
     public String getPeerId() {
-        return peerId;
+	return peerId;
     }
 
     public String getScopeId() {
-        return aalSpaceId;
+	return aalSpaceId;
     }
 
     public UUID getSessionId() {
-        return sessionId;
+	return sessionId;
     }
 
     @Override
     public int getType() {
-        return LinkMessageType.CONNECTION_RESPONSE.ordinal();
+	return LinkMessageType.CONNECTION_RESPONSE.ordinal();
     }
 }

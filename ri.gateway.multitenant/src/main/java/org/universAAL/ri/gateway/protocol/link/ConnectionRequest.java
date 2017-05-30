@@ -27,8 +27,8 @@ import org.universAAL.ri.gateway.protocol.LinkMessage;
 /**
  *
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
- * @version $LastChangedRevision$ ($LastChangedDate: 2014-08-08 11:09:43
- *          +0200 (Fri, 08 Aug 2014) $)
+ * @version $LastChangedRevision$ ($LastChangedDate: 2014-08-08 11:09:43 +0200
+ *          (Fri, 08 Aug 2014) $)
  *
  */
 public class ConnectionRequest extends LinkMessage implements Serializable {
@@ -54,29 +54,29 @@ public class ConnectionRequest extends LinkMessage implements Serializable {
      *            A friendly name description of the connection
      */
     public ConnectionRequest(final String peer, final String space,
-            final String description) {
-        super();
-        this.peerId = peer;
-        this.aalSpaceId = space;
-        this.description = description;
+	    final String description) {
+	super();
+	this.peerId = peer;
+	this.aalSpaceId = space;
+	this.description = description;
     }
 
     @Override
     public String toString() {
-        return "ConnectionRequest ["
-                + (peerId != null ? "peerId =" + peerId + ", " : "")
-                + (aalSpaceId != null ? "scopeId =" + aalSpaceId + ", " : "")
-                + (aalSpaceId != null ? "scopeId=" + aalSpaceId + ", " : "")
-                + (description != null ? "description=" + description + " "
-                        : "") + "]";
+	return "ConnectionRequest ["
+		+ (peerId != null ? "peerId =" + peerId + ", " : "")
+		+ (aalSpaceId != null ? "scopeId =" + aalSpaceId + ", " : "")
+		+ (aalSpaceId != null ? "scopeId=" + aalSpaceId + ", " : "")
+		+ (description != null ? "description=" + description + " "
+			: "") + "]";
     }
 
     public String getAALSpaceId() {
-        return aalSpaceId;
+	return aalSpaceId;
     }
 
     public String getPeerId() {
-        return peerId;
+	return peerId;
     }
 
     /**
@@ -90,16 +90,16 @@ public class ConnectionRequest extends LinkMessage implements Serializable {
      *
      */
     public String getScopeId() {
-        return aalSpaceId;
+	return aalSpaceId;
     }
 
     public String getDescription() {
-        return description;
+	return description;
     }
 
     @Override
     public int getType() {
-        return LinkMessageType.CONNECTION_REQUEST.ordinal();
+	return LinkMessageType.CONNECTION_REQUEST.ordinal();
     }
 
 }

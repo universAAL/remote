@@ -42,7 +42,7 @@ public interface MessageSender {
      * @param message
      *            to send, typically a request message
      * @return the response message, typically a response message.
-     * @throws TimeoutException 
+     * @throws TimeoutException
      */
     Message sendRequest(Message message) throws TimeoutException;
 

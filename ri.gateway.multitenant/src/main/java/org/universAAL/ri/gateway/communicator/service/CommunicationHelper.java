@@ -57,8 +57,8 @@ public class CommunicationHelper {
      * @throws CryptoException
      */
     public static void cypherAndSend(final Message msg, final OutputStream out,
-            final Cipher cipher) throws IOException, CryptoException {
-        cypherAndSend(msg.getBytes(), out, cipher);
+	    final Cipher cipher) throws IOException, CryptoException {
+	cypherAndSend(msg.getBytes(), out, cipher);
     }
 
     /**
@@ -78,19 +78,19 @@ public class CommunicationHelper {
      * @throws CryptoException
      */
     private static void cypherAndSend(final byte[] data,
-            final OutputStream out, final Cipher cipher) throws IOException,
-            CryptoException {
+	    final OutputStream out, final Cipher cipher) throws IOException,
+	    CryptoException {
 
-        final byte[] encrypted = cipher.encrypt(data);
+	final byte[] encrypted = cipher.encrypt(data);
 
-        int size = encrypted.length;
+	int size = encrypted.length;
 
-        ByteBuffer buffer = ByteBuffer.allocate(4);
-        buffer.putInt(size);
-        byte[] intAsByte = buffer.array();
-        out.write(intAsByte);
-        out.write(encrypted);
-        out.flush();
+	ByteBuffer buffer = ByteBuffer.allocate(4);
+	buffer.putInt(size);
+	byte[] intAsByte = buffer.array();
+	out.write(intAsByte);
+	out.write(encrypted);
+	out.flush();
     }
 
     /**
@@ -109,34 +109,34 @@ public class CommunicationHelper {
      * @throws CryptoException
      */
     public static Message readAndDecypher(final InputStream is,
-            final Cipher cipher) throws IOException, ClassNotFoundException,
-            CryptoException {
+	    final Cipher cipher) throws IOException, ClassNotFoundException,
+	    CryptoException {
 
-        int read = 0;
-        int idx = 0;
-        byte[] intAsArray = new byte[4];
-        do {
-            read = is.read(intAsArray, idx, intAsArray.length - idx);
-            if (read >= 0) {
-                idx += read;
-            }
-        } while (idx < 4);
-        ByteBuffer buffer = ByteBuffer.wrap(intAsArray);
-        int size = buffer.getInt();
-        byte[] dataBuffer = new byte[size];
-        idx = 0;
-        do {
-            read = is.read(dataBuffer, idx, dataBuffer.length - idx);
-            if (read >= 0) {
-                idx += read;
-            }
-        } while (idx < size);
+	int read = 0;
+	int idx = 0;
+	byte[] intAsArray = new byte[4];
+	do {
+	    read = is.read(intAsArray, idx, intAsArray.length - idx);
+	    if (read >= 0) {
+		idx += read;
+	    }
+	} while (idx < 4);
+	ByteBuffer buffer = ByteBuffer.wrap(intAsArray);
+	int size = buffer.getInt();
+	byte[] dataBuffer = new byte[size];
+	idx = 0;
+	do {
+	    read = is.read(dataBuffer, idx, dataBuffer.length - idx);
+	    if (read >= 0) {
+		idx += read;
+	    }
+	} while (idx < size);
 
-        final byte[] decrypted = cipher.decrypt(dataBuffer);
-        final ByteArrayInputStream bis = new ByteArrayInputStream(decrypted);
-        final ObjectInputStream ois = new ObjectInputStream(bis);
-        final Message msg = (Message) ois.readObject();
+	final byte[] decrypted = cipher.decrypt(dataBuffer);
+	final ByteArrayInputStream bis = new ByteArrayInputStream(decrypted);
+	final ObjectInputStream ois = new ObjectInputStream(bis);
+	final Message msg = (Message) ois.readObject();
 
-        return msg;
+	return msg;
     }
 }

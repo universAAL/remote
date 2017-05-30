@@ -29,7 +29,7 @@ import java.util.concurrent.TimeoutException;
  * 
  */
 public abstract class CallSynchronizer<ID, INPUT, OUTPUT> {
-	
+
     private class CallStatus {
 	OUTPUT output = null;
 	boolean returned = false;
@@ -49,7 +49,7 @@ public abstract class CallSynchronizer<ID, INPUT, OUTPUT> {
      * The pile of waiting calls.
      */
     Map<ID, CallStatus> waiting;
-    
+
     /**
      * The timeout selected
      */
@@ -60,9 +60,9 @@ public abstract class CallSynchronizer<ID, INPUT, OUTPUT> {
      */
     public CallSynchronizer(long timeout) {
 	waiting = new Hashtable<ID, CallStatus>();
-	this.timeout = timeout;  
+	this.timeout = timeout;
     }
-    
+
     /**
      * Constructor.
      */
@@ -83,8 +83,8 @@ public abstract class CallSynchronizer<ID, INPUT, OUTPUT> {
      * 
      * @throws InterruptedException
      *             when the call was aborted by other thread.
-     * @throws TimeoutException 
-     * 				when the timeout wait limit for response has been exceeded.
+     * @throws TimeoutException
+     *             when the timeout wait limit for response has been exceeded.
      * @see CallSynchronizer#performResponse(ID, Object)
      */
     public OUTPUT performCall(ID callerID, INPUT input)
@@ -99,14 +99,14 @@ public abstract class CallSynchronizer<ID, INPUT, OUTPUT> {
 		try {
 		    status.wait(timeout);
 		} catch (InterruptedException e) {
-			status.timeout = true;
+		    status.timeout = true;
 		}
 	    }
 	}
-	if (status.timeout){
-		throw new TimeoutException();
+	if (status.timeout) {
+	    throw new TimeoutException();
 	}
-	
+
 	if (status.purged) {
 	    throw new InterruptedException();
 	}

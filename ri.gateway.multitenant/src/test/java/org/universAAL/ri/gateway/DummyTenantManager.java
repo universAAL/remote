@@ -27,52 +27,52 @@ import org.universAAL.middleware.managers.api.TenantManager;
  */
 public class DummyTenantManager implements TenantManager {
 
-	/** {@inheritDoc} */
-	public void loadConfigurations(Dictionary configurations) {
-		// TODO Auto-generated method stub
+    /** {@inheritDoc} */
+    public void loadConfigurations(Dictionary configurations) {
+	// TODO Auto-generated method stub
 
-	}
+    }
 
-	/** {@inheritDoc} */
-	public boolean init() {
-		// TODO Auto-generated method stub
-		return false;
-	}
+    /** {@inheritDoc} */
+    public boolean init() {
+	// TODO Auto-generated method stub
+	return false;
+    }
 
-	/** {@inheritDoc} */
-	public void dispose() {
-		// TODO Auto-generated method stub
+    /** {@inheritDoc} */
+    public void dispose() {
+	// TODO Auto-generated method stub
 
-	}
+    }
 
-	/** {@inheritDoc} */
-	public void registerTenant(String tenantID, String tenantDescription) {
-		// TODO Auto-generated method stub
+    /** {@inheritDoc} */
+    public void registerTenant(String tenantID, String tenantDescription) {
+	// TODO Auto-generated method stub
 
-	}
+    }
 
-	/** {@inheritDoc} */
-	public void unregisterTenant(String tenantID) {
-		// TODO Auto-generated method stub
+    /** {@inheritDoc} */
+    public void unregisterTenant(String tenantID) {
+	// TODO Auto-generated method stub
 
-	}
+    }
 
-	/** {@inheritDoc} */
-	public Map<String, String> getTenants() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    /** {@inheritDoc} */
+    public Map<String, String> getTenants() {
+	// TODO Auto-generated method stub
+	return null;
+    }
 
-	/** {@inheritDoc} */
-	public void addTenantListener(TenantListener tenantListener) {
-		// TODO Auto-generated method stub
+    /** {@inheritDoc} */
+    public void addTenantListener(TenantListener tenantListener) {
+	// TODO Auto-generated method stub
 
-	}
+    }
 
-	/** {@inheritDoc} */
-	public void removeTenantListener(TenantListener tenantListener) {
-		// TODO Auto-generated method stub
+    /** {@inheritDoc} */
+    public void removeTenantListener(TenantListener tenantListener) {
+	// TODO Auto-generated method stub
 
-	}
+    }
 
 }

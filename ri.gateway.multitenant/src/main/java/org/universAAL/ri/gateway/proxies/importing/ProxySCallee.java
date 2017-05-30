@@ -89,22 +89,24 @@ public class ProxySCallee extends ServiceCallee implements ProxyBusMember {
 		    // it is allowed to go there
 		    final ServiceCall copy = (ServiceCall) call.copy(false);
 		    copy.clearScopes();
-		    copy.setOriginScope( null);
+		    copy.setOriginScope(null);
 		    Message resp = null;
-			try {
-				resp = s.sendRequest(new WrappedBusMessage(
-				    bmr.getBusMemberid(), copy));
-			} catch (TimeoutException e) {
-				// TODO sure you want to report directly a timeout, and not reattempt?
-				final ServiceResponse sr = new ServiceResponse(CallStatus.responseTimedOut);
-					// Resolve multitenancy
-					sr.clearScopes();
-					sr.addScope(s.getScope());
-					// set the origin of the response
-					sr.setOriginScope(s.getScope());
+		    try {
+			resp = s.sendRequest(new WrappedBusMessage(bmr
+				.getBusMemberid(), copy));
+		    } catch (TimeoutException e) {
+			// TODO sure you want to report directly a timeout, and
+			// not reattempt?
+			final ServiceResponse sr = new ServiceResponse(
+				CallStatus.responseTimedOut);
+			// Resolve multitenancy
+			sr.clearScopes();
+			sr.addScope(s.getScope());
+			// set the origin of the response
+			sr.setOriginScope(s.getScope());
 
-					responses.add(sr);
-			}
+			responses.add(sr);
+		    }
 		    // sends a scope-clear call to remote proxy.
 		    if (resp != null && resp instanceof WrappedBusMessage) {
 			final ServiceResponse sr = (ServiceResponse) ((WrappedBusMessage) resp)

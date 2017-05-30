@@ -25,11 +25,11 @@
 package org.universAAL.log;
 
 /**
-*
-* @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
-* @version $LastChangedRevision$ ($LastChangedDate$)
-*
-*/
+ *
+ * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
+ * @version $LastChangedRevision$ ($LastChangedDate$)
+ *
+ */
 public interface Logger {
 
     public void info(String msg);

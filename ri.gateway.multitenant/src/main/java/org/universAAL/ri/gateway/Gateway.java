@@ -155,7 +155,7 @@ public class Gateway implements ModuleActivator, SessionEventListener {
 			    if (fc.getConnectionMode().equals(
 				    ConnectionMode.CLIENT)) {
 				final Session s = new Session(fc, proxypool);
-				s.addSessionEventListener(Gateway.getInstance());//self
+				s.addSessionEventListener(Gateway.getInstance());// self
 				newSession(p.getAbsolutePath(), s);
 			    } else {
 				final Server s = new Server(fc);
@@ -192,7 +192,8 @@ public class Gateway implements ModuleActivator, SessionEventListener {
 
     public synchronized void newSession(final String name, final Session s) {
 	sessions.put(s, name);
-//	s.addSessionEventListener(this);// Extract this to BEFORE calls to this method
+	// s.addSessionEventListener(this);// Extract this to BEFORE calls to
+	// this method
     }
 
     public String getName(final Session s) {

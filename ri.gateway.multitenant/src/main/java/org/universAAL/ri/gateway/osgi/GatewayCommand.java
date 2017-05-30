@@ -36,8 +36,8 @@ import org.universAAL.ri.gateway.communicator.service.impl.SessionManager;
  *
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano Lenzi</a>
  * @since 3.2.0
- * @version $LastChangedRevision$ ( $LastChangedDate: 2014-09-17 14:53:03
- *          +0200 (mié, 17 sep 2014) $ )
+ * @version $LastChangedRevision$ ( $LastChangedDate: 2014-09-17 14:53:03 +0200
+ *          (mié, 17 sep 2014) $ )
  *
  */
 @Command(scope = "universAAL", name = "gateway", description = "Commands for inspecting the status of the Gateway components")
@@ -45,7 +45,7 @@ public class GatewayCommand extends OsgiCommandSupport {
 
     /*
      * private enum Subcommands { CONFIG, }
-     *
+     * 
      * @Option(name = "-c", aliases = "--config", description =
      * "Shows the active configurations", required = false, multiValued = false)
      * EnumSet<Subcommands> config = EnumSet.of(Subcommands.CONFIG);
@@ -53,61 +53,60 @@ public class GatewayCommand extends OsgiCommandSupport {
 
     @Override
     protected Object doExecute() throws Exception {
-        final SessionManager sm = SessionManager.getInstance();
-        final Gateway gw = Gateway.getInstance();
+	final SessionManager sm = SessionManager.getInstance();
+	final Gateway gw = Gateway.getInstance();
 
-        Collection<Server> servers = gw.getServers();
+	Collection<Server> servers = gw.getServers();
 
-        if (!servers.isEmpty()) {
-            System.out.println("List of active Servers:");
-            System.out.printf("%3s - %20s - %20s - %20s - %10s\n", "n#",
-                    "name", "interface", "port", "Status");
-            System.out
-                    .println("-----------------------------------------------------------------------");
-            int n = 1;
-            for (Server server : servers) {
-                System.out.printf("%03d - %20s - %20s - %20s - %10s\n", n++,
-                        gw.getName(server), server.getInterface(),
-                        server.getPort(), server.isActive());
-            }
-        }
+	if (!servers.isEmpty()) {
+	    System.out.println("List of active Servers:");
+	    System.out.printf("%3s - %20s - %20s - %20s - %10s\n", "n#",
+		    "name", "interface", "port", "Status");
+	    System.out
+		    .println("-----------------------------------------------------------------------");
+	    int n = 1;
+	    for (Server server : servers) {
+		System.out.printf("%03d - %20s - %20s - %20s - %10s\n", n++,
+			gw.getName(server), server.getInterface(),
+			server.getPort(), server.isActive());
+	    }
+	}
 
-        Collection<Session> list = gw.getSessions();
-        if (!list.isEmpty()) {
-            System.out.println("List of active sessions:");
-            System.out.printf("%3s - %20s - %20s - %20s - %10s\n", "n#",
-                    "name", "session id", "AAL Space", "Status");
-            System.out
-                    .println("-----------------------------------------------------------------------");
-            int n = 1;
-            for (Session session : list) {
-                String name = null;
-                boolean isActive = session.isActive();
-                final String scope = session.getScope();
-                UUID[] infos = sm.getSessionFromAALScopeId(scope);
-                String AALSpace = null;
-                if ( infos.length > 1 ) {
-                    name = "Broken Session Manager -> Too many UUID linked to a single Scope";
-                } else {
-                    AALSpace = sm.getAALSpaceIdFromSession( infos[0] );
-                }
-                if (scope != null && AALSpace != null ) {
-                    name = scope;
-                } else if ( scope == null ) {
-                    name = "Broken Session Manager -> Invalid Scope";
-                } else if (scope != null && AALSpace == null ) {
-                    name = scope;
-                    AALSpace = "<LeftOver Session>";
-                }
-                System.out.printf("%03d - %20s - %20s - %20s - %10s\n", n++,
-                        name, gw.getName(session),
-                        AALSpace, isActive);
-            }
-        }
-        if (servers.isEmpty() && list.isEmpty()) {
-            System.out.println("No Servers, or sessions active.");
-        }
-        return null;
+	Collection<Session> list = gw.getSessions();
+	if (!list.isEmpty()) {
+	    System.out.println("List of active sessions:");
+	    System.out.printf("%3s - %20s - %20s - %20s - %10s\n", "n#",
+		    "name", "session id", "AAL Space", "Status");
+	    System.out
+		    .println("-----------------------------------------------------------------------");
+	    int n = 1;
+	    for (Session session : list) {
+		String name = null;
+		boolean isActive = session.isActive();
+		final String scope = session.getScope();
+		UUID[] infos = sm.getSessionFromAALScopeId(scope);
+		String AALSpace = null;
+		if (infos.length > 1) {
+		    name = "Broken Session Manager -> Too many UUID linked to a single Scope";
+		} else {
+		    AALSpace = sm.getAALSpaceIdFromSession(infos[0]);
+		}
+		if (scope != null && AALSpace != null) {
+		    name = scope;
+		} else if (scope == null) {
+		    name = "Broken Session Manager -> Invalid Scope";
+		} else if (scope != null && AALSpace == null) {
+		    name = scope;
+		    AALSpace = "<LeftOver Session>";
+		}
+		System.out.printf("%03d - %20s - %20s - %20s - %10s\n", n++,
+			name, gw.getName(session), AALSpace, isActive);
+	    }
+	}
+	if (servers.isEmpty() && list.isEmpty()) {
+	    System.out.println("No Servers, or sessions active.");
+	}
+	return null;
     }
 
 }

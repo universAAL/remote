@@ -42,9 +42,9 @@ public class ConfigurationFile extends UpdatedPropertiesFile implements
      * 
      */
     private static final long serialVersionUID = 1L;
-    
+
     private OperationChainManager chainMNG = null;
-	private Blowfish cipher;
+    private Blowfish cipher;
 
     public ConfigurationFile(final File propFile) {
 	super(propFile);
@@ -55,17 +55,21 @@ public class ConfigurationFile extends UpdatedPropertiesFile implements
 	    try {
 		String secFile = getProperty(SECURITY_DEFINITION);
 		if (secFile != null) {
-		    if(secFile.toUpperCase().equals(NONE)){
-			LogUtils.logDebug(Gateway.getInstance().context, getClass(),
-				"getChainManager", new String[] {
-					"Security definition disabled" }, null);
+		    if (secFile.toUpperCase().equals(NONE)) {
+			LogUtils.logDebug(
+				Gateway.getInstance().context,
+				getClass(),
+				"getChainManager",
+				new String[] { "Security definition disabled" },
+				null);
 			chainMNG = new NoSecurityDefinition();
-		    }else{
-			LogUtils.logDebug(Gateway.getInstance().context, getClass(),
-				"getChainManager", new String[] {
-					"Loading Security definition from", secFile }, null);
-			chainMNG = new TurtleFileSecurityDefinition(
-			    new URL(secFile));
+		    } else {
+			LogUtils.logDebug(Gateway.getInstance().context,
+				getClass(), "getChainManager", new String[] {
+					"Loading Security definition from",
+					secFile }, null);
+			chainMNG = new TurtleFileSecurityDefinition(new URL(
+				secFile));
 		    }
 		} else {
 		    LogUtils.logDebug(
@@ -86,7 +90,7 @@ public class ConfigurationFile extends UpdatedPropertiesFile implements
 	}
 	return chainMNG;
     }
-    
+
     @Override
     public String getComments() {
 	return "Configuration of a connection instance";
@@ -94,7 +98,7 @@ public class ConfigurationFile extends UpdatedPropertiesFile implements
 
     @Override
     protected void addDefaults(final Properties defaults) {
-	//defaults.put(ROUTING_MODE, ROUTER);
+	// defaults.put(ROUTING_MODE, ROUTER);
 	defaults.put(CONNECTION_MODE, CLIENT);
     }
 
@@ -120,35 +124,35 @@ public class ConfigurationFile extends UpdatedPropertiesFile implements
 
     /** {@inheritDoc} */
     public ParameterCheckOpertaionChain getImportOperationChain() {
-    	return getChainManager().getImportOperationChain();
+	return getChainManager().getImportOperationChain();
     }
 
     /** {@inheritDoc} */
     public ParameterCheckOpertaionChain getExportOperationChain() {
-    	return getChainManager().getExportOperationChain();
+	return getChainManager().getExportOperationChain();
     }
 
     /** {@inheritDoc} */
     public MessageOperationChain getIncomingMessageOperationChain() {
-    	return getChainManager().getIncomingMessageOperationChain();
+	return getChainManager().getIncomingMessageOperationChain();
     }
 
     /** {@inheritDoc} */
     public MessageOperationChain getOutgoingMessageOperationChain() {
-    	return getChainManager().getOutgoingMessageOperationChain();
+	return getChainManager().getOutgoingMessageOperationChain();
     }
 
     public String getEncryptionKey() {
 	return getProperty(HASH_KEY);
     }
 
-	/** {@inheritDoc} */
-	public Cipher getCipher() {
-		//TODO in future parse for different types of cipher
-		if (cipher == null) {
-			cipher = new Blowfish(getProperty(HASH_KEY));
-		}
-		return cipher;
+    /** {@inheritDoc} */
+    public Cipher getCipher() {
+	// TODO in future parse for different types of cipher
+	if (cipher == null) {
+	    cipher = new Blowfish(getProperty(HASH_KEY));
 	}
+	return cipher;
+    }
 
 }

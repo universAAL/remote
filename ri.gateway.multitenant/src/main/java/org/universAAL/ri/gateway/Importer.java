@@ -91,18 +91,20 @@ public class Importer {
     public synchronized void handleImportMessage(final ImportMessage msg) {
 	if (msg.getMessageType().equals(
 		ImportMessage.ImportMessageType.ImportRequest)) {
-		if (Gateway.getInstance().getExporter().isTracked(msg.getBusMemberId())){
-			// Request to import a local busmember, this signifies a loop or something terribly wrong
-			LogUtils.logError(
-					Gateway.getInstance().context,
-					getClass(),
-					"handleImportMessage",
-					"A local busmember has been requested to be imported: "
-						+ msg.getBusMemberId()+
-						" . This is very odd, might mean there is a loop.");
-			session.send(ImportMessage.importResponse(msg, null));
-			return;
-		}
+	    if (Gateway.getInstance().getExporter()
+		    .isTracked(msg.getBusMemberId())) {
+		// Request to import a local busmember, this signifies a loop or
+		// something terribly wrong
+		LogUtils.logError(
+			Gateway.getInstance().context,
+			getClass(),
+			"handleImportMessage",
+			"A local busmember has been requested to be imported: "
+				+ msg.getBusMemberId()
+				+ " . This is very odd, might mean there is a loop.");
+		session.send(ImportMessage.importResponse(msg, null));
+		return;
+	    }
 	    // request
 	    if (session.getImportOperationChain().check(msg.getParameters())
 		    .equals(OperationChain.OperationResult.ALLOW)) {

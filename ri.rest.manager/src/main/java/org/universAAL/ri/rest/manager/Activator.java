@@ -104,7 +104,7 @@ public class Activator implements BundleActivator {
 	sf.setProvider(new Authenticator());
 	sf.setResourceProvider(Uaal.class, new SingletonResourceProvider(
 		new Uaal()));
-	sf.setAddress("http://localhost:9000/");
+	sf.setAddress(Configuration.getHostPort());//"http://localhost:9000/"
 	BindingFactoryManager manager = sf.getBus().getExtension(
 		BindingFactoryManager.class);
 	JAXRSBindingFactory factory = new JAXRSBindingFactory();

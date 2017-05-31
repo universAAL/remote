@@ -93,7 +93,7 @@
 <th>Errors</th>
 <th>Missing Classes</th></tr>
 <tr class="b">
-<td>91</td>
+<td>92</td>
 <td>42</td>
 <td>0</td>
 <td>0</td></tr></table></div>
@@ -107,56 +107,56 @@
 <td><a href="#org.universAAL.log.LoggerFactory$UAALLogger">org.universAAL.log.LoggerFactory$UAALLogger</a></td>
 <td>1</td></tr>
 <tr class="a">
-<td><a href="#org.universAAL.ri.gateway.Exporter$RefreshTask">org.universAAL.ri.gateway.Exporter$RefreshTask</a></td>
-<td>1</td></tr>
-<tr class="b">
 <td><a href="#org.universAAL.ri.gateway.Gateway">org.universAAL.ri.gateway.Gateway</a></td>
 <td>1</td></tr>
-<tr class="a">
+<tr class="b">
 <td><a href="#org.universAAL.ri.gateway.Session$SessionStatusEvent">org.universAAL.ri.gateway.Session$SessionStatusEvent</a></td>
 <td>1</td></tr>
-<tr class="b">
+<tr class="a">
 <td><a href="#org.universAAL.ri.gateway.communication.cipher.Blowfish">org.universAAL.ri.gateway.communication.cipher.Blowfish</a></td>
 <td>1</td></tr>
-<tr class="a">
+<tr class="b">
 <td><a href="#org.universAAL.ri.gateway.communicator.service.impl.AbstractLinkHandler">org.universAAL.ri.gateway.communicator.service.impl.AbstractLinkHandler</a></td>
 <td>1</td></tr>
-<tr class="b">
+<tr class="a">
 <td><a href="#org.universAAL.ri.gateway.communicator.service.impl.ClientSocketCommunicationHandler$LinkHandler">org.universAAL.ri.gateway.communicator.service.impl.ClientSocketCommunicationHandler$LinkHandler</a></td>
 <td>1</td></tr>
-<tr class="a">
+<tr class="b">
 <td><a href="#org.universAAL.ri.gateway.communicator.service.impl.SessionManager">org.universAAL.ri.gateway.communicator.service.impl.SessionManager</a></td>
 <td>1</td></tr>
-<tr class="b">
+<tr class="a">
 <td><a href="#org.universAAL.ri.gateway.communicator.service.impl.SessionManager$SessionKey">org.universAAL.ri.gateway.communicator.service.impl.SessionManager$SessionKey</a></td>
 <td>1</td></tr>
-<tr class="a">
+<tr class="b">
 <td><a href="#org.universAAL.ri.gateway.communicator.service.impl.SessionManager$SessionStatus">org.universAAL.ri.gateway.communicator.service.impl.SessionManager$SessionStatus</a></td>
 <td>1</td></tr>
-<tr class="b">
+<tr class="a">
 <td><a href="#org.universAAL.ri.gateway.configuration.ConfigurationFile">org.universAAL.ri.gateway.configuration.ConfigurationFile</a></td>
 <td>6</td></tr>
-<tr class="a">
+<tr class="b">
 <td><a href="#org.universAAL.ri.gateway.configuration.TurtleFileSecurityDefinition">org.universAAL.ri.gateway.configuration.TurtleFileSecurityDefinition</a></td>
 <td>2</td></tr>
-<tr class="b">
+<tr class="a">
 <td><a href="#org.universAAL.ri.gateway.configuration.UpdatedPropertiesFile">org.universAAL.ri.gateway.configuration.UpdatedPropertiesFile</a></td>
 <td>1</td></tr>
-<tr class="a">
+<tr class="b">
 <td><a href="#org.universAAL.ri.gateway.osgi.GatewayCommand">org.universAAL.ri.gateway.osgi.GatewayCommand</a></td>
 <td>5</td></tr>
-<tr class="b">
+<tr class="a">
 <td><a href="#org.universAAL.ri.gateway.protocol.ImportMessage">org.universAAL.ri.gateway.protocol.ImportMessage</a></td>
 <td>2</td></tr>
-<tr class="a">
+<tr class="b">
 <td><a href="#org.universAAL.ri.gateway.protocol.Message">org.universAAL.ri.gateway.protocol.Message</a></td>
 <td>1</td></tr>
-<tr class="b">
+<tr class="a">
 <td><a href="#org.universAAL.ri.gateway.protocol.WrappedBusMessage">org.universAAL.ri.gateway.protocol.WrappedBusMessage</a></td>
 <td>1</td></tr>
-<tr class="a">
+<tr class="b">
 <td><a href="#org.universAAL.ri.gateway.proxies.BusMemberReference">org.universAAL.ri.gateway.proxies.BusMemberReference</a></td>
 <td>2</td></tr>
+<tr class="a">
+<td><a href="#org.universAAL.ri.gateway.proxies.ReferencesManager">org.universAAL.ri.gateway.proxies.ReferencesManager</a></td>
+<td>1</td></tr>
 <tr class="b">
 <td><a href="#org.universAAL.ri.gateway.proxies.exporting.ProxySCaller">org.universAAL.ri.gateway.proxies.exporting.ProxySCaller</a></td>
 <td>2</td></tr>
@@ -189,22 +189,7 @@
 <td>PERFORMANCE</td>
 <td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#SIC_INNER_SHOULD_BE_STATIC">SIC_INNER_SHOULD_BE_STATIC</a></td>
 <td>43</td>
-<td>Medium</td></tr></table></div><a name="org.universAAL.ri.gateway.ExporterRefreshTask"></a>
-<div class="section">
-<h3><a name="org.universAAL.ri.gateway.ExporterRefreshTask"></a>org.universAAL.ri.gateway.Exporter$RefreshTask</h3>
-<table border="0" class="bodyTable">
-<tr class="b">
-<th>Bug</th>
-<th>Category</th>
-<th>Details</th>
-<th>Line</th>
-<th>Priority</th></tr>
-<tr class="a">
-<td>org.universAAL.ri.gateway.proxies.BusMemberReference doesn't define a hashCode() method but is used in a hashed data structure in org.universAAL.ri.gateway.Exporter$RefreshTask.run()</td>
-<td>CORRECTNESS</td>
-<td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#HE_USE_OF_UNHASHABLE_CLASS">HE_USE_OF_UNHASHABLE_CLASS</a></td>
-<td>261</td>
-<td>High</td></tr></table></div><a name="org.universAAL.ri.gateway.Gateway"></a>
+<td>Medium</td></tr></table></div><a name="org.universAAL.ri.gateway.Gateway"></a>
 <div class="section">
 <h3><a name="org.universAAL.ri.gateway.Gateway"></a>org.universAAL.ri.gateway.Gateway</h3>
 <table border="0" class="bodyTable">
@@ -350,25 +335,25 @@
 <td>org.universAAL.ri.gateway.configuration.NoSecurityDefinition stored into non-transient field ConfigurationFile.chainMNG</td>
 <td>BAD_PRACTICE</td>
 <td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#SE_BAD_FIELD_STORE">SE_BAD_FIELD_STORE</a></td>
-<td>62</td>
+<td>65</td>
 <td>Medium</td></tr>
 <tr class="b">
 <td>org.universAAL.ri.gateway.configuration.TurtleFileSecurityDefinition stored into non-transient field ConfigurationFile.chainMNG</td>
 <td>BAD_PRACTICE</td>
 <td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#SE_BAD_FIELD_STORE">SE_BAD_FIELD_STORE</a></td>
-<td>67</td>
+<td>71</td>
 <td>Medium</td></tr>
 <tr class="a">
 <td>org.universAAL.ri.gateway.operations.DenyDefault stored into non-transient field ConfigurationFile.chainMNG</td>
 <td>BAD_PRACTICE</td>
 <td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#SE_BAD_FIELD_STORE">SE_BAD_FIELD_STORE</a></td>
-<td>77</td>
+<td>81</td>
 <td>Medium</td></tr>
 <tr class="b">
 <td>org.universAAL.ri.gateway.operations.DenyDefault stored into non-transient field ConfigurationFile.chainMNG</td>
 <td>BAD_PRACTICE</td>
 <td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#SE_BAD_FIELD_STORE">SE_BAD_FIELD_STORE</a></td>
-<td>84</td>
+<td>88</td>
 <td>Medium</td></tr></table></div><a name="org.universAAL.ri.gateway.configuration.TurtleFileSecurityDefinition"></a>
 <div class="section">
 <h3><a name="org.universAAL.ri.gateway.configuration.TurtleFileSecurityDefinition"></a>org.universAAL.ri.gateway.configuration.TurtleFileSecurityDefinition</h3>
@@ -383,13 +368,13 @@
 <td>Found reliance on default encoding in new org.universAAL.ri.gateway.configuration.TurtleFileSecurityDefinition(URL): new java.util.Scanner(InputStream)</td>
 <td>I18N</td>
 <td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#DM_DEFAULT_ENCODING">DM_DEFAULT_ENCODING</a></td>
-<td>60</td>
+<td>61</td>
 <td>High</td></tr>
 <tr class="a">
 <td>new RuntimeException(String) not thrown in new org.universAAL.ri.gateway.configuration.TurtleFileSecurityDefinition(URL)</td>
 <td>CORRECTNESS</td>
 <td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#RV_EXCEPTION_NOT_THROWN">RV_EXCEPTION_NOT_THROWN</a></td>
-<td>65</td>
+<td>67</td>
 <td>High</td></tr></table></div><a name="org.universAAL.ri.gateway.configuration.UpdatedPropertiesFile"></a>
 <div class="section">
 <h3><a name="org.universAAL.ri.gateway.configuration.UpdatedPropertiesFile"></a>org.universAAL.ri.gateway.configuration.UpdatedPropertiesFile</h3>
@@ -404,7 +389,7 @@
 <td>org.universAAL.ri.gateway.configuration.UpdatedPropertiesFile.storeProperties() may fail to clean up java.io.OutputStream on checked exception</td>
 <td>EXPERIMENTAL</td>
 <td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#OBL_UNSATISFIED_OBLIGATION_EXCEPTION_EDGE">OBL_UNSATISFIED_OBLIGATION_EXCEPTION_EDGE</a></td>
-<td>120</td>
+<td>131</td>
 <td>Medium</td></tr></table></div><a name="org.universAAL.ri.gateway.osgi.GatewayCommand"></a>
 <div class="section">
 <h3><a name="org.universAAL.ri.gateway.osgi.GatewayCommand"></a>org.universAAL.ri.gateway.osgi.GatewayCommand</h3>
@@ -516,7 +501,22 @@
 <td>BAD_PRACTICE</td>
 <td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#SE_BAD_FIELD">SE_BAD_FIELD</a></td>
 <td></td>
-<td>High</td></tr></table></div><a name="org.universAAL.ri.gateway.proxies.exporting.ProxySCaller"></a>
+<td>High</td></tr></table></div><a name="org.universAAL.ri.gateway.proxies.ReferencesManager"></a>
+<div class="section">
+<h3><a name="org.universAAL.ri.gateway.proxies.ReferencesManager"></a>org.universAAL.ri.gateway.proxies.ReferencesManager</h3>
+<table border="0" class="bodyTable">
+<tr class="b">
+<th>Bug</th>
+<th>Category</th>
+<th>Details</th>
+<th>Line</th>
+<th>Priority</th></tr>
+<tr class="a">
+<td>org.universAAL.ri.gateway.proxies.BusMemberReference doesn't define a hashCode() method but is used in a hashed data structure in org.universAAL.ri.gateway.proxies.ReferencesManager.removeRemoteProxyReference(BusMemberReference)</td>
+<td>CORRECTNESS</td>
+<td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#HE_USE_OF_UNHASHABLE_CLASS">HE_USE_OF_UNHASHABLE_CLASS</a></td>
+<td>71</td>
+<td>Medium</td></tr></table></div><a name="org.universAAL.ri.gateway.proxies.exporting.ProxySCaller"></a>
 <div class="section">
 <h3><a name="org.universAAL.ri.gateway.proxies.exporting.ProxySCaller"></a>org.universAAL.ri.gateway.proxies.exporting.ProxySCaller</h3>
 <table border="0" class="bodyTable">
@@ -584,19 +584,19 @@
 <td>Unchecked/unconfirmed cast from org.universAAL.middleware.rdf.Resource[] to org.universAAL.middleware.service.owls.profile.ServiceProfile[] in org.universAAL.ri.gateway.proxies.importing.ProxySCallee.addSubscriptionParameters(Resource[])</td>
 <td>STYLE</td>
 <td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#BC_UNCONFIRMED_CAST">BC_UNCONFIRMED_CAST</a></td>
-<td>204</td>
+<td>206</td>
 <td>Medium</td></tr>
 <tr class="b">
 <td>Unchecked/unconfirmed cast from org.universAAL.middleware.rdf.Resource[] to org.universAAL.middleware.service.owls.profile.ServiceProfile[] in org.universAAL.ri.gateway.proxies.importing.ProxySCallee.removeSubscriptionParameters(Resource[])</td>
 <td>STYLE</td>
 <td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#BC_UNCONFIRMED_CAST">BC_UNCONFIRMED_CAST</a></td>
-<td>212</td>
+<td>214</td>
 <td>Medium</td></tr>
 <tr class="a">
 <td>org.universAAL.ri.gateway.proxies.importing.ProxySCallee.getSubscriptionParameters() may expose internal representation by returning ProxySCallee.currentRegParam</td>
 <td>MALICIOUS_CODE</td>
 <td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#EI_EXPOSE_REP">EI_EXPOSE_REP</a></td>
-<td>183</td>
+<td>185</td>
 <td>Medium</td></tr></table></div><a name="org.universAAL.ri.gateway.proxies.updating.RegistrationParametersAdder"></a>
 <div class="section">
 <h3><a name="org.universAAL.ri.gateway.proxies.updating.RegistrationParametersAdder"></a>org.universAAL.ri.gateway.proxies.updating.RegistrationParametersAdder</h3>

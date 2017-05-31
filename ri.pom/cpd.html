@@ -11920,7 +11920,7 @@
 <tr class="b">
 <td>org/universAAL/ri/gateway/proxies/importing/ProxySCallee.java</td>
 <td>universAAL Remote Interoperability AALSpace Gateway</td>
-<td>154</td></tr>
+<td>156</td></tr>
 <tr class="a"><td colspan='3'>
 <div>
 <pre>    }
@@ -14062,43 +14062,43 @@
 <tr class="b">
 <td>org/universAAL/ri/gateway/protocol/link/ConnectionResponse.java</td>
 <td>universAAL Remote Interoperability AALSpace Gateway</td>
-<td>55</td></tr>
+<td>56</td></tr>
 <tr class="a">
 <td>org/universAAL/ri/gateway/protocol/link/DisconnectionRequest.java</td>
 <td>universAAL Remote Interoperability AALSpace Gateway</td>
-<td>55</td></tr>
+<td>56</td></tr>
 <tr class="b">
 <td>org/universAAL/ri/gateway/protocol/link/ReconnectionRequest.java</td>
 <td>universAAL Remote Interoperability AALSpace Gateway</td>
-<td>55</td></tr>
+<td>56</td></tr>
 <tr class="a"><td colspan='3'>
 <div>
-<pre>                + (peerId != null ? &quot;peerId =&quot; + peerId  + &quot;, &quot; : &quot;&quot;)
-                + (aalSpaceId != null ? &quot;aalSpaceId =&quot; + aalSpaceId  + &quot;, &quot; : &quot;&quot;)
-                + (aalSpaceId != null ? &quot;scopeId=&quot; + aalSpaceId + &quot;, &quot; : &quot;&quot;)
-                + (sessionId != null ? &quot;sessionId=&quot; + sessionId + &quot; &quot; : &quot;&quot;)
-                + &quot;]&quot;;
+<pre>		+ (peerId != null ? &quot;peerId =&quot; + peerId + &quot;, &quot; : &quot;&quot;)
+		+ (aalSpaceId != null ? &quot;aalSpaceId =&quot; + aalSpaceId + &quot;, &quot; : &quot;&quot;)
+		+ (aalSpaceId != null ? &quot;scopeId=&quot; + aalSpaceId + &quot;, &quot; : &quot;&quot;)
+		+ (sessionId != null ? &quot;sessionId=&quot; + sessionId + &quot; &quot; : &quot;&quot;)
+		+ &quot;]&quot;;
     }
 
     public String getAALSpaceId() {
-        return aalSpaceId;
+	return aalSpaceId;
     }
 
     public String getPeerId() {
-        return peerId;
+	return peerId;
     }
 
     public String getScopeId() {
-        return aalSpaceId;
+	return aalSpaceId;
     }
 
     public UUID getSessionId() {
-        return sessionId;
+	return sessionId;
     }
 
     @Override
     public int getType() {
-        return LinkMessageType.CONNECTION_RESPONSE.ordinal();</pre></div></td></tr></table>
+	return LinkMessageType.CONNECTION_RESPONSE.ordinal();</pre></div></td></tr></table>
 <table border="0" class="bodyTable">
 <tr class="b">
 <th>File</th>
@@ -14204,35 +14204,35 @@
 <td>156</td></tr>
 <tr class="a"><td colspan='3'>
 <div>
-<pre>            return true;
-        }
+<pre>	    return true;
+	}
 
-        @Override
-        protected boolean loopRun() {
-            if (socket != null &amp;&amp; !socket.isClosed()) {
-                Message msg;
-                try {
-                    msg = getNextMessage(in);
-                } catch (final Exception e) {
-                    if (e instanceof EOFException) {
-                        log.info(&quot;Failed to read message of the stream beacuse it was closed from the other side&quot;);
-                        return false;
-                    } else {
-                        log.debug(&quot;Failed to read message from stream&quot;, e);
-                        return false;
-                    }
-                }
-                if (handleSessionProtocol(msg) == false) {
-                    handleGatewayProtocol(msg);
-                }
-                return true;
-            } else {
-                return false;
-            }
-        }
+	@Override
+	protected boolean loopRun() {
+	    if (socket != null &amp;&amp; !socket.isClosed()) {
+		Message msg;
+		try {
+		    msg = getNextMessage(in);
+		} catch (final Exception e) {
+		    if (e instanceof EOFException) {
+			log.info(&quot;Failed to read message of the stream beacuse it was closed from the other side&quot;);
+			return false;
+		    } else {
+			log.debug(&quot;Failed to read message from stream&quot;, e);
+			return false;
+		    }
+		}
+		if (handleSessionProtocol(msg) == false) {
+		    handleGatewayProtocol(msg);
+		}
+		return true;
+	    } else {
+		return false;
+	    }
+	}
 
-        @Override
-        protected boolean afterRun() {</pre></div></td></tr></table>
+	@Override
+	protected boolean afterRun() {</pre></div></td></tr></table>
 <table border="0" class="bodyTable">
 <tr class="b">
 <th>File</th>

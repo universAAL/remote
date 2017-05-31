@@ -26,9 +26,9 @@ under the License.
     <copyright>&#169;2017 universAAL Consortium</copyright>
     <item>
       <title>File: 119,
-             Errors: 1902,
+             Errors: 1905,
              Warnings: 305,
-             Infos: 3252
+             Infos: 3253
       </title>
             <link>http://remote/ri.pom//checkstyle.html</link>
       <description>
@@ -609,13 +609,13 @@ under the License.
                   <a href="http://remote/ri.pom//checkstyle.html#org.universAAL.ri.gateway.Exporter.java">org/universAAL/ri/gateway/Exporter.java</a>
                 </td>
                 <td>
-                  17
+                  18
                 </td>
                 <td>
                   2
                 </td>
                 <td>
-                  45
+                  48
                 </td>
               </tr>
                           <tr>

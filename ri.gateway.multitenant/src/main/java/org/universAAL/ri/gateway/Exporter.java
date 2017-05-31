@@ -16,13 +16,14 @@
 package org.universAAL.ri.gateway;
 
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 import org.universAAL.middleware.bus.member.BusMember;
@@ -87,8 +88,8 @@ public class Exporter implements IBusMemberRegistryListener {
      */
     public Exporter(final ProxyPool pool) {
 	this.pool = pool;
-	tracked = new HashMap<String, Resource[]>();
-	exported = new HashMap<String, ProxyBusMember>();
+	tracked = new ConcurrentHashMap<String, Resource[]>();
+	exported = new ConcurrentHashMap<String, ProxyBusMember>();
 	executor = Executors.newSingleThreadExecutor();
     }
 
@@ -142,6 +143,13 @@ public class Exporter implements IBusMemberRegistryListener {
 	}
 
 	public void run() {
+	    if (!session.isActive()) {
+		LogUtils.logInfo(Gateway.getInstance().context, getClass(),
+			"run", "Session is no longer active, cannot export: "
+				+ session.getScope() + ", " + busMemberId);
+		return;
+	    }
+
 	    final Resource[] params = tracked.get(busMemberId);
 	    // check exportOperationChain of the session
 	    if (session.getExportOperationChain().check(params)
@@ -199,6 +207,11 @@ public class Exporter implements IBusMemberRegistryListener {
 				    + exportProxy.getBusMemberId());
 		    exportProxy.close();
 		}
+	    } else {
+		LogUtils.logInfo(Gateway.getInstance().context, getClass(),
+			"run",
+			"Bus member can not be exported due to security constrains: "
+				+ busMemberId);
 	    }
 	}
     }
@@ -241,6 +254,12 @@ public class Exporter implements IBusMemberRegistryListener {
 	/** {@ inheritDoc} */
 	public void run() {
 	    final Session s = bmr.getChannel();
+	    if (!s.isActive()) {
+		LogUtils.logInfo(Gateway.getInstance().context, getClass(),
+			"run", "Session no longer active, aborting refresh: "
+				+ s.getScope() + ", " + busMemberID);
+		return;
+	    }
 	    // check the new parameters are allowed to be exported
 	    if (s.getExportOperationChain().check(tracked.get(busMemberID))
 		    .equals(OperationChain.OperationResult.ALLOW)) {
@@ -353,6 +372,38 @@ public class Exporter implements IBusMemberRegistryListener {
 	}
     }
 
+    private class SessionStopTask implements Runnable {
+
+	Session session;
+
+	/**
+	 * @param session
+	 *            the {@link Session} to check for removal.
+	 */
+	public SessionStopTask(Session session) {
+	    super();
+	    this.session = session;
+	}
+
+	public void run() {
+	    final Collection<Entry<String, ProxyBusMember>> ex = exported
+		    .entrySet();
+	    Set<String> tbr = new HashSet<String>();
+	    for (final Entry<String, ProxyBusMember> entry : ex) {
+		final ProxyBusMember pbm = entry.getValue();
+		pbm.removeRemoteProxyReferences(session);
+		if (pool.removeProxyIfOrphan(pbm)) {
+		    tbr.add(entry.getKey());
+		}
+	    }
+	    for (String id : tbr) {
+		exported.remove(id);
+	    }
+
+	}
+
+    }
+
     /**
      * To be called when a new {@link Session} is become active. Checks all the
      * possible {@link BusMember}s to be exported and checks for each if it
@@ -376,20 +427,7 @@ public class Exporter implements IBusMemberRegistryListener {
      * @param session
      */
     public void stopedSession(final Session session) {
-	final Collection<Entry<String, ProxyBusMember>> ex = exported
-		.entrySet();
-	Set<String> tbr = new HashSet<String>();
-	for (final Entry<String, ProxyBusMember> entry : ex) {
-	    final ProxyBusMember pbm = entry.getValue();
-	    pbm.removeRemoteProxyReferences(session);
-	    if (pool.removeProxyIfOrphan(pbm)) {
-		tbr.add(entry.getKey());
-	    }
-	}
-	for (String id : tbr) {
-	    exported.remove(id);
-	}
-
+	executor.execute(new SessionStopTask(session));
     }
 
     /**
@@ -406,8 +444,7 @@ public class Exporter implements IBusMemberRegistryListener {
 	// and they are not imported proxies!
     }
 
-    public synchronized void busMemberAdded(final BusMember member,
-	    final BusType type) {
+    public void busMemberAdded(final BusMember member, final BusType type) {
 	if (isExportable(member)) {
 	    // mark as ready to receive params.
 	    // TODO check for errors: is this really the first time the
@@ -436,8 +473,7 @@ public class Exporter implements IBusMemberRegistryListener {
      * Initiates Import-remove protocol: <br>
      * <img src="doc-files/Import-ImportRemove.png">
      */
-    public synchronized void busMemberRemoved(final BusMember member,
-	    final BusType type) {
+    public void busMemberRemoved(final BusMember member, final BusType type) {
 	final String bmId = member.getURI();
 	if (tracked.containsKey(bmId)) {
 	    // get proxy representative
@@ -459,12 +495,13 @@ public class Exporter implements IBusMemberRegistryListener {
     }
 
     /** {@inheritDoc} */
-    public synchronized void regParamsAdded(final String busMemberID,
-	    final Resource[] params) {
+    public void regParamsAdded(final String busMemberID, final Resource[] params) {
 
 	final Resource[] currentParams = tracked.get(busMemberID);
 
-	if (tracked.containsKey(busMemberID) && currentParams == null) {
+	boolean isContained = tracked.containsKey(busMemberID);
+
+	if (isContained && currentParams == null) {
 	    // a virgin bus member has registered, ie a newBusMember!
 	    tracked.put(busMemberID, params);
 	    // check all sessions
@@ -476,13 +513,14 @@ public class Exporter implements IBusMemberRegistryListener {
 		    executor.execute(new ExportTask(busMemberID, s));
 		}
 	    }
-	} else if (tracked.containsKey(busMemberID) && currentParams != null) {
+	} else if (isContained && currentParams != null) {
 	    tracked.put(busMemberID, new ArraySet.Union<Resource>().combine(
 		    currentParams, params, new Resource[] {}));
 	    executor.execute(new RefreshTask(busMemberID,
 		    new RegistrationParametersAdder(params)));
 	} else {
-	    // else -> a notification from a non exportable bus member -> ignore.
+	    // else -> a notification from a non exportable bus member ->
+	    // ignore.
 	    LogUtils.logDebug(Gateway.getInstance().context, getClass(),
 		    "regParamsAdded", "Local non-exportable BusMember: "
 			    + busMemberID + " has changed parameters.");
@@ -490,7 +528,7 @@ public class Exporter implements IBusMemberRegistryListener {
     }
 
     /** {@inheritDoc} */
-    public synchronized void regParamsRemoved(final String busMemberID,
+    public void regParamsRemoved(final String busMemberID,
 	    final Resource[] params) {
 	/*
 	 * TODO check if new params of the BusMember is [], Then ???
@@ -525,9 +563,25 @@ public class Exporter implements IBusMemberRegistryListener {
 	return false;
     }
 
-    public synchronized void stop() {
-	// Hardcore stop all pending tasks
-	executor.shutdownNow();
+    /**
+     * 
+     * Stop all operations.
+     */
+
+    public void stop() {
+	// Graceful termination of pending tasks
+	// specially waiting for session closure tasks
+	try {
+	    while (!executor.awaitTermination(10, TimeUnit.SECONDS)) {
+		LogUtils.logInfo(Gateway.getInstance().context, getClass(),
+			"stop",
+			"Timeout waiting for session end operations, waiting some more.");
+	    }
+	} catch (InterruptedException e) {
+	    stop();
+	    return;
+	}
+
 	final Collection<ProxyBusMember> ex = exported.values();
 	exported.clear();
 	for (final ProxyBusMember pbm : ex) {

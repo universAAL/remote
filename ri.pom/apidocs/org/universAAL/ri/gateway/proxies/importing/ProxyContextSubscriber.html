@@ -258,13 +258,14 @@ implements <a href="../../../../../../org/universAAL/ri/gateway/proxies/ProxyBus
 <tr id="i9" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../org/universAAL/ri/gateway/proxies/importing/ProxyContextSubscriber.html#removeRemoteProxyReference-org.universAAL.ri.gateway.proxies.BusMemberReference-">removeRemoteProxyReference</a></span>(<a href="../../../../../../org/universAAL/ri/gateway/proxies/BusMemberReference.html" title="class in org.universAAL.ri.gateway.proxies">BusMemberReference</a>&nbsp;remoteReference)</code>
-<div class="block">Disconnect a concrete remote proxy.</div>
+<div class="block">Remove a concrete remote proxy.</div>
 </td>
 </tr>
 <tr id="i10" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../org/universAAL/ri/gateway/proxies/importing/ProxyContextSubscriber.html#removeRemoteProxyReferences-org.universAAL.ri.gateway.Session-">removeRemoteProxyReferences</a></span>(<a href="../../../../../../org/universAAL/ri/gateway/Session.html" title="class in org.universAAL.ri.gateway">Session</a>&nbsp;session)</code>
-<div class="block">Disconnect from all references that use the same session.</div>
+<div class="block">Disconnect from all references that use the same session.Does not send
+ <a href="../../../../../../org/universAAL/ri/gateway/protocol/ImportMessage.ImportMessageType.html#ImportRemove"><code>Remove message</code></a></div>
 </td>
 </tr>
 <tr id="i11" class="rowColor">
@@ -387,7 +388,8 @@ implements <a href="../../../../../../org/universAAL/ri/gateway/proxies/ProxyBus
 <li class="blockList">
 <h4>removeRemoteProxyReference</h4>
 <pre>public&nbsp;void&nbsp;removeRemoteProxyReference(<a href="../../../../../../org/universAAL/ri/gateway/proxies/BusMemberReference.html" title="class in org.universAAL.ri.gateway.proxies">BusMemberReference</a>&nbsp;remoteReference)</pre>
-<div class="block">Disconnect a concrete remote proxy.</div>
+<div class="block">Remove a concrete remote proxy. Does not send
+ <a href="../../../../../../org/universAAL/ri/gateway/protocol/ImportMessage.ImportMessageType.html#ImportRemove"><code>Remove message</code></a></div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="../../../../../../org/universAAL/ri/gateway/proxies/ProxyBusMember.html#removeRemoteProxyReference-org.universAAL.ri.gateway.proxies.BusMemberReference-">removeRemoteProxyReference</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../../../org/universAAL/ri/gateway/proxies/ProxyBusMember.html" title="interface in org.universAAL.ri.gateway.proxies">ProxyBusMember</a></code></dd>
@@ -403,7 +405,8 @@ implements <a href="../../../../../../org/universAAL/ri/gateway/proxies/ProxyBus
 <li class="blockList">
 <h4>removeRemoteProxyReferences</h4>
 <pre>public&nbsp;void&nbsp;removeRemoteProxyReferences(<a href="../../../../../../org/universAAL/ri/gateway/Session.html" title="class in org.universAAL.ri.gateway">Session</a>&nbsp;session)</pre>
-<div class="block">Disconnect from all references that use the same session.</div>
+<div class="block">Disconnect from all references that use the same session.Does not send
+ <a href="../../../../../../org/universAAL/ri/gateway/protocol/ImportMessage.ImportMessageType.html#ImportRemove"><code>Remove message</code></a></div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="../../../../../../org/universAAL/ri/gateway/proxies/ProxyBusMember.html#removeRemoteProxyReferences-org.universAAL.ri.gateway.Session-">removeRemoteProxyReferences</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../../../org/universAAL/ri/gateway/proxies/ProxyBusMember.html" title="interface in org.universAAL.ri.gateway.proxies">ProxyBusMember</a></code></dd>

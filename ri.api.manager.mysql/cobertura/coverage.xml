@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE coverage SYSTEM "http://cobertura.sourceforge.net/xml/coverage-04.dtd">
 
-<coverage line-rate="0.0" branch-rate="0.0" lines-covered="0" lines-valid="242" branches-covered="0" branches-valid="86" complexity="5.461538461538462" version="2.1.1" timestamp="1496227239544">
+<coverage line-rate="0.0" branch-rate="0.0" lines-covered="0" lines-valid="242" branches-covered="0" branches-valid="86" complexity="5.461538461538462" version="2.1.1" timestamp="1496498580108">
 	<sources>
 		<source>/home/travis/build/universAAL/remote/ri.api.manager.mysql/src/main/java</source>
 		<source>--source</source>

@@ -26,9 +26,9 @@ under the License.
     <copyright>&#169;2017 universAAL Consortium</copyright>
     <item>
       <title>File: 58,
-             Errors: 762,
+             Errors: 778,
              Warnings: 50,
-             Infos: 321
+             Infos: 326
       </title>
             <link>http://remote/ri.gateway.multitenant//checkstyle.html</link>
       <description>
@@ -329,13 +329,13 @@ under the License.
                   <a href="http://remote/ri.gateway.multitenant//checkstyle.html#org.universAAL.ri.gateway.proxies.ProxyBusMember.java">org/universAAL/ri/gateway/proxies/ProxyBusMember.java</a>
                 </td>
                 <td>
-                  19
+                  20
                 </td>
                 <td>
                   0
                 </td>
                 <td>
-                  3
+                  4
                 </td>
               </tr>
                           <tr>
@@ -483,13 +483,13 @@ under the License.
                   <a href="http://remote/ri.gateway.multitenant//checkstyle.html#org.universAAL.ri.gateway.Importer.java">org/universAAL/ri/gateway/Importer.java</a>
                 </td>
                 <td>
-                  14
+                  17
                 </td>
                 <td>
                   0
                 </td>
                 <td>
-                  10
+                  25
                 </td>
               </tr>
                           <tr>
@@ -623,7 +623,7 @@ under the License.
                   <a href="http://remote/ri.gateway.multitenant//checkstyle.html#org.universAAL.ri.gateway.Exporter.java">org/universAAL/ri/gateway/Exporter.java</a>
                 </td>
                 <td>
-                  18
+                  19
                 </td>
                 <td>
                   2

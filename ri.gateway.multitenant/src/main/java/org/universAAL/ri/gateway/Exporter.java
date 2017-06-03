@@ -281,6 +281,7 @@ public class Exporter implements IBusMemberRegistryListener {
 		    // Either Update Rejected from remote or something
 		    // went wrong
 		    pbm.removeRemoteProxyReference(bmr);
+		    s.send(ImportMessage.importRemove(busMemberID));
 		    LogUtils.logWarn(
 			    Gateway.getInstance().context,
 			    getClass(),
@@ -306,7 +307,9 @@ public class Exporter implements IBusMemberRegistryListener {
 			"refresh",
 			"Proxy has no references after refresh, deleting proxy: "
 				+ pbm.getBusMemberId());
-		pool.removeProxyWithSend(pbm);
+		pool.removeProxyWithSend(pbm); // XXX it doesn't really matter
+					       // there are any remotes to send
+					       // the message to
 		exported.remove(busMemberID);
 	    }
 	}
@@ -391,6 +394,15 @@ public class Exporter implements IBusMemberRegistryListener {
 	    Set<String> tbr = new HashSet<String>();
 	    for (final Entry<String, ProxyBusMember> entry : ex) {
 		final ProxyBusMember pbm = entry.getValue();
+		Collection<BusMemberReference> refs = pbm.getRemoteProxiesReferences();
+		for (BusMemberReference bmr : refs) {
+		    if (bmr.getChannel().equals(session) 
+			    && session.isActive()) {
+			// Send remove message to remote
+			session.send(ImportMessage.importRemove(bmr
+				.getBusMemberid()));
+		    }
+		}
 		pbm.removeRemoteProxyReferences(session);
 		if (pool.removeProxyIfOrphan(pbm)) {
 		    tbr.add(entry.getKey());
@@ -552,8 +564,6 @@ public class Exporter implements IBusMemberRegistryListener {
 	    final Session session) {
 	final ProxyBusMember member = exported.get(busMemberId);
 	if (member != null) {
-	    LogUtils.logDebug(Gateway.getInstance().context, getClass(),
-		    "isRemoveExport", "Remove request from remote importer.");
 	    member.removeRemoteProxyReferences(session);
 	    if (pool.removeProxyIfOrphan(member)) {
 		exported.remove(busMemberId);

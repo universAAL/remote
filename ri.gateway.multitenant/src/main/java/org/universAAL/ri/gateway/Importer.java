@@ -16,17 +16,18 @@
 package org.universAAL.ri.gateway;
 
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import org.universAAL.middleware.container.utils.LogUtils;
 import org.universAAL.middleware.rdf.Resource;
 import org.universAAL.ri.gateway.operations.OperationChain;
 import org.universAAL.ri.gateway.protocol.ErrorMessage;
 import org.universAAL.ri.gateway.protocol.ImportMessage;
-import org.universAAL.ri.gateway.protocol.Message;
 import org.universAAL.ri.gateway.proxies.BusMemberReference;
 import org.universAAL.ri.gateway.proxies.ProxyBusMember;
 import org.universAAL.ri.gateway.proxies.ProxyBusMemberFactory;
@@ -63,6 +64,11 @@ public class Importer {
     private final Map<String, ProxyBusMember> imports;
 
     /**
+     * Executor to execute concurrent tasks in order.
+     */
+    private final ExecutorService executor;
+
+    /**
      * @param session
      * @param pool
      */
@@ -70,27 +76,31 @@ public class Importer {
 	super();
 	this.session = session;
 	this.pool = pool;
-	imports = new HashMap<String, ProxyBusMember>();
+	imports = new ConcurrentHashMap<String, ProxyBusMember>();
+	executor = Executors.newSingleThreadExecutor();
     }
 
     /**
-     * Receives Gateway Level layer messages (aka {@link ImportMessage}
-     * protocol), and manages the importer protocol for each case: <br>
-     * 
-     * <h3>handles Import-request protocol:<h3>
+     * A task devoted to manage import requests. <br>
      * <img src="doc-files/Import-ImportRequest.png">
      * 
-     * <h3>handles Import-remove protocol:<h3>
-     * <img src="doc-files/Import-ImportRemove.png">
-     * 
-     * <h3>handles Import-refresh protocol:<h3>
-     * <img src="doc-files/Import-ImportRefresh.png">
-     * 
-     * @param msg
+     * @author amedrano
+     *
      */
-    public synchronized void handleImportMessage(final ImportMessage msg) {
-	if (msg.getMessageType().equals(
-		ImportMessage.ImportMessageType.ImportRequest)) {
+    private class ImportRequestTask implements Runnable {
+
+	private ImportMessage msg;
+
+	/**
+	 * @param msg
+	 */
+	public ImportRequestTask(ImportMessage msg) {
+	    super();
+	    this.msg = msg;
+	}
+
+	/** {@ inheritDoc} */
+	public void run() {
 	    if (Gateway.getInstance().getExporter()
 		    .isTracked(msg.getBusMemberId())) {
 		// Request to import a local busmember, this signifies a loop or
@@ -146,10 +156,31 @@ public class Importer {
 		// import denied
 		session.send(ImportMessage.importResponse(msg, null));
 	    }
-	    return;
 	}
-	if (msg.getMessageType().equals(
-		ImportMessage.ImportMessageType.ImportRemove)) {
+
+    }
+
+    /**
+     * A task to handle Remove requests <br>
+     * <img src="doc-files/Import-ImportRemove.png">
+     * 
+     * @author amedrano
+     *
+     */
+    private class RemoveRequestTask implements Runnable {
+
+	private ImportMessage msg;
+
+	/**
+	 * @param msg
+	 */
+	public RemoveRequestTask(ImportMessage msg) {
+	    super();
+	    this.msg = msg;
+	}
+
+	/** {@ inheritDoc} */
+	public void run() {
 	    // remove
 	    /*
 	     * When remote importer sends importRemove, it will be received
@@ -159,28 +190,20 @@ public class Importer {
 	     * It has to tell the exporter to remove a reference not the
 	     * exported proxy.
 	     */
-	    if (!Gateway.getInstance().getExporter()
+	    if (Gateway.getInstance().getExporter()
 		    .isRemoveExport(msg.getBusMemberId(), session)) {
+
+		LogUtils.logDebug(Gateway.getInstance().context, getClass(),
+			"run", "Remove request from remote Importer.");
+	    } else {
+		// The remote Exporter is requesting to remove imported proxy.
+
+		LogUtils.logDebug(Gateway.getInstance().context, getClass(),
+			"run", "Remove request from remote Exporter.");
 		remove(msg.getBusMemberId());
 	    }
-	    return;
 	}
-	if (msg.getMessageType().equals(
-		ImportMessage.ImportMessageType.ImportAddSubscription)) {
-	    // refresh add
-	    checkAndRefresh(msg,
-		    new RegistrationParametersAdder(msg.getParameters()));
-	    return;
 
-	}
-	if (msg.getMessageType().equals(
-		ImportMessage.ImportMessageType.ImportRemoveSubscription)) {
-	    // refresh remove
-	    checkAndRefresh(msg,
-		    new RegistrationParametersRemover(msg.getParameters()));
-	    return;
-
-	}
     }
 
     /**
@@ -200,77 +223,149 @@ public class Importer {
      *            the updater that will add or remove the parameters.
      * @return the Message to respond
      */
-    private Message checkAndRefresh(final ImportMessage msg, final Updater up) {
-	final String remoteBusMemberId = msg.getBusMemberId();
-	final ProxyBusMember local = imports.get(remoteBusMemberId);
+    private class SecurityCheckRefreshTask implements Runnable {
 
-	if (local != null) {
-	    // it has been imported
-	    // build the new parameters.
-	    final Resource[] newParams = up.newParameters(local
-		    .getSubscriptionParameters());
+	ImportMessage msg;
+	Updater up;
 
-	    if (session.getImportOperationChain().check(newParams)
-		    .equals(OperationChain.OperationResult.ALLOW)) {
-		// it is allowed by security config.
+	/**
+	 * Constructor
+	 * 
+	 * @param msg
+	 * @param up
+	 */
+	public SecurityCheckRefreshTask(ImportMessage msg, Updater up) {
+	    super();
+	    this.msg = msg;
+	    this.up = up;
+	}
 
-		// newReference is the local ProxyBusMember that will hold the
-		// new reference to the updated remote proxy.
-		String newReference = null;
+	public void run() {
+	    final String remoteBusMemberId = msg.getBusMemberId();
+	    final ProxyBusMember local = imports.get(remoteBusMemberId);
 
-		if (local.getRemoteProxiesReferences().size() == 1) {
+	    if (local != null) {
+		// it has been imported
+		// build the new parameters.
+		final Resource[] newParams = up.newParameters(local
+			.getSubscriptionParameters());
+
+		if (session.getImportOperationChain().check(newParams)
+			.equals(OperationChain.OperationResult.ALLOW)) {
+		    // it is allowed by security config.
+
+		    // newReference is the local ProxyBusMember that will hold
+		    // the
+		    // new reference to the updated remote proxy.
+		    String newReference = null;
+
+		    if (local.getRemoteProxiesReferences().size() == 1) {
+			/*
+			 * the local proxy has only one reference, we assume
+			 * this is the reference of the remote proxy being
+			 * updated, therefore the proxy can be directly updated.
+			 */
+			up.update(local);
+			newReference = local.getBusMemberId();
+		    }
+
 		    /*
-		     * the local proxy has only one reference, we assume this is
-		     * the reference of the remote proxy being updated,
-		     * therefore the proxy can be directly updated.
+		     * Else, a new reference has to be provided. This reference
+		     * can either be a new proxy or an existing compatible one.
+		     * first remove the reference to the current import proxy
+		     * (the parameters have been updated and are no longer
+		     * compatible.
 		     */
-		    up.update(local);
-		    newReference = local.getBusMemberId();
+		    remove(remoteBusMemberId);
+
+		    /*
+		     * no need to check if proxy needs to be deleted, because we
+		     * have already checked that the size of the references is
+		     * more than 1, so deleting one reference will always leave
+		     * at least 1.
+		     */
+
+		    // search for a compatible proxy
+		    ProxyBusMember newPBM = pool.searchCompatible(newParams);
+		    if (newPBM == null) {
+			// create a new one otherwise;
+			newPBM = ProxyBusMemberFactory.createImport(newParams);
+			pool.add(newPBM);
+		    }
+		    newPBM.addRemoteProxyReference(new BusMemberReference(
+			    session, remoteBusMemberId));
+		    imports.put(remoteBusMemberId, newPBM);
+		    newReference = newPBM.getBusMemberId();
+		    // notify of new reference
+		    session.send(ImportMessage
+			    .importResponse(msg, newReference));
+		    return;
+		} else {
+		    // refresh denied
+		    remove(remoteBusMemberId);
+		    // notify denial
+		    session.send(ImportMessage.importResponse(msg, null));
+		    return;
 		}
-
-		/*
-		 * Else, a new reference has to be provided. This reference can
-		 * either be a new proxy or an existing compatible one. first
-		 * remove the reference to the current import proxy (the
-		 * parameters have been updated and are no longer compatible.
-		 */
-		remove(remoteBusMemberId);
-
-		/*
-		 * no need to check if proxy needs to be deleted, because we
-		 * have already checked that the size of the references is more
-		 * than 1, so deleting one reference will always leave at least
-		 * 1.
-		 */
-
-		// search for a compatible proxy
-		ProxyBusMember newPBM = pool.searchCompatible(newParams);
-		if (newPBM == null) {
-		    // create a new one otherwise;
-		    newPBM = ProxyBusMemberFactory.createImport(newParams);
-		    pool.add(newPBM);
-		}
-		newPBM.addRemoteProxyReference(new BusMemberReference(session,
-			remoteBusMemberId));
-		imports.put(remoteBusMemberId, newPBM);
-		newReference = newPBM.getBusMemberId();
-		return ImportMessage.importResponse(msg, newReference);
 	    } else {
-		// refresh denied
-		remove(remoteBusMemberId);
-		return ImportMessage.importResponse(msg, null);
+		LogUtils.logWarn(
+			Gateway.getInstance().context,
+			getClass(),
+			"refresh",
+			"refresh requested but: "
+				+ remoteBusMemberId
+				+ " Proxy is not in the imported proxies for the session.");
+		// notify error
+		session.send(new ErrorMessage(
+			"Proxy is not in the imported proxies for the session.",
+			msg));
+		return;
 	    }
-	} else {
-	    LogUtils.logWarn(
-		    Gateway.getInstance().context,
-		    getClass(),
-		    "refresh",
-		    "refresh requested but: "
-			    + remoteBusMemberId
-			    + " Proxy is not in the imported proxies for the session.");
-	    return new ErrorMessage(
-		    "Proxy is not in the imported proxies for the session.",
-		    msg);
+	}
+    }
+
+    /**
+     * Receives Gateway Level layer messages (aka {@link ImportMessage}
+     * protocol), and manages the importer protocol for each case: <br>
+     * 
+     * <h3>handles Import-request protocol:<h3>
+     * <img src="doc-files/Import-ImportRequest.png">
+     * 
+     * <h3>handles Import-remove protocol:<h3>
+     * <img src="doc-files/Import-ImportRemove.png">
+     * 
+     * <h3>handles Import-refresh protocol:<h3>
+     * <img src="doc-files/Import-ImportRefresh.png">
+     * 
+     * @param msg
+     */
+    public void handleImportMessage(final ImportMessage msg) {
+	if (msg.getMessageType().equals(
+		ImportMessage.ImportMessageType.ImportRequest)) {
+	    executor.execute(new ImportRequestTask(msg));
+	    return;
+	}
+	if (msg.getMessageType().equals(
+		ImportMessage.ImportMessageType.ImportRemove)) {
+
+	    executor.execute(new RemoveRequestTask(msg));
+	    return;
+	}
+	if (msg.getMessageType().equals(
+		ImportMessage.ImportMessageType.ImportAddSubscription)) {
+	    // refresh add
+	    executor.execute(new SecurityCheckRefreshTask(msg,
+		    new RegistrationParametersAdder(msg.getParameters())));
+	    return;
+
+	}
+	if (msg.getMessageType().equals(
+		ImportMessage.ImportMessageType.ImportRemoveSubscription)) {
+	    // refresh remove
+	    executor.execute(new SecurityCheckRefreshTask(msg,
+		    new RegistrationParametersRemover(msg.getParameters())));
+	    return;
+
 	}
     }
 

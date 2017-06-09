@@ -6,23 +6,24 @@ import org.apache.cxf.phase.AbstractPhaseInterceptor;
 import org.apache.cxf.phase.Phase;
 
 /**
- * This class is used for logout a user, after the web service method invocation.
+ * This class is used for logout a user, after the web service method
+ * invocation.
  * 
  */
-public class OutInterceptor extends AbstractPhaseInterceptor<Message>  {
+public class OutInterceptor extends AbstractPhaseInterceptor<Message> {
 
-  public OutInterceptor() {
-    super(Phase.PRE_PROTOCOL);
-  }
-  
-  public void handleMessage(Message message) throws Fault {
+	public OutInterceptor() {
+		super(Phase.PRE_PROTOCOL);
+	}
 
-	  //TODO log out
-//    UserSession userSession = SessionContext.getSessionContext();
-//    if (userSession != null) {
-//      userSession.logout();
-//      SessionContext.setSessionContext(null);
-//    }
-  }
+	public void handleMessage(Message message) throws Fault {
+
+		// TODO log out
+		// UserSession userSession = SessionContext.getSessionContext();
+		// if (userSession != null) {
+		// userSession.logout();
+		// SessionContext.setSessionContext(null);
+		// }
+	}
 
 }

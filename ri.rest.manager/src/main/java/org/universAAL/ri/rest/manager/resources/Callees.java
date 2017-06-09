@@ -52,93 +52,94 @@ import org.universAAL.ri.rest.manager.wrappers.SpaceWrapper;
 @XmlRootElement(name = "callees")
 @Path("/uaal/spaces/{id}/service/callees")
 public class Callees {
-    
-    @XmlElement(name = "link")
-    @XmlJavaTypeAdapter(JaxbAdapter.class)
-    private Link self;
 
-    @XmlElement(name = "callee") // @XmlElementRef?
-    private ArrayList<Callee> callees;
+	@XmlElement(name = "link")
+	@XmlJavaTypeAdapter(JaxbAdapter.class)
+	private Link self;
 
-    public ArrayList<Callee> getCallees() {
-	return callees;
-    }
+	@XmlElement(name = "callee") // @XmlElementRef?
+	private ArrayList<Callee> callees;
 
-    public void setCallees(ArrayList<Callee> callees) {
-	this.callees = callees;
-    }
-    
-    public Link getSelf() {
-        return self;
-    }
-
-    public void setSelf(Link self) {
-        this.self = self;
-    }
-    
-    public Callees(){
-	
-    }
-    
-    //===============REST METHODS===============
-    
-    @GET
-    @Produces(Activator.TYPES)
-    public Callees getCalleesResource(@PathParam("id") String id){
-	Activator.logI("Callees.getCalleesResource", "GET host:port/uaal/spaces/X/service/callees");
-	Callees allcees=new Callees();
-        ArrayList<Callee> cees = new ArrayList<Callee>();
-        
-        SpaceWrapper tenant = UaalWrapper.getInstance().getTenant(id);
-        if(tenant!=null){
-            Enumeration<CalleeWrapper> calleeenum = tenant.getServiceCallees();
-            while(calleeenum.hasMoreElements()){
-        	cees.add(calleeenum.nextElement().getResource());
-            }
-        }
-
-        allcees.setCallees(cees);
-        allcees.setSelf(Link.fromPath("/uaal/spaces/"+id+"/service/callees/").rel("self").build());
-	return allcees;
-    }
-    
-    @POST
-    @Consumes(Activator.TYPES)
-    public Response addCalleeResource(@PathParam("id") String id, Callee cee) throws URISyntaxException{
-	Activator.logI("Callees.addCalleeResource", "POST host:port/uaal/spaces/X/service/callees");
-	//The cee generated from the POST body does not contain any "link" elements, but I wouldnt have allowed it anyway
-	//Set the links manually, like in the cee constructor
-	cee.setSelf(Link.fromPath("/uaal/spaces/"+id+"/service/callees/"+cee.getId()).rel("self").build());
-	SpaceWrapper tenant = UaalWrapper.getInstance().getTenant(id);
-	if(tenant!=null){
-	    if(Activator.getParser()!=null){
-		if(cee.getProfile()!=null){
-		    ServiceProfile sp=(ServiceProfile) Activator.getParser().deserialize(cee.getProfile());
-		    if(sp!=null){
-			tenant.addServiceCallee(new CalleeWrapper(Activator
-				.getUaalContext(), new ServiceProfile[] { sp },
-				cee, id));
-			Activator.getPersistence().storeCallee(id, cee);
-			return Response.created(new URI("uaal/spaces/"+id+"/service/callees/"+cee.getId())).build();
-		    }else{
-			return Response.status(Status.BAD_REQUEST).build();
-		    }
-		}else{
-		    return Response.status(Status.BAD_REQUEST).build();
-		}
-	    }else{
-		return Response.serverError().build();
-	    }
-	}else{
-	    return Response.status(Status.NOT_FOUND).build();
+	public ArrayList<Callee> getCallees() {
+		return callees;
 	}
-    }
-    
-    @Path("/{subid}")
-    @Produces(Activator.TYPES)
-    public Callee getCalleeResourceLocator(){
-	Activator.logI("Callees.getCalleeResourceLocator", ">>>GET host:port/uaal/spaces/X/service/callees/Y");
-	return new Callee();
-    }
+
+	public void setCallees(ArrayList<Callee> callees) {
+		this.callees = callees;
+	}
+
+	public Link getSelf() {
+		return self;
+	}
+
+	public void setSelf(Link self) {
+		this.self = self;
+	}
+
+	public Callees() {
+
+	}
+
+	// ===============REST METHODS===============
+
+	@GET
+	@Produces(Activator.TYPES)
+	public Callees getCalleesResource(@PathParam("id") String id) {
+		Activator.logI("Callees.getCalleesResource", "GET host:port/uaal/spaces/X/service/callees");
+		Callees allcees = new Callees();
+		ArrayList<Callee> cees = new ArrayList<Callee>();
+
+		SpaceWrapper tenant = UaalWrapper.getInstance().getTenant(id);
+		if (tenant != null) {
+			Enumeration<CalleeWrapper> calleeenum = tenant.getServiceCallees();
+			while (calleeenum.hasMoreElements()) {
+				cees.add(calleeenum.nextElement().getResource());
+			}
+		}
+
+		allcees.setCallees(cees);
+		allcees.setSelf(Link.fromPath("/uaal/spaces/" + id + "/service/callees/").rel("self").build());
+		return allcees;
+	}
+
+	@POST
+	@Consumes(Activator.TYPES)
+	public Response addCalleeResource(@PathParam("id") String id, Callee cee) throws URISyntaxException {
+		Activator.logI("Callees.addCalleeResource", "POST host:port/uaal/spaces/X/service/callees");
+		// The cee generated from the POST body does not contain any "link"
+		// elements, but I wouldnt have allowed it anyway
+		// Set the links manually, like in the cee constructor
+		cee.setSelf(Link.fromPath("/uaal/spaces/" + id + "/service/callees/" + cee.getId()).rel("self").build());
+		SpaceWrapper tenant = UaalWrapper.getInstance().getTenant(id);
+		if (tenant != null) {
+			if (Activator.getParser() != null) {
+				if (cee.getProfile() != null) {
+					ServiceProfile sp = (ServiceProfile) Activator.getParser().deserialize(cee.getProfile());
+					if (sp != null) {
+						tenant.addServiceCallee(
+								new CalleeWrapper(Activator.getUaalContext(), new ServiceProfile[] { sp }, cee, id));
+						Activator.getPersistence().storeCallee(id, cee);
+						return Response.created(new URI("uaal/spaces/" + id + "/service/callees/" + cee.getId()))
+								.build();
+					} else {
+						return Response.status(Status.BAD_REQUEST).build();
+					}
+				} else {
+					return Response.status(Status.BAD_REQUEST).build();
+				}
+			} else {
+				return Response.serverError().build();
+			}
+		} else {
+			return Response.status(Status.NOT_FOUND).build();
+		}
+	}
+
+	@Path("/{subid}")
+	@Produces(Activator.TYPES)
+	public Callee getCalleeResourceLocator() {
+		Activator.logI("Callees.getCalleeResourceLocator", ">>>GET host:port/uaal/spaces/X/service/callees/Y");
+		return new Callee();
+	}
 
 }

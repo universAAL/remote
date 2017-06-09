@@ -34,7 +34,7 @@ public class WSOperation {
 	private WSOperationOutput hasOutput;
 	private String hasDocumentation;
 	private String hasStyle; // rpc or document
-	private ParsedWSDLDefinition belongsToDefinition; 
+	private ParsedWSDLDefinition belongsToDefinition;
 	private String hasBindingSoapAction;
 
 	// public String hasSoapVersion;

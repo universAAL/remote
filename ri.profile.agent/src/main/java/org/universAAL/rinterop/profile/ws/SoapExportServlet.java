@@ -38,82 +38,82 @@ import org.universAAL.rinterop.profile.agent.osgi.Activator;
 
 public class SoapExportServlet extends CXFNonSpringServlet {
 
-  private static final long serialVersionUID = 1L;
-  
-  private final Class<?> serviceClass;
-  private final Object service;
-  
-  public SoapExportServlet(Class<?> serviceClass, Object service) {
-    super();
-    this.serviceClass = serviceClass;
-    this.service = service;
-  }
+	private static final long serialVersionUID = 1L;
 
-  @Override
-  public void loadBus(ServletConfig config) /*throws ServletException*/ {
-    super.loadBus(config);
+	private final Class<?> serviceClass;
+	private final Object service;
 
-    ClassLoader oldClassLoader = Thread.currentThread().getContextClassLoader();
-    try {
-      Thread.currentThread().setContextClassLoader(service.getClass().getClassLoader());
-      
-      Bus bus = getBus();
-      setExtensions(bus);
-      
-      BusFactory.setDefaultBus(bus);
-      bus.getInInterceptors().add(new InInterceptor());
-      
-      bus.getOutInterceptors().add(new OutInterceptor()); 
-       
-      SoapBindingFactory soapFactory = new SoapBindingFactory();
-      soapFactory.setBus(bus);
-      
-      BindingFactoryManager mgr = bus.getExtension(BindingFactoryManager.class);
-      mgr.registerBindingFactory(SoapBindingFactory.SOAP_11_BINDING, soapFactory);
-      
-      createServer(bus);
-      
-    } catch (BusException ex) {
-      Activator.log("CXF Bus Exception", ex);
-      try {
-		throw new ServletException(ex);
-	} catch (ServletException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
+	public SoapExportServlet(Class<?> serviceClass, Object service) {
+		super();
+		this.serviceClass = serviceClass;
+		this.service = service;
 	}
-    } finally {
-      Thread.currentThread().setContextClassLoader(oldClassLoader);
-    }
-  }
-  
-  private void createServer(Bus bus) {
-    ServerFactoryBean factory = new JaxWsServerFactoryBean();
-    
-    factory.setBus(bus);
-    factory.setServiceClass(serviceClass);
-    factory.setServiceBean(service);
-    factory.getServiceFactory().setDataBinding(new JAXBDataBinding());
-    factory.setAddress("/");
-    factory.create();
-    
-    factory.getServer().getEndpoint().getService().setExecutor(new UniversAALExecutor());    
-  }
 
-  private static void setExtensions(Bus bus) throws BusException {
-    bus.setExtension(new WorkQueueManagerImpl(), WorkQueueManager.class);
-    bus.setExtension(new CXFBusLifeCycleManager(), BusLifeCycleManager.class);
-    bus.setExtension(new ServerRegistryImpl(), ServerRegistry.class);
-    
-//    QueryHandlerRegistry qhr = new QueryHandlerRegistryImpl(bus,
-//      Arrays.asList(new QueryHandler[]{new WSDLQueryHandler(bus)}));
-//    bus.setExtension(qhr, QueryHandlerRegistry.class);
-    bus.setExtension(new EndpointResolverRegistryImpl(), EndpointResolverRegistry.class);
-    bus.setExtension(new HeaderManagerImpl(), HeaderManager.class);
+	@Override
+	public void loadBus(ServletConfig config) /* throws ServletException */ {
+		super.loadBus(config);
 
-    bus.setExtension(new WSDLManagerImpl(), WSDLManager.class);
-    bus.setExtension(new PhaseManagerImpl(), PhaseManager.class);
-    
-    bus.setExtension(new SoapTransportFactory(), DestinationFactory.class);
-  }
+		ClassLoader oldClassLoader = Thread.currentThread().getContextClassLoader();
+		try {
+			Thread.currentThread().setContextClassLoader(service.getClass().getClassLoader());
+
+			Bus bus = getBus();
+			setExtensions(bus);
+
+			BusFactory.setDefaultBus(bus);
+			bus.getInInterceptors().add(new InInterceptor());
+
+			bus.getOutInterceptors().add(new OutInterceptor());
+
+			SoapBindingFactory soapFactory = new SoapBindingFactory();
+			soapFactory.setBus(bus);
+
+			BindingFactoryManager mgr = bus.getExtension(BindingFactoryManager.class);
+			mgr.registerBindingFactory(SoapBindingFactory.SOAP_11_BINDING, soapFactory);
+
+			createServer(bus);
+
+		} catch (BusException ex) {
+			Activator.log("CXF Bus Exception", ex);
+			try {
+				throw new ServletException(ex);
+			} catch (ServletException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		} finally {
+			Thread.currentThread().setContextClassLoader(oldClassLoader);
+		}
+	}
+
+	private void createServer(Bus bus) {
+		ServerFactoryBean factory = new JaxWsServerFactoryBean();
+
+		factory.setBus(bus);
+		factory.setServiceClass(serviceClass);
+		factory.setServiceBean(service);
+		factory.getServiceFactory().setDataBinding(new JAXBDataBinding());
+		factory.setAddress("/");
+		factory.create();
+
+		factory.getServer().getEndpoint().getService().setExecutor(new UniversAALExecutor());
+	}
+
+	private static void setExtensions(Bus bus) throws BusException {
+		bus.setExtension(new WorkQueueManagerImpl(), WorkQueueManager.class);
+		bus.setExtension(new CXFBusLifeCycleManager(), BusLifeCycleManager.class);
+		bus.setExtension(new ServerRegistryImpl(), ServerRegistry.class);
+
+		// QueryHandlerRegistry qhr = new QueryHandlerRegistryImpl(bus,
+		// Arrays.asList(new QueryHandler[]{new WSDLQueryHandler(bus)}));
+		// bus.setExtension(qhr, QueryHandlerRegistry.class);
+		bus.setExtension(new EndpointResolverRegistryImpl(), EndpointResolverRegistry.class);
+		bus.setExtension(new HeaderManagerImpl(), HeaderManager.class);
+
+		bus.setExtension(new WSDLManagerImpl(), WSDLManager.class);
+		bus.setExtension(new PhaseManagerImpl(), PhaseManager.class);
+
+		bus.setExtension(new SoapTransportFactory(), DestinationFactory.class);
+	}
 
 }

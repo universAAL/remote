@@ -40,136 +40,133 @@ import org.universAAL.middleware.container.utils.LogUtils;
  */
 public class LoggerFactory {
 
-    private class UAALLogger implements Logger {
+	private class UAALLogger implements Logger {
 
-	final Class<?> claz;
-	ModuleContext mc;
-	final String[] oneMessage = new String[1];
-	final Object LOCK_VAR_MC = new Object();
+		final Class<?> claz;
+		ModuleContext mc;
+		final String[] oneMessage = new String[1];
+		final Object LOCK_VAR_MC = new Object();
 
-	private UAALLogger(final ModuleContext mc, final Class<?> logName) {
-	    this.mc = mc;
-	    this.claz = logName;
+		private UAALLogger(final ModuleContext mc, final Class<?> logName) {
+			this.mc = mc;
+			this.claz = logName;
+		}
+
+		public void info(final String msg) {
+			synchronized (LOCK_VAR_MC) {
+				LogUtils.logInfo(mc, claz, "unspecified method", msg);
+			}
+		}
+
+		public void debug(final String msg) {
+			synchronized (LOCK_VAR_MC) {
+				LogUtils.logDebug(mc, claz, "unspecified method", msg);
+			}
+		}
+
+		public void debug(final String msg, final Throwable t) {
+			oneMessage[0] = msg;
+			synchronized (LOCK_VAR_MC) {
+				LogUtils.logError(mc, claz, "unspecified method", oneMessage, t);
+			}
+		}
+
+		public void error(final String msg, final Throwable t) {
+			oneMessage[0] = msg;
+			synchronized (LOCK_VAR_MC) {
+				LogUtils.logError(mc, claz, "unspecified method", oneMessage, t);
+			}
+		}
+
+		public void warning(final String msg) {
+			synchronized (LOCK_VAR_MC) {
+				LogUtils.logWarn(mc, claz, "unspecified method", msg);
+			}
+		}
+
+		private void setModuleContext(final ModuleContext mc) {
+			synchronized (LOCK_VAR_MC) {
+				this.mc = mc;
+			}
+		}
 	}
 
-	public void info(final String msg) {
-	    synchronized (LOCK_VAR_MC) {
-		LogUtils.logInfo(mc, claz, "unspecified method", msg);
-	    }
+	final private Map<String, UAALLogger> loggers = new HashMap<String, UAALLogger>(128);
+	private final ModuleContext mc;
+
+	private static Map<String, LoggerFactory> factories = null;
+
+	private LoggerFactory(final ModuleContext mc) {
+		this.mc = mc;
 	}
 
-	public void debug(final String msg) {
-	    synchronized (LOCK_VAR_MC) {
-		LogUtils.logDebug(mc, claz, "unspecified method", msg);
-	    }
+	private static void lazyLoad() {
+		LoggerFactory.factories = new HashMap<String, LoggerFactory>(32);
 	}
 
-	public void debug(final String msg, final Throwable t) {
-	    oneMessage[0] = msg;
-	    synchronized (LOCK_VAR_MC) {
-		LogUtils.logError(mc, claz, "unspecified method", oneMessage, t);
-	    }
+	public static LoggerFactory createLoggerFactory(final ModuleContext mc) {
+		synchronized (LoggerFactory.class) {
+			if (LoggerFactory.factories == null) {
+				LoggerFactory.lazyLoad();
+			}
+		}
+		LoggerFactory factory = null;
+		synchronized (LoggerFactory.factories) {
+			factory = LoggerFactory.factories.get(mc.getID());
+			if (factory != null) {
+				return factory;
+			}
+			factory = new LoggerFactory(mc);
+			LoggerFactory.factories.put(mc.getID(), factory);
+		}
+		return factory;
 	}
 
-	public void error(final String msg, final Throwable t) {
-	    oneMessage[0] = msg;
-	    synchronized (LOCK_VAR_MC) {
-		LogUtils.logError(mc, claz, "unspecified method", oneMessage, t);
-	    }
+	public static void updateModuleContext(final ModuleContext mc) {
+		synchronized (LoggerFactory.class) {
+			if (LoggerFactory.factories == null) {
+				return;
+			}
+		}
+		synchronized (LoggerFactory.factories) {
+			final LoggerFactory activeLoggers = LoggerFactory.factories.get(mc.getID());
+			activeLoggers.setModuleContext(mc);
+		}
 	}
 
-	public void warning(final String msg) {
-	    synchronized (LOCK_VAR_MC) {
-		LogUtils.logWarn(mc, claz, "unspecified method", msg);
-	    }
+	public static void setModuleContextAsStopped(final ModuleContext mc) {
+		synchronized (LoggerFactory.class) {
+			if (LoggerFactory.factories == null) {
+				return;
+			}
+		}
+		synchronized (LoggerFactory.factories) {
+			final LoggerFactory activeLoggers = LoggerFactory.factories.get(mc.getID());
+			activeLoggers.setModuleContext(null);
+		}
 	}
 
 	private void setModuleContext(final ModuleContext mc) {
-	    synchronized (LOCK_VAR_MC) {
-		this.mc = mc;
-	    }
+		synchronized (loggers) {
+			final Collection<UAALLogger> activeLoggers = loggers.values();
+			for (final UAALLogger logger : activeLoggers) {
+				logger.setModuleContext(mc);
+			}
+		}
 	}
-    }
 
-    final private Map<String, UAALLogger> loggers = new HashMap<String, UAALLogger>(
-	    128);
-    private final ModuleContext mc;
-
-    private static Map<String, LoggerFactory> factories = null;
-
-    private LoggerFactory(final ModuleContext mc) {
-	this.mc = mc;
-    }
-
-    private static void lazyLoad() {
-	LoggerFactory.factories = new HashMap<String, LoggerFactory>(32);
-    }
-
-    public static LoggerFactory createLoggerFactory(final ModuleContext mc) {
-	synchronized (LoggerFactory.class) {
-	    if (LoggerFactory.factories == null) {
-		LoggerFactory.lazyLoad();
-	    }
-	}
-	LoggerFactory factory = null;
-	synchronized (LoggerFactory.factories) {
-	    factory = LoggerFactory.factories.get(mc.getID());
-	    if (factory != null) {
-		return factory;
-	    }
-	    factory = new LoggerFactory(mc);
-	    LoggerFactory.factories.put(mc.getID(), factory);
-	}
-	return factory;
-    }
-
-    public static void updateModuleContext(final ModuleContext mc) {
-	synchronized (LoggerFactory.class) {
-	    if (LoggerFactory.factories == null) {
-		return;
-	    }
-	}
-	synchronized (LoggerFactory.factories) {
-	    final LoggerFactory activeLoggers = LoggerFactory.factories.get(mc
-		    .getID());
-	    activeLoggers.setModuleContext(mc);
-	}
-    }
-
-    public static void setModuleContextAsStopped(final ModuleContext mc) {
-	synchronized (LoggerFactory.class) {
-	    if (LoggerFactory.factories == null) {
-		return;
-	    }
-	}
-	synchronized (LoggerFactory.factories) {
-	    final LoggerFactory activeLoggers = LoggerFactory.factories.get(mc
-		    .getID());
-	    activeLoggers.setModuleContext(null);
-	}
-    }
-
-    private void setModuleContext(final ModuleContext mc) {
-	synchronized (loggers) {
-	    final Collection<UAALLogger> activeLoggers = loggers.values();
-	    for (final UAALLogger logger : activeLoggers) {
-		logger.setModuleContext(mc);
-	    }
-	}
-    }
-
-    public Logger getLogger(final Class<?> clazz) {
-	UAALLogger log = null;
-	final String logName = clazz.getName();
-	synchronized (loggers) {
-	    log = loggers.get(logName);
-	    if (log != null) {
+	public Logger getLogger(final Class<?> clazz) {
+		UAALLogger log = null;
+		final String logName = clazz.getName();
+		synchronized (loggers) {
+			log = loggers.get(logName);
+			if (log != null) {
+				return log;
+			}
+			log = new UAALLogger(mc, clazz);
+			loggers.put(logName, log);
+		}
 		return log;
-	    }
-	    log = new UAALLogger(mc, clazz);
-	    loggers.put(logName, log);
 	}
-	return log;
-    }
 
 }

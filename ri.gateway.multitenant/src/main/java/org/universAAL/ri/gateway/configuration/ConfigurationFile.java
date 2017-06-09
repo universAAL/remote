@@ -32,127 +32,113 @@ import org.universAAL.ri.gateway.operations.ParameterCheckOpertaionChain;
  * @author amedrano
  * 
  */
-public class ConfigurationFile extends UpdatedPropertiesFile implements
-	Configuration, PropertiesFileKeys {
+public class ConfigurationFile extends UpdatedPropertiesFile implements Configuration, PropertiesFileKeys {
 
-    private static final String CLIENT = "CLIENT";
-    private static final String SERVER = "SERVER";
-    private static final String NONE = "NONE";
-    /**
-     * 
-     */
-    private static final long serialVersionUID = 1L;
+	private static final String CLIENT = "CLIENT";
+	private static final String SERVER = "SERVER";
+	private static final String NONE = "NONE";
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
-    private OperationChainManager chainMNG = null;
-    private Blowfish cipher;
+	private OperationChainManager chainMNG = null;
+	private Blowfish cipher;
 
-    public ConfigurationFile(final File propFile) {
-	super(propFile);
-    }
+	public ConfigurationFile(final File propFile) {
+		super(propFile);
+	}
 
-    private OperationChainManager getChainManager() {
-	if (chainMNG == null || checkPropertiesVersion()) {
-	    try {
-		String secFile = getProperty(SECURITY_DEFINITION);
-		if (secFile != null) {
-		    if (secFile.toUpperCase().equals(NONE)) {
-			LogUtils.logDebug(
-				Gateway.getInstance().context,
-				getClass(),
-				"getChainManager",
-				new String[] { "Security definition disabled" },
-				null);
-			chainMNG = new NoSecurityDefinition();
-		    } else {
-			LogUtils.logDebug(Gateway.getInstance().context,
-				getClass(), "getChainManager", new String[] {
-					"Loading Security definition from",
-					secFile }, null);
-			chainMNG = new TurtleFileSecurityDefinition(new URL(
-				secFile));
-		    }
-		} else {
-		    LogUtils.logDebug(
-			    Gateway.getInstance().context,
-			    getClass(),
-			    "getChainManager",
-			    new String[] { "Security definition not set, default to DenyAll" },
-			    null);
-		    chainMNG = new DenyDefault();
+	private OperationChainManager getChainManager() {
+		if (chainMNG == null || checkPropertiesVersion()) {
+			try {
+				String secFile = getProperty(SECURITY_DEFINITION);
+				if (secFile != null) {
+					if (secFile.toUpperCase().equals(NONE)) {
+						LogUtils.logDebug(Gateway.getInstance().context, getClass(), "getChainManager",
+								new String[] { "Security definition disabled" }, null);
+						chainMNG = new NoSecurityDefinition();
+					} else {
+						LogUtils.logDebug(Gateway.getInstance().context, getClass(), "getChainManager",
+								new String[] { "Loading Security definition from", secFile }, null);
+						chainMNG = new TurtleFileSecurityDefinition(new URL(secFile));
+					}
+				} else {
+					LogUtils.logDebug(Gateway.getInstance().context, getClass(), "getChainManager",
+							new String[] { "Security definition not set, default to DenyAll" }, null);
+					chainMNG = new DenyDefault();
+				}
+			} catch (Exception e) {
+				LogUtils.logError(Gateway.getInstance().context, getClass(), "getChainManager",
+						new String[] { "unable to load file", "default to DenyAll" }, e);
+				chainMNG = new DenyDefault();
+			}
 		}
-	    } catch (Exception e) {
-		LogUtils.logError(Gateway.getInstance().context, getClass(),
-			"getChainManager", new String[] {
-				"unable to load file", "default to DenyAll" },
-			e);
-		chainMNG = new DenyDefault();
-	    }
+		return chainMNG;
 	}
-	return chainMNG;
-    }
 
-    @Override
-    public String getComments() {
-	return "Configuration of a connection instance";
-    }
-
-    @Override
-    protected void addDefaults(final Properties defaults) {
-	// defaults.put(ROUTING_MODE, ROUTER);
-	defaults.put(CONNECTION_MODE, CLIENT);
-    }
-
-    /** {@inheritDoc} */
-    public ConnectionMode getConnectionMode() {
-	if (getProperty(CONNECTION_MODE).equalsIgnoreCase(SERVER)) {
-	    return ConnectionMode.SERVER;
-	} else if (getProperty(CONNECTION_MODE).equalsIgnoreCase(CLIENT)) {
-	    return ConnectionMode.CLIENT;
+	@Override
+	public String getComments() {
+		return "Configuration of a connection instance";
 	}
-	return null;
-    }
 
-    /** {@inheritDoc} */
-    public String getConnectionHost() {
-	return getProperty(REMOTE_HOST);
-    }
-
-    /** {@inheritDoc} */
-    public int getConnectionPort() {
-	return Integer.parseInt(getProperty(SOCKET_PORT));
-    }
-
-    /** {@inheritDoc} */
-    public ParameterCheckOpertaionChain getImportOperationChain() {
-	return getChainManager().getImportOperationChain();
-    }
-
-    /** {@inheritDoc} */
-    public ParameterCheckOpertaionChain getExportOperationChain() {
-	return getChainManager().getExportOperationChain();
-    }
-
-    /** {@inheritDoc} */
-    public MessageOperationChain getIncomingMessageOperationChain() {
-	return getChainManager().getIncomingMessageOperationChain();
-    }
-
-    /** {@inheritDoc} */
-    public MessageOperationChain getOutgoingMessageOperationChain() {
-	return getChainManager().getOutgoingMessageOperationChain();
-    }
-
-    public String getEncryptionKey() {
-	return getProperty(HASH_KEY);
-    }
-
-    /** {@inheritDoc} */
-    public Cipher getCipher() {
-	// TODO in future parse for different types of cipher
-	if (cipher == null) {
-	    cipher = new Blowfish(getProperty(HASH_KEY));
+	@Override
+	protected void addDefaults(final Properties defaults) {
+		// defaults.put(ROUTING_MODE, ROUTER);
+		defaults.put(CONNECTION_MODE, CLIENT);
 	}
-	return cipher;
-    }
+
+	/** {@inheritDoc} */
+	public ConnectionMode getConnectionMode() {
+		if (getProperty(CONNECTION_MODE).equalsIgnoreCase(SERVER)) {
+			return ConnectionMode.SERVER;
+		} else if (getProperty(CONNECTION_MODE).equalsIgnoreCase(CLIENT)) {
+			return ConnectionMode.CLIENT;
+		}
+		return null;
+	}
+
+	/** {@inheritDoc} */
+	public String getConnectionHost() {
+		return getProperty(REMOTE_HOST);
+	}
+
+	/** {@inheritDoc} */
+	public int getConnectionPort() {
+		return Integer.parseInt(getProperty(SOCKET_PORT));
+	}
+
+	/** {@inheritDoc} */
+	public ParameterCheckOpertaionChain getImportOperationChain() {
+		return getChainManager().getImportOperationChain();
+	}
+
+	/** {@inheritDoc} */
+	public ParameterCheckOpertaionChain getExportOperationChain() {
+		return getChainManager().getExportOperationChain();
+	}
+
+	/** {@inheritDoc} */
+	public MessageOperationChain getIncomingMessageOperationChain() {
+		return getChainManager().getIncomingMessageOperationChain();
+	}
+
+	/** {@inheritDoc} */
+	public MessageOperationChain getOutgoingMessageOperationChain() {
+		return getChainManager().getOutgoingMessageOperationChain();
+	}
+
+	public String getEncryptionKey() {
+		return getProperty(HASH_KEY);
+	}
+
+	/** {@inheritDoc} */
+	public Cipher getCipher() {
+		// TODO in future parse for different types of cipher
+		if (cipher == null) {
+			cipher = new Blowfish(getProperty(HASH_KEY));
+		}
+		return cipher;
+	}
 
 }

@@ -29,16 +29,16 @@ package org.universAAL.ri.api.manager.exceptions;
  */
 public class APIImplException extends RAPIException {
 
-    private static final long serialVersionUID = 813977082451476624L;
+	private static final long serialVersionUID = 813977082451476624L;
 
-    /**
-     * Constructor with message
-     * 
-     * @param msg
-     *            Error message
-     */
-    public APIImplException(String msg) {
-	super(msg);
-    }
+	/**
+	 * Constructor with message
+	 * 
+	 * @param msg
+	 *            Error message
+	 */
+	public APIImplException(String msg) {
+		super(msg);
+	}
 
 }

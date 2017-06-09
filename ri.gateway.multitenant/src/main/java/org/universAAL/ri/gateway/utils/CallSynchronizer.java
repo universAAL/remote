@@ -30,141 +30,140 @@ import java.util.concurrent.TimeoutException;
  */
 public abstract class CallSynchronizer<ID, INPUT, OUTPUT> {
 
-    private class CallStatus {
-	OUTPUT output = null;
-	boolean returned = false;
-	boolean purged = false;
-	boolean timeout = false;
+	private class CallStatus {
+		OUTPUT output = null;
+		boolean returned = false;
+		boolean purged = false;
+		boolean timeout = false;
 
-	void setResutlt(OUTPUT o) {
-	    synchronized (this) {
-		returned = true;
-		output = o;
-		notifyAll();
-	    }
-	}
-    }
-
-    /**
-     * The pile of waiting calls.
-     */
-    Map<ID, CallStatus> waiting;
-
-    /**
-     * The timeout selected
-     */
-    long timeout = 2500;
-
-    /**
-     * Constructor.
-     */
-    public CallSynchronizer(long timeout) {
-	waiting = new Hashtable<ID, CallStatus>();
-	this.timeout = timeout;
-    }
-
-    /**
-     * Constructor.
-     */
-    public CallSynchronizer() {
-	waiting = new Hashtable<ID, CallStatus>();
-    }
-
-    /**
-     * This method is the main method to syncronize the caller thread. The
-     * caller {@link Thread} will be stoped until another thread calls
-     * {@link CallSynchronizer#performResponse(ID, Object)}.
-     * 
-     * @param callerID
-     *            the Id to identify the call.
-     * @param input
-     *            The input needed to perform the call.
-     * @return the call response.
-     * 
-     * @throws InterruptedException
-     *             when the call was aborted by other thread.
-     * @throws TimeoutException
-     *             when the timeout wait limit for response has been exceeded.
-     * @see CallSynchronizer#performResponse(ID, Object)
-     */
-    public OUTPUT performCall(ID callerID, INPUT input)
-	    throws InterruptedException, TimeoutException {
-	CallStatus status = new CallStatus();
-	synchronized (waiting) {
-	    waiting.put(callerID, status);
-	}
-	operate(callerID, input);
-	synchronized (status) {
-	    while (!status.returned && !status.purged && !status.timeout) {
-		try {
-		    status.wait(timeout);
-		} catch (InterruptedException e) {
-		    status.timeout = true;
+		void setResutlt(OUTPUT o) {
+			synchronized (this) {
+				returned = true;
+				output = o;
+				notifyAll();
+			}
 		}
-	    }
-	}
-	if (status.timeout) {
-	    throw new TimeoutException();
 	}
 
-	if (status.purged) {
-	    throw new InterruptedException();
-	}
-	return status.output;
-    }
+	/**
+	 * The pile of waiting calls.
+	 */
+	Map<ID, CallStatus> waiting;
 
-    /**
-     * This method operates the call, it performs the adequate operations to
-     * ensure there will be a response calling on another thread.
-     * 
-     * @param callerID
-     *            the call identifier
-     * @param input
-     *            the input needed for the call
-     */
-    protected abstract void operate(ID callerID, INPUT input);
+	/**
+	 * The timeout selected
+	 */
+	long timeout = 2500;
 
-    /**
-     * When a response for a call is found, this method should be used to notify
-     * the Caller {@link Thread} waiting for it.
-     * 
-     * @param id
-     * @param output
-     */
-    public void performResponse(ID id, OUTPUT output) {
-	synchronized (waiting) {
-	    CallStatus st = waiting.remove(id);
-	    if (st != null) {
-		st.setResutlt(output);
-	    }
+	/**
+	 * Constructor.
+	 */
+	public CallSynchronizer(long timeout) {
+		waiting = new Hashtable<ID, CallStatus>();
+		this.timeout = timeout;
 	}
-    }
 
-    /**
-     * Abort the call with the given ID. it unblocks the call and the
-     * {@link CallSynchronizer#performCall(Object, Object)} will throw a
-     * {@link InterruptedException}.
-     * 
-     * @param id
-     */
-    public void abortCall(ID id) {
-	synchronized (waiting) {
-	    CallStatus st = waiting.remove(id);
-	    if (st != null) {
-		st.purged = true;
-		st.setResutlt(null);
-	    }
+	/**
+	 * Constructor.
+	 */
+	public CallSynchronizer() {
+		waiting = new Hashtable<ID, CallStatus>();
 	}
-    }
 
-    /**
-     * When there will be no more responses this method aborts all calls,
-     */
-    public void purge() {
-	for (CallStatus st : waiting.values()) {
-	    st.purged = true;
-	    st.setResutlt(null);
+	/**
+	 * This method is the main method to syncronize the caller thread. The
+	 * caller {@link Thread} will be stoped until another thread calls
+	 * {@link CallSynchronizer#performResponse(ID, Object)}.
+	 * 
+	 * @param callerID
+	 *            the Id to identify the call.
+	 * @param input
+	 *            The input needed to perform the call.
+	 * @return the call response.
+	 * 
+	 * @throws InterruptedException
+	 *             when the call was aborted by other thread.
+	 * @throws TimeoutException
+	 *             when the timeout wait limit for response has been exceeded.
+	 * @see CallSynchronizer#performResponse(ID, Object)
+	 */
+	public OUTPUT performCall(ID callerID, INPUT input) throws InterruptedException, TimeoutException {
+		CallStatus status = new CallStatus();
+		synchronized (waiting) {
+			waiting.put(callerID, status);
+		}
+		operate(callerID, input);
+		synchronized (status) {
+			while (!status.returned && !status.purged && !status.timeout) {
+				try {
+					status.wait(timeout);
+				} catch (InterruptedException e) {
+					status.timeout = true;
+				}
+			}
+		}
+		if (status.timeout) {
+			throw new TimeoutException();
+		}
+
+		if (status.purged) {
+			throw new InterruptedException();
+		}
+		return status.output;
 	}
-	waiting.clear();
-    }
+
+	/**
+	 * This method operates the call, it performs the adequate operations to
+	 * ensure there will be a response calling on another thread.
+	 * 
+	 * @param callerID
+	 *            the call identifier
+	 * @param input
+	 *            the input needed for the call
+	 */
+	protected abstract void operate(ID callerID, INPUT input);
+
+	/**
+	 * When a response for a call is found, this method should be used to notify
+	 * the Caller {@link Thread} waiting for it.
+	 * 
+	 * @param id
+	 * @param output
+	 */
+	public void performResponse(ID id, OUTPUT output) {
+		synchronized (waiting) {
+			CallStatus st = waiting.remove(id);
+			if (st != null) {
+				st.setResutlt(output);
+			}
+		}
+	}
+
+	/**
+	 * Abort the call with the given ID. it unblocks the call and the
+	 * {@link CallSynchronizer#performCall(Object, Object)} will throw a
+	 * {@link InterruptedException}.
+	 * 
+	 * @param id
+	 */
+	public void abortCall(ID id) {
+		synchronized (waiting) {
+			CallStatus st = waiting.remove(id);
+			if (st != null) {
+				st.purged = true;
+				st.setResutlt(null);
+			}
+		}
+	}
+
+	/**
+	 * When there will be no more responses this method aborts all calls,
+	 */
+	public void purge() {
+		for (CallStatus st : waiting.values()) {
+			st.purged = true;
+			st.setResutlt(null);
+		}
+		waiting.clear();
+	}
 }

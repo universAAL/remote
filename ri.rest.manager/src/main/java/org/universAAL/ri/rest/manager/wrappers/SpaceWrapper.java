@@ -28,183 +28,183 @@ import org.universAAL.ri.rest.manager.Activator;
 import org.universAAL.ri.rest.manager.resources.Space;
 
 public class SpaceWrapper {
-    
-    private Space resource;
-    
-    public Space getResource() {
-        return resource;
-    }
 
-    public void setResource(Space resource) {
-        this.resource = resource;
-    }
+	private Space resource;
 
-    private ConcurrentHashMap<String, PublisherWrapper> publishers = new ConcurrentHashMap<String, PublisherWrapper>();
-    private ConcurrentHashMap<String, SubscriberWrapper> subscribers = new ConcurrentHashMap<String, SubscriberWrapper>();
-    private ConcurrentHashMap<String, CalleeWrapper> callees = new ConcurrentHashMap<String, CalleeWrapper>();
-    private ConcurrentHashMap<String, CallerWrapper> callers = new ConcurrentHashMap<String, CallerWrapper>();
-
-    public SpaceWrapper(Space r) {
-	resource = r;
-    }
-
-    public Enumeration<PublisherWrapper> getContextPublishers() {
-	return publishers.elements();
-    }
-
-    public Enumeration<SubscriberWrapper> getContextSubscribers() {
-	return subscribers.elements();
-    }
-
-    public Enumeration<CalleeWrapper> getServiceCallees() {
-	return callees.elements();
-    }
-
-    public Enumeration<CallerWrapper> getServiceCallers() {
-	return callers.elements();
-    }
-    
-    public PublisherWrapper getContextPublisher(String id) {
-	return publishers.get(id);
-    }
-
-    public SubscriberWrapper getContextSubscriber(String id) {
-	return subscribers.get(id);
-    }
-
-    public CalleeWrapper getServiceCallee(String id) {
-	return callees.get(id);
-    }
-
-    public CallerWrapper getServiceCaller(String id) {
-	return callers.get(id);
-    }
-
-    public void addContextPublisher(PublisherWrapper w) {
-	publishers.put(w.getResource().getId(), w);
-    }
-
-    public void addContextSubscriber(SubscriberWrapper w) {
-	subscribers.put(w.getResource().getId(), w);
-    }
-
-    public void addServiceCallee(CalleeWrapper w) {
-	callees.put(w.getResource().getId(), w);
-    }
-
-    public void addServiceCaller(CallerWrapper w) {
-	callers.put(w.getResource().getId(), w);
-    }
-
-    public void removeContextPublisher(String id) {
-	PublisherWrapper w = publishers.remove(id);
-	if(w!=null){
-	    w.close();
+	public Space getResource() {
+		return resource;
 	}
-    }
 
-    public void removeContextSubscriber(String id) {
-	SubscriberWrapper w = subscribers.remove(id);
-	if(w!=null){
-	    w.close();
+	public void setResource(Space resource) {
+		this.resource = resource;
 	}
-    }
 
-    public void removeServiceCallee(String id) {
-	CalleeWrapper w = callees.remove(id);
-	if(w!=null){
-	    w.close();
-	}
-    }
+	private ConcurrentHashMap<String, PublisherWrapper> publishers = new ConcurrentHashMap<String, PublisherWrapper>();
+	private ConcurrentHashMap<String, SubscriberWrapper> subscribers = new ConcurrentHashMap<String, SubscriberWrapper>();
+	private ConcurrentHashMap<String, CalleeWrapper> callees = new ConcurrentHashMap<String, CalleeWrapper>();
+	private ConcurrentHashMap<String, CallerWrapper> callers = new ConcurrentHashMap<String, CallerWrapper>();
 
-    public void removeServiceCaller(String id) {
-	CallerWrapper w = callers.remove(id);
-	if(w!=null){
-	    w.close();
+	public SpaceWrapper(Space r) {
+		resource = r;
 	}
-    }
-    
-    public boolean updateContextPublisher(PublisherWrapper w){
-	try {
-	    PublisherWrapper original = publishers.remove(w.getResource().getId());
-	    if (original != null) {
+
+	public Enumeration<PublisherWrapper> getContextPublishers() {
+		return publishers.elements();
+	}
+
+	public Enumeration<SubscriberWrapper> getContextSubscribers() {
+		return subscribers.elements();
+	}
+
+	public Enumeration<CalleeWrapper> getServiceCallees() {
+		return callees.elements();
+	}
+
+	public Enumeration<CallerWrapper> getServiceCallers() {
+		return callers.elements();
+	}
+
+	public PublisherWrapper getContextPublisher(String id) {
+		return publishers.get(id);
+	}
+
+	public SubscriberWrapper getContextSubscriber(String id) {
+		return subscribers.get(id);
+	}
+
+	public CalleeWrapper getServiceCallee(String id) {
+		return callees.get(id);
+	}
+
+	public CallerWrapper getServiceCaller(String id) {
+		return callers.get(id);
+	}
+
+	public void addContextPublisher(PublisherWrapper w) {
 		publishers.put(w.getResource().getId(), w);
-		return true;
-	    } else {
-		return false;
-	    }
-	} catch (Exception e) {
-	    Activator.logE("SpaceWrapper.updateContextPublisher", e.toString());
-	    e.printStackTrace();
-	    return false;
 	}
-    }
-    
-    public boolean updateContextSubscriber(SubscriberWrapper w){
-	try {
-	    SubscriberWrapper original = subscribers.remove(w.getResource().getId());
-	    if (original != null) {
+
+	public void addContextSubscriber(SubscriberWrapper w) {
 		subscribers.put(w.getResource().getId(), w);
-		return true;
-	    } else {
-		return false;
-	    }
-	} catch (Exception e) {
-	    Activator.logE("SpaceWrapper.updateContextSubscriber", e.toString());
-	    e.printStackTrace();
-	    return false;
 	}
-    }
-    
-    public boolean updateServiceCallee(CalleeWrapper w){
-	try {
-	    CalleeWrapper original = callees.remove(w.getResource().getId());
-	    if (original != null) {
+
+	public void addServiceCallee(CalleeWrapper w) {
 		callees.put(w.getResource().getId(), w);
-		return true;
-	    } else {
-		return false;
-	    }
-	} catch (Exception e) {
-	    Activator.logE("SpaceWrapper.updateServiceCallee", e.toString());
-	    e.printStackTrace();
-	    return false;
 	}
-    }
-    
-    public boolean updateServiceCaller(CallerWrapper w){
-	try {
-	    CallerWrapper original = callers.remove(w.getResource().getId());
-	    if (original != null) {
+
+	public void addServiceCaller(CallerWrapper w) {
 		callers.put(w.getResource().getId(), w);
-		return true;
-	    } else {
-		return false;
-	    }
-	} catch (Exception e) {
-	    Activator.logE("SpaceWrapper.updateServiceCaller", e.toString());
-	    e.printStackTrace();
-	    return false;
 	}
-    }
-    
-    public void close(){
-	Enumeration<PublisherWrapper> pubs = publishers.elements();
-	while(pubs.hasMoreElements()){
-	    pubs.nextElement().close();
+
+	public void removeContextPublisher(String id) {
+		PublisherWrapper w = publishers.remove(id);
+		if (w != null) {
+			w.close();
+		}
 	}
-	Enumeration<SubscriberWrapper> subs = subscribers.elements();
-	while(subs.hasMoreElements()){
-	    subs.nextElement().close();
+
+	public void removeContextSubscriber(String id) {
+		SubscriberWrapper w = subscribers.remove(id);
+		if (w != null) {
+			w.close();
+		}
 	}
-	Enumeration<CalleeWrapper> cees = callees.elements();
-	while(cees.hasMoreElements()){
-	    cees.nextElement().close();
+
+	public void removeServiceCallee(String id) {
+		CalleeWrapper w = callees.remove(id);
+		if (w != null) {
+			w.close();
+		}
 	}
-	Enumeration<CallerWrapper> cers = callers.elements();
-	while(cers.hasMoreElements()){
-	    cers.nextElement().close();
+
+	public void removeServiceCaller(String id) {
+		CallerWrapper w = callers.remove(id);
+		if (w != null) {
+			w.close();
+		}
 	}
-    }
+
+	public boolean updateContextPublisher(PublisherWrapper w) {
+		try {
+			PublisherWrapper original = publishers.remove(w.getResource().getId());
+			if (original != null) {
+				publishers.put(w.getResource().getId(), w);
+				return true;
+			} else {
+				return false;
+			}
+		} catch (Exception e) {
+			Activator.logE("SpaceWrapper.updateContextPublisher", e.toString());
+			e.printStackTrace();
+			return false;
+		}
+	}
+
+	public boolean updateContextSubscriber(SubscriberWrapper w) {
+		try {
+			SubscriberWrapper original = subscribers.remove(w.getResource().getId());
+			if (original != null) {
+				subscribers.put(w.getResource().getId(), w);
+				return true;
+			} else {
+				return false;
+			}
+		} catch (Exception e) {
+			Activator.logE("SpaceWrapper.updateContextSubscriber", e.toString());
+			e.printStackTrace();
+			return false;
+		}
+	}
+
+	public boolean updateServiceCallee(CalleeWrapper w) {
+		try {
+			CalleeWrapper original = callees.remove(w.getResource().getId());
+			if (original != null) {
+				callees.put(w.getResource().getId(), w);
+				return true;
+			} else {
+				return false;
+			}
+		} catch (Exception e) {
+			Activator.logE("SpaceWrapper.updateServiceCallee", e.toString());
+			e.printStackTrace();
+			return false;
+		}
+	}
+
+	public boolean updateServiceCaller(CallerWrapper w) {
+		try {
+			CallerWrapper original = callers.remove(w.getResource().getId());
+			if (original != null) {
+				callers.put(w.getResource().getId(), w);
+				return true;
+			} else {
+				return false;
+			}
+		} catch (Exception e) {
+			Activator.logE("SpaceWrapper.updateServiceCaller", e.toString());
+			e.printStackTrace();
+			return false;
+		}
+	}
+
+	public void close() {
+		Enumeration<PublisherWrapper> pubs = publishers.elements();
+		while (pubs.hasMoreElements()) {
+			pubs.nextElement().close();
+		}
+		Enumeration<SubscriberWrapper> subs = subscribers.elements();
+		while (subs.hasMoreElements()) {
+			subs.nextElement().close();
+		}
+		Enumeration<CalleeWrapper> cees = callees.elements();
+		while (cees.hasMoreElements()) {
+			cees.nextElement().close();
+		}
+		Enumeration<CallerWrapper> cers = callers.elements();
+		while (cers.hasMoreElements()) {
+			cers.nextElement().close();
+		}
+	}
 
 }

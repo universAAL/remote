@@ -46,8 +46,8 @@ import org.universAAL.ri.wsdlToolkit.ioApi.ParsedWSDLDefinition;
 
 public class ParsingUtils {
 
-	public static XmlSchemaType parseWSDLschemasInOrderToFindTheSpecificXMLSchemaType(
-			AxisService service, QName schemaTypeName) {
+	public static XmlSchemaType parseWSDLschemasInOrderToFindTheSpecificXMLSchemaType(AxisService service,
+			QName schemaTypeName) {
 		if (schemaTypeName == null) {
 			// -System.out.prinln("NULL!");
 			return null;
@@ -67,8 +67,8 @@ public class ParsingUtils {
 
 	}
 
-	public static XmlSchemaType parseWSDLschemasInOrderToFindTheSpecificXMLSchemaElement(
-			AxisService service, QName schemaTypeName) {
+	public static XmlSchemaType parseWSDLschemasInOrderToFindTheSpecificXMLSchemaElement(AxisService service,
+			QName schemaTypeName) {
 		if (schemaTypeName == null) {
 			// -System.out.prinln("NULL!");
 			return null;
@@ -107,8 +107,8 @@ public class ParsingUtils {
 	 * ftiaksw ton elegxo return true; } } return false; }
 	 */
 
-	public static XmlSchemaAttribute parseWSDLschemasInOrderToFindTheSpecificXMLSchemaAttribute(
-			AxisService service, QName schemaTypeName) {
+	public static XmlSchemaAttribute parseWSDLschemasInOrderToFindTheSpecificXMLSchemaAttribute(AxisService service,
+			QName schemaTypeName) {
 		if (schemaTypeName == null) {
 			// -System.out.prinln("NULL!");
 			return null;
@@ -129,19 +129,17 @@ public class ParsingUtils {
 				continue;
 			schemaAttributeObject = attsCollectionTable.getItem(schemaTypeName);
 			if (schemaAttributeObject != null) {
-				if (schemaAttributeObject.getClass().getName()
-						.contains("XmlSchemaAttribute")) {
+				if (schemaAttributeObject.getClass().getName().contains("XmlSchemaAttribute")) {
 					return (XmlSchemaAttribute) schemaAttributeObject;
 					// break;
 				} else {
 					System.out.println();
 				}
 			} else {
-				schemaAttributeObject = searchSchemaIncludesForAttribute_ITERATIVE_10_IterationsMax(
-						s, schemaTypeName, 0);
+				schemaAttributeObject = searchSchemaIncludesForAttribute_ITERATIVE_10_IterationsMax(s, schemaTypeName,
+						0);
 				if (schemaAttributeObject != null) {
-					if (schemaAttributeObject.getClass().getName()
-							.contains("XmlSchemaAttribute")) {
+					if (schemaAttributeObject.getClass().getName().contains("XmlSchemaAttribute")) {
 						// break;
 						return (XmlSchemaAttribute) schemaAttributeObject;
 					} else {
@@ -179,8 +177,8 @@ public class ParsingUtils {
 
 	}
 
-	public static XmlSchemaGroup parseWSDLschemasInOrderToFindTheSpecificXMLSchemaGroup(
-			AxisService service, QName schemaTypeName) {
+	public static XmlSchemaGroup parseWSDLschemasInOrderToFindTheSpecificXMLSchemaGroup(AxisService service,
+			QName schemaTypeName) {
 		if (schemaTypeName == null) {
 			// -System.out.prinln("NULL!");
 			return null;
@@ -202,8 +200,7 @@ public class ParsingUtils {
 
 			schemaGroupObject = groupsCollectionTable.getItem(schemaTypeName);
 			if (schemaGroupObject != null) {
-				if (schemaGroupObject.getClass().getName()
-						.contains("XmlSchemaGroup")) {
+				if (schemaGroupObject.getClass().getName().contains("XmlSchemaGroup")) {
 					return (XmlSchemaGroup) schemaGroupObject;
 					// break;
 				} else {
@@ -211,11 +208,9 @@ public class ParsingUtils {
 				}
 			} else {
 				System.out.println();
-				schemaGroupObject = searchSchemaIncludesForGroup_ITERATIVE_10_IterationsMax(
-						s, schemaTypeName, 0);
+				schemaGroupObject = searchSchemaIncludesForGroup_ITERATIVE_10_IterationsMax(s, schemaTypeName, 0);
 				if (schemaGroupObject != null) {
-					if (schemaGroupObject.getClass().getName()
-							.contains("XmlSchemaGroup")) {
+					if (schemaGroupObject.getClass().getName().contains("XmlSchemaGroup")) {
 						// break;
 						return (XmlSchemaGroup) schemaGroupObject;
 					} else {
@@ -274,11 +269,9 @@ public class ParsingUtils {
 			if (groupsCollectionTable == null)
 				continue;
 
-			schemaAttributeGroupObject = groupsCollectionTable
-					.getItem(schemaTypeName);
+			schemaAttributeGroupObject = groupsCollectionTable.getItem(schemaTypeName);
 			if (schemaAttributeGroupObject != null) {
-				if (schemaAttributeGroupObject.getClass().getName()
-						.contains("XmlSchemaAttributeGroup")) {
+				if (schemaAttributeGroupObject.getClass().getName().contains("XmlSchemaAttributeGroup")) {
 					return (XmlSchemaAttributeGroup) schemaAttributeGroupObject;
 					// break;
 				} else {
@@ -286,11 +279,10 @@ public class ParsingUtils {
 				}
 			} else {
 				System.out.println();
-				schemaAttributeGroupObject = searchSchemaIncludesForAttributeGroup_ITERATIVE_10_IterationsMax(
-						s, schemaTypeName, 0);
+				schemaAttributeGroupObject = searchSchemaIncludesForAttributeGroup_ITERATIVE_10_IterationsMax(s,
+						schemaTypeName, 0);
 				if (schemaAttributeGroupObject != null) {
-					if (schemaAttributeGroupObject.getClass().getName()
-							.contains("XmlSchemaAttributeGroup")) {
+					if (schemaAttributeGroupObject.getClass().getName().contains("XmlSchemaAttributeGroup")) {
 						// break;
 						return (XmlSchemaAttributeGroup) schemaAttributeGroupObject;
 					} else {
@@ -310,8 +302,7 @@ public class ParsingUtils {
 	}
 
 	public static XmlSchemaObject searchSchemaIncludesForGroup_ITERATIVE_10_IterationsMax(
-			org.apache.ws.commons.schema.XmlSchema initialSchema,
-			QName schemaTypeName, int iterationsCount) {
+			org.apache.ws.commons.schema.XmlSchema initialSchema, QName schemaTypeName, int iterationsCount) {
 
 		System.out.println(iterationsCount);
 		if (schemaTypeName == null || iterationsCount > 10) {
@@ -321,9 +312,8 @@ public class ParsingUtils {
 
 		/*
 		 * if(schemaHasAlreadyBeenParsed(initialSchema.getTargetNamespace())){
-		 * return null; }
-		 * parsedSchemasForAttSearch_ITERATIVE.add(initialSchema.getTargetNamespace
-		 * ());
+		 * return null; } parsedSchemasForAttSearch_ITERATIVE.add(initialSchema.
+		 * getTargetNamespace ());
 		 */
 
 		XmlSchemaObjectCollection includedSchemas = initialSchema.getIncludes();
@@ -337,13 +327,11 @@ public class ParsingUtils {
 
 			org.apache.ws.commons.schema.XmlSchema theIncludedOrImportedSchema = null;
 
-			if (obj.getClass().getName()
-					.contains("org.apache.ws.commons.schema.XmlSchemaInclude")) {
+			if (obj.getClass().getName().contains("org.apache.ws.commons.schema.XmlSchemaInclude")) {
 				org.apache.ws.commons.schema.XmlSchemaInclude includedSchema = (org.apache.ws.commons.schema.XmlSchemaInclude) obj;
 				theIncludedOrImportedSchema = includedSchema.getSchema();
 				System.out.println();
-			} else if (obj.getClass().getName()
-					.contains("org.apache.ws.commons.schema.XmlSchemaImport")) {
+			} else if (obj.getClass().getName().contains("org.apache.ws.commons.schema.XmlSchemaImport")) {
 				org.apache.ws.commons.schema.XmlSchemaImport importedSchema = (org.apache.ws.commons.schema.XmlSchemaImport) obj;
 				theIncludedOrImportedSchema = importedSchema.getSchema();
 				// theIncludedOrImportedSchema.get
@@ -352,20 +340,17 @@ public class ParsingUtils {
 			if (theIncludedOrImportedSchema == null)
 				continue;
 
-			XmlSchemaObjectTable groupsCollectionTable = theIncludedOrImportedSchema
-					.getGroups();
+			XmlSchemaObjectTable groupsCollectionTable = theIncludedOrImportedSchema.getGroups();
 			if (groupsCollectionTable == null)
 				continue;
-			XmlSchemaObject schemaGroupObject = groupsCollectionTable
-					.getItem(schemaTypeName);
+			XmlSchemaObject schemaGroupObject = groupsCollectionTable.getItem(schemaTypeName);
 			if (schemaGroupObject != null) {
 				// schemaAttributeObject
 				return schemaGroupObject;
 			} else {
 				iterationsCount++;
 				XmlSchemaObject newSchemaGroupObject = searchSchemaIncludesForGroup_ITERATIVE_10_IterationsMax(
-						theIncludedOrImportedSchema, schemaTypeName,
-						iterationsCount);
+						theIncludedOrImportedSchema, schemaTypeName, iterationsCount);
 				if (newSchemaGroupObject != null) {
 					return newSchemaGroupObject;
 				}
@@ -376,8 +361,7 @@ public class ParsingUtils {
 	}
 
 	public static XmlSchemaObject searchSchemaIncludesForAttributeGroup_ITERATIVE_10_IterationsMax(
-			org.apache.ws.commons.schema.XmlSchema initialSchema,
-			QName schemaTypeName, int iterationsCount) {
+			org.apache.ws.commons.schema.XmlSchema initialSchema, QName schemaTypeName, int iterationsCount) {
 
 		System.out.println(iterationsCount);
 		if (schemaTypeName == null || iterationsCount > 10) {
@@ -387,9 +371,8 @@ public class ParsingUtils {
 
 		/*
 		 * if(schemaHasAlreadyBeenParsed(initialSchema.getTargetNamespace())){
-		 * return null; }
-		 * parsedSchemasForAttSearch_ITERATIVE.add(initialSchema.getTargetNamespace
-		 * ());
+		 * return null; } parsedSchemasForAttSearch_ITERATIVE.add(initialSchema.
+		 * getTargetNamespace ());
 		 */
 
 		XmlSchemaObjectCollection includedSchemas = initialSchema.getIncludes();
@@ -403,13 +386,11 @@ public class ParsingUtils {
 
 			org.apache.ws.commons.schema.XmlSchema theIncludedOrImportedSchema = null;
 
-			if (obj.getClass().getName()
-					.contains("org.apache.ws.commons.schema.XmlSchemaInclude")) {
+			if (obj.getClass().getName().contains("org.apache.ws.commons.schema.XmlSchemaInclude")) {
 				org.apache.ws.commons.schema.XmlSchemaInclude includedSchema = (org.apache.ws.commons.schema.XmlSchemaInclude) obj;
 				theIncludedOrImportedSchema = includedSchema.getSchema();
 				System.out.println();
-			} else if (obj.getClass().getName()
-					.contains("org.apache.ws.commons.schema.XmlSchemaImport")) {
+			} else if (obj.getClass().getName().contains("org.apache.ws.commons.schema.XmlSchemaImport")) {
 				org.apache.ws.commons.schema.XmlSchemaImport importedSchema = (org.apache.ws.commons.schema.XmlSchemaImport) obj;
 				theIncludedOrImportedSchema = importedSchema.getSchema();
 				// theIncludedOrImportedSchema.get
@@ -418,20 +399,17 @@ public class ParsingUtils {
 			if (theIncludedOrImportedSchema == null)
 				continue;
 
-			XmlSchemaObjectTable groupsCollectionTable = theIncludedOrImportedSchema
-					.getAttributeGroups();
+			XmlSchemaObjectTable groupsCollectionTable = theIncludedOrImportedSchema.getAttributeGroups();
 			if (groupsCollectionTable == null)
 				continue;
-			XmlSchemaObject schemaGroupObject = groupsCollectionTable
-					.getItem(schemaTypeName);
+			XmlSchemaObject schemaGroupObject = groupsCollectionTable.getItem(schemaTypeName);
 			if (schemaGroupObject != null) {
 				// schemaAttributeObject
 				return schemaGroupObject;
 			} else {
 				iterationsCount++;
 				XmlSchemaObject newSchemaGroupObject = searchSchemaIncludesForAttributeGroup_ITERATIVE_10_IterationsMax(
-						theIncludedOrImportedSchema, schemaTypeName,
-						iterationsCount);
+						theIncludedOrImportedSchema, schemaTypeName, iterationsCount);
 				if (newSchemaGroupObject != null) {
 					return newSchemaGroupObject;
 				}
@@ -442,8 +420,7 @@ public class ParsingUtils {
 	}
 
 	public static XmlSchemaObject searchSchemaIncludesForAttribute_ITERATIVE_10_IterationsMax(
-			org.apache.ws.commons.schema.XmlSchema initialSchema,
-			QName schemaTypeName, int iterationsCount) {
+			org.apache.ws.commons.schema.XmlSchema initialSchema, QName schemaTypeName, int iterationsCount) {
 
 		System.out.println(iterationsCount);
 		if (schemaTypeName == null || iterationsCount > 10) {
@@ -453,9 +430,8 @@ public class ParsingUtils {
 
 		/*
 		 * if(schemaHasAlreadyBeenParsed(initialSchema.getTargetNamespace())){
-		 * return null; }
-		 * parsedSchemasForAttSearch_ITERATIVE.add(initialSchema.getTargetNamespace
-		 * ());
+		 * return null; } parsedSchemasForAttSearch_ITERATIVE.add(initialSchema.
+		 * getTargetNamespace ());
 		 */
 
 		XmlSchemaObjectCollection includedSchemas = initialSchema.getIncludes();
@@ -469,13 +445,11 @@ public class ParsingUtils {
 
 			org.apache.ws.commons.schema.XmlSchema theIncludedOrImportedSchema = null;
 
-			if (obj.getClass().getName()
-					.contains("org.apache.ws.commons.schema.XmlSchemaInclude")) {
+			if (obj.getClass().getName().contains("org.apache.ws.commons.schema.XmlSchemaInclude")) {
 				org.apache.ws.commons.schema.XmlSchemaInclude includedSchema = (org.apache.ws.commons.schema.XmlSchemaInclude) obj;
 				theIncludedOrImportedSchema = includedSchema.getSchema();
 				System.out.println();
-			} else if (obj.getClass().getName()
-					.contains("org.apache.ws.commons.schema.XmlSchemaImport")) {
+			} else if (obj.getClass().getName().contains("org.apache.ws.commons.schema.XmlSchemaImport")) {
 				org.apache.ws.commons.schema.XmlSchemaImport importedSchema = (org.apache.ws.commons.schema.XmlSchemaImport) obj;
 				theIncludedOrImportedSchema = importedSchema.getSchema();
 				// theIncludedOrImportedSchema.get
@@ -484,20 +458,17 @@ public class ParsingUtils {
 			if (theIncludedOrImportedSchema == null)
 				continue;
 
-			XmlSchemaObjectTable attsCollectionTable = theIncludedOrImportedSchema
-					.getAttributes();
+			XmlSchemaObjectTable attsCollectionTable = theIncludedOrImportedSchema.getAttributes();
 			if (attsCollectionTable == null)
 				continue;
-			XmlSchemaObject schemaAttributeObject = attsCollectionTable
-					.getItem(schemaTypeName);
+			XmlSchemaObject schemaAttributeObject = attsCollectionTable.getItem(schemaTypeName);
 			if (schemaAttributeObject != null) {
 				// schemaAttributeObject
 				return schemaAttributeObject;
 			} else {
 				iterationsCount++;
 				XmlSchemaObject newSchemaAttributeObject = searchSchemaIncludesForAttribute_ITERATIVE_10_IterationsMax(
-						theIncludedOrImportedSchema, schemaTypeName,
-						iterationsCount);
+						theIncludedOrImportedSchema, schemaTypeName, iterationsCount);
 				if (newSchemaAttributeObject != null) {
 					return newSchemaAttributeObject;
 				}
@@ -510,15 +481,12 @@ public class ParsingUtils {
 	public static void checkIfCOisAnyObjectType(ComplexObject co) {
 		System.out.println("e");
 		if (co.getObjectType() == null) {
-			if (co.getHasComplexObjects().size() == 1
-					&& co.getHasNativeObjects().size() == 0) {
+			if (co.getHasComplexObjects().size() == 1 && co.getHasNativeObjects().size() == 0) {
 				// Ypopsifio pros ISOPEDWSI
-				ComplexObject co1 = (ComplexObject) co.getHasComplexObjects()
-						.get(0);
+				ComplexObject co1 = (ComplexObject) co.getHasComplexObjects().get(0);
 				if (co1.getObjectName() != null || co1.getObjectType() != null) {
 					if (co1.getObjectName().getLocalPart().equals("any")
-							&& co1.getObjectType().getLocalPart()
-									.equals("Object")) {
+							&& co1.getObjectType().getLocalPart().equals("Object")) {
 						co.setObjectType(new QName("Object"));
 						co.setHasNativeObjects(new Vector());
 						co.setHasComplexObjects(new Vector());
@@ -534,15 +502,12 @@ public class ParsingUtils {
 			}
 
 			// koita ta native omoiws
-			if (co.getHasComplexObjects().size() == 0
-					&& co.getHasNativeObjects().size() == 1) {
+			if (co.getHasComplexObjects().size() == 0 && co.getHasNativeObjects().size() == 1) {
 				// Ypopsifio pros ISOPEDWSI
-				NativeObject no1 = (NativeObject) co.getHasNativeObjects().get(
-						0);
+				NativeObject no1 = (NativeObject) co.getHasNativeObjects().get(0);
 				if (no1.getObjectName() != null || no1.getObjectType() != null) {
 					if (no1.getObjectName().getLocalPart().equals("any")
-							&& no1.getObjectType().getLocalPart()
-									.equals("Object")) {
+							&& no1.getObjectType().getLocalPart().equals("Object")) {
 						co.setObjectType(new QName("Object"));
 						co.setHasNativeObjects(new Vector());
 						co.setHasComplexObjects(new Vector());
@@ -570,8 +535,8 @@ public class ParsingUtils {
 			}
 
 			/*
-			 * if(co.getHasComplexObjects()==null&&co.getHasComplexObjects()==null
-			 * ){ co.setObjectType(new QName("Object")); }else
+			 * if(co.getHasComplexObjects()==null&&co.getHasComplexObjects()==
+			 * null ){ co.setObjectType(new QName("Object")); }else
 			 * if(co.getHasComplexObjects
 			 * ()!=null&&co.getHasComplexObjects().size()==1){ ComplexObject
 			 * co1=(ComplexObject)co.getHasComplexObjects().get(0);
@@ -587,17 +552,14 @@ public class ParsingUtils {
 		// -System.out.prinln("\t\t\t\tCOMPLEX OK");
 	}
 
-	public static Object tryToFindAndParseAttributeForSpecificObject(
-			ParsedWSDLDefinition theDefinition, AxisService service,
-			QName objectName) {
-		XmlSchemaAttribute att = ParsingUtils
-				.parseWSDLschemasInOrderToFindTheSpecificXMLSchemaAttribute(
-						service, objectName);
+	public static Object tryToFindAndParseAttributeForSpecificObject(ParsedWSDLDefinition theDefinition,
+			AxisService service, QName objectName) {
+		XmlSchemaAttribute att = ParsingUtils.parseWSDLschemasInOrderToFindTheSpecificXMLSchemaAttribute(service,
+				objectName);
 
 		if (att != null) {
 			System.out.println("");
-			Object res1 = AdditionalTypesParser.parseXmlSchemaAttribute(att,
-					service, theDefinition);
+			Object res1 = AdditionalTypesParser.parseXmlSchemaAttribute(att, service, theDefinition);
 			if (res1 != null) {
 				if (res1.getClass().getName().contains("NativeObject")) {
 					NativeObject no12 = (NativeObject) res1;
@@ -619,16 +581,12 @@ public class ParsingUtils {
 		}
 	}
 
-	public static ComplexObject tryToFindAndParseGroupForSpecificObject(
-			ParsedWSDLDefinition theDefinition, AxisService service,
-			QName objectName) {
-		XmlSchemaGroup group = ParsingUtils
-				.parseWSDLschemasInOrderToFindTheSpecificXMLSchemaGroup(
-						service, objectName);
+	public static ComplexObject tryToFindAndParseGroupForSpecificObject(ParsedWSDLDefinition theDefinition,
+			AxisService service, QName objectName) {
+		XmlSchemaGroup group = ParsingUtils.parseWSDLschemasInOrderToFindTheSpecificXMLSchemaGroup(service, objectName);
 		if (group != null) {
 			System.out.println("");
-			ComplexObject res1 = AdditionalTypesParser.parseXmlSchemaGroup_NEW(
-					service, group, theDefinition);
+			ComplexObject res1 = AdditionalTypesParser.parseXmlSchemaGroup_NEW(service, group, theDefinition);
 			return res1;
 		} else {
 			return null;
@@ -636,17 +594,13 @@ public class ParsingUtils {
 
 	}
 
-	public static ComplexObject tryToFindAndParseAttributeGroupForSpecificObject(
-			ParsedWSDLDefinition theDefinition, AxisService service,
-			QName objectName) {
+	public static ComplexObject tryToFindAndParseAttributeGroupForSpecificObject(ParsedWSDLDefinition theDefinition,
+			AxisService service, QName objectName) {
 		XmlSchemaAttributeGroup group = ParsingUtils
-				.parseWSDLschemasInOrderToFindTheSpecificXMLSchemaAttributeGroup(
-						service, objectName);
+				.parseWSDLschemasInOrderToFindTheSpecificXMLSchemaAttributeGroup(service, objectName);
 		if (group != null) {
 			System.out.println("");
-			ComplexObject res1 = AdditionalTypesParser
-					.parseXmlSchemaAttributeGroup_NEW(service, group,
-							theDefinition);
+			ComplexObject res1 = AdditionalTypesParser.parseXmlSchemaAttributeGroup_NEW(service, group, theDefinition);
 			return res1;
 		} else {
 			return null;
@@ -654,8 +608,7 @@ public class ParsingUtils {
 
 	}
 
-	public static QName getComplexTypeSchemaTypeName(
-			XmlSchemaElement schElemOfType, XmlSchemaType xmlSchemaOfType) {
+	public static QName getComplexTypeSchemaTypeName(XmlSchemaElement schElemOfType, XmlSchemaType xmlSchemaOfType) {
 		QName typeName = null;
 
 		if (schElemOfType != null) {

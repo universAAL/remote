@@ -55,122 +55,126 @@ import org.universAAL.ri.rest.manager.wrappers.SpaceWrapper;
 @Path("uaal/spaces/{id}/service/callers/{subid}")
 public class Caller {
 
-    @XmlAttribute
-    @PathParam("subid")
-    private String id;
+	@XmlAttribute
+	@PathParam("subid")
+	private String id;
 
-    @XmlElement(name = "link")
-    @XmlJavaTypeAdapter(JaxbAdapter.class)
-    private Link self;
+	@XmlElement(name = "link")
+	@XmlJavaTypeAdapter(JaxbAdapter.class)
+	private Link self;
 
-    public Link getSelf() {
-	return self;
-    }
-
-    public void setSelf(Link self) {
-	this.self = self;
-    }
-
-    public String getId() {
-	return id;
-    }
-
-    public void setId(String id) {
-	this.id = id;
-    }
-
-    public Caller(String id, String subid) {
-	this.id = subid;
-	setSelf(Link.fromPath("/uaal/spaces/"+id+"/service/callers/"+subid).rel("self").build());
-    }
-
-    public Caller() {
-	
-    }
-    
-    //===============REST METHODS===============
-    
-    @GET
-    @Produces(Activator.TYPES)
-    public Caller getCallerResource(@PathParam("id") String id, @PathParam("subid") String subid){
-	Activator.logI("Caller.getCallerResource", "GET host:port/uaal/spaces/X/service/callers/Y");
-	SpaceWrapper tenant = UaalWrapper.getInstance().getTenant(id);
-	if(tenant!=null){
-	    CallerWrapper wrapper = tenant.getServiceCaller(subid);
-	    if(wrapper!=null){
-		return wrapper.getResource();
-	    }
+	public Link getSelf() {
+		return self;
 	}
-	return null;
-    }
-    
-    @DELETE
-    public Response deleteCallerResource(@PathParam("id") String id, @PathParam("subid") String subid){
-	Activator.logI("Caller.deleteCallerResource", "DELETE host:port/uaal/spaces/X/service/callers/Y");
-	SpaceWrapper tenant = UaalWrapper.getInstance().getTenant(id);
-	if(tenant!=null){
-	    tenant.removeServiceCaller(subid);
-	    Activator.getPersistence().removeCaller(id, subid);
-	    return Response.ok().build();//.nocontent?
+
+	public void setSelf(Link self) {
+		this.self = self;
 	}
-	return Response.status(Status.NOT_FOUND).build();
-    }
-    
-    @POST
-    @Consumes(Activator.TYPES_TXT)
-    @Produces(Activator.TYPES_TXT)
-    public Response executeCallerCall(@PathParam("id") String id, @PathParam("subid") String subid, String call){
-	Activator.logI("Caller.executeCallerCall", "POST host:port/uaal/spaces/X/service/callers/Y");
-	SpaceWrapper tenant = UaalWrapper.getInstance().getTenant(id);
-	if(tenant!=null){
-	    CallerWrapper cerwrap = tenant.getServiceCaller(subid);
-	    if(cerwrap!=null){
-		ServiceRequest sreq=(ServiceRequest) Activator.getParser().deserialize(call);
-		if(sreq!=null){
-		    ServiceResponse sr = cerwrap.call(sreq);
-		    return Response.ok(Activator.getParser().serialize(sr)).build();
-		}else{
-		    return Response.status(Status.BAD_REQUEST).build();
-		}
-	    }else{
-		return Response.status(Status.NOT_FOUND).build();
-	    }
-	}else{
-	    return Response.status(Status.NOT_FOUND).build();
+
+	public String getId() {
+		return id;
 	}
-    }
-    
-    @PUT
-    @Consumes(Activator.TYPES)
-    public Response putCallerResource(@PathParam("id") String id, @PathParam("subid") String subid, Caller cer) throws URISyntaxException{
-	Activator.logI("Caller.putCallerResource", "PUT host:port/uaal/spaces/X/service/callers/Y");
-	//The cer generated from the PUT body does not contain any "link" elements, but I wouldnt have allowed it anyway
-	if (subid.equals(cer.id)) {// Do not allow changes to id
-	    SpaceWrapper tenant = UaalWrapper.getInstance().getTenant(id);
-	    if (tenant != null) {
-		if(Activator.getParser()!=null){
-		    CallerWrapper original = tenant.getServiceCaller(subid);
-		    if (original != null) {//Can only change existing ones
-			cer.setSelf(Link.fromPath("/uaal/spaces/"+id+"/service/callees/"+cer.getId()).rel("self").build());
-			original.setResource(cer);
-			if(tenant.updateServiceCaller(original)){
-			    Activator.getPersistence().storeCaller(id, cer);
-			    return Response.created(new URI("uaal/spaces/"+id+"/service/callees/"+cer.getId())).build();
-			}else{
-			    return Response.notModified().build();
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public Caller(String id, String subid) {
+		this.id = subid;
+		setSelf(Link.fromPath("/uaal/spaces/" + id + "/service/callers/" + subid).rel("self").build());
+	}
+
+	public Caller() {
+
+	}
+
+	// ===============REST METHODS===============
+
+	@GET
+	@Produces(Activator.TYPES)
+	public Caller getCallerResource(@PathParam("id") String id, @PathParam("subid") String subid) {
+		Activator.logI("Caller.getCallerResource", "GET host:port/uaal/spaces/X/service/callers/Y");
+		SpaceWrapper tenant = UaalWrapper.getInstance().getTenant(id);
+		if (tenant != null) {
+			CallerWrapper wrapper = tenant.getServiceCaller(subid);
+			if (wrapper != null) {
+				return wrapper.getResource();
 			}
-		    } else {
-			return Response.status(Status.NOT_FOUND).build();
-		    }
-		}else{
-		    return Response.serverError().build();
 		}
-	    } else {
-		return Response.status(Status.NOT_FOUND).build();
-	    }
-	} else {
-	    return Response.notModified().build();
+		return null;
 	}
-    }
+
+	@DELETE
+	public Response deleteCallerResource(@PathParam("id") String id, @PathParam("subid") String subid) {
+		Activator.logI("Caller.deleteCallerResource", "DELETE host:port/uaal/spaces/X/service/callers/Y");
+		SpaceWrapper tenant = UaalWrapper.getInstance().getTenant(id);
+		if (tenant != null) {
+			tenant.removeServiceCaller(subid);
+			Activator.getPersistence().removeCaller(id, subid);
+			return Response.ok().build();// .nocontent?
+		}
+		return Response.status(Status.NOT_FOUND).build();
+	}
+
+	@POST
+	@Consumes(Activator.TYPES_TXT)
+	@Produces(Activator.TYPES_TXT)
+	public Response executeCallerCall(@PathParam("id") String id, @PathParam("subid") String subid, String call) {
+		Activator.logI("Caller.executeCallerCall", "POST host:port/uaal/spaces/X/service/callers/Y");
+		SpaceWrapper tenant = UaalWrapper.getInstance().getTenant(id);
+		if (tenant != null) {
+			CallerWrapper cerwrap = tenant.getServiceCaller(subid);
+			if (cerwrap != null) {
+				ServiceRequest sreq = (ServiceRequest) Activator.getParser().deserialize(call);
+				if (sreq != null) {
+					ServiceResponse sr = cerwrap.call(sreq);
+					return Response.ok(Activator.getParser().serialize(sr)).build();
+				} else {
+					return Response.status(Status.BAD_REQUEST).build();
+				}
+			} else {
+				return Response.status(Status.NOT_FOUND).build();
+			}
+		} else {
+			return Response.status(Status.NOT_FOUND).build();
+		}
+	}
+
+	@PUT
+	@Consumes(Activator.TYPES)
+	public Response putCallerResource(@PathParam("id") String id, @PathParam("subid") String subid, Caller cer)
+			throws URISyntaxException {
+		Activator.logI("Caller.putCallerResource", "PUT host:port/uaal/spaces/X/service/callers/Y");
+		// The cer generated from the PUT body does not contain any "link"
+		// elements, but I wouldnt have allowed it anyway
+		if (subid.equals(cer.id)) {// Do not allow changes to id
+			SpaceWrapper tenant = UaalWrapper.getInstance().getTenant(id);
+			if (tenant != null) {
+				if (Activator.getParser() != null) {
+					CallerWrapper original = tenant.getServiceCaller(subid);
+					if (original != null) {// Can only change existing ones
+						cer.setSelf(Link.fromPath("/uaal/spaces/" + id + "/service/callees/" + cer.getId()).rel("self")
+								.build());
+						original.setResource(cer);
+						if (tenant.updateServiceCaller(original)) {
+							Activator.getPersistence().storeCaller(id, cer);
+							return Response.created(new URI("uaal/spaces/" + id + "/service/callees/" + cer.getId()))
+									.build();
+						} else {
+							return Response.notModified().build();
+						}
+					} else {
+						return Response.status(Status.NOT_FOUND).build();
+					}
+				} else {
+					return Response.serverError().build();
+				}
+			} else {
+				return Response.status(Status.NOT_FOUND).build();
+			}
+		} else {
+			return Response.notModified().build();
+		}
+	}
 
 }

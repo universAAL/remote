@@ -34,50 +34,48 @@ import org.universAAL.ontology.sysinfo.SystemInfo;
 
 public class CSubscriber extends ContextSubscriber {
 
-    private static HashMap<String, Long> lastknownof = new HashMap<String, Long>();
-    private static HashSet<String> missing = new HashSet<String>();
+	private static HashMap<String, Long> lastknownof = new HashMap<String, Long>();
+	private static HashSet<String> missing = new HashSet<String>();
 
-    protected CSubscriber(ModuleContext context,
-	    ContextEventPattern[] initialSubscriptions) {
-	super(context, initialSubscriptions);
-    }
-
-    protected CSubscriber(ModuleContext context) {
-	super(context, getPermanentSubscriptions());
-    }
-
-    private static ContextEventPattern[] getPermanentSubscriptions() {
-	ContextEventPattern cep = new ContextEventPattern();
-	cep.addRestriction(MergedRestriction.getAllValuesRestriction(
-		ContextEvent.PROP_RDF_SUBJECT, SystemInfo.MY_URI));
-	cep.addRestriction(MergedRestriction.getFixedValueRestriction(
-		ContextEvent.PROP_RDF_PREDICATE, SystemInfo.PROP_ALIVE));
-	cep.addRestriction(MergedRestriction.getFixedValueRestriction(
-		ContextEvent.PROP_RDF_OBJECT, new Boolean(true)));
-	return new ContextEventPattern[] { cep };
-    }
-
-    public void communicationChannelBroken() {
-	// TODO Auto-generated method stub
-
-    }
-
-    public void handleContextEvent(ContextEvent event) {
-	List<String> scopes = event.getScopes(); //TODO Use SystemInfo URI instead?
-	Long tst = event.getTimestamp();
-	for (String scope : scopes) {
-	    if (scope != null && !scope.isEmpty()) {
-		lastknownof.put(scope, tst);
-		missing.remove(scope);
-	    }
+	protected CSubscriber(ModuleContext context, ContextEventPattern[] initialSubscriptions) {
+		super(context, initialSubscriptions);
 	}
-    }
-    
-    public static HashMap<String, Long> getLastknownof() {
-        return lastknownof;
-    }
 
-    public static HashSet<String> getMissing() {
-        return missing;
-    }
+	protected CSubscriber(ModuleContext context) {
+		super(context, getPermanentSubscriptions());
+	}
+
+	private static ContextEventPattern[] getPermanentSubscriptions() {
+		ContextEventPattern cep = new ContextEventPattern();
+		cep.addRestriction(MergedRestriction.getAllValuesRestriction(ContextEvent.PROP_RDF_SUBJECT, SystemInfo.MY_URI));
+		cep.addRestriction(
+				MergedRestriction.getFixedValueRestriction(ContextEvent.PROP_RDF_PREDICATE, SystemInfo.PROP_ALIVE));
+		cep.addRestriction(MergedRestriction.getFixedValueRestriction(ContextEvent.PROP_RDF_OBJECT, new Boolean(true)));
+		return new ContextEventPattern[] { cep };
+	}
+
+	public void communicationChannelBroken() {
+		// TODO Auto-generated method stub
+
+	}
+
+	public void handleContextEvent(ContextEvent event) {
+		List<String> scopes = event.getScopes(); // TODO Use SystemInfo URI
+													// instead?
+		Long tst = event.getTimestamp();
+		for (String scope : scopes) {
+			if (scope != null && !scope.isEmpty()) {
+				lastknownof.put(scope, tst);
+				missing.remove(scope);
+			}
+		}
+	}
+
+	public static HashMap<String, Long> getLastknownof() {
+		return lastknownof;
+	}
+
+	public static HashSet<String> getMissing() {
+		return missing;
+	}
 }

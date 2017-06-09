@@ -39,64 +39,68 @@ import org.universAAL.ri.rest.manager.server.Configuration;
 /**
  * Class that manages the push of callbacks to client remote node endpoints
  * using HTTP.
+ * 
  * @author alfiva
  *
  */
 public class PushREST {
 
-    public static void pushContextEvent(String callback, ContextEvent event) throws PushException {
-	try {
-	    String serial=Activator.getParser().serialize(event);
-	    Activator.logI("PushREST.pushContextEvent", "Attempting to send event "+event.getURI()+" to callback "+callback);
-	    send(callback, serial);
-	} catch (MalformedURLException e) {
-	    throw new PushException("Unable to send message to malformed URL: "+e.getMessage());
-	} catch (IOException e) {
-	    throw new PushException("Unable to send message through communication channel: "+e.getMessage());
+	public static void pushContextEvent(String callback, ContextEvent event) throws PushException {
+		try {
+			String serial = Activator.getParser().serialize(event);
+			Activator.logI("PushREST.pushContextEvent",
+					"Attempting to send event " + event.getURI() + " to callback " + callback);
+			send(callback, serial);
+		} catch (MalformedURLException e) {
+			throw new PushException("Unable to send message to malformed URL: " + e.getMessage());
+		} catch (IOException e) {
+			throw new PushException("Unable to send message through communication channel: " + e.getMessage());
+		}
 	}
-    }
 
-    public static void pushServiceCall(String callback, ServiceCall call, String origin) throws PushException {
-	try {
-	    String serial=Activator.getParser().serialize(call);
-	    Activator.logI("PushREST.pushServiceCall", "Attempting to send call "+origin+" to callback "+callback);
-	    send(callback+"?o="+origin, serial);
-	} catch (MalformedURLException e) {
-	    throw new PushException("Unable to send message to malformed URL: "+e.getMessage());
-	} catch (IOException e) {
-	    throw new PushException("Unable to send message through communication channel: "+e.getMessage());
+	public static void pushServiceCall(String callback, ServiceCall call, String origin) throws PushException {
+		try {
+			String serial = Activator.getParser().serialize(call);
+			Activator.logI("PushREST.pushServiceCall",
+					"Attempting to send call " + origin + " to callback " + callback);
+			send(callback + "?o=" + origin, serial);
+		} catch (MalformedURLException e) {
+			throw new PushException("Unable to send message to malformed URL: " + e.getMessage());
+		} catch (IOException e) {
+			throw new PushException("Unable to send message through communication channel: " + e.getMessage());
+		}
 	}
-    }
-    
-    private static String send(String callback, String body) throws IOException, MalformedURLException {
-	URL url = new URL(callback);
-	HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-	String auth="Basic "+Base64.encodeBytes((Configuration.getServerUSR()+":"+Configuration.getServerPWD()).getBytes("UTF-8"));
-	byte[] data = body.getBytes(Charset.forName("UTF-8"));
-	conn.setRequestMethod("POST");
-	conn.setInstanceFollowRedirects(false);
-	conn.setDoOutput(true);
-	conn.setDoInput(true);
-	conn.setUseCaches(false);
-	conn.setReadTimeout(30000);
-	conn.setRequestProperty("Content-Type", "text/plain");
-	conn.setRequestProperty("charset", "utf-8");
-	conn.setRequestProperty("Content-Length", "" + Integer.toString(data.length));
-	conn.setRequestProperty("Authorization", auth);
 
-	DataOutputStream wr = new DataOutputStream(conn.getOutputStream());
-	wr.write(data);
-	wr.flush();
-	wr.close();
+	private static String send(String callback, String body) throws IOException, MalformedURLException {
+		URL url = new URL(callback);
+		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+		String auth = "Basic " + Base64
+				.encodeBytes((Configuration.getServerUSR() + ":" + Configuration.getServerPWD()).getBytes("UTF-8"));
+		byte[] data = body.getBytes(Charset.forName("UTF-8"));
+		conn.setRequestMethod("POST");
+		conn.setInstanceFollowRedirects(false);
+		conn.setDoOutput(true);
+		conn.setDoInput(true);
+		conn.setUseCaches(false);
+		conn.setReadTimeout(30000);
+		conn.setRequestProperty("Content-Type", "text/plain");
+		conn.setRequestProperty("charset", "utf-8");
+		conn.setRequestProperty("Content-Length", "" + Integer.toString(data.length));
+		conn.setRequestProperty("Authorization", auth);
 
-	BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-	String line, response = "";
-	while ((line = rd.readLine()) != null) {
-	    response = response + line + "\n";
+		DataOutputStream wr = new DataOutputStream(conn.getOutputStream());
+		wr.write(data);
+		wr.flush();
+		wr.close();
+
+		BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+		String line, response = "";
+		while ((line = rd.readLine()) != null) {
+			response = response + line + "\n";
+		}
+		rd.close();
+
+		return response;
 	}
-	rd.close();
-	
-	return response;
-    }
 
 }

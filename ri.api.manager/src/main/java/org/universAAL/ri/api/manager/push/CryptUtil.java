@@ -40,122 +40,117 @@ import org.universAAL.ri.api.manager.Configuration;
  */
 public class CryptUtil {
 
-    private static final String cipherTransformation = "DES/ECB/PKCS5Padding";
-    private static final String secretKeyAlgorithm = "DES";
+	private static final String cipherTransformation = "DES/ECB/PKCS5Padding";
+	private static final String secretKeyAlgorithm = "DES";
 
-    private static SecretKey skey = null;
+	private static SecretKey skey = null;
 
-    /**
-     * Initialization method - reads the shared key from the file system
-     * 
-     * @param String
-     *            key - full path to encryption key including file name
-     */
-    public static String init(String key) throws Exception {
-	File keyFile = new File(key);
-	skey = readKey(keyFile);
-	if (skey == null) {
-	    throw new SecurityException(
-		    "Missing the secret key for message exchange!");
+	/**
+	 * Initialization method - reads the shared key from the file system
+	 * 
+	 * @param String
+	 *            key - full path to encryption key including file name
+	 */
+	public static String init(String key) throws Exception {
+		File keyFile = new File(key);
+		skey = readKey(keyFile);
+		if (skey == null) {
+			throw new SecurityException("Missing the secret key for message exchange!");
+		}
+		return "Cryptography utils initialized successfully!";
 	}
-	return "Cryptography utils initialized successfully!";
-    }
 
-    /**
-     * decrypt the parameter string with the shared key read during
-     * initialization
-     * 
-     * @param String
-     *            chiper - the string to decrypt
-     * @return the decrypted string
-     * 
-     */
-    public static String decrypt(String cipher) throws Exception {
-	return decrypt(cipher, skey);
-    }
+	/**
+	 * decrypt the parameter string with the shared key read during
+	 * initialization
+	 * 
+	 * @param String
+	 *            chiper - the string to decrypt
+	 * @return the decrypted string
+	 * 
+	 */
+	public static String decrypt(String cipher) throws Exception {
+		return decrypt(cipher, skey);
+	}
 
-    /**
-     * decrypt the first parameter string with the shared key received as the
-     * second parameter
-     * 
-     * @param String
-     *            chiper - the string to decrypt
-     * @param SecretKey
-     *            skey - the shared key
-     * @return the decrypted string
-     * 
-     */
-    public static String decrypt(String cipher, SecretKey skey)
-	    throws Exception {
-	Cipher desCipher = Cipher.getInstance(cipherTransformation);
-	desCipher.init(Cipher.DECRYPT_MODE, skey);
-	return new String(desCipher.doFinal(decode(cipher)));
-    }
+	/**
+	 * decrypt the first parameter string with the shared key received as the
+	 * second parameter
+	 * 
+	 * @param String
+	 *            chiper - the string to decrypt
+	 * @param SecretKey
+	 *            skey - the shared key
+	 * @return the decrypted string
+	 * 
+	 */
+	public static String decrypt(String cipher, SecretKey skey) throws Exception {
+		Cipher desCipher = Cipher.getInstance(cipherTransformation);
+		desCipher.init(Cipher.DECRYPT_MODE, skey);
+		return new String(desCipher.doFinal(decode(cipher)));
+	}
 
-    /**
-     * encrypt the parameter string with the shared key read during
-     * initialization
-     * 
-     * @param String
-     *            clear - the string to encrypt
-     * @return the encrypted string
-     * 
-     */
-    public static String encrypt(String clear) throws Exception {
-	return encrypt(clear, skey);
-    }
+	/**
+	 * encrypt the parameter string with the shared key read during
+	 * initialization
+	 * 
+	 * @param String
+	 *            clear - the string to encrypt
+	 * @return the encrypted string
+	 * 
+	 */
+	public static String encrypt(String clear) throws Exception {
+		return encrypt(clear, skey);
+	}
 
-    /**
-     * encrypt the first parameter string with the shared key received as the
-     * second parameter
-     * 
-     * @param String
-     *            clear - the string to encrypt
-     * @param SecretKey
-     *            skey - the shared key
-     * @return the encrypted string
-     * 
-     */
-    public static String encrypt(String clear, SecretKey skey)
-	    throws Exception {
-	Cipher desCipher = Cipher.getInstance(cipherTransformation);
-	desCipher.init(Cipher.ENCRYPT_MODE, skey);
-	return new String(encode(desCipher.doFinal(clear.getBytes())));
-    }
+	/**
+	 * encrypt the first parameter string with the shared key received as the
+	 * second parameter
+	 * 
+	 * @param String
+	 *            clear - the string to encrypt
+	 * @param SecretKey
+	 *            skey - the shared key
+	 * @return the encrypted string
+	 * 
+	 */
+	public static String encrypt(String clear, SecretKey skey) throws Exception {
+		Cipher desCipher = Cipher.getInstance(cipherTransformation);
+		desCipher.init(Cipher.ENCRYPT_MODE, skey);
+		return new String(encode(desCipher.doFinal(clear.getBytes())));
+	}
 
-    private static SecretKey readKey(File keyFile)  throws Exception {
-	DataInputStream in = new DataInputStream(new FileInputStream(keyFile));
-	byte[] rawkey = new byte[(int) keyFile.length()];
-	in.readFully(rawkey);
-	in.close();
-	return genKey(rawkey);
-    }
-    
-    public static SecretKey genKey(byte[] rawkey) throws Exception{
-	DESKeySpec keyspec = new DESKeySpec(rawkey);
-	SecretKeyFactory keyfactory = SecretKeyFactory
-		.getInstance(secretKeyAlgorithm);
-	return keyfactory.generateSecret(keyspec);
-    }
+	private static SecretKey readKey(File keyFile) throws Exception {
+		DataInputStream in = new DataInputStream(new FileInputStream(keyFile));
+		byte[] rawkey = new byte[(int) keyFile.length()];
+		in.readFully(rawkey);
+		in.close();
+		return genKey(rawkey);
+	}
 
-    private static byte[] encode(byte[] data) {
-	return org.bouncycastle.util.encoders.Base64.encode(data);
-    }
+	public static SecretKey genKey(byte[] rawkey) throws Exception {
+		DESKeySpec keyspec = new DESKeySpec(rawkey);
+		SecretKeyFactory keyfactory = SecretKeyFactory.getInstance(secretKeyAlgorithm);
+		return keyfactory.generateSecret(keyspec);
+	}
 
-    private static byte[] decode(String data) {
-	return org.bouncycastle.util.encoders.Base64.decode(data);
-    }
+	private static byte[] encode(byte[] data) {
+		return org.bouncycastle.util.encoders.Base64.encode(data);
+	}
 
-    public static String generateClientKey(String id)
-	    throws Exception {
-	String toEnc = id + Configuration.getServerUSR();
-	MessageDigest mdEnc = null;
-	mdEnc = MessageDigest.getInstance("SHA-256");
-	mdEnc.update(toEnc.getBytes(), 0, toEnc.length());
-	// String md5 = new BigInteger(1, mdEnc.digest()).toString(16);
-	final byte[] byteArray = mdEnc.digest();
-	final String md5 = new String(byteArray, "UTF-8");
-	return encrypt(md5);
-    }
+	private static byte[] decode(String data) {
+		return org.bouncycastle.util.encoders.Base64.decode(data);
+	}
+
+	public static String generateClientKey(String id) throws Exception {
+		String toEnc = id + Configuration.getServerUSR();
+		MessageDigest mdEnc = null;
+		mdEnc = MessageDigest.getInstance("SHA-256");
+		mdEnc.update(toEnc.getBytes(), 0, toEnc.length());
+		// String md5 = new BigInteger(1, mdEnc.digest()).toString(16);
+		final byte[] byteArray = mdEnc.digest();
+		final String md5 = new String(byteArray, "UTF-8");
+		return encrypt(md5);
+	}
 
 }

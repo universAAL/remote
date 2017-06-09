@@ -26,24 +26,24 @@ import org.universAAL.ri.gateway.operations.ParameterCheckOpertaionChain;
  */
 public class NoSecurityDefinition implements OperationChainManager {
 
-    /** {@inheritDoc} */
-    public ParameterCheckOpertaionChain getImportOperationChain() {
-	return new AllowDefault();
-    }
+	/** {@inheritDoc} */
+	public ParameterCheckOpertaionChain getImportOperationChain() {
+		return new AllowDefault();
+	}
 
-    /** {@inheritDoc} */
-    public ParameterCheckOpertaionChain getExportOperationChain() {
-	return new AllowDefault();
-    }
+	/** {@inheritDoc} */
+	public ParameterCheckOpertaionChain getExportOperationChain() {
+		return new AllowDefault();
+	}
 
-    /** {@inheritDoc} */
-    public MessageOperationChain getIncomingMessageOperationChain() {
-	return new AllowDefault();
-    }
+	/** {@inheritDoc} */
+	public MessageOperationChain getIncomingMessageOperationChain() {
+		return new AllowDefault();
+	}
 
-    /** {@inheritDoc} */
-    public MessageOperationChain getOutgoingMessageOperationChain() {
-	return new AllowDefault();
-    }
+	/** {@inheritDoc} */
+	public MessageOperationChain getOutgoingMessageOperationChain() {
+		return new AllowDefault();
+	}
 
 }

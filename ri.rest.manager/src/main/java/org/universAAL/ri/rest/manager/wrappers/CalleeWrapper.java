@@ -34,82 +34,79 @@ import org.universAAL.ri.rest.manager.Activator;
 import org.universAAL.ri.rest.manager.push.PushManager;
 import org.universAAL.ri.rest.manager.resources.Callee;
 
-public class CalleeWrapper extends ServiceCallee{
-    
-    public static final String PROP_ORIGIN_CALL = "http://ontology.universAAL.org/uAAL.owl#originCall";
+public class CalleeWrapper extends ServiceCallee {
 
-    public static Hashtable<String,ServiceResponse> pendingCalls=new Hashtable<String,ServiceResponse>();
-    
-    private Callee resource;
-    private String tenant;
+	public static final String PROP_ORIGIN_CALL = "http://ontology.universAAL.org/uAAL.owl#originCall";
 
-    public Callee getResource() {
-        return resource;
-    }
+	public static Hashtable<String, ServiceResponse> pendingCalls = new Hashtable<String, ServiceResponse>();
 
-    public void setResource(Callee resource) {
-        this.resource = resource;
-    }
+	private Callee resource;
+	private String tenant;
 
-    public CalleeWrapper(ModuleContext context,
-	    ServiceProfile[] realizedServices, Callee r, String t) {
-	super(context, realizedServices);
-	resource=r;
-	tenant=t;
-    }
+	public Callee getResource() {
+		return resource;
+	}
 
-    @Override
-    public void communicationChannelBroken() {
-	Activator.logW("CalleeWrapper.communicationChannelBroken", "communication Channel Broken");
-    }
+	public void setResource(Callee resource) {
+		this.resource = resource;
+	}
 
-    @Override
-    public ServiceResponse handleCall(ServiceCall call) {
-	String origin = UUID.randomUUID().toString();
-	Activator.logI("CalleeWrapper.handleCall",
-		"Received Service Call "+origin+" for tenant " + tenant
-			+ ". Sending to callback");
-	try {
-	    ServiceResponse srlock = new ServiceResponse(CallStatus.responseTimedOut);
-	    pendingCalls.put(origin, srlock);
-	    
-	    String callback=resource.getCallback();
-	    if(callback==null || callback.isEmpty()){
-		//Use generic callback of the tenant
-		SpaceWrapper t = UaalWrapper.getInstance().getTenant(tenant);
-		if(t!=null){
-		    callback=t.getResource().getCallback();
-		    if(callback==null){
-			return new ServiceResponse(CallStatus.noMatchingServiceFound);
-		    }
+	public CalleeWrapper(ModuleContext context, ServiceProfile[] realizedServices, Callee r, String t) {
+		super(context, realizedServices);
+		resource = r;
+		tenant = t;
+	}
+
+	@Override
+	public void communicationChannelBroken() {
+		Activator.logW("CalleeWrapper.communicationChannelBroken", "communication Channel Broken");
+	}
+
+	@Override
+	public ServiceResponse handleCall(ServiceCall call) {
+		String origin = UUID.randomUUID().toString();
+		Activator.logI("CalleeWrapper.handleCall",
+				"Received Service Call " + origin + " for tenant " + tenant + ". Sending to callback");
+		try {
+			ServiceResponse srlock = new ServiceResponse(CallStatus.responseTimedOut);
+			pendingCalls.put(origin, srlock);
+
+			String callback = resource.getCallback();
+			if (callback == null || callback.isEmpty()) {
+				// Use generic callback of the tenant
+				SpaceWrapper t = UaalWrapper.getInstance().getTenant(tenant);
+				if (t != null) {
+					callback = t.getResource().getCallback();
+					if (callback == null) {
+						return new ServiceResponse(CallStatus.noMatchingServiceFound);
+					}
+				}
+			}
+
+			synchronized (srlock) {
+				PushManager.pushServiceCall(callback, resource.getId(), call, origin);
+				srlock.wait(30000);
+				return pendingCalls.remove(origin);
+			}
+		} catch (Exception e) {
+			Activator.logW("CalleeWrapper.handleCall",
+					"Exception " + e.toString() + " while waiting or handling the call " + origin
+							+ ". Sending Service Specific Failure as a response.");
+			e.printStackTrace();
+			pendingCalls.remove(origin);
+			return new ServiceResponse(CallStatus.serviceSpecificFailure);
 		}
-	    }
-	    
-	    synchronized (srlock) {
-		PushManager.pushServiceCall(callback,resource.getId(), call, origin);
-		srlock.wait(30000);
-		return pendingCalls.remove(origin);
-	    }
-	} catch (Exception e) {
-	    Activator.logW("CalleeWrapper.handleCall", "Exception "
-		    + e.toString() + " while waiting or handling the call "
-		    + origin
-		    + ". Sending Service Specific Failure as a response.");
-	    e.printStackTrace();
-	    pendingCalls.remove(origin);
-	    return new ServiceResponse(CallStatus.serviceSpecificFailure);
 	}
-    }
 
-    public void handleResponse(ServiceResponse newresponse, String origin) {
-	String originalcall = origin != null ? origin : PROP_ORIGIN_CALL;
-	ServiceResponse originalresponse = pendingCalls.get(originalcall);
-	if (originalresponse != null) {
-	    synchronized (originalresponse) {
-		pendingCalls.put(originalcall, newresponse);
-		originalresponse.notify();
-	    }
+	public void handleResponse(ServiceResponse newresponse, String origin) {
+		String originalcall = origin != null ? origin : PROP_ORIGIN_CALL;
+		ServiceResponse originalresponse = pendingCalls.get(originalcall);
+		if (originalresponse != null) {
+			synchronized (originalresponse) {
+				pendingCalls.put(originalcall, newresponse);
+				originalresponse.notify();
+			}
+		}
 	}
-    }
 
 }

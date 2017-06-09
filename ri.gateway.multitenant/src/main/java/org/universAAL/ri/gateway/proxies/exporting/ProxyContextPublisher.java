@@ -47,102 +47,95 @@ import org.universAAL.ri.gateway.proxies.importing.ProxyContextSubscriber;
  * @author amedrano
  * 
  */
-public class ProxyContextPublisher extends ContextPublisher implements
-	ProxyBusMember {
+public class ProxyContextPublisher extends ContextPublisher implements ProxyBusMember {
 
-    private final ReferencesManager refsMngr;
+	private final ReferencesManager refsMngr;
 
-    /**
-     * Create a generic (all
-     * 
-     * @return
-     */
-    private static ContextProvider constructProvider() {
-	final ContextProvider cp = new ContextProvider();
-	// cp is never used anyway...
-	cp.setType(ContextProviderType.reasoner);
-	cp.setProvidedEvents(new ContextEventPattern[] { new ContextEventPattern() });
-	return cp;
-    }
-
-    public ProxyContextPublisher(final ModuleContext context) {
-	super(context, constructProvider());
-	refsMngr = new ReferencesManager();
-    }
-
-    public String getBusMemberId() {
-	return getMyID();
-    }
-
-    public void addRemoteProxyReference(final BusMemberReference remoteReference) {
-	refsMngr.addRemoteProxyReference(remoteReference);
-    }
-
-    public void removeRemoteProxyReference(
-	    final BusMemberReference remoteReference) {
-	refsMngr.removeRemoteProxyReference(remoteReference);
-
-    }
-
-    public void removeRemoteProxyReferences(final Session session) {
-	refsMngr.removeRemoteProxyReferences(session);
-    }
-
-    public Collection<BusMemberReference> getRemoteProxiesReferences() {
-	return refsMngr.getRemoteProxiesReferences();
-    }
-
-    public Resource[] getSubscriptionParameters() {
-	return null;
-    }
-
-    public void handleMessage(final Session session,
-	    final WrappedBusMessage busMessage) {
-	final ScopedResource m = busMessage.getMessage();
-	if (m instanceof ContextEvent
-		&& session.getIncomingMessageOperationChain().check(m)
-			.equals(OperationChain.OperationResult.ALLOW)) {
-	    // resolve multitenancy
-	    m.clearScopes();
-	    m.addScope(session.getScope());
-	    // set Origin to avoid message looping
-	    m.setOriginScope(session.getScope());
-	    // inject context Event
-	    if (AccessControl.INSTANCE.checkPermission(owner, getURI(),
-		    (ContextEvent) m)) {
-		// XXX should gateway be checking it's own permissions?
-		((ContextBus) theBus).brokerContextEvent(busResourceURI,
-			(ContextEvent) m);
-	    }
+	/**
+	 * Create a generic (all
+	 * 
+	 * @return
+	 */
+	private static ContextProvider constructProvider() {
+		final ContextProvider cp = new ContextProvider();
+		// cp is never used anyway...
+		cp.setType(ContextProviderType.reasoner);
+		cp.setProvidedEvents(new ContextEventPattern[] { new ContextEventPattern() });
+		return cp;
 	}
 
-    }
+	public ProxyContextPublisher(final ModuleContext context) {
+		super(context, constructProvider());
+		refsMngr = new ReferencesManager();
+	}
 
-    /**
-     * As long as the registration parameters are {@link ContextEventPattern},
-     * they will always match. This means there will be only one proxy exporter
-     * for all {@link ContextSubscriber }s in the exported pool; since
-     * registration parameters changing is ignored there is no merging problem.
-     */
-    public boolean isCompatible(final Resource[] registrationParameters) {
-	return registrationParameters.length > 0
-		&& registrationParameters[0] instanceof ContextEventPattern;
-    }
+	public String getBusMemberId() {
+		return getMyID();
+	}
 
-    public void addSubscriptionParameters(final Resource[] newParams) {
-	// ignored
+	public void addRemoteProxyReference(final BusMemberReference remoteReference) {
+		refsMngr.addRemoteProxyReference(remoteReference);
+	}
 
-    }
+	public void removeRemoteProxyReference(final BusMemberReference remoteReference) {
+		refsMngr.removeRemoteProxyReference(remoteReference);
 
-    public void removeSubscriptionParameters(final Resource[] newParams) {
-	// ignored
+	}
 
-    }
+	public void removeRemoteProxyReferences(final Session session) {
+		refsMngr.removeRemoteProxyReferences(session);
+	}
 
-    @Override
-    public void communicationChannelBroken() {
-	// XXX maybe it should close connection.
+	public Collection<BusMemberReference> getRemoteProxiesReferences() {
+		return refsMngr.getRemoteProxiesReferences();
+	}
 
-    }
+	public Resource[] getSubscriptionParameters() {
+		return null;
+	}
+
+	public void handleMessage(final Session session, final WrappedBusMessage busMessage) {
+		final ScopedResource m = busMessage.getMessage();
+		if (m instanceof ContextEvent
+				&& session.getIncomingMessageOperationChain().check(m).equals(OperationChain.OperationResult.ALLOW)) {
+			// resolve multitenancy
+			m.clearScopes();
+			m.addScope(session.getScope());
+			// set Origin to avoid message looping
+			m.setOriginScope(session.getScope());
+			// inject context Event
+			if (AccessControl.INSTANCE.checkPermission(owner, getURI(), (ContextEvent) m)) {
+				// XXX should gateway be checking it's own permissions?
+				((ContextBus) theBus).brokerContextEvent(busResourceURI, (ContextEvent) m);
+			}
+		}
+
+	}
+
+	/**
+	 * As long as the registration parameters are {@link ContextEventPattern},
+	 * they will always match. This means there will be only one proxy exporter
+	 * for all {@link ContextSubscriber }s in the exported pool; since
+	 * registration parameters changing is ignored there is no merging problem.
+	 */
+	public boolean isCompatible(final Resource[] registrationParameters) {
+		return registrationParameters.length > 0 && registrationParameters[0] instanceof ContextEventPattern;
+	}
+
+	public void addSubscriptionParameters(final Resource[] newParams) {
+		// ignored
+
+	}
+
+	public void removeSubscriptionParameters(final Resource[] newParams) {
+		// ignored
+
+	}
+
+	@Override
+	public void communicationChannelBroken() {
+		// XXX maybe it should close connection.
+
+	}
 
 }

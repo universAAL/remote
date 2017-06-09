@@ -18,103 +18,93 @@ import org.universAAL.ri.servicegateway.osgi.Activator;
  */
 public class ArtifactIT extends IntegrationTest {
 
-    public final void testComposite() {
-	LogUtils.logInfo(Activator.getModuleContext(),
-		ArtifactIT.class, "testComposite",
-		new String[] { "Test 1 - log all bundles" }, null);
-	logAllBundles();
+	public final void testComposite() {
+		LogUtils.logInfo(Activator.getModuleContext(), ArtifactIT.class, "testComposite",
+				new String[] { "Test 1 - log all bundles" }, null);
+		logAllBundles();
 
-    }
+	}
 
-    public final void testServletURLs() {
+	public final void testServletURLs() {
 
-	LogUtils.logInfo(Activator.getModuleContext(),
-		ArtifactIT.class, "testServletURLs",
-		new String[] { "Test 2 - testServletURLs" }, null);
+		LogUtils.logInfo(Activator.getModuleContext(), ArtifactIT.class, "testServletURLs",
+				new String[] { "Test 2 - testServletURLs" }, null);
 
-	GatewayPortTestImpl gp = new GatewayPortTestImpl();
+		GatewayPortTestImpl gp = new GatewayPortTestImpl();
 
-	assertEquals("/universAALTest", gp.url());
-	assertEquals("/notExistingDir", gp.dataDir());
+		assertEquals("/universAALTest", gp.url());
+		assertEquals("/notExistingDir", gp.dataDir());
 
-    }
+	}
 
-    public final void testDoPost() throws IOException, ServletException {
+	public final void testDoPost() throws IOException, ServletException {
 
-	GatewayPortTestImpl servlet = new GatewayPortTestImpl();
+		GatewayPortTestImpl servlet = new GatewayPortTestImpl();
 
-	LogUtils.logInfo(Activator.getModuleContext(),
-		ArtifactIT.class, "testDoPost",
-		new String[] { "Test 3 - testDoPost" }, null);
+		LogUtils.logInfo(Activator.getModuleContext(), ArtifactIT.class, "testDoPost",
+				new String[] { "Test 3 - testDoPost" }, null);
 
-	HttpServletRequest request = EasyMock
-		.createMock(HttpServletRequest.class);
-	HttpServletResponse response = EasyMock
-		.createMock(HttpServletResponse.class);
+		HttpServletRequest request = EasyMock.createMock(HttpServletRequest.class);
+		HttpServletResponse response = EasyMock.createMock(HttpServletResponse.class);
 
-	// String[] headerNames = {"Authorization", "auth"};
-	// String[] headerValues = {"someEncodedUsername:someEncodedPassword",
-	// "Basic amFjazphYQ=="};
-	// Map<String, List<String>> inmap = new HashMap<String,
-	// List<String>>();
-	// for (int i = 0; i < headerNames.length; i++) {
-	// inmap.put(headerNames[i], Arrays.asList(headerValues[i]));
-	// }
-	//	
-	// EasyMock.expect(request.getHeaderNames()).andReturn(Collections.enumeration(inmap.keySet()));
+		// String[] headerNames = {"Authorization", "auth"};
+		// String[] headerValues = {"someEncodedUsername:someEncodedPassword",
+		// "Basic amFjazphYQ=="};
+		// Map<String, List<String>> inmap = new HashMap<String,
+		// List<String>>();
+		// for (int i = 0; i < headerNames.length; i++) {
+		// inmap.put(headerNames[i], Arrays.asList(headerValues[i]));
+		// }
+		//
+		// EasyMock.expect(request.getHeaderNames()).andReturn(Collections.enumeration(inmap.keySet()));
 
-	EasyMock.expect(request.getHeader("Authorization")).andReturn(
-		"someEncodedUsername:someEncodedPassword").anyTimes();
+		EasyMock.expect(request.getHeader("Authorization")).andReturn("someEncodedUsername:someEncodedPassword")
+				.anyTimes();
 
-	// call EasyMock.replay(mock) before calling the method under test.
-	// After calling the method under test you can call
-	// EasyMock.verify(mock) to verify the mock is called.
-	EasyMock.replay(request);
-	EasyMock.replay(response);
+		// call EasyMock.replay(mock) before calling the method under test.
+		// After calling the method under test you can call
+		// EasyMock.verify(mock) to verify the mock is called.
+		EasyMock.replay(request);
+		EasyMock.replay(response);
 
-	// call method under test after replay
-	servlet.doPost(request, response);
+		// call method under test after replay
+		servlet.doPost(request, response);
 
-	assertNull(servlet
-		.getUserAndPass(" "));
-	assertEquals("someEncodedUsername:someEncodedPassword", request
-		.getHeader("Authorization"));
+		assertNull(servlet.getUserAndPass(" "));
+		assertEquals("someEncodedUsername:someEncodedPassword", request.getHeader("Authorization"));
 
-	// check if mock received all the calls we expected
-	EasyMock.verify(request);
-	EasyMock.verify(response);
+		// check if mock received all the calls we expected
+		EasyMock.verify(request);
+		EasyMock.verify(response);
 
-    }
+	}
 
-    public final void testDoGet() throws IOException, ServletException {
+	public final void testDoGet() throws IOException, ServletException {
 
-	GatewayPortTestImpl servlet = new GatewayPortTestImpl();
+		GatewayPortTestImpl servlet = new GatewayPortTestImpl();
 
-	LogUtils.logInfo(Activator.getModuleContext(),
-		ArtifactIT.class, "testDoGet",
-		new String[] { "Test 4- testDoGet" }, null);
+		LogUtils.logInfo(Activator.getModuleContext(), ArtifactIT.class, "testDoGet",
+				new String[] { "Test 4- testDoGet" }, null);
 
-	HttpServletRequest request = EasyMock
-		.createMock(HttpServletRequest.class);
-	HttpServletResponse response = EasyMock
-		.createMock(HttpServletResponse.class);
+		HttpServletRequest request = EasyMock.createMock(HttpServletRequest.class);
+		HttpServletResponse response = EasyMock.createMock(HttpServletResponse.class);
 
-	EasyMock.expect(request.getHeader("Authorization")).andReturn(
-		"someEncodedUsername:someEncodedPassword").anyTimes();
+		EasyMock.expect(request.getHeader("Authorization")).andReturn("someEncodedUsername:someEncodedPassword")
+				.anyTimes();
 
-	// call EasyMock.replay(mock) before calling the method under test.
-	// After calling the method under test you can call
-	// EasyMock.verify(mock) to verify the mock is called.
-	EasyMock.replay(request);
-	EasyMock.replay(response);
+		// call EasyMock.replay(mock) before calling the method under test.
+		// After calling the method under test you can call
+		// EasyMock.verify(mock) to verify the mock is called.
+		EasyMock.replay(request);
+		EasyMock.replay(response);
 
-	// call method under test after replay
-	servlet.doGet(request, response);
+		// call method under test after replay
+		servlet.doGet(request, response);
 
-	// check if mock received all the calls we expected
-	EasyMock.verify(request);
-	EasyMock.verify(response);
+		// check if mock received all the calls we expected
+		EasyMock.verify(request);
+		EasyMock.verify(response);
 
-    }
+	}
 
 }

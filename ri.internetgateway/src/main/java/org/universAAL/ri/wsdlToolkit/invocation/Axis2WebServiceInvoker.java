@@ -47,13 +47,9 @@ import org.universAAL.ri.wsdlToolkit.ioApi.WSOperationInput;
  * @author kgiannou
  */
 
-
 public class Axis2WebServiceInvoker {
 
-
-
-	public static InvocationResult invokeWebService(
-			WSOperation theParsedOperation, ParsedWSDLDefinition theDefinition)
+	public static InvocationResult invokeWebService(WSOperation theParsedOperation, ParsedWSDLDefinition theDefinition)
 			throws Exception {
 		ServiceClient theServiceClient = null;
 
@@ -66,13 +62,11 @@ public class Axis2WebServiceInvoker {
 
 			// OperationClient
 			// operationClient=theServiceClient.createClient(operationName);
-			OperationClient operationClient = theServiceClient
-					.createClient(ServiceClient.ANON_OUT_IN_OP);
+			OperationClient operationClient = theServiceClient.createClient(ServiceClient.ANON_OUT_IN_OP);
 
 			MessageContext outMsgCtx = new MessageContext();
 			Options opts = outMsgCtx.getOptions();
 
-			
 			opts.setTimeOutInMilliSeconds(100000);
 			opts.setTo(new EndpointReference(theDefinition.getServiceURL()));
 			opts.setAction(theParsedOperation.getHasBindingSoapAction());
@@ -81,16 +75,12 @@ public class Axis2WebServiceInvoker {
 			System.out.println(theDefinition.getOperationsUse());
 			System.out.println(theDefinition.getbindingStyle());
 
-			if (theDefinition.getbindingStyle().equals("RPC")
-					&& theDefinition.getOperationsUse().equals("ENCODED")) {
-				outMsgCtx.setEnvelope(Axis2_RpcEncodedMessageBuilder
-						.createSOAPEnvelope_RPC_Encoded(new QName(namespaceURI,
-								operationName), theParsedOperation
-								.getHasInput(), theDefinition));
+			if (theDefinition.getbindingStyle().equals("RPC") && theDefinition.getOperationsUse().equals("ENCODED")) {
+				outMsgCtx.setEnvelope(Axis2_RpcEncodedMessageBuilder.createSOAPEnvelope_RPC_Encoded(
+						new QName(namespaceURI, operationName), theParsedOperation.getHasInput(), theDefinition));
 			} else {
-				outMsgCtx.setEnvelope(createSOAPEnvelope(new QName(
-						namespaceURI, operationName), theParsedOperation
-						.getHasInput()));
+				outMsgCtx.setEnvelope(
+						createSOAPEnvelope(new QName(namespaceURI, operationName), theParsedOperation.getHasInput()));
 			}
 
 			operationClient.addMessageContext(outMsgCtx);
@@ -105,19 +95,15 @@ public class Axis2WebServiceInvoker {
 			// theParsedOperation);
 
 			InvocationResult res = null;
-			if (theDefinition.getbindingStyle().equals("RPC")
-					&& theDefinition.getOperationsUse().equals("ENCODED")) {
-				res = Axis2InvocationResultHandler_RPC.parseResult(inMsgCtx,
-						theParsedOperation);
+			if (theDefinition.getbindingStyle().equals("RPC") && theDefinition.getOperationsUse().equals("ENCODED")) {
+				res = Axis2InvocationResultHandler_RPC.parseResult(inMsgCtx, theParsedOperation);
 			} else {
-				res = Axis2InvocationResultHandler.parseResult(inMsgCtx,
-						theParsedOperation);
+				res = Axis2InvocationResultHandler.parseResult(inMsgCtx, theParsedOperation);
 			}
 
 			result.setHasResponseInString(inMsgCtx.getEnvelope().toString());
 			if (res != null) {
-				result.setResponseHasNativeOrComplexObjects(res
-						.getResponseHasNativeOrComplexObjects());
+				result.setResponseHasNativeOrComplexObjects(res.getResponseHasNativeOrComplexObjects());
 			}
 			theServiceClient.cleanup();
 			theServiceClient.cleanupTransport();
@@ -130,28 +116,23 @@ public class Axis2WebServiceInvoker {
 		}
 	}
 
-	private static SOAPEnvelope createSOAPEnvelope(QName operationName,
-			WSOperationInput operationInput) {
+	private static SOAPEnvelope createSOAPEnvelope(QName operationName, WSOperationInput operationInput) {
 		SOAPFactory fac = OMAbstractFactory.getSOAP11Factory();
 		SOAPEnvelope envelope = fac.getDefaultEnvelope();
 
-		OMNamespace omNs = fac.createOMNamespace(
-				operationName.getNamespaceURI(), "opNS");
+		OMNamespace omNs = fac.createOMNamespace(operationName.getNamespaceURI(), "opNS");
 
-		OMElement messageBody = createSOAPBody(fac, operationName,
-				operationInput.getHasNativeOrComplexObjects(), omNs);
+		OMElement messageBody = createSOAPBody(fac, operationName, operationInput.getHasNativeOrComplexObjects(), omNs);
 
 		envelope.getBody().addChild(messageBody);
 
-		addOperationHeaderToEnvelope(fac, envelope,
-				operationInput.getHasSoapHeaders(), omNs);
+		addOperationHeaderToEnvelope(fac, envelope, operationInput.getHasSoapHeaders(), omNs);
 
 		return envelope;
 	}
 
-	private static void addOperationHeaderToEnvelope(SOAPFactory fac,
-			SOAPEnvelope envelope, Vector operationHeaderObjects,
-			OMNamespace operationNs) {
+	private static void addOperationHeaderToEnvelope(SOAPFactory fac, SOAPEnvelope envelope,
+			Vector operationHeaderObjects, OMNamespace operationNs) {
 		Iterator headerObjectsIter = operationHeaderObjects.iterator();
 		while (headerObjectsIter.hasNext()) {
 			ComplexObject headerCO = (ComplexObject) headerObjectsIter.next();
@@ -163,14 +144,12 @@ public class Axis2WebServiceInvoker {
 
 			if (headerCO.isIsArrayType()) {
 				// ARRAY TYPE!!!
-				Vector<OMElement> valueA = createOMElementForArrayTypeObjectInput(
-						fac, headerCO, operationNs);
+				Vector<OMElement> valueA = createOMElementForArrayTypeObjectInput(fac, headerCO, operationNs);
 				for (int i = 0; i < valueA.size(); i++) {
 					envelope.getHeader().addChild(valueA.get(i));
 				}
 			} else {
-				OMElement valueA = createOMElementForComplexObjectInput(fac,
-						headerCO, operationNs);
+				OMElement valueA = createOMElementForComplexObjectInput(fac, headerCO, operationNs);
 				if (valueA != null) {
 					envelope.getHeader().addChild(valueA);
 				}
@@ -199,10 +178,9 @@ public class Axis2WebServiceInvoker {
 		// envelope.getHeader().addHeaderBlock(arg0, arg1)
 	}
 
-	private static OMElement createSOAPBody(SOAPFactory fac,
-			QName operationName, Vector operationInputs, OMNamespace operationNs) {
-		OMElement method = fac.createOMElement(operationName.getLocalPart(),
-				operationNs);
+	private static OMElement createSOAPBody(SOAPFactory fac, QName operationName, Vector operationInputs,
+			OMNamespace operationNs) {
+		OMElement method = fac.createOMElement(operationName.getLocalPart(), operationNs);
 
 		Iterator operInputsIter = operationInputs.iterator();
 		while (operInputsIter.hasNext()) {
@@ -211,25 +189,21 @@ public class Axis2WebServiceInvoker {
 				NativeObject no = (NativeObject) inputObject;
 				// OMNamespace inputObjectNs =
 				// fac.createOMNamespace(no.getNamespaceURI(), "ns1");
-				OMElement valueA = createOMElementForNativeObjectInput(fac, no,
-						operationNs);
+				OMElement valueA = createOMElementForNativeObjectInput(fac, no, operationNs);
 				if (valueA != null) {
 					method.addChild(valueA);
 				}
 
-			} else if (inputObject.getClass().getName()
-					.contains("ComplexObject")) {
+			} else if (inputObject.getClass().getName().contains("ComplexObject")) {
 				ComplexObject co = (ComplexObject) inputObject;
 				if (co.isIsArrayType()) {
 					// ARRAY TYPE!!!
-					Vector<OMElement> valueA = createOMElementForArrayTypeObjectInput(
-							fac, co, operationNs);
+					Vector<OMElement> valueA = createOMElementForArrayTypeObjectInput(fac, co, operationNs);
 					for (int i = 0; i < valueA.size(); i++) {
 						method.addChild(valueA.get(i));
 					}
 				} else {
-					OMElement valueA = createOMElementForComplexObjectInput(
-							fac, co, operationNs);
+					OMElement valueA = createOMElementForComplexObjectInput(fac, co, operationNs);
 					if (valueA != null) {
 						method.addChild(valueA);
 					}
@@ -243,8 +217,7 @@ public class Axis2WebServiceInvoker {
 		return method;
 	}
 
-	public static boolean theComplexObjectCarriesValues_ITERATIVE(
-			ComplexObject co) {
+	public static boolean theComplexObjectCarriesValues_ITERATIVE(ComplexObject co) {
 
 		Iterator iter1 = co.getHasNativeObjects().iterator();
 		while (iter1.hasNext()) {
@@ -265,15 +238,14 @@ public class Axis2WebServiceInvoker {
 		return false;
 	}
 
-	private static OMElement createOMElementForComplexObjectInput(
-			SOAPFactory fac, ComplexObject co, OMNamespace operationNamespace) {
+	private static OMElement createOMElementForComplexObjectInput(SOAPFactory fac, ComplexObject co,
+			OMNamespace operationNamespace) {
 
 		// if (co.isIsOptional() &&
 		// (!theComplexObjectCarriesValues_ITERATIVE(co))) {
 		// return null;
 		// }
-		if (co.isIsOptional() && (!theComplexObjectCarriesValues_ITERATIVE(co))
-				&& hasOptionalParent(co)) {
+		if (co.isIsOptional() && (!theComplexObjectCarriesValues_ITERATIVE(co)) && hasOptionalParent(co)) {
 			return null;
 		}
 		// if(!areAllParentsOptional(co.getHasParent())){
@@ -294,8 +266,7 @@ public class Axis2WebServiceInvoker {
 		Iterator iter1 = nosVector.iterator();
 		while (iter1.hasNext()) {
 			NativeObject no = (NativeObject) iter1.next();
-			OMElement valueForNO = createOMElementForNativeObjectInput(fac, no,
-					operationNamespace);
+			OMElement valueForNO = createOMElementForNativeObjectInput(fac, no, operationNamespace);
 			if (valueForNO != null) {
 				valueA.addChild(valueForNO);
 			}
@@ -309,8 +280,7 @@ public class Axis2WebServiceInvoker {
 			if (co1.isIsArrayType()) {
 				// ARRAY TYPE!!!
 				Vector<OMElement> valueForCO2 = new Vector<OMElement>();
-				valueForCO2 = createOMElementForArrayTypeObjectInput(fac, co1,
-						operationNamespace);
+				valueForCO2 = createOMElementForArrayTypeObjectInput(fac, co1, operationNamespace);
 				// 4-1-10
 				// Iterator iter123=valueForCO1.getChildElements();
 				// while(iter123.hasNext()){
@@ -320,8 +290,7 @@ public class Axis2WebServiceInvoker {
 					valueA.addChild(valueForCO2.get(i));
 				}
 			} else {
-				valueForCO1 = createOMElementForComplexObjectInput(fac, co1,
-						operationNamespace);
+				valueForCO1 = createOMElementForComplexObjectInput(fac, co1, operationNamespace);
 
 				if (valueForCO1 != null) {
 					valueA.addChild(valueForCO1);
@@ -336,8 +305,8 @@ public class Axis2WebServiceInvoker {
 		return valueA;
 	}
 
-	private static Vector<OMElement> createOMElementForArrayTypeObjectInput(
-			SOAPFactory fac, ComplexObject co, OMNamespace operationNamespace) {
+	private static Vector<OMElement> createOMElementForArrayTypeObjectInput(SOAPFactory fac, ComplexObject co,
+			OMNamespace operationNamespace) {
 		// OMElement valueA = fac.createOMElement(co.getObjectName(),
 		// operationNamespace);
 		// OMElement valueA = fac.createOMElement(co.getObjectName());
@@ -351,8 +320,7 @@ public class Axis2WebServiceInvoker {
 
 				if (co1.isIsArrayType()) {
 					// ARRAY TYPE!!!
-					valueForCO1 = createOMElementForArrayTypeObjectInput(fac,
-							co1, operationNamespace);
+					valueForCO1 = createOMElementForArrayTypeObjectInput(fac, co1, operationNamespace);
 					// 4-1-10
 					// Iterator iter123=valueForCO1.getChildElements();
 					// while(iter123.hasNext()){
@@ -363,8 +331,7 @@ public class Axis2WebServiceInvoker {
 					}
 				} else {
 					OMElement valueForCO2 = null;
-					valueForCO2 = createOMElementForComplexObjectInput(fac,
-							co1, operationNamespace);
+					valueForCO2 = createOMElementForComplexObjectInput(fac, co1, operationNamespace);
 					if (valueForCO2 != null) {
 
 						valueA.add(valueForCO2);
@@ -384,8 +351,7 @@ public class Axis2WebServiceInvoker {
 			Iterator iter1 = nosVector.iterator();
 			while (iter1.hasNext()) {
 				NativeObject no = (NativeObject) iter1.next();
-				OMElement valueForNO = createOMElementForNativeObjectInput(fac,
-						no, operationNamespace);
+				OMElement valueForNO = createOMElementForNativeObjectInput(fac, no, operationNamespace);
 				if (valueForNO != null) {
 					valueA.add(valueForNO);
 				}
@@ -395,8 +361,8 @@ public class Axis2WebServiceInvoker {
 
 	}
 
-	private static OMElement createOMElementForNativeObjectInput(
-			SOAPFactory fac, NativeObject no, OMNamespace operationNamespace) {
+	private static OMElement createOMElementForNativeObjectInput(SOAPFactory fac, NativeObject no,
+			OMNamespace operationNamespace) {
 		// OMElement valueA = fac.createOMElement(no.getObjectName(),
 		// operationNamespace);
 		// if (no.isIsOptional() && (no.getHasValue() == null ||

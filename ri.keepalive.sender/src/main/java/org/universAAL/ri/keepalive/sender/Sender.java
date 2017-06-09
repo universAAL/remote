@@ -27,14 +27,15 @@ import org.universAAL.middleware.context.ContextEvent;
 import org.universAAL.middleware.util.Constants;
 import org.universAAL.ontology.sysinfo.SystemInfo;
 
-public class Sender extends TimerTask{
+public class Sender extends TimerTask {
 
-    @Override
-    public void run() {//TODO Set right URI, but now it doesnt matter because what is used in receiver is tenant id.
-	SystemInfo sys=new SystemInfo(Constants.uAAL_MIDDLEWARE_LOCAL_ID_PREFIX+"localsysteminfo");
-	sys.setAlive(true);
-	ContextEvent event=new ContextEvent(sys, SystemInfo.PROP_ALIVE);
-	Activator.sendEvent(event);
-    }
+	@Override
+	public void run() {// TODO Set right URI, but now it doesnt matter because
+						// what is used in receiver is tenant id.
+		SystemInfo sys = new SystemInfo(Constants.uAAL_MIDDLEWARE_LOCAL_ID_PREFIX + "localsysteminfo");
+		sys.setAlive(true);
+		ContextEvent event = new ContextEvent(sys, SystemInfo.PROP_ALIVE);
+		Activator.sendEvent(event);
+	}
 
 }

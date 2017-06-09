@@ -39,71 +39,80 @@ import org.apache.cxf.message.Message;
 import org.universAAL.ri.rest.manager.Activator;
 
 public class Authenticator implements ContainerRequestFilter {
-    
-    /**
-     * Authentication realm
-     */
-    private static final String REALM = "universAAL";
-    /**
-     * In memory list of user-pwd pairs, to avoid constant use of the DB
-     */
-    private static Hashtable<String, String> users = new Hashtable<String, String>(); //TODO Clean from time to time?
-    
-    public void filter(ContainerRequestContext context) {
-	Message m = JAXRSUtils.getCurrentMessage();
-	AuthorizationPolicy policy = (AuthorizationPolicy) m.get(AuthorizationPolicy.class);
-	if (policy != null) {
-	    String username = policy.getUserName();
-	    String password = policy.getPassword();
-	    if (isAuthenticated(username, password) && isAuthorized(username, context.getUriInfo().getPath())) {
-		// initialize org.apache.cxf.security.SecurityContext with
-		// Principals representing the user and its roles (if available).
-		// m.put(SecurityContext.class, new DefaultSecurityContext(new SimplePrincipal(username), new Subject())); 
-		// let request continue
-		return;
-	    }
-	}
-	// else > authentication failed or is not present,
-	// request the authentication, add the realm
-	// name if needed to the value of WWW-Authenticate
-	Response resp = Response.status(401).header("WWW-Authenticate", "Basic realm=\"" + REALM + "\"").build();
-	context.abortWith(resp);
-	// ClassResourceInfo cri = m.getExchange().get(OperationResourceInfo.class).getClassResourceInfo();
-    }
 
-    private boolean isAuthenticated(String username, String password) {
-	// TODO Evaluate if it is worth it to have an in-memory user-pass list
-	// to ease the pressure on the DB, if that means implementing additional
-	// managing features to keep it sync with the DB.
-	if (Activator.getPersistence().checkUser(username)) {
-	    // user in the DB
-	    if (Activator.getPersistence().checkUserPWD(username, password)) {
-		// good pwd
-		users.put(username, password);
-		return true;
-	    } else {
-		// This user does not have the same PWD it registered.
-		return false;
-	    }
-	} else {
-	    // user not in DB
-	    Activator.getPersistence().storeUserPWD(username, password);
-	    users.put(username, password);
-	    return true;
-	    // New users are always welcome
+	/**
+	 * Authentication realm
+	 */
+	private static final String REALM = "universAAL";
+	/**
+	 * In memory list of user-pwd pairs, to avoid constant use of the DB
+	 */
+	private static Hashtable<String, String> users = new Hashtable<String, String>(); // TODO
+																						// Clean
+																						// from
+																						// time
+																						// to
+																						// time?
+
+	public void filter(ContainerRequestContext context) {
+		Message m = JAXRSUtils.getCurrentMessage();
+		AuthorizationPolicy policy = (AuthorizationPolicy) m.get(AuthorizationPolicy.class);
+		if (policy != null) {
+			String username = policy.getUserName();
+			String password = policy.getPassword();
+			if (isAuthenticated(username, password) && isAuthorized(username, context.getUriInfo().getPath())) {
+				// initialize org.apache.cxf.security.SecurityContext with
+				// Principals representing the user and its roles (if
+				// available).
+				// m.put(SecurityContext.class, new DefaultSecurityContext(new
+				// SimplePrincipal(username), new Subject()));
+				// let request continue
+				return;
+			}
+		}
+		// else > authentication failed or is not present,
+		// request the authentication, add the realm
+		// name if needed to the value of WWW-Authenticate
+		Response resp = Response.status(401).header("WWW-Authenticate", "Basic realm=\"" + REALM + "\"").build();
+		context.abortWith(resp);
+		// ClassResourceInfo cri =
+		// m.getExchange().get(OperationResourceInfo.class).getClassResourceInfo();
 	}
-    }
-    
-    private boolean isAuthorized(String username, String p) {
-	//TODO Rough authorization strategy. Only allow access to space if you created it.
-//	List<PathSegment> s = JAXRSUtils.getPathSegments(p, false);
-//	if(s.size()>2){ // /uaal and /uaal/spaces for everyone TODO ??
-//	    PathSegment segment = s.get(2);
-//	    String space=segment.toString();
-//	    return Activator.getPersistence().checkUserSpace(username, space));
-//	}
-	//TODO Use native mechanisms for authorization
-	return true;
-    }
+
+	private boolean isAuthenticated(String username, String password) {
+		// TODO Evaluate if it is worth it to have an in-memory user-pass list
+		// to ease the pressure on the DB, if that means implementing additional
+		// managing features to keep it sync with the DB.
+		if (Activator.getPersistence().checkUser(username)) {
+			// user in the DB
+			if (Activator.getPersistence().checkUserPWD(username, password)) {
+				// good pwd
+				users.put(username, password);
+				return true;
+			} else {
+				// This user does not have the same PWD it registered.
+				return false;
+			}
+		} else {
+			// user not in DB
+			Activator.getPersistence().storeUserPWD(username, password);
+			users.put(username, password);
+			return true;
+			// New users are always welcome
+		}
+	}
+
+	private boolean isAuthorized(String username, String p) {
+		// TODO Rough authorization strategy. Only allow access to space if you
+		// created it.
+		// List<PathSegment> s = JAXRSUtils.getPathSegments(p, false);
+		// if(s.size()>2){ // /uaal and /uaal/spaces for everyone TODO ??
+		// PathSegment segment = s.get(2);
+		// String space=segment.toString();
+		// return Activator.getPersistence().checkUserSpace(username, space));
+		// }
+		// TODO Use native mechanisms for authorization
+		return true;
+	}
 
 }

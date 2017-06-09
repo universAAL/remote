@@ -39,36 +39,35 @@ import org.universAAL.ri.servicegateway.GatewayPort;
 
 public class Activator implements BundleActivator {
 
-    public static BundleContext context;
-    /**
-     * universAAL {@link ModuleContext}
-     */
-    protected static ModuleContext mcontext;
+	public static BundleContext context;
+	/**
+	 * universAAL {@link ModuleContext}
+	 */
+	protected static ModuleContext mcontext;
 
-    GatewayPortTracker gatewayPortTracker;
+	GatewayPortTracker gatewayPortTracker;
 
-    public void start(BundleContext context) {
+	public void start(BundleContext context) {
 
-	Activator.context = context;
-	BundleContext[] bc = { context };
-	Activator.mcontext = uAALBundleContainer.THE_CONTAINER
-		.registerModule(bc);
+		Activator.context = context;
+		BundleContext[] bc = { context };
+		Activator.mcontext = uAALBundleContainer.THE_CONTAINER.registerModule(bc);
 
-	// start the tracker on the GatewayPort name
-	gatewayPortTracker = new GatewayPortTracker(context, mcontext,
-		GatewayPort.class.getName(), null); // no service tracker
-	// customization
-	gatewayPortTracker.open();
+		// start the tracker on the GatewayPort name
+		gatewayPortTracker = new GatewayPortTracker(context, mcontext, GatewayPort.class.getName(), null); // no
+																											// service
+																											// tracker
+		// customization
+		gatewayPortTracker.open();
 
-    }
+	}
 
-    public void stop(BundleContext context) throws Exception {
-	gatewayPortTracker.close();
-    }
-    
-    public static ModuleContext getModuleContext() {
-	return mcontext;
-    }
+	public void stop(BundleContext context) throws Exception {
+		gatewayPortTracker.close();
+	}
+
+	public static ModuleContext getModuleContext() {
+		return mcontext;
+	}
 
 } // end class
-

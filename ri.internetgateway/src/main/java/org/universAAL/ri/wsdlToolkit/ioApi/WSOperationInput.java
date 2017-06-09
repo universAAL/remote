@@ -66,22 +66,18 @@ public class WSOperationInput {
 		Vector vec = new Vector();
 		for (int i = 0; i < this.getHasNativeOrComplexObjects().size(); i++) {
 			if (this.getHasNativeOrComplexObjects().get(i) instanceof NativeObject) {
-				vec.add(((NativeObject) this.getHasNativeOrComplexObjects()
-						.get(i)).cloneTheNO());
+				vec.add(((NativeObject) this.getHasNativeOrComplexObjects().get(i)).cloneTheNO());
 			} else if (this.getHasNativeOrComplexObjects().get(i) instanceof ComplexObject) {
-				vec.add(((ComplexObject) this.getHasNativeOrComplexObjects()
-						.get(i)).cloneTheCO());
+				vec.add(((ComplexObject) this.getHasNativeOrComplexObjects().get(i)).cloneTheCO());
 			}
 		}
 		newWSInput.setHasNativeOrComplexObjects(vec);
 		vec = new Vector();
 		for (int i = 0; i < this.getHasSoapHeaders().size(); i++) {
 			if (this.getHasSoapHeaders().get(i) instanceof NativeObject) {
-				vec.add(((NativeObject) this.getHasSoapHeaders().get(i))
-						.cloneTheNO());
+				vec.add(((NativeObject) this.getHasSoapHeaders().get(i)).cloneTheNO());
 			} else if (this.getHasSoapHeaders().get(i) instanceof ComplexObject) {
-				vec.add(((ComplexObject) this.getHasSoapHeaders().get(i))
-						.cloneTheCO());
+				vec.add(((ComplexObject) this.getHasSoapHeaders().get(i)).cloneTheCO());
 			}
 		}
 		newWSInput.setHasSoapHeaders(vec);
@@ -94,14 +90,12 @@ public class WSOperationInput {
 			WSOperationInput in = (WSOperationInput) obj;
 			for (int i = 0; i < in.getHasNativeOrComplexObjects().size(); i++) {
 				if (in.getHasNativeOrComplexObjects().get(i) instanceof ComplexObject) {
-					ComplexObject co = (ComplexObject) in
-							.getHasNativeOrComplexObjects().get(i);
+					ComplexObject co = (ComplexObject) in.getHasNativeOrComplexObjects().get(i);
 					co.setHasParent(obj);
 					fillHasParentValues(co);
 
 				} else if (in.getHasNativeOrComplexObjects().get(i) instanceof NativeObject) {
-					NativeObject no = (NativeObject) in
-							.getHasNativeOrComplexObjects().get(i);
+					NativeObject no = (NativeObject) in.getHasNativeOrComplexObjects().get(i);
 					no.setHasParent(obj);
 				}
 			}
@@ -109,25 +103,19 @@ public class WSOperationInput {
 			ComplexObject co = (ComplexObject) obj;
 
 			for (int j = 0; j < co.getHasNativeObjects().size(); j++) {
-				((NativeObject) co.getHasNativeObjects().get(j))
-						.setHasParent(co);
+				((NativeObject) co.getHasNativeObjects().get(j)).setHasParent(co);
 			}
 			for (int j = 0; j < co.getHasComplexObjects().size(); j++) {
-				((ComplexObject) co.getHasComplexObjects().get(j))
-						.setHasParent(co);
-				fillHasParentValues(((ComplexObject) co.getHasComplexObjects()
-						.get(j)));
+				((ComplexObject) co.getHasComplexObjects().get(j)).setHasParent(co);
+				fillHasParentValues(((ComplexObject) co.getHasComplexObjects().get(j)));
 
 			}
 			for (int j = 0; j < co.getHasExtendedObjects().size(); j++) {
 				if (co.getHasExtendedObjects().get(j) instanceof NativeObject) {
-					((NativeObject) co.getHasExtendedObjects().get(j))
-							.setHasParent(co);
+					((NativeObject) co.getHasExtendedObjects().get(j)).setHasParent(co);
 				} else if (co.getHasExtendedObjects().get(j) instanceof ComplexObject) {
-					((ComplexObject) co.getHasExtendedObjects().get(j))
-							.setHasParent(co);
-					fillHasParentValues(((ComplexObject) co
-							.getHasExtendedObjects().get(j)));
+					((ComplexObject) co.getHasExtendedObjects().get(j)).setHasParent(co);
+					fillHasParentValues(((ComplexObject) co.getHasExtendedObjects().get(j)));
 
 				}
 			}

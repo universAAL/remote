@@ -26,12 +26,12 @@ import org.universAAL.middleware.rdf.ScopedResource;
  */
 public interface MessageOperationChain extends OperationChain {
 
-    /**
-     * Run the pertinent checks to allow or deny the given message.
-     * 
-     * @param message
-     * @return
-     */
-    OperationResult check(ScopedResource message);
+	/**
+	 * Run the pertinent checks to allow or deny the given message.
+	 * 
+	 * @param message
+	 * @return
+	 */
+	OperationResult check(ScopedResource message);
 
 }

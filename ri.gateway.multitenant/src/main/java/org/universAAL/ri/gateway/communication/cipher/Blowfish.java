@@ -37,48 +37,45 @@ import org.bouncycastle.crypto.params.KeyParameter;
  */
 public class Blowfish implements Cipher {
 
-    private final PaddedBufferedBlockCipher cipher;
-    private final KeyParameter key;
+	private final PaddedBufferedBlockCipher cipher;
+	private final KeyParameter key;
 
-    public Blowfish(final String encryptionKey) {
-	cipher = new PaddedBufferedBlockCipher(new CBCBlockCipher(
-		new BlowfishEngine()));
-	key = new KeyParameter(encryptionKey.getBytes());
-    }
-
-    private byte[] callCipher(final byte[] data) throws CryptoException {
-	final int size = cipher.getOutputSize(data.length);
-	byte[] result = new byte[size];
-	int olen = cipher.processBytes(data, 0, data.length, result, 0);
-	olen += cipher.doFinal(result, olen);
-
-	if (olen < size) {
-	    final byte[] tmp = new byte[olen];
-	    System.arraycopy(result, 0, tmp, 0, olen);
-	    result = tmp;
+	public Blowfish(final String encryptionKey) {
+		cipher = new PaddedBufferedBlockCipher(new CBCBlockCipher(new BlowfishEngine()));
+		key = new KeyParameter(encryptionKey.getBytes());
 	}
 
-	return result;
-    }
+	private byte[] callCipher(final byte[] data) throws CryptoException {
+		final int size = cipher.getOutputSize(data.length);
+		byte[] result = new byte[size];
+		int olen = cipher.processBytes(data, 0, data.length, result, 0);
+		olen += cipher.doFinal(result, olen);
 
-    public synchronized byte[] encrypt(final byte[] data)
-	    throws CryptoException {
-	if (data == null || data.length == 0) {
-	    return new byte[0];
+		if (olen < size) {
+			final byte[] tmp = new byte[olen];
+			System.arraycopy(result, 0, tmp, 0, olen);
+			result = tmp;
+		}
+
+		return result;
 	}
 
-	cipher.init(true, key);
-	return callCipher(data);
-    }
+	public synchronized byte[] encrypt(final byte[] data) throws CryptoException {
+		if (data == null || data.length == 0) {
+			return new byte[0];
+		}
 
-    public synchronized byte[] decrypt(final byte[] data)
-	    throws CryptoException {
-	if (data == null || data.length == 0) {
-	    return new byte[0];
+		cipher.init(true, key);
+		return callCipher(data);
 	}
 
-	cipher.init(false, key);
-	return callCipher(data);
-    }
+	public synchronized byte[] decrypt(final byte[] data) throws CryptoException {
+		if (data == null || data.length == 0) {
+			return new byte[0];
+		}
+
+		cipher.init(false, key);
+		return callCipher(data);
+	}
 
 }

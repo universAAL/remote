@@ -27,23 +27,23 @@ import java.util.concurrent.TimeoutException;
  */
 public interface MessageSender {
 
-    /**
-     * Send Asynchronously a {@link Message} independent of which level it is,
-     * to a remote ASG. <br>
-     * It may also used to send responses.
-     * 
-     * @param message
-     */
-    void send(Message message);
+	/**
+	 * Send Asynchronously a {@link Message} independent of which level it is,
+	 * to a remote ASG. <br>
+	 * It may also used to send responses.
+	 * 
+	 * @param message
+	 */
+	void send(Message message);
 
-    /**
-     * Send a request Synchronously to which a response is expected.
-     * 
-     * @param message
-     *            to send, typically a request message
-     * @return the response message, typically a response message.
-     * @throws TimeoutException
-     */
-    Message sendRequest(Message message) throws TimeoutException;
+	/**
+	 * Send a request Synchronously to which a response is expected.
+	 * 
+	 * @param message
+	 *            to send, typically a request message
+	 * @return the response message, typically a response message.
+	 * @throws TimeoutException
+	 */
+	Message sendRequest(Message message) throws TimeoutException;
 
 }

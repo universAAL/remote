@@ -38,9 +38,11 @@ import org.universAAL.ri.gateway.utils.ArraySet;
 
 /**
  * Proxy that receives {@link ServiceCall}s and injects them to the bus in other
- * to get a {@link ServiceResponse} from the represented {@link ServiceCallee}. <br>
+ * to get a {@link ServiceResponse} from the represented {@link ServiceCallee}.
+ * <br>
  * 
- * An instance of this proxy is used per each exported {@link ServiceCallee}. <br>
+ * An instance of this proxy is used per each exported {@link ServiceCallee}.
+ * <br>
  * 
  * Important: this class is not a {@link BusMember}, like the other proxies;
  * thus it does not register to buses.
@@ -50,131 +52,122 @@ import org.universAAL.ri.gateway.utils.ArraySet;
  */
 public class ProxySCaller extends ServiceCaller implements ProxyBusMember {
 
-    private ReferencesManager refsMngr;
+	private ReferencesManager refsMngr;
 
-    private Resource[] currentRegParam;
+	private Resource[] currentRegParam;
 
-    private String localSCeeId;
+	private String localSCeeId;
 
-    /**
-     * Constructor.
-     * 
-     * @param context
-     * @param profiles
-     * @param proxiedBusMember
-     */
-    public ProxySCaller(final ModuleContext context,
-	    final ServiceProfile[] profiles, final String proxiedBusMember) {
-	super(context);
-	refsMngr = new ReferencesManager();
-	currentRegParam = profiles;
-	localSCeeId = proxiedBusMember;
-    }
-
-    /** {@inheritDoc} */
-    public String getBusMemberId() {
-	return localSCeeId;
-    }
-
-    /** {@inheritDoc} */
-    public void addRemoteProxyReference(final BusMemberReference remoteReference) {
-	refsMngr.addRemoteProxyReference(remoteReference);
-    }
-
-    /** {@inheritDoc} */
-    public void removeRemoteProxyReference(
-	    final BusMemberReference remoteReference) {
-	refsMngr.removeRemoteProxyReference(remoteReference);
-    }
-
-    /** {@inheritDoc} */
-    public void removeRemoteProxyReferences(final Session session) {
-	refsMngr.removeRemoteProxyReferences(session);
-    }
-
-    /** {@inheritDoc} */
-    public Collection<BusMemberReference> getRemoteProxiesReferences() {
-	return refsMngr.getRemoteProxiesReferences();
-    }
-
-    /** {@inheritDoc} */
-    public Resource[] getSubscriptionParameters() {
-	return currentRegParam;
-    }
-
-    /** {@inheritDoc} */
-    public void handleMessage(final Session session,
-	    final WrappedBusMessage busMessage) {
-	final ScopedResource m = busMessage.getMessage();
-	if (m instanceof ServiceCall
-		&& session.getIncomingMessageOperationChain().check(m)
-			.equals(OperationChain.OperationResult.ALLOW)) {
-	    // resolve multitenancy
-	    m.clearScopes();
-	    m.addScope(session.getScope());
-	    // Origin Scope.
-	    m.setOriginScope(session.getScope());
-	    // invoke service
-	    ServiceResponse sr = inject((ServiceCall) m, localSCeeId);
-	    if (sr.isSerializableTo(session.getScope())
-		    && session.getOutgoingMessageOperationChain().check(sr)
-			    .equals(OperationChain.OperationResult.ALLOW)) {
-		// security check for the response
-		sr.clearScopes();
-		sr.setOriginScope(null);
-		session.send(new WrappedBusMessage(busMessage, sr));
-	    } else {
-		sr = new ServiceResponse(CallStatus.denied);
-		sr.setResourceComment("Denied by Outgoing message policy in remote.");
-		session.send(new WrappedBusMessage(busMessage, sr));
-	    }
-	} else if (m instanceof ServiceCall) {
-	    final ServiceResponse sr = new ServiceResponse(CallStatus.denied);
-	    sr.setResourceComment("Denied by Incomming message policy in remote.");
-	    session.send(new WrappedBusMessage(busMessage, sr));
+	/**
+	 * Constructor.
+	 * 
+	 * @param context
+	 * @param profiles
+	 * @param proxiedBusMember
+	 */
+	public ProxySCaller(final ModuleContext context, final ServiceProfile[] profiles, final String proxiedBusMember) {
+		super(context);
+		refsMngr = new ReferencesManager();
+		currentRegParam = profiles;
+		localSCeeId = proxiedBusMember;
 	}
-    }
 
-    /**
-     * A single ProxySCaller is able to manage all {@link ProxySCallee}s; thus
-     * the first registered {@link ProxySCaller} is the one that is compatible,
-     * and represents all {@link ServiceCaller}s.
-     */
-    public boolean isCompatible(final Resource[] registrationParameters) {
-	return registrationParameters.length > 0
-		&& registrationParameters[0] instanceof ServiceProfile;
-    }
+	/** {@inheritDoc} */
+	public String getBusMemberId() {
+		return localSCeeId;
+	}
 
-    /** {@inheritDoc} */
-    public void addSubscriptionParameters(final Resource[] newParams) {
-	currentRegParam = new ArraySet.Union<Resource>().combine(
-		currentRegParam, newParams, new Resource[] {});
-    }
+	/** {@inheritDoc} */
+	public void addRemoteProxyReference(final BusMemberReference remoteReference) {
+		refsMngr.addRemoteProxyReference(remoteReference);
+	}
 
-    /** {@inheritDoc} */
-    public void removeSubscriptionParameters(final Resource[] newParams) {
-	currentRegParam = new ArraySet.Difference<Resource>().combine(
-		currentRegParam, newParams, new Resource[] {});
-    }
+	/** {@inheritDoc} */
+	public void removeRemoteProxyReference(final BusMemberReference remoteReference) {
+		refsMngr.removeRemoteProxyReference(remoteReference);
+	}
 
-    /** {@inheritDoc} */
-    @Override
-    public void close() {
-	refsMngr = null;
-	localSCeeId = null;
-	currentRegParam = null;
-    }
+	/** {@inheritDoc} */
+	public void removeRemoteProxyReferences(final Session session) {
+		refsMngr.removeRemoteProxyReferences(session);
+	}
 
-    @Override
-    public void communicationChannelBroken() {
-	// XXX disconnect?
-    }
+	/** {@inheritDoc} */
+	public Collection<BusMemberReference> getRemoteProxiesReferences() {
+		return refsMngr.getRemoteProxiesReferences();
+	}
 
-    @Override
-    public void handleResponse(final String reqID,
-	    final ServiceResponse response) {
-	// no response should be received, call is injected.
+	/** {@inheritDoc} */
+	public Resource[] getSubscriptionParameters() {
+		return currentRegParam;
+	}
 
-    }
+	/** {@inheritDoc} */
+	public void handleMessage(final Session session, final WrappedBusMessage busMessage) {
+		final ScopedResource m = busMessage.getMessage();
+		if (m instanceof ServiceCall
+				&& session.getIncomingMessageOperationChain().check(m).equals(OperationChain.OperationResult.ALLOW)) {
+			// resolve multitenancy
+			m.clearScopes();
+			m.addScope(session.getScope());
+			// Origin Scope.
+			m.setOriginScope(session.getScope());
+			// invoke service
+			ServiceResponse sr = inject((ServiceCall) m, localSCeeId);
+			if (sr.isSerializableTo(session.getScope()) && session.getOutgoingMessageOperationChain().check(sr)
+					.equals(OperationChain.OperationResult.ALLOW)) {
+				// security check for the response
+				sr.clearScopes();
+				sr.setOriginScope(null);
+				session.send(new WrappedBusMessage(busMessage, sr));
+			} else {
+				sr = new ServiceResponse(CallStatus.denied);
+				sr.setResourceComment("Denied by Outgoing message policy in remote.");
+				session.send(new WrappedBusMessage(busMessage, sr));
+			}
+		} else if (m instanceof ServiceCall) {
+			final ServiceResponse sr = new ServiceResponse(CallStatus.denied);
+			sr.setResourceComment("Denied by Incomming message policy in remote.");
+			session.send(new WrappedBusMessage(busMessage, sr));
+		}
+	}
+
+	/**
+	 * A single ProxySCaller is able to manage all {@link ProxySCallee}s; thus
+	 * the first registered {@link ProxySCaller} is the one that is compatible,
+	 * and represents all {@link ServiceCaller}s.
+	 */
+	public boolean isCompatible(final Resource[] registrationParameters) {
+		return registrationParameters.length > 0 && registrationParameters[0] instanceof ServiceProfile;
+	}
+
+	/** {@inheritDoc} */
+	public void addSubscriptionParameters(final Resource[] newParams) {
+		currentRegParam = new ArraySet.Union<Resource>().combine(currentRegParam, newParams, new Resource[] {});
+	}
+
+	/** {@inheritDoc} */
+	public void removeSubscriptionParameters(final Resource[] newParams) {
+		currentRegParam = new ArraySet.Difference<Resource>().combine(currentRegParam, newParams, new Resource[] {});
+	}
+
+	/** {@inheritDoc} */
+	@Override
+	public void close() {
+		refsMngr = null;
+		localSCeeId = null;
+		currentRegParam = null;
+	}
+
+	@Override
+	public void communicationChannelBroken() {
+		// XXX disconnect?
+	}
+
+	@Override
+	public void handleResponse(final String reqID, final ServiceResponse response) {
+		// no response should be received, call is injected.
+
+	}
 
 }

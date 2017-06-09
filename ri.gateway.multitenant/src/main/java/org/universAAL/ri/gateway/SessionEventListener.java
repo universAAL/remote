@@ -33,19 +33,19 @@ package org.universAAL.ri.gateway;
  */
 public interface SessionEventListener {
 
-    /**
-     * The callback invoked when an event is generated
-     * 
-     * @param se
-     *            the event that has been generated
-     */
-    public void statusChange(SessionEvent se);
+	/**
+	 * The callback invoked when an event is generated
+	 * 
+	 * @param se
+	 *            the event that has been generated
+	 */
+	public void statusChange(SessionEvent se);
 
-    /**
-     * 
-     * @return the name of this {@link SessionEventListener} used mainly for
-     *         debugging purpose
-     */
-    public String getName();
+	/**
+	 * 
+	 * @return the name of this {@link SessionEventListener} used mainly for
+	 *         debugging purpose
+	 */
+	public String getName();
 
 }

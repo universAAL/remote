@@ -27,21 +27,21 @@ package org.universAAL.ri.rest.manager.push;
  * @author alfiva
  * 
  */
-public class PushException extends Exception{
+public class PushException extends Exception {
 
-    /**
-     * 
-     */
-    private static final long serialVersionUID = -5642646541277700063L;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5642646541277700063L;
 
-    /**
-     * Constructor with message
-     * 
-     * @param msg
-     *            Error message
-     */
-    public PushException(String string) {
-	super(string);
-    }
+	/**
+	 * Constructor with message
+	 * 
+	 * @param msg
+	 *            Error message
+	 */
+	public PushException(String string) {
+		super(string);
+	}
 
 }

@@ -39,73 +39,65 @@ import org.universAAL.middleware.container.utils.LogUtils;
 
 public class SendMail {
 
-    public static boolean send(String tenant, long now) {
-	Properties props;
-	try {
-	    props = new Properties();
-	    InputStream in = new FileInputStream(
-		    new File(Activator.context.getConfigHome(), "keepalive.mail.properties"));
-	    props.load(in);
-	    in.close();
-	} catch (Exception e) {
-	    LogUtils.logError(Activator.context, SendMail.class, "send",
-		    "Email properties not available " +
-		    "(file keepalive.mail.properties required in config folder ri.keepalive)," +
-		    " email warning is disabled: " + e);
-	    e.printStackTrace();
-	    return false;
-	} 
+	public static boolean send(String tenant, long now) {
+		Properties props;
+		try {
+			props = new Properties();
+			InputStream in = new FileInputStream(
+					new File(Activator.context.getConfigHome(), "keepalive.mail.properties"));
+			props.load(in);
+			in.close();
+		} catch (Exception e) {
+			LogUtils.logError(Activator.context, SendMail.class, "send",
+					"Email properties not available "
+							+ "(file keepalive.mail.properties required in config folder ri.keepalive),"
+							+ " email warning is disabled: " + e);
+			e.printStackTrace();
+			return false;
+		}
 
-	String auth = props.getProperty("org.universAAL.ri.keepalive.mail.auth", "true");
-	String ttls = props.getProperty("org.universAAL.ri.keepalive.mail.ttls", "true");
-	String host = props.getProperty("org.universAAL.ri.keepalive.mail.host");
-	String port = props.getProperty("org.universAAL.ri.keepalive.mail.port");
-	final String user = props.getProperty("org.universAAL.ri.keepalive.mail.user");
-	final String pass = props.getProperty("org.universAAL.ri.keepalive.mail.pass");
-	String from = props.getProperty("org.universAAL.ri.keepalive.mail.from");
-	String to = props.getProperty("org.universAAL.ri.keepalive.mail.to");
+		String auth = props.getProperty("org.universAAL.ri.keepalive.mail.auth", "true");
+		String ttls = props.getProperty("org.universAAL.ri.keepalive.mail.ttls", "true");
+		String host = props.getProperty("org.universAAL.ri.keepalive.mail.host");
+		String port = props.getProperty("org.universAAL.ri.keepalive.mail.port");
+		final String user = props.getProperty("org.universAAL.ri.keepalive.mail.user");
+		final String pass = props.getProperty("org.universAAL.ri.keepalive.mail.pass");
+		String from = props.getProperty("org.universAAL.ri.keepalive.mail.from");
+		String to = props.getProperty("org.universAAL.ri.keepalive.mail.to");
 
-	if (host == null | port == null | user == null | pass == null
-		| from == null | to == null) {
-	    return false;
-	}
+		if (host == null | port == null | user == null | pass == null | from == null | to == null) {
+			return false;
+		}
 
-	Properties mailprops = new Properties();
-	mailprops.put("mail.smtp.auth", auth);
-	mailprops.put("mail.smtp.starttls.enable", ttls);
-	mailprops.put("mail.smtp.host", host);
-	mailprops.put("mail.smtp.port", port);
+		Properties mailprops = new Properties();
+		mailprops.put("mail.smtp.auth", auth);
+		mailprops.put("mail.smtp.starttls.enable", ttls);
+		mailprops.put("mail.smtp.host", host);
+		mailprops.put("mail.smtp.port", port);
 
-	Session session = Session.getInstance(mailprops,
-		new javax.mail.Authenticator() {
-		    protected PasswordAuthentication getPasswordAuthentication() {
-			return new PasswordAuthentication(user, pass);
-		    }
+		Session session = Session.getInstance(mailprops, new javax.mail.Authenticator() {
+			protected PasswordAuthentication getPasswordAuthentication() {
+				return new PasswordAuthentication(user, pass);
+			}
 		});
 
-	try {
-	    Date nowis = new Date(now);
-	    Message message = new MimeMessage(session);
-	    message.setFrom(new InternetAddress(from));
-	    message.setRecipients(Message.RecipientType.TO,
-		    InternetAddress.parse(to));
-	    message.setSubject("[universAAL] Tenant " + tenant
-		    + " stopped reporting");
-	    message.setText("The universAAL remote tenant with id: "
-		    + tenant
-		    + " is no longer reporting its system status signal. \n"
-		    + "This tenant had reported correctly for the last time on "
-		    + nowis.toString() + " \n"
-		    + "\nThis indicates that now the system is either shut down or is having some issues, "
-		    + "and may require corrective action.\n\n"
-		    + "This is an automatic message, do not reply.");
-	    Transport.send(message);
-	} catch (MessagingException e) {
-	    LogUtils.logError(Activator.context, SendMail.class, "send",
-		    "Could not send the warning email: " + e);
-	    e.printStackTrace();
-	    return false;
+		try {
+			Date nowis = new Date(now);
+			Message message = new MimeMessage(session);
+			message.setFrom(new InternetAddress(from));
+			message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to));
+			message.setSubject("[universAAL] Tenant " + tenant + " stopped reporting");
+			message.setText("The universAAL remote tenant with id: " + tenant
+					+ " is no longer reporting its system status signal. \n"
+					+ "This tenant had reported correctly for the last time on " + nowis.toString() + " \n"
+					+ "\nThis indicates that now the system is either shut down or is having some issues, "
+					+ "and may require corrective action.\n\n" + "This is an automatic message, do not reply.");
+			Transport.send(message);
+		} catch (MessagingException e) {
+			LogUtils.logError(Activator.context, SendMail.class, "send", "Could not send the warning email: " + e);
+			e.printStackTrace();
+			return false;
+		}
+		return true;
 	}
-	return true;
-    }
 }

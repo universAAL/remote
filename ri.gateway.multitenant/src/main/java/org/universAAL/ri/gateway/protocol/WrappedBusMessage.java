@@ -28,120 +28,115 @@ import org.universAAL.ri.gateway.Gateway;
  */
 public class WrappedBusMessage extends Message {
 
-    /**
-     * The serial Version.
-     */
-    private static final long serialVersionUID = 7828528558396004815L;
+	/**
+	 * The serial Version.
+	 */
+	private static final long serialVersionUID = 7828528558396004815L;
 
-    /**
-     * Destination of this {@link WrappedBusMessage}, i.e: the BusMemberId of
-     * the proxy.
-     */
-    private final String destination;
+	/**
+	 * Destination of this {@link WrappedBusMessage}, i.e: the BusMemberId of
+	 * the proxy.
+	 */
+	private final String destination;
 
-    /**
-     * The content of the message.
-     */
-    private final String content;
+	/**
+	 * The content of the message.
+	 */
+	private final String content;
 
-    /**
-     * Temporal variable to hold the un-marshalled message.
-     */
-    private transient ScopedResource message;
+	/**
+	 * Temporal variable to hold the un-marshalled message.
+	 */
+	private transient ScopedResource message;
 
-    /**
-     * Constructor of a wrapped Message.
-     * 
-     * @param destination
-     *            the remote BusMemberId how should handle the message.
-     * @param busMessage
-     *            The message it self.
-     */
-    public WrappedBusMessage(final String destination,
-	    final ScopedResource busMessage) {
-	super();
-	this.destination = destination;
-	content = Gateway.getInstance().serializer.getObject().serialize(
-		busMessage);
-    }
-
-    /**
-     * Constructor for a WrapedMessage response.
-     * 
-     * @param wrappedbusMessageRequest
-     * @param busMessage
-     */
-    public WrappedBusMessage(final WrappedBusMessage wrappedbusMessageRequest,
-	    final ScopedResource busMessage) {
-	super(wrappedbusMessageRequest);
-	content = Gateway.getInstance().serializer.getObject().serialize(
-		busMessage);
-	destination = "response";
-    }
-
-    @Override
-    public String toString() {
-	if (content != null) {
-	    return "content: " + content.toString();
-	} else {
-	    return "content: " + "null";
+	/**
+	 * Constructor of a wrapped Message.
+	 * 
+	 * @param destination
+	 *            the remote BusMemberId how should handle the message.
+	 * @param busMessage
+	 *            The message it self.
+	 */
+	public WrappedBusMessage(final String destination, final ScopedResource busMessage) {
+		super();
+		this.destination = destination;
+		content = Gateway.getInstance().serializer.getObject().serialize(busMessage);
 	}
-    }
 
-    @Override
-    public boolean equals(final Object obj) {
-	if (obj == null || !(obj instanceof WrappedBusMessage)) {
-	    return false;
+	/**
+	 * Constructor for a WrapedMessage response.
+	 * 
+	 * @param wrappedbusMessageRequest
+	 * @param busMessage
+	 */
+	public WrappedBusMessage(final WrappedBusMessage wrappedbusMessageRequest, final ScopedResource busMessage) {
+		super(wrappedbusMessageRequest);
+		content = Gateway.getInstance().serializer.getObject().serialize(busMessage);
+		destination = "response";
 	}
-	final WrappedBusMessage o = (WrappedBusMessage) obj;
-	if (content == null && o.content == null) {
-	    return true;
-	}
-	return content.equals(o.content);
-    }
 
-    @Override
-    public int hashCode() {
-	if (content == null) {
-	    return 0;
+	@Override
+	public String toString() {
+		if (content != null) {
+			return "content: " + content.toString();
+		} else {
+			return "content: " + "null";
+		}
 	}
-	return content.hashCode();
-    }
 
-    /**
-     * Returns content of the message.
-     * 
-     * @return content of the message
-     */
-    public String getContent() {
-	return this.content;
-    }
-
-    /**
-     * Get the destination Proxy BusMemberID.
-     * 
-     * @return
-     */
-    public String getRemoteProxyRegistrationId() {
-	return destination;
-    }
-
-    /**
-     * Un-marshal the Content into a BusMessage.
-     * 
-     * @return
-     */
-    public ScopedResource getMessage() {
-	if (message != null) {
-	    return message;
+	@Override
+	public boolean equals(final Object obj) {
+		if (obj == null || !(obj instanceof WrappedBusMessage)) {
+			return false;
+		}
+		final WrappedBusMessage o = (WrappedBusMessage) obj;
+		if (content == null && o.content == null) {
+			return true;
+		}
+		return content.equals(o.content);
 	}
-	try {
-	    message = (ScopedResource) Gateway.getInstance().serializer
-		    .getObject().deserialize(content);
-	    return message;
-	} catch (final Exception e) {
+
+	@Override
+	public int hashCode() {
+		if (content == null) {
+			return 0;
+		}
+		return content.hashCode();
 	}
-	return null;
-    }
+
+	/**
+	 * Returns content of the message.
+	 * 
+	 * @return content of the message
+	 */
+	public String getContent() {
+		return this.content;
+	}
+
+	/**
+	 * Get the destination Proxy BusMemberID.
+	 * 
+	 * @return
+	 */
+	public String getRemoteProxyRegistrationId() {
+		return destination;
+	}
+
+	/**
+	 * Un-marshal the Content into a BusMessage.
+	 * 
+	 * @return
+	 */
+	public ScopedResource getMessage() {
+		if (message != null) {
+			return message;
+		}
+		try {
+			message = (ScopedResource) Gateway.getInstance().serializer.getObject().deserialize(content);
+			return message;
+		} catch (final Exception e) {
+		}
+		return null;
+	}
 
 }

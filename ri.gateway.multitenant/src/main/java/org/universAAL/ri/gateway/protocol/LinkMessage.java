@@ -28,23 +28,23 @@ package org.universAAL.ri.gateway.protocol;
  */
 public abstract class LinkMessage extends Message {
 
-    /**
-     *
-     */
-    private static final long serialVersionUID = -5253428613643147326L;
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = -5253428613643147326L;
 
-    public LinkMessage() {
-	super();
-    }
+	public LinkMessage() {
+		super();
+	}
 
-    public LinkMessage(LinkMessage msg) {
-	super(msg);
-    }
+	public LinkMessage(LinkMessage msg) {
+		super(msg);
+	}
 
-    public enum LinkMessageType {
-	CONNECTION_REQUEST, CONNECTION_RESPONSE, DISCONNECTION_REQUEST, RECONNECTION_REQUEST,
-    }
+	public enum LinkMessageType {
+		CONNECTION_REQUEST, CONNECTION_RESPONSE, DISCONNECTION_REQUEST, RECONNECTION_REQUEST,
+	}
 
-    public abstract int getType();
+	public abstract int getType();
 
 }

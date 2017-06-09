@@ -30,53 +30,52 @@ import org.universAAL.ri.rest.manager.push.PushException;
 import org.universAAL.ri.rest.manager.push.PushManager;
 import org.universAAL.ri.rest.manager.resources.Subscriber;
 
-public class SubscriberWrapper extends ContextSubscriber{
-    
-    private Subscriber resource;
-    private String tenant;
+public class SubscriberWrapper extends ContextSubscriber {
 
-    public Subscriber getResource() {
-        return resource;
-    }
+	private Subscriber resource;
+	private String tenant;
 
-    public void setResource(Subscriber resource) {
-        this.resource = resource;
-    }
-
-    public SubscriberWrapper(ModuleContext connectingModule,
-	    ContextEventPattern[] initialSubscriptions, Subscriber r, String t) {
-	super(connectingModule, initialSubscriptions);
-	resource=r;
-	tenant=t;
-    }
-
-    @Override
-    public void communicationChannelBroken() {
-	Activator.logW("SubscriberWrapper.communicationChannelBroken", "communication Channel Broken");
-    }
-
-    @Override
-    public void handleContextEvent(ContextEvent event) {
-	Activator.logI("SubscriberWrapper.handleContextEvent",
-		"Received Context Event "+event.getURI()+" for tenant " + tenant
-			+ ". Sending to callback");
-	try {
-	    String callback=resource.getCallback();
-	    if(callback==null || callback.isEmpty()){
-		//Use generic callback of the tenant
-		SpaceWrapper t = UaalWrapper.getInstance().getTenant(tenant);
-		if(t!=null){
-		    callback=t.getResource().getCallback();
-		    if(callback==null){
-			return;
-		    }
-		}
-	    }
-	    PushManager.pushContextEvent(callback, resource.getId(), event);
-	} catch (PushException e) {
-	    Activator.logE("SubscriberWrapper.handleContextEvent", e.toString());
-	    e.printStackTrace();
+	public Subscriber getResource() {
+		return resource;
 	}
-    }
+
+	public void setResource(Subscriber resource) {
+		this.resource = resource;
+	}
+
+	public SubscriberWrapper(ModuleContext connectingModule, ContextEventPattern[] initialSubscriptions, Subscriber r,
+			String t) {
+		super(connectingModule, initialSubscriptions);
+		resource = r;
+		tenant = t;
+	}
+
+	@Override
+	public void communicationChannelBroken() {
+		Activator.logW("SubscriberWrapper.communicationChannelBroken", "communication Channel Broken");
+	}
+
+	@Override
+	public void handleContextEvent(ContextEvent event) {
+		Activator.logI("SubscriberWrapper.handleContextEvent",
+				"Received Context Event " + event.getURI() + " for tenant " + tenant + ". Sending to callback");
+		try {
+			String callback = resource.getCallback();
+			if (callback == null || callback.isEmpty()) {
+				// Use generic callback of the tenant
+				SpaceWrapper t = UaalWrapper.getInstance().getTenant(tenant);
+				if (t != null) {
+					callback = t.getResource().getCallback();
+					if (callback == null) {
+						return;
+					}
+				}
+			}
+			PushManager.pushContextEvent(callback, resource.getId(), event);
+		} catch (PushException e) {
+			Activator.logE("SubscriberWrapper.handleContextEvent", e.toString());
+			e.printStackTrace();
+		}
+	}
 
 }

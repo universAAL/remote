@@ -52,94 +52,96 @@ import org.universAAL.ri.rest.manager.wrappers.SpaceWrapper;
 @XmlRootElement(name = "subscribers")
 @Path("/uaal/spaces/{id}/context/subscribers")
 public class Subscribers {
-    
-    @XmlElement(name = "link")
-    @XmlJavaTypeAdapter(JaxbAdapter.class)
-    private Link self;
 
-    @XmlElement(name = "subscriber") // @XmlElementRef?
-    private ArrayList<Subscriber> subscribers;
+	@XmlElement(name = "link")
+	@XmlJavaTypeAdapter(JaxbAdapter.class)
+	private Link self;
 
-    public ArrayList<Subscriber> getSubscribers() {
-	return subscribers;
-    }
+	@XmlElement(name = "subscriber") // @XmlElementRef?
+	private ArrayList<Subscriber> subscribers;
 
-    public void setSubscribers(ArrayList<Subscriber> subscribers) {
-	this.subscribers = subscribers;
-    }
-    
-    public Link getSelf() {
-        return self;
-    }
-
-    public void setSelf(Link self) {
-        this.self = self;
-    }
-    
-    public Subscribers(){
-	
-    }
-    
-    //===============REST METHODS===============
-    
-    @GET
-    @Produces(Activator.TYPES)
-    public Subscribers getSubscribersResource(@PathParam("id") String id){
-	Activator.logI("Subscribers.getSubscribersResource", "GET host:port/uaal/spaces/X/context/subscribers");
-	Subscribers allsubs=new Subscribers();
-        ArrayList<Subscriber> subs = new ArrayList<Subscriber>();
-        
-        SpaceWrapper tenant = UaalWrapper.getInstance().getTenant(id);
-        if(tenant!=null){
-            Enumeration<SubscriberWrapper> subenum = tenant.getContextSubscribers();
-            while(subenum.hasMoreElements()){
-        	subs.add(subenum.nextElement().getResource());
-            }
-        }
-	
-        allsubs.setSubscribers(subs);
-        allsubs.setSelf(Link.fromPath("/uaal/spaces/"+id+"/context/subscribers/").rel("self").build());
-	return allsubs;
-    }
-    
-    @POST
-    @Consumes(Activator.TYPES)
-    public Response addSubscriberResource(@PathParam("id") String id, Subscriber sub) throws URISyntaxException{
-	Activator.logI("Subscribers.addSubscriberResource", "POST host:port/uaal/spaces/X/context/subscribers");
-	//The sub generated from the POST body does not contain any "link" elements, but I wouldnt have allowed it anyway
-	//Set the links manually, like in the sub constructor
-	sub.setSelf(Link.fromPath("/uaal/spaces/"+id+"/context/subscribers/"+sub.getId()).rel("self").build());
-	SpaceWrapper tenant = UaalWrapper.getInstance().getTenant(id);
-	if(tenant!=null){
-	    if(Activator.getParser()!=null){
-		if(sub.getPattern()!=null){
-		    ContextEventPattern cep=(ContextEventPattern) Activator.getParser().deserialize(sub.getPattern());
-		    if(cep!=null){
-			tenant.addContextSubscriber(new SubscriberWrapper(
-				Activator.getUaalContext(),
-				new ContextEventPattern[] { cep }, sub, id));
-			Activator.getPersistence().storeSubscriber(id, sub);
-			return Response.created(new URI("uaal/spaces/"+id+"/context/subscribers/"+sub.getId())).build();
-		    }else{
-			return Response.status(Status.BAD_REQUEST).build();
-		    }
-		}else{
-		    return Response.status(Status.BAD_REQUEST).build();
-		}
-	    }else{
-		return Response.serverError().build();
-	    }    
-	}else{
-	    return Response.status(Status.NOT_FOUND).build();
+	public ArrayList<Subscriber> getSubscribers() {
+		return subscribers;
 	}
-	
-    }
-    
-    @Path("/{subid}")
-    @Produces(Activator.TYPES)
-    public Subscriber getSubscriberResourceLocator(){
-	Activator.logI("Subscribers.getSubscriberResourceLocator", ">>>GET host:port/uaal/spaces/X/context/subscribers/Y");
-	return new Subscriber();
-    }
+
+	public void setSubscribers(ArrayList<Subscriber> subscribers) {
+		this.subscribers = subscribers;
+	}
+
+	public Link getSelf() {
+		return self;
+	}
+
+	public void setSelf(Link self) {
+		this.self = self;
+	}
+
+	public Subscribers() {
+
+	}
+
+	// ===============REST METHODS===============
+
+	@GET
+	@Produces(Activator.TYPES)
+	public Subscribers getSubscribersResource(@PathParam("id") String id) {
+		Activator.logI("Subscribers.getSubscribersResource", "GET host:port/uaal/spaces/X/context/subscribers");
+		Subscribers allsubs = new Subscribers();
+		ArrayList<Subscriber> subs = new ArrayList<Subscriber>();
+
+		SpaceWrapper tenant = UaalWrapper.getInstance().getTenant(id);
+		if (tenant != null) {
+			Enumeration<SubscriberWrapper> subenum = tenant.getContextSubscribers();
+			while (subenum.hasMoreElements()) {
+				subs.add(subenum.nextElement().getResource());
+			}
+		}
+
+		allsubs.setSubscribers(subs);
+		allsubs.setSelf(Link.fromPath("/uaal/spaces/" + id + "/context/subscribers/").rel("self").build());
+		return allsubs;
+	}
+
+	@POST
+	@Consumes(Activator.TYPES)
+	public Response addSubscriberResource(@PathParam("id") String id, Subscriber sub) throws URISyntaxException {
+		Activator.logI("Subscribers.addSubscriberResource", "POST host:port/uaal/spaces/X/context/subscribers");
+		// The sub generated from the POST body does not contain any "link"
+		// elements, but I wouldnt have allowed it anyway
+		// Set the links manually, like in the sub constructor
+		sub.setSelf(Link.fromPath("/uaal/spaces/" + id + "/context/subscribers/" + sub.getId()).rel("self").build());
+		SpaceWrapper tenant = UaalWrapper.getInstance().getTenant(id);
+		if (tenant != null) {
+			if (Activator.getParser() != null) {
+				if (sub.getPattern() != null) {
+					ContextEventPattern cep = (ContextEventPattern) Activator.getParser().deserialize(sub.getPattern());
+					if (cep != null) {
+						tenant.addContextSubscriber(new SubscriberWrapper(Activator.getUaalContext(),
+								new ContextEventPattern[] { cep }, sub, id));
+						Activator.getPersistence().storeSubscriber(id, sub);
+						return Response.created(new URI("uaal/spaces/" + id + "/context/subscribers/" + sub.getId()))
+								.build();
+					} else {
+						return Response.status(Status.BAD_REQUEST).build();
+					}
+				} else {
+					return Response.status(Status.BAD_REQUEST).build();
+				}
+			} else {
+				return Response.serverError().build();
+			}
+		} else {
+			return Response.status(Status.NOT_FOUND).build();
+		}
+
+	}
+
+	@Path("/{subid}")
+	@Produces(Activator.TYPES)
+	public Subscriber getSubscriberResourceLocator() {
+		Activator.logI("Subscribers.getSubscriberResourceLocator",
+				">>>GET host:port/uaal/spaces/X/context/subscribers/Y");
+		return new Subscriber();
+	}
 
 }

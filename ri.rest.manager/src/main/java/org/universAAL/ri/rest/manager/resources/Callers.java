@@ -51,78 +51,79 @@ import org.universAAL.ri.rest.manager.wrappers.SpaceWrapper;
 @XmlRootElement(name = "callers")
 @Path("/uaal/spaces/{id}/service/callers")
 public class Callers {
-    
-    @XmlElement(name = "link")
-    @XmlJavaTypeAdapter(JaxbAdapter.class)
-    private Link self;
 
-    @XmlElement(name = "caller") // @XmlElementRef?
-    private ArrayList<Caller> callers;
+	@XmlElement(name = "link")
+	@XmlJavaTypeAdapter(JaxbAdapter.class)
+	private Link self;
 
-    public ArrayList<Caller> getCallers() {
-	return callers;
-    }
+	@XmlElement(name = "caller") // @XmlElementRef?
+	private ArrayList<Caller> callers;
 
-    public void setCallers(ArrayList<Caller> callers) {
-	this.callers = callers;
-    }
-    
-    public Link getSelf() {
-        return self;
-    }
-
-    public void setSelf(Link self) {
-        this.self = self;
-    }
-    
-    public Callers(){
-	
-    }
-    
-    //===============REST METHODS===============
-    
-    @GET
-    @Produces(Activator.TYPES)
-    public Callers getCallersResource(@PathParam("id") String id){
-	Activator.logI("Callers.getCallersResource", "GET host:port/uaal/spaces/X/service/callers");
-	Callers allcers=new Callers();
-        ArrayList<Caller> cers = new ArrayList<Caller>();
-        
-        SpaceWrapper tenant = UaalWrapper.getInstance().getTenant(id);
-        if(tenant!=null){
-            Enumeration<CallerWrapper> callerenum = tenant.getServiceCallers();
-            while(callerenum.hasMoreElements()){
-        	cers.add(callerenum.nextElement().getResource());
-            }
-        }
-        
-        allcers.setCallers(cers);
-        allcers.setSelf(Link.fromPath("/uaal/spaces/"+id+"/service/callers/").rel("self").build());
-	return allcers;
-    }
-    
-    @POST
-    @Consumes(Activator.TYPES)
-    public Response addCallerResource(@PathParam("id") String id, Caller cer) throws URISyntaxException{
-	Activator.logI("Callers.addCallerResource", "POST host:port/uaal/spaces/X/service/callers");
-	//The cer generated from the POST body does not contain any "link" elements, but I wouldnt have allowed it anyway
-	//Set the links manually, like in the cer constructor
-	cer.setSelf(Link.fromPath("/uaal/spaces/"+id+"/service/callers/"+cer.getId()).rel("self").build());
-	SpaceWrapper tenant = UaalWrapper.getInstance().getTenant(id);
-        if(tenant!=null){
-            tenant.addServiceCaller(new CallerWrapper(Activator.getUaalContext(), cer));
-            Activator.getPersistence().storeCaller(id, cer);
-            return Response.created(new URI("uaal/spaces/"+id+"/service/callers/"+cer.getId())).build();
-        }else{
-	    return Response.status(Status.NOT_FOUND).build();
+	public ArrayList<Caller> getCallers() {
+		return callers;
 	}
-    }
-    
-    @Path("/{subid}")
-    @Produces(Activator.TYPES)
-    public Caller getCallerResourceLocator(){
-	Activator.logI("Callers.getCallerResourceLocator", ">>>GET host:port/uaal/spaces/X/service/callers/Y");
-	return new Caller();
-    }
+
+	public void setCallers(ArrayList<Caller> callers) {
+		this.callers = callers;
+	}
+
+	public Link getSelf() {
+		return self;
+	}
+
+	public void setSelf(Link self) {
+		this.self = self;
+	}
+
+	public Callers() {
+
+	}
+
+	// ===============REST METHODS===============
+
+	@GET
+	@Produces(Activator.TYPES)
+	public Callers getCallersResource(@PathParam("id") String id) {
+		Activator.logI("Callers.getCallersResource", "GET host:port/uaal/spaces/X/service/callers");
+		Callers allcers = new Callers();
+		ArrayList<Caller> cers = new ArrayList<Caller>();
+
+		SpaceWrapper tenant = UaalWrapper.getInstance().getTenant(id);
+		if (tenant != null) {
+			Enumeration<CallerWrapper> callerenum = tenant.getServiceCallers();
+			while (callerenum.hasMoreElements()) {
+				cers.add(callerenum.nextElement().getResource());
+			}
+		}
+
+		allcers.setCallers(cers);
+		allcers.setSelf(Link.fromPath("/uaal/spaces/" + id + "/service/callers/").rel("self").build());
+		return allcers;
+	}
+
+	@POST
+	@Consumes(Activator.TYPES)
+	public Response addCallerResource(@PathParam("id") String id, Caller cer) throws URISyntaxException {
+		Activator.logI("Callers.addCallerResource", "POST host:port/uaal/spaces/X/service/callers");
+		// The cer generated from the POST body does not contain any "link"
+		// elements, but I wouldnt have allowed it anyway
+		// Set the links manually, like in the cer constructor
+		cer.setSelf(Link.fromPath("/uaal/spaces/" + id + "/service/callers/" + cer.getId()).rel("self").build());
+		SpaceWrapper tenant = UaalWrapper.getInstance().getTenant(id);
+		if (tenant != null) {
+			tenant.addServiceCaller(new CallerWrapper(Activator.getUaalContext(), cer));
+			Activator.getPersistence().storeCaller(id, cer);
+			return Response.created(new URI("uaal/spaces/" + id + "/service/callers/" + cer.getId())).build();
+		} else {
+			return Response.status(Status.NOT_FOUND).build();
+		}
+	}
+
+	@Path("/{subid}")
+	@Produces(Activator.TYPES)
+	public Caller getCallerResourceLocator() {
+		Activator.logI("Callers.getCallerResourceLocator", ">>>GET host:port/uaal/spaces/X/service/callers/Y");
+		return new Caller();
+	}
 
 }

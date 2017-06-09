@@ -29,17 +29,16 @@ import org.universAAL.ri.gateway.Gateway;
  */
 public class OSGIActivator implements BundleActivator {
 
-    /** {@inheritDoc} */
-    public void start(final BundleContext context) throws Exception {
-	final ModuleContext mc = uAALBundleContainer.THE_CONTAINER
-		.registerModule(new Object[] { context });
-	new Gateway().start(mc);
-    }
+	/** {@inheritDoc} */
+	public void start(final BundleContext context) throws Exception {
+		final ModuleContext mc = uAALBundleContainer.THE_CONTAINER.registerModule(new Object[] { context });
+		new Gateway().start(mc);
+	}
 
-    /** {@inheritDoc} */
-    public void stop(final BundleContext context) throws Exception {
+	/** {@inheritDoc} */
+	public void stop(final BundleContext context) throws Exception {
 
-	Gateway.getInstance().stop(Gateway.getInstance().context);
-    }
+		Gateway.getInstance().stop(Gateway.getInstance().context);
+	}
 
 }

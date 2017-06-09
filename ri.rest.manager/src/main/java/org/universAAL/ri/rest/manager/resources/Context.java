@@ -40,72 +40,72 @@ import org.universAAL.ri.rest.manager.Activator;
 @Path("uaal/spaces/{id}/context")
 public class Context {
 
-    @XmlElement(name = "link")
-    @XmlJavaTypeAdapter(JaxbAdapter.class)
-    private Link self;
+	@XmlElement(name = "link")
+	@XmlJavaTypeAdapter(JaxbAdapter.class)
+	private Link self;
 
-    @XmlElement(name = "link")
-    @XmlJavaTypeAdapter(JaxbAdapter.class)
-    private Link publishers;
+	@XmlElement(name = "link")
+	@XmlJavaTypeAdapter(JaxbAdapter.class)
+	private Link publishers;
 
-    @XmlElement(name = "link")
-    @XmlJavaTypeAdapter(JaxbAdapter.class)
-    private Link subscribers;
+	@XmlElement(name = "link")
+	@XmlJavaTypeAdapter(JaxbAdapter.class)
+	private Link subscribers;
 
-    public Link getSelf() {
-        return self;
-    }
+	public Link getSelf() {
+		return self;
+	}
 
-    public void setSelf(Link self) {
-        this.self = self;
-    }
+	public void setSelf(Link self) {
+		this.self = self;
+	}
 
-    public Link getPublishers() {
-        return publishers;
-    }
+	public Link getPublishers() {
+		return publishers;
+	}
 
-    public void setPublishers(Link publishers) {
-        this.publishers = publishers;
-    }
+	public void setPublishers(Link publishers) {
+		this.publishers = publishers;
+	}
 
-    public Link getSubscribers() {
-        return subscribers;
-    }
+	public Link getSubscribers() {
+		return subscribers;
+	}
 
-    public void setSubscribers(Link subscribers) {
-        this.subscribers = subscribers;
-    }
-    
-    public Context(){
-	
-    }
-    
-    public Context(String id){
-	setSelf(Link.fromPath("/uaal/spaces/"+id+"/context").rel("self").build());
-	setPublishers(Link.fromPath("/uaal/spaces/"+id+"/context/publishers").rel("publishers").build());
-	setSubscribers(Link.fromPath("/uaal/spaces/"+id+"/context/subscribers").rel("subscribers").build());
-    }
-    
-    //===============REST METHODS===============
-    
-    @GET
-    @Produces(Activator.TYPES)
-    public Context getContextResource(@PathParam("id") String id){
-	Activator.logI("Context.getContextResource", "GET host:port/uaal/spaces/X/context");
-	return new Context(id);
-    }
-    
-    @Path("/publishers")
-    @Produces(Activator.TYPES)
-    public Publishers getPublishersResource(){
-	Activator.logI("Context.getPublishersResource", ">>>GET host:port/uaal/spaces/X/context/publishers");
-	return new Publishers();
-    }
-    
-    @Path("/subscribers")
-    @Produces(Activator.TYPES)
-    public Subscribers getSubscribersResource(){
-	Activator.logI("Context.getSubscribersResource", ">>>GET host:port/uaal/spaces/X/context/subscribers");
-	return new Subscribers();
-    }
+	public void setSubscribers(Link subscribers) {
+		this.subscribers = subscribers;
+	}
+
+	public Context() {
+
+	}
+
+	public Context(String id) {
+		setSelf(Link.fromPath("/uaal/spaces/" + id + "/context").rel("self").build());
+		setPublishers(Link.fromPath("/uaal/spaces/" + id + "/context/publishers").rel("publishers").build());
+		setSubscribers(Link.fromPath("/uaal/spaces/" + id + "/context/subscribers").rel("subscribers").build());
+	}
+
+	// ===============REST METHODS===============
+
+	@GET
+	@Produces(Activator.TYPES)
+	public Context getContextResource(@PathParam("id") String id) {
+		Activator.logI("Context.getContextResource", "GET host:port/uaal/spaces/X/context");
+		return new Context(id);
+	}
+
+	@Path("/publishers")
+	@Produces(Activator.TYPES)
+	public Publishers getPublishersResource() {
+		Activator.logI("Context.getPublishersResource", ">>>GET host:port/uaal/spaces/X/context/publishers");
+		return new Publishers();
+	}
+
+	@Path("/subscribers")
+	@Produces(Activator.TYPES)
+	public Subscribers getSubscribersResource() {
+		Activator.logI("Context.getSubscribersResource", ">>>GET host:port/uaal/spaces/X/context/subscribers");
+		return new Subscribers();
+	}
 }

@@ -61,304 +61,278 @@ import org.universAAL.ri.gateway.protocol.link.ReconnectionRequest;
  * @version $LastChangedRevision$ ($LastChangedDate$)
  *
  */
-public class ServerSocketCommunicationHandler extends
-	AbstractSocketCommunicationHandler {
+public class ServerSocketCommunicationHandler extends AbstractSocketCommunicationHandler {
 
-    public static final Logger log = LoggerFactory.createLoggerFactory(
-	    Gateway.getInstance().context).getLogger(
-	    ServerSocketCommunicationHandler.class);
+	public static final Logger log = LoggerFactory.createLoggerFactory(Gateway.getInstance().context)
+			.getLogger(ServerSocketCommunicationHandler.class);
 
-    private static final int NUM_THREADS = 1;
+	private static final int NUM_THREADS = 1;
 
-    // private Executor executor;
-    private ServerSocket server;
-    private Thread serverThread;
-    private final ExecutorService executor;
-    private final ServerSocketCommunicationHandler myself;
+	// private Executor executor;
+	private ServerSocket server;
+	private Thread serverThread;
+	private final ExecutorService executor;
+	private final ServerSocketCommunicationHandler myself;
 
-    private final List<LinkHandler> handlers = new ArrayList<LinkHandler>();
+	private final List<LinkHandler> handlers = new ArrayList<LinkHandler>();
 
-    private final Configuration config;
+	private final Configuration config;
 
-    public ServerSocketCommunicationHandler(final Configuration config) {
-	// TODO: make chiper configurable
-	super(config.getCipher());
-	this.config = config;
+	public ServerSocketCommunicationHandler(final Configuration config) {
+		// TODO: make chiper configurable
+		super(config.getCipher());
+		this.config = config;
 
-	this.executor = Executors.newCachedThreadPool();
-	this.myself = this;
-	/*
-	 * //TODO Define a maximum number of threads
-	 */
-	// this.executor = Executors.newFixedThreadPool(NUM_THREADS);
-	log.info("Created " + ServerSocketCommunicationHandler.class.getName());
-    }
+		this.executor = Executors.newCachedThreadPool();
+		this.myself = this;
+		/*
+		 * //TODO Define a maximum number of threads
+		 */
+		// this.executor = Executors.newFixedThreadPool(NUM_THREADS);
+		log.info("Created " + ServerSocketCommunicationHandler.class.getName());
+	}
 
-    public void start() throws IOException {
-	final String serverConfig = config.getConnectionHost() + ":"
-		+ config.getConnectionPort();
-	log.debug("Starting Server Gateway on TCP server on port "
-		+ serverConfig);
+	public void start() throws IOException {
+		final String serverConfig = config.getConnectionHost() + ":" + config.getConnectionPort();
+		log.debug("Starting Server Gateway on TCP server on port " + serverConfig);
 
-	final InetAddress addr = InetAddress.getByName(config
-		.getConnectionHost());
-	server = new ServerSocket();
-	server.bind(new InetSocketAddress(addr, config.getConnectionPort()));
-	serverThread = new Thread(new Runnable() {
+		final InetAddress addr = InetAddress.getByName(config.getConnectionHost());
+		server = new ServerSocket();
+		server.bind(new InetSocketAddress(addr, config.getConnectionPort()));
+		serverThread = new Thread(new Runnable() {
 
-	    public void run() {
-		log.debug("TCP server started on port " + serverConfig);
-		Thread.currentThread().setName("GW :: Server");
-		while (!(Thread.currentThread().isInterrupted())) {
-		    try {
-			final Socket socket = server.accept();
-			log.debug("Got new incoming connection");
-			final ProxyMessageReceiver proxy = new ProxyMessageReceiver();
-			final LinkHandler handler = new LinkHandler(myself,
-				socket, handlers, proxy);
-			handlers.add(handler);
-			executor.execute(handler);
-		    } catch (final IOException e) {
-			if (server.isClosed()) {
-			    log.debug(
-				    "Ignoring exception because we are closing the ServerSocket",
-				    e);
-			} else {
-			    log.error(
-				    "Unxpeceted error with the Server Socket",
-				    e);
+			public void run() {
+				log.debug("TCP server started on port " + serverConfig);
+				Thread.currentThread().setName("GW :: Server");
+				while (!(Thread.currentThread().isInterrupted())) {
+					try {
+						final Socket socket = server.accept();
+						log.debug("Got new incoming connection");
+						final ProxyMessageReceiver proxy = new ProxyMessageReceiver();
+						final LinkHandler handler = new LinkHandler(myself, socket, handlers, proxy);
+						handlers.add(handler);
+						executor.execute(handler);
+					} catch (final IOException e) {
+						if (server.isClosed()) {
+							log.debug("Ignoring exception because we are closing the ServerSocket", e);
+						} else {
+							log.error("Unxpeceted error with the Server Socket", e);
+						}
+					}
+				}
+				executor.shutdown();
 			}
-		    }
-		}
-		executor.shutdown();
-	    }
-	});
-	serverThread.start();
-    }
-
-    private class LinkHandler extends AbstractLinkHandler {
-
-	private String name = "Link Handler";
-	private final List<LinkHandler> handlerList;
-	private final ServerSocketCommunicationHandler server;
-	private Session mySession = null;
-
-	public LinkHandler(final ServerSocketCommunicationHandler server,
-		final Socket socket, final List<LinkHandler> handlers,
-		final MessageReceiver proxy) {
-	    super(socket, proxy, cipher);
-	    this.handlerList = handlers;
-	    this.server = server;
+		});
+		serverThread.start();
 	}
 
-	@Override
-	protected boolean beforeRun() {
-	    return true;
+	private class LinkHandler extends AbstractLinkHandler {
+
+		private String name = "Link Handler";
+		private final List<LinkHandler> handlerList;
+		private final ServerSocketCommunicationHandler server;
+		private Session mySession = null;
+
+		public LinkHandler(final ServerSocketCommunicationHandler server, final Socket socket,
+				final List<LinkHandler> handlers, final MessageReceiver proxy) {
+			super(socket, proxy, cipher);
+			this.handlerList = handlers;
+			this.server = server;
+		}
+
+		@Override
+		protected boolean beforeRun() {
+			return true;
+		}
+
+		@Override
+		protected boolean loopRun() {
+			if (socket != null && !socket.isClosed()) {
+				Message msg;
+				try {
+					msg = getNextMessage(in);
+				} catch (final Exception e) {
+					if (e instanceof EOFException) {
+						log.info("Failed to read message of the stream beacuse it was closed from the other side");
+						return false;
+					} else {
+						log.debug("Failed to read message from stream", e);
+						return false;
+					}
+				}
+				if (handleSessionProtocol(msg) == false) {
+					handleGatewayProtocol(msg);
+				}
+				return true;
+			} else {
+				return false;
+			}
+		}
+
+		@Override
+		protected boolean afterRun() {
+			cleanUpSession();
+			synchronized (handlerList) {
+				handlerList.remove(this);
+			}
+			return true;
+		}
+
+		@Override
+		protected boolean handleSessionProtocol(final Message msg) {
+			final AALSpaceManager spaceManager = Gateway.getInstance().spaceManager.getObject();
+			final SessionManager sessionManger = SessionManager.getInstance();
+			LinkMessage link = null;
+			if (msg instanceof LinkMessage) {
+				link = (LinkMessage) msg;
+			}
+			if (link == null) {
+				return false;
+			} else if (link.getType() == LinkMessageType.CONNECTION_RESPONSE.ordinal()) {
+				throw new IllegalArgumentException("Receieved unexpected message " + link.getType());
+			} else if (link.getType() == LinkMessageType.CONNECTION_REQUEST.ordinal()) {
+				final ConnectionRequest request = (ConnectionRequest) link;
+				UUID session = sessionManger.getSession(request.getPeerId(), request.getAALSpaceId(),
+						request.getScopeId());
+				if (session == null) {
+					session = sessionManger.createSession(request.getPeerId(), request.getAALSpaceId(),
+							request.getScopeId(), request.getDescription());
+					log.debug("CREATED SESSION with " + session + " pointing at <" + request.getAALSpaceId() + ","
+							+ request.getPeerId() + ">");
+				} else {
+					try {
+						sessionManger.close(session);
+					} catch (final Exception ex) {
+						final String txt = "Closing old session " + session + " and creating a new one";
+						log.info(txt);
+						log.debug(txt, ex);
+
+					}
+					log.warning(
+							"SESSION CLASH: the client may be restarted without persistance before the session was broken and deleted. We just create a new session");
+					session = sessionManger.createSession(request.getPeerId(), request.getAALSpaceId(),
+							request.getScopeId(), request.getDescription());
+				}
+				sessionManger.setLink(session, in, out);
+				// TODO Check if it can registers
+				// tenatManager.getTenant(request.getScopeId());
+				final String source = spaceManager.getMyPeerCard().getPeerID();
+				final ConnectionResponse response = new ConnectionResponse(link, source, request.getAALSpaceId(),
+						session);
+				try {
+					CommunicationHelper.cypherAndSend(response, out, cipher);
+				} catch (final Exception e) {
+					e.printStackTrace();
+					// TODO Close the session
+				}
+				setName("Link Handler[" + session + "]");
+
+				/*
+				 * //TODO we need to link the UUID so that later on we can
+				 * "route" the message as expected?
+				 */
+				final Gateway gw = Gateway.getInstance();
+				mySession = new Session(config, gw.getPool(), server);
+				final String scope = SessionManager.getInstance().getAALSpaceIdFromSession(session);
+				mySession.setScope(scope);
+				mySession.addSessionEventListener(gw);
+				mySession.setStatus(SessionEvent.SessionStatus.CONNECTED);
+				gw.newSession(socket.toString(), mySession);
+				// XXX This is a dirty why to connect the Session to the link
+				((ProxyMessageReceiver) super.communicator).setFinalReceiver(mySession);
+				return true;
+			} else if (link.getType() == LinkMessageType.DISCONNECTION_REQUEST.ordinal()) {
+
+				final DisconnectionRequest request = (DisconnectionRequest) link;
+				// request.getPeerId()
+				final UUID session = sessionManger.getSession(request.getPeerId(), request.getAALSpaceId(),
+						request.getScopeId());
+				if (session == null) {
+					log.warning("Received a Disconnect Request ma no matching session");
+					return true;
+				}
+				try {
+					sessionManger.close(session);
+					mySession.setStatus(SessionEvent.SessionStatus.CLOSED);
+				} catch (final Exception ex) {
+					log.debug("Error closing the session UUID =" + session, ex);
+				}
+				/*
+				 * //TODO here we should close the Session and remove the object
+				 */
+				return true;
+			} else if (link.getType() == LinkMessageType.RECONNECTION_REQUEST.ordinal()) {
+				final ReconnectionRequest request = (ReconnectionRequest) link;
+				// request.getPeerId()
+				UUID session = sessionManger.getSession(request.getPeerId(), request.getAALSpaceId(),
+						request.getScopeId());
+				if (session == null || request.getSessionId().equals(session) == false) {
+					// TODO someone is trying to reconnect but we don't have the
+					// link active so we create a new session
+					// XXX we should set the session description properly
+					session = sessionManger.createSession(request.getPeerId(), request.getAALSpaceId(),
+							request.getScopeId(), null);
+				}
+				sessionManger.setLink(session, in, out);
+				// TODO Check if it can registers
+				// tenatManager.getTenant(request.getScopeId());
+				final String source = spaceManager.getMyPeerCard().getPeerID();
+				final ConnectionResponse response = new ConnectionResponse(link, source, request.getAALSpaceId(),
+						session);
+				try {
+					CommunicationHelper.cypherAndSend(response, out, cipher);
+				} catch (final Exception e) {
+					e.printStackTrace();
+					// TODO Close the session
+				}
+				return true;
+			}
+			throw new IllegalStateException(
+					"Unable to handle the message msg it is neither a LinkMessage nor other known message types: "
+							+ msg);
+		}
+
+		private void setName(final String name) {
+			this.name = name;
+			Thread.currentThread().setName(name);
+		}
+
+		private String getName() {
+			return name;
+		}
+
+		@Override
+		protected Message getNextMessage(final InputStream in) throws Exception {
+			return readMessage(in);
+		}
+
+		@Override
+		public void stop() {
+			mySession.setStatus(SessionEvent.SessionStatus.CLOSED);
+			super.stop();
+			disconnect();
+			cleanUpSession();
+		}
 	}
 
-	@Override
-	protected boolean loopRun() {
-	    if (socket != null && !socket.isClosed()) {
-		Message msg;
-		try {
-		    msg = getNextMessage(in);
-		} catch (final Exception e) {
-		    if (e instanceof EOFException) {
-			log.info("Failed to read message of the stream beacuse it was closed from the other side");
-			return false;
-		    } else {
-			log.debug("Failed to read message from stream", e);
-			return false;
-		    }
-		}
-		if (handleSessionProtocol(msg) == false) {
-		    handleGatewayProtocol(msg);
-		}
-		return true;
-	    } else {
-		return false;
-	    }
-	}
-
-	@Override
-	protected boolean afterRun() {
-	    cleanUpSession();
-	    synchronized (handlerList) {
-		handlerList.remove(this);
-	    }
-	    return true;
-	}
-
-	@Override
-	protected boolean handleSessionProtocol(final Message msg) {
-	    final AALSpaceManager spaceManager = Gateway.getInstance().spaceManager
-		    .getObject();
-	    final SessionManager sessionManger = SessionManager.getInstance();
-	    LinkMessage link = null;
-	    if (msg instanceof LinkMessage) {
-		link = (LinkMessage) msg;
-	    }
-	    if (link == null) {
-		return false;
-	    } else if (link.getType() == LinkMessageType.CONNECTION_RESPONSE
-		    .ordinal()) {
-		throw new IllegalArgumentException(
-			"Receieved unexpected message " + link.getType());
-	    } else if (link.getType() == LinkMessageType.CONNECTION_REQUEST
-		    .ordinal()) {
-		final ConnectionRequest request = (ConnectionRequest) link;
-		UUID session = sessionManger.getSession(request.getPeerId(),
-			request.getAALSpaceId(), request.getScopeId());
-		if (session == null) {
-		    session = sessionManger.createSession(request.getPeerId(),
-			    request.getAALSpaceId(), request.getScopeId(),
-			    request.getDescription());
-		    log.debug("CREATED SESSION with " + session
-			    + " pointing at <" + request.getAALSpaceId() + ","
-			    + request.getPeerId() + ">");
-		} else {
-		    try {
-			sessionManger.close(session);
-		    } catch (final Exception ex) {
-			final String txt = "Closing old session " + session
-				+ " and creating a new one";
-			log.info(txt);
-			log.debug(txt, ex);
-
-		    }
-		    log.warning("SESSION CLASH: the client may be restarted without persistance before the session was broken and deleted. We just create a new session");
-		    session = sessionManger.createSession(request.getPeerId(),
-			    request.getAALSpaceId(), request.getScopeId(),
-			    request.getDescription());
-		}
-		sessionManger.setLink(session, in, out);
-		// TODO Check if it can registers
-		// tenatManager.getTenant(request.getScopeId());
-		final String source = spaceManager.getMyPeerCard().getPeerID();
-		final ConnectionResponse response = new ConnectionResponse(
-			link, source, request.getAALSpaceId(), session);
-		try {
-		    CommunicationHelper.cypherAndSend(response, out, cipher);
-		} catch (final Exception e) {
-		    e.printStackTrace();
-		    // TODO Close the session
-		}
-		setName("Link Handler[" + session + "]");
-
-		/*
-		 * //TODO we need to link the UUID so that later on we can
-		 * "route" the message as expected?
-		 */
-		final Gateway gw = Gateway.getInstance();
-		mySession = new Session(config, gw.getPool(), server);
-		final String scope = SessionManager.getInstance()
-			.getAALSpaceIdFromSession(session);
-		mySession.setScope(scope);
-		mySession.addSessionEventListener(gw);
-		mySession.setStatus(SessionEvent.SessionStatus.CONNECTED);
-		gw.newSession(socket.toString(), mySession);
-		// XXX This is a dirty why to connect the Session to the link
-		((ProxyMessageReceiver) super.communicator)
-			.setFinalReceiver(mySession);
-		return true;
-	    } else if (link.getType() == LinkMessageType.DISCONNECTION_REQUEST
-		    .ordinal()) {
-
-		final DisconnectionRequest request = (DisconnectionRequest) link;
-		// request.getPeerId()
-		final UUID session = sessionManger.getSession(
-			request.getPeerId(), request.getAALSpaceId(),
-			request.getScopeId());
-		if (session == null) {
-		    log.warning("Received a Disconnect Request ma no matching session");
-		    return true;
-		}
-		try {
-		    sessionManger.close(session);
-		    mySession.setStatus(SessionEvent.SessionStatus.CLOSED);
-		} catch (final Exception ex) {
-		    log.debug("Error closing the session UUID =" + session, ex);
-		}
-		/*
-		 * //TODO here we should close the Session and remove the object
-		 */
-		return true;
-	    } else if (link.getType() == LinkMessageType.RECONNECTION_REQUEST
-		    .ordinal()) {
-		final ReconnectionRequest request = (ReconnectionRequest) link;
-		// request.getPeerId()
-		UUID session = sessionManger.getSession(request.getPeerId(),
-			request.getAALSpaceId(), request.getScopeId());
-		if (session == null
-			|| request.getSessionId().equals(session) == false) {
-		    // TODO someone is trying to reconnect but we don't have the
-		    // link active so we create a new session
-		    // XXX we should set the session description properly
-		    session = sessionManger
-			    .createSession(request.getPeerId(),
-				    request.getAALSpaceId(),
-				    request.getScopeId(), null);
-		}
-		sessionManger.setLink(session, in, out);
-		// TODO Check if it can registers
-		// tenatManager.getTenant(request.getScopeId());
-		final String source = spaceManager.getMyPeerCard().getPeerID();
-		final ConnectionResponse response = new ConnectionResponse(
-			link, source, request.getAALSpaceId(), session);
-		try {
-		    CommunicationHelper.cypherAndSend(response, out, cipher);
-		} catch (final Exception e) {
-		    e.printStackTrace();
-		    // TODO Close the session
-		}
-		return true;
-	    }
-	    throw new IllegalStateException(
-		    "Unable to handle the message msg it is neither a LinkMessage nor other known message types: "
-			    + msg);
-	}
-
-	private void setName(final String name) {
-	    this.name = name;
-	    Thread.currentThread().setName(name);
-	}
-
-	private String getName() {
-	    return name;
-	}
-
-	@Override
-	protected Message getNextMessage(final InputStream in) throws Exception {
-	    return readMessage(in);
-	}
-
-	@Override
 	public void stop() {
-	    mySession.setStatus(SessionEvent.SessionStatus.CLOSED);
-	    super.stop();
-	    disconnect();
-	    cleanUpSession();
-	}
-    }
-
-    public void stop() {
-	try {
-	    server.close();
-	} catch (final IOException e) {
-	    final String msg = "Closing the ServerSocket generated an error";
-	    log.info(msg);
-	    log.debug(msg, e);
-	}
-	synchronized (handlers) {
-	    for (final LinkHandler handler : handlers) {
 		try {
-		    handler.stop();
-		} catch (final Exception ex) {
-		    log.debug("Errore closing " + handler.getName(), ex);
+			server.close();
+		} catch (final IOException e) {
+			final String msg = "Closing the ServerSocket generated an error";
+			log.info(msg);
+			log.debug(msg, e);
 		}
-	    }
+		synchronized (handlers) {
+			for (final LinkHandler handler : handlers) {
+				try {
+					handler.stop();
+				} catch (final Exception ex) {
+					log.debug("Errore closing " + handler.getName(), ex);
+				}
+			}
+		}
+		serverThread.interrupt();
 	}
-	serverThread.interrupt();
-    }
 
 }

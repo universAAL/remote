@@ -48,26 +48,24 @@ public class InternetGateway {
 			return false;
 	}
 
-	static public ParsedWSDLDefinition getWebServiceDefinition(String url){
-		for(int i=0;i<parsedWSDLDefinitions.size();i++){
-			ParsedWSDLDefinition def=parsedWSDLDefinitions.get(i);
-			if(def!=null){
-				if(def.getWsdlURL().toString().equalsIgnoreCase(url)){
+	static public ParsedWSDLDefinition getWebServiceDefinition(String url) {
+		for (int i = 0; i < parsedWSDLDefinitions.size(); i++) {
+			ParsedWSDLDefinition def = parsedWSDLDefinitions.get(i);
+			if (def != null) {
+				if (def.getWsdlURL().toString().equalsIgnoreCase(url)) {
 					return def;
 				}
 			}
 		}
 		return null;
 	}
-	
-	
+
 	public static boolean ping(String url, int timeout) {
 		url = url.replaceFirst("https", "http"); // Otherwise an exception may
 													// be thrown on invalid SSL
 													// certificates.
 		try {
-			HttpURLConnection connection = (HttpURLConnection) new URL(url)
-					.openConnection();
+			HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
 			connection.setConnectTimeout(timeout);
 			connection.setReadTimeout(timeout);
 			connection.setRequestMethod("HEAD");

@@ -56,155 +56,161 @@ import org.universAAL.ri.rest.manager.wrappers.SpaceWrapper;
 @Path("uaal/spaces/{id}/service/callees/{subid}")
 public class Callee {
 
-    @XmlAttribute
-    @PathParam("subid")
-    private String id;
+	@XmlAttribute
+	@PathParam("subid")
+	private String id;
 
-    @XmlElement(name = "link")
-    @XmlJavaTypeAdapter(JaxbAdapter.class)
-    private Link self;
-    
-    @XmlElement(name = "callback")
-    private String callback;
-    
-    @XmlElement(name = "profile")
-    private String profile;
+	@XmlElement(name = "link")
+	@XmlJavaTypeAdapter(JaxbAdapter.class)
+	private Link self;
 
-    public Link getSelf() {
-	return self;
-    }
+	@XmlElement(name = "callback")
+	private String callback;
 
-    public void setSelf(Link self) {
-	this.self = self;
-    }
+	@XmlElement(name = "profile")
+	private String profile;
 
-    public String getId() {
-	return id;
-    }
-
-    public void setId(String id) {
-	this.id = id;
-    }
-    
-    public String getCallback() {
-        return callback;
-    }
-
-    public void setCallback(String callback) {
-        this.callback = callback;
-    }
-
-    public String getProfile() {
-        return profile;
-    }
-
-    public void setProfile(String profile) {
-        this.profile = profile;
-    }
-
-    public Callee(String id, String subid, String callback, String serial) {
-	setId(subid);
-	setSelf(Link.fromPath("/uaal/spaces/"+id+"/service/callees/"+subid).rel("self").build());
-	setCallback(callback);
-	setProfile(serial);
-    }
-
-    public Callee() {
-	
-    }
-    
-    //===============REST METHODS===============
-    
-    @GET
-    @Produces(Activator.TYPES)
-    public Callee getCalleeResource(@PathParam("id") String id, @PathParam("subid") String subid){
-	Activator.logI("Callee.getCalleeResource", "GET host:port/uaal/spaces/X/service/callees/Y");
-	SpaceWrapper tenant = UaalWrapper.getInstance().getTenant(id);
-	if(tenant!=null){
-	    CalleeWrapper wrapper = tenant.getServiceCallee(subid);
-	    if(wrapper!=null){
-		return wrapper.getResource();
-	    }
+	public Link getSelf() {
+		return self;
 	}
-	return null;
-    }
-    
-    @DELETE
-    public Response deleteCalleeResource(@PathParam("id") String id, @PathParam("subid") String subid){
-	Activator.logI("Callee.deleteCalleeResource", "DELETE host:port/uaal/spaces/X/service/callees/Y");
-	SpaceWrapper tenant = UaalWrapper.getInstance().getTenant(id);
-	if(tenant!=null){
-	    tenant.removeServiceCallee(subid);
-	    Activator.getPersistence().removeCallee(id, subid);
-	    return Response.ok().build();//.nocontent?
+
+	public void setSelf(Link self) {
+		this.self = self;
 	}
-	return Response.status(Status.NOT_FOUND).build();
-    }
-    
-    @POST
-    @Consumes(Activator.TYPES_TXT)
-    public Response executeCalleeResponse(@PathParam("id") String id, @PathParam("subid") String subid, @QueryParam("o") String origin, String sresp){
-	Activator.logI("Callee.executeCalleeResponse", "DELETE host:port/uaal/spaces/X/service/callees/Y");
-	SpaceWrapper tenant = UaalWrapper.getInstance().getTenant(id);
-	if(tenant!=null){
-	    CalleeWrapper ceewrap = tenant.getServiceCallee(subid);
-	    if(ceewrap!=null){
-		ServiceResponse sr=(ServiceResponse) Activator.getParser().deserialize(sresp);
-		if(sr!=null){
-		    ceewrap.handleResponse(sr, origin);
-		    return Response.ok().build();
-		}else{
-		    return Response.status(Status.BAD_REQUEST).build();
-		}
-	    }else{
-		return Response.status(Status.NOT_FOUND).build();
-	    }
-	}else{
-	    return Response.status(Status.NOT_FOUND).build();
+
+	public String getId() {
+		return id;
 	}
-    }
-    
-    @PUT
-    @Consumes(Activator.TYPES)
-    public Response putCalleeResource(@PathParam("id") String id, @PathParam("subid") String subid, Callee cee) throws URISyntaxException{
-	Activator.logI("Callee.putCalleeResource", "PUT host:port/uaal/spaces/X/service/callees/Y");
-	//The cee generated from the PUT body does not contain any "link" elements, but I wouldnt have allowed it anyway
-	if (subid.equals(cee.id)) {// Do not allow changes to id
-	    SpaceWrapper tenant = UaalWrapper.getInstance().getTenant(id);
-	    if (tenant != null) {
-		if(Activator.getParser()!=null){
-		    if (cee.getProfile() != null) {
-			ServiceProfile sp = (ServiceProfile) Activator
-				.getParser().deserialize(cee.getProfile());
-			if (sp != null) { //Just check that they are OK
-			    CalleeWrapper original = tenant.getServiceCallee(subid);
-			    if (original != null) {//Can only change existing ones
-				cee.setSelf(Link.fromPath("/uaal/spaces/"+id+"/service/callees/"+cee.getId()).rel("self").build());
-				original.setResource(cee);
-				if(tenant.updateServiceCallee(original)){
-				    Activator.getPersistence().storeCallee(id, cee);
-				    return Response.created(new URI("uaal/spaces/"+id+"/service/callees/"+cee.getId())).build();
-				}else{
-				    return Response.notModified().build();
-				}
-			    } else {
-				return Response.status(Status.NOT_FOUND).build();
-			    }
-			} else {
-			    return Response.status(Status.BAD_REQUEST).build();
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public String getCallback() {
+		return callback;
+	}
+
+	public void setCallback(String callback) {
+		this.callback = callback;
+	}
+
+	public String getProfile() {
+		return profile;
+	}
+
+	public void setProfile(String profile) {
+		this.profile = profile;
+	}
+
+	public Callee(String id, String subid, String callback, String serial) {
+		setId(subid);
+		setSelf(Link.fromPath("/uaal/spaces/" + id + "/service/callees/" + subid).rel("self").build());
+		setCallback(callback);
+		setProfile(serial);
+	}
+
+	public Callee() {
+
+	}
+
+	// ===============REST METHODS===============
+
+	@GET
+	@Produces(Activator.TYPES)
+	public Callee getCalleeResource(@PathParam("id") String id, @PathParam("subid") String subid) {
+		Activator.logI("Callee.getCalleeResource", "GET host:port/uaal/spaces/X/service/callees/Y");
+		SpaceWrapper tenant = UaalWrapper.getInstance().getTenant(id);
+		if (tenant != null) {
+			CalleeWrapper wrapper = tenant.getServiceCallee(subid);
+			if (wrapper != null) {
+				return wrapper.getResource();
 			}
-		    } else {
-			return Response.status(Status.BAD_REQUEST).build();
-		    }
-		}else{
-		    return Response.serverError().build();
 		}
-	    } else {
-		return Response.status(Status.NOT_FOUND).build();
-	    }
-	} else {
-	    return Response.notModified().build();
+		return null;
 	}
-    }
-    
+
+	@DELETE
+	public Response deleteCalleeResource(@PathParam("id") String id, @PathParam("subid") String subid) {
+		Activator.logI("Callee.deleteCalleeResource", "DELETE host:port/uaal/spaces/X/service/callees/Y");
+		SpaceWrapper tenant = UaalWrapper.getInstance().getTenant(id);
+		if (tenant != null) {
+			tenant.removeServiceCallee(subid);
+			Activator.getPersistence().removeCallee(id, subid);
+			return Response.ok().build();// .nocontent?
+		}
+		return Response.status(Status.NOT_FOUND).build();
+	}
+
+	@POST
+	@Consumes(Activator.TYPES_TXT)
+	public Response executeCalleeResponse(@PathParam("id") String id, @PathParam("subid") String subid,
+			@QueryParam("o") String origin, String sresp) {
+		Activator.logI("Callee.executeCalleeResponse", "DELETE host:port/uaal/spaces/X/service/callees/Y");
+		SpaceWrapper tenant = UaalWrapper.getInstance().getTenant(id);
+		if (tenant != null) {
+			CalleeWrapper ceewrap = tenant.getServiceCallee(subid);
+			if (ceewrap != null) {
+				ServiceResponse sr = (ServiceResponse) Activator.getParser().deserialize(sresp);
+				if (sr != null) {
+					ceewrap.handleResponse(sr, origin);
+					return Response.ok().build();
+				} else {
+					return Response.status(Status.BAD_REQUEST).build();
+				}
+			} else {
+				return Response.status(Status.NOT_FOUND).build();
+			}
+		} else {
+			return Response.status(Status.NOT_FOUND).build();
+		}
+	}
+
+	@PUT
+	@Consumes(Activator.TYPES)
+	public Response putCalleeResource(@PathParam("id") String id, @PathParam("subid") String subid, Callee cee)
+			throws URISyntaxException {
+		Activator.logI("Callee.putCalleeResource", "PUT host:port/uaal/spaces/X/service/callees/Y");
+		// The cee generated from the PUT body does not contain any "link"
+		// elements, but I wouldnt have allowed it anyway
+		if (subid.equals(cee.id)) {// Do not allow changes to id
+			SpaceWrapper tenant = UaalWrapper.getInstance().getTenant(id);
+			if (tenant != null) {
+				if (Activator.getParser() != null) {
+					if (cee.getProfile() != null) {
+						ServiceProfile sp = (ServiceProfile) Activator.getParser().deserialize(cee.getProfile());
+						if (sp != null) { // Just check that they are OK
+							CalleeWrapper original = tenant.getServiceCallee(subid);
+							if (original != null) {// Can only change existing
+													// ones
+								cee.setSelf(Link.fromPath("/uaal/spaces/" + id + "/service/callees/" + cee.getId())
+										.rel("self").build());
+								original.setResource(cee);
+								if (tenant.updateServiceCallee(original)) {
+									Activator.getPersistence().storeCallee(id, cee);
+									return Response
+											.created(new URI("uaal/spaces/" + id + "/service/callees/" + cee.getId()))
+											.build();
+								} else {
+									return Response.notModified().build();
+								}
+							} else {
+								return Response.status(Status.NOT_FOUND).build();
+							}
+						} else {
+							return Response.status(Status.BAD_REQUEST).build();
+						}
+					} else {
+						return Response.status(Status.BAD_REQUEST).build();
+					}
+				} else {
+					return Response.serverError().build();
+				}
+			} else {
+				return Response.status(Status.NOT_FOUND).build();
+			}
+		} else {
+			return Response.notModified().build();
+		}
+	}
+
 }

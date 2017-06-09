@@ -31,45 +31,44 @@ import org.universAAL.ri.gateway.configuration.Configuration;
  */
 public class Server {
 
-    private final ServerSocketCommunicationHandler server;
-    private final Cipher cipher;
-    private final Configuration config;
-    private boolean running = false;
+	private final ServerSocketCommunicationHandler server;
+	private final Cipher cipher;
+	private final Configuration config;
+	private boolean running = false;
 
-    /**
-     * @param fc
-     * 
-     */
-    public Server(final Configuration fc) {
-	this.config = fc;
-	this.cipher = fc.getCipher();
-	server = new ServerSocketCommunicationHandler(fc);
-	try {
-	    server.start();
-	} catch (final Exception e) {
-	    throw new IllegalStateException(
-		    "Failed to start the actual server due a thrwon Exception so this object is invalid",
-		    e);
+	/**
+	 * @param fc
+	 * 
+	 */
+	public Server(final Configuration fc) {
+		this.config = fc;
+		this.cipher = fc.getCipher();
+		server = new ServerSocketCommunicationHandler(fc);
+		try {
+			server.start();
+		} catch (final Exception e) {
+			throw new IllegalStateException(
+					"Failed to start the actual server due a thrwon Exception so this object is invalid", e);
+		}
+		running = true;
 	}
-	running = true;
-    }
 
-    public void stop() {
-	if (server != null) {
-	    server.stop();
-	    running = false;
+	public void stop() {
+		if (server != null) {
+			server.stop();
+			running = false;
+		}
 	}
-    }
 
-    public String getInterface() {
-	return config.getConnectionHost();
-    }
+	public String getInterface() {
+		return config.getConnectionHost();
+	}
 
-    public int getPort() {
-	return config.getConnectionPort();
-    }
+	public int getPort() {
+		return config.getConnectionPort();
+	}
 
-    public boolean isActive() {
-	return running;
-    }
+	public boolean isActive() {
+		return running;
+	}
 }

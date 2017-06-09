@@ -34,70 +34,71 @@ import org.universAAL.middleware.service.ServiceCall;
  * 
  */
 public class PushManager {
-    
-    /**
-     * Identifier for remote endpoints using HTTP POST
-     */
-    public static final int REMOTE_POST = 0;
-    /**
-     * Identifier for remote endpoints using Google Cloud Messaging
-     */
-    public static final int REMOTE_GCM = 1;
-    /**
-     * Identifier for remote endpoints using unknown protocols
-     */
-    public static final int REMOTE_UNKNOWN = -1;
-    
-    public static void pushContextEvent(String callback, String id, ContextEvent event) throws PushException {
-	switch (determineEndpoint(callback)) {
-	case REMOTE_POST:
-	    PushREST.pushContextEvent(callback, event);
-	    break;
-	case REMOTE_GCM:
-	    PushGCM.pushContextEvent(callback, id, event);
-	    break;
-	default:
-	    throw new PushException("Unable to determine protocol of remote endpoint");
-	}
-    }
 
-    public static void pushServiceCall(String callback, String id, ServiceCall call, String origin) throws PushException {
-	switch (determineEndpoint(callback)) {
-	case REMOTE_POST:
-	    PushREST.pushServiceCall(callback, call, origin);
-	    break;
-	case REMOTE_GCM:
-	    PushGCM.pushServiceCall(callback, id, call, origin);
-	    break;
-	default:
-	    throw new PushException("Unable to determine protocol of remote endpoint");
+	/**
+	 * Identifier for remote endpoints using HTTP POST
+	 */
+	public static final int REMOTE_POST = 0;
+	/**
+	 * Identifier for remote endpoints using Google Cloud Messaging
+	 */
+	public static final int REMOTE_GCM = 1;
+	/**
+	 * Identifier for remote endpoints using unknown protocols
+	 */
+	public static final int REMOTE_UNKNOWN = -1;
+
+	public static void pushContextEvent(String callback, String id, ContextEvent event) throws PushException {
+		switch (determineEndpoint(callback)) {
+		case REMOTE_POST:
+			PushREST.pushContextEvent(callback, event);
+			break;
+		case REMOTE_GCM:
+			PushGCM.pushContextEvent(callback, id, event);
+			break;
+		default:
+			throw new PushException("Unable to determine protocol of remote endpoint");
+		}
 	}
-    }
-    
-    /**
-     * Determines the type of endpoint
-     * 
-     * @param remote
-     *            String representation of the endpoint
-     * @return RemoteAPI.REMOTE_POST if the endpoint is http or https
-     *         <p>
-     *         RemoteAPI.REMOTE_GCM if the endpoint is an Android GCM key
-     *         <p>
-     *         RemoteAPI.REMOTE_UNKNOWN if anything else
-     */
-    public static int determineEndpoint(String remote) {
-	try {
-	    URL attempt = new URL(remote);
-	    if (attempt.getProtocol().toLowerCase().startsWith("http")) {
-		return REMOTE_POST;
-	    } else {
-		// Non http/https URL
-		return REMOTE_UNKNOWN;
-	    }
-	} catch (MalformedURLException e) {
-	    // Assume that if it is not a URL it is a GCM key
-	    return REMOTE_GCM;
+
+	public static void pushServiceCall(String callback, String id, ServiceCall call, String origin)
+			throws PushException {
+		switch (determineEndpoint(callback)) {
+		case REMOTE_POST:
+			PushREST.pushServiceCall(callback, call, origin);
+			break;
+		case REMOTE_GCM:
+			PushGCM.pushServiceCall(callback, id, call, origin);
+			break;
+		default:
+			throw new PushException("Unable to determine protocol of remote endpoint");
+		}
 	}
-    }
+
+	/**
+	 * Determines the type of endpoint
+	 * 
+	 * @param remote
+	 *            String representation of the endpoint
+	 * @return RemoteAPI.REMOTE_POST if the endpoint is http or https
+	 *         <p>
+	 *         RemoteAPI.REMOTE_GCM if the endpoint is an Android GCM key
+	 *         <p>
+	 *         RemoteAPI.REMOTE_UNKNOWN if anything else
+	 */
+	public static int determineEndpoint(String remote) {
+		try {
+			URL attempt = new URL(remote);
+			if (attempt.getProtocol().toLowerCase().startsWith("http")) {
+				return REMOTE_POST;
+			} else {
+				// Non http/https URL
+				return REMOTE_UNKNOWN;
+			}
+		} catch (MalformedURLException e) {
+			// Assume that if it is not a URL it is a GCM key
+			return REMOTE_GCM;
+		}
+	}
 
 }

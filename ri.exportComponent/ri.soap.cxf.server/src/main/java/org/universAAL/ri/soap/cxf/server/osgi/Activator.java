@@ -43,18 +43,15 @@ public class Activator implements BundleActivator {
 	 */
 	public void start(final BundleContext context) throws Exception {
 
-		mc = uAALBundleContainer.THE_CONTAINER
-				.registerModule(new Object[] { context });
+		mc = uAALBundleContainer.THE_CONTAINER.registerModule(new Object[] { context });
 		new Thread() {
 			public void run() {
 
 				Dictionary props = new Hashtable();
 				props.put("osgi.remote.interfaces", "*");
 				props.put("osgi.remote.configuration.type", "pojo");
-				props.put("osgi.remote.configuration.pojo.httpservice.context",
-						"/uAALRemoteService");
-				_sr = context.registerService(ServiceInterface.class.getName(),
-						new ServiceImpl(), props);
+				props.put("osgi.remote.configuration.pojo.httpservice.context", "/uAALRemoteService");
+				_sr = context.registerService(ServiceInterface.class.getName(), new ServiceImpl(), props);
 
 			}
 		}.start();

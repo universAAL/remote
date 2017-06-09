@@ -29,16 +29,16 @@ package org.universAAL.ri.api.manager.exceptions;
  */
 public class PushException extends RAPIException {
 
-    private static final long serialVersionUID = 8973583457293161256L;
+	private static final long serialVersionUID = 8973583457293161256L;
 
-    /**
-     * Constructor with message
-     * 
-     * @param msg
-     *            Error message
-     */
-    public PushException(String string) {
-	super(string);
-    }
+	/**
+	 * Constructor with message
+	 * 
+	 * @param msg
+	 *            Error message
+	 */
+	public PushException(String string) {
+		super(string);
+	}
 
 }

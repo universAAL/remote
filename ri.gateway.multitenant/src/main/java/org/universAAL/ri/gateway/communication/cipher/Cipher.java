@@ -25,8 +25,8 @@ import org.bouncycastle.crypto.CryptoException;
  */
 public interface Cipher {
 
-    public byte[] encrypt(byte[] data) throws CryptoException;
+	public byte[] encrypt(byte[] data) throws CryptoException;
 
-    public byte[] decrypt(byte[] data) throws CryptoException;
+	public byte[] decrypt(byte[] data) throws CryptoException;
 
 }

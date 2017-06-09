@@ -28,60 +28,59 @@ import org.universAAL.ri.gateway.Session;
  */
 public class BusMemberReference implements Serializable {
 
-    /**
-     * The serial Version.
-     */
-    private static final long serialVersionUID = -1141333844448577928L;
+	/**
+	 * The serial Version.
+	 */
+	private static final long serialVersionUID = -1141333844448577928L;
 
-    /**
-     * {@link Session} to use in order to reach the {@link BusMember}
-     */
-    private final Session sender;
+	/**
+	 * {@link Session} to use in order to reach the {@link BusMember}
+	 */
+	private final Session sender;
 
-    /**
-     * The {@link BusMember} id at the remote side identified.
-     */
-    private final String busMemberid;
+	/**
+	 * The {@link BusMember} id at the remote side identified.
+	 */
+	private final String busMemberid;
 
-    /**
-     * Constructor for a {@link BusMember} identifier.
-     * 
-     * @param session
-     * @param busMemberid
-     */
-    public BusMemberReference(final Session session, final String busMemberid) {
-	super();
-	if (session == null || busMemberid == null) {
-	    throw new RuntimeException("Scope or BusmemberId Must not be null");
+	/**
+	 * Constructor for a {@link BusMember} identifier.
+	 * 
+	 * @param session
+	 * @param busMemberid
+	 */
+	public BusMemberReference(final Session session, final String busMemberid) {
+		super();
+		if (session == null || busMemberid == null) {
+			throw new RuntimeException("Scope or BusmemberId Must not be null");
+		}
+		this.sender = session;
+		this.busMemberid = busMemberid;
 	}
-	this.sender = session;
-	this.busMemberid = busMemberid;
-    }
 
-    /**
-     * Get the {@link Session} to reach the {@link BusMember}.
-     * 
-     * @return the MessageSender.
-     */
-    public Session getChannel() {
-	return sender;
-    }
+	/**
+	 * Get the {@link Session} to reach the {@link BusMember}.
+	 * 
+	 * @return the MessageSender.
+	 */
+	public Session getChannel() {
+		return sender;
+	}
 
-    /**
-     * Get the {@link BusMember} id within its scope.
-     * 
-     * @return the id.
-     */
-    public String getBusMemberid() {
-	return busMemberid;
-    }
+	/**
+	 * Get the {@link BusMember} id within its scope.
+	 * 
+	 * @return the id.
+	 */
+	public String getBusMemberid() {
+		return busMemberid;
+	}
 
-    /** {@inheritDoc} */
-    @Override
-    public boolean equals(final Object obj) {
-	return obj instanceof BusMemberReference
-		&& ((BusMemberReference) obj).sender.equals(sender)
-		&& ((BusMemberReference) obj).busMemberid.equals(busMemberid);
-    }
+	/** {@inheritDoc} */
+	@Override
+	public boolean equals(final Object obj) {
+		return obj instanceof BusMemberReference && ((BusMemberReference) obj).sender.equals(sender)
+				&& ((BusMemberReference) obj).busMemberid.equals(busMemberid);
+	}
 
 }

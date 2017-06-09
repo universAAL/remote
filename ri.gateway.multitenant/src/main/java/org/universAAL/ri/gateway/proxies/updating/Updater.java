@@ -27,9 +27,9 @@ import org.universAAL.ri.gateway.proxies.ProxyBusMember;
  * 
  */
 public interface Updater {
-    void update(ProxyBusMember member);
+	void update(ProxyBusMember member);
 
-    Resource[] newParameters(Resource[] oldParameters);
+	Resource[] newParameters(Resource[] oldParameters);
 
-    ImportMessage createExportMessage(String busMemberID);
+	ImportMessage createExportMessage(String busMemberID);
 }

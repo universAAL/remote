@@ -38,48 +38,52 @@ import org.universAAL.ri.rest.manager.Activator;
 @XmlRootElement(name = "uaal")
 @Path("/uaal")
 public class Uaal {
-    
-    @XmlElement(name = "link")
-    @XmlJavaTypeAdapter(JaxbAdapter.class)
-    private Link self=Link.fromPath("/uaal").rel("self").build();		// Link to self
 
-    @XmlElement(name = "link")
-    @XmlJavaTypeAdapter(JaxbAdapter.class)
-    private Link spaces=Link.fromPath("/uaal/spaces").rel("spaces").build();	// Link to /spaces
+	@XmlElement(name = "link")
+	@XmlJavaTypeAdapter(JaxbAdapter.class)
+	private Link self = Link.fromPath("/uaal").rel("self").build(); // Link to
+																	// self
 
-    public Link getSelf() {
-        return self;
-    }
+	@XmlElement(name = "link")
+	@XmlJavaTypeAdapter(JaxbAdapter.class)
+	private Link spaces = Link.fromPath("/uaal/spaces").rel("spaces").build(); // Link
+																				// to
+																				// /spaces
 
-    public void setSelf(Link self) {
-        this.self = self;
-    }
+	public Link getSelf() {
+		return self;
+	}
 
-    public Link getSpaces() {
-        return spaces;
-    }
+	public void setSelf(Link self) {
+		this.self = self;
+	}
 
-    public void setSpaces(Link spaces) {
-        this.spaces = spaces;
-    }
-    
-    public Uaal(){
-	
-    }
-    
-    //===============REST METHODS===============
-    
-    @GET    // GET localhost:9000/uaal
-    @Produces("application/xml;charset=UTF-8;version=1")
-    public Uaal getUaalResource(){
-	Activator.logI("Uaal.getUaalResource", "GET host:port/uaal");
-	return new Uaal();
-    }
-    
-    @Path("/spaces")	// GET localhost:9000/uaal/spaces     (redirects to Spaces class)
-    @Produces("application/xml;charset=UTF-8;version=1")
-    public Spaces getSpacesResourceLocator(){
-	Activator.logI("Uaal.getSpacesResourceLocator", ">>>GET host:port/uaal/spaces");
-	return new Spaces();
-    }
+	public Link getSpaces() {
+		return spaces;
+	}
+
+	public void setSpaces(Link spaces) {
+		this.spaces = spaces;
+	}
+
+	public Uaal() {
+
+	}
+
+	// ===============REST METHODS===============
+
+	@GET // GET localhost:9000/uaal
+	@Produces("application/xml;charset=UTF-8;version=1")
+	public Uaal getUaalResource() {
+		Activator.logI("Uaal.getUaalResource", "GET host:port/uaal");
+		return new Uaal();
+	}
+
+	@Path("/spaces") // GET localhost:9000/uaal/spaces (redirects to Spaces
+						// class)
+	@Produces("application/xml;charset=UTF-8;version=1")
+	public Spaces getSpacesResourceLocator() {
+		Activator.logI("Uaal.getSpacesResourceLocator", ">>>GET host:port/uaal/spaces");
+		return new Spaces();
+	}
 }

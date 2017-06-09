@@ -21,8 +21,6 @@
 
 package org.universAAL.ri.wsdlToolkit.invocation;
 
-
-
 import java.net.URL;
 import java.util.Iterator;
 import java.util.Vector;
@@ -35,38 +33,32 @@ import org.universAAL.ri.wsdlToolkit.ioApi.WSOperationInput;
 
 /**
  * 
- * Class used for invoking web services with SOAP 1.1 protocol 
+ * Class used for invoking web services with SOAP 1.1 protocol
  * 
  * @author kgiannou
  */
 
 public class Axis1WebServiceInvoker {
 
-	public static InvocationResult invokeWebService(URL wsdlURL,
-			QName operationName, WSOperationInput operationInput,
-			WSOperation theParsedOperation, ParsedWSDLDefinition theDefinition)
-			throws Exception {
+	public static InvocationResult invokeWebService(URL wsdlURL, QName operationName, WSOperationInput operationInput,
+			WSOperation theParsedOperation, ParsedWSDLDefinition theDefinition) throws Exception {
 
 		InvocationResult theInvocationResult = null;
 
 		if (checkIfOperationHasOnlyNativeObjects(theParsedOperation)) {
-			theInvocationResult = invokeSimpleRPCService(theParsedOperation,
-					operationInput);
+			theInvocationResult = invokeSimpleRPCService(theParsedOperation, operationInput);
 		} else {
 			System.out.println("NATIVE OBJECTS NOT YET SUPPORTED!!!!!");
 		}
-		Object[] inputsAsObjectArray = getInputAsObjectArray(
-				operationInput.getHasNativeOrComplexObjects(),
+		Object[] inputsAsObjectArray = getInputAsObjectArray(operationInput.getHasNativeOrComplexObjects(),
 				theParsedOperation, theDefinition);
 		return null;
 
 	}
 
-	private static boolean checkIfOperationHasOnlyNativeObjects(
-			WSOperation theParsedOperation) {
+	private static boolean checkIfOperationHasOnlyNativeObjects(WSOperation theParsedOperation) {
 		boolean hasOnlyNOs = true;
-		Iterator iter1 = theParsedOperation.getHasInput()
-				.getHasNativeOrComplexObjects().iterator();
+		Iterator iter1 = theParsedOperation.getHasInput().getHasNativeOrComplexObjects().iterator();
 		while (iter1.hasNext()) {
 			try {
 				NativeObject no = (NativeObject) iter1.next();
@@ -75,8 +67,7 @@ public class Axis1WebServiceInvoker {
 			}
 		}
 
-		Iterator iter2 = theParsedOperation.getHasOutput()
-				.getHasNativeOrComplexObjects().iterator();
+		Iterator iter2 = theParsedOperation.getHasOutput().getHasNativeOrComplexObjects().iterator();
 		while (iter2.hasNext()) {
 			try {
 				NativeObject no = (NativeObject) iter2.next();
@@ -88,8 +79,8 @@ public class Axis1WebServiceInvoker {
 		return hasOnlyNOs;
 	}
 
-	private static Object[] getInputAsObjectArray(Vector operationInputs,
-			WSOperation theParsedOperation, ParsedWSDLDefinition theDefinition) {
+	private static Object[] getInputAsObjectArray(Vector operationInputs, WSOperation theParsedOperation,
+			ParsedWSDLDefinition theDefinition) {
 
 		if (operationInputs == null || operationInputs.size() == 0)
 			return null;
@@ -104,8 +95,7 @@ public class Axis1WebServiceInvoker {
 				Object obj = new Object();
 				// Cast obj to the primitive type
 
-			} else if (inputObject.getClass().getName()
-					.contains("ComplexObject")) {
+			} else if (inputObject.getClass().getName().contains("ComplexObject")) {
 				ComplexObject co = (ComplexObject) inputObject;
 				Object obj = new Object();
 
@@ -216,11 +206,8 @@ public class Axis1WebServiceInvoker {
 	//
 	// }
 
-
-
-
-	private static InvocationResult invokeSimpleRPCService(
-			WSOperation theParsedOperation, WSOperationInput operationInput) {
+	private static InvocationResult invokeSimpleRPCService(WSOperation theParsedOperation,
+			WSOperationInput operationInput) {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
 }

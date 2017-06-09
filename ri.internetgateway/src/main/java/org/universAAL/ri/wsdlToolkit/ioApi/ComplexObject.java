@@ -52,10 +52,10 @@ public class ComplexObject {
 
 	public ComplexObject cloneTheCO() {
 		ComplexObject newCO = new ComplexObject();
-		newCO.objectName = new QName(this.objectName.getNamespaceURI(),
-				this.objectName.getLocalPart(), this.objectName.getPrefix());
-		newCO.objectType = new QName(this.objectType.getNamespaceURI(),
-				this.objectType.getLocalPart(), this.objectType.getPrefix());
+		newCO.objectName = new QName(this.objectName.getNamespaceURI(), this.objectName.getLocalPart(),
+				this.objectName.getPrefix());
+		newCO.objectType = new QName(this.objectType.getNamespaceURI(), this.objectType.getLocalPart(),
+				this.objectType.getPrefix());
 
 		// System.out.println(this.objectName.getLocalPart());
 		/*
@@ -76,18 +76,19 @@ public class ComplexObject {
 			co.setHasParent(this);
 
 			/*
-			 * if(ITIWSDLParser.checkIfCOhasAlreadyBeenCloned(co.getObjectType())
-			 * ){ System.out.println(co.getObjectName().getLocalPart()+"\t"+co.
+			 * if(ITIWSDLParser.checkIfCOhasAlreadyBeenCloned(co.getObjectType()
+			 * ) ){
+			 * System.out.println(co.getObjectName().getLocalPart()+"\t"+co.
 			 * getObjectType().getLocalPart()); }
 			 */
 
 			// if(ITIWSDLParser.checkIfCOhasAlreadyBeenCloned(co.getObjectType())||checkIfCOhasParentTheSameCO(co)){
 			if (checkIfCOhasParentTheSameCO(co)) {
 				ComplexObject co1 = new ComplexObject();
-				co1.objectName = new QName(co.objectName.getNamespaceURI(),
-						co.objectName.getLocalPart(), co.objectName.getPrefix());
-				co1.objectType = new QName(co.objectType.getNamespaceURI(),
-						co.objectType.getLocalPart(), co.objectType.getPrefix());
+				co1.objectName = new QName(co.objectName.getNamespaceURI(), co.objectName.getLocalPart(),
+						co.objectName.getPrefix());
+				co1.objectType = new QName(co.objectType.getNamespaceURI(), co.objectType.getLocalPart(),
+						co.objectType.getPrefix());
 				co1.hasComplexObjects = new Vector();
 				co1.hasNativeObjects = new Vector();
 				co1.hasExtendedObjects = new Vector();
@@ -100,8 +101,8 @@ public class ComplexObject {
 				co1.additionalInfo = co.additionalInfo;
 
 				/*
-				 * if(co.getObjectType().getLocalPart().contains("XmlSchemaChoice"
-				 * )){ System.out.println(); }
+				 * if(co.getObjectType().getLocalPart().contains(
+				 * "XmlSchemaChoice" )){ System.out.println(); }
 				 */
 
 				co1.hasExtendedObjects = new Vector();
@@ -110,14 +111,10 @@ public class ComplexObject {
 					if (obj.getClass().getName().contains("ComplexObject")) {
 						ComplexObject inExtCO = (ComplexObject) obj;
 						ComplexObject extCO = new ComplexObject();
-						extCO.objectName = new QName(
-								inExtCO.objectName.getNamespaceURI(),
-								inExtCO.objectName.getLocalPart(),
-								inExtCO.objectName.getPrefix());
-						extCO.objectType = new QName(
-								inExtCO.objectType.getNamespaceURI(),
-								inExtCO.objectType.getLocalPart(),
-								inExtCO.objectType.getPrefix());
+						extCO.objectName = new QName(inExtCO.objectName.getNamespaceURI(),
+								inExtCO.objectName.getLocalPart(), inExtCO.objectName.getPrefix());
+						extCO.objectType = new QName(inExtCO.objectType.getNamespaceURI(),
+								inExtCO.objectType.getLocalPart(), inExtCO.objectType.getPrefix());
 						extCO.hasComplexObjects = new Vector();
 						extCO.hasNativeObjects = new Vector();
 						extCO.hasExtendedObjects = new Vector();
@@ -192,11 +189,9 @@ public class ComplexObject {
 				// if(ITIWSDLParser.checkIfCOhasAlreadyBeenCloned(co.getObjectType())||checkIfCOhasParentTheSameCO(co)){
 				if (checkIfCOhasParentTheSameCO(co)) {
 					ComplexObject co1 = new ComplexObject();
-					co1.objectName = new QName(co.objectName.getNamespaceURI(),
-							co.objectName.getLocalPart(),
+					co1.objectName = new QName(co.objectName.getNamespaceURI(), co.objectName.getLocalPart(),
 							co.objectName.getPrefix());
-					co1.objectType = new QName(co.objectType.getNamespaceURI(),
-							co.objectType.getLocalPart(),
+					co1.objectType = new QName(co.objectType.getNamespaceURI(), co.objectType.getLocalPart(),
 							co.objectType.getPrefix());
 					co1.hasComplexObjects = new Vector();
 					co1.hasNativeObjects = new Vector();
@@ -215,14 +210,10 @@ public class ComplexObject {
 						if (obj1.getClass().getName().contains("ComplexObject")) {
 							ComplexObject inExtCO = (ComplexObject) obj1;
 							ComplexObject extCO = new ComplexObject();
-							extCO.objectName = new QName(
-									inExtCO.objectName.getNamespaceURI(),
-									inExtCO.objectName.getLocalPart(),
-									inExtCO.objectName.getPrefix());
-							extCO.objectType = new QName(
-									inExtCO.objectType.getNamespaceURI(),
-									inExtCO.objectType.getLocalPart(),
-									inExtCO.objectType.getPrefix());
+							extCO.objectName = new QName(inExtCO.objectName.getNamespaceURI(),
+									inExtCO.objectName.getLocalPart(), inExtCO.objectName.getPrefix());
+							extCO.objectType = new QName(inExtCO.objectType.getNamespaceURI(),
+									inExtCO.objectType.getLocalPart(), inExtCO.objectType.getPrefix());
 							extCO.hasComplexObjects = new Vector();
 							extCO.hasNativeObjects = new Vector();
 							extCO.hasExtendedObjects = new Vector();
@@ -248,8 +239,8 @@ public class ComplexObject {
 
 				} else {
 					/*
-					 * if(co.objectType.getLocalPart().contains("EnvelopeType")){
-					 * Object parent1=this.getHasParent(); Vector
+					 * if(co.objectType.getLocalPart().contains("EnvelopeType"))
+					 * { Object parent1=this.getHasParent(); Vector
 					 * parentNames=new Vector(); while(parent1!=null){
 					 * //System.out
 					 * .println(((ComplexObject)parent1).getObjectName
@@ -284,10 +275,10 @@ public class ComplexObject {
 
 	public ComplexObject cloneTheCO_MOD() {
 		ComplexObject newCO = new ComplexObject();
-		newCO.objectName = new QName(this.objectName.getNamespaceURI(),
-				this.objectName.getLocalPart(), this.objectName.getPrefix());
-		newCO.objectType = new QName(this.objectType.getNamespaceURI(),
-				this.objectType.getLocalPart(), this.objectType.getPrefix());
+		newCO.objectName = new QName(this.objectName.getNamespaceURI(), this.objectName.getLocalPart(),
+				this.objectName.getPrefix());
+		newCO.objectType = new QName(this.objectType.getNamespaceURI(), this.objectType.getLocalPart(),
+				this.objectType.getPrefix());
 
 		System.out.println(this.objectName.getLocalPart());
 
@@ -300,10 +291,10 @@ public class ComplexObject {
 
 			if (checkIfCOhasParentTheSameCO(co)) {
 				ComplexObject co1 = new ComplexObject();
-				co1.objectName = new QName(co.objectName.getNamespaceURI(),
-						co.objectName.getLocalPart(), co.objectName.getPrefix());
-				co1.objectType = new QName(co.objectType.getNamespaceURI(),
-						co.objectType.getLocalPart(), co.objectType.getPrefix());
+				co1.objectName = new QName(co.objectName.getNamespaceURI(), co.objectName.getLocalPart(),
+						co.objectName.getPrefix());
+				co1.objectType = new QName(co.objectType.getNamespaceURI(), co.objectType.getLocalPart(),
+						co.objectType.getPrefix());
 				co1.hasComplexObjects = new Vector();
 				co1.hasNativeObjects = new Vector();
 				co1.hasExtendedObjects = new Vector();
@@ -314,8 +305,7 @@ public class ComplexObject {
 
 				co1.additionalInfo = co.additionalInfo;
 
-				if (co.getObjectType().getLocalPart()
-						.contains("XmlSchemaChoice")) {
+				if (co.getObjectType().getLocalPart().contains("XmlSchemaChoice")) {
 					System.out.println();
 				}
 
@@ -325,14 +315,10 @@ public class ComplexObject {
 					if (obj.getClass().getName().contains("ComplexObject")) {
 						ComplexObject inExtCO = (ComplexObject) obj;
 						ComplexObject extCO = new ComplexObject();
-						extCO.objectName = new QName(
-								inExtCO.objectName.getNamespaceURI(),
-								inExtCO.objectName.getLocalPart(),
-								inExtCO.objectName.getPrefix());
-						extCO.objectType = new QName(
-								inExtCO.objectType.getNamespaceURI(),
-								inExtCO.objectType.getLocalPart(),
-								inExtCO.objectType.getPrefix());
+						extCO.objectName = new QName(inExtCO.objectName.getNamespaceURI(),
+								inExtCO.objectName.getLocalPart(), inExtCO.objectName.getPrefix());
+						extCO.objectType = new QName(inExtCO.objectType.getNamespaceURI(),
+								inExtCO.objectType.getLocalPart(), inExtCO.objectType.getPrefix());
 						extCO.hasComplexObjects = new Vector();
 						extCO.hasNativeObjects = new Vector();
 						extCO.hasExtendedObjects = new Vector();
@@ -381,11 +367,9 @@ public class ComplexObject {
 				co.setHasParent(this);
 				if (checkIfCOhasParentTheSameCO(co)) {
 					ComplexObject co1 = new ComplexObject();
-					co1.objectName = new QName(co.objectName.getNamespaceURI(),
-							co.objectName.getLocalPart(),
+					co1.objectName = new QName(co.objectName.getNamespaceURI(), co.objectName.getLocalPart(),
 							co.objectName.getPrefix());
-					co1.objectType = new QName(co.objectType.getNamespaceURI(),
-							co.objectType.getLocalPart(),
+					co1.objectType = new QName(co.objectType.getNamespaceURI(), co.objectType.getLocalPart(),
 							co.objectType.getPrefix());
 					co1.hasComplexObjects = new Vector();
 					co1.hasNativeObjects = new Vector();
@@ -404,14 +388,10 @@ public class ComplexObject {
 						if (obj1.getClass().getName().contains("ComplexObject")) {
 							ComplexObject inExtCO = (ComplexObject) obj1;
 							ComplexObject extCO = new ComplexObject();
-							extCO.objectName = new QName(
-									inExtCO.objectName.getNamespaceURI(),
-									inExtCO.objectName.getLocalPart(),
-									inExtCO.objectName.getPrefix());
-							extCO.objectType = new QName(
-									inExtCO.objectType.getNamespaceURI(),
-									inExtCO.objectType.getLocalPart(),
-									inExtCO.objectType.getPrefix());
+							extCO.objectName = new QName(inExtCO.objectName.getNamespaceURI(),
+									inExtCO.objectName.getLocalPart(), inExtCO.objectName.getPrefix());
+							extCO.objectType = new QName(inExtCO.objectType.getNamespaceURI(),
+									inExtCO.objectType.getLocalPart(), inExtCO.objectType.getPrefix());
 							extCO.hasComplexObjects = new Vector();
 							extCO.hasNativeObjects = new Vector();
 							extCO.hasExtendedObjects = new Vector();
@@ -546,11 +526,8 @@ public class ComplexObject {
 			System.out.println();
 		}
 
-		if (co.getHasParent() == null
-				|| !co.getHasParent().getClass().getName()
-						.contains("ComplexObject")
-				|| co.getObjectType().getLocalPart()
-						.contains("XmlSchemaChoice")) {
+		if (co.getHasParent() == null || !co.getHasParent().getClass().getName().contains("ComplexObject")
+				|| co.getObjectType().getLocalPart().contains("XmlSchemaChoice")) {
 			return false;
 		}
 
@@ -558,8 +535,7 @@ public class ComplexObject {
 		int check_parents_LIMIT = 60;
 		int counter = 0;
 		while (parent != null && counter < check_parents_LIMIT) {
-			if (parent.getObjectType() != null
-					&& parent.getObjectType().equals(co.getObjectType())) {
+			if (parent.getObjectType() != null && parent.getObjectType().equals(co.getObjectType())) {
 				// System.out.println("############ AMAN AMAN AMAN NEWWWWWW!");
 				return true;
 			}
@@ -573,9 +549,7 @@ public class ComplexObject {
 	}
 
 	private boolean checkIfCOhasParentTheSameCO_MOD(ComplexObject co) {
-		if (co.getHasParent() == null
-				|| !co.getHasParent().getClass().getName()
-						.contains("ComplexObject")) {
+		if (co.getHasParent() == null || !co.getHasParent().getClass().getName().contains("ComplexObject")) {
 			return false;
 		}
 
@@ -585,28 +559,18 @@ public class ComplexObject {
 		if (co.getObjectType().getLocalPart().equals("XmlSchemaChoice")) {
 			int counter = 0;
 			while (parent != null && counter < check_parents_LIMIT) {
-				if (parent.getObjectType() != null
-						&& parent.getObjectType().getLocalPart()
-								.equals("XmlSchemaChoice")) {
-					if (parent.getHasExtendedObjects().size() >= co
-							.getHasExtendedObjects().size()) {
+				if (parent.getObjectType() != null && parent.getObjectType().getLocalPart().equals("XmlSchemaChoice")) {
+					if (parent.getHasExtendedObjects().size() >= co.getHasExtendedObjects().size()) {
 						boolean isTheSameCO = true;
 						for (int i = 0; i < co.getHasExtendedObjects().size(); i++) {
 							Object extObj = co.getHasExtendedObjects().get(i);
-							if (extObj.getClass().getName()
-									.contains("ComplexObject")) {
-								QName extObjName = ((ComplexObject) extObj)
-										.getObjectName();
+							if (extObj.getClass().getName().contains("ComplexObject")) {
+								QName extObjName = ((ComplexObject) extObj).getObjectName();
 								boolean extObjExists = false;
-								for (int j = 0; j < parent
-										.getHasExtendedObjects().size(); j++) {
-									Object parExtObj = parent
-											.getHasExtendedObjects().get(i);
-									if (parExtObj.getClass().getName()
-											.contains("ComplexObject")) {
-										if (((ComplexObject) parExtObj)
-												.getObjectName().equals(
-														extObjName)) {
+								for (int j = 0; j < parent.getHasExtendedObjects().size(); j++) {
+									Object parExtObj = parent.getHasExtendedObjects().get(i);
+									if (parExtObj.getClass().getName().contains("ComplexObject")) {
+										if (((ComplexObject) parExtObj).getObjectName().equals(extObjName)) {
 											extObjExists = true;
 											break;
 										}
@@ -616,20 +580,13 @@ public class ComplexObject {
 									isTheSameCO = false;
 								}
 							}
-							if (extObj.getClass().getName()
-									.contains("NativeObject")) {
-								QName extObjName = ((NativeObject) extObj)
-										.getObjectName();
+							if (extObj.getClass().getName().contains("NativeObject")) {
+								QName extObjName = ((NativeObject) extObj).getObjectName();
 								boolean extObjExists = false;
-								for (int j = 0; j < parent
-										.getHasExtendedObjects().size(); j++) {
-									Object parExtObj = parent
-											.getHasExtendedObjects().get(i);
-									if (parExtObj.getClass().getName()
-											.contains("NativeObject")) {
-										if (((NativeObject) parExtObj)
-												.getObjectName().equals(
-														extObjName)) {
+								for (int j = 0; j < parent.getHasExtendedObjects().size(); j++) {
+									Object parExtObj = parent.getHasExtendedObjects().get(i);
+									if (parExtObj.getClass().getName().contains("NativeObject")) {
+										if (((NativeObject) parExtObj).getObjectName().equals(extObjName)) {
 											extObjExists = true;
 											break;
 										}
@@ -655,9 +612,9 @@ public class ComplexObject {
 
 			int counter = 0;
 			while (parent != null && counter < check_parents_LIMIT) {
-				if (parent.getObjectType() != null
-						&& parent.getObjectType().equals(co.getObjectType())) {
-					// System.out.println("############ AMAN AMAN AMAN NEWWWWWW!");
+				if (parent.getObjectType() != null && parent.getObjectType().equals(co.getObjectType())) {
+					// System.out.println("############ AMAN AMAN AMAN
+					// NEWWWWWW!");
 					return true;
 				}
 				parent = (ComplexObject) parent.getHasParent();
@@ -670,8 +627,7 @@ public class ComplexObject {
 
 	@Override
 	public String toString() {
-		String result = this.getObjectName().getLocalPart() + "  {"
-				+ this.getObjectType().getLocalPart() + "}    NS="
+		String result = this.getObjectName().getLocalPart() + "  {" + this.getObjectType().getLocalPart() + "}    NS="
 				+ this.getObjectType().getNamespaceURI();
 		return result;
 	}

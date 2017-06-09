@@ -33,73 +33,70 @@ import org.universAAL.ri.gateway.protocol.LinkMessage;
  */
 public class ConnectionRequest extends LinkMessage implements Serializable {
 
-    /**
-     *
-     */
-    private static final long serialVersionUID = 5607749107488373257L;
-    /**
-     *
-     */
-    private final String peerId;
-    private final String aalSpaceId;
-    private final String description;
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = 5607749107488373257L;
+	/**
+	 *
+	 */
+	private final String peerId;
+	private final String aalSpaceId;
+	private final String description;
 
-    /**
-     *
-     * @param peer
-     *            The Id of the peer that runs the Gateway
-     * @param space
-     *            The Id of the AAL Space where the peer is connected to
-     * @param description
-     *            A friendly name description of the connection
-     */
-    public ConnectionRequest(final String peer, final String space,
-	    final String description) {
-	super();
-	this.peerId = peer;
-	this.aalSpaceId = space;
-	this.description = description;
-    }
+	/**
+	 *
+	 * @param peer
+	 *            The Id of the peer that runs the Gateway
+	 * @param space
+	 *            The Id of the AAL Space where the peer is connected to
+	 * @param description
+	 *            A friendly name description of the connection
+	 */
+	public ConnectionRequest(final String peer, final String space, final String description) {
+		super();
+		this.peerId = peer;
+		this.aalSpaceId = space;
+		this.description = description;
+	}
 
-    @Override
-    public String toString() {
-	return "ConnectionRequest ["
-		+ (peerId != null ? "peerId =" + peerId + ", " : "")
-		+ (aalSpaceId != null ? "scopeId =" + aalSpaceId + ", " : "")
-		+ (aalSpaceId != null ? "scopeId=" + aalSpaceId + ", " : "")
-		+ (description != null ? "description=" + description + " "
-			: "") + "]";
-    }
+	@Override
+	public String toString() {
+		return "ConnectionRequest [" + (peerId != null ? "peerId =" + peerId + ", " : "")
+				+ (aalSpaceId != null ? "scopeId =" + aalSpaceId + ", " : "")
+				+ (aalSpaceId != null ? "scopeId=" + aalSpaceId + ", " : "")
+				+ (description != null ? "description=" + description + " " : "") + "]";
+	}
 
-    public String getAALSpaceId() {
-	return aalSpaceId;
-    }
+	public String getAALSpaceId() {
+		return aalSpaceId;
+	}
 
-    public String getPeerId() {
-	return peerId;
-    }
+	public String getPeerId() {
+		return peerId;
+	}
 
-    /**
-     *
-     * This method return the ScopeId<br>
-     * <br>
-     * <b>NOTE:</b>From version 3.2.0 to now the ScopeId has ALWAYS the same
-     * value of the SpaceId, but it may differ in the future
-     *
-     * @return the scope of the session.
-     *
-     */
-    public String getScopeId() {
-	return aalSpaceId;
-    }
+	/**
+	 *
+	 * This method return the ScopeId<br>
+	 * <br>
+	 * <b>NOTE:</b>From version 3.2.0 to now the ScopeId has ALWAYS the same
+	 * value of the SpaceId, but it may differ in the future
+	 *
+	 * @return the scope of the session.
+	 *
+	 */
+	public String getScopeId() {
+		return aalSpaceId;
+	}
 
-    public String getDescription() {
-	return description;
-    }
+	public String getDescription() {
+		return description;
+	}
 
-    @Override
-    public int getType() {
-	return LinkMessageType.CONNECTION_REQUEST.ordinal();
-    }
+	@Override
+	public int getType() {
+		return LinkMessageType.CONNECTION_REQUEST.ordinal();
+	}
 
 }

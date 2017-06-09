@@ -35,51 +35,52 @@ import org.universAAL.ri.api.manager.exceptions.PushException;
  * 
  */
 public class PushManager {
-    
-    /**
-     * Build a Context Event callback message and send it to the client remote
-     * node endpoint.
-     * 
-     * @param remoteid
-     *            The client remote node endpoint
-     * @param event
-     *            The serialized Context Event to send
-     * @param toURI 
-     */
-    public static void sendC(String nodeid, String remoteid, ContextEvent event, String toURI) throws PushException {
-	switch (Configuration.determineEndpoint(remoteid)) {
-	case RemoteAPI.REMOTE_POST:
-	    PushHTTP.sendC(remoteid, event, toURI);
-	    break;
-	case RemoteAPI.REMOTE_GCM:
-	    PushGCM.sendC(nodeid, remoteid, event, toURI);
-	    break;
-	default:
-	    throw new PushException("Unable to determine protocol of remote endpoint");
-	}
-    }
 
-    /**
-     * Build a ServiceCall callback message and send it to the client remote
-     * node endpoint.
-     * 
-     * @param remoteid
-     *            The client remote node endpoint
-     * @param call
-     *            The serialized Service Call to send
-     * @param toURI 
-     * @return The Service Response that the client remote node will have sent
-     *         as response to the callback
-     */
-    public static ServiceResponse callS(String nodeid, String remoteid, ServiceCall call, String toURI) throws PushException {
-	switch (Configuration.determineEndpoint(remoteid)) {
-	case RemoteAPI.REMOTE_POST:
-	    return PushHTTP.callS(remoteid, call, toURI);
-	case RemoteAPI.REMOTE_GCM:
-	    return PushGCM.callS(nodeid, remoteid, call, toURI);
-	default:
-	    throw new PushException("Unable to determine protocol of remote endpoint");
+	/**
+	 * Build a Context Event callback message and send it to the client remote
+	 * node endpoint.
+	 * 
+	 * @param remoteid
+	 *            The client remote node endpoint
+	 * @param event
+	 *            The serialized Context Event to send
+	 * @param toURI
+	 */
+	public static void sendC(String nodeid, String remoteid, ContextEvent event, String toURI) throws PushException {
+		switch (Configuration.determineEndpoint(remoteid)) {
+		case RemoteAPI.REMOTE_POST:
+			PushHTTP.sendC(remoteid, event, toURI);
+			break;
+		case RemoteAPI.REMOTE_GCM:
+			PushGCM.sendC(nodeid, remoteid, event, toURI);
+			break;
+		default:
+			throw new PushException("Unable to determine protocol of remote endpoint");
+		}
 	}
-    }
+
+	/**
+	 * Build a ServiceCall callback message and send it to the client remote
+	 * node endpoint.
+	 * 
+	 * @param remoteid
+	 *            The client remote node endpoint
+	 * @param call
+	 *            The serialized Service Call to send
+	 * @param toURI
+	 * @return The Service Response that the client remote node will have sent
+	 *         as response to the callback
+	 */
+	public static ServiceResponse callS(String nodeid, String remoteid, ServiceCall call, String toURI)
+			throws PushException {
+		switch (Configuration.determineEndpoint(remoteid)) {
+		case RemoteAPI.REMOTE_POST:
+			return PushHTTP.callS(remoteid, call, toURI);
+		case RemoteAPI.REMOTE_GCM:
+			return PushGCM.callS(nodeid, remoteid, call, toURI);
+		default:
+			throw new PushException("Unable to determine protocol of remote endpoint");
+		}
+	}
 
 }

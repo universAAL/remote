@@ -26,27 +26,26 @@ import org.universAAL.ri.gateway.utils.ArraySet;
  */
 public class RegistrationParametersAdder implements Updater {
 
-    private final Resource[] nParams;
+	private final Resource[] nParams;
 
-    /**
-     * @param nParams
-     */
-    public RegistrationParametersAdder(final Resource[] nParams) {
-	super();
-	this.nParams = nParams;
-    }
+	/**
+	 * @param nParams
+	 */
+	public RegistrationParametersAdder(final Resource[] nParams) {
+		super();
+		this.nParams = nParams;
+	}
 
-    public void update(final ProxyBusMember member) {
-	member.addSubscriptionParameters(nParams);
-    }
+	public void update(final ProxyBusMember member) {
+		member.addSubscriptionParameters(nParams);
+	}
 
-    public Resource[] newParameters(final Resource[] oldParameters) {
-	return new ArraySet.Union<Resource>().combine(oldParameters, nParams,
-		new Resource[] {});
-    }
+	public Resource[] newParameters(final Resource[] oldParameters) {
+		return new ArraySet.Union<Resource>().combine(oldParameters, nParams, new Resource[] {});
+	}
 
-    public ImportMessage createExportMessage(final String busMemberID) {
-	return ImportMessage.importAddSubscription(busMemberID, nParams);
-    }
+	public ImportMessage createExportMessage(final String busMemberID) {
+		return ImportMessage.importAddSubscription(busMemberID, nParams);
+	}
 
 }

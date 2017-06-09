@@ -5,11 +5,13 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for registerDeployManager complex type.
+ * <p>
+ * Java class for registerDeployManager complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="registerDeployManager">
@@ -29,113 +31,96 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "registerDeployManagerMsg", propOrder = {
-    "userName",
-    "password",
-    "ipAddress",
-    "port"
-})
+@XmlType(name = "registerDeployManagerMsg", propOrder = { "userName", "password", "ipAddress", "port" })
 public class RegisterDeployManager {
 
-    protected String userName;
-    protected String password;
-    protected String ipAddress;
-    protected String port;
+	protected String userName;
+	protected String password;
+	protected String ipAddress;
+	protected String port;
 
-    /**
-     * Gets the value of the userName property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getUserName() {
-        return userName;
-    }
+	/**
+	 * Gets the value of the userName property.
+	 * 
+	 * @return possible object is {@link String }
+	 * 
+	 */
+	public String getUserName() {
+		return userName;
+	}
 
-    /**
-     * Sets the value of the userName property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setUserName(String value) {
-        this.userName = value;
-    }
+	/**
+	 * Sets the value of the userName property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link String }
+	 * 
+	 */
+	public void setUserName(String value) {
+		this.userName = value;
+	}
 
-    /**
-     * Gets the value of the password property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getPassword() {
-        return password;
-    }
+	/**
+	 * Gets the value of the password property.
+	 * 
+	 * @return possible object is {@link String }
+	 * 
+	 */
+	public String getPassword() {
+		return password;
+	}
 
-    /**
-     * Sets the value of the password property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setPassword(String value) {
-        this.password = value;
-    }
+	/**
+	 * Sets the value of the password property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link String }
+	 * 
+	 */
+	public void setPassword(String value) {
+		this.password = value;
+	}
 
-    /**
-     * Gets the value of the ipAddress property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getIpAddress() {
-        return ipAddress;
-    }
+	/**
+	 * Gets the value of the ipAddress property.
+	 * 
+	 * @return possible object is {@link String }
+	 * 
+	 */
+	public String getIpAddress() {
+		return ipAddress;
+	}
 
-    /**
-     * Sets the value of the ipAddress property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setIpAddress(String value) {
-        this.ipAddress = value;
-    }
+	/**
+	 * Sets the value of the ipAddress property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link String }
+	 * 
+	 */
+	public void setIpAddress(String value) {
+		this.ipAddress = value;
+	}
 
-    /**
-     * Gets the value of the port property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getPort() {
-        return port;
-    }
+	/**
+	 * Gets the value of the port property.
+	 * 
+	 * @return possible object is {@link String }
+	 * 
+	 */
+	public String getPort() {
+		return port;
+	}
 
-    /**
-     * Sets the value of the port property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setPort(String value) {
-        this.port = value;
-    }
+	/**
+	 * Sets the value of the port property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link String }
+	 * 
+	 */
+	public void setPort(String value) {
+		this.port = value;
+	}
 
 }

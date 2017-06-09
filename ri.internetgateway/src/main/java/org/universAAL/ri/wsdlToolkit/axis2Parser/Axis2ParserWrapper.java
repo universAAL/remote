@@ -51,7 +51,6 @@ import org.universAAL.ri.wsdlToolkit.ioApi.WSOperation;
 import org.universAAL.ri.wsdlToolkit.ioApi.WSOperationInput;
 import org.universAAL.ri.wsdlToolkit.ioApi.WSOperationOutput;
 
-
 /**
  * 
  * This class is responsible for parsing a wsdl file
@@ -92,8 +91,8 @@ public class Axis2ParserWrapper {
 			// System.out.println("\nAccessing WSDL with AXIS...");
 			org.apache.axis2.description.AxisService service = null;
 			try {
-				service = org.apache.axis2.description.AxisService
-						.createClientSideAxisService(url, null, null, options);
+				service = org.apache.axis2.description.AxisService.createClientSideAxisService(url, null, null,
+						options);
 				// -System.out.println("OK");
 				getAllDependencies(theDefinition, service);
 			} catch (Exception e) {
@@ -110,16 +109,14 @@ public class Axis2ParserWrapper {
 				return null;
 			}
 			System.out.println(service.getName());
-			theDefinition.setWebServiceName(new QName(service
-					.getTargetNamespace(), service.getName(), service
-					.getTargetNamespacePrefix()));
+			theDefinition.setWebServiceName(
+					new QName(service.getTargetNamespace(), service.getName(), service.getTargetNamespacePrefix()));
 			theDefinition.setTargetNamespaceURI(service.getTargetNamespace());
 			theDefinition.setServiceURL(service.getEndpointURL());
 
 			boolean foundTheEndpoint = false;
 			try {
-				Iterator endpointsIter = service.getEndpoints().values()
-						.iterator();
+				Iterator endpointsIter = service.getEndpoints().values().iterator();
 				while (endpointsIter.hasNext()) {
 					AxisEndpoint ae = (AxisEndpoint) endpointsIter.next();
 					if (!ae.getName().endsWith("12") && !foundTheEndpoint) {
@@ -134,8 +131,7 @@ public class Axis2ParserWrapper {
 
 			if (!foundTheEndpoint) {
 				try {
-					Iterator endpointsIter = service.getEndpoints().values()
-							.iterator();
+					Iterator endpointsIter = service.getEndpoints().values().iterator();
 					while (endpointsIter.hasNext()) {
 						AxisEndpoint ae = (AxisEndpoint) endpointsIter.next();
 						if (!foundTheEndpoint) {
@@ -161,26 +157,19 @@ public class Axis2ParserWrapper {
 
 					WSOperation parsedOperation = new WSOperation();
 
-					// -System.out.prinln("\n\n#########     OPERATION      ########");
-					System.out.println(oper.getName() + "      [style: "
-							+ oper.getStyle() + "]");
+					// -System.out.prinln("\n\n######### OPERATION ########");
+					System.out.println(oper.getName() + "      [style: " + oper.getStyle() + "]");
 					System.out.println(oper.getSoapAction());
-					parsedOperation.setOperationName(oper.getName()
-							.getLocalPart());
-					AxisMessage acx = (AxisMessage) oper
-							.getChild(OutInAxisOperation.WSDL_MESSAGE_IN_MESSAGE);
-					if (acx != null && acx.getElementQName() != null
-							&& acx.getElementQName().getLocalPart() != null) {
-						parsedOperation.setOperationName(acx.getElementQName()
-								.getLocalPart());
+					parsedOperation.setOperationName(oper.getName().getLocalPart());
+					AxisMessage acx = (AxisMessage) oper.getChild(OutInAxisOperation.WSDL_MESSAGE_IN_MESSAGE);
+					if (acx != null && acx.getElementQName() != null && acx.getElementQName().getLocalPart() != null) {
+						parsedOperation.setOperationName(acx.getElementQName().getLocalPart());
 					}
 
 					parsedOperation.setHasStyle(oper.getStyle());
-					parsedOperation
-							.setHasDocumentation(oper.getDocumentation());
+					parsedOperation.setHasDocumentation(oper.getDocumentation());
 					System.out.println("SoapAction: " + oper.getSoapAction());
-					parsedOperation.setHasBindingSoapAction(oper
-							.getSoapAction());
+					parsedOperation.setHasBindingSoapAction(oper.getSoapAction());
 
 					WSOperationInput operationInput = new WSOperationInput();
 					WSOperationOutput operationOutput = new WSOperationOutput();
@@ -192,11 +181,9 @@ public class Axis2ParserWrapper {
 					theDefinition.getWsdlOperations().add(parsedOperation);
 
 					Iterator msgIter = null;
-					if (oper.getClass().getName()
-							.contains("OutOnlyAxisOperation")) {
+					if (oper.getClass().getName().contains("OutOnlyAxisOperation")) {
 						System.out.println();
-						AxisMessage m1 = oper
-								.getMessage(WSDLConstants.MESSAGE_LABEL_OUT_VALUE);
+						AxisMessage m1 = oper.getMessage(WSDLConstants.MESSAGE_LABEL_OUT_VALUE);
 						Vector v1 = new Vector();
 						v1.add(m1);
 						msgIter = v1.iterator();
@@ -208,10 +195,8 @@ public class Axis2ParserWrapper {
 						} else if (m1.getDirection().equals("out")) {
 							m1.setDirection("in");
 						}
-					} else if (oper.getClass().getName()
-							.contains("InOnlyAxisOperation")) {
-						AxisMessage m1 = oper
-								.getMessage(WSDLConstants.MESSAGE_LABEL_IN_VALUE);
+					} else if (oper.getClass().getName().contains("InOnlyAxisOperation")) {
+						AxisMessage m1 = oper.getMessage(WSDLConstants.MESSAGE_LABEL_IN_VALUE);
 						Vector v1 = new Vector();
 						v1.add(m1);
 						msgIter = v1.iterator();
@@ -234,44 +219,33 @@ public class Axis2ParserWrapper {
 						// Get ELEMENT FROM the Service SCHEMA
 						org.apache.ws.commons.schema.XmlSchemaElement el = null;
 						if (msg.getElementQName() != null) {
-							el = service
-									.getSchemaElement(msg.getElementQName());
+							el = service.getSchemaElement(msg.getElementQName());
 						} else {
 							System.out.println();
 						}
 
-						if (el == null
-								&& (oper.getClass().getName()
-										.contains("InOnlyAxisOperation") || oper
-										.getClass().getName()
-										.contains("OutOnlyAxisOperation"))) {
+						if (el == null && (oper.getClass().getName().contains("InOnlyAxisOperation")
+								|| oper.getClass().getName().contains("OutOnlyAxisOperation"))) {
 							QName elementQName = null;
 							System.out.println();
 							ArrayList params = service.getParameters();
 							for (int i = 0; i < params.size(); i++) {
 								Parameter param = (Parameter) params.get(i);
-								if (param.getName()
-										.contains("wsdl4jDefinition")) {
-									WSDLDefinitionWrapper definitionWrapper = (WSDLDefinitionWrapper) param
-											.getValue();
+								if (param.getName().contains("wsdl4jDefinition")) {
+									WSDLDefinitionWrapper definitionWrapper = (WSDLDefinitionWrapper) param.getValue();
 									Map map1 = definitionWrapper.getMessages();
 									Collection col1 = map1.values();
 									Iterator iter2 = col1.iterator();
 									while (iter2.hasNext()) {
-										com.ibm.wsdl.MessageImpl msg1 = (com.ibm.wsdl.MessageImpl) iter2
-												.next();
-										if (msg1.getQName().getLocalPart()
-												.equals(msg.getName())) {
+										com.ibm.wsdl.MessageImpl msg1 = (com.ibm.wsdl.MessageImpl) iter2.next();
+										if (msg1.getQName().getLocalPart().equals(msg.getName())) {
 											Map map2 = msg1.getParts();
 											Collection col2 = map2.values();
 											if (col2.size() == 1) {
-												Iterator iter3 = col2
-														.iterator();
+												Iterator iter3 = col2.iterator();
 												while (iter3.hasNext()) {
-													PartImpl partImpl = (PartImpl) iter3
-															.next();
-													elementQName = partImpl
-															.getElementName();
+													PartImpl partImpl = (PartImpl) iter3.next();
+													elementQName = partImpl.getElementName();
 												}
 											} else {
 												System.out.println();
@@ -289,17 +263,15 @@ public class Axis2ParserWrapper {
 						}
 						// EDW FAINETAI AN EINAI SimpleType i ComplexType to
 						// input / output
-						// -System.out.prinln("\t\tSchemaType class: "+st.getClass());
+						// -System.out.prinln("\t\tSchemaType class:
+						// "+st.getClass());
 						org.apache.ws.commons.schema.XmlSchemaComplexType ct = null;
 						org.apache.ws.commons.schema.XmlSchemaSimpleType st1 = null;
 						if (el.getSchemaType() != null
-								&& el.getSchemaType().getClass().getName()
-										.contains("XmlSchemaComplexType")) {
-							ct = (org.apache.ws.commons.schema.XmlSchemaComplexType) el
-									.getSchemaType();
+								&& el.getSchemaType().getClass().getName().contains("XmlSchemaComplexType")) {
+							ct = (org.apache.ws.commons.schema.XmlSchemaComplexType) el.getSchemaType();
 						} else {
-							st1 = (org.apache.ws.commons.schema.XmlSchemaSimpleType) el
-									.getSchemaType();
+							st1 = (org.apache.ws.commons.schema.XmlSchemaSimpleType) el.getSchemaType();
 						}
 
 						if (ct != null) {
@@ -318,104 +290,65 @@ public class Axis2ParserWrapper {
 
 							org.apache.ws.commons.schema.XmlSchemaSequence particleSequence = null;
 							if (ct.getParticle() != null
-									&& ct.getParticle().getClass().getName()
-											.contains("XmlSchemaSequence")) {
-								particleSequence = (org.apache.ws.commons.schema.XmlSchemaSequence) ct
-										.getParticle();
+									&& ct.getParticle().getClass().getName().contains("XmlSchemaSequence")) {
+								particleSequence = (org.apache.ws.commons.schema.XmlSchemaSequence) ct.getParticle();
 
 							} else if (ct.getParticle() != null
-									&& ct.getParticle().getClass().getName()
-											.contains("XmlSchemaAll")) {
+									&& ct.getParticle().getClass().getName().contains("XmlSchemaAll")) {
 								System.out.println();
 								ComplexObject dummyInputOrOutputComplexObject = new ComplexObject();
-								dummyInputOrOutputComplexObject
-										.setObjectName(ct.getQName());
+								dummyInputOrOutputComplexObject.setObjectName(ct.getQName());
 
-								XmlSchemaAll xsa = (XmlSchemaAll) ct
-										.getParticle();
-								AdditionalTypesParser.parseXmlSchemaAllType(
-										service, xsa,
-										dummyInputOrOutputComplexObject,
-										theDefinition);
-								if (dummyInputOrOutputComplexObject
-										.getObjectName() == null) {
+								XmlSchemaAll xsa = (XmlSchemaAll) ct.getParticle();
+								AdditionalTypesParser.parseXmlSchemaAllType(service, xsa,
+										dummyInputOrOutputComplexObject, theDefinition);
+								if (dummyInputOrOutputComplexObject.getObjectName() == null) {
 									System.out.println();
 								}
-								ParsingUtils
-										.checkIfCOisAnyObjectType(dummyInputOrOutputComplexObject);
+								ParsingUtils.checkIfCOisAnyObjectType(dummyInputOrOutputComplexObject);
 
 								System.out.println();
 
 								if (msg.isWrapped()) {
 									if (msg.getDirection().equals("in")) {
-										operationInput
-												.setHasSoapHeaders(parseSoapHeadersOfOperation(
-														service, msg,
-														theDefinition));
+										operationInput.setHasSoapHeaders(
+												parseSoapHeadersOfOperation(service, msg, theDefinition));
 
 										System.out.println("\t\tREQUEST");
 										System.out.println(msg.getName());
-										if (dummyInputOrOutputComplexObject
-												.getHasComplexObjects().size() == 0
-												&& dummyInputOrOutputComplexObject
-														.getHasNativeObjects()
-														.size() == 1) {
-											operationInput
-													.getHasNativeOrComplexObjects()
-													.add(dummyInputOrOutputComplexObject
-															.getHasNativeObjects()
-															.get(0));
+										if (dummyInputOrOutputComplexObject.getHasComplexObjects().size() == 0
+												&& dummyInputOrOutputComplexObject.getHasNativeObjects().size() == 1) {
+											operationInput.getHasNativeOrComplexObjects()
+													.add(dummyInputOrOutputComplexObject.getHasNativeObjects().get(0));
 										} else {
-											for (int i = 0; i < dummyInputOrOutputComplexObject
-													.getHasNativeObjects()
+											for (int i = 0; i < dummyInputOrOutputComplexObject.getHasNativeObjects()
 													.size(); i++) {
-												operationInput
-														.getHasNativeOrComplexObjects()
-														.add(dummyInputOrOutputComplexObject
-																.getHasNativeObjects()
-																.get(i));
+												operationInput.getHasNativeOrComplexObjects().add(
+														dummyInputOrOutputComplexObject.getHasNativeObjects().get(i));
 											}
-											for (int i = 0; i < dummyInputOrOutputComplexObject
-													.getHasComplexObjects()
+											for (int i = 0; i < dummyInputOrOutputComplexObject.getHasComplexObjects()
 													.size(); i++) {
-												operationInput
-														.getHasNativeOrComplexObjects()
-														.add(dummyInputOrOutputComplexObject
-																.getHasComplexObjects()
-																.get(i));
+												operationInput.getHasNativeOrComplexObjects().add(
+														dummyInputOrOutputComplexObject.getHasComplexObjects().get(i));
 											}
 										}
 									} else if (msg.getDirection().equals("out")) {
 										System.out.println("\t\tRESPONSE");
 										System.out.println(msg.getName());
-										if (dummyInputOrOutputComplexObject
-												.getHasComplexObjects().size() == 0
-												&& dummyInputOrOutputComplexObject
-														.getHasNativeObjects()
-														.size() == 1) {
-											operationOutput
-													.getHasNativeOrComplexObjects()
-													.add(dummyInputOrOutputComplexObject
-															.getHasNativeObjects()
-															.get(0));
+										if (dummyInputOrOutputComplexObject.getHasComplexObjects().size() == 0
+												&& dummyInputOrOutputComplexObject.getHasNativeObjects().size() == 1) {
+											operationOutput.getHasNativeOrComplexObjects()
+													.add(dummyInputOrOutputComplexObject.getHasNativeObjects().get(0));
 										} else {
-											for (int i = 0; i < dummyInputOrOutputComplexObject
-													.getHasNativeObjects()
+											for (int i = 0; i < dummyInputOrOutputComplexObject.getHasNativeObjects()
 													.size(); i++) {
-												operationOutput
-														.getHasNativeOrComplexObjects()
-														.add(dummyInputOrOutputComplexObject
-																.getHasNativeObjects()
-																.get(i));
+												operationOutput.getHasNativeOrComplexObjects().add(
+														dummyInputOrOutputComplexObject.getHasNativeObjects().get(i));
 											}
-											for (int i = 0; i < dummyInputOrOutputComplexObject
-													.getHasComplexObjects()
+											for (int i = 0; i < dummyInputOrOutputComplexObject.getHasComplexObjects()
 													.size(); i++) {
-												operationOutput
-														.getHasNativeOrComplexObjects()
-														.add(dummyInputOrOutputComplexObject
-																.getHasComplexObjects()
-																.get(i));
+												operationOutput.getHasNativeOrComplexObjects().add(
+														dummyInputOrOutputComplexObject.getHasComplexObjects().get(i));
 											}
 										}
 									}
@@ -423,74 +356,44 @@ public class Axis2ParserWrapper {
 									// TWRA GINETAI TO IDIO OPWS sto WRAPPED apo
 									// panw...
 									if (msg.getDirection().equals("in")) {
-										operationInput
-												.setHasSoapHeaders(parseSoapHeadersOfOperation(
-														service, msg,
-														theDefinition));
+										operationInput.setHasSoapHeaders(
+												parseSoapHeadersOfOperation(service, msg, theDefinition));
 
 										System.out.println("\t\tREQUEST");
 										System.out.println(msg.getName());
-										if (dummyInputOrOutputComplexObject
-												.getHasComplexObjects().size() == 0
-												&& dummyInputOrOutputComplexObject
-														.getHasNativeObjects()
-														.size() == 1) {
-											operationInput
-													.getHasNativeOrComplexObjects()
-													.add(dummyInputOrOutputComplexObject
-															.getHasNativeObjects()
-															.get(0));
+										if (dummyInputOrOutputComplexObject.getHasComplexObjects().size() == 0
+												&& dummyInputOrOutputComplexObject.getHasNativeObjects().size() == 1) {
+											operationInput.getHasNativeOrComplexObjects()
+													.add(dummyInputOrOutputComplexObject.getHasNativeObjects().get(0));
 										} else {
-											for (int i = 0; i < dummyInputOrOutputComplexObject
-													.getHasNativeObjects()
+											for (int i = 0; i < dummyInputOrOutputComplexObject.getHasNativeObjects()
 													.size(); i++) {
-												operationInput
-														.getHasNativeOrComplexObjects()
-														.add(dummyInputOrOutputComplexObject
-																.getHasNativeObjects()
-																.get(i));
+												operationInput.getHasNativeOrComplexObjects().add(
+														dummyInputOrOutputComplexObject.getHasNativeObjects().get(i));
 											}
-											for (int i = 0; i < dummyInputOrOutputComplexObject
-													.getHasComplexObjects()
+											for (int i = 0; i < dummyInputOrOutputComplexObject.getHasComplexObjects()
 													.size(); i++) {
-												operationInput
-														.getHasNativeOrComplexObjects()
-														.add(dummyInputOrOutputComplexObject
-																.getHasComplexObjects()
-																.get(i));
+												operationInput.getHasNativeOrComplexObjects().add(
+														dummyInputOrOutputComplexObject.getHasComplexObjects().get(i));
 											}
 										}
 									} else if (msg.getDirection().equals("out")) {
 										System.out.println("\t\tRESPONSE");
 										System.out.println(msg.getName());
-										if (dummyInputOrOutputComplexObject
-												.getHasComplexObjects().size() == 0
-												&& dummyInputOrOutputComplexObject
-														.getHasNativeObjects()
-														.size() == 1) {
-											operationOutput
-													.getHasNativeOrComplexObjects()
-													.add(dummyInputOrOutputComplexObject
-															.getHasNativeObjects()
-															.get(0));
+										if (dummyInputOrOutputComplexObject.getHasComplexObjects().size() == 0
+												&& dummyInputOrOutputComplexObject.getHasNativeObjects().size() == 1) {
+											operationOutput.getHasNativeOrComplexObjects()
+													.add(dummyInputOrOutputComplexObject.getHasNativeObjects().get(0));
 										} else {
-											for (int i = 0; i < dummyInputOrOutputComplexObject
-													.getHasNativeObjects()
+											for (int i = 0; i < dummyInputOrOutputComplexObject.getHasNativeObjects()
 													.size(); i++) {
-												operationOutput
-														.getHasNativeOrComplexObjects()
-														.add(dummyInputOrOutputComplexObject
-																.getHasNativeObjects()
-																.get(i));
+												operationOutput.getHasNativeOrComplexObjects().add(
+														dummyInputOrOutputComplexObject.getHasNativeObjects().get(i));
 											}
-											for (int i = 0; i < dummyInputOrOutputComplexObject
-													.getHasComplexObjects()
+											for (int i = 0; i < dummyInputOrOutputComplexObject.getHasComplexObjects()
 													.size(); i++) {
-												operationOutput
-														.getHasNativeOrComplexObjects()
-														.add(dummyInputOrOutputComplexObject
-																.getHasComplexObjects()
-																.get(i));
+												operationOutput.getHasNativeOrComplexObjects().add(
+														dummyInputOrOutputComplexObject.getHasComplexObjects().get(i));
 											}
 										}
 									}
@@ -498,7 +401,9 @@ public class Axis2ParserWrapper {
 								System.out.println();
 							} else {
 								System.out.println();
-								// theDefinition.getContainingErrors().add("WARNING @Axis2 line ~294 strange Input/Output Element encountered!");
+								// theDefinition.getContainingErrors().add("WARNING
+								// @Axis2 line ~294 strange Input/Output Element
+								// encountered!");
 							}
 
 							if (particleSequence != null) {
@@ -507,277 +412,165 @@ public class Axis2ParserWrapper {
 								ComplexObject dummyInputOrOutputComplexObject = new ComplexObject();
 
 								if (particleSequence.getMinOccurs() == 0) {
-									dummyInputOrOutputComplexObject
-											.setIsOptional(true);
+									dummyInputOrOutputComplexObject.setIsOptional(true);
 								}
 
 								System.out.println();
 
 								// EDW NA GINEI CHECK sta namespaces gia na mpei
 								// to katallilo prefix
-								dummyInputOrOutputComplexObject
-										.setObjectName(msg.getElementQName());
+								dummyInputOrOutputComplexObject.setObjectName(msg.getElementQName());
 
 								/*
-								 * if(dummyInputOrOutputComplexObject.getObjectName
+								 * if(dummyInputOrOutputComplexObject.
+								 * getObjectName
 								 * ().getLocalPart().contains("HotelAvailRQ")){
 								 * System.out.println(); }
 								 */
 
 								if (particleSequence.getItems() != null) {
-									System.out.println("\t\t"
-											+ particleSequence.getItems()
-													.getCount());
+									System.out.println("\t\t" + particleSequence.getItems().getCount());
 								}
-								Iterator particleIter = particleSequence
-										.getItems().getIterator();
+								Iterator particleIter = particleSequence.getItems().getIterator();
 
 								while (particleIter.hasNext()) {
 									Object newObj1 = particleIter.next();
-									if (newObj1 != null
-											&& newObj1
-													.getClass()
-													.getName()
-													.equals("org.apache.ws.commons.schema.XmlSchemaElement")) {
+									if (newObj1 != null && newObj1.getClass().getName()
+											.equals("org.apache.ws.commons.schema.XmlSchemaElement")) {
 
 										org.apache.ws.commons.schema.XmlSchemaElement schElemOfType = (org.apache.ws.commons.schema.XmlSchemaElement) newObj1;
 
-										System.out.println("\t\t\t"
-												+ schElemOfType.getName()
-												+ "   "
-												+ schElemOfType
-														.getSchemaTypeName());
+										System.out.println("\t\t\t" + schElemOfType.getName() + "   "
+												+ schElemOfType.getSchemaTypeName());
 
 										if (schElemOfType.getSchemaType() != null) {
 											System.out.println("\t\t\t\t#"
-													+ schElemOfType
-															.getSchemaType()
-															.getClass()
-															.toString() + "#");
+													+ schElemOfType.getSchemaType().getClass().toString() + "#");
 
 											boolean typeParsed = false;
-											if (schElemOfType
-													.getSchemaType()
-													.getClass()
-													.toString()
-													.contains(
-															"org.apache.ws.commons.schema.XmlSchemaSimpleType")) {
+											if (schElemOfType.getSchemaType().getClass().toString()
+													.contains("org.apache.ws.commons.schema.XmlSchemaSimpleType")) {
 												NativeObject no1 = new NativeObject();
-												no1.setObjectName(schElemOfType
-														.getQName());
-												ComplexObject unionCO = SimpleTypesParser
-														.parseSimpleType(
-																schElemOfType,
-																null, no1,
-																theDefinition,
-																service);
+												no1.setObjectName(schElemOfType.getQName());
+												ComplexObject unionCO = SimpleTypesParser.parseSimpleType(schElemOfType,
+														null, no1, theDefinition, service);
 												typeParsed = true;
 												if (unionCO != null) {
-													if (schElemOfType
-															.getMaxOccurs() > 1) {
+													if (schElemOfType.getMaxOccurs() > 1) {
 														ComplexObject noArrayCO = new ComplexObject();
-														noArrayCO
-																.setObjectName(no1
-																		.getObjectName());
-														noArrayCO
-																.setObjectType(new QName(
-																		no1.getObjectType()
-																				.getNamespaceURI(),
-																		no1.getObjectType()
-																				.getLocalPart()
-																				+ "[]",
-																		no1.getObjectType()
-																				.getPrefix()));
-														noArrayCO
-																.setIsArrayType(true);
-														noArrayCO
-																.getHasComplexObjects()
-																.add(unionCO);
-														dummyInputOrOutputComplexObject
-																.getHasComplexObjects()
+														noArrayCO.setObjectName(no1.getObjectName());
+														noArrayCO.setObjectType(
+																new QName(no1.getObjectType().getNamespaceURI(),
+																		no1.getObjectType().getLocalPart() + "[]",
+																		no1.getObjectType().getPrefix()));
+														noArrayCO.setIsArrayType(true);
+														noArrayCO.getHasComplexObjects().add(unionCO);
+														dummyInputOrOutputComplexObject.getHasComplexObjects()
 																.add(noArrayCO);
 														typeParsed = true;
 
 													} else {
 														typeParsed = true;
-														dummyInputOrOutputComplexObject
-																.getHasComplexObjects()
+														dummyInputOrOutputComplexObject.getHasComplexObjects()
 																.add(unionCO);
 													}
 													System.out.println();
 												} else {
-													if (no1 != null
-															&& no1.getAdditionalInfo() != null
-															&& no1.getAdditionalInfo()
-																	.contains(
-																			"isListType")) {
-														if (schElemOfType
-																.getMaxOccurs() > 1) {
+													if (no1 != null && no1.getAdditionalInfo() != null
+															&& no1.getAdditionalInfo().contains("isListType")) {
+														if (schElemOfType.getMaxOccurs() > 1) {
 															ComplexObject noArrayCO = new ComplexObject();
-															noArrayCO
-																	.setObjectName(no1
-																			.getObjectName());
-															noArrayCO
-																	.setObjectType(new QName(
-																			no1.getObjectType()
-																					.getNamespaceURI(),
-																			no1.getObjectType()
-																					.getLocalPart()
-																					+ "[][]",
-																			no1.getObjectType()
-																					.getPrefix()));
-															noArrayCO
-																	.setIsArrayType(true);
+															noArrayCO.setObjectName(no1.getObjectName());
+															noArrayCO.setObjectType(
+																	new QName(no1.getObjectType().getNamespaceURI(),
+																			no1.getObjectType().getLocalPart() + "[][]",
+																			no1.getObjectType().getPrefix()));
+															noArrayCO.setIsArrayType(true);
 
 															ComplexObject noArrayCO_ListNO = new ComplexObject();
-															noArrayCO_ListNO
-																	.setObjectName(no1
-																			.getObjectName());
-															noArrayCO_ListNO
-																	.setObjectType(new QName(
-																			no1.getObjectType()
-																					.getNamespaceURI(),
-																			no1.getObjectType()
-																					.getLocalPart()
-																					+ "[]",
-																			no1.getObjectType()
-																					.getPrefix()));
-															noArrayCO_ListNO
-																	.setIsArrayType(true);
-															noArrayCO_ListNO
-																	.setIsOptional(no1
-																			.isIsOptional());
-															noArrayCO_ListNO
-																	.getHasNativeObjects()
-																	.add(no1);
+															noArrayCO_ListNO.setObjectName(no1.getObjectName());
+															noArrayCO_ListNO.setObjectType(
+																	new QName(no1.getObjectType().getNamespaceURI(),
+																			no1.getObjectType().getLocalPart() + "[]",
+																			no1.getObjectType().getPrefix()));
+															noArrayCO_ListNO.setIsArrayType(true);
+															noArrayCO_ListNO.setIsOptional(no1.isIsOptional());
+															noArrayCO_ListNO.getHasNativeObjects().add(no1);
 
-															noArrayCO
-																	.getHasComplexObjects()
-																	.add(noArrayCO_ListNO);
-															dummyInputOrOutputComplexObject
-																	.getHasComplexObjects()
+															noArrayCO.getHasComplexObjects().add(noArrayCO_ListNO);
+															dummyInputOrOutputComplexObject.getHasComplexObjects()
 																	.add(noArrayCO);
 															typeParsed = true;
 
 														} else {
 															typeParsed = true;
 															ComplexObject noArrayCO = new ComplexObject();
-															noArrayCO
-																	.setObjectName(no1
-																			.getObjectName());
-															noArrayCO
-																	.setObjectType(new QName(
-																			no1.getObjectType()
-																					.getNamespaceURI(),
-																			no1.getObjectType()
-																					.getLocalPart()
-																					+ "[]",
-																			no1.getObjectType()
-																					.getPrefix()));
-															noArrayCO
-																	.setIsArrayType(true);
-															noArrayCO
-																	.getHasNativeObjects()
-																	.add(no1);
-															noArrayCO
-																	.setIsOptional(no1
-																			.isIsOptional());
-															dummyInputOrOutputComplexObject
-																	.getHasComplexObjects()
+															noArrayCO.setObjectName(no1.getObjectName());
+															noArrayCO.setObjectType(
+																	new QName(no1.getObjectType().getNamespaceURI(),
+																			no1.getObjectType().getLocalPart() + "[]",
+																			no1.getObjectType().getPrefix()));
+															noArrayCO.setIsArrayType(true);
+															noArrayCO.getHasNativeObjects().add(no1);
+															noArrayCO.setIsOptional(no1.isIsOptional());
+															dummyInputOrOutputComplexObject.getHasComplexObjects()
 																	.add(noArrayCO);
 														}
 													} else {
-														if (schElemOfType
-																.getMaxOccurs() > 1) {
+														if (schElemOfType.getMaxOccurs() > 1) {
 															ComplexObject noArrayCO = new ComplexObject();
 
-															noArrayCO
-																	.setObjectName(no1
-																			.getObjectName());
-															noArrayCO
-																	.setObjectType(new QName(
-																			no1.getObjectType()
-																					.getNamespaceURI(),
-																			no1.getObjectType()
-																					.getLocalPart()
-																					+ "[]",
-																			no1.getObjectType()
-																					.getPrefix()));
-															noArrayCO
-																	.setIsArrayType(true);
-															noArrayCO
-																	.getHasNativeObjects()
-																	.add(no1);
-															dummyInputOrOutputComplexObject
-																	.getHasComplexObjects()
+															noArrayCO.setObjectName(no1.getObjectName());
+															noArrayCO.setObjectType(
+																	new QName(no1.getObjectType().getNamespaceURI(),
+																			no1.getObjectType().getLocalPart() + "[]",
+																			no1.getObjectType().getPrefix()));
+															noArrayCO.setIsArrayType(true);
+															noArrayCO.getHasNativeObjects().add(no1);
+															dummyInputOrOutputComplexObject.getHasComplexObjects()
 																	.add(noArrayCO);
 															typeParsed = true;
 
 														} else {
 															typeParsed = true;
-															dummyInputOrOutputComplexObject
-																	.getHasNativeObjects()
+															dummyInputOrOutputComplexObject.getHasNativeObjects()
 																	.add(no1);
 														}
 													}
 												}
 
-											} else if (schElemOfType
-													.getSchemaType()
-													.getClass()
-													.toString()
-													.contains(
-															"org.apache.ws.commons.schema.XmlSchemaComplexType")) {
+											} else if (schElemOfType.getSchemaType().getClass().toString()
+													.contains("org.apache.ws.commons.schema.XmlSchemaComplexType")) {
 												ComplexObject co1 = new ComplexObject();
 
-												ComplexTypesParser
-														.parseComplexType(
-																service,
-																schElemOfType,
-																null, co1,
-																theDefinition,
-																false);
+												ComplexTypesParser.parseComplexType(service, schElemOfType, null, co1,
+														theDefinition, false);
 												typeParsed = true;
 
-												if (schElemOfType
-														.getMaxOccurs() > 1) {
+												if (schElemOfType.getMaxOccurs() > 1) {
 													if (!co1.isIsArrayType()) {
 														ComplexObject co2 = new ComplexObject();
-														co2.setObjectName(co1
-																.getObjectName());
-														co2.setObjectType(new QName(
-																co1.getObjectType()
-																		.getNamespaceURI(),
-																co1.getObjectType()
-																		.getLocalPart()
-																		+ "[]",
-																co1.getObjectType()
-																		.getPrefix()));
+														co2.setObjectName(co1.getObjectName());
+														co2.setObjectType(
+																new QName(co1.getObjectType().getNamespaceURI(),
+																		co1.getObjectType().getLocalPart() + "[]",
+																		co1.getObjectType().getPrefix()));
 														co2.setIsArrayType(true);
-														co2.getHasComplexObjects()
-																.add(co1);
+														co2.getHasComplexObjects().add(co1);
 														//
-														dummyInputOrOutputComplexObject
-																.getHasComplexObjects()
-																.add(co2);
+														dummyInputOrOutputComplexObject.getHasComplexObjects().add(co2);
 													} else {
-														dummyInputOrOutputComplexObject
-																.getHasComplexObjects()
-																.add(co1);
+														dummyInputOrOutputComplexObject.getHasComplexObjects().add(co1);
 													}
 												} else {
-													dummyInputOrOutputComplexObject
-															.getHasComplexObjects()
-															.add(co1);
+													dummyInputOrOutputComplexObject.getHasComplexObjects().add(co1);
 												}
 
 											}
 
 											if (!typeParsed) {
-												System.out
-														.println("ERROR 1!!!!!!!!!!!!!!!!!! @line ~191");
-												theDefinition
-														.getContainingErrors()
+												System.out.println("ERROR 1!!!!!!!!!!!!!!!!!! @line ~191");
+												theDefinition.getContainingErrors()
 														.add("ERROR 1!!!!!!!!!!!!!!!!!! @line ~191");
 												// -System.exit(-1);
 											}
@@ -786,34 +579,25 @@ public class Axis2ParserWrapper {
 											// PREPEI NA PSAKSW TO schemaType
 											// sto service
 											org.apache.ws.commons.schema.XmlSchemaType xmlSchemaType = null;
-											if (schElemOfType
-													.getSchemaTypeName() != null) {
+											if (schElemOfType.getSchemaTypeName() != null) {
 												xmlSchemaType = ParsingUtils
-														.parseWSDLschemasInOrderToFindTheSpecificXMLSchemaType(
-																service,
-																schElemOfType
-																		.getSchemaTypeName());
+														.parseWSDLschemasInOrderToFindTheSpecificXMLSchemaType(service,
+																schElemOfType.getSchemaTypeName());
 												/*
 												 * if (xmlSchemaType == null) {
 												 * xmlSchemaType =
 												 * parseWSDLschemasInOrderToFindTheSpecificXMLSchemaElement
-												 * (service,
-												 * schElemOfType.getSchemaTypeName
-												 * ()); }
+												 * (service, schElemOfType.
+												 * getSchemaTypeName ()); }
 												 */
-											} else if (schElemOfType
-													.getRefName() != null) {
+											} else if (schElemOfType.getRefName() != null) {
 												xmlSchemaType = ParsingUtils
-														.parseWSDLschemasInOrderToFindTheSpecificXMLSchemaType(
-																service,
-																schElemOfType
-																		.getRefName());
+														.parseWSDLschemasInOrderToFindTheSpecificXMLSchemaType(service,
+																schElemOfType.getRefName());
 												if (xmlSchemaType == null) {
 													xmlSchemaType = ParsingUtils
 															.parseWSDLschemasInOrderToFindTheSpecificXMLSchemaElement(
-																	service,
-																	schElemOfType
-																			.getRefName());
+																	service, schElemOfType.getRefName());
 												}
 											}
 
@@ -821,232 +605,146 @@ public class Axis2ParserWrapper {
 												// failedDueToAxisCreation=true;
 												// return null;
 												Object res123 = ParsingUtils
-														.tryToFindAndParseAttributeForSpecificObject(
-																theDefinition,
-																service,
-																schElemOfType
-																		.getRefName());
+														.tryToFindAndParseAttributeForSpecificObject(theDefinition,
+																service, schElemOfType.getRefName());
 												if (res123 != null) {
-													if (res123
-															.getClass()
-															.getName()
-															.contains(
-																	"NativeObject")) {
-														dummyInputOrOutputComplexObject
-																.getHasNativeObjects()
+													if (res123.getClass().getName().contains("NativeObject")) {
+														dummyInputOrOutputComplexObject.getHasNativeObjects()
 																.add(res123);
 														continue;
-													} else if (res123
-															.getClass()
-															.getName()
-															.contains(
-																	"ComplexObject")) {
-														dummyInputOrOutputComplexObject
-																.getHasComplexObjects()
+													} else if (res123.getClass().getName().contains("ComplexObject")) {
+														dummyInputOrOutputComplexObject.getHasComplexObjects()
 																.add(res123);
 														continue;
 													}
 
 												} else {
-													System.out
-															.println("XA! W!");
-													System.out
-															.println("XA! W!");
+													System.out.println("XA! W!");
+													System.out.println("XA! W!");
 													ComplexObject co123 = new ComplexObject();
-													if (schElemOfType
-															.getQName() != null) {
-														co123.setObjectName(schElemOfType
-																.getQName());
-													} else if (schElemOfType
-															.getRefName() != null) {
-														co123.setObjectName(schElemOfType
-																.getRefName());
-													} else if (schElemOfType
-															.getName() != null) {
-														co123.setObjectName(new QName(
-																schElemOfType
-																		.getName()));
+													if (schElemOfType.getQName() != null) {
+														co123.setObjectName(schElemOfType.getQName());
+													} else if (schElemOfType.getRefName() != null) {
+														co123.setObjectName(schElemOfType.getRefName());
+													} else if (schElemOfType.getName() != null) {
+														co123.setObjectName(new QName(schElemOfType.getName()));
 													} else {
-														co123.setObjectName(new QName(
-																"UNDEFINED variable name!"));
-														theDefinition
-																.getContainingErrors()
+														co123.setObjectName(new QName("UNDEFINED variable name!"));
+														theDefinition.getContainingErrors()
 																.add("ERROR @line ~324... UNDEFINED Variable name!!!");
-														System.out
-																.println("ERROR @line ~324... UNDEFINED Variable name!!!");
+														System.out.println(
+																"ERROR @line ~324... UNDEFINED Variable name!!!");
 													}
 
-													co123.setObjectType(new QName(
-															"Object"));
-													dummyInputOrOutputComplexObject
-															.getHasComplexObjects()
-															.add(co123);
+													co123.setObjectType(new QName("Object"));
+													dummyInputOrOutputComplexObject.getHasComplexObjects().add(co123);
 												}
 
 												continue;
 
 											}
 											boolean typeParsed = false;
-											if (xmlSchemaType
-													.getClass()
-													.toString()
-													.contains(
-															"org.apache.ws.commons.schema.XmlSchemaSimpleType")) {
+											if (xmlSchemaType.getClass().toString()
+													.contains("org.apache.ws.commons.schema.XmlSchemaSimpleType")) {
 												NativeObject no1 = new NativeObject();
 												// no1.setObjectName(schElemOfType.getQName());
 												if (schElemOfType.getQName() != null) {
-													no1.setObjectName(schElemOfType
-															.getQName());
-												} else if (schElemOfType
-														.getRefName() != null) {
-													no1.setObjectName(schElemOfType
-															.getRefName());
-												} else if (schElemOfType
-														.getName() != null) {
-													no1.setObjectName(new QName(
-															schElemOfType
-																	.getName()));
+													no1.setObjectName(schElemOfType.getQName());
+												} else if (schElemOfType.getRefName() != null) {
+													no1.setObjectName(schElemOfType.getRefName());
+												} else if (schElemOfType.getName() != null) {
+													no1.setObjectName(new QName(schElemOfType.getName()));
 												} else {
-													no1.setObjectName(new QName(
-															"UNDEFINED variable name"));
-													theDefinition
-															.getContainingErrors()
+													no1.setObjectName(new QName("UNDEFINED variable name"));
+													theDefinition.getContainingErrors()
 															.add("WARNING @line ~457... UNDEFINED Variable name!!!");
-													System.out
-															.println("WARNING @line ~457... UNDEFINED Variable name!!!");
+													System.out.println(
+															"WARNING @line ~457... UNDEFINED Variable name!!!");
 												}
 
-												ComplexObject unionCO = SimpleTypesParser
-														.parseSimpleType(null,
-																xmlSchemaType,
-																no1,
-																theDefinition,
-																service);
+												ComplexObject unionCO = SimpleTypesParser.parseSimpleType(null,
+														xmlSchemaType, no1, theDefinition, service);
 												if (unionCO == null) {
-													if (schElemOfType != null
-															&& (schElemOfType
-																	.getMinOccurs() == 0 || schElemOfType
-																	.isNillable())) {
+													if (schElemOfType != null && (schElemOfType.getMinOccurs() == 0
+															|| schElemOfType.isNillable())) {
 														no1.setIsOptional(true);
 													}
 
 													System.out.println();
 													typeParsed = true;
-													if (schElemOfType
-															.getMaxOccurs() > 1
+													if (schElemOfType.getMaxOccurs() > 1
 															|| (no1.getAdditionalInfo() != null && no1
-																	.getAdditionalInfo()
-																	.contains(
-																			"isListType"))) {
+																	.getAdditionalInfo().contains("isListType"))) {
 														ComplexObject noArrayCO = new ComplexObject();
-														noArrayCO
-																.setObjectName(no1
-																		.getObjectName());
-														noArrayCO
-																.setObjectType(new QName(
-																		no1.getObjectType()
-																				.getNamespaceURI(),
-																		no1.getObjectType()
-																				+ "[]",
-																		no1.getObjectType()
-																				.getPrefix()));
-														noArrayCO
-																.setIsArrayType(true);
-														noArrayCO
-																.getHasNativeObjects()
-																.add(no1);
-														noArrayCO
-																.setIsOptional(no1
-																		.isIsOptional());
-														dummyInputOrOutputComplexObject
-																.getHasComplexObjects()
+														noArrayCO.setObjectName(no1.getObjectName());
+														noArrayCO.setObjectType(
+																new QName(no1.getObjectType().getNamespaceURI(),
+																		no1.getObjectType() + "[]",
+																		no1.getObjectType().getPrefix()));
+														noArrayCO.setIsArrayType(true);
+														noArrayCO.getHasNativeObjects().add(no1);
+														noArrayCO.setIsOptional(no1.isIsOptional());
+														dummyInputOrOutputComplexObject.getHasComplexObjects()
 																.add(noArrayCO);
 														typeParsed = true;
 
 													} else {
 														typeParsed = true;
-														dummyInputOrOutputComplexObject
-																.getHasNativeObjects()
-																.add(no1);
+														dummyInputOrOutputComplexObject.getHasNativeObjects().add(no1);
 													}
 												} else {
 													ComplexObject co1 = new ComplexObject();
-													co1.setObjectName(no1
-															.getObjectName());
-													if (xmlSchemaType
-															.getQName() != null) {
-														co1.setObjectType(xmlSchemaType
-																.getQName());
+													co1.setObjectName(no1.getObjectName());
+													if (xmlSchemaType.getQName() != null) {
+														co1.setObjectType(xmlSchemaType.getQName());
 													} else {
 														System.out.println();
 													}
-													co1.getHasComplexObjects()
-															.add(unionCO);
-													dummyInputOrOutputComplexObject
-															.getHasComplexObjects()
-															.add(co1);
+													co1.getHasComplexObjects().add(unionCO);
+													dummyInputOrOutputComplexObject.getHasComplexObjects().add(co1);
 												}
 
-											} else if (xmlSchemaType
-													.getClass()
-													.toString()
-													.contains(
-															"org.apache.ws.commons.schema.XmlSchemaComplexType")) {
+											} else if (xmlSchemaType.getClass().toString()
+													.contains("org.apache.ws.commons.schema.XmlSchemaComplexType")) {
 
 												ComplexObject co1 = new ComplexObject();
 												if (schElemOfType.getQName() != null) {
-													co1.setObjectName(schElemOfType
-															.getQName());// Panta
-																			// prin
-																			// apo
-																			// ayto
-																			// ton
-																			// tropo
-																			// klisis
-																			// prepei
-																			// na
-																			// exw
-																			// dwsei
-																			// prwta
-																			// to
-																			// onoma
-																			// tou
-																			// co
-												} else if (schElemOfType
-														.getRefName() != null) {
-													co1.setObjectName(schElemOfType
-															.getRefName());
-												} else if (schElemOfType
-														.getName() != null) {
-													co1.setObjectName(new QName(
-															schElemOfType
-																	.getName()));
+													co1.setObjectName(schElemOfType.getQName());// Panta
+																								// prin
+																								// apo
+																								// ayto
+																								// ton
+																								// tropo
+																								// klisis
+																								// prepei
+																								// na
+																								// exw
+																								// dwsei
+																								// prwta
+																								// to
+																								// onoma
+																								// tou
+																								// co
+												} else if (schElemOfType.getRefName() != null) {
+													co1.setObjectName(schElemOfType.getRefName());
+												} else if (schElemOfType.getName() != null) {
+													co1.setObjectName(new QName(schElemOfType.getName()));
 												} else {
-													co1.setObjectName(new QName(
-															"UNDEFINED variable name"));
-													theDefinition
-															.getContainingErrors()
+													co1.setObjectName(new QName("UNDEFINED variable name"));
+													theDefinition.getContainingErrors()
 															.add("WARNING @line ~411... UNDEFINED Variable name!!!");
-													System.out
-															.println("WARNING @line ~411... UNDEFINED Variable name!!!");
+													System.out.println(
+															"WARNING @line ~411... UNDEFINED Variable name!!!");
 												}
 
-												if (schElemOfType
-														.getMinOccurs() == 0
-														|| schElemOfType
-																.isNillable()) {
+												if (schElemOfType.getMinOccurs() == 0 || schElemOfType.isNillable()) {
 													co1.setIsOptional(true);
 												}
 
 												System.out.println();
 
-												ComplexTypesParser
-														.parseComplexType(
-																service, null,
-																xmlSchemaType,
-																co1,
-																theDefinition,
-																false);
+												ComplexTypesParser.parseComplexType(service, null, xmlSchemaType, co1,
+														theDefinition, false);
 												// if(co1.isIsArrayType()){
 												// if(co1.getHasNativeObjects().size()+co1.getHasComplexObjects().size()>1){
 												// ComplexObject co2=new
@@ -1067,136 +765,82 @@ public class Axis2ParserWrapper {
 												// }
 												typeParsed = true;
 
-												if (schElemOfType != null
-														&& (schElemOfType
-																.getMinOccurs() == 0 || schElemOfType
-																.isNillable())) {
+												if (schElemOfType != null && (schElemOfType.getMinOccurs() == 0
+														|| schElemOfType.isNillable())) {
 													co1.setIsOptional(true);
 												}
 
-												if (schElemOfType != null
-														&& schElemOfType
-																.getMaxOccurs() > 1) {
+												if (schElemOfType != null && schElemOfType.getMaxOccurs() > 1) {
 													try {
-														if (!((ComplexObject) co1
-																.getHasComplexObjects()
-																.get(0))
-																.getObjectName()
-																.getLocalPart()
-																.equals(co1
-																		.getObjectType()
-																		.getLocalPart()
-																		.replace(
-																				"[]",
-																				""))) {
+														if (!((ComplexObject) co1.getHasComplexObjects().get(0))
+																.getObjectName().getLocalPart()
+																.equals(co1.getObjectType().getLocalPart().replace("[]",
+																		""))) {
 															ComplexObject coArrayCO = new ComplexObject();
-															coArrayCO
-																	.setObjectName(co1
-																			.getObjectName());
+															coArrayCO.setObjectName(co1.getObjectName());
 															// co1.setObjectType(new
 															// QName("XA!"));
-															if (!co1.getObjectType()
-																	.getLocalPart()
-																	.contains(
-																			"[]")) {
-																coArrayCO
-																		.setObjectType(new QName(
-																				co1.getObjectType()
-																						.getNamespaceURI(),
-																				co1.getObjectType()
-																						.getLocalPart()
+															if (!co1.getObjectType().getLocalPart().contains("[]")) {
+																coArrayCO.setObjectType(
+																		new QName(co1.getObjectType().getNamespaceURI(),
+																				co1.getObjectType().getLocalPart()
 																						+ "[]",
-																				co1.getObjectType()
-																						.getPrefix()));
+																				co1.getObjectType().getPrefix()));
 															} else {
-																coArrayCO
-																		.setObjectType(new QName(
-																				co1.getObjectType()
-																						.getNamespaceURI(),
-																				co1.getObjectType()
-																						.getLocalPart(),
-																				co1.getObjectType()
-																						.getPrefix()));
+																coArrayCO.setObjectType(
+																		new QName(co1.getObjectType().getNamespaceURI(),
+																				co1.getObjectType().getLocalPart(),
+																				co1.getObjectType().getPrefix()));
 															}
-															coArrayCO
-																	.setIsArrayType(true);
-															coArrayCO
-																	.getHasComplexObjects()
-																	.add(co1);
-															coArrayCO
-																	.setIsOptional(co1
-																			.isIsOptional());
-															dummyInputOrOutputComplexObject
-																	.getHasComplexObjects()
+															coArrayCO.setIsArrayType(true);
+															coArrayCO.getHasComplexObjects().add(co1);
+															coArrayCO.setIsOptional(co1.isIsOptional());
+															dummyInputOrOutputComplexObject.getHasComplexObjects()
 																	.add(coArrayCO);
 														} else {
 															co1.setIsArrayType(true);
-															dummyInputOrOutputComplexObject
-																	.getHasComplexObjects()
+															dummyInputOrOutputComplexObject.getHasComplexObjects()
 																	.add(co1);
 														}
 													} catch (Exception ex) {
 														ComplexObject coArrayCO = new ComplexObject();
-														coArrayCO
-																.setObjectName(co1
-																		.getObjectName());
+														coArrayCO.setObjectName(co1.getObjectName());
 														// co1.setObjectType(new
 														// QName("XA!"));
-														if (!co1.getObjectType()
-																.getLocalPart()
-																.contains("[]")) {
-															coArrayCO
-																	.setObjectType(new QName(
-																			co1.getObjectType()
-																					.getNamespaceURI(),
-																			co1.getObjectType()
-																					.getLocalPart()
-																					+ "[]",
-																			co1.getObjectType()
-																					.getPrefix()));
+														if (!co1.getObjectType().getLocalPart().contains("[]")) {
+															coArrayCO.setObjectType(
+																	new QName(co1.getObjectType().getNamespaceURI(),
+																			co1.getObjectType().getLocalPart() + "[]",
+																			co1.getObjectType().getPrefix()));
 														} else {
-															coArrayCO
-																	.setObjectType(new QName(
-																			co1.getObjectType()
-																					.getNamespaceURI(),
-																			co1.getObjectType()
-																					.getLocalPart(),
-																			co1.getObjectType()
-																					.getPrefix()));
+															coArrayCO.setObjectType(
+																	new QName(co1.getObjectType().getNamespaceURI(),
+																			co1.getObjectType().getLocalPart(),
+																			co1.getObjectType().getPrefix()));
 														}
-														coArrayCO
-																.setIsArrayType(true);
-														coArrayCO
-																.getHasComplexObjects()
-																.add(co1);
-														coArrayCO
-																.setIsOptional(co1
-																		.isIsOptional());
-														dummyInputOrOutputComplexObject
-																.getHasComplexObjects()
+														coArrayCO.setIsArrayType(true);
+														coArrayCO.getHasComplexObjects().add(co1);
+														coArrayCO.setIsOptional(co1.isIsOptional());
+														dummyInputOrOutputComplexObject.getHasComplexObjects()
 																.add(coArrayCO);
 													}
 												} else {
-													dummyInputOrOutputComplexObject
-															.getHasComplexObjects()
-															.add(co1);
+													dummyInputOrOutputComplexObject.getHasComplexObjects().add(co1);
 												}
 
 												// }
 											}
 
 											if (!typeParsed) {
-												// -System.out.prinln("ERROR 1!!!!!!!!!!!!!!!!!!");
+												// -System.out.prinln("ERROR
+												// 1!!!!!!!!!!!!!!!!!!");
 												// -System.exit(-1);
 											}
 
 										}
 
-									} else if (newObj1
-											.getClass()
-											.getName()
-											.contains(
-													"org.apache.ws.commons.schema.XmlSchemaAny")) {
+									} else if (newObj1.getClass().getName()
+											.contains("org.apache.ws.commons.schema.XmlSchemaAny")) {
 										// EINAI XmlSchemaAny
 
 										try {
@@ -1204,38 +848,27 @@ public class Axis2ParserWrapper {
 
 											ComplexObject co1 = new ComplexObject();
 											co1.setObjectName(new QName("any"));
-											co1.setObjectType(new QName(
-													"Object"));
+											co1.setObjectType(new QName("Object"));
 
-											if (newSimpleOrComplexObjectElement
-													.getMinOccurs() == 0) {
+											if (newSimpleOrComplexObjectElement.getMinOccurs() == 0) {
 												co1.setIsOptional(true);
 											}
 
-											if (newSimpleOrComplexObjectElement
-													.getMaxOccurs() > 1) {
+											if (newSimpleOrComplexObjectElement.getMaxOccurs() > 1) {
 												// Array Type
 												ComplexObject arrayCO = new ComplexObject();
-												arrayCO.setObjectName(co1
-														.getObjectName());
-												arrayCO.setObjectType(new QName(
-														co1.getObjectType()
-																+ "[]"));
+												arrayCO.setObjectName(co1.getObjectName());
+												arrayCO.setObjectType(new QName(co1.getObjectType() + "[]"));
 												arrayCO.setIsArrayType(true);
-												arrayCO.getHasComplexObjects()
-														.add(co1);
-												arrayCO.setIsOptional(co1
-														.isIsOptional());
-												dummyInputOrOutputComplexObject
-														.getHasComplexObjects()
-														.add(arrayCO);
+												arrayCO.getHasComplexObjects().add(co1);
+												arrayCO.setIsOptional(co1.isIsOptional());
+												dummyInputOrOutputComplexObject.getHasComplexObjects().add(arrayCO);
 											} else {
-												dummyInputOrOutputComplexObject
-														.getHasComplexObjects()
-														.add(co1);
+												dummyInputOrOutputComplexObject.getHasComplexObjects().add(co1);
 											}
 
-											// System.out.println("\t\t\t\t\t"+newSimpleOrComplexObjectElement.getName()+"   "+newSimpleOrComplexObjectElement.getSchemaTypeName());
+											// System.out.println("\t\t\t\t\t"+newSimpleOrComplexObjectElement.getName()+"
+											// "+newSimpleOrComplexObjectElement.getSchemaTypeName());
 											System.out.println("aaa!");
 										} catch (Exception e) {
 											e.printStackTrace();
@@ -1243,29 +876,21 @@ public class Axis2ParserWrapper {
 										}
 										System.out.println("eee");
 
-									} else if (newObj1
-											.getClass()
-											.getName()
-											.contains(
-													"org.apache.ws.commons.schema.XmlSchemaChoice")) {
+									} else if (newObj1.getClass().getName()
+											.contains("org.apache.ws.commons.schema.XmlSchemaChoice")) {
 										// EINAI XmlSchemaAny
 										try {
 											System.out.println();
 											org.apache.ws.commons.schema.XmlSchemaChoice elem1 = (org.apache.ws.commons.schema.XmlSchemaChoice) newObj1;
 											ComplexObject co1 = new ComplexObject();
-											co1.setObjectName(new QName(
-													"http://www.w3.org/2001/XMLSchema",
-													"XmlSchemaChoice"));
-											co1.setObjectType(new QName(
-													"http://www.w3.org/2001/XMLSchema",
-													"XmlSchemaChoice"));
+											co1.setObjectName(
+													new QName("http://www.w3.org/2001/XMLSchema", "XmlSchemaChoice"));
+											co1.setObjectType(
+													new QName("http://www.w3.org/2001/XMLSchema", "XmlSchemaChoice"));
 											co1.setIsAbstract(true);
 
-											AdditionalTypesParser
-													.parseXMLSchemaChoiceElement(
-															service, elem1,
-															co1, theDefinition,
-															false);
+											AdditionalTypesParser.parseXMLSchemaChoiceElement(service, elem1, co1,
+													theDefinition, false);
 
 											if (elem1.getMinOccurs() == 0) {
 												co1.setIsOptional(true);
@@ -1274,23 +899,14 @@ public class Axis2ParserWrapper {
 											if (elem1.getMaxOccurs() > 1) {
 												// Array Type
 												ComplexObject arrayCO1 = new ComplexObject();
-												arrayCO1.setObjectName(co1
-														.getObjectName());
-												arrayCO1.setObjectType(new QName(
-														co1.getObjectType()
-																+ "[]"));
+												arrayCO1.setObjectName(co1.getObjectName());
+												arrayCO1.setObjectType(new QName(co1.getObjectType() + "[]"));
 												arrayCO1.setIsArrayType(true);
-												arrayCO1.getHasComplexObjects()
-														.add(co1);
-												arrayCO1.setIsOptional(co1
-														.isIsOptional());
-												dummyInputOrOutputComplexObject
-														.getHasComplexObjects()
-														.add(arrayCO1);
+												arrayCO1.getHasComplexObjects().add(co1);
+												arrayCO1.setIsOptional(co1.isIsOptional());
+												dummyInputOrOutputComplexObject.getHasComplexObjects().add(arrayCO1);
 											} else {
-												dummyInputOrOutputComplexObject
-														.getHasComplexObjects()
-														.add(co1);
+												dummyInputOrOutputComplexObject.getHasComplexObjects().add(co1);
 											}
 										} catch (Exception e) {
 											e.printStackTrace();
@@ -1298,35 +914,22 @@ public class Axis2ParserWrapper {
 										}
 										System.out.println("eee");
 
-									} else if (newObj1
-											.getClass()
-											.getName()
-											.contains(
-													"org.apache.ws.commons.schema.XmlSchemaGroupRef")) {
+									} else if (newObj1.getClass().getName()
+											.contains("org.apache.ws.commons.schema.XmlSchemaGroupRef")) {
 										System.out.println();
 										ComplexObject co1 = new ComplexObject();
-										AdditionalTypesParser
-												.parseXmlSchemaGroupRefElement(
-														service,
-														(org.apache.ws.commons.schema.XmlSchemaGroupRef) newObj1,
-														co1, theDefinition);
+										AdditionalTypesParser.parseXmlSchemaGroupRefElement(service,
+												(org.apache.ws.commons.schema.XmlSchemaGroupRef) newObj1, co1,
+												theDefinition);
 
 										if (co1 != null) {
-											for (int i = 0; i < co1
-													.getHasComplexObjects()
-													.size(); i++) {
-												dummyInputOrOutputComplexObject
-														.getHasComplexObjects()
-														.add(co1.getHasComplexObjects()
-																.get(i));
+											for (int i = 0; i < co1.getHasComplexObjects().size(); i++) {
+												dummyInputOrOutputComplexObject.getHasComplexObjects()
+														.add(co1.getHasComplexObjects().get(i));
 											}
-											for (int i = 0; i < co1
-													.getHasNativeObjects()
-													.size(); i++) {
-												dummyInputOrOutputComplexObject
-														.getHasNativeObjects()
-														.add(co1.getHasNativeObjects()
-																.get(i));
+											for (int i = 0; i < co1.getHasNativeObjects().size(); i++) {
+												dummyInputOrOutputComplexObject.getHasNativeObjects()
+														.add(co1.getHasNativeObjects().get(i));
 											}
 										} else {
 											System.out.println();
@@ -1334,80 +937,51 @@ public class Axis2ParserWrapper {
 										System.out.println();
 
 									} else {
-										System.out
-												.println("ERROR! Unknown Object Type");
+										System.out.println("ERROR! Unknown Object Type");
 									}
 
 								}
 
 								// Parse Attributes...
 								if (ct != null) {
-									XmlSchemaObjectCollection attsCol = ct
-											.getAttributes();
+									XmlSchemaObjectCollection attsCol = ct.getAttributes();
 									if (attsCol != null) {
 										Iterator iter2 = attsCol.getIterator();
 										while (iter2.hasNext()) {
 											Object obj = iter2.next();
-											if (obj.getClass()
-													.getName()
+											if (obj.getClass().getName()
 													.equals("org.apache.ws.commons.schema.XmlSchemaAttribute")) {
 												org.apache.ws.commons.schema.XmlSchemaAttribute att = (org.apache.ws.commons.schema.XmlSchemaAttribute) obj;
-												Object res1 = AdditionalTypesParser
-														.parseXmlSchemaAttribute(
-																att, service,
-																theDefinition);
+												Object res1 = AdditionalTypesParser.parseXmlSchemaAttribute(att,
+														service, theDefinition);
 												if (res1 != null) {
-													if (res1.getClass()
-															.getName()
-															.contains(
-																	"NativeObject")) {
+													if (res1.getClass().getName().contains("NativeObject")) {
 														NativeObject no12 = (NativeObject) res1;
 														// System.out.println(no12.objectName);
-														dummyInputOrOutputComplexObject
-																.getHasNativeObjects()
-																.add(no12);
-													} else if (res1
-															.getClass()
-															.getName()
-															.contains(
-																	"ComplexObject")) {
+														dummyInputOrOutputComplexObject.getHasNativeObjects().add(no12);
+													} else if (res1.getClass().getName().contains("ComplexObject")) {
 														ComplexObject co12 = (ComplexObject) res1;
 														// System.out.println(co12.objectName);
-														dummyInputOrOutputComplexObject
-																.getHasComplexObjects()
+														dummyInputOrOutputComplexObject.getHasComplexObjects()
 																.add(co12);
 													}
 												}
-											} else if (obj
-													.getClass()
-													.getName()
-													.contains(
-															"org.apache.ws.commons.schema.XmlSchemaAttributeGroupRef")) {
+											} else if (obj.getClass().getName().contains(
+													"org.apache.ws.commons.schema.XmlSchemaAttributeGroupRef")) {
 												System.out.println();
 												ComplexObject co1 = new ComplexObject();
-												AdditionalTypesParser
-														.parseXmlSchemaAttributeGroupRefElement(
-																service,
-																(org.apache.ws.commons.schema.XmlSchemaAttributeGroupRef) obj,
-																co1,
-																theDefinition);
+												AdditionalTypesParser.parseXmlSchemaAttributeGroupRefElement(service,
+														(org.apache.ws.commons.schema.XmlSchemaAttributeGroupRef) obj,
+														co1, theDefinition);
 
 												if (co1 != null) {
-													for (int i = 0; i < co1
-															.getHasComplexObjects()
-															.size(); i++) {
-														dummyInputOrOutputComplexObject
-																.getHasComplexObjects()
-																.add(co1.getHasComplexObjects()
-																		.get(i));
+													for (int i = 0; i < co1.getHasComplexObjects().size(); i++) {
+														dummyInputOrOutputComplexObject.getHasComplexObjects()
+																.add(co1.getHasComplexObjects().get(i));
 													}
-													for (int i = 0; i < co1
-															.getHasNativeObjects()
-															.size(); i++) {
-														dummyInputOrOutputComplexObject
-																.getHasNativeObjects()
-																.add(co1.getHasNativeObjects()
-																		.get(i));
+													for (int i = 0; i < co1.getHasNativeObjects().size(); i++) {
+														dummyInputOrOutputComplexObject.getHasNativeObjects()
+																.add(co1.getHasNativeObjects().get(i));
 													}
 												} else {
 													System.out.println();
@@ -1422,74 +996,44 @@ public class Axis2ParserWrapper {
 
 								if (msg.isWrapped()) {
 									if (msg.getDirection().equals("in")) {
-										operationInput
-												.setHasSoapHeaders(parseSoapHeadersOfOperation(
-														service, msg,
-														theDefinition));
+										operationInput.setHasSoapHeaders(
+												parseSoapHeadersOfOperation(service, msg, theDefinition));
 
 										System.out.println("\t\tREQUEST");
 										System.out.println(msg.getName());
-										if (dummyInputOrOutputComplexObject
-												.getHasComplexObjects().size() == 0
-												&& dummyInputOrOutputComplexObject
-														.getHasNativeObjects()
-														.size() == 1) {
-											operationInput
-													.getHasNativeOrComplexObjects()
-													.add(dummyInputOrOutputComplexObject
-															.getHasNativeObjects()
-															.get(0));
+										if (dummyInputOrOutputComplexObject.getHasComplexObjects().size() == 0
+												&& dummyInputOrOutputComplexObject.getHasNativeObjects().size() == 1) {
+											operationInput.getHasNativeOrComplexObjects()
+													.add(dummyInputOrOutputComplexObject.getHasNativeObjects().get(0));
 										} else {
-											for (int i = 0; i < dummyInputOrOutputComplexObject
-													.getHasNativeObjects()
+											for (int i = 0; i < dummyInputOrOutputComplexObject.getHasNativeObjects()
 													.size(); i++) {
-												operationInput
-														.getHasNativeOrComplexObjects()
-														.add(dummyInputOrOutputComplexObject
-																.getHasNativeObjects()
-																.get(i));
+												operationInput.getHasNativeOrComplexObjects().add(
+														dummyInputOrOutputComplexObject.getHasNativeObjects().get(i));
 											}
-											for (int i = 0; i < dummyInputOrOutputComplexObject
-													.getHasComplexObjects()
+											for (int i = 0; i < dummyInputOrOutputComplexObject.getHasComplexObjects()
 													.size(); i++) {
-												operationInput
-														.getHasNativeOrComplexObjects()
-														.add(dummyInputOrOutputComplexObject
-																.getHasComplexObjects()
-																.get(i));
+												operationInput.getHasNativeOrComplexObjects().add(
+														dummyInputOrOutputComplexObject.getHasComplexObjects().get(i));
 											}
 										}
 									} else if (msg.getDirection().equals("out")) {
 										System.out.println("\t\tRESPONSE");
 										System.out.println(msg.getName());
-										if (dummyInputOrOutputComplexObject
-												.getHasComplexObjects().size() == 0
-												&& dummyInputOrOutputComplexObject
-														.getHasNativeObjects()
-														.size() == 1) {
-											operationOutput
-													.getHasNativeOrComplexObjects()
-													.add(dummyInputOrOutputComplexObject
-															.getHasNativeObjects()
-															.get(0));
+										if (dummyInputOrOutputComplexObject.getHasComplexObjects().size() == 0
+												&& dummyInputOrOutputComplexObject.getHasNativeObjects().size() == 1) {
+											operationOutput.getHasNativeOrComplexObjects()
+													.add(dummyInputOrOutputComplexObject.getHasNativeObjects().get(0));
 										} else {
-											for (int i = 0; i < dummyInputOrOutputComplexObject
-													.getHasNativeObjects()
+											for (int i = 0; i < dummyInputOrOutputComplexObject.getHasNativeObjects()
 													.size(); i++) {
-												operationOutput
-														.getHasNativeOrComplexObjects()
-														.add(dummyInputOrOutputComplexObject
-																.getHasNativeObjects()
-																.get(i));
+												operationOutput.getHasNativeOrComplexObjects().add(
+														dummyInputOrOutputComplexObject.getHasNativeObjects().get(i));
 											}
-											for (int i = 0; i < dummyInputOrOutputComplexObject
-													.getHasComplexObjects()
+											for (int i = 0; i < dummyInputOrOutputComplexObject.getHasComplexObjects()
 													.size(); i++) {
-												operationOutput
-														.getHasNativeOrComplexObjects()
-														.add(dummyInputOrOutputComplexObject
-																.getHasComplexObjects()
-																.get(i));
+												operationOutput.getHasNativeOrComplexObjects().add(
+														dummyInputOrOutputComplexObject.getHasComplexObjects().get(i));
 											}
 										}
 									}
@@ -1497,74 +1041,44 @@ public class Axis2ParserWrapper {
 									// TWRA GINETAI TO IDIO OPWS sto WRAPPED apo
 									// panw...
 									if (msg.getDirection().equals("in")) {
-										operationInput
-												.setHasSoapHeaders(parseSoapHeadersOfOperation(
-														service, msg,
-														theDefinition));
+										operationInput.setHasSoapHeaders(
+												parseSoapHeadersOfOperation(service, msg, theDefinition));
 
 										System.out.println("\t\tREQUEST");
 										System.out.println(msg.getName());
-										if (dummyInputOrOutputComplexObject
-												.getHasComplexObjects().size() == 0
-												&& dummyInputOrOutputComplexObject
-														.getHasNativeObjects()
-														.size() == 1) {
-											operationInput
-													.getHasNativeOrComplexObjects()
-													.add(dummyInputOrOutputComplexObject
-															.getHasNativeObjects()
-															.get(0));
+										if (dummyInputOrOutputComplexObject.getHasComplexObjects().size() == 0
+												&& dummyInputOrOutputComplexObject.getHasNativeObjects().size() == 1) {
+											operationInput.getHasNativeOrComplexObjects()
+													.add(dummyInputOrOutputComplexObject.getHasNativeObjects().get(0));
 										} else {
-											for (int i = 0; i < dummyInputOrOutputComplexObject
-													.getHasNativeObjects()
+											for (int i = 0; i < dummyInputOrOutputComplexObject.getHasNativeObjects()
 													.size(); i++) {
-												operationInput
-														.getHasNativeOrComplexObjects()
-														.add(dummyInputOrOutputComplexObject
-																.getHasNativeObjects()
-																.get(i));
+												operationInput.getHasNativeOrComplexObjects().add(
+														dummyInputOrOutputComplexObject.getHasNativeObjects().get(i));
 											}
-											for (int i = 0; i < dummyInputOrOutputComplexObject
-													.getHasComplexObjects()
+											for (int i = 0; i < dummyInputOrOutputComplexObject.getHasComplexObjects()
 													.size(); i++) {
-												operationInput
-														.getHasNativeOrComplexObjects()
-														.add(dummyInputOrOutputComplexObject
-																.getHasComplexObjects()
-																.get(i));
+												operationInput.getHasNativeOrComplexObjects().add(
+														dummyInputOrOutputComplexObject.getHasComplexObjects().get(i));
 											}
 										}
 									} else if (msg.getDirection().equals("out")) {
 										System.out.println("\t\tRESPONSE");
 										System.out.println(msg.getName());
-										if (dummyInputOrOutputComplexObject
-												.getHasComplexObjects().size() == 0
-												&& dummyInputOrOutputComplexObject
-														.getHasNativeObjects()
-														.size() == 1) {
-											operationOutput
-													.getHasNativeOrComplexObjects()
-													.add(dummyInputOrOutputComplexObject
-															.getHasNativeObjects()
-															.get(0));
+										if (dummyInputOrOutputComplexObject.getHasComplexObjects().size() == 0
+												&& dummyInputOrOutputComplexObject.getHasNativeObjects().size() == 1) {
+											operationOutput.getHasNativeOrComplexObjects()
+													.add(dummyInputOrOutputComplexObject.getHasNativeObjects().get(0));
 										} else {
-											for (int i = 0; i < dummyInputOrOutputComplexObject
-													.getHasNativeObjects()
+											for (int i = 0; i < dummyInputOrOutputComplexObject.getHasNativeObjects()
 													.size(); i++) {
-												operationOutput
-														.getHasNativeOrComplexObjects()
-														.add(dummyInputOrOutputComplexObject
-																.getHasNativeObjects()
-																.get(i));
+												operationOutput.getHasNativeOrComplexObjects().add(
+														dummyInputOrOutputComplexObject.getHasNativeObjects().get(i));
 											}
-											for (int i = 0; i < dummyInputOrOutputComplexObject
-													.getHasComplexObjects()
+											for (int i = 0; i < dummyInputOrOutputComplexObject.getHasComplexObjects()
 													.size(); i++) {
-												operationOutput
-														.getHasNativeOrComplexObjects()
-														.add(dummyInputOrOutputComplexObject
-																.getHasComplexObjects()
-																.get(i));
+												operationOutput.getHasNativeOrComplexObjects().add(
+														dummyInputOrOutputComplexObject.getHasComplexObjects().get(i));
 											}
 										}
 									}
@@ -1576,77 +1090,48 @@ public class Axis2ParserWrapper {
 								// CODE ADDED on 12-4-2010
 								ComplexObject dummyInputOrOutputComplexObject = new ComplexObject();
 
-								XmlSchemaObjectCollection attsCol = ct
-										.getAttributes();
+								XmlSchemaObjectCollection attsCol = ct.getAttributes();
 
 								// EDW NA GINEI CHECK sta namespaces gia na mpei
 								// to katallilo prefix
-								dummyInputOrOutputComplexObject
-										.setObjectName(msg.getElementQName());
+								dummyInputOrOutputComplexObject.setObjectName(msg.getElementQName());
 
 								if (attsCol != null) {
 									Iterator iter2 = attsCol.getIterator();
 									while (iter2.hasNext()) {
 										Object obj = iter2.next();
-										if (obj.getClass()
-												.getName()
+										if (obj.getClass().getName()
 												.equals("org.apache.ws.commons.schema.XmlSchemaAttribute")) {
 											org.apache.ws.commons.schema.XmlSchemaAttribute att = (org.apache.ws.commons.schema.XmlSchemaAttribute) obj;
-											Object res1 = AdditionalTypesParser
-													.parseXmlSchemaAttribute(
-															att, service,
-															theDefinition);
+											Object res1 = AdditionalTypesParser.parseXmlSchemaAttribute(att, service,
+													theDefinition);
 											if (res1 != null) {
-												if (res1.getClass()
-														.getName()
-														.contains(
-																"NativeObject")) {
+												if (res1.getClass().getName().contains("NativeObject")) {
 													NativeObject no12 = (NativeObject) res1;
 													// System.out.println(no12.objectName);
-													dummyInputOrOutputComplexObject
-															.getHasNativeObjects()
-															.add(no12);
-												} else if (res1
-														.getClass()
-														.getName()
-														.contains(
-																"ComplexObject")) {
+													dummyInputOrOutputComplexObject.getHasNativeObjects().add(no12);
+												} else if (res1.getClass().getName().contains("ComplexObject")) {
 													ComplexObject co12 = (ComplexObject) res1;
 													// System.out.println(co12.objectName);
-													dummyInputOrOutputComplexObject
-															.getHasComplexObjects()
-															.add(co12);
+													dummyInputOrOutputComplexObject.getHasComplexObjects().add(co12);
 												}
 											}
-										} else if (obj
-												.getClass()
-												.getName()
-												.contains(
-														"org.apache.ws.commons.schema.XmlSchemaAttributeGroupRef")) {
+										} else if (obj.getClass().getName()
+												.contains("org.apache.ws.commons.schema.XmlSchemaAttributeGroupRef")) {
 											System.out.println();
 											ComplexObject co1 = new ComplexObject();
-											AdditionalTypesParser
-													.parseXmlSchemaAttributeGroupRefElement(
-															service,
-															(org.apache.ws.commons.schema.XmlSchemaAttributeGroupRef) obj,
-															co1, theDefinition);
+											AdditionalTypesParser.parseXmlSchemaAttributeGroupRefElement(service,
+													(org.apache.ws.commons.schema.XmlSchemaAttributeGroupRef) obj, co1,
+													theDefinition);
 
 											if (co1 != null) {
-												for (int i = 0; i < co1
-														.getHasComplexObjects()
-														.size(); i++) {
-													dummyInputOrOutputComplexObject
-															.getHasComplexObjects()
-															.add(co1.getHasComplexObjects()
-																	.get(i));
+												for (int i = 0; i < co1.getHasComplexObjects().size(); i++) {
+													dummyInputOrOutputComplexObject.getHasComplexObjects()
+															.add(co1.getHasComplexObjects().get(i));
 												}
-												for (int i = 0; i < co1
-														.getHasNativeObjects()
-														.size(); i++) {
-													dummyInputOrOutputComplexObject
-															.getHasNativeObjects()
-															.add(co1.getHasNativeObjects()
-																	.get(i));
+												for (int i = 0; i < co1.getHasNativeObjects().size(); i++) {
+													dummyInputOrOutputComplexObject.getHasNativeObjects()
+															.add(co1.getHasNativeObjects().get(i));
 												}
 											} else {
 												System.out.println();
@@ -1658,20 +1143,13 @@ public class Axis2ParserWrapper {
 									}
 								}
 
-								if (ct.getContentModel() != null
-										&& ct.getContentModel()
-												.getClass()
-												.getName()
-												.equals("org.apache.ws.commons.schema.XmlSchemaComplexContent")) {
+								if (ct.getContentModel() != null && ct.getContentModel().getClass().getName()
+										.equals("org.apache.ws.commons.schema.XmlSchemaComplexContent")) {
 									try {
-										ComplexTypesParser
-												.parseComplexContent(
-														service,
-														(org.apache.ws.commons.schema.XmlSchemaComplexContent) ct
-																.getContentModel(),
-														dummyInputOrOutputComplexObject,
-														theDefinition, false,
-														ct.getQName());
+										ComplexTypesParser.parseComplexContent(service,
+												(org.apache.ws.commons.schema.XmlSchemaComplexContent) ct
+														.getContentModel(),
+												dummyInputOrOutputComplexObject, theDefinition, false, ct.getQName());
 									} catch (Exception e) {
 										e.printStackTrace();
 
@@ -1679,91 +1157,56 @@ public class Axis2ParserWrapper {
 									}
 
 									System.out.println("a");
-								} else if (ct.getContentModel() != null
-										&& ct.getContentModel()
-												.getClass()
-												.getName()
-												.equals("org.apache.ws.commons.schema.XmlSchemaSimpleContent")) {
+								} else if (ct.getContentModel() != null && ct.getContentModel().getClass().getName()
+										.equals("org.apache.ws.commons.schema.XmlSchemaSimpleContent")) {
 									XmlSchemaSimpleContent simpleContent = (XmlSchemaSimpleContent) ct
 											.getContentModel();
-									SimpleTypesParser.parseSimpleContent(
-											service, simpleContent,
-											dummyInputOrOutputComplexObject,
-											theDefinition);
+									SimpleTypesParser.parseSimpleContent(service, simpleContent,
+											dummyInputOrOutputComplexObject, theDefinition);
 								} else {
 									System.out.println();
 								}
 
 								if (msg.isWrapped()) {
 									if (msg.getDirection().equals("in")) {
-										operationInput
-												.setHasSoapHeaders(parseSoapHeadersOfOperation(
-														service, msg,
-														theDefinition));
+										operationInput.setHasSoapHeaders(
+												parseSoapHeadersOfOperation(service, msg, theDefinition));
 
 										System.out.println("\t\tREQUEST");
 										System.out.println(msg.getName());
-										if (dummyInputOrOutputComplexObject
-												.getHasComplexObjects().size() == 0
-												&& dummyInputOrOutputComplexObject
-														.getHasNativeObjects()
-														.size() == 1) {
-											operationInput
-													.getHasNativeOrComplexObjects()
-													.add(dummyInputOrOutputComplexObject
-															.getHasNativeObjects()
-															.get(0));
+										if (dummyInputOrOutputComplexObject.getHasComplexObjects().size() == 0
+												&& dummyInputOrOutputComplexObject.getHasNativeObjects().size() == 1) {
+											operationInput.getHasNativeOrComplexObjects()
+													.add(dummyInputOrOutputComplexObject.getHasNativeObjects().get(0));
 										} else {
-											for (int i = 0; i < dummyInputOrOutputComplexObject
-													.getHasNativeObjects()
+											for (int i = 0; i < dummyInputOrOutputComplexObject.getHasNativeObjects()
 													.size(); i++) {
-												operationInput
-														.getHasNativeOrComplexObjects()
-														.add(dummyInputOrOutputComplexObject
-																.getHasNativeObjects()
-																.get(i));
+												operationInput.getHasNativeOrComplexObjects().add(
+														dummyInputOrOutputComplexObject.getHasNativeObjects().get(i));
 											}
-											for (int i = 0; i < dummyInputOrOutputComplexObject
-													.getHasComplexObjects()
+											for (int i = 0; i < dummyInputOrOutputComplexObject.getHasComplexObjects()
 													.size(); i++) {
-												operationInput
-														.getHasNativeOrComplexObjects()
-														.add(dummyInputOrOutputComplexObject
-																.getHasComplexObjects()
-																.get(i));
+												operationInput.getHasNativeOrComplexObjects().add(
+														dummyInputOrOutputComplexObject.getHasComplexObjects().get(i));
 											}
 										}
 									} else if (msg.getDirection().equals("out")) {
 										System.out.println("\t\tRESPONSE");
 										System.out.println(msg.getName());
-										if (dummyInputOrOutputComplexObject
-												.getHasComplexObjects().size() == 0
-												&& dummyInputOrOutputComplexObject
-														.getHasNativeObjects()
-														.size() == 1) {
-											operationOutput
-													.getHasNativeOrComplexObjects()
-													.add(dummyInputOrOutputComplexObject
-															.getHasNativeObjects()
-															.get(0));
+										if (dummyInputOrOutputComplexObject.getHasComplexObjects().size() == 0
+												&& dummyInputOrOutputComplexObject.getHasNativeObjects().size() == 1) {
+											operationOutput.getHasNativeOrComplexObjects()
+													.add(dummyInputOrOutputComplexObject.getHasNativeObjects().get(0));
 										} else {
-											for (int i = 0; i < dummyInputOrOutputComplexObject
-													.getHasNativeObjects()
+											for (int i = 0; i < dummyInputOrOutputComplexObject.getHasNativeObjects()
 													.size(); i++) {
-												operationOutput
-														.getHasNativeOrComplexObjects()
-														.add(dummyInputOrOutputComplexObject
-																.getHasNativeObjects()
-																.get(i));
+												operationOutput.getHasNativeOrComplexObjects().add(
+														dummyInputOrOutputComplexObject.getHasNativeObjects().get(i));
 											}
-											for (int i = 0; i < dummyInputOrOutputComplexObject
-													.getHasComplexObjects()
+											for (int i = 0; i < dummyInputOrOutputComplexObject.getHasComplexObjects()
 													.size(); i++) {
-												operationOutput
-														.getHasNativeOrComplexObjects()
-														.add(dummyInputOrOutputComplexObject
-																.getHasComplexObjects()
-																.get(i));
+												operationOutput.getHasNativeOrComplexObjects().add(
+														dummyInputOrOutputComplexObject.getHasComplexObjects().get(i));
 											}
 										}
 									}
@@ -1771,74 +1214,44 @@ public class Axis2ParserWrapper {
 									// TWRA GINETAI TO IDIO OPWS sto WRAPPED apo
 									// panw...
 									if (msg.getDirection().equals("in")) {
-										operationInput
-												.setHasSoapHeaders(parseSoapHeadersOfOperation(
-														service, msg,
-														theDefinition));
+										operationInput.setHasSoapHeaders(
+												parseSoapHeadersOfOperation(service, msg, theDefinition));
 
 										System.out.println("\t\tREQUEST");
 										System.out.println(msg.getName());
-										if (dummyInputOrOutputComplexObject
-												.getHasComplexObjects().size() == 0
-												&& dummyInputOrOutputComplexObject
-														.getHasNativeObjects()
-														.size() == 1) {
-											operationInput
-													.getHasNativeOrComplexObjects()
-													.add(dummyInputOrOutputComplexObject
-															.getHasNativeObjects()
-															.get(0));
+										if (dummyInputOrOutputComplexObject.getHasComplexObjects().size() == 0
+												&& dummyInputOrOutputComplexObject.getHasNativeObjects().size() == 1) {
+											operationInput.getHasNativeOrComplexObjects()
+													.add(dummyInputOrOutputComplexObject.getHasNativeObjects().get(0));
 										} else {
-											for (int i = 0; i < dummyInputOrOutputComplexObject
-													.getHasNativeObjects()
+											for (int i = 0; i < dummyInputOrOutputComplexObject.getHasNativeObjects()
 													.size(); i++) {
-												operationInput
-														.getHasNativeOrComplexObjects()
-														.add(dummyInputOrOutputComplexObject
-																.getHasNativeObjects()
-																.get(i));
+												operationInput.getHasNativeOrComplexObjects().add(
+														dummyInputOrOutputComplexObject.getHasNativeObjects().get(i));
 											}
-											for (int i = 0; i < dummyInputOrOutputComplexObject
-													.getHasComplexObjects()
+											for (int i = 0; i < dummyInputOrOutputComplexObject.getHasComplexObjects()
 													.size(); i++) {
-												operationInput
-														.getHasNativeOrComplexObjects()
-														.add(dummyInputOrOutputComplexObject
-																.getHasComplexObjects()
-																.get(i));
+												operationInput.getHasNativeOrComplexObjects().add(
+														dummyInputOrOutputComplexObject.getHasComplexObjects().get(i));
 											}
 										}
 									} else if (msg.getDirection().equals("out")) {
 										System.out.println("\t\tRESPONSE");
 										System.out.println(msg.getName());
-										if (dummyInputOrOutputComplexObject
-												.getHasComplexObjects().size() == 0
-												&& dummyInputOrOutputComplexObject
-														.getHasNativeObjects()
-														.size() == 1) {
-											operationOutput
-													.getHasNativeOrComplexObjects()
-													.add(dummyInputOrOutputComplexObject
-															.getHasNativeObjects()
-															.get(0));
+										if (dummyInputOrOutputComplexObject.getHasComplexObjects().size() == 0
+												&& dummyInputOrOutputComplexObject.getHasNativeObjects().size() == 1) {
+											operationOutput.getHasNativeOrComplexObjects()
+													.add(dummyInputOrOutputComplexObject.getHasNativeObjects().get(0));
 										} else {
-											for (int i = 0; i < dummyInputOrOutputComplexObject
-													.getHasNativeObjects()
+											for (int i = 0; i < dummyInputOrOutputComplexObject.getHasNativeObjects()
 													.size(); i++) {
-												operationOutput
-														.getHasNativeOrComplexObjects()
-														.add(dummyInputOrOutputComplexObject
-																.getHasNativeObjects()
-																.get(i));
+												operationOutput.getHasNativeOrComplexObjects().add(
+														dummyInputOrOutputComplexObject.getHasNativeObjects().get(i));
 											}
-											for (int i = 0; i < dummyInputOrOutputComplexObject
-													.getHasComplexObjects()
+											for (int i = 0; i < dummyInputOrOutputComplexObject.getHasComplexObjects()
 													.size(); i++) {
-												operationOutput
-														.getHasNativeOrComplexObjects()
-														.add(dummyInputOrOutputComplexObject
-																.getHasComplexObjects()
-																.get(i));
+												operationOutput.getHasNativeOrComplexObjects().add(
+														dummyInputOrOutputComplexObject.getHasComplexObjects().get(i));
 											}
 										}
 									}
@@ -1851,180 +1264,114 @@ public class Axis2ParserWrapper {
 							ComplexObject dummyInputOrOutputComplexObject = new ComplexObject();
 							NativeObject no = new NativeObject();
 							no.setObjectName(el.getQName());
-							ComplexObject unionCO = SimpleTypesParser
-									.parseSimpleType(el, null, no,
-											theDefinition, service);
+							ComplexObject unionCO = SimpleTypesParser.parseSimpleType(el, null, no, theDefinition,
+									service);
 							if (unionCO != null) {
 								if (el.getMaxOccurs() > 1) {
 									ComplexObject noArrayCO = new ComplexObject();
 									noArrayCO.setObjectName(no.getObjectName());
-									noArrayCO.setObjectType(new QName(no
-											.getObjectType().getNamespaceURI(),
-											no.getObjectType().getLocalPart()
-													+ "[]", no.getObjectType()
-													.getPrefix()));
+									noArrayCO.setObjectType(new QName(no.getObjectType().getNamespaceURI(),
+											no.getObjectType().getLocalPart() + "[]", no.getObjectType().getPrefix()));
 									noArrayCO.setIsArrayType(true);
-									noArrayCO.getHasComplexObjects().add(
-											unionCO);
-									dummyInputOrOutputComplexObject
-											.getHasComplexObjects().add(
-													noArrayCO);
+									noArrayCO.getHasComplexObjects().add(unionCO);
+									dummyInputOrOutputComplexObject.getHasComplexObjects().add(noArrayCO);
 
 								} else {
-									dummyInputOrOutputComplexObject
-											.getHasComplexObjects()
-											.add(unionCO);
+									dummyInputOrOutputComplexObject.getHasComplexObjects().add(unionCO);
 								}
 								System.out.println();
 							} else {
-								if (no != null
-										&& no.getAdditionalInfo() != null
-										&& no.getAdditionalInfo().contains(
-												"isListType")) {
+								if (no != null && no.getAdditionalInfo() != null
+										&& no.getAdditionalInfo().contains("isListType")) {
 									if (el.getMaxOccurs() > 1) {
 										ComplexObject noArrayCO = new ComplexObject();
-										noArrayCO.setObjectName(no
-												.getObjectName());
-										noArrayCO.setObjectType(new QName(no
-												.getObjectType()
-												.getNamespaceURI(), no
-												.getObjectType().getLocalPart()
-												+ "[][]", no.getObjectType()
-												.getPrefix()));
+										noArrayCO.setObjectName(no.getObjectName());
+										noArrayCO.setObjectType(new QName(no.getObjectType().getNamespaceURI(),
+												no.getObjectType().getLocalPart() + "[][]",
+												no.getObjectType().getPrefix()));
 										noArrayCO.setIsArrayType(true);
 
 										ComplexObject noArrayCO_ListNO = new ComplexObject();
-										noArrayCO_ListNO.setObjectName(no
-												.getObjectName());
-										noArrayCO_ListNO
-												.setObjectType(new QName(no
-														.getObjectType()
-														.getNamespaceURI(), no
-														.getObjectType()
-														.getLocalPart()
-														+ "[]", no
-														.getObjectType()
-														.getPrefix()));
+										noArrayCO_ListNO.setObjectName(no.getObjectName());
+										noArrayCO_ListNO.setObjectType(new QName(no.getObjectType().getNamespaceURI(),
+												no.getObjectType().getLocalPart() + "[]",
+												no.getObjectType().getPrefix()));
 										noArrayCO_ListNO.setIsArrayType(true);
-										noArrayCO_ListNO.setIsOptional(no
-												.isIsOptional());
-										noArrayCO_ListNO.getHasNativeObjects()
-												.add(no);
+										noArrayCO_ListNO.setIsOptional(no.isIsOptional());
+										noArrayCO_ListNO.getHasNativeObjects().add(no);
 
-										noArrayCO.getHasComplexObjects().add(
-												noArrayCO_ListNO);
-										dummyInputOrOutputComplexObject
-												.getHasComplexObjects().add(
-														noArrayCO);
+										noArrayCO.getHasComplexObjects().add(noArrayCO_ListNO);
+										dummyInputOrOutputComplexObject.getHasComplexObjects().add(noArrayCO);
 
 									} else {
 										ComplexObject noArrayCO = new ComplexObject();
-										noArrayCO.setObjectName(no
-												.getObjectName());
-										noArrayCO.setObjectType(new QName(no
-												.getObjectType()
-												.getNamespaceURI(), no
-												.getObjectType().getLocalPart()
-												+ "[]", no.getObjectType()
-												.getPrefix()));
+										noArrayCO.setObjectName(no.getObjectName());
+										noArrayCO.setObjectType(new QName(no.getObjectType().getNamespaceURI(),
+												no.getObjectType().getLocalPart() + "[]",
+												no.getObjectType().getPrefix()));
 										noArrayCO.setIsArrayType(true);
 										noArrayCO.getHasNativeObjects().add(no);
-										noArrayCO.setIsOptional(no
-												.isIsOptional());
-										dummyInputOrOutputComplexObject
-												.getHasComplexObjects().add(
-														noArrayCO);
+										noArrayCO.setIsOptional(no.isIsOptional());
+										dummyInputOrOutputComplexObject.getHasComplexObjects().add(noArrayCO);
 									}
 								} else {
 									if (el.getMaxOccurs() > 1) {
 										ComplexObject noArrayCO = new ComplexObject();
 
-										noArrayCO.setObjectName(no
-												.getObjectName());
-										noArrayCO.setObjectType(new QName(no
-												.getObjectType()
-												.getNamespaceURI(), no
-												.getObjectType().getLocalPart()
-												+ "[]", no.getObjectType()
-												.getPrefix()));
+										noArrayCO.setObjectName(no.getObjectName());
+										noArrayCO.setObjectType(new QName(no.getObjectType().getNamespaceURI(),
+												no.getObjectType().getLocalPart() + "[]",
+												no.getObjectType().getPrefix()));
 										noArrayCO.setIsArrayType(true);
 										noArrayCO.getHasNativeObjects().add(no);
-										dummyInputOrOutputComplexObject
-												.getHasComplexObjects().add(
-														noArrayCO);
+										dummyInputOrOutputComplexObject.getHasComplexObjects().add(noArrayCO);
 
 									} else {
-										dummyInputOrOutputComplexObject
-												.getHasNativeObjects().add(no);
+										dummyInputOrOutputComplexObject.getHasNativeObjects().add(no);
 									}
 								}
 							}
 
 							if (msg.isWrapped()) {
 								if (msg.getDirection().equals("in")) {
-									operationInput
-											.setHasSoapHeaders(parseSoapHeadersOfOperation(
-													service, msg, theDefinition));
+									operationInput.setHasSoapHeaders(
+											parseSoapHeadersOfOperation(service, msg, theDefinition));
 
 									System.out.println("\t\tREQUEST");
 									System.out.println(msg.getName());
-									if (dummyInputOrOutputComplexObject
-											.getHasComplexObjects().size() == 0
-											&& dummyInputOrOutputComplexObject
-													.getHasNativeObjects()
-													.size() == 1) {
-										operationInput
-												.getHasNativeOrComplexObjects()
-												.add(dummyInputOrOutputComplexObject
-														.getHasNativeObjects()
-														.get(0));
+									if (dummyInputOrOutputComplexObject.getHasComplexObjects().size() == 0
+											&& dummyInputOrOutputComplexObject.getHasNativeObjects().size() == 1) {
+										operationInput.getHasNativeOrComplexObjects()
+												.add(dummyInputOrOutputComplexObject.getHasNativeObjects().get(0));
 									} else {
-										for (int i = 0; i < dummyInputOrOutputComplexObject
-												.getHasNativeObjects().size(); i++) {
-											operationInput
-													.getHasNativeOrComplexObjects()
-													.add(dummyInputOrOutputComplexObject
-															.getHasNativeObjects()
-															.get(i));
+										for (int i = 0; i < dummyInputOrOutputComplexObject.getHasNativeObjects()
+												.size(); i++) {
+											operationInput.getHasNativeOrComplexObjects()
+													.add(dummyInputOrOutputComplexObject.getHasNativeObjects().get(i));
 										}
-										for (int i = 0; i < dummyInputOrOutputComplexObject
-												.getHasComplexObjects().size(); i++) {
-											operationInput
-													.getHasNativeOrComplexObjects()
-													.add(dummyInputOrOutputComplexObject
-															.getHasComplexObjects()
-															.get(i));
+										for (int i = 0; i < dummyInputOrOutputComplexObject.getHasComplexObjects()
+												.size(); i++) {
+											operationInput.getHasNativeOrComplexObjects()
+													.add(dummyInputOrOutputComplexObject.getHasComplexObjects().get(i));
 										}
 									}
 								} else if (msg.getDirection().equals("out")) {
 									System.out.println("\t\tRESPONSE");
 									System.out.println(msg.getName());
-									if (dummyInputOrOutputComplexObject
-											.getHasComplexObjects().size() == 0
-											&& dummyInputOrOutputComplexObject
-													.getHasNativeObjects()
-													.size() == 1) {
-										operationOutput
-												.getHasNativeOrComplexObjects()
-												.add(dummyInputOrOutputComplexObject
-														.getHasNativeObjects()
-														.get(0));
+									if (dummyInputOrOutputComplexObject.getHasComplexObjects().size() == 0
+											&& dummyInputOrOutputComplexObject.getHasNativeObjects().size() == 1) {
+										operationOutput.getHasNativeOrComplexObjects()
+												.add(dummyInputOrOutputComplexObject.getHasNativeObjects().get(0));
 									} else {
-										for (int i = 0; i < dummyInputOrOutputComplexObject
-												.getHasNativeObjects().size(); i++) {
-											operationOutput
-													.getHasNativeOrComplexObjects()
-													.add(dummyInputOrOutputComplexObject
-															.getHasNativeObjects()
-															.get(i));
+										for (int i = 0; i < dummyInputOrOutputComplexObject.getHasNativeObjects()
+												.size(); i++) {
+											operationOutput.getHasNativeOrComplexObjects()
+													.add(dummyInputOrOutputComplexObject.getHasNativeObjects().get(i));
 										}
-										for (int i = 0; i < dummyInputOrOutputComplexObject
-												.getHasComplexObjects().size(); i++) {
-											operationOutput
-													.getHasNativeOrComplexObjects()
-													.add(dummyInputOrOutputComplexObject
-															.getHasComplexObjects()
-															.get(i));
+										for (int i = 0; i < dummyInputOrOutputComplexObject.getHasComplexObjects()
+												.size(); i++) {
+											operationOutput.getHasNativeOrComplexObjects()
+													.add(dummyInputOrOutputComplexObject.getHasComplexObjects().get(i));
 										}
 									}
 								}
@@ -2032,69 +1379,44 @@ public class Axis2ParserWrapper {
 								// TWRA GINETAI TO IDIO OPWS sto WRAPPED apo
 								// panw...
 								if (msg.getDirection().equals("in")) {
-									operationInput
-											.setHasSoapHeaders(parseSoapHeadersOfOperation(
-													service, msg, theDefinition));
+									operationInput.setHasSoapHeaders(
+											parseSoapHeadersOfOperation(service, msg, theDefinition));
 
 									System.out.println("\t\tREQUEST");
 									System.out.println(msg.getName());
-									if (dummyInputOrOutputComplexObject
-											.getHasComplexObjects().size() == 0
-											&& dummyInputOrOutputComplexObject
-													.getHasNativeObjects()
-													.size() == 1) {
-										operationInput
-												.getHasNativeOrComplexObjects()
-												.add(dummyInputOrOutputComplexObject
-														.getHasNativeObjects()
-														.get(0));
+									if (dummyInputOrOutputComplexObject.getHasComplexObjects().size() == 0
+											&& dummyInputOrOutputComplexObject.getHasNativeObjects().size() == 1) {
+										operationInput.getHasNativeOrComplexObjects()
+												.add(dummyInputOrOutputComplexObject.getHasNativeObjects().get(0));
 									} else {
-										for (int i = 0; i < dummyInputOrOutputComplexObject
-												.getHasNativeObjects().size(); i++) {
-											operationInput
-													.getHasNativeOrComplexObjects()
-													.add(dummyInputOrOutputComplexObject
-															.getHasNativeObjects()
-															.get(i));
+										for (int i = 0; i < dummyInputOrOutputComplexObject.getHasNativeObjects()
+												.size(); i++) {
+											operationInput.getHasNativeOrComplexObjects()
+													.add(dummyInputOrOutputComplexObject.getHasNativeObjects().get(i));
 										}
-										for (int i = 0; i < dummyInputOrOutputComplexObject
-												.getHasComplexObjects().size(); i++) {
-											operationInput
-													.getHasNativeOrComplexObjects()
-													.add(dummyInputOrOutputComplexObject
-															.getHasComplexObjects()
-															.get(i));
+										for (int i = 0; i < dummyInputOrOutputComplexObject.getHasComplexObjects()
+												.size(); i++) {
+											operationInput.getHasNativeOrComplexObjects()
+													.add(dummyInputOrOutputComplexObject.getHasComplexObjects().get(i));
 										}
 									}
 								} else if (msg.getDirection().equals("out")) {
 									System.out.println("\t\tRESPONSE");
 									System.out.println(msg.getName());
-									if (dummyInputOrOutputComplexObject
-											.getHasComplexObjects().size() == 0
-											&& dummyInputOrOutputComplexObject
-													.getHasNativeObjects()
-													.size() == 1) {
-										operationOutput
-												.getHasNativeOrComplexObjects()
-												.add(dummyInputOrOutputComplexObject
-														.getHasNativeObjects()
-														.get(0));
+									if (dummyInputOrOutputComplexObject.getHasComplexObjects().size() == 0
+											&& dummyInputOrOutputComplexObject.getHasNativeObjects().size() == 1) {
+										operationOutput.getHasNativeOrComplexObjects()
+												.add(dummyInputOrOutputComplexObject.getHasNativeObjects().get(0));
 									} else {
-										for (int i = 0; i < dummyInputOrOutputComplexObject
-												.getHasNativeObjects().size(); i++) {
-											operationOutput
-													.getHasNativeOrComplexObjects()
-													.add(dummyInputOrOutputComplexObject
-															.getHasNativeObjects()
-															.get(i));
+										for (int i = 0; i < dummyInputOrOutputComplexObject.getHasNativeObjects()
+												.size(); i++) {
+											operationOutput.getHasNativeOrComplexObjects()
+													.add(dummyInputOrOutputComplexObject.getHasNativeObjects().get(i));
 										}
-										for (int i = 0; i < dummyInputOrOutputComplexObject
-												.getHasComplexObjects().size(); i++) {
-											operationOutput
-													.getHasNativeOrComplexObjects()
-													.add(dummyInputOrOutputComplexObject
-															.getHasComplexObjects()
-															.get(i));
+										for (int i = 0; i < dummyInputOrOutputComplexObject.getHasComplexObjects()
+												.size(); i++) {
+											operationOutput.getHasNativeOrComplexObjects()
+													.add(dummyInputOrOutputComplexObject.getHasComplexObjects().get(i));
 										}
 									}
 								}
@@ -2103,15 +1425,13 @@ public class Axis2ParserWrapper {
 
 						// Replace the modified direction of Message with the
 						// Original created from Axis2
-						if (oper.getClass().getName()
-								.contains("OutOnlyAxisOperation")) {
+						if (oper.getClass().getName().contains("OutOnlyAxisOperation")) {
 							if (msg.getDirection().equals("in")) {
 								msg.setDirection("out");
 							} else if (msg.getDirection().equals("out")) {
 								msg.setDirection("in");
 							}
-						} else if (oper.getClass().getName()
-								.contains("InOnlyAxisOperation")) {
+						} else if (oper.getClass().getName().contains("InOnlyAxisOperation")) {
 							if (msg.getDirection().equals("in")) {
 								msg.setDirection("out");
 							} else if (msg.getDirection().equals("out")) {
@@ -2121,18 +1441,15 @@ public class Axis2ParserWrapper {
 					}
 
 					if (oper != null && oper.getFaultMessages() != null) {
-						Iterator faultMsgsIter = oper.getFaultMessages()
-								.iterator();
+						Iterator faultMsgsIter = oper.getFaultMessages().iterator();
 						while (faultMsgsIter.hasNext()) {
 							Object obj = faultMsgsIter.next();
 							System.out.println("\nMESSAGE");
 							AxisMessage msg = (AxisMessage) obj;
 
-							Object obj1 = getFaultMsgAsComplexObject(service,
-									msg, theDefinition);
+							Object obj1 = getFaultMsgAsComplexObject(service, msg, theDefinition);
 							if (obj1 != null) {
-								operationOutput.getHasFaultMessageObjects()
-										.add(obj1);
+								operationOutput.getHasFaultMessageObjects().add(obj1);
 							} else {
 								continue;
 							}
@@ -2159,11 +1476,10 @@ public class Axis2ParserWrapper {
 
 	}
 
-	private static Vector parseSoapHeadersOfOperation(AxisService service,
-			AxisMessage msg, ParsedWSDLDefinition theDefinition) {
+	private static Vector parseSoapHeadersOfOperation(AxisService service, AxisMessage msg,
+			ParsedWSDLDefinition theDefinition) {
 		Vector result = new Vector();
-		if (msg == null || msg.getSoapHeaders() == null
-				|| msg.getSoapHeaders().size() == 0) {
+		if (msg == null || msg.getSoapHeaders() == null || msg.getSoapHeaders().size() == 0) {
 			return result;
 		}
 
@@ -2172,8 +1488,7 @@ public class Axis2ParserWrapper {
 		while (iter1.hasNext()) {
 			// System.out.println(iter1.next().getClass().getName());
 			try {
-				org.apache.axis2.wsdl.SOAPHeaderMessage sh = (org.apache.axis2.wsdl.SOAPHeaderMessage) iter1
-						.next();
+				org.apache.axis2.wsdl.SOAPHeaderMessage sh = (org.apache.axis2.wsdl.SOAPHeaderMessage) iter1.next();
 				System.out.println(sh.getMessage().toString());
 				// Prepei na vrw to element me QName: sh.getElement() mesa sta
 				// types tou WSDL kai na to valw san Native i Complex Object
@@ -2188,18 +1503,14 @@ public class Axis2ParserWrapper {
 				headerCO.setIsOptional(!sh.isRequired());
 
 				XmlSchemaType xmlSchemaType1 = ParsingUtils
-						.parseWSDLschemasInOrderToFindTheSpecificXMLSchemaType(
-								service, sh.getElement());
+						.parseWSDLschemasInOrderToFindTheSpecificXMLSchemaType(service, sh.getElement());
 				if (xmlSchemaType1 == null) {
-					xmlSchemaType1 = ParsingUtils
-							.parseWSDLschemasInOrderToFindTheSpecificXMLSchemaElement(
-									service, sh.getElement());
+					xmlSchemaType1 = ParsingUtils.parseWSDLschemasInOrderToFindTheSpecificXMLSchemaElement(service,
+							sh.getElement());
 				}
 
-				if (xmlSchemaType1.getClass().getName()
-						.contains("XmlSchemaComplexType")) {
-					ComplexTypesParser.parseComplexType(service, null,
-							xmlSchemaType1, headerCO, theDefinition, true);
+				if (xmlSchemaType1.getClass().getName().contains("XmlSchemaComplexType")) {
+					ComplexTypesParser.parseComplexType(service, null, xmlSchemaType1, headerCO, theDefinition, true);
 				} else {
 					System.out.println("ERROR @line ~413");
 					theDefinition.getContainingErrors().add("ERROR @line ~413");
@@ -2216,8 +1527,8 @@ public class Axis2ParserWrapper {
 		return result;
 	}
 
-	private static Object getFaultMsgAsComplexObject(AxisService service,
-			AxisMessage msg, ParsedWSDLDefinition theDefinition) {
+	private static Object getFaultMsgAsComplexObject(AxisService service, AxisMessage msg,
+			ParsedWSDLDefinition theDefinition) {
 		try {
 			if (msg == null) {
 				return null;
@@ -2231,26 +1542,20 @@ public class Axis2ParserWrapper {
 				return null;
 			}
 
-			if (schElemOfType
-					.getSchemaType()
-					.getClass()
-					.toString()
-					.contains(
-							"org.apache.ws.commons.schema.XmlSchemaSimpleType")) {
+			if (schElemOfType.getSchemaType().getClass().toString()
+					.contains("org.apache.ws.commons.schema.XmlSchemaSimpleType")) {
 				NativeObject no1 = new NativeObject();
 				no1.setObjectName(schElemOfType.getQName());
-				ComplexObject unionCO = SimpleTypesParser.parseSimpleType(
-						schElemOfType, null, no1, theDefinition, service);
+				ComplexObject unionCO = SimpleTypesParser.parseSimpleType(schElemOfType, null, no1, theDefinition,
+						service);
 				if (unionCO != null) {
 					System.out.println();
 					if (schElemOfType.getMaxOccurs() > 1) {
 						ComplexObject noArrayCO = new ComplexObject();
 
 						noArrayCO.setObjectName(no1.getObjectName());
-						noArrayCO.setObjectType(new QName(no1.getObjectType()
-								.getNamespaceURI(), no1.getObjectType()
-								.getLocalPart() + "[]", no1.getObjectType()
-								.getPrefix()));
+						noArrayCO.setObjectType(new QName(no1.getObjectType().getNamespaceURI(),
+								no1.getObjectType().getLocalPart() + "[]", no1.getObjectType().getPrefix()));
 						noArrayCO.setIsArrayType(true);
 						noArrayCO.getHasComplexObjects().add(unionCO);
 						return noArrayCO;
@@ -2263,33 +1568,26 @@ public class Axis2ParserWrapper {
 						if (schElemOfType.getMaxOccurs() > 1) {
 							ComplexObject noArrayCO = new ComplexObject();
 							noArrayCO.setObjectName(no1.getObjectName());
-							noArrayCO.setObjectType(new QName(no1
-									.getObjectType().getNamespaceURI(), no1
-									.getObjectType().getLocalPart() + "[][]",
-									no1.getObjectType().getPrefix()));
+							noArrayCO.setObjectType(new QName(no1.getObjectType().getNamespaceURI(),
+									no1.getObjectType().getLocalPart() + "[][]", no1.getObjectType().getPrefix()));
 							noArrayCO.setIsArrayType(true);
 
 							ComplexObject noArrayCO_ListNO = new ComplexObject();
 							noArrayCO_ListNO.setObjectName(no1.getObjectName());
-							noArrayCO_ListNO.setObjectType(new QName(no1
-									.getObjectType().getNamespaceURI(), no1
-									.getObjectType().getLocalPart() + "[]", no1
-									.getObjectType().getPrefix()));
+							noArrayCO_ListNO.setObjectType(new QName(no1.getObjectType().getNamespaceURI(),
+									no1.getObjectType().getLocalPart() + "[]", no1.getObjectType().getPrefix()));
 							noArrayCO_ListNO.setIsArrayType(true);
 							noArrayCO_ListNO.setIsOptional(no1.isIsOptional());
 							noArrayCO_ListNO.getHasNativeObjects().add(no1);
 
-							noArrayCO.getHasComplexObjects().add(
-									noArrayCO_ListNO);
+							noArrayCO.getHasComplexObjects().add(noArrayCO_ListNO);
 							return noArrayCO;
 
 						} else {
 							ComplexObject noArrayCO = new ComplexObject();
 							noArrayCO.setObjectName(no1.getObjectName());
-							noArrayCO.setObjectType(new QName(no1
-									.getObjectType().getNamespaceURI(), no1
-									.getObjectType().getLocalPart() + "[]", no1
-									.getObjectType().getPrefix()));
+							noArrayCO.setObjectType(new QName(no1.getObjectType().getNamespaceURI(),
+									no1.getObjectType().getLocalPart() + "[]", no1.getObjectType().getPrefix()));
 							noArrayCO.setIsArrayType(true);
 							noArrayCO.getHasNativeObjects().add(no1);
 							noArrayCO.setIsOptional(no1.isIsOptional());
@@ -2301,10 +1599,8 @@ public class Axis2ParserWrapper {
 							ComplexObject noArrayCO = new ComplexObject();
 
 							noArrayCO.setObjectName(no1.getObjectName());
-							noArrayCO.setObjectType(new QName(no1
-									.getObjectType().getNamespaceURI(), no1
-									.getObjectType().getLocalPart() + "[]", no1
-									.getObjectType().getPrefix()));
+							noArrayCO.setObjectType(new QName(no1.getObjectType().getNamespaceURI(),
+									no1.getObjectType().getLocalPart() + "[]", no1.getObjectType().getPrefix()));
 							noArrayCO.setIsArrayType(true);
 							noArrayCO.getHasNativeObjects().add(no1);
 							return noArrayCO;
@@ -2315,15 +1611,10 @@ public class Axis2ParserWrapper {
 					}
 				}
 
-			} else if (schElemOfType
-					.getSchemaType()
-					.getClass()
-					.toString()
-					.contains(
-							"org.apache.ws.commons.schema.XmlSchemaComplexType")) {
+			} else if (schElemOfType.getSchemaType().getClass().toString()
+					.contains("org.apache.ws.commons.schema.XmlSchemaComplexType")) {
 				ComplexObject co1 = new ComplexObject();
-				ComplexTypesParser.parseComplexType(service, schElemOfType,
-						null, co1, theDefinition, false);
+				ComplexTypesParser.parseComplexType(service, schElemOfType, null, co1, theDefinition, false);
 				return co1;
 				// dummyInputOrOutputComplexObject.getHasComplexObjects().add(co1);
 			}
@@ -2338,31 +1629,21 @@ public class Axis2ParserWrapper {
 			org.apache.axis2.description.AxisService service) {
 		theDefinition.setXsdDependencies(new Vector());
 		for (int i = 0; i < service.getSchema().size(); i++) {
-			getXmlSchemaDependencies(theDefinition, ((XmlSchema) service
-					.getSchema().get(i)));
+			getXmlSchemaDependencies(theDefinition, ((XmlSchema) service.getSchema().get(i)));
 		}
 		for (int i = 0; i < theDefinition.getXsdDependencies().size(); i++) {
-			if (((String) theDefinition.getXsdDependencies().get(i))
-					.contains("../")) {
-				while (((String) theDefinition.getXsdDependencies().get(i))
-						.contains("../")) {
-					theDefinition
-							.getXsdDependencies()
-							.setElementAt(
-									((String) theDefinition
-											.getXsdDependencies().get(i)).replace(
-											"../", ""), i);
+			if (((String) theDefinition.getXsdDependencies().get(i)).contains("../")) {
+				while (((String) theDefinition.getXsdDependencies().get(i)).contains("../")) {
+					theDefinition.getXsdDependencies()
+							.setElementAt(((String) theDefinition.getXsdDependencies().get(i)).replace("../", ""), i);
 				}
-				theDefinition.getXsdDependencies().setElementAt(
-						"./"
-								+ ((String) theDefinition.getXsdDependencies()
-										.get(i)), i);
+				theDefinition.getXsdDependencies()
+						.setElementAt("./" + ((String) theDefinition.getXsdDependencies().get(i)), i);
 			}
 		}
 	}
 
-	static private void getXmlSchemaDependencies(
-			ParsedWSDLDefinition theDefinition, XmlSchema xml) {
+	static private void getXmlSchemaDependencies(ParsedWSDLDefinition theDefinition, XmlSchema xml) {
 		Iterator it = xml.getIncludes().getIterator();
 		while (it.hasNext()) {
 			Object obj = it.next();
@@ -2370,29 +1651,23 @@ public class Axis2ParserWrapper {
 				if (obj instanceof XmlSchemaImport) {
 					XmlSchemaImport xmlSchemaImport = (XmlSchemaImport) obj;
 					if (xmlSchemaImport.getSchema() != null) {
-						if (!theDefinition.getXsdDependencies().contains(
-								xmlSchemaImport.getSchema().getSourceURI())) {
+						if (!theDefinition.getXsdDependencies().contains(xmlSchemaImport.getSchema().getSourceURI())) {
 							// String path=xmlSchemaImport.getSchemaLocation();
-							String path = xmlSchemaImport.getSchema()
-									.getSourceURI();
+							String path = xmlSchemaImport.getSchema().getSourceURI();
 							theDefinition.getXsdDependencies().add(path);
 							// System.out.println(path);
-							getXmlSchemaDependencies(theDefinition,
-									xmlSchemaImport.getSchema());
+							getXmlSchemaDependencies(theDefinition, xmlSchemaImport.getSchema());
 						}
 					}
 				} else if (obj instanceof XmlSchemaInclude) {
 					XmlSchemaInclude xmlSchemaInclude = (XmlSchemaInclude) obj;
-					if (!theDefinition.getXsdDependencies().contains(
-							xmlSchemaInclude.getSchema().getSourceURI())) {
+					if (!theDefinition.getXsdDependencies().contains(xmlSchemaInclude.getSchema().getSourceURI())) {
 						// String path=xmlSchemaInclude.getSchemaLocation();
 
-						String path = xmlSchemaInclude.getSchema()
-								.getSourceURI();
+						String path = xmlSchemaInclude.getSchema().getSourceURI();
 						theDefinition.getXsdDependencies().add(path);
 						// System.out.println(path);
-						getXmlSchemaDependencies(theDefinition,
-								xmlSchemaInclude.getSchema());
+						getXmlSchemaDependencies(theDefinition, xmlSchemaInclude.getSchema());
 					}
 				}
 			}

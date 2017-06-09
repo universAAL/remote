@@ -26,43 +26,43 @@ import org.universAAL.ri.gateway.protocol.WrappedBusMessage;
  * 
  */
 public interface OperationChainManager {
-    /**
-     * The security checks that a {@link ImportMessage ImportRequest} has to
-     * pass in order to be allowed to create a proxy for it.
-     * 
-     * 
-     * @TODO interface to be refined!
-     * @return
-     */
-    ParameterCheckOpertaionChain getImportOperationChain();
+	/**
+	 * The security checks that a {@link ImportMessage ImportRequest} has to
+	 * pass in order to be allowed to create a proxy for it.
+	 * 
+	 * 
+	 * @TODO interface to be refined!
+	 * @return
+	 */
+	ParameterCheckOpertaionChain getImportOperationChain();
 
-    /**
-     * The security checks that a {@link BusMember} has to pass in order to be
-     * allowed to be exported.
-     * 
-     * 
-     * @TODO interface to be refined!
-     * @return
-     */
-    ParameterCheckOpertaionChain getExportOperationChain();
+	/**
+	 * The security checks that a {@link BusMember} has to pass in order to be
+	 * allowed to be exported.
+	 * 
+	 * 
+	 * @TODO interface to be refined!
+	 * @return
+	 */
+	ParameterCheckOpertaionChain getExportOperationChain();
 
-    /**
-     * The security checks that an incoming {@link WrappedBusMessage} has to
-     * pass in order to be allowed to interpreted by the proxy.
-     * 
-     * 
-     * @TODO interface to be refined!
-     * @return
-     */
-    MessageOperationChain getIncomingMessageOperationChain();
+	/**
+	 * The security checks that an incoming {@link WrappedBusMessage} has to
+	 * pass in order to be allowed to interpreted by the proxy.
+	 * 
+	 * 
+	 * @TODO interface to be refined!
+	 * @return
+	 */
+	MessageOperationChain getIncomingMessageOperationChain();
 
-    /**
-     * The security checks that an outgoing {@link WrappedBusMessage} has to
-     * pass in order to be allowed to transmitted to peer.
-     * 
-     * 
-     * @TODO interface to be refined!
-     * @return
-     */
-    MessageOperationChain getOutgoingMessageOperationChain();
+	/**
+	 * The security checks that an outgoing {@link WrappedBusMessage} has to
+	 * pass in order to be allowed to transmitted to peer.
+	 * 
+	 * 
+	 * @TODO interface to be refined!
+	 * @return
+	 */
+	MessageOperationChain getOutgoingMessageOperationChain();
 }

@@ -19,39 +19,39 @@ import org.universAAL.middleware.rdf.Resource;
 import org.universAAL.middleware.rdf.ScopedResource;
 
 /**
- * Dummy class to allow everything. <H1>WARNING</H1> not secure at all.
+ * Dummy class to allow everything.
+ * <H1>WARNING</H1> not secure at all.
  * 
  * @author amedrano
  * 
  */
-public class AllowDefault implements MessageOperationChain,
-	ParameterCheckOpertaionChain, OperationChainManager {
+public class AllowDefault implements MessageOperationChain, ParameterCheckOpertaionChain, OperationChainManager {
 
-    public OperationResult check(final Resource[] params) {
-	return OperationResult.ALLOW;
-    }
+	public OperationResult check(final Resource[] params) {
+		return OperationResult.ALLOW;
+	}
 
-    public OperationResult check(final ScopedResource message) {
-	return OperationResult.ALLOW;
-    }
+	public OperationResult check(final ScopedResource message) {
+		return OperationResult.ALLOW;
+	}
 
-    /** {@inheritDoc} */
-    public ParameterCheckOpertaionChain getImportOperationChain() {
-	return this;
-    }
+	/** {@inheritDoc} */
+	public ParameterCheckOpertaionChain getImportOperationChain() {
+		return this;
+	}
 
-    /** {@inheritDoc} */
-    public ParameterCheckOpertaionChain getExportOperationChain() {
-	return this;
-    }
+	/** {@inheritDoc} */
+	public ParameterCheckOpertaionChain getExportOperationChain() {
+		return this;
+	}
 
-    /** {@inheritDoc} */
-    public MessageOperationChain getIncomingMessageOperationChain() {
-	return this;
-    }
+	/** {@inheritDoc} */
+	public MessageOperationChain getIncomingMessageOperationChain() {
+		return this;
+	}
 
-    /** {@inheritDoc} */
-    public MessageOperationChain getOutgoingMessageOperationChain() {
-	return this;
-    }
+	/** {@inheritDoc} */
+	public MessageOperationChain getOutgoingMessageOperationChain() {
+		return this;
+	}
 }

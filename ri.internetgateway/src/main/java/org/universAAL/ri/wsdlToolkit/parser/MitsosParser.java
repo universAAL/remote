@@ -20,7 +20,6 @@
  */
 package org.universAAL.ri.wsdlToolkit.parser;
 
-
 import com.ibm.wsdl.ServiceImpl;
 import com.ibm.wsdl.extensions.schema.SchemaImportImpl;
 import java.net.URL;
@@ -53,8 +52,6 @@ import org.universAAL.ri.wsdlToolkit.ioApi.WSOperationOutput;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-
-
 
 public class MitsosParser {
 
@@ -89,18 +86,20 @@ public class MitsosParser {
 	// System.out.println();
 	// for (int i=0;i<operationsList.size();i++){
 	// ServiceOperation operation = (ServiceOperation)operationsList.get(i);
-	// System.out.println("Operation "+(i+1)+" => "+operation.getName()+". Domain:"+operation.getDomain());
+	// System.out.println("Operation "+(i+1)+" => "+operation.getName()+".
+	// Domain:"+operation.getDomain());
 	// OperationInput operationInput = operation.getInput();
 	// OperationOutput operationOutput = operation.getOutput();
 	//
 	// System.out.println("\t\t Input Parameters =>");
 	// if (operationInput.getParametersList().size()==0){
-	// System.out.println("\t\t               *VOID*");
+	// System.out.println("\t\t *VOID*");
 	// }
 	// for(int in=0;in<operationInput.getParametersList().size();in++){
 	// Parameter operationParameter =
 	// (Parameter)operationInput.getParametersList().get(in);
-	// System.out.println("\t\t               "+operationParameter.getParName()+":"+operationParameter.getParType());
+	// System.out.println("\t\t
+	// "+operationParameter.getParName()+":"+operationParameter.getParType());
 	// }System.out.println();
 	//
 	// //System.out.println("\t Output => "+operationOutput.getResponseName());
@@ -108,10 +107,11 @@ public class MitsosParser {
 	//
 	// Parameter operationParameter = operationOutput.getOutputParameter();
 	// if (operationParameter.getParName()!=null){
-	// System.out.println("\t\t               "+operationParameter.getParName()+":"+operationParameter.getParType());
+	// System.out.println("\t\t
+	// "+operationParameter.getParName()+":"+operationParameter.getParType());
 	// }
 	// else{
-	// System.out.println("\t\t               *VOID*");
+	// System.out.println("\t\t *VOID*");
 	// }
 	// System.out.println();
 	//
@@ -136,8 +136,7 @@ public class MitsosParser {
 
 	}
 
-	private static void getTheWSDLDefinitions(
-			ParsedWSDLDefinition mitsosDefinition, String wsdlURI) {
+	private static void getTheWSDLDefinitions(ParsedWSDLDefinition mitsosDefinition, String wsdlURI) {
 		try {
 			WSDLFactory wsdlFactory = WSDLFactory.newInstance();
 			WSDLReader wsdlReader = wsdlFactory.newWSDLReader();
@@ -177,8 +176,7 @@ public class MitsosParser {
 						String s = (String) iter1.next();
 						String key = (String) keyIterator.next();
 						// ////-System.out.println(s);
-						if (s.startsWith("http://www.w3.org")
-								&& s.endsWith("/XMLSchema")) {
+						if (s.startsWith("http://www.w3.org") && s.endsWith("/XMLSchema")) {
 							nativeTypePrefix = key;
 						} else if (s.equals(definition.getTargetNamespace())) {
 							targetNamespacePrefix = key;
@@ -190,10 +188,14 @@ public class MitsosParser {
 			} catch (Exception e) {
 				nativeTypePrefix = null;
 			}
-			// //-System.out.println("##### nativeTypePrefix: "+nativeTypePrefix);
+			// //-System.out.println("##### nativeTypePrefix:
+			// "+nativeTypePrefix);
 
-			// -ta.append("\nnativeTypePrefix: '"+nativeTypePrefix+"'"+"  ("+namespaces.get(nativeTypePrefix)+")");
-			// -ta.append("\ntargetNamespacePrefix: '"+targetNamespacePrefix+"'"+"  ("+definition.getTargetNamespace()+")");
+			// -ta.append("\nnativeTypePrefix: '"+nativeTypePrefix+"'"+"
+			// ("+namespaces.get(nativeTypePrefix)+")");
+			// -ta.append("\ntargetNamespacePrefix:
+			// '"+targetNamespacePrefix+"'"+"
+			// ("+definition.getTargetNamespace()+")");
 
 			if (nativeTypePrefix != null)
 				nativeTypePrefix += ":";
@@ -211,19 +213,19 @@ public class MitsosParser {
 		} catch (Exception e) {
 			e.printStackTrace();
 			// JOptionPane.showMessageDialog(ta, e.getMessage());
-			// -JOptionPane.showMessageDialog(ta,e.getMessage(),"ERROR when trying to parse the WSDL!",JOptionPane.ERROR_MESSAGE);
+			// -JOptionPane.showMessageDialog(ta,e.getMessage(),"ERROR when
+			// trying to parse the WSDL!",JOptionPane.ERROR_MESSAGE);
 			// -ta.append("\nAn Error occured when tryin to parse the WSDL:");
 			// -ta.append("\n"+e.getMessage());
 			// -ta.append("\n");
-			// //-System.out.println("An Error occured when tryin to parse the WSDL!");
+			// //-System.out.println("An Error occured when tryin to parse the
+			// WSDL!");
 		}
 	}
 
-	private static void parseNamespacesOfImportedXSDs(
-			javax.wsdl.Definition definition) {
+	private static void parseNamespacesOfImportedXSDs(javax.wsdl.Definition definition) {
 		try {
-			List extElementsList = definition.getTypes()
-					.getExtensibilityElements();
+			List extElementsList = definition.getTypes().getExtensibilityElements();
 			namespacesOfXSDsAlreadyParsedForImports = new Vector();
 			// ////-System.out.println("Extensibility Elements Names:");
 			if (extElementsList != null) {
@@ -243,16 +245,13 @@ public class MitsosParser {
 							Iterator importsItt2 = importsList.iterator();
 
 							// Schema Imported in WSDL
-							SchemaImportImpl schemaImport = (SchemaImportImpl) importsItt2
-									.next();
-							namespacesOfXSDsAlreadyParsedForImports
-									.add(schemaImport.getNamespaceURI());
+							SchemaImportImpl schemaImport = (SchemaImportImpl) importsItt2.next();
+							namespacesOfXSDsAlreadyParsedForImports.add(schemaImport.getNamespaceURI());
 							// ////-System.out.println(schemaImport.getNamespaceURI());
 							javax.wsdl.extensions.schema.Schema schemaImportedInTheWSDL = schemaImport
 									.getReferencedSchema();
 
-							org.w3c.dom.Element impSchElem = schemaImportedInTheWSDL
-									.getElement();
+							org.w3c.dom.Element impSchElem = schemaImportedInTheWSDL.getElement();
 							if (impSchElem == null)
 								continue;
 
@@ -261,15 +260,14 @@ public class MitsosParser {
 							// ////-System.out.println(atts.getLength());
 							for (int i = 0; i < atts.getLength(); i++) {
 								Node att = atts.item(i);
-								if (att.getNodeName() != null
-										&& att.getNodeName().startsWith(
-												"xmlns:")) {
-									String key = att.getNodeName().substring(
-											att.getNodeName().indexOf(":") + 1);
-									// ////-System.out.println(att.getNodeName()+" ## "+key+" || "+att.getNodeValue());
+								if (att.getNodeName() != null && att.getNodeName().startsWith("xmlns:")) {
+									String key = att.getNodeName().substring(att.getNodeName().indexOf(":") + 1);
+									// ////-System.out.println(att.getNodeName()+"
+									// ## "+key+" || "+att.getNodeValue());
 									namespaces.put(key, att.getNodeValue());
 								}
-								// ////-System.out.println(att.getNodeName()+" "+att.getNodeValue());
+								// ////-System.out.println(att.getNodeName()+"
+								// "+att.getNodeValue());
 							}
 
 							// Imports of the Imported XSD
@@ -320,8 +318,7 @@ public class MitsosParser {
 
 	}
 
-	private static void parseNamespacesOfImportedXSDsIterative(
-			javax.wsdl.extensions.schema.Schema schema) {
+	private static void parseNamespacesOfImportedXSDsIterative(javax.wsdl.extensions.schema.Schema schema) {
 		try {
 			Map importsMap = schema.getImports();
 			Iterator importsItt = importsMap.values().iterator();
@@ -330,16 +327,12 @@ public class MitsosParser {
 				Iterator importsItt2 = importsList.iterator();
 
 				// Schema Imported in WSDL
-				SchemaImportImpl schemaImport = (SchemaImportImpl) importsItt2
-						.next();
+				SchemaImportImpl schemaImport = (SchemaImportImpl) importsItt2.next();
 
 				String namespaceOfImport = schemaImport.getNamespaceURI();
 				boolean importHasAlreadyBeenParsed = false;
-				for (int i = 0; i < namespacesOfXSDsAlreadyParsedForImports
-						.size(); i++) {
-					if (namespaceOfImport
-							.equals((String) namespacesOfXSDsAlreadyParsedForImports
-									.get(i))) {
+				for (int i = 0; i < namespacesOfXSDsAlreadyParsedForImports.size(); i++) {
+					if (namespaceOfImport.equals((String) namespacesOfXSDsAlreadyParsedForImports.get(i))) {
 						importHasAlreadyBeenParsed = true;
 					}
 				}
@@ -349,8 +342,7 @@ public class MitsosParser {
 					javax.wsdl.extensions.schema.Schema schemaImportedInTheInputSchema = schemaImport
 							.getReferencedSchema();
 
-					org.w3c.dom.Element impSchElem = schemaImportedInTheInputSchema
-							.getElement();
+					org.w3c.dom.Element impSchElem = schemaImportedInTheInputSchema.getElement();
 					if (impSchElem == null)
 						continue;
 
@@ -359,19 +351,18 @@ public class MitsosParser {
 					// ////-System.out.println(atts.getLength());
 					for (int i = 0; i < atts.getLength(); i++) {
 						Node att = atts.item(i);
-						if (att.getNodeName() != null
-								&& att.getNodeName().startsWith("xmlns:")) {
-							String key = att.getNodeName().substring(
-									att.getNodeName().indexOf(":") + 1);
-							// ////-System.out.println(att.getNodeName()+" ## "+key+" || "+att.getNodeValue());
+						if (att.getNodeName() != null && att.getNodeName().startsWith("xmlns:")) {
+							String key = att.getNodeName().substring(att.getNodeName().indexOf(":") + 1);
+							// ////-System.out.println(att.getNodeName()+" ##
+							// "+key+" || "+att.getNodeValue());
 							namespaces.put(key, att.getNodeValue());
 						}
-						// ////-System.out.println(att.getNodeName()+" "+att.getNodeValue());
+						// ////-System.out.println(att.getNodeName()+"
+						// "+att.getNodeValue());
 					}
 
 					// Imports of the Imported XSD
-					namespacesOfXSDsAlreadyParsedForImports.add(schemaImport
-							.getNamespaceURI());
+					namespacesOfXSDsAlreadyParsedForImports.add(schemaImport.getNamespaceURI());
 					parseNamespacesOfImportedXSDsIterative(schemaImportedInTheInputSchema);
 				}
 			}
@@ -380,8 +371,7 @@ public class MitsosParser {
 		}
 	}
 
-	private static void parseBindingOperations(
-			ParsedWSDLDefinition mitsosDefinition, Definition definition,
+	private static void parseBindingOperations(ParsedWSDLDefinition mitsosDefinition, Definition definition,
 			Binding binding) {
 
 		String bindingStyle = null;
@@ -415,7 +405,8 @@ public class MitsosParser {
 
 		List opers = binding.getBindingOperations();
 		if (opers != null) {
-			// //-System.out.println("### "+opers.size()+" Operations are defined in this binding ###");
+			// //-System.out.println("### "+opers.size()+" Operations are
+			// defined in this binding ###");
 			// -ta.append("\n\tOperations:");
 			// -GIORGOS
 			// PortTypeImpl pti =
@@ -431,11 +422,13 @@ public class MitsosParser {
 				if (bindingStyle == null) {
 					List l11 = bindingOper.getExtensibilityElements();
 					for (int i11 = 0; i11 < l11.size(); i11++) {
-						// ////-System.out.println("GAMWTOOOO W class: "+l11.get(i11).getClass());
+						// ////-System.out.println("GAMWTOOOO W class:
+						// "+l11.get(i11).getClass());
 						try {
 							com.ibm.wsdl.extensions.soap.SOAPOperationImpl soapOperImpl = (com.ibm.wsdl.extensions.soap.SOAPOperationImpl) l11
 									.get(i11);
-							// -System.out.println("EYRIKAAAAAAAAAA WWWWWWWWWW: "+soapOperImpl.getStyle());
+							// -System.out.println("EYRIKAAAAAAAAAA WWWWWWWWWW:
+							// "+soapOperImpl.getStyle());
 							bindingStyle = soapOperImpl.getStyle();
 						} catch (Exception e) {
 							try {
@@ -456,8 +449,7 @@ public class MitsosParser {
 
 				String operationUse = "unknown";
 
-				List extensibilityElementsList = bindingOper.getBindingInput()
-						.getExtensibilityElements();
+				List extensibilityElementsList = bindingOper.getBindingInput().getExtensibilityElements();
 				if (extensibilityElementsList != null) {
 					for (int f1 = 0; f1 < extensibilityElementsList.size(); f1++) {
 						javax.wsdl.extensions.ExtensibilityElement extel = (javax.wsdl.extensions.ExtensibilityElement) extensibilityElementsList
@@ -468,10 +460,12 @@ public class MitsosParser {
 									.get(f1);
 
 							if (soapBodyImpl.getUse().equals("encoded")) {
-								// //-System.out.println("USE: ENCODED ("+soapBodyImpl.getUse()+")");
+								// //-System.out.println("USE: ENCODED
+								// ("+soapBodyImpl.getUse()+")");
 								operationUse = "encoded";
 							} else if (soapBodyImpl.getUse().equals("literal")) {
-								// //-System.out.println("USE: LITERAL ("+soapBodyImpl.getUse()+")");
+								// //-System.out.println("USE: LITERAL
+								// ("+soapBodyImpl.getUse()+")");
 								operationUse = "literal";
 							}
 						} catch (Exception e) {
@@ -481,11 +475,12 @@ public class MitsosParser {
 										.get(f1);
 
 								if (soapBodyImpl.getUse().equals("encoded")) {
-									// //-System.out.println("USE: ENCODED ("+soapBodyImpl.getUse()+")");
+									// //-System.out.println("USE: ENCODED
+									// ("+soapBodyImpl.getUse()+")");
 									operationUse = "encoded";
-								} else if (soapBodyImpl.getUse().equals(
-										"literal")) {
-									// //-System.out.println("USE: LITERAL ("+soapBodyImpl.getUse()+")");
+								} else if (soapBodyImpl.getUse().equals("literal")) {
+									// //-System.out.println("USE: LITERAL
+									// ("+soapBodyImpl.getUse()+")");
 									operationUse = "literal";
 								}
 							} catch (Exception e1) {
@@ -500,7 +495,8 @@ public class MitsosParser {
 								}
 							}
 						}
-						// ////-System.out.println("AAAAAAAAAAAAAAAAAAAAAAA "+extel.getElementType());
+						// ////-System.out.println("AAAAAAAAAAAAAAAAAAAAAAA
+						// "+extel.getElementType());
 					}
 				}
 
@@ -508,31 +504,25 @@ public class MitsosParser {
 				try {
 					if (bindingStyle.equals("http")) {
 						if (i == 0) {
-							stringToAppend = "\n\t\t" + bindingOper.getName()
-									+ " (HTTP-based Operation)";
+							stringToAppend = "\n\t\t" + bindingOper.getName() + " (HTTP-based Operation)";
 						} else {
-							stringToAppend = "\n\n\t\t" + bindingOper.getName()
-									+ " (HTTP-based Operation)";
+							stringToAppend = "\n\n\t\t" + bindingOper.getName() + " (HTTP-based Operation)";
 						}
 					} else {
 						if (i == 0) {
-							stringToAppend = "\n\t\t" + bindingOper.getName()
-									+ " (" + bindingStyle + "/" + operationUse
+							stringToAppend = "\n\t\t" + bindingOper.getName() + " (" + bindingStyle + "/" + operationUse
 									+ ")";
 						} else {
-							stringToAppend = "\n\n\t\t" + bindingOper.getName()
-									+ " (" + bindingStyle + "/" + operationUse
-									+ ")";
+							stringToAppend = "\n\n\t\t" + bindingOper.getName() + " (" + bindingStyle + "/"
+									+ operationUse + ")";
 						}
 					}
 				} catch (Exception e) {// if bindingStyle==null
 					if (i == 0) {
-						stringToAppend = "\n\t\t" + bindingOper.getName()
-								+ " (" + bindingStyle + "/" + operationUse
+						stringToAppend = "\n\t\t" + bindingOper.getName() + " (" + bindingStyle + "/" + operationUse
 								+ ")";
 					} else {
-						stringToAppend = "\n\n\t\t" + bindingOper.getName()
-								+ " (" + bindingStyle + "/" + operationUse
+						stringToAppend = "\n\n\t\t" + bindingOper.getName() + " (" + bindingStyle + "/" + operationUse
 								+ ")";
 					}
 				}
@@ -541,18 +531,20 @@ public class MitsosParser {
 				WSOperation mitsosParsedOperation = new WSOperation();
 				mitsosParsedOperation.setOperationName(stringToAppend);
 
-				// //-System.out.println("Binding Operation name: "+bindingOper.getName());
+				// //-System.out.println("Binding Operation name:
+				// "+bindingOper.getName());
 
 				// javax.wsdl.extensions.ExtensibilityElement
 				// extel=(javax.wsdl.extensions.ExtensibilityElement)bindingOper.getBindingInput().getExtensibilityElements().get(0);
-				// //-System.out.println("####### BINDING INPUT: "+bindingOper.getBindingInput().getExtensibilityElements().size());
+				// //-System.out.println("####### BINDING INPUT:
+				// "+bindingOper.getBindingInput().getExtensibilityElements().size());
 
 				// //-System.out.println(bindingOper.getBindingInput().getNativeAttributeNames().size()+
-				// " "+bindingOper.getBindingInput().getNativeAttributeNames().get(0));
+				// "
+				// "+bindingOper.getBindingInput().getNativeAttributeNames().get(0));
 
 				Operation operation = bindingOper.getOperation();
-				parseOperation(mitsosParsedOperation, definition, operation,
-						operationUse, bindingStyle);
+				parseOperation(mitsosParsedOperation, definition, operation, operationUse, bindingStyle);
 				mitsosDefinition.getWsdlOperations().add(mitsosParsedOperation);
 
 			}
@@ -582,11 +574,8 @@ public class MitsosParser {
 		}
 	}
 
-	private static void parseImportedXSD(
-			com.ibm.wsdl.extensions.schema.SchemaImpl schemaImpl,
-			QName inPartType, WSOperationInput operationInputs,
-			WSOperationOutput operationOutputs, NativeObject no,
-			ComplexObject co) {
+	private static void parseImportedXSD(com.ibm.wsdl.extensions.schema.SchemaImpl schemaImpl, QName inPartType,
+			WSOperationInput operationInputs, WSOperationOutput operationOutputs, NativeObject no, ComplexObject co) {
 
 		Map importsMap = schemaImpl.getImports();
 		Iterator importsItt = importsMap.values().iterator();
@@ -594,10 +583,8 @@ public class MitsosParser {
 			List importsList = (List) importsItt.next();
 			Iterator importsItt2 = importsList.iterator();
 			while (importsItt2.hasNext()) {
-				SchemaImportImpl schemaImport = (SchemaImportImpl) importsItt2
-						.next();
-				javax.wsdl.extensions.schema.Schema importedSchema = schemaImport
-						.getReferencedSchema();
+				SchemaImportImpl schemaImport = (SchemaImportImpl) importsItt2.next();
+				javax.wsdl.extensions.schema.Schema importedSchema = schemaImport.getReferencedSchema();
 				org.w3c.dom.Element impSchElem = importedSchema.getElement();
 
 				if (impSchElem == null)
@@ -622,117 +609,87 @@ public class MitsosParser {
 							continue;
 
 						if (n1.getAttributes().getNamedItem("name") != null
-								&& n1.getAttributes().getNamedItem("name")
-										.getNodeValue() != null
-								&& n1.getAttributes().getNamedItem("name")
-										.getNodeValue()
-										.equals(inPartType.getLocalPart())) {
+								&& n1.getAttributes().getNamedItem("name").getNodeValue() != null && n1.getAttributes()
+										.getNamedItem("name").getNodeValue().equals(inPartType.getLocalPart())) {
 
 							NodeList childrenOfTheDamned = n1.getChildNodes();
 							if (childrenOfTheDamned != null) {
-								for (int k = 0; k < childrenOfTheDamned
-										.getLength(); k++) {
+								for (int k = 0; k < childrenOfTheDamned.getLength(); k++) {
 									// ////-System.out.println("\t"+childrenOfTheDamned.item(k).getNodeName());
-									NodeList childrenOfTheChildrenOfTheDamned = childrenOfTheDamned
-											.item(k).getChildNodes();
+									NodeList childrenOfTheChildrenOfTheDamned = childrenOfTheDamned.item(k)
+											.getChildNodes();
 									if (childrenOfTheChildrenOfTheDamned != null) {
-										for (int k2 = 0; k2 < childrenOfTheChildrenOfTheDamned
-												.getLength(); k2++) {
-											if (childrenOfTheChildrenOfTheDamned
-													.item(k2).getNodeName()
+										for (int k2 = 0; k2 < childrenOfTheChildrenOfTheDamned.getLength(); k2++) {
+											if (childrenOfTheChildrenOfTheDamned.item(k2).getNodeName()
 													.contains("element")) {
 												NamedNodeMap attributesOfType = childrenOfTheChildrenOfTheDamned
-														.item(k2)
-														.getAttributes();
-												// ////-System.out.println("WWW GAMWTOOOO...... TYPES... FROM IMPORT!!!!!!");
+														.item(k2).getAttributes();
+												// ////-System.out.println("WWW
+												// GAMWTOOOO...... TYPES... FROM
+												// IMPORT!!!!!!");
 												String attName = "";
 												String attType = "";
 												String additionalInfo = "";
 
 												// EDW EINAI OOOOLH H MAGKIA MOU
 												// ME TA TYPES!!!!!!!!!!!!!!!
-												for (int k1 = 0; k1 < attributesOfType
-														.getLength(); k1++) {
-													Node att = attributesOfType
-															.item(k1);
-													if (att.getNodeName()
-															.equalsIgnoreCase(
-																	"name")) {
-														// ////-System.out.println("\tName: "+att.getNodeValue());
-														attName = att
-																.getNodeValue();
-													} else if (att
-															.getNodeName()
-															.equalsIgnoreCase(
-																	"type")) {
-														// ////-System.out.println("\tType: "+att.getNodeValue());
-														attType = att
-																.getNodeValue();
+												for (int k1 = 0; k1 < attributesOfType.getLength(); k1++) {
+													Node att = attributesOfType.item(k1);
+													if (att.getNodeName().equalsIgnoreCase("name")) {
+														// ////-System.out.println("\tName:
+														// "+att.getNodeValue());
+														attName = att.getNodeValue();
+													} else if (att.getNodeName().equalsIgnoreCase("type")) {
+														// ////-System.out.println("\tType:
+														// "+att.getNodeValue());
+														attType = att.getNodeValue();
 													} else {
-														// ////-System.out.println("\t"+att.getNodeName()+": "+att.getNodeValue());
-														additionalInfo += att
-																.getNodeName()
-																+ ":"
-																+ att.getNodeValue()
+														// ////-System.out.println("\t"+att.getNodeName()+":
+														// "+att.getNodeValue());
+														additionalInfo += att.getNodeName() + ":" + att.getNodeValue()
 																+ "   ";
 													}
 												}
-												// -ta.append("\n\t\t\t\t-"+attName+" ["+attType+"]  "+additionalInfo);
+												// -ta.append("\n\t\t\t\t-"+attName+"
+												// ["+attType+"]
+												// "+additionalInfo);
 
 												// Find the Type of the
 												// attName...
 												// ITERATIVE PROCESS.........
-												if (attType
-														.startsWith(targetNamespacePrefix)) {
+												if (attType.startsWith(targetNamespacePrefix)) {
 													// PSAXNW GIA TO TYPE MESA
 													// STO definition
-													// ////-System.out.println("#########################################  COMPLEX!!!! ITERATIVE");
-													String type1 = attType
-															.substring(
-																	4,
-																	attType.length());
-													if (type1
-															.startsWith("ArrayOf")) {
-														type1 = type1
-																.replaceFirst(
-																		"ArrayOf",
-																		"");
-														// -ta.append("  ("+type1+"[])");
-													} else if (type1
-															.endsWith("Array")) {
-														type1 = type1
-																.substring(
-																		0,
-																		type1.length() - 5);
-														// -ta.append("  ("+type1+"[])");
-													} else if (attType
-															.endsWith("[]")) {
-														type1 = type1.replace(
-																"[]", "");
-														// -ta.append("  ("+type1+"[])");
+													// ////-System.out.println("#########################################
+													// COMPLEX!!!! ITERATIVE");
+													String type1 = attType.substring(4, attType.length());
+													if (type1.startsWith("ArrayOf")) {
+														type1 = type1.replaceFirst("ArrayOf", "");
+														// -ta.append("
+														// ("+type1+"[])");
+													} else if (type1.endsWith("Array")) {
+														type1 = type1.substring(0, type1.length() - 5);
+														// -ta.append("
+														// ("+type1+"[])");
+													} else if (attType.endsWith("[]")) {
+														type1 = type1.replace("[]", "");
+														// -ta.append("
+														// ("+type1+"[])");
 													}
 
 													ComplexObject co1 = new ComplexObject();
-													co1.setObjectName(new QName(
-															attName));
-													co1.setObjectType(new QName(
-															attType));
+													co1.setObjectName(new QName(attName));
+													co1.setObjectType(new QName(attType));
 													co1.setAdditionalInfo(additionalInfo);
 
 													Node parsedAttribute = DocumentStyleWSDLParser
-															.parseTypeIterativeForXSDImport(
-																	importedSchema,
-																	type1, 0,
+															.parseTypeIterativeForXSDImport(importedSchema, type1, 0,
 																	false, co1);
 
 													if (operationInputs != null) {
-														operationInputs
-																.getHasNativeOrComplexObjects()
-																.add(co);
+														operationInputs.getHasNativeOrComplexObjects().add(co);
 													} else if (operationOutputs != null) {
-														operationOutputs
-																.getHasNativeOrComplexObjects()
-																.add(co);
+														operationOutputs.getHasNativeOrComplexObjects().add(co);
 													}
 
 												} else {
@@ -740,24 +697,16 @@ public class MitsosParser {
 													// EINAI NATIVE TYPE
 													if (operationInputs != null) {
 														NativeObject no1 = new NativeObject();
-														no1.setObjectName(new QName(
-																attName));
-														no1.setObjectType(new QName(
-																attType));
+														no1.setObjectName(new QName(attName));
+														no1.setObjectType(new QName(attType));
 														no1.setAdditionalInfo(additionalInfo);
-														operationInputs
-																.getHasNativeOrComplexObjects()
-																.add(no1);
+														operationInputs.getHasNativeOrComplexObjects().add(no1);
 													} else if (operationOutputs != null) {
 														NativeObject no1 = new NativeObject();
-														no1.setObjectName(new QName(
-																attName));
-														no1.setObjectType(new QName(
-																attType));
+														no1.setObjectName(new QName(attName));
+														no1.setObjectType(new QName(attType));
 														no1.setAdditionalInfo(additionalInfo);
-														operationOutputs
-																.getHasNativeOrComplexObjects()
-																.add(no1);
+														operationOutputs.getHasNativeOrComplexObjects().add(no1);
 													}
 													// }else{
 
@@ -823,8 +772,8 @@ public class MitsosParser {
 	 * ().equals(xsdImportNamespace)){ currentSchemaIsTheRightOne=true;
 	 * schemaImport=schemaImportInitial; } } } }
 	 * 
-	 * if(schemaImport!=null&&schemaImport.getNamespaceURI()!=null&&schemaImport.
-	 * getNamespaceURI().equals(xsdImportNamespace)){
+	 * if(schemaImport!=null&&schemaImport.getNamespaceURI()!=null&&
+	 * schemaImport. getNamespaceURI().equals(xsdImportNamespace)){
 	 * javax.wsdl.extensions.schema.Schema importedSchema =
 	 * schemaImport.getReferencedSchema(); org.w3c.dom.Element
 	 * impSchElem=importedSchema.getElement(); if(impSchElem==null)continue;
@@ -876,9 +825,8 @@ public class MitsosParser {
 	 * if(childrenOfTheDamned.getLength()>0){ for(int
 	 * k=0;k<childrenOfTheDamned.getLength();k++){ //
 	 * ////-System.out.println("\t"+childrenOfTheDamned.item(k).getNodeName());
-	 * NodeList
-	 * childrenOfTheChildrenOfTheDamned=childrenOfTheDamned.item(k).getChildNodes
-	 * (); if(childrenOfTheChildrenOfTheDamned!=null){ for(int
+	 * NodeList childrenOfTheChildrenOfTheDamned=childrenOfTheDamned.item(k).
+	 * getChildNodes (); if(childrenOfTheChildrenOfTheDamned!=null){ for(int
 	 * k2=0;k2<childrenOfTheChildrenOfTheDamned.getLength();k2++){
 	 * if(childrenOfTheChildrenOfTheDamned
 	 * .item(k2).getNodeName().contains("element")){ NamedNodeMap
@@ -997,22 +945,20 @@ public class MitsosParser {
 	 * ////-System.out.println("\t"+childrenOfTheDamned.item(k).getNodeName());
 	 * if(childrenOfTheDamned.item(k).getNodeName().contains("restriction")){
 	 * 
-	 * if(childrenOfTheDamned.item(k).getAttributes().getNamedItem("base")!=null)
-	 * {
+	 * if(childrenOfTheDamned.item(k).getAttributes().getNamedItem("base")!=
+	 * null) {
 	 * attType=childrenOfTheDamned.item(k).getAttributes().getNamedItem("base")
 	 * .getNodeValue(); }
 	 * 
-	 * NodeList
-	 * childrenOfTheChildrenOfTheDamned=childrenOfTheDamned.item(k).getChildNodes
-	 * (); if(childrenOfTheChildrenOfTheDamned!=null){ for(int
+	 * NodeList childrenOfTheChildrenOfTheDamned=childrenOfTheDamned.item(k).
+	 * getChildNodes (); if(childrenOfTheChildrenOfTheDamned!=null){ for(int
 	 * k2=0;k2<childrenOfTheChildrenOfTheDamned.getLength();k2++){ Node
 	 * restrictionEnumNode=childrenOfTheChildrenOfTheDamned.item(k2);
 	 * if(!restrictionEnumNode.hasAttributes())continue;
 	 * if(additionalInfo.equals(""))additionalInfo="Accepted Values: ";
 	 * 
-	 * String
-	 * str=restrictionEnumNode.getAttributes().getNamedItem("value").getNodeValue
-	 * (); if(additionalInfo.equals("Accepted Values: ")){
+	 * String str=restrictionEnumNode.getAttributes().getNamedItem("value").
+	 * getNodeValue (); if(additionalInfo.equals("Accepted Values: ")){
 	 * additionalInfo+=str+""; }else{ additionalInfo+=", "+str; } } }
 	 * 
 	 * NativeObject newNativeObject=new NativeObject();
@@ -1100,9 +1046,8 @@ public class MitsosParser {
 	 * if(childrenOfTheDamned!=null){ for(int
 	 * k=0;k<childrenOfTheDamned.getLength();k++){
 	 * ////-System.out.println("\t"+childrenOfTheDamned.item(k).getNodeName());
-	 * NodeList
-	 * childrenOfTheChildrenOfTheDamned=childrenOfTheDamned.item(k).getChildNodes
-	 * (); if(childrenOfTheChildrenOfTheDamned!=null){ for(int
+	 * NodeList childrenOfTheChildrenOfTheDamned=childrenOfTheDamned.item(k).
+	 * getChildNodes (); if(childrenOfTheChildrenOfTheDamned!=null){ for(int
 	 * k2=0;k2<childrenOfTheChildrenOfTheDamned.getLength();k2++){
 	 * if(childrenOfTheChildrenOfTheDamned
 	 * .item(k2).getNodeName().contains("element")){ NamedNodeMap
@@ -1178,9 +1123,8 @@ public class MitsosParser {
 	 * } } } } } }
 	 */
 
-	private static void parseOperation(WSOperation mitsosOperation,
-			Definition definition, Operation operation, String operationUse,
-			String bindingStyle) {
+	private static void parseOperation(WSOperation mitsosOperation, Definition definition, Operation operation,
+			String operationUse, String bindingStyle) {
 		Map inputPartsMap = operation.getInput().getMessage().getParts();
 		Collection inputParts = inputPartsMap.values();
 		Iterator inputPartIter = inputParts.iterator();
@@ -1207,29 +1151,21 @@ public class MitsosParser {
 						// -ta.append("\n\n\t\t\tName: "+inPartName);
 						QName inPartType = part.getTypeName();
 						String s11111 = inPartType.getLocalPart();
-						// -ta.append("\n\t\t\tType: "+inPartType.getLocalPart());
+						// -ta.append("\n\t\t\tType:
+						// "+inPartType.getLocalPart());
 
 						String stringToAppendForArray = null;
 
-						if (inPartType.getLocalPart() != null
-								&& inPartType.getLocalPart().endsWith("Array")) {
+						if (inPartType.getLocalPart() != null && inPartType.getLocalPart().endsWith("Array")) {
 							stringToAppendForArray = "  ( "
-									+ inPartType.getLocalPart()
-											.substring(
-													0,
-													inPartType.getLocalPart()
-															.length() - 5)
+									+ inPartType.getLocalPart().substring(0, inPartType.getLocalPart().length() - 5)
 									+ "[] )";
 						} else if (inPartType.getLocalPart() != null
-								&& inPartType.getLocalPart().startsWith(
-										"ArrayOf")) {
-							stringToAppendForArray = "  ( "
-									+ inPartType.getLocalPart().replaceFirst(
-											"ArrayOf", "") + "[] )";
-						} else if (inPartType.getLocalPart() != null
-								&& inPartType.getLocalPart().endsWith("[]")) {
-							stringToAppendForArray = "  ( "
-									+ inPartType.getLocalPart() + " )";
+								&& inPartType.getLocalPart().startsWith("ArrayOf")) {
+							stringToAppendForArray = "  ( " + inPartType.getLocalPart().replaceFirst("ArrayOf", "")
+									+ "[] )";
+						} else if (inPartType.getLocalPart() != null && inPartType.getLocalPart().endsWith("[]")) {
+							stringToAppendForArray = "  ( " + inPartType.getLocalPart() + " )";
 						}
 						if (stringToAppendForArray != null) {
 							// -ta.append(stringToAppendForArray);
@@ -1239,44 +1175,34 @@ public class MitsosParser {
 						ComplexObject co = null;
 
 						if (stringToAppendForArray == null) {// DEN EINAI ARRAY
-							if (inPartType.getNamespaceURI().equals(
-									namespaces.get(nativeTypePrefix.replace(
-											":", "")))) {
+							if (inPartType.getNamespaceURI()
+									.equals(namespaces.get(nativeTypePrefix.replace(":", "")))) {
 								// IT IS A NATIVE TYPE
 								no = new NativeObject();
 								no.setObjectName(new QName(inPartName));
-								no.setObjectType(new QName(inPartType
-										.getLocalPart() + " (NATIVE)"));
-								mitsosOperationInput
-										.getHasNativeOrComplexObjects().add(no);
+								no.setObjectType(new QName(inPartType.getLocalPart() + " (NATIVE)"));
+								mitsosOperationInput.getHasNativeOrComplexObjects().add(no);
 							} else {
 								// IT IS A COMPLEX TYPE
 								co = new ComplexObject();
 								co.setObjectName(new QName(inPartName));
-								co.setObjectType(new QName(inPartType
-										.getLocalPart() + " (COMPLEX)"));
-								mitsosOperationInput
-										.getHasNativeOrComplexObjects().add(co);
+								co.setObjectType(new QName(inPartType.getLocalPart() + " (COMPLEX)"));
+								mitsosOperationInput.getHasNativeOrComplexObjects().add(co);
 							}
 						} else {
-							if (inPartType.getNamespaceURI().equals(
-									namespaces.get(nativeTypePrefix.replace(
-											":", "")))) {
+							if (inPartType.getNamespaceURI()
+									.equals(namespaces.get(nativeTypePrefix.replace(":", "")))) {
 								// IT IS A NATIVE TYPE
 								no = new NativeObject();
 								no.setObjectName(new QName(inPartName));
-								no.setObjectType(new QName(
-										stringToAppendForArray + " (ARRAY))"));
-								mitsosOperationInput
-										.getHasNativeOrComplexObjects().add(no);
+								no.setObjectType(new QName(stringToAppendForArray + " (ARRAY))"));
+								mitsosOperationInput.getHasNativeOrComplexObjects().add(no);
 							} else {
 								// IT IS A COMPLEX TYPE
 								co = new ComplexObject();
 								co.setObjectName(new QName(inPartName));
-								co.setObjectType(new QName(
-										stringToAppendForArray + " (ARRAY)"));
-								mitsosOperationInput
-										.getHasNativeOrComplexObjects().add(co);
+								co.setObjectType(new QName(stringToAppendForArray + " (ARRAY)"));
+								mitsosOperationInput.getHasNativeOrComplexObjects().add(co);
 							}
 						}
 
@@ -1308,81 +1234,74 @@ public class MitsosParser {
 
 					} catch (Exception e) {
 						// e.printStackTrace();
-						// //-System.out.println("Parse exception:"+e.getMessage());
+						// //-System.out.println("Parse
+						// exception:"+e.getMessage());
 						// //-System.out.println("Continue...");
 					}
 				} else if (operationUse.equals("document")) {
-					// -ta.append("\n\t\t\tCAUTION!!! Not supported yet:  style: "+bindingStyle+" / use:"+operationUse);
+					// -ta.append("\n\t\t\tCAUTION!!! Not supported yet: style:
+					// "+bindingStyle+" / use:"+operationUse);
 				} else {
-					// -ta.append("\n\t\t\tCAUTION!!!:  style: "+bindingStyle+" / use:"+operationUse);
+					// -ta.append("\n\t\t\tCAUTION!!!: style: "+bindingStyle+" /
+					// use:"+operationUse);
 				}
 			} else if (operationUse.equals("literal")) {
 				try {
 					if (bindingStyle.equals("document")) {
 						try {
 							if (part.getElementName().getLocalPart() != null
-									&& part.getElementName().getLocalPart()
-											.endsWith("Array")) {
-								// -ta.append("  ( "+part.getElementName().getLocalPart().substring(0,part.getElementName().getLocalPart().length()-5)
+									&& part.getElementName().getLocalPart().endsWith("Array")) {
+								// -ta.append(" (
+								// "+part.getElementName().getLocalPart().substring(0,part.getElementName().getLocalPart().length()-5)
 								// +"[] )");
 							} else if (part.getElementName().getLocalPart() != null
-									&& part.getElementName().getLocalPart()
-											.startsWith("ArrayOf")) {
-								// -ta.append("  ( "+part.getElementName().getLocalPart().replaceFirst("ArrayOf",
+									&& part.getElementName().getLocalPart().startsWith("ArrayOf")) {
+								// -ta.append(" (
+								// "+part.getElementName().getLocalPart().replaceFirst("ArrayOf",
 								// "")+"[] )");
 							} else if (part.getElementName().getLocalPart() != null
-									&& part.getElementName().getLocalPart()
-											.endsWith("[]")) {
-								// -ta.append("  ( "+part.getElementName().getLocalPart()+" )");
+									&& part.getElementName().getLocalPart().endsWith("[]")) {
+								// -ta.append(" (
+								// "+part.getElementName().getLocalPart()+" )");
 							}
 						} catch (Exception e) {
 
 						}
 
 						if (part.getElementName() != null) {
-							DocumentStyleWSDLParser.parseDocumentType2(
-									definition, part.getElementName(),
+							DocumentStyleWSDLParser.parseDocumentType2(definition, part.getElementName(),
 									mitsosOperationInput, null, part);
 						} else if (part.getName() != null) {
-							DocumentStyleWSDLParser.parseDocumentType2(
-									definition, part.getElementName(),
+							DocumentStyleWSDLParser.parseDocumentType2(definition, part.getElementName(),
 									mitsosOperationInput, null, part);
 						} else {
-							DocumentStyleWSDLParser.parseDocumentType2(
-									definition, part.getElementName(),
+							DocumentStyleWSDLParser.parseDocumentType2(definition, part.getElementName(),
 									mitsosOperationInput, null, part);
 						}
 					} else if (bindingStyle.equals("rpc")) {
 						// KWDIKAS GIA Nuremberg POI SEarch WSs WSDL
-						// //-ta.append("\n\t\t\tCAUTION!!! Not supported yet:  style: "+bindingStyle+" / use:"+operationUse);
+						// //-ta.append("\n\t\t\tCAUTION!!! Not supported yet:
+						// style: "+bindingStyle+" / use:"+operationUse);
 						try {
 							String inPartName = part.getName();
 							// -ta.append("\n\n\t\t\tName: "+inPartName);
 							QName inPartType = part.getTypeName();
 							String s11111 = inPartType.getLocalPart();
-							// -ta.append("\n\t\t\tType: "+inPartType.getLocalPart());
+							// -ta.append("\n\t\t\tType:
+							// "+inPartType.getLocalPart());
 
 							String stringToAppendForArray = null;
 
-							if (inPartType.getLocalPart() != null
-									&& inPartType.getLocalPart().endsWith(
-											"Array")) {
+							if (inPartType.getLocalPart() != null && inPartType.getLocalPart().endsWith("Array")) {
 								stringToAppendForArray = "  ( "
-										+ inPartType.getLocalPart().substring(
-												0,
-												inPartType.getLocalPart()
-														.length() - 5) + "[] )";
-							} else if (inPartType.getLocalPart() != null
-									&& inPartType.getLocalPart().startsWith(
-											"ArrayOf")) {
-								stringToAppendForArray = "  ( "
-										+ inPartType.getLocalPart()
-												.replaceFirst("ArrayOf", "")
+										+ inPartType.getLocalPart().substring(0, inPartType.getLocalPart().length() - 5)
 										+ "[] )";
 							} else if (inPartType.getLocalPart() != null
-									&& inPartType.getLocalPart().endsWith("[]")) {
-								stringToAppendForArray = "  ( "
-										+ inPartType.getLocalPart() + " )";
+									&& inPartType.getLocalPart().startsWith("ArrayOf")) {
+								stringToAppendForArray = "  ( " + inPartType.getLocalPart().replaceFirst("ArrayOf", "")
+										+ "[] )";
+							} else if (inPartType.getLocalPart() != null && inPartType.getLocalPart().endsWith("[]")) {
+								stringToAppendForArray = "  ( " + inPartType.getLocalPart() + " )";
 							}
 							if (stringToAppendForArray != null) {
 								// -ta.append(stringToAppendForArray);
@@ -1393,48 +1312,34 @@ public class MitsosParser {
 
 							if (stringToAppendForArray == null) {// DEN EINAI
 																	// ARRAY
-								if (inPartType.getNamespaceURI().equals(
-										namespaces.get(nativeTypePrefix
-												.replace(":", "")))) {
+								if (inPartType.getNamespaceURI()
+										.equals(namespaces.get(nativeTypePrefix.replace(":", "")))) {
 									// IT IS A NATIVE TYPE
 									no = new NativeObject();
 									no.setObjectName(new QName(inPartName));
-									no.setObjectType(new QName(inPartType
-											.getLocalPart() + " (NATIVE)"));
-									mitsosOperationInput
-											.getHasNativeOrComplexObjects()
-											.add(no);
+									no.setObjectType(new QName(inPartType.getLocalPart() + " (NATIVE)"));
+									mitsosOperationInput.getHasNativeOrComplexObjects().add(no);
 								} else {
 									// IT IS A COMPLEX TYPE
 									co = new ComplexObject();
 									co.setObjectName(new QName(inPartName));
-									co.setObjectType(new QName(inPartType
-											.getLocalPart() + " (COMPLEX)"));
-									mitsosOperationInput
-											.getHasNativeOrComplexObjects()
-											.add(co);
+									co.setObjectType(new QName(inPartType.getLocalPart() + " (COMPLEX)"));
+									mitsosOperationInput.getHasNativeOrComplexObjects().add(co);
 								}
 							} else {
-								if (inPartType.getNamespaceURI().equals(
-										namespaces.get(nativeTypePrefix
-												.replace(":", "")))) {
+								if (inPartType.getNamespaceURI()
+										.equals(namespaces.get(nativeTypePrefix.replace(":", "")))) {
 									// IT IS A NATIVE TYPE
 									no = new NativeObject();
 									no.setObjectName(new QName(inPartName));
-									no.setObjectType(new QName(
-											stringToAppendForArray + " (ARRAY)"));
-									mitsosOperationInput
-											.getHasNativeOrComplexObjects()
-											.add(no);
+									no.setObjectType(new QName(stringToAppendForArray + " (ARRAY)"));
+									mitsosOperationInput.getHasNativeOrComplexObjects().add(no);
 								} else {
 									// IT IS A COMPLEX TYPE
 									co = new ComplexObject();
 									co.setObjectName(new QName(inPartName));
-									co.setObjectType(new QName(
-											stringToAppendForArray + " (ARRAY)"));
-									mitsosOperationInput
-											.getHasNativeOrComplexObjects()
-											.add(co);
+									co.setObjectType(new QName(stringToAppendForArray + " (ARRAY)"));
+									mitsosOperationInput.getHasNativeOrComplexObjects().add(co);
 								}
 							}
 
@@ -1445,11 +1350,13 @@ public class MitsosParser {
 							parseType(definition, inPartType, no, co);
 						} catch (Exception e) {
 							// e.printStackTrace();
-							// //-System.out.println("Parse exception:"+e.getMessage());
+							// //-System.out.println("Parse
+							// exception:"+e.getMessage());
 							// //-System.out.println("Continue...");
 						}
 					} else {
-						// -ta.append("\n\t\t\tCAUTION!!!:  style: "+bindingStyle+" / use:"+operationUse);
+						// -ta.append("\n\t\t\tCAUTION!!!: style:
+						// "+bindingStyle+" / use:"+operationUse);
 					}
 				} catch (Exception e) {
 					// //-System.out.println("Parse exception:"+e.getMessage());
@@ -1458,19 +1365,19 @@ public class MitsosParser {
 				}
 
 			} else if (operationUse.equals("http")) {
-				// //-ta.append("\n\t\t\tCAUTION!!!:  http Service operation!: "+bindingStyle+" / use:"+operationUse);
+				// //-ta.append("\n\t\t\tCAUTION!!!: http Service operation!:
+				// "+bindingStyle+" / use:"+operationUse);
 				try {
-					if (part.getName() != null
-							&& part.getName().endsWith("Array")) {
-						// -ta.append("  ( "+part.getName().substring(0,part.getName().length()-5)
+					if (part.getName() != null && part.getName().endsWith("Array")) {
+						// -ta.append(" (
+						// "+part.getName().substring(0,part.getName().length()-5)
 						// +"[] )");
-					} else if (part.getName() != null
-							&& part.getName().startsWith("ArrayOf")) {
-						// -ta.append("  ( "+part.getName().replaceFirst("ArrayOf",
+					} else if (part.getName() != null && part.getName().startsWith("ArrayOf")) {
+						// -ta.append(" (
+						// "+part.getName().replaceFirst("ArrayOf",
 						// "")+"[] )");
-					} else if (part.getName() != null
-							&& part.getName().endsWith("[]")) {
-						// -ta.append("  ( "+part.getName()+" )");
+					} else if (part.getName() != null && part.getName().endsWith("[]")) {
+						// -ta.append(" ( "+part.getName()+" )");
 					}
 				} catch (Exception e) {
 
@@ -1483,9 +1390,11 @@ public class MitsosParser {
 
 			} else {
 				if (bindingStyle.equals("rpc")) {
-					// -ta.append("\n\t\t\tCAUTION!!!:  style: "+bindingStyle+" / use:"+operationUse);
+					// -ta.append("\n\t\t\tCAUTION!!!: style: "+bindingStyle+" /
+					// use:"+operationUse);
 				} else {
-					// -ta.append("\n\t\t\tCAUTION!!!:  style: "+bindingStyle+" / use:"+operationUse);
+					// -ta.append("\n\t\t\tCAUTION!!!: style: "+bindingStyle+" /
+					// use:"+operationUse);
 				}
 			}
 
@@ -1516,14 +1425,13 @@ public class MitsosParser {
 			 * //-ta.
 			 * append("\n\t\t\tElement: "+part.getElementName().getLocalPart());
 			 * 
-			 * if(part.getElementName().getLocalPart()!=null&&part.getElementName
-			 * ().getLocalPart().endsWith("Array")){
+			 * if(part.getElementName().getLocalPart()!=null&&part.
+			 * getElementName ().getLocalPart().endsWith("Array")){
 			 * //-ta.append("  ( "+part.getElementName
 			 * ().getLocalPart().substring
 			 * (0,part.getElementName().getLocalPart().length()-5) +"[] )");
-			 * }else
-			 * if(part.getElementName().getLocalPart()!=null&&part.getElementName
-			 * ().getLocalPart().startsWith("ArrayOf")){
+			 * }else if(part.getElementName().getLocalPart()!=null&&part.
+			 * getElementName ().getLocalPart().startsWith("ArrayOf")){
 			 * //-ta.append("  ( "+part
 			 * .getElementName().getLocalPart().replaceFirst("ArrayOf",
 			 * "")+"[] )"); }else
@@ -1559,29 +1467,21 @@ public class MitsosParser {
 						// -ta.append("\n\n\t\t\tName: "+inPartName);
 						QName inPartType = part.getTypeName();
 						String s11111 = inPartType.getLocalPart();
-						// -ta.append("\n\t\t\tType: "+inPartType.getLocalPart());
+						// -ta.append("\n\t\t\tType:
+						// "+inPartType.getLocalPart());
 
 						String stringToAppendForArray = null;
 
-						if (inPartType.getLocalPart() != null
-								&& inPartType.getLocalPart().endsWith("Array")) {
+						if (inPartType.getLocalPart() != null && inPartType.getLocalPart().endsWith("Array")) {
 							stringToAppendForArray = "  ( "
-									+ inPartType.getLocalPart()
-											.substring(
-													0,
-													inPartType.getLocalPart()
-															.length() - 5)
+									+ inPartType.getLocalPart().substring(0, inPartType.getLocalPart().length() - 5)
 									+ "[] )";
 						} else if (inPartType.getLocalPart() != null
-								&& inPartType.getLocalPart().startsWith(
-										"ArrayOf")) {
-							stringToAppendForArray = "  ( "
-									+ inPartType.getLocalPart().replaceFirst(
-											"ArrayOf", "") + "[] )";
-						} else if (inPartType.getLocalPart() != null
-								&& inPartType.getLocalPart().endsWith("[]")) {
-							stringToAppendForArray = "  ( "
-									+ inPartType.getLocalPart() + " )";
+								&& inPartType.getLocalPart().startsWith("ArrayOf")) {
+							stringToAppendForArray = "  ( " + inPartType.getLocalPart().replaceFirst("ArrayOf", "")
+									+ "[] )";
+						} else if (inPartType.getLocalPart() != null && inPartType.getLocalPart().endsWith("[]")) {
+							stringToAppendForArray = "  ( " + inPartType.getLocalPart() + " )";
 						}
 						if (stringToAppendForArray != null) {
 							// -ta.append(stringToAppendForArray);
@@ -1591,44 +1491,34 @@ public class MitsosParser {
 						ComplexObject co = null;
 
 						if (stringToAppendForArray == null) {// DEN EINAI ARRAY
-							if (inPartType.getNamespaceURI().equals(
-									namespaces.get(nativeTypePrefix.replace(
-											":", "")))) {
+							if (inPartType.getNamespaceURI()
+									.equals(namespaces.get(nativeTypePrefix.replace(":", "")))) {
 								// IT IS A NATIVE TYPE
 								no = new NativeObject();
 								no.setObjectName(new QName(inPartName));
-								no.setObjectType(new QName(inPartType
-										.getLocalPart() + " (NATIVE)"));
-								mitsosOperationOutput
-										.getHasNativeOrComplexObjects().add(no);
+								no.setObjectType(new QName(inPartType.getLocalPart() + " (NATIVE)"));
+								mitsosOperationOutput.getHasNativeOrComplexObjects().add(no);
 							} else {
 								// IT IS A COMPLEX TYPE
 								co = new ComplexObject();
 								co.setObjectName(new QName(inPartName));
-								co.setObjectType(new QName(inPartType
-										.getLocalPart() + " (COMPLEX)"));
-								mitsosOperationOutput
-										.getHasNativeOrComplexObjects().add(co);
+								co.setObjectType(new QName(inPartType.getLocalPart() + " (COMPLEX)"));
+								mitsosOperationOutput.getHasNativeOrComplexObjects().add(co);
 							}
 						} else {
-							if (inPartType.getNamespaceURI().equals(
-									namespaces.get(nativeTypePrefix.replace(
-											":", "")))) {
+							if (inPartType.getNamespaceURI()
+									.equals(namespaces.get(nativeTypePrefix.replace(":", "")))) {
 								// IT IS A NATIVE TYPE
 								no = new NativeObject();
 								no.setObjectName(new QName(inPartName));
-								no.setObjectType(new QName(
-										stringToAppendForArray + " (ARRAY)"));
-								mitsosOperationOutput
-										.getHasNativeOrComplexObjects().add(no);
+								no.setObjectType(new QName(stringToAppendForArray + " (ARRAY)"));
+								mitsosOperationOutput.getHasNativeOrComplexObjects().add(no);
 							} else {
 								// IT IS A COMPLEX TYPE
 								co = new ComplexObject();
 								co.setObjectName(new QName(inPartName));
-								co.setObjectType(new QName(
-										stringToAppendForArray + " (ARRAY)"));
-								mitsosOperationOutput
-										.getHasNativeOrComplexObjects().add(co);
+								co.setObjectType(new QName(stringToAppendForArray + " (ARRAY)"));
+								mitsosOperationOutput.getHasNativeOrComplexObjects().add(co);
 							}
 						}
 
@@ -1639,7 +1529,9 @@ public class MitsosParser {
 						parseType(definition, inPartType, no, co);
 					} else if (bindingStyle.equals("document")) {
 						// document/encoded
-						// -ta.append("\n\t\t\tCAUTION!!!:  style: "+bindingStyle+" / use:"+operationUse+"  --NOT SUPPORTED!!!");
+						// -ta.append("\n\t\t\tCAUTION!!!: style:
+						// "+bindingStyle+" / use:"+operationUse+" --NOT
+						// SUPPORTED!!!");
 					}
 				} catch (Exception e) {
 					// e.printStackTrace();
@@ -1660,25 +1552,16 @@ public class MitsosParser {
 
 							String stringToAppendForArray = null;
 
-							if (inPartType.getLocalPart() != null
-									&& inPartType.getLocalPart().endsWith(
-											"Array")) {
+							if (inPartType.getLocalPart() != null && inPartType.getLocalPart().endsWith("Array")) {
 								stringToAppendForArray = "  ( "
-										+ inPartType.getLocalPart().substring(
-												0,
-												inPartType.getLocalPart()
-														.length() - 5) + "[] )";
-							} else if (inPartType.getLocalPart() != null
-									&& inPartType.getLocalPart().startsWith(
-											"ArrayOf")) {
-								stringToAppendForArray = "  ( "
-										+ inPartType.getLocalPart()
-												.replaceFirst("ArrayOf", "")
+										+ inPartType.getLocalPart().substring(0, inPartType.getLocalPart().length() - 5)
 										+ "[] )";
 							} else if (inPartType.getLocalPart() != null
-									&& inPartType.getLocalPart().endsWith("[]")) {
-								stringToAppendForArray = "  ( "
-										+ inPartType.getLocalPart() + " )";
+									&& inPartType.getLocalPart().startsWith("ArrayOf")) {
+								stringToAppendForArray = "  ( " + inPartType.getLocalPart().replaceFirst("ArrayOf", "")
+										+ "[] )";
+							} else if (inPartType.getLocalPart() != null && inPartType.getLocalPart().endsWith("[]")) {
+								stringToAppendForArray = "  ( " + inPartType.getLocalPart() + " )";
 							}
 							if (stringToAppendForArray != null) {
 								// -ta.append(stringToAppendForArray);
@@ -1689,48 +1572,34 @@ public class MitsosParser {
 
 							if (stringToAppendForArray == null) {// DEN EINAI
 																	// ARRAY
-								if (inPartType.getNamespaceURI().equals(
-										namespaces.get(nativeTypePrefix
-												.replace(":", "")))) {
+								if (inPartType.getNamespaceURI()
+										.equals(namespaces.get(nativeTypePrefix.replace(":", "")))) {
 									// IT IS A NATIVE TYPE
 									no = new NativeObject();
 									no.setObjectName(new QName(inPartName));
-									no.setObjectType(new QName(inPartType
-											.getLocalPart() + " (NATIVE)"));
-									mitsosOperationOutput
-											.getHasNativeOrComplexObjects()
-											.add(no);
+									no.setObjectType(new QName(inPartType.getLocalPart() + " (NATIVE)"));
+									mitsosOperationOutput.getHasNativeOrComplexObjects().add(no);
 								} else {
 									// IT IS A COMPLEX TYPE
 									co = new ComplexObject();
 									co.setObjectName(new QName(inPartName));
-									co.setObjectType(new QName(inPartType
-											.getLocalPart() + " (COMPLEX)"));
-									mitsosOperationOutput
-											.getHasNativeOrComplexObjects()
-											.add(co);
+									co.setObjectType(new QName(inPartType.getLocalPart() + " (COMPLEX)"));
+									mitsosOperationOutput.getHasNativeOrComplexObjects().add(co);
 								}
 							} else {
-								if (inPartType.getNamespaceURI().equals(
-										namespaces.get(nativeTypePrefix
-												.replace(":", "")))) {
+								if (inPartType.getNamespaceURI()
+										.equals(namespaces.get(nativeTypePrefix.replace(":", "")))) {
 									// IT IS A NATIVE TYPE
 									no = new NativeObject();
 									no.setObjectName(new QName(inPartName));
-									no.setObjectType(new QName(
-											stringToAppendForArray + " (ARRAY)"));
-									mitsosOperationOutput
-											.getHasNativeOrComplexObjects()
-											.add(no);
+									no.setObjectType(new QName(stringToAppendForArray + " (ARRAY)"));
+									mitsosOperationOutput.getHasNativeOrComplexObjects().add(no);
 								} else {
 									// IT IS A COMPLEX TYPE
 									co = new ComplexObject();
 									co.setObjectName(new QName(inPartName));
-									co.setObjectType(new QName(
-											stringToAppendForArray + " (ARRAY)"));
-									mitsosOperationOutput
-											.getHasNativeOrComplexObjects()
-											.add(co);
+									co.setObjectType(new QName(stringToAppendForArray + " (ARRAY)"));
+									mitsosOperationOutput.getHasNativeOrComplexObjects().add(co);
 								}
 							}
 
@@ -1741,29 +1610,29 @@ public class MitsosParser {
 							parseType(definition, inPartType, no, co);
 						} catch (Exception e) {
 							// e.printStackTrace();
-							// //-System.out.println("Parse exception:"+e.getMessage());
+							// //-System.out.println("Parse
+							// exception:"+e.getMessage());
 							// //-System.out.println("Continue...");
 						}
 					} else if (bindingStyle.equals("document")) {
 						// document/literal
 						if (part.getElementName().getLocalPart() != null
-								&& part.getElementName().getLocalPart()
-										.endsWith("Array")) {
-							// -ta.append("  ( "+part.getElementName().getLocalPart().substring(0,part.getElementName().getLocalPart().length()-5)
+								&& part.getElementName().getLocalPart().endsWith("Array")) {
+							// -ta.append(" (
+							// "+part.getElementName().getLocalPart().substring(0,part.getElementName().getLocalPart().length()-5)
 							// +"[] )");
 						} else if (part.getElementName().getLocalPart() != null
-								&& part.getElementName().getLocalPart()
-										.startsWith("ArrayOf")) {
-							// -ta.append("  ( "+part.getElementName().getLocalPart().replaceFirst("ArrayOf",
+								&& part.getElementName().getLocalPart().startsWith("ArrayOf")) {
+							// -ta.append(" (
+							// "+part.getElementName().getLocalPart().replaceFirst("ArrayOf",
 							// "")+"[] )");
 						} else if (part.getElementName().getLocalPart() != null
-								&& part.getElementName().getLocalPart()
-										.endsWith("[]")) {
-							// -ta.append("  ( "+part.getElementName().getLocalPart()+" )");
+								&& part.getElementName().getLocalPart().endsWith("[]")) {
+							// -ta.append(" (
+							// "+part.getElementName().getLocalPart()+" )");
 						}
 
-						DocumentStyleWSDLParser.parseDocumentType2(definition,
-								part.getElementName(), null,
+						DocumentStyleWSDLParser.parseDocumentType2(definition, part.getElementName(), null,
 								mitsosOperationOutput, part);
 					}
 				} catch (Exception e) {
@@ -1783,25 +1652,20 @@ public class MitsosParser {
 					String stringToAppendForArray = null;
 					// -GIORGOS
 					if (inPartType == null) {
-						// System.out.println(ws.getServiceURL()+" unsuccessfully parsed");
+						// System.out.println(ws.getServiceURL()+"
+						// unsuccessfully parsed");
 						return;
 					}
 					// -GIORGOS.
-					if (inPartType.getLocalPart() != null
-							&& inPartType.getLocalPart().endsWith("Array")) {
+					if (inPartType.getLocalPart() != null && inPartType.getLocalPart().endsWith("Array")) {
 						stringToAppendForArray = "  ( "
-								+ inPartType.getLocalPart().substring(0,
-										inPartType.getLocalPart().length() - 5)
+								+ inPartType.getLocalPart().substring(0, inPartType.getLocalPart().length() - 5)
 								+ "[] )";
-					} else if (inPartType.getLocalPart() != null
-							&& inPartType.getLocalPart().startsWith("ArrayOf")) {
-						stringToAppendForArray = "  ( "
-								+ inPartType.getLocalPart().replaceFirst(
-										"ArrayOf", "") + "[] )";
-					} else if (inPartType.getLocalPart() != null
-							&& inPartType.getLocalPart().endsWith("[]")) {
-						stringToAppendForArray = "  ( "
-								+ inPartType.getLocalPart() + " )";
+					} else if (inPartType.getLocalPart() != null && inPartType.getLocalPart().startsWith("ArrayOf")) {
+						stringToAppendForArray = "  ( " + inPartType.getLocalPart().replaceFirst("ArrayOf", "")
+								+ "[] )";
+					} else if (inPartType.getLocalPart() != null && inPartType.getLocalPart().endsWith("[]")) {
+						stringToAppendForArray = "  ( " + inPartType.getLocalPart() + " )";
 					}
 					if (stringToAppendForArray != null) {
 						// -ta.append(stringToAppendForArray);
@@ -1811,44 +1675,32 @@ public class MitsosParser {
 					ComplexObject co = null;
 
 					if (stringToAppendForArray == null) {// DEN EINAI ARRAY
-						if (inPartType.getNamespaceURI().equals(
-								namespaces.get(nativeTypePrefix
-										.replace(":", "")))) {
+						if (inPartType.getNamespaceURI().equals(namespaces.get(nativeTypePrefix.replace(":", "")))) {
 							// IT IS A NATIVE TYPE
 							no = new NativeObject();
 							no.setObjectName(new QName(inPartName));
-							no.setObjectType(new QName(inPartType
-									.getLocalPart() + " (NATIVE)"));
-							mitsosOperationOutput
-									.getHasNativeOrComplexObjects().add(no);
+							no.setObjectType(new QName(inPartType.getLocalPart() + " (NATIVE)"));
+							mitsosOperationOutput.getHasNativeOrComplexObjects().add(no);
 						} else {
 							// IT IS A COMPLEX TYPE
 							co = new ComplexObject();
 							co.setObjectName(new QName(inPartName));
-							co.setObjectType(new QName(inPartType
-									.getLocalPart() + " (COMPLEX)"));
-							mitsosOperationOutput
-									.getHasNativeOrComplexObjects().add(co);
+							co.setObjectType(new QName(inPartType.getLocalPart() + " (COMPLEX)"));
+							mitsosOperationOutput.getHasNativeOrComplexObjects().add(co);
 						}
 					} else {
-						if (inPartType.getNamespaceURI().equals(
-								namespaces.get(nativeTypePrefix
-										.replace(":", "")))) {
+						if (inPartType.getNamespaceURI().equals(namespaces.get(nativeTypePrefix.replace(":", "")))) {
 							// IT IS A NATIVE TYPE
 							no = new NativeObject();
 							no.setObjectName(new QName(inPartName));
-							no.setObjectType(new QName(stringToAppendForArray
-									+ " (ARRAY)"));
-							mitsosOperationOutput
-									.getHasNativeOrComplexObjects().add(no);
+							no.setObjectType(new QName(stringToAppendForArray + " (ARRAY)"));
+							mitsosOperationOutput.getHasNativeOrComplexObjects().add(no);
 						} else {
 							// IT IS A COMPLEX TYPE
 							co = new ComplexObject();
 							co.setObjectName(new QName(inPartName));
-							co.setObjectType(new QName(stringToAppendForArray
-									+ " (ARRAY)"));
-							mitsosOperationOutput
-									.getHasNativeOrComplexObjects().add(co);
+							co.setObjectType(new QName(stringToAppendForArray + " (ARRAY)"));
+							mitsosOperationOutput.getHasNativeOrComplexObjects().add(co);
 						}
 					}
 
@@ -1911,7 +1763,8 @@ public class MitsosParser {
 		// NativeObject no = (NativeObject)
 		// mi.getHasNativeOrComplexObjects().get(i);
 		// par.setParName(no.getObjectName());
-		// par.setParType(no.getObjectType().split(" ")[0].trim().replaceAll("s:",
+		// par.setParType(no.getObjectType().split("
+		// ")[0].trim().replaceAll("s:",
 		// "").replaceAll("xsd:", ""));
 		// }
 		// else {
@@ -1927,7 +1780,8 @@ public class MitsosParser {
 		// }
 		//
 		// par.setParType(a);
-		// //par.setParType(co.getObjectType().split(" ")[0].trim().replaceAll("s:",
+		// //par.setParType(co.getObjectType().split("
+		// ")[0].trim().replaceAll("s:",
 		// "").replaceAll("xsd:", ""));
 		//
 		// }
@@ -1945,7 +1799,8 @@ public class MitsosParser {
 		// NativeObject no = (NativeObject)
 		// mo.getHasNativeOrComplexObjects().get(i);
 		// par.setParName(no.getObjectName());
-		// par.setParType(no.getObjectType().split(" ")[0].trim().replaceAll("s:",
+		// par.setParType(no.getObjectType().split("
+		// ")[0].trim().replaceAll("s:",
 		// "").replaceAll("xsd:", ""));
 		// ////-//-System.out.println("Type NO ."+no.getObjectType());
 		// }
@@ -1964,7 +1819,8 @@ public class MitsosParser {
 		// par.setParType(a);
 		//
 		// //par.setParType(co.getObjectType().trim());
-		// //par.setParType(co.getObjectType().split(" ")[0].trim().replaceAll("s:",
+		// //par.setParType(co.getObjectType().split("
+		// ")[0].trim().replaceAll("s:",
 		// "").replaceAll("xsd:", ""));
 		// ////-//-System.out.print("Type CO ."+co.getObjectType().trim()+".");
 		// //String a =co.getObjectType().trim();
@@ -1987,13 +1843,15 @@ public class MitsosParser {
 		// for(int in=0;in<opIn.getParametersList().size();in++){
 		// Parameter operationParameter =
 		// (Parameter)opIn.getParametersList().get(in);
-		// //-//-System.out.println("\t\t               "+operationParameter.getParName()+":"+operationParameter.getParType());
+		// //-//-System.out.println("\t\t
+		// "+operationParameter.getParName()+":"+operationParameter.getParType());
 		// }//-//-System.out.println();
 		//
 		// //-//-System.out.println("\t\t Output Parameters =>");
 		// Parameter operationParameter = opOut.getOutputParameter();
 		// if (operationParameter!=null){
-		// //-//-System.out.println("\t\t               "+operationParameter.getParName()+":"+operationParameter.getParType());
+		// //-//-System.out.println("\t\t
+		// "+operationParameter.getParName()+":"+operationParameter.getParType());
 		// }
 		// else{
 		// //-//-System.out.println();
@@ -2005,8 +1863,7 @@ public class MitsosParser {
 
 	}
 
-	private static void parseServices(ParsedWSDLDefinition mitsosDefinition,
-			Definition definition) {
+	private static void parseServices(ParsedWSDLDefinition mitsosDefinition, Definition definition) {
 		// find service
 		Map servicesMap = definition.getServices();
 		// -ta.append("\n\t\t### SERVICES ###\n");
@@ -2026,20 +1883,21 @@ public class MitsosParser {
 				// -ta.append("\n\tSERVICE");
 				ServiceImpl serv = (ServiceImpl) servIter.next();
 				// ////-System.out.println(serv.toString());
-				// //-System.out.println("Service name: "+serv.getQName().getLocalPart());
+				// //-System.out.println("Service name:
+				// "+serv.getQName().getLocalPart());
 				// -ta.append("\n\tName: "+serv.getQName().getLocalPart());
 				Map servicePorts = serv.getPorts();
 				Collection ports = servicePorts.values();
 				Iterator portsIter = ports.iterator();
 				while (portsIter.hasNext()) {
 					Port p = (Port) portsIter.next();
-					// -System.out.println("Port name: "+p.getName()+"   binding:"+p.getBinding());
+					// -System.out.println("Port name: "+p.getName()+"
+					// binding:"+p.getBinding());
 					// -ta.append("\n\tPort: "+p.getName());
 
 					Binding binding = p.getBinding();
 
-					parseBindingOperations(mitsosDefinition, definition,
-							binding);
+					parseBindingOperations(mitsosDefinition, definition, binding);
 				}
 			}
 		} else {
@@ -2048,8 +1906,7 @@ public class MitsosParser {
 		}
 	}
 
-	private static void parseImports(ParsedWSDLDefinition mitsosDefinition,
-			Definition definition) {
+	private static void parseImports(ParsedWSDLDefinition mitsosDefinition, Definition definition) {
 
 		Map importsMap = definition.getImports();
 		Collection importsCollection = importsMap.values();
@@ -2068,7 +1925,8 @@ public class MitsosParser {
 						if (impsVector != null) {
 							for (int i = 0; i < impsVector.size(); i++) {
 								Import imp = (Import) impsVector.get(i);
-								// -ta.append("\tIMPORT URL: "+imp.getLocationURI());
+								// -ta.append("\tIMPORT URL:
+								// "+imp.getLocationURI());
 							}
 						}
 					} catch (Exception e1) {
@@ -2085,8 +1943,7 @@ public class MitsosParser {
 		}
 	}
 
-	private static void parseType(Definition definition, QName inPartType,
-			NativeObject no, ComplexObject co) {
+	private static void parseType(Definition definition, QName inPartType, NativeObject no, ComplexObject co) {
 		// //-System.out.println("####### PARSING TYPES ########");
 		Types types = definition.getTypes();
 
@@ -2144,8 +2001,7 @@ public class MitsosParser {
 
 	}
 
-	public static void parseExtElements(Definition definition,
-			QName inPartType, NativeObject no, ComplexObject co) {
+	public static void parseExtElements(Definition definition, QName inPartType, NativeObject no, ComplexObject co) {
 		// EDW prepei na vrw an mesa sto ###schema### pou synithws orizetai
 		// yparxei to type inPartType
 
@@ -2153,13 +2009,13 @@ public class MitsosParser {
 		if (inPartTypeName.startsWith("ArrayOf")) {
 			inPartTypeName = inPartTypeName.replaceFirst("ArrayOf", "");
 		} else if (inPartTypeName.endsWith("Array")) {
-			inPartTypeName = inPartTypeName.substring(0,
-					inPartTypeName.length() - 5);
+			inPartTypeName = inPartTypeName.substring(0, inPartTypeName.length() - 5);
 		} else if (inPartTypeName.endsWith("[]")) {
 			inPartTypeName = inPartTypeName.replace("[]", "");
 		}
 
-		// //-System.out.println("\n\t\t\t\t\t Looking for TYPE: "+inPartType+"\n");
+		// //-System.out.println("\n\t\t\t\t\t Looking for TYPE:
+		// "+inPartType+"\n");
 		List extElementsList = definition.getTypes().getExtensibilityElements();
 		// ////-System.out.println("Extensibility Elements Names:");
 		if (extElementsList != null) {
@@ -2177,22 +2033,19 @@ public class MitsosParser {
 					// //-System.out.println(children.getLength());
 					for (int i = 0; i < children.getLength(); i++) {
 						Node n = children.item(i);
-						// //-System.out.println("### ####  MIIIIITS "+n.getNodeName()+" "+n.getNodeType()+" "+n.getNodeValue());
-						if (n.getNodeName() != null
-								&& n.getNodeName().contains(":import")) {
+						// //-System.out.println("### #### MIIIIITS
+						// "+n.getNodeName()+" "+n.getNodeType()+"
+						// "+n.getNodeValue());
+						if (n.getNodeName() != null && n.getNodeName().contains(":import")) {
 
 							// PARSE IMPORTED XSD...
 							// //-System.out.println(n.getAttributes().getNamedItem("schemaLocation"));
-							if (n.getAttributes() != null
-									&& n.getAttributes().getNamedItem(
-											"schemaLocation") != null
-									&& n.getAttributes()
-											.getNamedItem("schemaLocation")
-											.getNodeValue() != null) {
-								// //-System.out.println("FOUND AN XSD IMPORT!!!");
+							if (n.getAttributes() != null && n.getAttributes().getNamedItem("schemaLocation") != null
+									&& n.getAttributes().getNamedItem("schemaLocation").getNodeValue() != null) {
+								// //-System.out.println("FOUND AN XSD
+								// IMPORT!!!");
 								// //-System.out.println(n.getAttributes().getNamedItem("schemaLocation").getNodeValue()+"\n");
-								parseImportedXSD(s1, inPartType, null, null,
-										no, co);
+								parseImportedXSD(s1, inPartType, null, null, no, co);
 								// parseImportedXSDusingCastor(n.getAttributes().getNamedItem("schemaLocation").getNodeValue(),
 								// inPartType, ta);
 							}
@@ -2209,31 +2062,25 @@ public class MitsosParser {
 						 * }
 						 */
 
-						if (n.getAttributes() != null
-								&& n.getAttributes().getNamedItem("name") != null
-								&& n.getAttributes().getNamedItem("name")
-										.getNodeValue().equals(inPartTypeName)) {
-							NodeList childrenOfChildOfSchema = n
-									.getChildNodes();
+						if (n.getAttributes() != null && n.getAttributes().getNamedItem("name") != null
+								&& n.getAttributes().getNamedItem("name").getNodeValue().equals(inPartTypeName)) {
+							NodeList childrenOfChildOfSchema = n.getChildNodes();
 							if (childrenOfChildOfSchema != null) {
-								for (int j = 0; j < childrenOfChildOfSchema
-										.getLength(); j++) {
+								for (int j = 0; j < childrenOfChildOfSchema.getLength(); j++) {
 									Node n1 = childrenOfChildOfSchema.item(j);
-									// ////-System.out.println("GAAAAAAAAAAAOOOOOOO "+n1.getNodeName());
-									NodeList childrenOfTheDamned = n1
-											.getChildNodes();
+									// ////-System.out.println("GAAAAAAAAAAAOOOOOOO
+									// "+n1.getNodeName());
+									NodeList childrenOfTheDamned = n1.getChildNodes();
 									if (childrenOfTheDamned != null) {
-										for (int k = 0; k < childrenOfTheDamned
-												.getLength(); k++) {
-											// ////-System.out.println("\tGAAAAAAAAAAAAAAAAAAOOOOOOOOOOO "+childrenOfTheDamned.item(k).getNodeName());
+										for (int k = 0; k < childrenOfTheDamned.getLength(); k++) {
+											// ////-System.out.println("\tGAAAAAAAAAAAAAAAAAAOOOOOOOOOOO
+											// "+childrenOfTheDamned.item(k).getNodeName());
 
-											if (childrenOfTheDamned.item(k)
-													.getNodeName()
-													.contains("element")) {
-												NamedNodeMap attributesOfType = childrenOfTheDamned
-														.item(k)
+											if (childrenOfTheDamned.item(k).getNodeName().contains("element")) {
+												NamedNodeMap attributesOfType = childrenOfTheDamned.item(k)
 														.getAttributes();
-												// //-System.out.println("WWW GAMWTOOOO...... TYPES...");
+												// //-System.out.println("WWW
+												// GAMWTOOOO...... TYPES...");
 												String attName = "";
 												String attType = "";
 												String additionalInfo = "";
@@ -2246,182 +2093,125 @@ public class MitsosParser {
 												// WWWWW
 												// W
 												// W
-												for (int k1 = 0; k1 < attributesOfType
-														.getLength(); k1++) {
-													Node att = attributesOfType
-															.item(k1);
-													if (att.getNodeName()
-															.equalsIgnoreCase(
-																	"name")) {
-														// //-System.out.println("\tName: "+att.getNodeValue());
-														attName = att
-																.getNodeValue();
-													} else if (att
-															.getNodeName()
-															.equalsIgnoreCase(
-																	"type")) {
-														// //-System.out.println("\tType: "+att.getNodeValue());
-														attType = att
-																.getNodeValue();
+												for (int k1 = 0; k1 < attributesOfType.getLength(); k1++) {
+													Node att = attributesOfType.item(k1);
+													if (att.getNodeName().equalsIgnoreCase("name")) {
+														// //-System.out.println("\tName:
+														// "+att.getNodeValue());
+														attName = att.getNodeValue();
+													} else if (att.getNodeName().equalsIgnoreCase("type")) {
+														// //-System.out.println("\tType:
+														// "+att.getNodeValue());
+														attType = att.getNodeValue();
 													} else {
-														// //-System.out.println("\t"+att.getNodeName()+": "+att.getNodeValue());
-														additionalInfo += att
-																.getNodeName()
-																+ ":"
-																+ att.getNodeValue()
+														// //-System.out.println("\t"+att.getNodeName()+":
+														// "+att.getNodeValue());
+														additionalInfo += att.getNodeName() + ":" + att.getNodeValue()
 																+ "   ";
 													}
 												}
 
-												// -ta.append("\n\t\t\t\t-"+attName+" ["+attType+"]  "+additionalInfo);
+												// -ta.append("\n\t\t\t\t-"+attName+"
+												// ["+attType+"]
+												// "+additionalInfo);
 
 												// Find the Type of the
 												// attName...
 												// ITERATIVE PROCESS.........
-												if (attType
-														.startsWith(nativeTypePrefix)) {
+												if (attType.startsWith(nativeTypePrefix)) {
 													// EINAI NATIVE TYPE
 													NativeObject no1 = new NativeObject();
-													no1.setObjectName(new QName(
-															attName));
-													no1.setObjectType(new QName(
-															attType
-																	+ " (NATIVE)"));
-													co.getHasNativeObjects()
-															.add(no1);
+													no1.setObjectName(new QName(attName));
+													no1.setObjectType(new QName(attType + " (NATIVE)"));
+													co.getHasNativeObjects().add(no1);
 
-												} else if (attType
-														.startsWith(targetNamespacePrefix)) {
+												} else if (attType.startsWith(targetNamespacePrefix)) {
 													// PSAXNW GIA TO TYPE MESA
 													// STO definition
 
 													ComplexObject co1 = new ComplexObject();
-													co1.setObjectName(new QName(
-															attName));
+													co1.setObjectName(new QName(attName));
 													co1.setAdditionalInfo(additionalInfo);
-													co1.setObjectType(new QName(
-															attType
-																	+ " (COMPLEX)"));
+													co1.setObjectType(new QName(attType + " (COMPLEX)"));
 
-													String type1 = attType
-															.substring(
-																	4,
-																	attType.length());
-													if (type1
-															.startsWith("ArrayOf")) {
-														type1 = type1
-																.replaceFirst(
-																		"ArrayOf",
-																		"");
-														// -ta.append("  ("+type1+"[])");
-														co1.setObjectType(new QName(
-																type1 + "[]"));
-													} else if (type1
-															.endsWith("Array")) {
-														type1 = type1
-																.substring(
-																		0,
-																		type1.length() - 5);
-														// -ta.append("  ("+type1+"[])");
-														co1.setObjectType(new QName(
-																type1 + "[]"));
+													String type1 = attType.substring(4, attType.length());
+													if (type1.startsWith("ArrayOf")) {
+														type1 = type1.replaceFirst("ArrayOf", "");
+														// -ta.append("
+														// ("+type1+"[])");
+														co1.setObjectType(new QName(type1 + "[]"));
+													} else if (type1.endsWith("Array")) {
+														type1 = type1.substring(0, type1.length() - 5);
+														// -ta.append("
+														// ("+type1+"[])");
+														co1.setObjectType(new QName(type1 + "[]"));
 
-													} else if (attType
-															.endsWith("[]")) {
-														type1 = type1.replace(
-																"[]", "");
-														// -ta.append("  ("+type1+"[])");
-														co1.setObjectType(new QName(
-																type1 + "[]"));
+													} else if (attType.endsWith("[]")) {
+														type1 = type1.replace("[]", "");
+														// -ta.append("
+														// ("+type1+"[])");
+														co1.setObjectType(new QName(type1 + "[]"));
 													}
 
-													parseTypeIterative(s1,
-															type1, 0, false,
-															co1);
-													co.getHasComplexObjects()
-															.add(co1);
+													parseTypeIterative(s1, type1, 0, false, co1);
+													co.getHasComplexObjects().add(co1);
 
 												} else {
 													// PSAXNW GIA TO TYPE MESA
 													// STO definition
 													ComplexObject co1 = new ComplexObject();
-													co1.setObjectName(new QName(
-															attName));
+													co1.setObjectName(new QName(attName));
 													co1.setAdditionalInfo(additionalInfo);
-													co1.setObjectType(new QName(
-															attType
-																	+ " (COMPLEX)"));
+													co1.setObjectType(new QName(attType + " (COMPLEX)"));
 
-													String type1 = attType
-															.substring(
-																	attType.indexOf(":") + 1,
-																	attType.length());
-													if (type1
-															.startsWith("ArrayOf")) {
-														type1 = type1
-																.replaceFirst(
-																		"ArrayOf",
-																		"");
-														// -ta.append("  ("+type1+"[])");
-														co1.setObjectType(new QName(
-																type1 + "[]"));
-													} else if (type1
-															.endsWith("Array")) {
-														type1 = type1
-																.substring(
-																		0,
-																		type1.length() - 5);
-														// -ta.append("  ("+type1+"[])");
-														co1.setObjectType(new QName(
-																type1 + "[]"));
-													} else if (attType
-															.endsWith("[]")) {
-														type1 = type1.replace(
-																"[]", "");
-														// -ta.append("  ("+type1+"[])");
-														co1.setObjectType(new QName(
-																type1 + "[]"));
+													String type1 = attType.substring(attType.indexOf(":") + 1,
+															attType.length());
+													if (type1.startsWith("ArrayOf")) {
+														type1 = type1.replaceFirst("ArrayOf", "");
+														// -ta.append("
+														// ("+type1+"[])");
+														co1.setObjectType(new QName(type1 + "[]"));
+													} else if (type1.endsWith("Array")) {
+														type1 = type1.substring(0, type1.length() - 5);
+														// -ta.append("
+														// ("+type1+"[])");
+														co1.setObjectType(new QName(type1 + "[]"));
+													} else if (attType.endsWith("[]")) {
+														type1 = type1.replace("[]", "");
+														// -ta.append("
+														// ("+type1+"[])");
+														co1.setObjectType(new QName(type1 + "[]"));
 													}
-													parseTypeIterative(s1,
-															type1, 0, false,
-															co1);
-													co.getHasComplexObjects()
-															.add(co1);
+													parseTypeIterative(s1, type1, 0, false, co1);
+													co.getHasComplexObjects().add(co1);
 
 												}
-											} else if (childrenOfTheDamned
-													.item(k).getNodeName()
+											} else if (childrenOfTheDamned.item(k).getNodeName()
 													.contains("extension")) {
-												parseExtendedType(s1,
-														childrenOfTheDamned
-																.item(k), 0, co);
+												parseExtendedType(s1, childrenOfTheDamned.item(k), 0, co);
 
-												NodeList childrenOfChildOfSchema1 = childrenOfTheDamned
-														.item(k)
+												NodeList childrenOfChildOfSchema1 = childrenOfTheDamned.item(k)
 														.getChildNodes();
 
 												if (childrenOfChildOfSchema1 != null) {
-													for (int j1 = 0; j1 < childrenOfChildOfSchema1
-															.getLength(); j1++) {
-														Node n11 = childrenOfChildOfSchema1
-																.item(j1);
-														// //-System.out.println("GAAAAAAAAAAAOOOOOOO "+n1.getNodeName());
-														NodeList childrenOfTheDamned1 = n11
-																.getChildNodes();
+													for (int j1 = 0; j1 < childrenOfChildOfSchema1.getLength(); j1++) {
+														Node n11 = childrenOfChildOfSchema1.item(j1);
+														// //-System.out.println("GAAAAAAAAAAAOOOOOOO
+														// "+n1.getNodeName());
+														NodeList childrenOfTheDamned1 = n11.getChildNodes();
 														if (childrenOfTheDamned1 != null) {
 															for (int k5 = 0; k5 < childrenOfTheDamned1
 																	.getLength(); k5++) {
-																// //-System.out.println("\tGAAAAAAAAAAAAAAAAAAOOOOOOOOOOO "+childrenOfTheDamned1.item(k5).getNodeName());
+																// //-System.out.println("\tGAAAAAAAAAAAAAAAAAAOOOOOOOOOOO
+																// "+childrenOfTheDamned1.item(k5).getNodeName());
 
-																if (childrenOfTheDamned1
-																		.item(k5)
-																		.getNodeName()
-																		.contains(
-																				"element")) {
+																if (childrenOfTheDamned1.item(k5).getNodeName()
+																		.contains("element")) {
 																	NamedNodeMap attributesOfType = childrenOfTheDamned1
-																			.item(k5)
-																			.getAttributes();
-																	// //-System.out.println("WWW GAMWTOOOO...... TYPES...");
+																			.item(k5).getAttributes();
+																	// //-System.out.println("WWW
+																	// GAMWTOOOO......
+																	// TYPES...");
 																	String attName = "";
 																	String attType = "";
 																	String additionalInfo = "";
@@ -2440,32 +2230,28 @@ public class MitsosParser {
 																	// W
 																	for (int k51 = 0; k51 < attributesOfType
 																			.getLength(); k51++) {
-																		Node att = attributesOfType
-																				.item(k51);
+																		Node att = attributesOfType.item(k51);
 																		if (att.getNodeName()
-																				.equalsIgnoreCase(
-																						"name")) {
-																			// //-System.out.println("\tName: "+att.getNodeValue());
-																			attName = att
-																					.getNodeValue();
-																		} else if (att
-																				.getNodeName()
-																				.equalsIgnoreCase(
-																						"type")) {
-																			// //-System.out.println("\tType: "+att.getNodeValue());
-																			attType = att
-																					.getNodeValue();
+																				.equalsIgnoreCase("name")) {
+																			// //-System.out.println("\tName:
+																			// "+att.getNodeValue());
+																			attName = att.getNodeValue();
+																		} else if (att.getNodeName()
+																				.equalsIgnoreCase("type")) {
+																			// //-System.out.println("\tType:
+																			// "+att.getNodeValue());
+																			attType = att.getNodeValue();
 																		} else {
-																			// //-System.out.println("\t"+att.getNodeName()+": "+att.getNodeValue());
-																			additionalInfo += att
-																					.getNodeName()
-																					+ ":"
-																					+ att.getNodeValue()
-																					+ "   ";
+																			// //-System.out.println("\t"+att.getNodeName()+":
+																			// "+att.getNodeValue());
+																			additionalInfo += att.getNodeName() + ":"
+																					+ att.getNodeValue() + "   ";
 																		}
 																	}
 
-																	// -ta.append("\n\t\t\t\t-"+attName+" ["+attType+"]  "+additionalInfo);
+																	// -ta.append("\n\t\t\t\t-"+attName+"
+																	// ["+attType+"]
+																	// "+additionalInfo);
 
 																	// Find the
 																	// Type of
@@ -2473,19 +2259,15 @@ public class MitsosParser {
 																	// attName...
 																	// ITERATIVE
 																	// PROCESS.........
-																	if (attType
-																			.startsWith(nativeTypePrefix)) {
+																	if (attType.startsWith(nativeTypePrefix)) {
 																		// EINAI
 																		// NATIVE
 																		// TYPE
 																		NativeObject no1 = new NativeObject();
-																		no1.setObjectName(new QName(
-																				attName));
-																		no1.setObjectType(new QName(
-																				attType
-																						+ " (NATIVE)"));
-																		co.getHasNativeObjects()
-																				.add(no1);
+																		no1.setObjectName(new QName(attName));
+																		no1.setObjectType(
+																				new QName(attType + " (NATIVE)"));
+																		co.getHasNativeObjects().add(no1);
 
 																	} else if (attType
 																			.startsWith(targetNamespacePrefix)) {
@@ -2497,56 +2279,32 @@ public class MitsosParser {
 																		// STO
 																		// definition
 																		ComplexObject co1 = new ComplexObject();
-																		co1.setObjectName(new QName(
-																				attName));
+																		co1.setObjectName(new QName(attName));
 																		co1.setAdditionalInfo(additionalInfo);
-																		co1.setObjectType(new QName(
-																				attType
-																						+ " (COMPLEX)"));
+																		co1.setObjectType(
+																				new QName(attType + " (COMPLEX)"));
 
-																		String type1 = attType
-																				.substring(
-																						4,
-																						attType.length());
-																		if (type1
-																				.startsWith("ArrayOf")) {
-																			type1 = type1
-																					.replaceFirst(
-																							"ArrayOf",
-																							"");
-																			// -ta.append("  ("+type1+"[])");
-																			co1.setObjectType(new QName(
-																					type1
-																							+ "[]"));
-																		} else if (type1
-																				.endsWith("Array")) {
-																			type1 = type1
-																					.substring(
-																							0,
-																							type1.length() - 5);
-																			// -ta.append("  ("+type1+"[])");
-																			co1.setObjectType(new QName(
-																					type1
-																							+ "[]"));
-																		} else if (attType
-																				.endsWith("[]")) {
-																			type1 = type1
-																					.replace(
-																							"[]",
-																							"");
-																			// -ta.append("  ("+type1+"[])");
-																			co1.setObjectType(new QName(
-																					type1
-																							+ "[]"));
+																		String type1 = attType.substring(4,
+																				attType.length());
+																		if (type1.startsWith("ArrayOf")) {
+																			type1 = type1.replaceFirst("ArrayOf", "");
+																			// -ta.append("
+																			// ("+type1+"[])");
+																			co1.setObjectType(new QName(type1 + "[]"));
+																		} else if (type1.endsWith("Array")) {
+																			type1 = type1.substring(0,
+																					type1.length() - 5);
+																			// -ta.append("
+																			// ("+type1+"[])");
+																			co1.setObjectType(new QName(type1 + "[]"));
+																		} else if (attType.endsWith("[]")) {
+																			type1 = type1.replace("[]", "");
+																			// -ta.append("
+																			// ("+type1+"[])");
+																			co1.setObjectType(new QName(type1 + "[]"));
 																		}
-																		parseTypeIterative(
-																				s1,
-																				type1,
-																				0,
-																				false,
-																				co1);
-																		co.getHasComplexObjects()
-																				.add(co1);
+																		parseTypeIterative(s1, type1, 0, false, co1);
+																		co.getHasComplexObjects().add(co1);
 
 																	} else {
 																		// PSAXNW
@@ -2558,56 +2316,33 @@ public class MitsosParser {
 																		// definition
 
 																		ComplexObject co1 = new ComplexObject();
-																		co1.setObjectName(new QName(
-																				attName));
+																		co1.setObjectName(new QName(attName));
 																		co1.setAdditionalInfo(additionalInfo);
-																		co1.setObjectType(new QName(
-																				attType
-																						+ " (COMPLEX)"));
+																		co1.setObjectType(
+																				new QName(attType + " (COMPLEX)"));
 
-																		String type1 = attType
-																				.substring(
-																						attType.indexOf(":") + 1,
-																						attType.length());
-																		if (type1
-																				.startsWith("ArrayOf")) {
-																			type1 = type1
-																					.replaceFirst(
-																							"ArrayOf",
-																							"");
-																			// -ta.append("  ("+type1+"[])");
-																			co1.setObjectType(new QName(
-																					type1
-																							+ "[]"));
-																		} else if (type1
-																				.endsWith("Array")) {
-																			type1 = type1
-																					.substring(
-																							0,
-																							type1.length() - 5);
-																			// -ta.append("  ("+type1+"[])");
-																			co1.setObjectType(new QName(
-																					type1
-																							+ "[]"));
-																		} else if (attType
-																				.endsWith("[]")) {
-																			type1 = type1
-																					.replace(
-																							"[]",
-																							"");
-																			// -ta.append("  ("+type1+"[])");
-																			co1.setObjectType(new QName(
-																					type1
-																							+ "[]"));
+																		String type1 = attType.substring(
+																				attType.indexOf(":") + 1,
+																				attType.length());
+																		if (type1.startsWith("ArrayOf")) {
+																			type1 = type1.replaceFirst("ArrayOf", "");
+																			// -ta.append("
+																			// ("+type1+"[])");
+																			co1.setObjectType(new QName(type1 + "[]"));
+																		} else if (type1.endsWith("Array")) {
+																			type1 = type1.substring(0,
+																					type1.length() - 5);
+																			// -ta.append("
+																			// ("+type1+"[])");
+																			co1.setObjectType(new QName(type1 + "[]"));
+																		} else if (attType.endsWith("[]")) {
+																			type1 = type1.replace("[]", "");
+																			// -ta.append("
+																			// ("+type1+"[])");
+																			co1.setObjectType(new QName(type1 + "[]"));
 																		}
-																		parseTypeIterative(
-																				s1,
-																				type1,
-																				0,
-																				false,
-																				co1);
-																		co.getHasComplexObjects()
-																				.add(co1);
+																		parseTypeIterative(s1, type1, 0, false, co1);
+																		co.getHasComplexObjects().add(co1);
 																	}
 																}
 															}
@@ -2623,48 +2358,53 @@ public class MitsosParser {
 						}
 
 						// ////-System.out.println("########################");
-						// ////-System.out.println("Name:   "+n.getNodeName());
-						// ////-System.out.println("Type:   "+n.getNodeType());
-						// ////-System.out.println("Value:   "+n.getNodeValue());
+						// ////-System.out.println("Name: "+n.getNodeName());
+						// ////-System.out.println("Type: "+n.getNodeType());
+						// ////-System.out.println("Value: "+n.getNodeValue());
 						// ////-System.out.println(n.getTextContent());
 
 						// EDW SYNITHWS YPARXEI NEKRA...
 						// DEN YPARXEI TIPOTA NA ME VOLEVEI EDW
 						NamedNodeMap nnm = n.getAttributes();
 						if (nnm != null) {
-							// ////-System.out.println("Atts length: "+nnm.getLength());
+							// ////-System.out.println("Atts length:
+							// "+nnm.getLength());
 							for (int j = 0; j < nnm.getLength(); j++) {
 								Node n1 = nnm.item(j);
 								// ////-System.out.println("\t"+n1.getNodeName());
 								// ////-System.out.println("\t"+n1.getNodeValue());
-								if (n1.getNodeName() != null
-										&& n1.getNodeName().equals("name")) {
-									if (n1.getNodeValue() != null
-											&& n1.getNodeValue().equals(
-													inPartTypeName)) {
-										// //-System.out.println("\nWWWWWWWWWWWW GAMWTOOOOOOOOOOOOOOOOOOO WWWWWWWWWWWWWWWWWWWWW");
-										// //-System.out.println("Vrethike to zitoumeno complexType!!!: "+n1.getNodeValue());
+								if (n1.getNodeName() != null && n1.getNodeName().equals("name")) {
+									if (n1.getNodeValue() != null && n1.getNodeValue().equals(inPartTypeName)) {
+										// //-System.out.println("\nWWWWWWWWWWWW
+										// GAMWTOOOOOOOOOOOOOOOOOOO
+										// WWWWWWWWWWWWWWWWWWWWW");
+										// //-System.out.println("Vrethike to
+										// zitoumeno complexType!!!:
+										// "+n1.getNodeValue());
 
 										NamedNodeMap nnm1 = n1.getAttributes();
 										if (nnm1 != null) {
-											// //-System.out.println("attributes: "+nnm1.getLength());
+											// //-System.out.println("attributes:
+											// "+nnm1.getLength());
 										} else {
-											// //-System.out.println("attributes: NULL");
+											// //-System.out.println("attributes:
+											// NULL");
 										}
 
-										NodeList typesBelongingToTheComplexType = n1
-												.getChildNodes();
+										NodeList typesBelongingToTheComplexType = n1.getChildNodes();
 										if (typesBelongingToTheComplexType != null) {
-											for (int k = 0; k < typesBelongingToTheComplexType
-													.getLength(); k++) {
-												// //-System.out.println("\tWWW: "+typesBelongingToTheComplexType.item(k).getNodeName());
-												// //-System.out.println("\tWWW: "+typesBelongingToTheComplexType.item(k).getNodeValue());
-												// //-System.out.println("\tWWW: "+typesBelongingToTheComplexType.item(k).getNodeType());
+											for (int k = 0; k < typesBelongingToTheComplexType.getLength(); k++) {
+												// //-System.out.println("\tWWW:
+												// "+typesBelongingToTheComplexType.item(k).getNodeName());
+												// //-System.out.println("\tWWW:
+												// "+typesBelongingToTheComplexType.item(k).getNodeValue());
+												// //-System.out.println("\tWWW:
+												// "+typesBelongingToTheComplexType.item(k).getNodeType());
 
 												NodeList typesBelongingToTheComplexType111 = typesBelongingToTheComplexType
-														.item(k)
-														.getChildNodes();
-												// //-System.out.println("\tWWW1: "+typesBelongingToTheComplexType111.getLength());
+														.item(k).getChildNodes();
+												// //-System.out.println("\tWWW1:
+												// "+typesBelongingToTheComplexType111.getLength());
 
 												// //-System.out.println("\thasChildNodes:"+typesBelongingToTheComplexType.item(k).hasChildNodes());
 												// //-System.out.println("\thasAttributes:"+typesBelongingToTheComplexType.item(k).hasAttributes());
@@ -2674,47 +2414,43 @@ public class MitsosParser {
 												// to node ta types (tha einai
 												// elements - child nodes?)
 
-												if (typesBelongingToTheComplexType
-														.item(k)
-														.hasChildNodes()) {// &&
+												if (typesBelongingToTheComplexType.item(k).hasChildNodes()) {// &&
 													// typesBelongingToTheComplexType.item(k).getNodeName().equals("#text")){
 
 													// EDW einai ta types twn
 													// complexTypes
-													NodeList baseTypeNodes = typesBelongingToTheComplexType
-															.item(k)
+													NodeList baseTypeNodes = typesBelongingToTheComplexType.item(k)
 															.getChildNodes();
 													if (baseTypeNodes != null) {
-														for (int k1 = 0; k1 < baseTypeNodes
-																.getLength(); k1++) {
-															Node baseN = baseTypeNodes
-																	.item(k1);
-															// //-System.out.println("\t\tbase Type:  "+baseN.getNodeName());
+														for (int k1 = 0; k1 < baseTypeNodes.getLength(); k1++) {
+															Node baseN = baseTypeNodes.item(k1);
+															// //-System.out.println("\t\tbase
+															// Type:
+															// "+baseN.getNodeName());
 														}
 													}
 												} else {
-													String typeOfArray = typesBelongingToTheComplexType
-															.item(k)
+													String typeOfArray = typesBelongingToTheComplexType.item(k)
 															.getNodeValue();
-													String typeName = typeOfArray
-															.replace("Array",
-																	"");
+													String typeName = typeOfArray.replace("Array", "");
 
-													// //-System.out.println("GAV GAV GAV "+typeName);
+													// //-System.out.println("GAV
+													// GAV GAV "+typeName);
 
 												}
 
-												if (typesBelongingToTheComplexType
-														.item(k)
-														.hasAttributes()) {
-													// //-System.out.println("HAS ATTRIBUTES!!!");
+												if (typesBelongingToTheComplexType.item(k).hasAttributes()) {
+													// //-System.out.println("HAS
+													// ATTRIBUTES!!!");
 
 												}
 
 											}
 										}
 
-										// //-System.out.println("WWWWWWWWWWWW GAMWTOOOOOOOOOOOOOOOOOOO WWWWWWWWWWWWWWWWWWWWW\n");
+										// //-System.out.println("WWWWWWWWWWWW
+										// GAMWTOOOOOOOOOOOOOOOOOOO
+										// WWWWWWWWWWWWWWWWWWWWW\n");
 										// //-ta.append(str);
 									}
 								}
@@ -2737,20 +2473,19 @@ public class MitsosParser {
 
 	}
 
-	private static void parseExtendedType(
-			com.ibm.wsdl.extensions.schema.SchemaImpl s1, Node _extension_node,
+	private static void parseExtendedType(com.ibm.wsdl.extensions.schema.SchemaImpl s1, Node _extension_node,
 			int iterNumber, ComplexObject co) {
 
-		String baseType = _extension_node.getAttributes().getNamedItem("base")
-				.getNodeValue();
-		// //-System.out.println("##EXTENDED BASE TYPE:\n"+baseType+"##EXTENDED TYPE:\n");
-		baseType = baseType.substring(baseType.indexOf(":") + 1,
-				baseType.length());
+		String baseType = _extension_node.getAttributes().getNamedItem("base").getNodeValue();
+		// //-System.out.println("##EXTENDED BASE TYPE:\n"+baseType+"##EXTENDED
+		// TYPE:\n");
+		baseType = baseType.substring(baseType.indexOf(":") + 1, baseType.length());
 		// //-System.out.println(baseType);
 
 		QName inPartType = new QName(baseType);
 
-		// //-System.out.println("\n\t\t\t\t\t Looking for extended TYPE: "+baseType+"\n");
+		// //-System.out.println("\n\t\t\t\t\t Looking for extended TYPE:
+		// "+baseType+"\n");
 
 		// ////-System.out.println("Extensibility Elements Names:");
 
@@ -2765,16 +2500,14 @@ public class MitsosParser {
 			// //-System.out.println(children.getLength());
 			for (int i = 0; i < children.getLength(); i++) {
 				Node n = children.item(i);
-				// //-System.out.println("### ####  MIIIIITS "+n.getNodeName()+" "+n.getNodeType()+" "+n.getNodeValue());
-				if (n.getNodeName() != null
-						&& n.getNodeName().contains(":import")) {
+				// //-System.out.println("### #### MIIIIITS "+n.getNodeName()+"
+				// "+n.getNodeType()+" "+n.getNodeValue());
+				if (n.getNodeName() != null && n.getNodeName().contains(":import")) {
 
 					// PARSE IMPORTED XSD...
 					// //-System.out.println(n.getAttributes().getNamedItem("schemaLocation"));
-					if (n.getAttributes() != null
-							&& n.getAttributes().getNamedItem("schemaLocation") != null
-							&& n.getAttributes().getNamedItem("schemaLocation")
-									.getNodeValue() != null) {
+					if (n.getAttributes() != null && n.getAttributes().getNamedItem("schemaLocation") != null
+							&& n.getAttributes().getNamedItem("schemaLocation").getNodeValue() != null) {
 						// //-System.out.println("FOUND AN XSD IMPORT!!!");
 						// //-System.out.println(n.getAttributes().getNamedItem("schemaLocation").getNodeValue()+"\n");
 						parseImportedXSD(s1, inPartType, null, null, null, null);
@@ -2794,26 +2527,24 @@ public class MitsosParser {
 				 * }
 				 */
 
-				if (n.getAttributes() != null
-						&& n.getAttributes().getNamedItem("name") != null
-						&& n.getAttributes().getNamedItem("name")
-								.getNodeValue().equals(baseType)) {
+				if (n.getAttributes() != null && n.getAttributes().getNamedItem("name") != null
+						&& n.getAttributes().getNamedItem("name").getNodeValue().equals(baseType)) {
 					NodeList childrenOfChildOfSchema = n.getChildNodes();
 					if (childrenOfChildOfSchema != null) {
 						for (int j = 0; j < childrenOfChildOfSchema.getLength(); j++) {
 							Node n1 = childrenOfChildOfSchema.item(j);
-							// //-System.out.println("GAAAAAAAAAAAOOOOOOO "+n1.getNodeName());
+							// //-System.out.println("GAAAAAAAAAAAOOOOOOO
+							// "+n1.getNodeName());
 							NodeList childrenOfTheDamned = n1.getChildNodes();
 							if (childrenOfTheDamned != null) {
-								for (int k = 0; k < childrenOfTheDamned
-										.getLength(); k++) {
-									// //-System.out.println("\tGAAAAAAAAAAAAAAAAAAOOOOOOOOOOO "+childrenOfTheDamned.item(k).getNodeName());
+								for (int k = 0; k < childrenOfTheDamned.getLength(); k++) {
+									// //-System.out.println("\tGAAAAAAAAAAAAAAAAAAOOOOOOOOOOO
+									// "+childrenOfTheDamned.item(k).getNodeName());
 
-									if (childrenOfTheDamned.item(k)
-											.getNodeName().contains("element")) {
-										NamedNodeMap attributesOfType = childrenOfTheDamned
-												.item(k).getAttributes();
-										// //-System.out.println("WWW GAMWTOOOO...... TYPES...");
+									if (childrenOfTheDamned.item(k).getNodeName().contains("element")) {
+										NamedNodeMap attributesOfType = childrenOfTheDamned.item(k).getAttributes();
+										// //-System.out.println("WWW
+										// GAMWTOOOO...... TYPES...");
 										String attName = "";
 										String attType = "";
 										String additionalInfo = "";
@@ -2826,25 +2557,20 @@ public class MitsosParser {
 										// WWWWW
 										// W
 										// W
-										for (int k1 = 0; k1 < attributesOfType
-												.getLength(); k1++) {
-											Node att = attributesOfType
-													.item(k1);
-											if (att.getNodeName()
-													.equalsIgnoreCase("name")) {
-												// //-System.out.println("\tName: "+att.getNodeValue());
+										for (int k1 = 0; k1 < attributesOfType.getLength(); k1++) {
+											Node att = attributesOfType.item(k1);
+											if (att.getNodeName().equalsIgnoreCase("name")) {
+												// //-System.out.println("\tName:
+												// "+att.getNodeValue());
 												attName = att.getNodeValue();
-											} else if (att.getNodeName()
-													.equalsIgnoreCase("type")) {
-												// //-System.out.println("\tType: "+att.getNodeValue());
+											} else if (att.getNodeName().equalsIgnoreCase("type")) {
+												// //-System.out.println("\tType:
+												// "+att.getNodeValue());
 												attType = att.getNodeValue();
 											} else {
-												// //-System.out.println("\t"+att.getNodeName()+": "+att.getNodeValue());
-												additionalInfo += att
-														.getNodeName()
-														+ ":"
-														+ att.getNodeValue()
-														+ "   ";
+												// //-System.out.println("\t"+att.getNodeName()+":
+												// "+att.getNodeValue());
+												additionalInfo += att.getNodeName() + ":" + att.getNodeValue() + "   ";
 											}
 										}
 
@@ -2861,52 +2587,42 @@ public class MitsosParser {
 											}
 										}
 
-										// -ta.append(prefix+"-"+attName+" ["+attType+"]  "+additionalInfo);
+										// -ta.append(prefix+"-"+attName+"
+										// ["+attType+"] "+additionalInfo);
 
 										// Find the Type of the attName...
 										// ITERATIVE PROCESS.........
-										if (attType
-												.startsWith(nativeTypePrefix)) {
+										if (attType.startsWith(nativeTypePrefix)) {
 											// EINAI NATIVE TYPE
 											NativeObject no1 = new NativeObject();
 											no1.setObjectName(new QName(attName));
-											no1.setObjectType(new QName(attType
-													+ " (NATIVE)"));
+											no1.setObjectType(new QName(attType + " (NATIVE)"));
 											co.getHasNativeObjects().add(no1);
 
-										} else if (attType
-												.startsWith(targetNamespacePrefix)) {
+										} else if (attType.startsWith(targetNamespacePrefix)) {
 											// PSAXNW GIA TO TYPE MESA STO
 											// definition
 
 											ComplexObject co1 = new ComplexObject();
 											co1.setObjectName(new QName(attName));
 											co1.setAdditionalInfo(additionalInfo);
-											co1.setObjectType(new QName(attType
-													+ " (COMPLEX)"));
+											co1.setObjectType(new QName(attType + " (COMPLEX)"));
 
-											String type1 = attType.substring(4,
-													attType.length());
+											String type1 = attType.substring(4, attType.length());
 											if (type1.startsWith("ArrayOf")) {
-												type1 = type1.replaceFirst(
-														"ArrayOf", "");
-												// -ta.append("  ("+type1+"[])");
-												co1.setObjectType(new QName(
-														type1 + "[]"));
+												type1 = type1.replaceFirst("ArrayOf", "");
+												// -ta.append(" ("+type1+"[])");
+												co1.setObjectType(new QName(type1 + "[]"));
 											} else if (type1.endsWith("Array")) {
-												type1 = type1.substring(0,
-														type1.length() - 5);
-												// -ta.append("  ("+type1+"[])");
-												co1.setObjectType(new QName(
-														type1 + "[]"));
+												type1 = type1.substring(0, type1.length() - 5);
+												// -ta.append(" ("+type1+"[])");
+												co1.setObjectType(new QName(type1 + "[]"));
 											} else if (attType.endsWith("[]")) {
 												type1 = type1.replace("[]", "");
-												// -ta.append("  ("+type1+"[])");
-												co1.setObjectType(new QName(
-														type1 + "[]"));
+												// -ta.append(" ("+type1+"[])");
+												co1.setObjectType(new QName(type1 + "[]"));
 											}
-											parseTypeIterative(s1, type1,
-													iterNumber, false, co1);
+											parseTypeIterative(s1, type1, iterNumber, false, co1);
 											co.getHasComplexObjects().add(co1);
 
 										} else {
@@ -2916,32 +2632,24 @@ public class MitsosParser {
 											ComplexObject co1 = new ComplexObject();
 											co1.setObjectName(new QName(attName));
 											co1.setAdditionalInfo(additionalInfo);
-											co1.setObjectType(new QName(attType
-													+ " (COMPLEX)"));
+											co1.setObjectType(new QName(attType + " (COMPLEX)"));
 
-											String type1 = attType.substring(
-													attType.indexOf(":") + 1,
+											String type1 = attType.substring(attType.indexOf(":") + 1,
 													attType.length());
 											if (type1.startsWith("ArrayOf")) {
-												type1 = type1.replaceFirst(
-														"ArrayOf", "");
-												// -ta.append("  ("+type1+"[])");
-												co1.setObjectType(new QName(
-														type1 + "[]"));
+												type1 = type1.replaceFirst("ArrayOf", "");
+												// -ta.append(" ("+type1+"[])");
+												co1.setObjectType(new QName(type1 + "[]"));
 											} else if (type1.endsWith("Array")) {
-												type1 = type1.substring(0,
-														type1.length() - 5);
-												// -ta.append("  ("+type1+"[])");
-												co1.setObjectType(new QName(
-														type1 + "[]"));
+												type1 = type1.substring(0, type1.length() - 5);
+												// -ta.append(" ("+type1+"[])");
+												co1.setObjectType(new QName(type1 + "[]"));
 											} else if (attType.endsWith("[]")) {
 												type1 = type1.replace("[]", "");
-												// -ta.append("  ("+type1+"[])");
-												co1.setObjectType(new QName(
-														type1 + "[]"));
+												// -ta.append(" ("+type1+"[])");
+												co1.setObjectType(new QName(type1 + "[]"));
 											}
-											parseTypeIterative(s1, type1,
-													iterNumber, false, co1);
+											parseTypeIterative(s1, type1, iterNumber, false, co1);
 											co.getHasComplexObjects().add(co1);
 
 										}
@@ -2958,16 +2666,16 @@ public class MitsosParser {
 
 	}
 
-	public static Node parseTypeIterative(
-			com.ibm.wsdl.extensions.schema.SchemaImpl s1, String typeName,
-			int iterNumber, boolean fromLiteral, ComplexObject co) {
+	public static Node parseTypeIterative(com.ibm.wsdl.extensions.schema.SchemaImpl s1, String typeName, int iterNumber,
+			boolean fromLiteral, ComplexObject co) {
 
 		if (co == null)
 			co = new ComplexObject();
 
 		Node result = null;
 		// String inType1="name=\""+typeName+"\"";
-		// //-System.out.println("############################## ITERATIVE: "+typeName);
+		// //-System.out.println("############################## ITERATIVE:
+		// "+typeName);
 		try {
 			org.w3c.dom.Element e1 = s1.getElement();
 			// System.out.println("-.-."+ws.getServiceURL());
@@ -2979,55 +2687,41 @@ public class MitsosParser {
 				NamedNodeMap atts = n.getAttributes();
 				if (atts != null) {
 
-					if (atts.getNamedItem("name") != null
-							&& atts.getNamedItem("name").getNodeValue() != null
-							&& atts.getNamedItem("name").getNodeValue()
-									.equals(typeName)) {
+					if (atts.getNamedItem("name") != null && atts.getNamedItem("name").getNodeValue() != null
+							&& atts.getNamedItem("name").getNodeValue().equals(typeName)) {
 						// VRETHIKE TO ZITOUMENO TYPE
 						NodeList childrenOfChildOfSchema = n.getChildNodes();
 						if (childrenOfChildOfSchema != null) {
-							for (int j = 0; j < childrenOfChildOfSchema
-									.getLength(); j++) {
+							for (int j = 0; j < childrenOfChildOfSchema.getLength(); j++) {
 								Node n1 = childrenOfChildOfSchema.item(j);
 								// ////-System.out.println(n1.getNodeName());
-								NodeList childrenOfTheDamned = n1
-										.getChildNodes();
+								NodeList childrenOfTheDamned = n1.getChildNodes();
 								if (childrenOfTheDamned != null) {
-									for (int k = 0; k < childrenOfTheDamned
-											.getLength(); k++) {
+									for (int k = 0; k < childrenOfTheDamned.getLength(); k++) {
 										// //-System.out.println("\t"+childrenOfTheDamned.item(k).getNodeName());
-										if (childrenOfTheDamned.item(k)
-												.getNodeName()
-												.contains("element")) {
-											NamedNodeMap attributesOfType = childrenOfTheDamned
-													.item(k).getAttributes();
-											// ////-System.out.println("WWW GAMWTOOOO...... TYPES... ITERATIVE ");//
+										if (childrenOfTheDamned.item(k).getNodeName().contains("element")) {
+											NamedNodeMap attributesOfType = childrenOfTheDamned.item(k).getAttributes();
+											// ////-System.out.println("WWW
+											// GAMWTOOOO...... TYPES...
+											// ITERATIVE ");//
 											// +typeName +" "+n.getNodeName() );
 											String attName = "";
 											String attType = "";
 											String additionalInfo = "";
-											for (int k1 = 0; k1 < attributesOfType
-													.getLength(); k1++) {
-												Node att = attributesOfType
-														.item(k1);
-												if (att.getNodeName()
-														.equalsIgnoreCase(
-																"name")) {
-													// ////-System.out.println("\tName: "+att.getNodeValue());
-													attName = att
-															.getNodeValue();
-												} else if (att.getNodeName()
-														.equalsIgnoreCase(
-																"type")) {
-													// ////-System.out.println("\tType: "+att.getNodeValue());
-													attType = att
-															.getNodeValue();
+											for (int k1 = 0; k1 < attributesOfType.getLength(); k1++) {
+												Node att = attributesOfType.item(k1);
+												if (att.getNodeName().equalsIgnoreCase("name")) {
+													// ////-System.out.println("\tName:
+													// "+att.getNodeValue());
+													attName = att.getNodeValue();
+												} else if (att.getNodeName().equalsIgnoreCase("type")) {
+													// ////-System.out.println("\tType:
+													// "+att.getNodeValue());
+													attType = att.getNodeValue();
 												} else {
-													// ////-System.out.println("\t"+att.getNodeName()+": "+att.getNodeValue());
-													additionalInfo += att
-															.getNodeName()
-															+ ":"
-															+ att.getNodeValue()
+													// ////-System.out.println("\t"+att.getNodeName()+":
+													// "+att.getNodeValue());
+													additionalInfo += att.getNodeName() + ":" + att.getNodeValue()
 															+ "   ";
 												}
 											}
@@ -3044,139 +2738,102 @@ public class MitsosParser {
 												}
 											}
 
-											// -ta.append(prefix+"-"+attName+" ["+attType+"]  "+additionalInfo);
+											// -ta.append(prefix+"-"+attName+"
+											// ["+attType+"] "+additionalInfo);
 
-											if (attType
-													.startsWith(nativeTypePrefix)) {
+											if (attType.startsWith(nativeTypePrefix)) {
 												// EINAI NATIVE TYPE
 												NativeObject no1 = new NativeObject();
-												no1.setObjectName(new QName(
-														attName));
-												no1.setObjectType(new QName(
-														attType + " (NATIVE)"));
-												co.getHasNativeObjects().add(
-														no1);
+												no1.setObjectName(new QName(attName));
+												no1.setObjectType(new QName(attType + " (NATIVE)"));
+												co.getHasNativeObjects().add(no1);
 
-											} else if (attType
-													.startsWith(targetNamespacePrefix)) {
+											} else if (attType.startsWith(targetNamespacePrefix)) {
 												// PSAXNW GIA TO TYPE MESA STO
 												// definition
 
 												ComplexObject co1 = new ComplexObject();
-												co1.setObjectName(new QName(
-														attName));
+												co1.setObjectName(new QName(attName));
 												co1.setAdditionalInfo(additionalInfo);
-												co1.setObjectType(new QName(
-														attType + " (COMPLEX)"));
+												co1.setObjectType(new QName(attType + " (COMPLEX)"));
 
-												String type1 = attType
-														.substring(4, attType
-																.length());
+												String type1 = attType.substring(4, attType.length());
 												if (type1.startsWith("ArrayOf")) {
-													type1 = type1.replaceFirst(
-															"ArrayOf", "");
-													// -ta.append("  ("+type1+"[])");
-													co1.setObjectType(new QName(
-															type1 + "[]"));
-												} else if (type1
-														.endsWith("Array")) {
-													type1 = type1.substring(0,
-															type1.length() - 5);
-													// -ta.append("  ("+type1+"[])");
-													co1.setObjectType(new QName(
-															type1 + "[]"));
-												} else if (attType
-														.endsWith("[]")) {
-													type1 = type1.replace("[]",
-															"");
-													// -ta.append("  ("+type1+"[])");
-													co1.setObjectType(new QName(
-															type1 + "[]"));
+													type1 = type1.replaceFirst("ArrayOf", "");
+													// -ta.append("
+													// ("+type1+"[])");
+													co1.setObjectType(new QName(type1 + "[]"));
+												} else if (type1.endsWith("Array")) {
+													type1 = type1.substring(0, type1.length() - 5);
+													// -ta.append("
+													// ("+type1+"[])");
+													co1.setObjectType(new QName(type1 + "[]"));
+												} else if (attType.endsWith("[]")) {
+													type1 = type1.replace("[]", "");
+													// -ta.append("
+													// ("+type1+"[])");
+													co1.setObjectType(new QName(type1 + "[]"));
 												}
 
-												parseTypeIterative(s1, type1,
-														iterNumber + 1,
-														fromLiteral, co1);
-												co.getHasComplexObjects().add(
-														co1);
+												parseTypeIterative(s1, type1, iterNumber + 1, fromLiteral, co1);
+												co.getHasComplexObjects().add(co1);
 
 											} else {
 												// PSAXNW GIA TO TYPE MESA STO
 												// definition
 
 												ComplexObject co1 = new ComplexObject();
-												co1.setObjectName(new QName(
-														attName));
+												co1.setObjectName(new QName(attName));
 												co1.setAdditionalInfo(additionalInfo);
-												co1.setObjectType(new QName(
-														attType + " (COMPLEX)"));
+												co1.setObjectType(new QName(attType + " (COMPLEX)"));
 
-												String type1 = attType
-														.substring(
-																attType.indexOf(":") + 1,
-																attType.length());
+												String type1 = attType.substring(attType.indexOf(":") + 1,
+														attType.length());
 												if (type1.startsWith("ArrayOf")) {
-													type1 = type1.replaceFirst(
-															"ArrayOf", "");
-													// -ta.append("  ("+type1+"[])");
-													co1.setObjectType(new QName(
-															type1 + "[]"));
-												} else if (type1
-														.endsWith("Array")) {
-													type1 = type1.substring(0,
-															type1.length() - 5);
-													// -ta.append("  ("+type1+"[])");
-													co1.setObjectType(new QName(
-															type1 + "[]"));
-												} else if (attType
-														.endsWith("[]")) {
-													type1 = type1.replace("[]",
-															"");
-													// -ta.append("  ("+type1+"[])");
-													co1.setObjectType(new QName(
-															type1 + "[]"));
+													type1 = type1.replaceFirst("ArrayOf", "");
+													// -ta.append("
+													// ("+type1+"[])");
+													co1.setObjectType(new QName(type1 + "[]"));
+												} else if (type1.endsWith("Array")) {
+													type1 = type1.substring(0, type1.length() - 5);
+													// -ta.append("
+													// ("+type1+"[])");
+													co1.setObjectType(new QName(type1 + "[]"));
+												} else if (attType.endsWith("[]")) {
+													type1 = type1.replace("[]", "");
+													// -ta.append("
+													// ("+type1+"[])");
+													co1.setObjectType(new QName(type1 + "[]"));
 												}
-												parseTypeIterative(s1, type1,
-														iterNumber + 1,
-														fromLiteral, co1);
-												co.getHasComplexObjects().add(
-														co1);
+												parseTypeIterative(s1, type1, iterNumber + 1, fromLiteral, co1);
+												co.getHasComplexObjects().add(co1);
 
 											}
 
-										} else if (childrenOfTheDamned.item(k)
-												.getNodeName()
-												.contains("extension")) {
-											parseExtendedType(
-													s1,
-													childrenOfTheDamned.item(k),
-													iterNumber + 1, co);
+										} else if (childrenOfTheDamned.item(k).getNodeName().contains("extension")) {
+											parseExtendedType(s1, childrenOfTheDamned.item(k), iterNumber + 1, co);
 
-											NodeList childrenOfChildOfSchema1 = childrenOfTheDamned
-													.item(k).getChildNodes();
+											NodeList childrenOfChildOfSchema1 = childrenOfTheDamned.item(k)
+													.getChildNodes();
 
 											if (childrenOfChildOfSchema1 != null) {
-												for (int j1 = 0; j1 < childrenOfChildOfSchema1
-														.getLength(); j1++) {
-													Node n11 = childrenOfChildOfSchema1
-															.item(j1);
-													// //-System.out.println("GAAAAAAAAAAAOOOOOOO "+n1.getNodeName());
-													NodeList childrenOfTheDamned1 = n11
-															.getChildNodes();
+												for (int j1 = 0; j1 < childrenOfChildOfSchema1.getLength(); j1++) {
+													Node n11 = childrenOfChildOfSchema1.item(j1);
+													// //-System.out.println("GAAAAAAAAAAAOOOOOOO
+													// "+n1.getNodeName());
+													NodeList childrenOfTheDamned1 = n11.getChildNodes();
 													if (childrenOfTheDamned1 != null) {
-														for (int k5 = 0; k5 < childrenOfTheDamned1
-																.getLength(); k5++) {
-															// //-System.out.println("\tGAAAAAAAAAAAAAAAAAAOOOOOOOOOOO "+childrenOfTheDamned1.item(k5).getNodeName());
+														for (int k5 = 0; k5 < childrenOfTheDamned1.getLength(); k5++) {
+															// //-System.out.println("\tGAAAAAAAAAAAAAAAAAAOOOOOOOOOOO
+															// "+childrenOfTheDamned1.item(k5).getNodeName());
 
-															if (childrenOfTheDamned1
-																	.item(k5)
-																	.getNodeName()
-																	.contains(
-																			"element")) {
+															if (childrenOfTheDamned1.item(k5).getNodeName()
+																	.contains("element")) {
 																NamedNodeMap attributesOfType = childrenOfTheDamned1
-																		.item(k5)
-																		.getAttributes();
-																// //-System.out.println("WWW GAMWTOOOO...... TYPES...");
+																		.item(k5).getAttributes();
+																// //-System.out.println("WWW
+																// GAMWTOOOO......
+																// TYPES...");
 																String attName = "";
 																String attType = "";
 																String additionalInfo = "";
@@ -3194,28 +2851,21 @@ public class MitsosParser {
 																// W
 																for (int k51 = 0; k51 < attributesOfType
 																		.getLength(); k51++) {
-																	Node att = attributesOfType
-																			.item(k51);
-																	if (att.getNodeName()
-																			.equalsIgnoreCase(
-																					"name")) {
-																		// //-System.out.println("\tName: "+att.getNodeValue());
-																		attName = att
-																				.getNodeValue();
-																	} else if (att
-																			.getNodeName()
-																			.equalsIgnoreCase(
-																					"type")) {
-																		// //-System.out.println("\tType: "+att.getNodeValue());
-																		attType = att
-																				.getNodeValue();
+																	Node att = attributesOfType.item(k51);
+																	if (att.getNodeName().equalsIgnoreCase("name")) {
+																		// //-System.out.println("\tName:
+																		// "+att.getNodeValue());
+																		attName = att.getNodeValue();
+																	} else if (att.getNodeName()
+																			.equalsIgnoreCase("type")) {
+																		// //-System.out.println("\tType:
+																		// "+att.getNodeValue());
+																		attType = att.getNodeValue();
 																	} else {
-																		// //-System.out.println("\t"+att.getNodeName()+": "+att.getNodeValue());
-																		additionalInfo += att
-																				.getNodeName()
-																				+ ":"
-																				+ att.getNodeValue()
-																				+ "   ";
+																		// //-System.out.println("\t"+att.getNodeName()+":
+																		// "+att.getNodeValue());
+																		additionalInfo += att.getNodeName() + ":"
+																				+ att.getNodeValue() + "   ";
 																	}
 																}
 
@@ -3231,29 +2881,25 @@ public class MitsosParser {
 																	}
 																}
 
-																// -ta.append(prefix+"-"+attName+" ["+attType+"]  "+additionalInfo);
+																// -ta.append(prefix+"-"+attName+"
+																// ["+attType+"]
+																// "+additionalInfo);
 
 																// Find the Type
 																// of the
 																// attName...
 																// ITERATIVE
 																// PROCESS.........
-																if (attType
-																		.startsWith(nativeTypePrefix)) {
+																if (attType.startsWith(nativeTypePrefix)) {
 																	// EINAI
 																	// NATIVE
 																	// TYPE
 																	NativeObject no1 = new NativeObject();
-																	no1.setObjectName(new QName(
-																			attName));
-																	no1.setObjectType(new QName(
-																			attType
-																					+ " (NATIVE)"));
-																	co.getHasNativeObjects()
-																			.add(no1);
+																	no1.setObjectName(new QName(attName));
+																	no1.setObjectType(new QName(attType + " (NATIVE)"));
+																	co.getHasNativeObjects().add(no1);
 
-																} else if (attType
-																		.startsWith(targetNamespacePrefix)) {
+																} else if (attType.startsWith(targetNamespacePrefix)) {
 																	// PSAXNW
 																	// GIA TO
 																	// TYPE MESA
@@ -3261,56 +2907,32 @@ public class MitsosParser {
 																	// definition
 
 																	ComplexObject co1 = new ComplexObject();
-																	co1.setObjectName(new QName(
-																			attName));
+																	co1.setObjectName(new QName(attName));
 																	co1.setAdditionalInfo(additionalInfo);
-																	co1.setObjectType(new QName(
-																			attType
-																					+ " (COMPLEX)"));
+																	co1.setObjectType(
+																			new QName(attType + " (COMPLEX)"));
 
-																	String type1 = attType
-																			.substring(
-																					4,
-																					attType.length());
-																	if (type1
-																			.startsWith("ArrayOf")) {
-																		type1 = type1
-																				.replaceFirst(
-																						"ArrayOf",
-																						"");
-																		// -ta.append("  ("+type1+"[])");
-																		co1.setObjectType(new QName(
-																				type1
-																						+ "[]"));
-																	} else if (type1
-																			.endsWith("Array")) {
-																		type1 = type1
-																				.substring(
-																						0,
-																						type1.length() - 5);
-																		// -ta.append("  ("+type1+"[])");
-																		co1.setObjectType(new QName(
-																				type1
-																						+ "[]"));
-																	} else if (attType
-																			.endsWith("[]")) {
-																		type1 = type1
-																				.replace(
-																						"[]",
-																						"");
-																		// -ta.append("  ("+type1+"[])");
-																		co1.setObjectType(new QName(
-																				type1
-																						+ "[]"));
+																	String type1 = attType.substring(4,
+																			attType.length());
+																	if (type1.startsWith("ArrayOf")) {
+																		type1 = type1.replaceFirst("ArrayOf", "");
+																		// -ta.append("
+																		// ("+type1+"[])");
+																		co1.setObjectType(new QName(type1 + "[]"));
+																	} else if (type1.endsWith("Array")) {
+																		type1 = type1.substring(0, type1.length() - 5);
+																		// -ta.append("
+																		// ("+type1+"[])");
+																		co1.setObjectType(new QName(type1 + "[]"));
+																	} else if (attType.endsWith("[]")) {
+																		type1 = type1.replace("[]", "");
+																		// -ta.append("
+																		// ("+type1+"[])");
+																		co1.setObjectType(new QName(type1 + "[]"));
 																	}
-																	parseTypeIterative(
-																			s1,
-																			type1,
-																			iterNumber + 1,
-																			false,
+																	parseTypeIterative(s1, type1, iterNumber + 1, false,
 																			co1);
-																	co.getHasComplexObjects()
-																			.add(co1);
+																	co.getHasComplexObjects().add(co1);
 
 																} else {
 																	// PSAXNW
@@ -3320,56 +2942,32 @@ public class MitsosParser {
 																	// definition
 
 																	ComplexObject co1 = new ComplexObject();
-																	co1.setObjectName(new QName(
-																			attName));
+																	co1.setObjectName(new QName(attName));
 																	co1.setAdditionalInfo(additionalInfo);
-																	co1.setObjectType(new QName(
-																			attType
-																					+ " (COMPLEX)"));
+																	co1.setObjectType(
+																			new QName(attType + " (COMPLEX)"));
 
-																	String type1 = attType
-																			.substring(
-																					attType.indexOf(":") + 1,
-																					attType.length());
-																	if (type1
-																			.startsWith("ArrayOf")) {
-																		type1 = type1
-																				.replaceFirst(
-																						"ArrayOf",
-																						"");
-																		// -ta.append("  ("+type1+"[])");
-																		co1.setObjectType(new QName(
-																				type1
-																						+ "[]"));
-																	} else if (type1
-																			.endsWith("Array")) {
-																		type1 = type1
-																				.substring(
-																						0,
-																						type1.length() - 5);
-																		// -ta.append("  ("+type1+"[])");
-																		co1.setObjectType(new QName(
-																				type1
-																						+ "[]"));
-																	} else if (attType
-																			.endsWith("[]")) {
-																		type1 = type1
-																				.replace(
-																						"[]",
-																						"");
-																		// -ta.append("  ("+type1+"[])");
-																		co1.setObjectType(new QName(
-																				type1
-																						+ "[]"));
+																	String type1 = attType.substring(
+																			attType.indexOf(":") + 1, attType.length());
+																	if (type1.startsWith("ArrayOf")) {
+																		type1 = type1.replaceFirst("ArrayOf", "");
+																		// -ta.append("
+																		// ("+type1+"[])");
+																		co1.setObjectType(new QName(type1 + "[]"));
+																	} else if (type1.endsWith("Array")) {
+																		type1 = type1.substring(0, type1.length() - 5);
+																		// -ta.append("
+																		// ("+type1+"[])");
+																		co1.setObjectType(new QName(type1 + "[]"));
+																	} else if (attType.endsWith("[]")) {
+																		type1 = type1.replace("[]", "");
+																		// -ta.append("
+																		// ("+type1+"[])");
+																		co1.setObjectType(new QName(type1 + "[]"));
 																	}
-																	parseTypeIterative(
-																			s1,
-																			type1,
-																			iterNumber + 1,
-																			false,
+																	parseTypeIterative(s1, type1, iterNumber + 1, false,
 																			co1);
-																	co.getHasComplexObjects()
-																			.add(co1);
+																	co.getHasComplexObjects().add(co1);
 																}
 															}
 														}

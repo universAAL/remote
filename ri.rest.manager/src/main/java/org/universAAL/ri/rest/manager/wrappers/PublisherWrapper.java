@@ -27,27 +27,26 @@ import org.universAAL.middleware.context.owl.ContextProvider;
 import org.universAAL.ri.rest.manager.Activator;
 import org.universAAL.ri.rest.manager.resources.Publisher;
 
-public class PublisherWrapper extends ContextPublisher{
-    
-    private Publisher resource;
+public class PublisherWrapper extends ContextPublisher {
 
-    public Publisher getResource() {
-        return resource;
-    }
+	private Publisher resource;
 
-    public void setResource(Publisher resource) {
-        this.resource = resource;
-    }
+	public Publisher getResource() {
+		return resource;
+	}
 
-    public PublisherWrapper(ModuleContext context,
-	    ContextProvider providerInfo, Publisher r) {
-	super(context, providerInfo);
-	resource=r;
-    }
+	public void setResource(Publisher resource) {
+		this.resource = resource;
+	}
 
-    @Override
-    public void communicationChannelBroken() {
-	Activator.logW("PublisherWrapper.communicationChannelBroken", "communication Channel Broken");
-    }
+	public PublisherWrapper(ModuleContext context, ContextProvider providerInfo, Publisher r) {
+		super(context, providerInfo);
+		resource = r;
+	}
+
+	@Override
+	public void communicationChannelBroken() {
+		Activator.logW("PublisherWrapper.communicationChannelBroken", "communication Channel Broken");
+	}
 
 }

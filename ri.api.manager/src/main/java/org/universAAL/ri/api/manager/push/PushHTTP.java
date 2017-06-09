@@ -52,188 +52,197 @@ import org.universAAL.ri.api.manager.server.Base64;
 /**
  * Class that manages the push of callbacks to client remote node endpoints
  * using HTTP.
+ * 
  * @author alfiva
  *
  */
 public class PushHTTP {
 
-    /**
-     * Build a Context Event callback message and send it to the client remote
-     * node endpoint through HTTP.
-     * 
-     * @param remoteid
-     *            The client remote node endpoint
-     * @param event
-     *            The serialized Context Event to send
-     * @param toURI 
-     */
-    public static void sendC(String remoteid, ContextEvent event, String toURI) throws PushException {
-	StringBuilder strb = new StringBuilder();
-	strb.append(RemoteAPI.KEY_METHOD).append("=").append(RemoteAPI.METHOD_SENDC)
-		.append("&").append(RemoteAPI.KEY_PARAM).append("=").append(Activator.getParser().serialize(event))
-		.append("&").append(RemoteAPI.KEY_TO).append("=").append(toURI)
-		.append("&").append(ContextEvent.PROP_RDF_SUBJECT).append("=").append(event.getSubjectURI())
-		.append("&").append(ContextEvent.PROP_RDF_PREDICATE).append("=").append(event.getRDFPredicate())
-		.append("&").append(ContextEvent.PROP_RDF_OBJECT).append("=").append(event.getRDFObject().toString());
-	if(Configuration.getLogDebug()){
-	    Activator.logI("PushHTTP.sendC", "Sending message to remote node > SENDC, body: "+strb.toString());
-	}
-	try {
-	    send(remoteid, strb.toString());
-	} catch (MalformedURLException e) {
-	    throw new PushException("Unable to send message to malformed URL: "+e.getMessage());
-	} catch (IOException e) {
-	    throw new PushException("Unable to send message through communication channel: "+e.getMessage());
-	}
-    }
-
-    /**
-     * Build a ServiceCall callback message and send it to the client remote
-     * node endpoint through HTTP.
-     * 
-     * @param remoteid
-     *            The client remote node endpoint
-     * @param call
-     *            The serialized Service Call to send
-     * @param toURI 
-     * @return The Service Response that the client remote node will have sent
-     *         as response to the callback
-     */
-    public static ServiceResponse callS(String remoteid, ServiceCall call, String toURI) throws PushException {
-	ServiceResponse sr = new ServiceResponse(CallStatus.serviceSpecificFailure);
-	StringBuilder strb = new StringBuilder();
-	strb.append(RemoteAPI.KEY_METHOD).append("=").append(RemoteAPI.METHOD_CALLS)
-		.append("&").append(RemoteAPI.KEY_PARAM).append("=").append(Activator.getParser().serialize(call))
-		.append("&").append(RemoteAPI.KEY_TO).append("=").append(toURI);
-	List inputs = (List) call.getProperty(ServiceCall.PROP_OWLS_PERFORM_HAS_DATA_FROM);
-	if (inputs != null) {
-	    for (Iterator i = inputs.iterator(); i.hasNext();) {
-		Resource binding = (Resource) i.next(), in = (Resource) binding
-			.getProperty(OutputBinding.PROP_OWLS_BINDING_TO_PARAM);
-		if (in != null) {
-		    strb.append("&").append(in.getURI()).append("=")
-			    .append(call.getInputValue(in.getURI()));
+	/**
+	 * Build a Context Event callback message and send it to the client remote
+	 * node endpoint through HTTP.
+	 * 
+	 * @param remoteid
+	 *            The client remote node endpoint
+	 * @param event
+	 *            The serialized Context Event to send
+	 * @param toURI
+	 */
+	public static void sendC(String remoteid, ContextEvent event, String toURI) throws PushException {
+		StringBuilder strb = new StringBuilder();
+		strb.append(RemoteAPI.KEY_METHOD).append("=").append(RemoteAPI.METHOD_SENDC).append("&")
+				.append(RemoteAPI.KEY_PARAM).append("=").append(Activator.getParser().serialize(event)).append("&")
+				.append(RemoteAPI.KEY_TO).append("=").append(toURI).append("&").append(ContextEvent.PROP_RDF_SUBJECT)
+				.append("=").append(event.getSubjectURI()).append("&").append(ContextEvent.PROP_RDF_PREDICATE)
+				.append("=").append(event.getRDFPredicate()).append("&").append(ContextEvent.PROP_RDF_OBJECT)
+				.append("=").append(event.getRDFObject().toString());
+		if (Configuration.getLogDebug()) {
+			Activator.logI("PushHTTP.sendC", "Sending message to remote node > SENDC, body: " + strb.toString());
 		}
-	    }
+		try {
+			send(remoteid, strb.toString());
+		} catch (MalformedURLException e) {
+			throw new PushException("Unable to send message to malformed URL: " + e.getMessage());
+		} catch (IOException e) {
+			throw new PushException("Unable to send message through communication channel: " + e.getMessage());
+		}
 	}
-	if(Configuration.getLogDebug()){
-	    Activator.logI("PushHTTP.callS", "Sending message to remote node > CALLS, body:  " + strb.toString());
-	}
-	try {
-	    String response = send(remoteid, strb.toString());
-	    InputStreamReader ir = new InputStreamReader(
-		    new ByteArrayInputStream(response.getBytes()));
-	    BufferedReader br = new BufferedReader(ir);
-	    String line;
-	    line = br.readLine();
-	    while (line != null && !line.equals(RemoteAPI.FLAG_TURTLE)) {
-		String[] parts = line.split("=", 2);
-		if (parts.length == 2) {
-		    if (!parts[0].equals(RemoteAPI.KEY_STATUS)) { //If status, we already handle with the serialized
-			String[] resource = parts[1].split("@", 2);
-			if (resource.length != 2)
-			    throw new PushException("Required Outputs are not properly defined. " +
-			    		"They must be in the form instanceURI@typeURI");
-			
-			if(resource[0].startsWith("[")){//Its a list
-			    String[] list=resource[0].replace("[", "").replace("]","").trim().split(",");
-			    ArrayList listouts=new ArrayList(list.length);
-			    for(int i=0;i<list.length;i++){
-				if (resource[1].startsWith("http://www.w3.org/2001/XMLSchema")) {//Its datatypes
-				    listouts.add(TypeMapper.getJavaInstance(resource[0], resource[1]));
-				}else{//Its resources
-				    listouts.add(Resource.getResource(resource[1], resource[0]));
+
+	/**
+	 * Build a ServiceCall callback message and send it to the client remote
+	 * node endpoint through HTTP.
+	 * 
+	 * @param remoteid
+	 *            The client remote node endpoint
+	 * @param call
+	 *            The serialized Service Call to send
+	 * @param toURI
+	 * @return The Service Response that the client remote node will have sent
+	 *         as response to the callback
+	 */
+	public static ServiceResponse callS(String remoteid, ServiceCall call, String toURI) throws PushException {
+		ServiceResponse sr = new ServiceResponse(CallStatus.serviceSpecificFailure);
+		StringBuilder strb = new StringBuilder();
+		strb.append(RemoteAPI.KEY_METHOD).append("=").append(RemoteAPI.METHOD_CALLS).append("&")
+				.append(RemoteAPI.KEY_PARAM).append("=").append(Activator.getParser().serialize(call)).append("&")
+				.append(RemoteAPI.KEY_TO).append("=").append(toURI);
+		List inputs = (List) call.getProperty(ServiceCall.PROP_OWLS_PERFORM_HAS_DATA_FROM);
+		if (inputs != null) {
+			for (Iterator i = inputs.iterator(); i.hasNext();) {
+				Resource binding = (Resource) i.next(),
+						in = (Resource) binding.getProperty(OutputBinding.PROP_OWLS_BINDING_TO_PARAM);
+				if (in != null) {
+					strb.append("&").append(in.getURI()).append("=").append(call.getInputValue(in.getURI()));
 				}
-			    }
-			    sr.addOutput(new ProcessOutput(parts[0],listouts));
-			}else{
-			    if(resource[1].startsWith("http://www.w3.org/2001/XMLSchema")){
-				sr.addOutput(new ProcessOutput(parts[0],TypeMapper.getJavaInstance(resource[0], resource[1])));
-			    }else{
-				sr.addOutput(new ProcessOutput(parts[0], Resource.getResource(resource[1], resource[0])));
-			    }
 			}
-		    }
 		}
-		line = br.readLine();
-	    }
-	    strb = new StringBuilder();
-	    while (line != null) {
-		// We only get here if there was something after TURTLE (and there was TURTLE)
-		line = br.readLine();
-		if (line != null)
-		    strb.append(line);
-	    }
-	    br.close();
-	    String serialized = strb.toString();
-	    if (serialized.length() > 1) {
-		Object parsedsr = Activator.getParser().deserialize(serialized);
-		if (parsedsr instanceof ServiceResponse) {
-		    return (ServiceResponse) parsedsr;
+		if (Configuration.getLogDebug()) {
+			Activator.logI("PushHTTP.callS", "Sending message to remote node > CALLS, body:  " + strb.toString());
 		}
-	    }
-	    sr = new ServiceResponse(CallStatus.succeeded);
-	} catch (MalformedURLException e) {
-	    sr = new ServiceResponse(CallStatus.serviceSpecificFailure);
-	    e.printStackTrace();
-	} catch (SocketTimeoutException e) {
-	    sr = new ServiceResponse(CallStatus.responseTimedOut);
-	    e.printStackTrace();
-	} catch (IOException e) {
-	    sr = new ServiceResponse(CallStatus.serviceSpecificFailure);
-	    e.printStackTrace();
-	}
-	return sr;
-    }
-    
-    /**
-     * Method that performs the actual sending of a HTTP POST request to the
-     * client remote node endpoint.
-     * 
-     * @param remoteid
-     *            The client remote node endpoint
-     * @param body
-     *            The body of the HTTP POST, containing the formatted parameters
-     * @return The String representation of the HTTP response, which will be
-     *         empty for Context Event callbacks
-     * @throws IOException
-     *             If there was a problem in the connection sending or receivng
-     *             information
-     * @throws MalformedURLException
-     *             If the URL to the client remote node endpoint could not be
-     *             built
-     */
-    private static String send(String remoteid, String body) throws IOException, MalformedURLException {
-	URL url = new URL(remoteid);
-	HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-	String auth=Base64.encodeBytes(("Basic "+Configuration.getServerUSR()+":"+Configuration.getServerPWD()).getBytes("UTF-8"));
-	byte[] data = body.getBytes(Charset.forName("UTF-8"));
-	conn.setRequestMethod("POST");
-	conn.setInstanceFollowRedirects(false);
-	conn.setDoOutput(true);
-	conn.setDoInput(true);
-	conn.setUseCaches(false);
-	conn.setReadTimeout(30000);
-	conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
-	conn.setRequestProperty("charset", "utf-8");
-	conn.setRequestProperty("Content-Length", "" + Integer.toString(data.length));
-	conn.setRequestProperty("Authorization", auth);
-	// conn.getOutputStream().write(data);
-	// conn.disconnect();
+		try {
+			String response = send(remoteid, strb.toString());
+			InputStreamReader ir = new InputStreamReader(new ByteArrayInputStream(response.getBytes()));
+			BufferedReader br = new BufferedReader(ir);
+			String line;
+			line = br.readLine();
+			while (line != null && !line.equals(RemoteAPI.FLAG_TURTLE)) {
+				String[] parts = line.split("=", 2);
+				if (parts.length == 2) {
+					if (!parts[0].equals(RemoteAPI.KEY_STATUS)) { // If status,
+																	// we
+																	// already
+																	// handle
+																	// with the
+																	// serialized
+						String[] resource = parts[1].split("@", 2);
+						if (resource.length != 2)
+							throw new PushException("Required Outputs are not properly defined. "
+									+ "They must be in the form instanceURI@typeURI");
 
-	DataOutputStream wr = new DataOutputStream(conn.getOutputStream());
-	wr.write(data);
-	wr.flush();
-	wr.close();
-
-	BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-	String line, response = "";
-	while ((line = rd.readLine()) != null) {
-	    response = response + line + "\n";
+						if (resource[0].startsWith("[")) {// Its a list
+							String[] list = resource[0].replace("[", "").replace("]", "").trim().split(",");
+							ArrayList listouts = new ArrayList(list.length);
+							for (int i = 0; i < list.length; i++) {
+								if (resource[1].startsWith("http://www.w3.org/2001/XMLSchema")) {// Its
+																									// datatypes
+									listouts.add(TypeMapper.getJavaInstance(resource[0], resource[1]));
+								} else {// Its resources
+									listouts.add(Resource.getResource(resource[1], resource[0]));
+								}
+							}
+							sr.addOutput(new ProcessOutput(parts[0], listouts));
+						} else {
+							if (resource[1].startsWith("http://www.w3.org/2001/XMLSchema")) {
+								sr.addOutput(new ProcessOutput(parts[0],
+										TypeMapper.getJavaInstance(resource[0], resource[1])));
+							} else {
+								sr.addOutput(
+										new ProcessOutput(parts[0], Resource.getResource(resource[1], resource[0])));
+							}
+						}
+					}
+				}
+				line = br.readLine();
+			}
+			strb = new StringBuilder();
+			while (line != null) {
+				// We only get here if there was something after TURTLE (and
+				// there was TURTLE)
+				line = br.readLine();
+				if (line != null)
+					strb.append(line);
+			}
+			br.close();
+			String serialized = strb.toString();
+			if (serialized.length() > 1) {
+				Object parsedsr = Activator.getParser().deserialize(serialized);
+				if (parsedsr instanceof ServiceResponse) {
+					return (ServiceResponse) parsedsr;
+				}
+			}
+			sr = new ServiceResponse(CallStatus.succeeded);
+		} catch (MalformedURLException e) {
+			sr = new ServiceResponse(CallStatus.serviceSpecificFailure);
+			e.printStackTrace();
+		} catch (SocketTimeoutException e) {
+			sr = new ServiceResponse(CallStatus.responseTimedOut);
+			e.printStackTrace();
+		} catch (IOException e) {
+			sr = new ServiceResponse(CallStatus.serviceSpecificFailure);
+			e.printStackTrace();
+		}
+		return sr;
 	}
-	rd.close();
-	
-	return response;
-    }
+
+	/**
+	 * Method that performs the actual sending of a HTTP POST request to the
+	 * client remote node endpoint.
+	 * 
+	 * @param remoteid
+	 *            The client remote node endpoint
+	 * @param body
+	 *            The body of the HTTP POST, containing the formatted parameters
+	 * @return The String representation of the HTTP response, which will be
+	 *         empty for Context Event callbacks
+	 * @throws IOException
+	 *             If there was a problem in the connection sending or receivng
+	 *             information
+	 * @throws MalformedURLException
+	 *             If the URL to the client remote node endpoint could not be
+	 *             built
+	 */
+	private static String send(String remoteid, String body) throws IOException, MalformedURLException {
+		URL url = new URL(remoteid);
+		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+		String auth = Base64.encodeBytes(
+				("Basic " + Configuration.getServerUSR() + ":" + Configuration.getServerPWD()).getBytes("UTF-8"));
+		byte[] data = body.getBytes(Charset.forName("UTF-8"));
+		conn.setRequestMethod("POST");
+		conn.setInstanceFollowRedirects(false);
+		conn.setDoOutput(true);
+		conn.setDoInput(true);
+		conn.setUseCaches(false);
+		conn.setReadTimeout(30000);
+		conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+		conn.setRequestProperty("charset", "utf-8");
+		conn.setRequestProperty("Content-Length", "" + Integer.toString(data.length));
+		conn.setRequestProperty("Authorization", auth);
+		// conn.getOutputStream().write(data);
+		// conn.disconnect();
+
+		DataOutputStream wr = new DataOutputStream(conn.getOutputStream());
+		wr.write(data);
+		wr.flush();
+		wr.close();
+
+		BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+		String line, response = "";
+		while ((line = rd.readLine()) != null) {
+			response = response + line + "\n";
+		}
+		rd.close();
+
+		return response;
+	}
 
 }

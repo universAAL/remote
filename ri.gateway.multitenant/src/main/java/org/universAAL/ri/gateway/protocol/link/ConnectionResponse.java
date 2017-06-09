@@ -34,50 +34,47 @@ import org.universAAL.ri.gateway.protocol.LinkMessage.LinkMessageType;
  */
 public class ConnectionResponse extends LinkMessage implements Serializable {
 
-    /**
-     *
-     */
-    private static final long serialVersionUID = -1872676178834761810L;
-    private String peerId;
-    private String aalSpaceId;
-    private UUID sessionId;
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = -1872676178834761810L;
+	private String peerId;
+	private String aalSpaceId;
+	private UUID sessionId;
 
-    public ConnectionResponse(final LinkMessage request, final String peer,
-	    final String space, final UUID session) {
-	super(request);
-	this.peerId = peer;
-	this.aalSpaceId = space;
-	this.sessionId = session;
-    }
+	public ConnectionResponse(final LinkMessage request, final String peer, final String space, final UUID session) {
+		super(request);
+		this.peerId = peer;
+		this.aalSpaceId = space;
+		this.sessionId = session;
+	}
 
-    @Override
-    public String toString() {
-	return "ConnectionResponse ["
-		+ (peerId != null ? "peerId =" + peerId + ", " : "")
-		+ (aalSpaceId != null ? "aalSpaceId =" + aalSpaceId + ", " : "")
-		+ (aalSpaceId != null ? "scopeId=" + aalSpaceId + ", " : "")
-		+ (sessionId != null ? "sessionId=" + sessionId + " " : "")
-		+ "]";
-    }
+	@Override
+	public String toString() {
+		return "ConnectionResponse [" + (peerId != null ? "peerId =" + peerId + ", " : "")
+				+ (aalSpaceId != null ? "aalSpaceId =" + aalSpaceId + ", " : "")
+				+ (aalSpaceId != null ? "scopeId=" + aalSpaceId + ", " : "")
+				+ (sessionId != null ? "sessionId=" + sessionId + " " : "") + "]";
+	}
 
-    public String getAALSpaceId() {
-	return aalSpaceId;
-    }
+	public String getAALSpaceId() {
+		return aalSpaceId;
+	}
 
-    public String getPeerId() {
-	return peerId;
-    }
+	public String getPeerId() {
+		return peerId;
+	}
 
-    public String getScopeId() {
-	return aalSpaceId;
-    }
+	public String getScopeId() {
+		return aalSpaceId;
+	}
 
-    public UUID getSessionId() {
-	return sessionId;
-    }
+	public UUID getSessionId() {
+		return sessionId;
+	}
 
-    @Override
-    public int getType() {
-	return LinkMessageType.CONNECTION_RESPONSE.ordinal();
-    }
+	@Override
+	public int getType() {
+		return LinkMessageType.CONNECTION_RESPONSE.ordinal();
+	}
 }

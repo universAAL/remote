@@ -38,70 +38,63 @@ import org.universAAL.ri.gateway.proxies.importing.ProxySCallee;
  */
 public class ProxyBusMemberFactory {
 
-    /**
-     * Create a proxy given parameters sent by remote peer.
-     * 
-     * @param regParams
-     * @return may be null if regParams is not matched to any proxy.
-     */
-    public static ProxyBusMember createImport(final Resource[] regParams) {
-	if (regParams.length > 0) {
-	    if (regParams[0] instanceof ContextEventPattern) {
-		ContextEventPattern[] cep = Arrays.copyOf(regParams,
-			regParams.length, ContextEventPattern[].class);
-		return new ProxyContextSubscriber(
-			Gateway.getInstance().context, cep);
-	    }
-	    if (regParams[0] instanceof ServiceProfile) {
-		ServiceProfile[] profiles = Arrays.copyOf(regParams,
-			regParams.length, ServiceProfile[].class);
-		return new ProxySCallee(Gateway.getInstance().context, profiles);
-	    }
+	/**
+	 * Create a proxy given parameters sent by remote peer.
+	 * 
+	 * @param regParams
+	 * @return may be null if regParams is not matched to any proxy.
+	 */
+	public static ProxyBusMember createImport(final Resource[] regParams) {
+		if (regParams.length > 0) {
+			if (regParams[0] instanceof ContextEventPattern) {
+				ContextEventPattern[] cep = Arrays.copyOf(regParams, regParams.length, ContextEventPattern[].class);
+				return new ProxyContextSubscriber(Gateway.getInstance().context, cep);
+			}
+			if (regParams[0] instanceof ServiceProfile) {
+				ServiceProfile[] profiles = Arrays.copyOf(regParams, regParams.length, ServiceProfile[].class);
+				return new ProxySCallee(Gateway.getInstance().context, profiles);
+			}
+		}
+		return null;
 	}
-	return null;
-    }
 
-    /**
-     * Create a proxy for exporting with the given paramenters.
-     * 
-     * @param regParams
-     * @return may be null if regParams is not matched to any proxy.
-     */
-    public static ProxyBusMember createExport(final Resource[] regParams,
-	    final String busMemberId) {
-	if (regParams != null && regParams.length > 0) {
-	    if (regParams[0] instanceof ContextEventPattern) {
-		// TODO Context publisher patterns?
-		return new ProxyContextPublisher(Gateway.getInstance().context);
-	    }
-	    if (regParams[0] instanceof ServiceProfile) {
-		ServiceProfile[] profiles = Arrays.copyOf(regParams,
-			regParams.length, ServiceProfile[].class);
-		return new ProxySCaller(Gateway.getInstance().context,
-			profiles, busMemberId);
-	    }
+	/**
+	 * Create a proxy for exporting with the given paramenters.
+	 * 
+	 * @param regParams
+	 * @return may be null if regParams is not matched to any proxy.
+	 */
+	public static ProxyBusMember createExport(final Resource[] regParams, final String busMemberId) {
+		if (regParams != null && regParams.length > 0) {
+			if (regParams[0] instanceof ContextEventPattern) {
+				// TODO Context publisher patterns?
+				return new ProxyContextPublisher(Gateway.getInstance().context);
+			}
+			if (regParams[0] instanceof ServiceProfile) {
+				ServiceProfile[] profiles = Arrays.copyOf(regParams, regParams.length, ServiceProfile[].class);
+				return new ProxySCaller(Gateway.getInstance().context, profiles, busMemberId);
+			}
+		}
+		return null;
 	}
-	return null;
-    }
 
-    public static boolean isForExport(final BusMember member) {
-	return member != null
-		&& (member instanceof ServiceCallee || member instanceof ContextSubscriber);
-    }
-
-    /**
-     * Create initial parameters for the given busMember. This is used to
-     * identify those {@link BusMember}s which do not addRegistration
-     * parameters, or do not have registration parameters.
-     * 
-     * @param member
-     *            the busmember to analyze.
-     * @return null if no initial parameters are required
-     */
-    public static Resource[] initialParameters(BusMember member) {
-	if (member instanceof ServiceCaller) {
-	    return new ServiceProfile[] { new ServiceProfile() };
+	public static boolean isForExport(final BusMember member) {
+		return member != null && (member instanceof ServiceCallee || member instanceof ContextSubscriber);
 	}
-	return null;
-    }
+
+	/**
+	 * Create initial parameters for the given busMember. This is used to
+	 * identify those {@link BusMember}s which do not addRegistration
+	 * parameters, or do not have registration parameters.
+	 * 
+	 * @param member
+	 *            the busmember to analyze.
+	 * @return null if no initial parameters are required
+	 */
+	public static Resource[] initialParameters(BusMember member) {
+		if (member instanceof ServiceCaller) {
+			return new ServiceProfile[] { new ServiceProfile() };
+		}
+		return null;
+	}
 }

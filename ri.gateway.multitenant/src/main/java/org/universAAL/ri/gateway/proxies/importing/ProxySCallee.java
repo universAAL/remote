@@ -50,168 +50,149 @@ import org.universAAL.ri.gateway.utils.ArraySet;
  */
 public class ProxySCallee extends ServiceCallee implements ProxyBusMember {
 
-    private final ReferencesManager refsMngr;
+	private final ReferencesManager refsMngr;
 
-    private Resource[] currentRegParam;
+	private Resource[] currentRegParam;
 
-    /**
-     * @param context
-     * @param realizedServices
-     */
-    public ProxySCallee(final ModuleContext context,
-	    final ServiceProfile[] realizedServices) {
-	super(context, realizedServices);
-	refsMngr = new ReferencesManager();
-    }
+	/**
+	 * @param context
+	 * @param realizedServices
+	 */
+	public ProxySCallee(final ModuleContext context, final ServiceProfile[] realizedServices) {
+		super(context, realizedServices);
+		refsMngr = new ReferencesManager();
+	}
 
-    /** {@inheritDoc} */
-    @Override
-    public void communicationChannelBroken() {
-	// XXX disconnect?
+	/** {@inheritDoc} */
+	@Override
+	public void communicationChannelBroken() {
+		// XXX disconnect?
 
-    }
+	}
 
-    /** {@inheritDoc} */
-    @Override
-    public ServiceResponse handleCall(final ServiceCall call) {
-	final Collection<BusMemberReference> refs = refsMngr
-		.getRemoteProxiesReferences();
-	final List<ServiceResponse> responses = new ArrayList<ServiceResponse>();
-	for (final BusMemberReference bmr : refs) {
-	    try {
-		final Session s = bmr.getChannel();
-		if (!call.isSerializableTo(s.getScope())) {
-		    // in case the destination scope is incompatible ignore.
-		    continue;
+	/** {@inheritDoc} */
+	@Override
+	public ServiceResponse handleCall(final ServiceCall call) {
+		final Collection<BusMemberReference> refs = refsMngr.getRemoteProxiesReferences();
+		final List<ServiceResponse> responses = new ArrayList<ServiceResponse>();
+		for (final BusMemberReference bmr : refs) {
+			try {
+				final Session s = bmr.getChannel();
+				if (!call.isSerializableTo(s.getScope())) {
+					// in case the destination scope is incompatible ignore.
+					continue;
+				}
+				if (s.getOutgoingMessageOperationChain().check(call).equals(OperationChain.OperationResult.ALLOW)) {
+					// it is allowed to go there
+					final ServiceCall copy = (ServiceCall) call.copy(false);
+					copy.clearScopes();
+					copy.setOriginScope(null);
+					Message resp = null;
+					try {
+						resp = s.sendRequest(new WrappedBusMessage(bmr.getBusMemberid(), copy));
+					} catch (TimeoutException e) {
+						// TODO sure you want to report directly a timeout, and
+						// not reattempt?
+						final ServiceResponse sr = new ServiceResponse(CallStatus.responseTimedOut);
+						// Resolve multitenancy
+						sr.clearScopes();
+						sr.addScope(s.getScope());
+						// set the origin of the response
+						sr.setOriginScope(s.getScope());
+
+						responses.add(sr);
+					}
+					// sends a scope-clear call to remote proxy.
+					if (resp != null && resp instanceof WrappedBusMessage) {
+						final ServiceResponse sr = (ServiceResponse) ((WrappedBusMessage) resp).getMessage();
+						// Resolve multitenancy
+						sr.clearScopes();
+						sr.addScope(s.getScope());
+						// set the origin of the response
+						sr.setOriginScope(s.getScope());
+
+						responses.add(sr);
+					} else if (resp instanceof ErrorMessage) {
+						final ErrorMessage em = (ErrorMessage) resp;
+						LogUtils.logError(owner, getClass(), "handleCall",
+								"Received Error Message: " + em.getDescription());
+					} else {
+						LogUtils.logError(owner, getClass(), "handleCall", "unexpected Response.");
+					}
+				} else {
+					// it is not allowed, inform caller.
+					final ServiceResponse sr = new ServiceResponse(CallStatus.denied);
+					sr.addScope(s.getScope());
+					responses.add(sr);
+				}
+			} catch (final Exception e) {
+				LogUtils.logError(owner, getClass(), "handleCall", new String[] { "Unexpected exception" }, e);
+			}
 		}
-		if (s.getOutgoingMessageOperationChain().check(call)
-			.equals(OperationChain.OperationResult.ALLOW)) {
-		    // it is allowed to go there
-		    final ServiceCall copy = (ServiceCall) call.copy(false);
-		    copy.clearScopes();
-		    copy.setOriginScope(null);
-		    Message resp = null;
-		    try {
-			resp = s.sendRequest(new WrappedBusMessage(bmr
-				.getBusMemberid(), copy));
-		    } catch (TimeoutException e) {
-			// TODO sure you want to report directly a timeout, and
-			// not reattempt?
-			final ServiceResponse sr = new ServiceResponse(
-				CallStatus.responseTimedOut);
-			// Resolve multitenancy
-			sr.clearScopes();
-			sr.addScope(s.getScope());
-			// set the origin of the response
-			sr.setOriginScope(s.getScope());
-
-			responses.add(sr);
-		    }
-		    // sends a scope-clear call to remote proxy.
-		    if (resp != null && resp instanceof WrappedBusMessage) {
-			final ServiceResponse sr = (ServiceResponse) ((WrappedBusMessage) resp)
-				.getMessage();
-			// Resolve multitenancy
-			sr.clearScopes();
-			sr.addScope(s.getScope());
-			// set the origin of the response
-			sr.setOriginScope(s.getScope());
-
-			responses.add(sr);
-		    } else if (resp instanceof ErrorMessage) {
-			final ErrorMessage em = (ErrorMessage) resp;
-			LogUtils.logError(
-				owner,
-				getClass(),
-				"handleCall",
-				"Received Error Message: "
-					+ em.getDescription());
-		    } else {
-			LogUtils.logError(owner, getClass(), "handleCall",
-				"unexpected Response.");
-		    }
-		} else {
-		    // it is not allowed, inform caller.
-		    final ServiceResponse sr = new ServiceResponse(
-			    CallStatus.denied);
-		    sr.addScope(s.getScope());
-		    responses.add(sr);
+		// merge all responses
+		MultiServiceResponse msr = new MultiServiceResponse(null);
+		for (ServiceResponse sr : responses) {
+			msr.addResponse(sr);
 		}
-	    } catch (final Exception e) {
-		LogUtils.logError(owner, getClass(), "handleCall",
-			new String[] { "Unexpected exception" }, e);
-	    }
+		if (responses.size() > 0) {
+			return msr;
+		}
+		final ServiceResponse sr = new ServiceResponse(CallStatus.denied);
+		sr.setResourceComment("Unable to get any response from remote Proxies.");
+		return sr;
 	}
-	// merge all responses
-	MultiServiceResponse msr = new MultiServiceResponse(null);
-	for (ServiceResponse sr : responses) {
-	    msr.addResponse(sr);
+
+	public String getBusMemberId() {
+		return busResourceURI;
 	}
-	if (responses.size() > 0) {
-	    return msr;
+
+	/** {@inheritDoc} */
+	public void addRemoteProxyReference(final BusMemberReference remoteReference) {
+		refsMngr.addRemoteProxyReference(remoteReference);
 	}
-	final ServiceResponse sr = new ServiceResponse(CallStatus.denied);
-	sr.setResourceComment("Unable to get any response from remote Proxies.");
-	return sr;
-    }
 
-    public String getBusMemberId() {
-	return busResourceURI;
-    }
+	/** {@inheritDoc} */
+	public void removeRemoteProxyReference(final BusMemberReference remoteReference) {
+		refsMngr.removeRemoteProxyReference(remoteReference);
+	}
 
-    /** {@inheritDoc} */
-    public void addRemoteProxyReference(final BusMemberReference remoteReference) {
-	refsMngr.addRemoteProxyReference(remoteReference);
-    }
+	/** {@inheritDoc} */
+	public void removeRemoteProxyReferences(final Session session) {
+		refsMngr.removeRemoteProxyReferences(session);
+	}
 
-    /** {@inheritDoc} */
-    public void removeRemoteProxyReference(
-	    final BusMemberReference remoteReference) {
-	refsMngr.removeRemoteProxyReference(remoteReference);
-    }
+	/** {@inheritDoc} */
+	public Collection<BusMemberReference> getRemoteProxiesReferences() {
+		return refsMngr.getRemoteProxiesReferences();
+	}
 
-    /** {@inheritDoc} */
-    public void removeRemoteProxyReferences(final Session session) {
-	refsMngr.removeRemoteProxyReferences(session);
-    }
+	/** {@inheritDoc} */
+	public Resource[] getSubscriptionParameters() {
+		return currentRegParam;
+	}
 
-    /** {@inheritDoc} */
-    public Collection<BusMemberReference> getRemoteProxiesReferences() {
-	return refsMngr.getRemoteProxiesReferences();
-    }
+	public void handleMessage(final Session session, final WrappedBusMessage busMessage) {
+		// no BusMessage sent from remote proxy.
 
-    /** {@inheritDoc} */
-    public Resource[] getSubscriptionParameters() {
-	return currentRegParam;
-    }
+	}
 
-    public void handleMessage(final Session session,
-	    final WrappedBusMessage busMessage) {
-	// no BusMessage sent from remote proxy.
+	/** {@inheritDoc} */
+	public boolean isCompatible(final Resource[] registrationParameters) {
+		return registrationParameters.length > 0 && registrationParameters[0] instanceof ServiceProfile
+				&& new ArraySet.Equal<Resource>().equal(registrationParameters, currentRegParam);
+	}
 
-    }
+	/** {@inheritDoc} */
+	public void addSubscriptionParameters(final Resource[] newParams) {
+		currentRegParam = new ArraySet.Union<Resource>().combine(currentRegParam, newParams, new Resource[] {});
+		addNewServiceProfiles((ServiceProfile[]) newParams);
 
-    /** {@inheritDoc} */
-    public boolean isCompatible(final Resource[] registrationParameters) {
-	return registrationParameters.length > 0
-		&& registrationParameters[0] instanceof ServiceProfile
-		&& new ArraySet.Equal<Resource>().equal(registrationParameters,
-			currentRegParam);
-    }
+	}
 
-    /** {@inheritDoc} */
-    public void addSubscriptionParameters(final Resource[] newParams) {
-	currentRegParam = new ArraySet.Union<Resource>().combine(
-		currentRegParam, newParams, new Resource[] {});
-	addNewServiceProfiles((ServiceProfile[]) newParams);
-
-    }
-
-    /** {@inheritDoc} */
-    public void removeSubscriptionParameters(final Resource[] newParams) {
-	currentRegParam = new ArraySet.Difference<Resource>().combine(
-		currentRegParam, newParams, new Resource[] {});
-	removeMatchingProfiles((ServiceProfile[]) newParams);
-    }
+	/** {@inheritDoc} */
+	public void removeSubscriptionParameters(final Resource[] newParams) {
+		currentRegParam = new ArraySet.Difference<Resource>().combine(currentRegParam, newParams, new Resource[] {});
+		removeMatchingProfiles((ServiceProfile[]) newParams);
+	}
 
 }

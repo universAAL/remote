@@ -40,112 +40,103 @@ import org.universAAL.ri.gateway.utils.ArraySet;
  * @author amedrano
  * 
  */
-public class ProxyContextSubscriber extends ContextSubscriber implements
-	ProxyBusMember {
+public class ProxyContextSubscriber extends ContextSubscriber implements ProxyBusMember {
 
-    private final ReferencesManager refsMngr;
+	private final ReferencesManager refsMngr;
 
-    private Resource[] currentRegParam;
+	private Resource[] currentRegParam;
 
-    /**
-     * @param connectingModule
-     * @param initialSubscriptions
-     */
-    public ProxyContextSubscriber(final ModuleContext connectingModule,
-	    final ContextEventPattern[] initialSubscriptions) {
-	super(connectingModule, initialSubscriptions);
-	refsMngr = new ReferencesManager();
-	currentRegParam = initialSubscriptions;
-    }
-
-    /** {@inheritDoc} */
-    public String getBusMemberId() {
-	return busResourceURI;
-    }
-
-    /** {@inheritDoc} */
-    public void addRemoteProxyReference(final BusMemberReference remoteReference) {
-	refsMngr.addRemoteProxyReference(remoteReference);
-    }
-
-    /** {@inheritDoc} */
-    public void removeRemoteProxyReference(
-	    final BusMemberReference remoteReference) {
-	refsMngr.removeRemoteProxyReference(remoteReference);
-    }
-
-    /** {@inheritDoc} */
-    public void removeRemoteProxyReferences(final Session session) {
-	refsMngr.removeRemoteProxyReferences(session);
-    }
-
-    /** {@inheritDoc} */
-    public Collection<BusMemberReference> getRemoteProxiesReferences() {
-	return refsMngr.getRemoteProxiesReferences();
-    }
-
-    /** {@inheritDoc} */
-    public Resource[] getSubscriptionParameters() {
-	return currentRegParam;
-    }
-
-    /** {@inheritDoc} */
-    public void handleMessage(final Session session,
-	    final WrappedBusMessage busMessage) {
-	// ignored, no message should be received!
-
-    }
-
-    /** {@inheritDoc} */
-    public boolean isCompatible(final Resource[] registrationParameters) {
-	return registrationParameters.length > 0
-		&& registrationParameters[0] instanceof ContextEventPattern
-		&& new ArraySet.Equal<Resource>().equal(registrationParameters,
-			currentRegParam);
-    }
-
-    /** {@inheritDoc} */
-    public void addSubscriptionParameters(final Resource[] newParams) {
-	currentRegParam = new ArraySet.Union<Resource>().combine(
-		currentRegParam, newParams, new Resource[] {});
-	addNewRegParams((ContextEventPattern[]) newParams);
-
-    }
-
-    /** {@inheritDoc} */
-    public void removeSubscriptionParameters(final Resource[] newParams) {
-	currentRegParam = new ArraySet.Difference<Resource>().combine(
-		currentRegParam, newParams, new Resource[] {});
-	removeMatchingRegParams((ContextEventPattern[]) newParams);
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public void communicationChannelBroken() {
-	// XXX disconnect?
-
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public void handleContextEvent(final ContextEvent event) {
-	final Collection<BusMemberReference> refs = refsMngr
-		.getRemoteProxiesReferences();
-	for (final BusMemberReference bmr : refs) {
-	    final Session s = bmr.getChannel();
-	    if (event.isSerializableTo(s.getScope())
-		    && s.getOutgoingMessageOperationChain().check(event)
-			    .equals(OperationChain.OperationResult.ALLOW)) {
-		// the event may be sent there
-		// and it is allowed to go there
-		final ContextEvent copy = (ContextEvent) event.copy(false);
-		copy.clearScopes();
-		copy.setOriginScope(null);
-		s.send(new WrappedBusMessage(bmr.getBusMemberid(), copy));
-		// sends a scope clear event to remote proxy.
-	    }
+	/**
+	 * @param connectingModule
+	 * @param initialSubscriptions
+	 */
+	public ProxyContextSubscriber(final ModuleContext connectingModule,
+			final ContextEventPattern[] initialSubscriptions) {
+		super(connectingModule, initialSubscriptions);
+		refsMngr = new ReferencesManager();
+		currentRegParam = initialSubscriptions;
 	}
 
-    }
+	/** {@inheritDoc} */
+	public String getBusMemberId() {
+		return busResourceURI;
+	}
+
+	/** {@inheritDoc} */
+	public void addRemoteProxyReference(final BusMemberReference remoteReference) {
+		refsMngr.addRemoteProxyReference(remoteReference);
+	}
+
+	/** {@inheritDoc} */
+	public void removeRemoteProxyReference(final BusMemberReference remoteReference) {
+		refsMngr.removeRemoteProxyReference(remoteReference);
+	}
+
+	/** {@inheritDoc} */
+	public void removeRemoteProxyReferences(final Session session) {
+		refsMngr.removeRemoteProxyReferences(session);
+	}
+
+	/** {@inheritDoc} */
+	public Collection<BusMemberReference> getRemoteProxiesReferences() {
+		return refsMngr.getRemoteProxiesReferences();
+	}
+
+	/** {@inheritDoc} */
+	public Resource[] getSubscriptionParameters() {
+		return currentRegParam;
+	}
+
+	/** {@inheritDoc} */
+	public void handleMessage(final Session session, final WrappedBusMessage busMessage) {
+		// ignored, no message should be received!
+
+	}
+
+	/** {@inheritDoc} */
+	public boolean isCompatible(final Resource[] registrationParameters) {
+		return registrationParameters.length > 0 && registrationParameters[0] instanceof ContextEventPattern
+				&& new ArraySet.Equal<Resource>().equal(registrationParameters, currentRegParam);
+	}
+
+	/** {@inheritDoc} */
+	public void addSubscriptionParameters(final Resource[] newParams) {
+		currentRegParam = new ArraySet.Union<Resource>().combine(currentRegParam, newParams, new Resource[] {});
+		addNewRegParams((ContextEventPattern[]) newParams);
+
+	}
+
+	/** {@inheritDoc} */
+	public void removeSubscriptionParameters(final Resource[] newParams) {
+		currentRegParam = new ArraySet.Difference<Resource>().combine(currentRegParam, newParams, new Resource[] {});
+		removeMatchingRegParams((ContextEventPattern[]) newParams);
+	}
+
+	/** {@inheritDoc} */
+	@Override
+	public void communicationChannelBroken() {
+		// XXX disconnect?
+
+	}
+
+	/** {@inheritDoc} */
+	@Override
+	public void handleContextEvent(final ContextEvent event) {
+		final Collection<BusMemberReference> refs = refsMngr.getRemoteProxiesReferences();
+		for (final BusMemberReference bmr : refs) {
+			final Session s = bmr.getChannel();
+			if (event.isSerializableTo(s.getScope())
+					&& s.getOutgoingMessageOperationChain().check(event).equals(OperationChain.OperationResult.ALLOW)) {
+				// the event may be sent there
+				// and it is allowed to go there
+				final ContextEvent copy = (ContextEvent) event.copy(false);
+				copy.clearScopes();
+				copy.setOriginScope(null);
+				s.send(new WrappedBusMessage(bmr.getBusMemberid(), copy));
+				// sends a scope clear event to remote proxy.
+			}
+		}
+
+	}
 
 }

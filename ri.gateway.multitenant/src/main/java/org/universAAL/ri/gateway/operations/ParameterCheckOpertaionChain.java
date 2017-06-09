@@ -26,6 +26,6 @@ import org.universAAL.middleware.rdf.Resource;
  */
 public interface ParameterCheckOpertaionChain extends OperationChain {
 
-    OperationResult check(Resource[] params);
+	OperationResult check(Resource[] params);
 
 }

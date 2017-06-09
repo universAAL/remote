@@ -23,55 +23,55 @@ package org.universAAL.ri.gateway.protocol;
  */
 public class ErrorMessage extends Message {
 
-    /**
-     * The serial Version.
-     */
-    private static final long serialVersionUID = 1L;
+	/**
+	 * The serial Version.
+	 */
+	private static final long serialVersionUID = 1L;
 
-    /**
-     * The description to be logged.
-     */
-    private final String description;
+	/**
+	 * The description to be logged.
+	 */
+	private final String description;
 
-    /**
-     * Message that provoked the error, for reference or actions to be taken.
-     */
-    private Message previousMessage;
+	/**
+	 * Message that provoked the error, for reference or actions to be taken.
+	 */
+	private Message previousMessage;
 
-    /**
-     * Create an Error Message with a description and a {@link Message}.
-     * 
-     * @param description
-     * @param onMessage
-     */
-    public ErrorMessage(final String description, final Message onMessage) {
-	super(onMessage);
-	this.description = description;
-	this.previousMessage = onMessage;
-    }
+	/**
+	 * Create an Error Message with a description and a {@link Message}.
+	 * 
+	 * @param description
+	 * @param onMessage
+	 */
+	public ErrorMessage(final String description, final Message onMessage) {
+		super(onMessage);
+		this.description = description;
+		this.previousMessage = onMessage;
+	}
 
-    /**
-     * Create an Error message with only the description of the error.
-     * 
-     * @param description
-     */
-    public ErrorMessage(final String description) {
-	super();
-	this.description = description;
-    }
+	/**
+	 * Create an Error message with only the description of the error.
+	 * 
+	 * @param description
+	 */
+	public ErrorMessage(final String description) {
+		super();
+		this.description = description;
+	}
 
-    /**
-     * @return the description
-     */
-    public String getDescription() {
-	return description;
-    }
+	/**
+	 * @return the description
+	 */
+	public String getDescription() {
+		return description;
+	}
 
-    /**
-     * @return the previousMessage
-     */
-    public Message getErroneousMessage() {
-	return previousMessage;
-    }
+	/**
+	 * @return the previousMessage
+	 */
+	public Message getErroneousMessage() {
+		return previousMessage;
+	}
 
 }

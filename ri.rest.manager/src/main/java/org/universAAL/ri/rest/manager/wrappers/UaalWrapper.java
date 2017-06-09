@@ -27,55 +27,55 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.universAAL.ri.rest.manager.Activator;
 
 public class UaalWrapper {
-    
-    private static UaalWrapper instance=new UaalWrapper();
-    
-    private ConcurrentHashMap<String, SpaceWrapper> tenants=new ConcurrentHashMap<String, SpaceWrapper>();
-    
-    public static UaalWrapper getInstance(){
-	return instance;
-    }
-    
-    public Enumeration<SpaceWrapper> getTenants(){
-	return tenants.elements();
-    }
-    
-    public SpaceWrapper getTenant(String id){
-	return tenants.get(id);
-    }
-    
-    public void addTenant(SpaceWrapper t){
-	tenants.put(t.getResource().getId(), t);
-    }
-    
-    public void removeTenant(String id){
-	SpaceWrapper t = tenants.remove(id);
-	if(t!=null){
-	    t.close();
+
+	private static UaalWrapper instance = new UaalWrapper();
+
+	private ConcurrentHashMap<String, SpaceWrapper> tenants = new ConcurrentHashMap<String, SpaceWrapper>();
+
+	public static UaalWrapper getInstance() {
+		return instance;
 	}
-    }
-    
-    public boolean updateTenant(SpaceWrapper t) {
-	try {
-	    SpaceWrapper original = tenants.remove(t.getResource().getId());
-	    if (original != null) {
+
+	public Enumeration<SpaceWrapper> getTenants() {
+		return tenants.elements();
+	}
+
+	public SpaceWrapper getTenant(String id) {
+		return tenants.get(id);
+	}
+
+	public void addTenant(SpaceWrapper t) {
 		tenants.put(t.getResource().getId(), t);
-		return true;
-	    } else {
-		return false;
-	    }
-	} catch (Exception e) {
-	    Activator.logE("UaalWrapper.updateTenant", e.toString());
-	    e.printStackTrace();
-	    return false;
 	}
-    }
-    
-    public void close(){
-	Enumeration<SpaceWrapper> ts = tenants.elements();
-	while(ts.hasMoreElements()){
-	    ts.nextElement().close();
+
+	public void removeTenant(String id) {
+		SpaceWrapper t = tenants.remove(id);
+		if (t != null) {
+			t.close();
+		}
 	}
-    }
+
+	public boolean updateTenant(SpaceWrapper t) {
+		try {
+			SpaceWrapper original = tenants.remove(t.getResource().getId());
+			if (original != null) {
+				tenants.put(t.getResource().getId(), t);
+				return true;
+			} else {
+				return false;
+			}
+		} catch (Exception e) {
+			Activator.logE("UaalWrapper.updateTenant", e.toString());
+			e.printStackTrace();
+			return false;
+		}
+	}
+
+	public void close() {
+		Enumeration<SpaceWrapper> ts = tenants.elements();
+		while (ts.hasMoreElements()) {
+			ts.nextElement().close();
+		}
+	}
 
 }

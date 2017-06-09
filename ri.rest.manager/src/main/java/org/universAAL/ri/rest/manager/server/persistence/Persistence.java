@@ -47,66 +47,66 @@ import org.universAAL.ri.rest.manager.resources.Subscriber;
  */
 public interface Persistence {
 
-    public void init(ModuleContext context);
+	public void init(ModuleContext context);
 
-    public void storeSpace(Space s, String v);
+	public void storeSpace(Space s, String v);
 
-    public void removeSpace(String id);
+	public void removeSpace(String id);
 
-    public void storeSubscriber(String id, Subscriber s);
-    
-    public void removeSubscriber(String id, String subid);
+	public void storeSubscriber(String id, Subscriber s);
 
-    public void storeCallee(String id, Callee c);
-    
-    public void removeCallee(String id, String subid);
-    
-    public void storePublisher(String id, Publisher p);
-    
-    public void removePublisher(String id, String subid);
+	public void removeSubscriber(String id, String subid);
 
-    public void storeCaller(String id, Caller c);
-    
-    public void removeCaller(String id, String subid);
+	public void storeCallee(String id, Callee c);
 
-    /**
-     * Restore in the MW all the
-     * persisted information (registration, subscribers and callees)
-     */
-    public void restore();
-    
-    /**
-     * Store a new user-password pair for later authentication. There is no
-     * "change" method for this, so any change will require manual modification
-     * of the persistence.
-     * 
-     * @param user
-     *            User
-     * @param pwd
-     *            Password
-     */
-    public void storeUserPWD(String user, String pwd);
-    
-    /**
-     * Method that checks the proper authentication of a persisted user-password
-     * pair.
-     * 
-     * @param user
-     *            User
-     * @param pwd
-     *            Password
-     * @return true if pwd matches the initially stored value and no errors
-     *         occured
-     */
-    public boolean checkUserPWD(String user, String pwd);
-    
-    /**
-     * Check if a user is already persisted with an associated password pair.
-     * 
-     * @param user
-     *            to check
-     * @return true if there is already a user-password pair persisted.
-     */
-    public boolean checkUser(String user);
+	public void removeCallee(String id, String subid);
+
+	public void storePublisher(String id, Publisher p);
+
+	public void removePublisher(String id, String subid);
+
+	public void storeCaller(String id, Caller c);
+
+	public void removeCaller(String id, String subid);
+
+	/**
+	 * Restore in the MW all the persisted information (registration,
+	 * subscribers and callees)
+	 */
+	public void restore();
+
+	/**
+	 * Store a new user-password pair for later authentication. There is no
+	 * "change" method for this, so any change will require manual modification
+	 * of the persistence.
+	 * 
+	 * @param user
+	 *            User
+	 * @param pwd
+	 *            Password
+	 */
+	public void storeUserPWD(String user, String pwd);
+
+	/**
+	 * Method that checks the proper authentication of a persisted user-password
+	 * pair.
+	 * 
+	 * @param user
+	 *            User
+	 * @param pwd
+	 *            Password
+	 * @return true if pwd matches the initially stored value and no errors
+	 *         occured
+	 */
+	public boolean checkUserPWD(String user, String pwd);
+
+	/**
+	 * Check if a user is already persisted with an associated password pair.
+	 * 
+	 * @param user
+	 *            to check
+	 * @return true if there is already a user-password pair persisted.
+	 */
+	public boolean checkUser(String user);
 
 }

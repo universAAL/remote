@@ -26,27 +26,26 @@ import org.universAAL.ri.gateway.utils.ArraySet;
  */
 public class RegistrationParametersRemover implements Updater {
 
-    private final Resource[] nParams;
+	private final Resource[] nParams;
 
-    /**
-     * @param nParams
-     */
-    public RegistrationParametersRemover(final Resource[] nParams) {
-	super();
-	this.nParams = nParams;
-    }
+	/**
+	 * @param nParams
+	 */
+	public RegistrationParametersRemover(final Resource[] nParams) {
+		super();
+		this.nParams = nParams;
+	}
 
-    public void update(final ProxyBusMember member) {
-	member.removeSubscriptionParameters(nParams);
-    }
+	public void update(final ProxyBusMember member) {
+		member.removeSubscriptionParameters(nParams);
+	}
 
-    public Resource[] newParameters(final Resource[] oldParameters) {
-	return new ArraySet.Difference<Resource>().combine(oldParameters,
-		nParams, new Resource[] {});
-    }
+	public Resource[] newParameters(final Resource[] oldParameters) {
+		return new ArraySet.Difference<Resource>().combine(oldParameters, nParams, new Resource[] {});
+	}
 
-    public ImportMessage createExportMessage(final String busMemberID) {
-	return ImportMessage.importRemoveSubscription(busMemberID, nParams);
-    }
+	public ImportMessage createExportMessage(final String busMemberID) {
+		return ImportMessage.importRemoveSubscription(busMemberID, nParams);
+	}
 
 }

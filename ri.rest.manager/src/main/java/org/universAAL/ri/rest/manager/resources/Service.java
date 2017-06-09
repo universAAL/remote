@@ -40,72 +40,72 @@ import org.universAAL.ri.rest.manager.Activator;
 @Path("uaal/spaces/{id}/service")
 public class Service {
 
-    @XmlElement(name = "link")
-    @XmlJavaTypeAdapter(JaxbAdapter.class)
-    private Link self;
+	@XmlElement(name = "link")
+	@XmlJavaTypeAdapter(JaxbAdapter.class)
+	private Link self;
 
-    @XmlElement(name = "link")
-    @XmlJavaTypeAdapter(JaxbAdapter.class)
-    private Link callers;
+	@XmlElement(name = "link")
+	@XmlJavaTypeAdapter(JaxbAdapter.class)
+	private Link callers;
 
-    @XmlElement(name = "link")
-    @XmlJavaTypeAdapter(JaxbAdapter.class)
-    private Link callees;
+	@XmlElement(name = "link")
+	@XmlJavaTypeAdapter(JaxbAdapter.class)
+	private Link callees;
 
-    public Link getSelf() {
-        return self;
-    }
+	public Link getSelf() {
+		return self;
+	}
 
-    public void setSelf(Link self) {
-        this.self = self;
-    }
+	public void setSelf(Link self) {
+		this.self = self;
+	}
 
-    public Link getCallers() {
-        return callers;
-    }
+	public Link getCallers() {
+		return callers;
+	}
 
-    public void setCallers(Link callers) {
-        this.callers = callers;
-    }
+	public void setCallers(Link callers) {
+		this.callers = callers;
+	}
 
-    public Link getCallees() {
-        return callees;
-    }
+	public Link getCallees() {
+		return callees;
+	}
 
-    public void setCallees(Link callees) {
-        this.callees = callees;
-    }
-    
-    public Service(){
-	
-    }
-    
-    public Service(String id){
-	setSelf(Link.fromPath("/uaal/spaces/"+id+"/service").rel("self").build());
-	setCallers(Link.fromPath("/uaal/spaces/"+id+"/service/callers").rel("callers").build());
-	setCallees(Link.fromPath("/uaal/spaces/"+id+"/service/callees").rel("callees").build());
-    }
-    
-    //===============REST METHODS===============
-    
-    @GET
-    @Produces(Activator.TYPES)
-    public Service getServiceResource(@PathParam("id") String id){
-	Activator.logI("Service.getServiceResource", "GET host:port/uaal/spaces/X/service ");
-	return new Service(id);
-    }
-    
-    @Path("/callers")
-    @Produces(Activator.TYPES)
-    public Callers getCallersResource(){
-	Activator.logI("Service.getCallersResource", ">>>GET host:port/uaal/spaces/X/service/callers ");
-	return new Callers();
-    }
-    
-    @Path("/callees")
-    @Produces(Activator.TYPES)
-    public Callees getCalleesResource(){
-	Activator.logI("Service.getCalleesResource", ">>>GET host:port/uaal/spaces/X/service/callees ");
-	return new Callees();
-    }
+	public void setCallees(Link callees) {
+		this.callees = callees;
+	}
+
+	public Service() {
+
+	}
+
+	public Service(String id) {
+		setSelf(Link.fromPath("/uaal/spaces/" + id + "/service").rel("self").build());
+		setCallers(Link.fromPath("/uaal/spaces/" + id + "/service/callers").rel("callers").build());
+		setCallees(Link.fromPath("/uaal/spaces/" + id + "/service/callees").rel("callees").build());
+	}
+
+	// ===============REST METHODS===============
+
+	@GET
+	@Produces(Activator.TYPES)
+	public Service getServiceResource(@PathParam("id") String id) {
+		Activator.logI("Service.getServiceResource", "GET host:port/uaal/spaces/X/service ");
+		return new Service(id);
+	}
+
+	@Path("/callers")
+	@Produces(Activator.TYPES)
+	public Callers getCallersResource() {
+		Activator.logI("Service.getCallersResource", ">>>GET host:port/uaal/spaces/X/service/callers ");
+		return new Callers();
+	}
+
+	@Path("/callees")
+	@Produces(Activator.TYPES)
+	public Callees getCalleesResource() {
+		Activator.logI("Service.getCalleesResource", ">>>GET host:port/uaal/spaces/X/service/callees ");
+		return new Callees();
+	}
 }

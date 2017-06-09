@@ -35,39 +35,32 @@ import org.universAAL.ri.wsdlToolkit.ioApi.WSOperation;
 
 /**
  * 
- * This class is used for parsing a web service operation response after invocation
- * and cast it to the InvocationResult object
+ * This class is used for parsing a web service operation response after
+ * invocation and cast it to the InvocationResult object
  * 
  * @author kgiannou
  */
 
 public class Axis2InvocationResultHandler_RpcEncoded {
 
-	public static InvocationResult parseRpc_EncodedResult(
-			MessageContext inMsgCtx, WSOperation theParsedOperation) {
+	public static InvocationResult parseRpc_EncodedResult(MessageContext inMsgCtx, WSOperation theParsedOperation) {
 
 		InvocationResult theResult = new InvocationResult();
 		try {
-			Vector parsedOperationOutputsVector = theParsedOperation
-					.getHasOutput().getHasNativeOrComplexObjects();
-			Iterator parsedOperationOutputsIter = parsedOperationOutputsVector
-					.iterator();
+			Vector parsedOperationOutputsVector = theParsedOperation.getHasOutput().getHasNativeOrComplexObjects();
+			Iterator parsedOperationOutputsIter = parsedOperationOutputsVector.iterator();
 			while (parsedOperationOutputsIter.hasNext()) {
 				Object parsedOutObj = parsedOperationOutputsIter.next();
 
 				if (parsedOutObj.getClass().getName().contains("NativeObject")) {
 					NativeObject outNO = (NativeObject) parsedOutObj;
-					OMElementImpl omElement = findTheObjectNodeInTheRpc_EncodedResponseBody(
-							inMsgCtx, outNO, null);
+					OMElementImpl omElement = findTheObjectNodeInTheRpc_EncodedResponseBody(inMsgCtx, outNO, null);
 					setNativeObjectValue(outNO, omElement);
 
-				} else if (parsedOutObj.getClass().getName()
-						.contains("ComplexObject")) {
+				} else if (parsedOutObj.getClass().getName().contains("ComplexObject")) {
 					ComplexObject outCO = (ComplexObject) parsedOutObj;
-					OMElementImpl omElement = findTheObjectNodeInTheRpc_EncodedResponseBody(
-							inMsgCtx, null, outCO);
-					setComplexObjectValues(inMsgCtx.getEnvelope().getBody(),
-							outCO, omElement);
+					OMElementImpl omElement = findTheObjectNodeInTheRpc_EncodedResponseBody(inMsgCtx, null, outCO);
+					setComplexObjectValues(inMsgCtx.getEnvelope().getBody(), outCO, omElement);
 
 				}
 			}
@@ -80,8 +73,8 @@ public class Axis2InvocationResultHandler_RpcEncoded {
 
 	}
 
-	private static OMElementImpl findOMNode_RpcEncoded_AmongChildren_ITERATIVE(
-			SOAPBody body, OMElementImpl inputNode, QName resultQName) {
+	private static OMElementImpl findOMNode_RpcEncoded_AmongChildren_ITERATIVE(SOAPBody body, OMElementImpl inputNode,
+			QName resultQName) {
 		if (inputNode == null || resultQName == null)
 			return null;
 
@@ -89,14 +82,12 @@ public class Axis2InvocationResultHandler_RpcEncoded {
 		// iter1=inputNode.getChildrenWithLocalName(resultQName.getLocalPart());
 		Iterator iter1 = inputNode.getChildrenWithName(resultQName);
 		while (iter1.hasNext()) {
-			org.apache.axiom.om.impl.llom.OMElementImpl childOMElement = (OMElementImpl) iter1
-					.next();
+			org.apache.axiom.om.impl.llom.OMElementImpl childOMElement = (OMElementImpl) iter1.next();
 			OMAttribute att = childOMElement.getAttribute(new QName("href"));
 			if (att != null) {
 				System.out.println();
 				String hasReferenceId = att.getAttributeValue();
-				OMElementImpl result = findOMNodeWithTheSpecific_ID_AmongChildren_ITERATIVE(
-						null, body, hasReferenceId);
+				OMElementImpl result = findOMNodeWithTheSpecific_ID_AmongChildren_ITERATIVE(null, body, hasReferenceId);
 				return result;
 
 			} else {
@@ -108,16 +99,13 @@ public class Axis2InvocationResultHandler_RpcEncoded {
 		while (iter2.hasNext()) {
 			Object obj = iter2.next();
 			System.out.println(obj.getClass().getName());
-			if (obj.getClass().getName()
-					.contains("org.apache.axiom.om.impl.llom.OMTextImpl")) {
+			if (obj.getClass().getName().contains("org.apache.axiom.om.impl.llom.OMTextImpl")) {
 				org.apache.axiom.om.impl.llom.OMTextImpl t = (org.apache.axiom.om.impl.llom.OMTextImpl) obj;
 				System.out.println(t.getText());
 
-			} else if (obj.getClass().getName()
-					.contains("org.apache.axiom.om.impl.llom.OMElementImpl")) {
+			} else if (obj.getClass().getName().contains("org.apache.axiom.om.impl.llom.OMElementImpl")) {
 				org.apache.axiom.om.impl.llom.OMElementImpl childOMElement = (OMElementImpl) obj;
-				OMElementImpl result = findOMNode_RpcEncoded_AmongChildren_ITERATIVE(
-						body, childOMElement, resultQName);
+				OMElementImpl result = findOMNode_RpcEncoded_AmongChildren_ITERATIVE(body, childOMElement, resultQName);
 				return result;
 			}
 		}
@@ -126,8 +114,8 @@ public class Axis2InvocationResultHandler_RpcEncoded {
 
 	}
 
-	private static OMElementImpl findOMNodeWithTheSpecific_ID_AmongChildren_ITERATIVE(
-			OMElementImpl omElement, SOAPBody body, String idToFind) {
+	private static OMElementImpl findOMNodeWithTheSpecific_ID_AmongChildren_ITERATIVE(OMElementImpl omElement,
+			SOAPBody body, String idToFind) {
 
 		if ((body == null && omElement == null) || idToFind == null)
 			return null;
@@ -144,8 +132,7 @@ public class Axis2InvocationResultHandler_RpcEncoded {
 			while (iter1.hasNext()) {
 				OMElementImpl elem = (OMElementImpl) iter1.next();
 				OMAttribute att = elem.getAttribute(new QName("id"));
-				if (att != null && att.getAttributeValue() != null
-						&& att.getAttributeValue().equals(idToFind)) {
+				if (att != null && att.getAttributeValue() != null && att.getAttributeValue().equals(idToFind)) {
 					return elem;
 				}
 			}
@@ -154,18 +141,14 @@ public class Axis2InvocationResultHandler_RpcEncoded {
 			while (iter2.hasNext()) {
 				Object obj = iter2.next();
 				System.out.println(obj.getClass().getName());
-				if (obj.getClass().getName()
-						.contains("org.apache.axiom.om.impl.llom.OMTextImpl")) {
+				if (obj.getClass().getName().contains("org.apache.axiom.om.impl.llom.OMTextImpl")) {
 					org.apache.axiom.om.impl.llom.OMTextImpl t = (org.apache.axiom.om.impl.llom.OMTextImpl) obj;
 					System.out.println(t.getText());
 
-				} else if (obj
-						.getClass()
-						.getName()
-						.contains("org.apache.axiom.om.impl.llom.OMElementImpl")) {
+				} else if (obj.getClass().getName().contains("org.apache.axiom.om.impl.llom.OMElementImpl")) {
 					org.apache.axiom.om.impl.llom.OMElementImpl childOMElement = (OMElementImpl) obj;
-					OMElementImpl result = findOMNodeWithTheSpecific_ID_AmongChildren_ITERATIVE(
-							childOMElement, null, idToFind);
+					OMElementImpl result = findOMNodeWithTheSpecific_ID_AmongChildren_ITERATIVE(childOMElement, null,
+							idToFind);
 					return result;
 				}
 			}
@@ -179,8 +162,7 @@ public class Axis2InvocationResultHandler_RpcEncoded {
 			while (iter1.hasNext()) {
 				OMElementImpl elem = (OMElementImpl) iter1.next();
 				OMAttribute att = elem.getAttribute(new QName("id"));
-				if (att != null && att.getAttributeValue() != null
-						&& att.getAttributeValue().equals(idToFind)) {
+				if (att != null && att.getAttributeValue() != null && att.getAttributeValue().equals(idToFind)) {
 					return elem;
 				}
 			}
@@ -189,18 +171,14 @@ public class Axis2InvocationResultHandler_RpcEncoded {
 			while (iter2.hasNext()) {
 				Object obj = iter2.next();
 				System.out.println(obj.getClass().getName());
-				if (obj.getClass().getName()
-						.contains("org.apache.axiom.om.impl.llom.OMTextImpl")) {
+				if (obj.getClass().getName().contains("org.apache.axiom.om.impl.llom.OMTextImpl")) {
 					org.apache.axiom.om.impl.llom.OMTextImpl t = (org.apache.axiom.om.impl.llom.OMTextImpl) obj;
 					System.out.println(t.getText());
 
-				} else if (obj
-						.getClass()
-						.getName()
-						.contains("org.apache.axiom.om.impl.llom.OMElementImpl")) {
+				} else if (obj.getClass().getName().contains("org.apache.axiom.om.impl.llom.OMElementImpl")) {
 					org.apache.axiom.om.impl.llom.OMElementImpl childOMElement = (OMElementImpl) obj;
-					OMElementImpl result = findOMNodeWithTheSpecific_ID_AmongChildren_ITERATIVE(
-							childOMElement, null, idToFind);
+					OMElementImpl result = findOMNodeWithTheSpecific_ID_AmongChildren_ITERATIVE(childOMElement, null,
+							idToFind);
 					return result;
 				}
 			}
@@ -211,11 +189,10 @@ public class Axis2InvocationResultHandler_RpcEncoded {
 		return null;
 	}
 
-	private static OMElementImpl findTheObjectNodeInTheRpc_EncodedResponseBody(
-			MessageContext inMsgCtx, NativeObject no, ComplexObject co) {
+	private static OMElementImpl findTheObjectNodeInTheRpc_EncodedResponseBody(MessageContext inMsgCtx, NativeObject no,
+			ComplexObject co) {
 
-		if (inMsgCtx == null || inMsgCtx.getEnvelope() == null
-				|| inMsgCtx.getEnvelope().getBody() == null)
+		if (inMsgCtx == null || inMsgCtx.getEnvelope() == null || inMsgCtx.getEnvelope().getBody() == null)
 			return null;
 
 		SOAPEnvelope response = inMsgCtx.getEnvelope();
@@ -235,13 +212,11 @@ public class Axis2InvocationResultHandler_RpcEncoded {
 		// Search first mesa sta children tou body
 		Iterator iter1 = body.getChildrenWithName(objectQName);
 		while (iter1.hasNext()) {
-			org.apache.axiom.om.impl.llom.OMElementImpl childOMElement = (OMElementImpl) iter1
-					.next();
+			org.apache.axiom.om.impl.llom.OMElementImpl childOMElement = (OMElementImpl) iter1.next();
 			OMAttribute att = childOMElement.getAttribute(new QName("href"));
 			if (att != null && att.getAttributeValue() != null) {
 				String referenceId = att.getAttributeValue();
-				OMElementImpl result = findOMNodeWithTheSpecific_ID_AmongChildren_ITERATIVE(
-						null, body, referenceId);
+				OMElementImpl result = findOMNodeWithTheSpecific_ID_AmongChildren_ITERATIVE(null, body, referenceId);
 				return result;
 			} else {
 				return childOMElement;
@@ -253,8 +228,7 @@ public class Axis2InvocationResultHandler_RpcEncoded {
 		Iterator iter2 = body.getChildren();
 		while (iter2.hasNext()) {
 			OMElementImpl childNode = (OMElementImpl) iter2.next();
-			OMElementImpl result = findOMNode_RpcEncoded_AmongChildren_ITERATIVE(
-					body, childNode, objectQName);
+			OMElementImpl result = findOMNode_RpcEncoded_AmongChildren_ITERATIVE(body, childNode, objectQName);
 			return result;
 		}
 
@@ -262,8 +236,7 @@ public class Axis2InvocationResultHandler_RpcEncoded {
 
 	}
 
-	private static Iterator findOMNodesAmongChildren_ITERATIVE(
-			OMElementImpl inputNode, QName resultQName) {
+	private static Iterator findOMNodesAmongChildren_ITERATIVE(OMElementImpl inputNode, QName resultQName) {
 		if (inputNode == null || resultQName == null)
 			return null;
 
@@ -277,16 +250,13 @@ public class Axis2InvocationResultHandler_RpcEncoded {
 		while (iter2.hasNext()) {
 			Object obj = iter2.next();
 			System.out.println(obj.getClass().getName());
-			if (obj.getClass().getName()
-					.contains("org.apache.axiom.om.impl.llom.OMTextImpl")) {
+			if (obj.getClass().getName().contains("org.apache.axiom.om.impl.llom.OMTextImpl")) {
 				org.apache.axiom.om.impl.llom.OMTextImpl t = (org.apache.axiom.om.impl.llom.OMTextImpl) obj;
 				System.out.println(t.getText());
 
-			} else if (obj.getClass().getName()
-					.contains("org.apache.axiom.om.impl.llom.OMElementImpl")) {
+			} else if (obj.getClass().getName().contains("org.apache.axiom.om.impl.llom.OMElementImpl")) {
 				org.apache.axiom.om.impl.llom.OMElementImpl childOMElement = (OMElementImpl) obj;
-				Iterator result = findOMNodesAmongChildren_ITERATIVE(
-						childOMElement, resultQName);
+				Iterator result = findOMNodesAmongChildren_ITERATIVE(childOMElement, resultQName);
 				return result;
 
 			}
@@ -296,8 +266,7 @@ public class Axis2InvocationResultHandler_RpcEncoded {
 
 	}
 
-	private static void setNativeObjectValue(NativeObject no,
-			OMElementImpl omElement) {
+	private static void setNativeObjectValue(NativeObject no, OMElementImpl omElement) {
 
 		if (omElement == null || no == null)
 			return;
@@ -305,22 +274,20 @@ public class Axis2InvocationResultHandler_RpcEncoded {
 
 	}
 
-	private static void setComplexObjectValues(SOAPBody soapBody,
-			ComplexObject co, OMElementImpl omElement) {
+	private static void setComplexObjectValues(SOAPBody soapBody, ComplexObject co, OMElementImpl omElement) {
 
 		if (omElement == null || co == null)
 			return;
 
 		if (!co.isIsArrayType()) {
-			if (co.getHasComplexObjects() != null
-					&& co.getHasComplexObjects().size() > 0) {
+			if (co.getHasComplexObjects() != null && co.getHasComplexObjects().size() > 0) {
 				Iterator cosIter = co.getHasComplexObjects().iterator();
 				while (cosIter.hasNext()) {
 					ComplexObject co1 = (ComplexObject) cosIter.next();
 
 					if (!co1.isIsArrayType()) {
-						OMElementImpl omElement1 = findOMNode_RpcEncoded_AmongChildren_ITERATIVE(
-								soapBody, omElement, co1.getObjectName());
+						OMElementImpl omElement1 = findOMNode_RpcEncoded_AmongChildren_ITERATIVE(soapBody, omElement,
+								co1.getObjectName());
 						// OMElementImpl
 						// omElement1=findTheObjectNodeInTheResponseBody(inMsgCtx,
 						// null, co1);
@@ -333,13 +300,12 @@ public class Axis2InvocationResultHandler_RpcEncoded {
 				}
 			}
 
-			if (co.getHasNativeObjects() != null
-					&& co.getHasNativeObjects().size() > 0) {
+			if (co.getHasNativeObjects() != null && co.getHasNativeObjects().size() > 0) {
 				Iterator nosIter = co.getHasNativeObjects().iterator();
 				while (nosIter.hasNext()) {
 					NativeObject no1 = (NativeObject) nosIter.next();
-					OMElementImpl omElement1 = findOMNode_RpcEncoded_AmongChildren_ITERATIVE(
-							soapBody, omElement, no1.getObjectName());
+					OMElementImpl omElement1 = findOMNode_RpcEncoded_AmongChildren_ITERATIVE(soapBody, omElement,
+							no1.getObjectName());
 					setNativeObjectValue(no1, omElement1);
 				}
 			}
@@ -349,18 +315,16 @@ public class Axis2InvocationResultHandler_RpcEncoded {
 		}
 	}
 
-	private static void setArrayObjectValues(SOAPBody soapBody,
-			ComplexObject co, OMElementImpl inputOmElement) {
+	private static void setArrayObjectValues(SOAPBody soapBody, ComplexObject co, OMElementImpl inputOmElement) {
 
 		OMElementImpl element = null;
 		if (inputOmElement == null)
 			return;
-		if ((inputOmElement.getLocalName() != null && inputOmElement
-				.getLocalName().equals(co.getObjectName().getLocalPart()))) {
+		if ((inputOmElement.getLocalName() != null
+				&& inputOmElement.getLocalName().equals(co.getObjectName().getLocalPart()))) {
 			element = inputOmElement;
 		} else {
-			element = findOMNode_RpcEncoded_AmongChildren_ITERATIVE(soapBody,
-					inputOmElement, co.getObjectName());
+			element = findOMNode_RpcEncoded_AmongChildren_ITERATIVE(soapBody, inputOmElement, co.getObjectName());
 		}
 		if (element == null)
 			return;
@@ -373,8 +337,8 @@ public class Axis2InvocationResultHandler_RpcEncoded {
 				OMAttribute att = el.getAttribute(new QName("href"));
 				if (att != null && att.getAttributeValue() != null) {
 					String hasReferenceId = att.getAttributeValue();
-					OMElementImpl element111 = findOMNodeWithTheSpecific_ID_AmongChildren_ITERATIVE(
-							null, soapBody, hasReferenceId);
+					OMElementImpl element111 = findOMNodeWithTheSpecific_ID_AmongChildren_ITERATIVE(null, soapBody,
+							hasReferenceId);
 					if (element111 != null) {
 						arrayCantainedElems.add(element111);
 					}
@@ -384,8 +348,7 @@ public class Axis2InvocationResultHandler_RpcEncoded {
 			}
 		}
 
-		if (co.getHasComplexObjects() != null
-				&& co.getHasComplexObjects().size() > 0) {
+		if (co.getHasComplexObjects() != null && co.getHasComplexObjects().size() > 0) {
 			// Vriskw to type tou ComplexObject pou periexetai sto Array
 			ComplexObject co1 = null;
 			Iterator cosIter = co.getHasComplexObjects().iterator();
@@ -427,8 +390,7 @@ public class Axis2InvocationResultHandler_RpcEncoded {
 			}
 		}
 
-		if (co.getHasNativeObjects() != null
-				&& co.getHasNativeObjects().size() > 0) {
+		if (co.getHasNativeObjects() != null && co.getHasNativeObjects().size() > 0) {
 			Iterator nosIter = co.getHasNativeObjects().iterator();
 
 			int counter = 0;

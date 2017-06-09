@@ -47,307 +47,291 @@ import org.universAAL.ri.gateway.Gateway;
  */
 public class SessionManager {
 
-    public static final Logger log = LoggerFactory.createLoggerFactory(
-	    Gateway.getInstance().context).getLogger(SessionManager.class);
-    private static SessionManager manager = new SessionManager();
-    private static final Gateway gw = Gateway.getInstance();
+	public static final Logger log = LoggerFactory.createLoggerFactory(Gateway.getInstance().context)
+			.getLogger(SessionManager.class);
+	private static SessionManager manager = new SessionManager();
+	private static final Gateway gw = Gateway.getInstance();
 
-    private class SessionKey {
+	private class SessionKey {
 
-	final static int PEER_IDX = 0;
-	final static int SPACE_IDX = 1;
-	final static int SCOPE_IDX = 2;
+		final static int PEER_IDX = 0;
+		final static int SPACE_IDX = 1;
+		final static int SCOPE_IDX = 2;
 
-	final String[] keyParts = new String[3];
-	final String key;
-	public String description = null;
+		final String[] keyParts = new String[3];
+		final String key;
+		public String description = null;
 
-	public SessionKey(final String peer, final String space,
-		final String scope) {
-	    keyParts[SessionKey.PEER_IDX] = peer;
-	    keyParts[SessionKey.SPACE_IDX] = space;
-	    keyParts[SessionKey.SCOPE_IDX] = scope;
-	    key = Arrays.toString(keyParts);
-	}
-
-	@Override
-	public String toString() {
-	    return key;
-	}
-
-	@Override
-	public int hashCode() {
-	    return key.hashCode();
-	}
-
-	@Override
-	public boolean equals(final Object obj) {
-	    if (obj instanceof SessionKey) {
-		final SessionKey other = (SessionKey) obj;
-		return this.toString().equals(other.toString());
-	    }
-	    return false;
-	}
-
-    }
-
-    private class SessionStatus {
-	boolean connected;
-	InputStream in;
-	OutputStream out;
-    }
-
-    private final Map<SessionKey, UUID> sessions = new HashMap<SessionManager.SessionKey, UUID>();
-    private final Map<UUID, SessionKey> uuids = new HashMap<UUID, SessionKey>();
-    private final Map<UUID, SessionStatus> links = new HashMap<UUID, SessionManager.SessionStatus>();
-    private TenantManager currentTM = null;
-
-    private SessionManager() {
-
-    }
-
-    public static SessionManager getInstance() {
-	return SessionManager.manager;
-    }
-
-    public UUID getSession(final String peerId, final String aalSpaceId,
-	    final String scopeId) {
-	synchronized (sessions) {
-	    return sessions.get(new SessionKey(peerId, aalSpaceId, scopeId));
-	}
-    }
-
-    private UUID createSession(final String peerId, final String aalSpaceId,
-	    final String scopeId) {
-	return createSession(peerId, aalSpaceId, scopeId, "AAL Space with Id:"
-		+ aalSpaceId);
-    }
-
-    /**
-     *
-     * @param scopeId
-     *            the AAL Space Id to use for the research
-     * @return an array of UUID for all the session matching the given Scope Id
-     * @since 3.3.0
-     */
-    public UUID[] getSessionFromAALScopeId(final String scopeId) {
-	Set<SessionKey> keys = sessions.keySet();
-	ArrayList<UUID> aux = new ArrayList<UUID>();
-	for (SessionKey key : keys) {
-	    if (key.keyParts[SessionKey.SCOPE_IDX].equals(scopeId)) {
-		aux.add(sessions.get(key));
-	    }
-	}
-	return aux.toArray(new UUID[] {});
-    }
-
-    public UUID createSession(final String peerId, final String aalSpaceId,
-	    final String scopeId, final String description) {
-	if (description == null) {
-	    createSession(peerId, aalSpaceId, scopeId);
-	}
-	final SessionKey key = new SessionKey(peerId, aalSpaceId, scopeId);
-
-	final UUID uuid = UUID.randomUUID();
-	synchronized (sessions) {
-	    if (sessions.containsKey(key)) {
-		throw new IllegalStateException("Session " + key
-			+ " already exists with UUID = " + sessions.get(key));
-	    }
-	    sessions.put(key, uuid);
-	    uuids.put(uuid, key);
-	}
-	key.description = description;
-
-	if (currentTM == gw.tenantManager.getObject() && currentTM != null) {
-	    // FIXME scopeID can be in use, and this will spoof previous
-	    // scopeId!!
-	    currentTM.registerTenant(scopeId, description);
-	} else if (gw.tenantManager.getObject() != null) {
-	    currentTM = gw.tenantManager.getObject();
-	    changedTenantManager();
-	}
-
-	return uuid;
-    }
-
-    private void changedTenantManager() {
-	final Collection<SessionKey> activeSessions = uuids.values();
-	for (final Iterator<SessionKey> i = activeSessions.iterator(); i
-		.hasNext();) {
-	    final SessionKey key = i.next();
-	    final String scopeId = key.keyParts[SessionKey.SCOPE_IDX];
-	    // FIXME scopeID can be in use, and this will spoof previous
-	    // scopeId!!
-	    currentTM.registerTenant(scopeId, key.description);
-	}
-    }
-
-    public void setLink(final UUID session, final InputStream in,
-	    final OutputStream out) {
-	synchronized (sessions) {
-	    if (sessions.containsValue(session) == false) {
-		throw new IllegalArgumentException(
-			"Trying to set a Link for an invalid session");
-	    }
-	    synchronized (links) {
-		SessionStatus status = links.get(session);
-		if (status == null) {
-		    status = new SessionStatus();
-		    links.put(session, status);
+		public SessionKey(final String peer, final String space, final String scope) {
+			keyParts[SessionKey.PEER_IDX] = peer;
+			keyParts[SessionKey.SPACE_IDX] = space;
+			keyParts[SessionKey.SCOPE_IDX] = scope;
+			key = Arrays.toString(keyParts);
 		}
-		synchronized (status) {
-		    status.connected = true;
-		    status.in = in;
-		    status.out = out;
+
+		@Override
+		public String toString() {
+			return key;
 		}
-	    }
-	}
-    }
 
-    public void close(final UUID session) {
-	UUID removed;
-	SessionKey keyRemoved;
-	synchronized (sessions) {
-	    if (sessions.containsValue(session) == false) {
-		throw new IllegalArgumentException(
-			"Trying to set a Link for an invalid session UUID");
-	    }
-	    synchronized (links) {
-		final SessionStatus status = links.get(session);
-		if (status == null) {
-		    throw new IllegalArgumentException(
-			    "Trying to close Link for an invalid session UUID");
+		@Override
+		public int hashCode() {
+			return key.hashCode();
 		}
-		links.remove(session);
-		synchronized (status) {
-		    status.connected = false;
-		    try {
-			status.in.close();
-			status.out.flush();
-			status.out.close();
-		    } catch (final IOException e) {
-			e.printStackTrace();
-		    }
+
+		@Override
+		public boolean equals(final Object obj) {
+			if (obj instanceof SessionKey) {
+				final SessionKey other = (SessionKey) obj;
+				return this.toString().equals(other.toString());
+			}
+			return false;
 		}
-	    }
-	    keyRemoved = uuids.remove(session);
-	    removed = sessions.remove(keyRemoved);
-	    if (removed == null) {
-		throw new IllegalStateException(
-			"Broken session manger backend, there is unhandled race codintion on data structure or codebase is broken");
-	    }
+
 	}
 
-	if (currentTM == gw.tenantManager.getObject() && currentTM != null) {
-	    currentTM
-		    .unregisterTenant(keyRemoved.keyParts[SessionKey.SCOPE_IDX]);
-	} else if (gw.tenantManager.getObject() != null) {
-	    currentTM = gw.tenantManager.getObject();
-	    changedTenantManager();
+	private class SessionStatus {
+		boolean connected;
+		InputStream in;
+		OutputStream out;
 	}
 
-    }
+	private final Map<SessionKey, UUID> sessions = new HashMap<SessionManager.SessionKey, UUID>();
+	private final Map<UUID, SessionKey> uuids = new HashMap<UUID, SessionKey>();
+	private final Map<UUID, SessionStatus> links = new HashMap<UUID, SessionManager.SessionStatus>();
+	private TenantManager currentTM = null;
 
-    public OutputStream getOutputStream(final UUID session) {
-	SessionStatus info = null;
-	synchronized (links) {
-	    info = links.get(session);
-	}
-	if (info == null || info.connected == false) {
-	    // TODO Log the issue
-	    return null;
-	}
-	return info.out;
-    }
+	private SessionManager() {
 
-    public InputStream getInputStream(final UUID session) {
-	SessionStatus info = null;
-	synchronized (links) {
-	    info = links.get(session);
 	}
-	if (info == null || info.connected == false) {
-	    // TODO Log the issue
-	    return null;
-	}
-	return info.in;
-    }
 
-    public boolean isActive(final UUID session) {
-	SessionStatus info = null;
-	synchronized (links) {
-	    info = links.get(session);
+	public static SessionManager getInstance() {
+		return SessionManager.manager;
 	}
-	if (info == null || info.connected == false) {
-	    return false;
-	}
-	return info.connected;
-    }
 
-    public UUID[] getSessionIds() {
-	synchronized (sessions) {
-	    return sessions.values().toArray(new UUID[] {});
+	public UUID getSession(final String peerId, final String aalSpaceId, final String scopeId) {
+		synchronized (sessions) {
+			return sessions.get(new SessionKey(peerId, aalSpaceId, scopeId));
+		}
 	}
-    }
 
-    public boolean isDuplicatedSession(final UUID sessionId,
-	    final String peerId, final String aalSpaceId, final String scopeId) {
-	final SessionKey stored = uuids.get(sessionId);
-	if (stored == null)
-	    return false;
-	final SessionKey key = new SessionKey(peerId, aalSpaceId, scopeId);
-	if (key.equals(stored) == false)
-	    return false;
-	synchronized (sessions) {
-	    if (sessions.containsKey(key))
-		return true;
+	private UUID createSession(final String peerId, final String aalSpaceId, final String scopeId) {
+		return createSession(peerId, aalSpaceId, scopeId, "AAL Space with Id:" + aalSpaceId);
 	}
-	return false;
-    }
 
-    public void storeSession(final UUID sessionId, final String peerId,
-	    final String aalSpaceId, final String scopeId) {
-	final SessionKey key = new SessionKey(peerId, aalSpaceId, scopeId);
+	/**
+	 *
+	 * @param scopeId
+	 *            the AAL Space Id to use for the research
+	 * @return an array of UUID for all the session matching the given Scope Id
+	 * @since 3.3.0
+	 */
+	public UUID[] getSessionFromAALScopeId(final String scopeId) {
+		Set<SessionKey> keys = sessions.keySet();
+		ArrayList<UUID> aux = new ArrayList<UUID>();
+		for (SessionKey key : keys) {
+			if (key.keyParts[SessionKey.SCOPE_IDX].equals(scopeId)) {
+				aux.add(sessions.get(key));
+			}
+		}
+		return aux.toArray(new UUID[] {});
+	}
 
-	final UUID oldUUID = sessions.get(key);
-	if (isDuplicatedSession(sessionId, peerId, aalSpaceId, scopeId)) {
-	    throw new IllegalStateException("Session " + key
-		    + " already exists with the same UUID = " + oldUUID);
-	}
-	synchronized (sessions) {
-	    if (sessions.containsKey(key)) {
-		log.info("Replacing existing session with a new UUID from "
-			+ oldUUID + " to " + sessionId);
-		uuids.remove(oldUUID);
-		links.remove(oldUUID);
-	    }
-	    sessions.put(key, sessionId);
-	    uuids.put(sessionId, key);
-	}
-    }
+	public UUID createSession(final String peerId, final String aalSpaceId, final String scopeId,
+			final String description) {
+		if (description == null) {
+			createSession(peerId, aalSpaceId, scopeId);
+		}
+		final SessionKey key = new SessionKey(peerId, aalSpaceId, scopeId);
 
-    public String getPeerIdFromSession(final UUID session) {
-	final SessionKey key = uuids.get(session);
-	synchronized (sessions) {
-	    if (key == null) {
-		log.debug("Unable to get PeerId because no session exists with the given UUID: "
-			+ session);
-		return null;
-	    }
-	    return uuids.get(session).keyParts[SessionKey.PEER_IDX];
-	}
-    }
+		final UUID uuid = UUID.randomUUID();
+		synchronized (sessions) {
+			if (sessions.containsKey(key)) {
+				throw new IllegalStateException("Session " + key + " already exists with UUID = " + sessions.get(key));
+			}
+			sessions.put(key, uuid);
+			uuids.put(uuid, key);
+		}
+		key.description = description;
 
-    public String getAALSpaceIdFromSession(final UUID session) {
-	final SessionKey key = uuids.get(session);
-	synchronized (sessions) {
-	    if (key == null) {
-		log.debug("Unable to get SpaceId because no session exists with the given UUID: "
-			+ session);
-		return null;
-	    }
-	    return key.keyParts[SessionKey.SPACE_IDX];
+		if (currentTM == gw.tenantManager.getObject() && currentTM != null) {
+			// FIXME scopeID can be in use, and this will spoof previous
+			// scopeId!!
+			currentTM.registerTenant(scopeId, description);
+		} else if (gw.tenantManager.getObject() != null) {
+			currentTM = gw.tenantManager.getObject();
+			changedTenantManager();
+		}
+
+		return uuid;
 	}
-    }
+
+	private void changedTenantManager() {
+		final Collection<SessionKey> activeSessions = uuids.values();
+		for (final Iterator<SessionKey> i = activeSessions.iterator(); i.hasNext();) {
+			final SessionKey key = i.next();
+			final String scopeId = key.keyParts[SessionKey.SCOPE_IDX];
+			// FIXME scopeID can be in use, and this will spoof previous
+			// scopeId!!
+			currentTM.registerTenant(scopeId, key.description);
+		}
+	}
+
+	public void setLink(final UUID session, final InputStream in, final OutputStream out) {
+		synchronized (sessions) {
+			if (sessions.containsValue(session) == false) {
+				throw new IllegalArgumentException("Trying to set a Link for an invalid session");
+			}
+			synchronized (links) {
+				SessionStatus status = links.get(session);
+				if (status == null) {
+					status = new SessionStatus();
+					links.put(session, status);
+				}
+				synchronized (status) {
+					status.connected = true;
+					status.in = in;
+					status.out = out;
+				}
+			}
+		}
+	}
+
+	public void close(final UUID session) {
+		UUID removed;
+		SessionKey keyRemoved;
+		synchronized (sessions) {
+			if (sessions.containsValue(session) == false) {
+				throw new IllegalArgumentException("Trying to set a Link for an invalid session UUID");
+			}
+			synchronized (links) {
+				final SessionStatus status = links.get(session);
+				if (status == null) {
+					throw new IllegalArgumentException("Trying to close Link for an invalid session UUID");
+				}
+				links.remove(session);
+				synchronized (status) {
+					status.connected = false;
+					try {
+						status.in.close();
+						status.out.flush();
+						status.out.close();
+					} catch (final IOException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+			keyRemoved = uuids.remove(session);
+			removed = sessions.remove(keyRemoved);
+			if (removed == null) {
+				throw new IllegalStateException(
+						"Broken session manger backend, there is unhandled race codintion on data structure or codebase is broken");
+			}
+		}
+
+		if (currentTM == gw.tenantManager.getObject() && currentTM != null) {
+			currentTM.unregisterTenant(keyRemoved.keyParts[SessionKey.SCOPE_IDX]);
+		} else if (gw.tenantManager.getObject() != null) {
+			currentTM = gw.tenantManager.getObject();
+			changedTenantManager();
+		}
+
+	}
+
+	public OutputStream getOutputStream(final UUID session) {
+		SessionStatus info = null;
+		synchronized (links) {
+			info = links.get(session);
+		}
+		if (info == null || info.connected == false) {
+			// TODO Log the issue
+			return null;
+		}
+		return info.out;
+	}
+
+	public InputStream getInputStream(final UUID session) {
+		SessionStatus info = null;
+		synchronized (links) {
+			info = links.get(session);
+		}
+		if (info == null || info.connected == false) {
+			// TODO Log the issue
+			return null;
+		}
+		return info.in;
+	}
+
+	public boolean isActive(final UUID session) {
+		SessionStatus info = null;
+		synchronized (links) {
+			info = links.get(session);
+		}
+		if (info == null || info.connected == false) {
+			return false;
+		}
+		return info.connected;
+	}
+
+	public UUID[] getSessionIds() {
+		synchronized (sessions) {
+			return sessions.values().toArray(new UUID[] {});
+		}
+	}
+
+	public boolean isDuplicatedSession(final UUID sessionId, final String peerId, final String aalSpaceId,
+			final String scopeId) {
+		final SessionKey stored = uuids.get(sessionId);
+		if (stored == null)
+			return false;
+		final SessionKey key = new SessionKey(peerId, aalSpaceId, scopeId);
+		if (key.equals(stored) == false)
+			return false;
+		synchronized (sessions) {
+			if (sessions.containsKey(key))
+				return true;
+		}
+		return false;
+	}
+
+	public void storeSession(final UUID sessionId, final String peerId, final String aalSpaceId, final String scopeId) {
+		final SessionKey key = new SessionKey(peerId, aalSpaceId, scopeId);
+
+		final UUID oldUUID = sessions.get(key);
+		if (isDuplicatedSession(sessionId, peerId, aalSpaceId, scopeId)) {
+			throw new IllegalStateException("Session " + key + " already exists with the same UUID = " + oldUUID);
+		}
+		synchronized (sessions) {
+			if (sessions.containsKey(key)) {
+				log.info("Replacing existing session with a new UUID from " + oldUUID + " to " + sessionId);
+				uuids.remove(oldUUID);
+				links.remove(oldUUID);
+			}
+			sessions.put(key, sessionId);
+			uuids.put(sessionId, key);
+		}
+	}
+
+	public String getPeerIdFromSession(final UUID session) {
+		final SessionKey key = uuids.get(session);
+		synchronized (sessions) {
+			if (key == null) {
+				log.debug("Unable to get PeerId because no session exists with the given UUID: " + session);
+				return null;
+			}
+			return uuids.get(session).keyParts[SessionKey.PEER_IDX];
+		}
+	}
+
+	public String getAALSpaceIdFromSession(final UUID session) {
+		final SessionKey key = uuids.get(session);
+		synchronized (sessions) {
+			if (key == null) {
+				log.debug("Unable to get SpaceId because no session exists with the given UUID: " + session);
+				return null;
+			}
+			return key.keyParts[SessionKey.SPACE_IDX];
+		}
+	}
 
 }

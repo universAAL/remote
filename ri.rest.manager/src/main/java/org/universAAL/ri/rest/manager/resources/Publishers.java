@@ -52,92 +52,94 @@ import org.universAAL.ri.rest.manager.wrappers.SpaceWrapper;
 @XmlRootElement(name = "publishers")
 @Path("/uaal/spaces/{id}/context/publishers")
 public class Publishers {
-    
-    @XmlElement(name = "link")
-    @XmlJavaTypeAdapter(JaxbAdapter.class)
-    private Link self;
 
-    @XmlElement(name = "publisher") // @XmlElementRef?
-    private ArrayList<Publisher> publishers;
+	@XmlElement(name = "link")
+	@XmlJavaTypeAdapter(JaxbAdapter.class)
+	private Link self;
 
-    public ArrayList<Publisher> getPublishers() {
-	return publishers;
-    }
+	@XmlElement(name = "publisher") // @XmlElementRef?
+	private ArrayList<Publisher> publishers;
 
-    public void setPublishers(ArrayList<Publisher> publishers) {
-	this.publishers = publishers;
-    }
-    
-    public Link getSelf() {
-        return self;
-    }
-
-    public void setSelf(Link self) {
-        this.self = self;
-    }
-    
-    public Publishers(){
-	
-    }
-    
-    //===============REST METHODS===============
-    
-    @GET
-    @Produces(Activator.TYPES)
-    public Publishers getPublishersResource(@PathParam("id") String id){
-	Activator.logI("Publishers.getPublishersResource", "GET host:port/uaal/spaces/X/context/publishers");
-	Publishers allpubs=new Publishers();
-        ArrayList<Publisher> pubs = new ArrayList<Publisher>();
-        
-        SpaceWrapper tenant = UaalWrapper.getInstance().getTenant(id);
-        if(tenant!=null){
-            Enumeration<PublisherWrapper> pubenum = tenant.getContextPublishers();
-            while(pubenum.hasMoreElements()){
-        	pubs.add(pubenum.nextElement().getResource());
-            }
-        }
-	
-        allpubs.setPublishers(pubs);
-        allpubs.setSelf(Link.fromPath("/uaal/spaces/"+id+"/context/publishers/").rel("self").build());
-	return allpubs;
-    }
-    
-    @POST
-    @Consumes(Activator.TYPES)
-    public Response addPublisherResource(@PathParam("id") String id, Publisher pub) throws URISyntaxException{
-	Activator.logI("Publishers.addPublisherResource", "POST host:port/uaal/spaces/X/context/publishers");
-	//The pub generated from the POST body does not contain any "link" elements, but I wouldnt have allowed it anyway
-	//Set the links manually, like in the pub constructor
-	pub.setSelf(Link.fromPath("/uaal/spaces/"+id+"/context/publishers/"+pub.getId()).rel("self").build());
-	SpaceWrapper tenant = UaalWrapper.getInstance().getTenant(id);
-	if(tenant!=null){
-	    if(Activator.getParser()!=null){
-		if (pub.getProviderinfo()!=null){
-		    ContextProvider cp=(ContextProvider) Activator.getParser().deserialize(pub.getProviderinfo());
-		    if(cp!=null){
-			tenant.addContextPublisher(new PublisherWrapper(Activator.getUaalContext(), cp, pub));
-			Activator.getPersistence().storePublisher(id, pub);
-			return Response.created(new URI("uaal/spaces/"+id+"/context/publishers/"+pub.getId())).build();
-		    }else{
-			return Response.status(Status.BAD_REQUEST).build();
-		    }
-		}else{
-		    return Response.status(Status.BAD_REQUEST).build();
-		}
-	    }else{
-		return Response.serverError().build();
-	    }
-	}else{
-	    return Response.status(Status.NOT_FOUND).build();
+	public ArrayList<Publisher> getPublishers() {
+		return publishers;
 	}
-	
-    }
-    
-    @Path("/{subid}")
-    @Produces(Activator.TYPES)
-    public Publisher getPublisherResourceLocator(){
-	Activator.logI("Publishers.getPublisherResourceLocator", ">>>GET host:port/uaal/spaces/X/context/publishers/Y");
-	return new Publisher();
-    }
+
+	public void setPublishers(ArrayList<Publisher> publishers) {
+		this.publishers = publishers;
+	}
+
+	public Link getSelf() {
+		return self;
+	}
+
+	public void setSelf(Link self) {
+		this.self = self;
+	}
+
+	public Publishers() {
+
+	}
+
+	// ===============REST METHODS===============
+
+	@GET
+	@Produces(Activator.TYPES)
+	public Publishers getPublishersResource(@PathParam("id") String id) {
+		Activator.logI("Publishers.getPublishersResource", "GET host:port/uaal/spaces/X/context/publishers");
+		Publishers allpubs = new Publishers();
+		ArrayList<Publisher> pubs = new ArrayList<Publisher>();
+
+		SpaceWrapper tenant = UaalWrapper.getInstance().getTenant(id);
+		if (tenant != null) {
+			Enumeration<PublisherWrapper> pubenum = tenant.getContextPublishers();
+			while (pubenum.hasMoreElements()) {
+				pubs.add(pubenum.nextElement().getResource());
+			}
+		}
+
+		allpubs.setPublishers(pubs);
+		allpubs.setSelf(Link.fromPath("/uaal/spaces/" + id + "/context/publishers/").rel("self").build());
+		return allpubs;
+	}
+
+	@POST
+	@Consumes(Activator.TYPES)
+	public Response addPublisherResource(@PathParam("id") String id, Publisher pub) throws URISyntaxException {
+		Activator.logI("Publishers.addPublisherResource", "POST host:port/uaal/spaces/X/context/publishers");
+		// The pub generated from the POST body does not contain any "link"
+		// elements, but I wouldnt have allowed it anyway
+		// Set the links manually, like in the pub constructor
+		pub.setSelf(Link.fromPath("/uaal/spaces/" + id + "/context/publishers/" + pub.getId()).rel("self").build());
+		SpaceWrapper tenant = UaalWrapper.getInstance().getTenant(id);
+		if (tenant != null) {
+			if (Activator.getParser() != null) {
+				if (pub.getProviderinfo() != null) {
+					ContextProvider cp = (ContextProvider) Activator.getParser().deserialize(pub.getProviderinfo());
+					if (cp != null) {
+						tenant.addContextPublisher(new PublisherWrapper(Activator.getUaalContext(), cp, pub));
+						Activator.getPersistence().storePublisher(id, pub);
+						return Response.created(new URI("uaal/spaces/" + id + "/context/publishers/" + pub.getId()))
+								.build();
+					} else {
+						return Response.status(Status.BAD_REQUEST).build();
+					}
+				} else {
+					return Response.status(Status.BAD_REQUEST).build();
+				}
+			} else {
+				return Response.serverError().build();
+			}
+		} else {
+			return Response.status(Status.NOT_FOUND).build();
+		}
+
+	}
+
+	@Path("/{subid}")
+	@Produces(Activator.TYPES)
+	public Publisher getPublisherResourceLocator() {
+		Activator.logI("Publishers.getPublisherResourceLocator", ">>>GET host:port/uaal/spaces/X/context/publishers/Y");
+		return new Publisher();
+	}
 
 }

@@ -43,99 +43,100 @@ import org.universAAL.ri.api.manager.RemoteAPI;
  */
 public interface Persistence {
 
-    /**
-     * Sets up the underlying database, creating any tables if not present
-     * before, and performing any mainenance operations.
-     * 
-     * @param remoteAPI
-     *            The Remote API instance being used in the manager
-     * @param context
-     *            Module Context of universAAL
-     */
-    public void init(RemoteAPI remoteAPI, ModuleContext context);
+	/**
+	 * Sets up the underlying database, creating any tables if not present
+	 * before, and performing any mainenance operations.
+	 * 
+	 * @param remoteAPI
+	 *            The Remote API instance being used in the manager
+	 * @param context
+	 *            Module Context of universAAL
+	 */
+	public void init(RemoteAPI remoteAPI, ModuleContext context);
 
-    /**
-     * Persist a request to have a registration of a remote node
-     * 
-     * @param id
-     *            The id used to uniquely identify the remote node
-     * @param remote
-     *            The remote access information for a remote node
-     * @param v
-     *            The version of client invoking the API. Descriptive only. Can be null.
-     */
-    public void storeRegister(String id, String remote, String v);
+	/**
+	 * Persist a request to have a registration of a remote node
+	 * 
+	 * @param id
+	 *            The id used to uniquely identify the remote node
+	 * @param remote
+	 *            The remote access information for a remote node
+	 * @param v
+	 *            The version of client invoking the API. Descriptive only. Can
+	 *            be null.
+	 */
+	public void storeRegister(String id, String remote, String v);
 
-    /**
-     * Eliminate all persisted info (node registration, subscribers and callees)
-     * of a remote node
-     * 
-     * @param id
-     *            The id used to uniquely identify the remote node
-     */
-    public void removeRegister(String id);
+	/**
+	 * Eliminate all persisted info (node registration, subscribers and callees)
+	 * of a remote node
+	 * 
+	 * @param id
+	 *            The id used to uniquely identify the remote node
+	 */
+	public void removeRegister(String id);
 
-    /**
-     * Persist a request to have a context subscriber for a node
-     * 
-     * @param id
-     *            The id used to uniquely identify the remote node
-     * @param pattern
-     *            The serialized ContextEventPattern sent by the remote node in
-     *            the request
-     */
-    public void storeSubscriber(String id, String pattern);
+	/**
+	 * Persist a request to have a context subscriber for a node
+	 * 
+	 * @param id
+	 *            The id used to uniquely identify the remote node
+	 * @param pattern
+	 *            The serialized ContextEventPattern sent by the remote node in
+	 *            the request
+	 */
+	public void storeSubscriber(String id, String pattern);
 
-    /**
-     * Persist a request to have a service callee for a node
-     * 
-     * @param id
-     *            The id used to uniquely identify the remote node
-     * @param profile
-     *            The serialized ServiceProfile sent by the remote node in the
-     *            request
-     */
-    public void storeCallee(String id, String profile);
+	/**
+	 * Persist a request to have a service callee for a node
+	 * 
+	 * @param id
+	 *            The id used to uniquely identify the remote node
+	 * @param profile
+	 *            The serialized ServiceProfile sent by the remote node in the
+	 *            request
+	 */
+	public void storeCallee(String id, String profile);
 
-    /**
-     * Restore in the R-API implementation (and consequently in the MW) all the
-     * persisted information (registration, subscribers and callees) for all
-     * nodes.
-     */
-    public void restore();
-    
-    /**
-     * Store a new user-password pair for later authentication. There is no
-     * "change" method for this, so any change will require manual modification
-     * of the persistence.
-     * 
-     * @param user
-     *            User
-     * @param pwd
-     *            Password
-     */
-    public void storeUserPWD(String user, String pwd);
-    
-    /**
-     * Method that checks the proper authentication of a persisted user-password
-     * pair.
-     * 
-     * @param user
-     *            User
-     * @param pwd
-     *            Password
-     * @return true if pwd matches the initially stored value and no errors
-     *         occured
-     */
-    public boolean checkUserPWD(String user, String pwd);
-    
-    /**
-     * Check if a user is already persisted with an associated password pair.
-     * 
-     * @param user
-     *            to check
-     * @return true if there is already a user-password pair persisted.
-     */
-    public boolean checkUser(String user);
+	/**
+	 * Restore in the R-API implementation (and consequently in the MW) all the
+	 * persisted information (registration, subscribers and callees) for all
+	 * nodes.
+	 */
+	public void restore();
+
+	/**
+	 * Store a new user-password pair for later authentication. There is no
+	 * "change" method for this, so any change will require manual modification
+	 * of the persistence.
+	 * 
+	 * @param user
+	 *            User
+	 * @param pwd
+	 *            Password
+	 */
+	public void storeUserPWD(String user, String pwd);
+
+	/**
+	 * Method that checks the proper authentication of a persisted user-password
+	 * pair.
+	 * 
+	 * @param user
+	 *            User
+	 * @param pwd
+	 *            Password
+	 * @return true if pwd matches the initially stored value and no errors
+	 *         occured
+	 */
+	public boolean checkUserPWD(String user, String pwd);
+
+	/**
+	 * Check if a user is already persisted with an associated password pair.
+	 * 
+	 * @param user
+	 *            to check
+	 * @return true if there is already a user-password pair persisted.
+	 */
+	public boolean checkUser(String user);
 
 }

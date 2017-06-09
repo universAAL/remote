@@ -36,13 +36,11 @@ public class StdOutErrLevel extends Level {
 	/**
 	 * Level for STDOUT activity.
 	 */
-	public static Level STDOUT = new StdOutErrLevel("STDOUT",
-			Level.INFO.intValue() + 53);
+	public static Level STDOUT = new StdOutErrLevel("STDOUT", Level.INFO.intValue() + 53);
 	/**
 	 * Level for STDERR activity
 	 */
-	public static Level STDERR = new StdOutErrLevel("STDERR",
-			Level.INFO.intValue() + 54);
+	public static Level STDERR = new StdOutErrLevel("STDERR", Level.INFO.intValue() + 54);
 
 	/**
 	 * Method to avoid creating duplicate instances when deserializing the

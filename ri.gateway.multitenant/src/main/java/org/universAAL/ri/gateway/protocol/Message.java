@@ -35,70 +35,70 @@ import java.io.Serializable;
  */
 public abstract class Message implements Serializable {
 
-    /**
-     * Serial version
-     */
-    private static final long serialVersionUID = 5115999991466796697L;
+	/**
+	 * Serial version
+	 */
+	private static final long serialVersionUID = 5115999991466796697L;
 
-    /**
-     * Next Sequence id to be issued. this will give a "unique" number per
-     * Message.
-     */
-    private static short currentSequence = 0;
+	/**
+	 * Next Sequence id to be issued. this will give a "unique" number per
+	 * Message.
+	 */
+	private static short currentSequence = 0;
 
-    /**
-     * The sequence of this Message.
-     */
-    private final short sequence;
+	/**
+	 * The sequence of this Message.
+	 */
+	private final short sequence;
 
-    /**
-     * If this message is a response, this is the request sequence.
-     */
-    protected short inResponseTo;
+	/**
+	 * If this message is a response, this is the request sequence.
+	 */
+	protected short inResponseTo;
 
-    /**
-     * Constructor for a {@link Message}.
-     */
-    public Message() {
-	sequence = currentSequence;
-	currentSequence = (short) ((currentSequence + 1) % Short.MAX_VALUE);
-	inResponseTo = -1;
-    }
-
-    /**
-     * Constructor for a {@link Message} in response to another.
-     * 
-     * @param respondTo
-     *            message to which to respond to.
-     */
-    public Message(final Message respondTo) {
-	this();
-	inResponseTo = respondTo.sequence;
-    }
-
-    public short getSequence() {
-	return sequence;
-    }
-
-    public short getInResponseTo() {
-	return inResponseTo;
-    }
-
-    public boolean isResponse() {
-	return inResponseTo != -1;
-    }
-
-    public byte[] getBytes() {
-	try {
-	    ByteArrayOutputStream output = new ByteArrayOutputStream();
-	    ObjectOutputStream objOut;
-	    objOut = new ObjectOutputStream(output);
-	    objOut.writeObject(this);
-	    objOut.flush();
-	    objOut.close();
-	    return output.toByteArray();
-	} catch (IOException e) {
-	    throw new RuntimeException("Unable to generates bytes", e);
+	/**
+	 * Constructor for a {@link Message}.
+	 */
+	public Message() {
+		sequence = currentSequence;
+		currentSequence = (short) ((currentSequence + 1) % Short.MAX_VALUE);
+		inResponseTo = -1;
 	}
-    }
+
+	/**
+	 * Constructor for a {@link Message} in response to another.
+	 * 
+	 * @param respondTo
+	 *            message to which to respond to.
+	 */
+	public Message(final Message respondTo) {
+		this();
+		inResponseTo = respondTo.sequence;
+	}
+
+	public short getSequence() {
+		return sequence;
+	}
+
+	public short getInResponseTo() {
+		return inResponseTo;
+	}
+
+	public boolean isResponse() {
+		return inResponseTo != -1;
+	}
+
+	public byte[] getBytes() {
+		try {
+			ByteArrayOutputStream output = new ByteArrayOutputStream();
+			ObjectOutputStream objOut;
+			objOut = new ObjectOutputStream(output);
+			objOut.writeObject(this);
+			objOut.flush();
+			objOut.close();
+			return output.toByteArray();
+		} catch (IOException e) {
+			throw new RuntimeException("Unable to generates bytes", e);
+		}
+	}
 }

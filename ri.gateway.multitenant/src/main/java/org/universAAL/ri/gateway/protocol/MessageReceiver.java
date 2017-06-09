@@ -24,10 +24,10 @@ package org.universAAL.ri.gateway.protocol;
  */
 public interface MessageReceiver {
 
-    /**
-     * Called by the communication layer when a new message is received.
-     * 
-     * @param msg
-     */
-    void handleMessage(Message msg);
+	/**
+	 * Called by the communication layer when a new message is received.
+	 * 
+	 * @param msg
+	 */
+	void handleMessage(Message msg);
 }

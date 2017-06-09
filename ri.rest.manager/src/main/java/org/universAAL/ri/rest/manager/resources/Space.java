@@ -52,141 +52,148 @@ import org.universAAL.ri.rest.manager.wrappers.UaalWrapper;
 @Path("uaal/spaces/{id}")
 public class Space {
 
-    @XmlAttribute
-    @PathParam("id")
-    private String id;
+	@XmlAttribute
+	@PathParam("id")
+	private String id;
 
-    @XmlElement(name = "link")
-    @XmlJavaTypeAdapter(JaxbAdapter.class)
-    private Link self;
+	@XmlElement(name = "link")
+	@XmlJavaTypeAdapter(JaxbAdapter.class)
+	private Link self;
 
-    @XmlElement(name = "link")
-    @XmlJavaTypeAdapter(JaxbAdapter.class)
-    private Link context;
+	@XmlElement(name = "link")
+	@XmlJavaTypeAdapter(JaxbAdapter.class)
+	private Link context;
 
-    @XmlElement(name = "link")
-    @XmlJavaTypeAdapter(JaxbAdapter.class)
-    private Link service;
-    
-    @XmlElement(name = "callback")
-    private String callback;
+	@XmlElement(name = "link")
+	@XmlJavaTypeAdapter(JaxbAdapter.class)
+	private Link service;
 
-    public Link getSelf() {
-	return self;
-    }
+	@XmlElement(name = "callback")
+	private String callback;
 
-    public void setSelf(Link self) {
-	this.self = self;
-    }
-
-    public Link getContext() {
-	return context;
-    }
-
-    public void setContext(Link context) {
-	this.context = context;
-    }
-
-    public Link getService() {
-	return service;
-    }
-
-    public void setService(Link service) {
-	this.service = service;
-    }
-
-    public String getId() {
-	return id;
-    }
-
-    public void setId(String id) {
-	this.id = id;
-    }
-    
-    public String getCallback() {
-        return callback;
-    }
-
-    public void setCallback(String callback) {
-        this.callback = callback;
-    }
-
-    public Space() {
-
-    }
-
-    public Space(String id, String callback) {
-	this.id = id;
-	this.callback = callback;
-	setSelf(Link.fromPath("/uaal/spaces/"+id).rel("self").build());
-	setContext(Link.fromPath("/uaal/spaces/"+id+"/context").rel("context").build());
-	setService(Link.fromPath("/uaal/spaces/"+id+"/service").rel("service").build());
-    }
-    
-    //===============REST METHODS===============
-    
-    @GET		// GET localhost:9000/uaal/spaces/123      (Redirected from Spaces class)
-    @Produces(Activator.TYPES)
-    public Space getSpaceResource(@PathParam("id") String id/*, @javax.ws.rs.core.Context SecurityContext ctxt*/){
-	Activator.logI("Space.getSpaceResource", "GET host:port/uaal/spaces/X ");
-	SpaceWrapper tenant = UaalWrapper.getInstance().getTenant(id);
-	if(tenant!=null){
-	    return tenant.getResource();
-	}else{
-	    return null;
+	public Link getSelf() {
+		return self;
 	}
-    }
-    
-    @DELETE		// DEL localhost:9000/uaal/spaces/123
-    public Response deleteSpaceResource(){
-	Activator.logI("Space.deleteSpaceResource", "DELETE host:port/uaal/spaces/X ");
-	if(Activator.getTenantMngr()!=null){
-	    Activator.getTenantMngr().unregisterTenant(this.id);
+
+	public void setSelf(Link self) {
+		this.self = self;
 	}
-	UaalWrapper.getInstance().removeTenant(id);
-	Activator.getPersistence().removeSpace(id);
-	return Response.ok().build();//.nocontent?
-    }
-    
-    @PUT	// PUT localhost:9000/uaal/spaces/123      <Body: Space>
-    @Consumes(Activator.TYPES)
-    public Response putSpaceResource(@PathParam("id") String id, Space space) throws URISyntaxException {
-	Activator.logI("Space.putSpaceResource", "PUT host:port/uaal/spaces/X ");
-	if (id.equals(space.id)) {//Do not allow changes to id
-	    SpaceWrapper original = UaalWrapper.getInstance().getTenant(id);
-	    if (original != null) {//Can only change existing ones
-		// The space generated from the PUT body does not contain any "link"
-		space.setSelf(Link.fromPath("/uaal/spaces/" + space.getId()).rel("self").build());
-		space.setContext(Link.fromPath("/uaal/spaces/" + space.getId() + "/context").rel("context").build());
-		space.setService(Link.fromPath("/uaal/spaces/" + space.getId() + "/service").rel("service").build());
-		// Reuse the original to keep the wrappers it already has
-		original.setResource(space);
-		if(UaalWrapper.getInstance().updateTenant(original)){
-		    Activator.getPersistence().storeSpace(space, (String)null);
-		    return Response.created(new URI("uaal/spaces/" + space.getId())).build();
-		}else{
-		    return Response.notModified().build();
+
+	public Link getContext() {
+		return context;
+	}
+
+	public void setContext(Link context) {
+		this.context = context;
+	}
+
+	public Link getService() {
+		return service;
+	}
+
+	public void setService(Link service) {
+		this.service = service;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public String getCallback() {
+		return callback;
+	}
+
+	public void setCallback(String callback) {
+		this.callback = callback;
+	}
+
+	public Space() {
+
+	}
+
+	public Space(String id, String callback) {
+		this.id = id;
+		this.callback = callback;
+		setSelf(Link.fromPath("/uaal/spaces/" + id).rel("self").build());
+		setContext(Link.fromPath("/uaal/spaces/" + id + "/context").rel("context").build());
+		setService(Link.fromPath("/uaal/spaces/" + id + "/service").rel("service").build());
+	}
+
+	// ===============REST METHODS===============
+
+	@GET // GET localhost:9000/uaal/spaces/123 (Redirected from Spaces class)
+	@Produces(Activator.TYPES)
+	public Space getSpaceResource(
+			@PathParam("id") String id/*
+										 * , @javax.ws.rs.core.Context
+										 * SecurityContext ctxt
+										 */) {
+		Activator.logI("Space.getSpaceResource", "GET host:port/uaal/spaces/X ");
+		SpaceWrapper tenant = UaalWrapper.getInstance().getTenant(id);
+		if (tenant != null) {
+			return tenant.getResource();
+		} else {
+			return null;
 		}
-	    } else {
-		return Response.status(Status.NOT_FOUND).build();
-	    }
-	} else {
-	    return Response.notModified().build();
 	}
-    }
-    
-    @Path("/context")	// GET localhost:9000/uaal/spaces/123/context     (Redirects to Context class)
-    @Produces(Activator.TYPES)
-    public Context getContextResource(){
-	Activator.logI("Space.getContextResource", ">>>GET host:port/uaal/spaces/X/context ");
-	return new Context();
-    }
-    
-    @Path("/service")	// GET localhost:9000/uaal/spaces/123/service     (Redirects to Service class)
-    @Produces(Activator.TYPES)
-    public Service getServiceResource(){
-	Activator.logI("Space.getServiceResource", ">>>GET host:port/uaal/spaces/X/service ");
-	return new Service();
-    }
-    
+
+	@DELETE // DEL localhost:9000/uaal/spaces/123
+	public Response deleteSpaceResource() {
+		Activator.logI("Space.deleteSpaceResource", "DELETE host:port/uaal/spaces/X ");
+		if (Activator.getTenantMngr() != null) {
+			Activator.getTenantMngr().unregisterTenant(this.id);
+		}
+		UaalWrapper.getInstance().removeTenant(id);
+		Activator.getPersistence().removeSpace(id);
+		return Response.ok().build();// .nocontent?
+	}
+
+	@PUT // PUT localhost:9000/uaal/spaces/123 <Body: Space>
+	@Consumes(Activator.TYPES)
+	public Response putSpaceResource(@PathParam("id") String id, Space space) throws URISyntaxException {
+		Activator.logI("Space.putSpaceResource", "PUT host:port/uaal/spaces/X ");
+		if (id.equals(space.id)) {// Do not allow changes to id
+			SpaceWrapper original = UaalWrapper.getInstance().getTenant(id);
+			if (original != null) {// Can only change existing ones
+				// The space generated from the PUT body does not contain any
+				// "link"
+				space.setSelf(Link.fromPath("/uaal/spaces/" + space.getId()).rel("self").build());
+				space.setContext(Link.fromPath("/uaal/spaces/" + space.getId() + "/context").rel("context").build());
+				space.setService(Link.fromPath("/uaal/spaces/" + space.getId() + "/service").rel("service").build());
+				// Reuse the original to keep the wrappers it already has
+				original.setResource(space);
+				if (UaalWrapper.getInstance().updateTenant(original)) {
+					Activator.getPersistence().storeSpace(space, (String) null);
+					return Response.created(new URI("uaal/spaces/" + space.getId())).build();
+				} else {
+					return Response.notModified().build();
+				}
+			} else {
+				return Response.status(Status.NOT_FOUND).build();
+			}
+		} else {
+			return Response.notModified().build();
+		}
+	}
+
+	@Path("/context") // GET localhost:9000/uaal/spaces/123/context (Redirects
+						// to Context class)
+	@Produces(Activator.TYPES)
+	public Context getContextResource() {
+		Activator.logI("Space.getContextResource", ">>>GET host:port/uaal/spaces/X/context ");
+		return new Context();
+	}
+
+	@Path("/service") // GET localhost:9000/uaal/spaces/123/service (Redirects
+						// to Service class)
+	@Produces(Activator.TYPES)
+	public Service getServiceResource() {
+		Activator.logI("Space.getServiceResource", ">>>GET host:port/uaal/spaces/X/service ");
+		return new Service();
+	}
+
 }

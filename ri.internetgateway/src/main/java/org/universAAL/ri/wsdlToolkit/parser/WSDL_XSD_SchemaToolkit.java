@@ -36,7 +36,6 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-
 /**
  * 
  * This class is used for parsing XSD schemas.
@@ -48,22 +47,21 @@ public class WSDL_XSD_SchemaToolkit {
 
 	private static HashMap URIsAlreadyParsed;
 
-
 	public static Node getNodeOfType_ITERATIVE(String nameOfNode,
-			javax.wsdl.extensions.schema.Schema importedOrIncludedSchema,
-			String previousXSDURI, Schema theSchemaOfTheWSDL) {
+			javax.wsdl.extensions.schema.Schema importedOrIncludedSchema, String previousXSDURI,
+			Schema theSchemaOfTheWSDL) {
 
 		if (nameOfNode == null || importedOrIncludedSchema == null)
 			return null;
 
-		if (URIsAlreadyParsed.containsKey(importedOrIncludedSchema
-				.getDocumentBaseURI())) {
+		if (URIsAlreadyParsed.containsKey(importedOrIncludedSchema.getDocumentBaseURI())) {
 			return null;
 		}
 
-		// -System.out.println("### ### ITERATIVE Looking for Node:  "+nameOfNode
-		// +"  in: "+importedOrIncludedSchema.getDocumentBaseURI());
-		// -System.out.println("############# Previous XSD URI:"+previousXSDURI);
+		// -System.out.println("### ### ITERATIVE Looking for Node: "+nameOfNode
+		// +" in: "+importedOrIncludedSchema.getDocumentBaseURI());
+		// -System.out.println("############# Previous XSD
+		// URI:"+previousXSDURI);
 		// -System.out.println(importedOrIncludedSchema.getDocumentBaseURI().substring(importedOrIncludedSchema.getDocumentBaseURI().lastIndexOf("/")));
 
 		if (nameOfNode.equals("gmd:PT_FreeText_PropertyType")) {
@@ -75,66 +73,49 @@ public class WSDL_XSD_SchemaToolkit {
 		String theNodeNamespaceKey = null;
 
 		if (nameOfNode.contains(":")) {
-			theNodeNamespaceKey = nameOfNode.substring(0,
-					nameOfNode.indexOf(":"));
-			theNodeNameAttValue = nameOfNode
-					.substring(nameOfNode.indexOf(":") + 1);
+			theNodeNamespaceKey = nameOfNode.substring(0, nameOfNode.indexOf(":"));
+			theNodeNameAttValue = nameOfNode.substring(nameOfNode.indexOf(":") + 1);
 		} else {
 			theNodeNamespaceKey = null;
 			theNodeNameAttValue = nameOfNode;
 		}
 
-		URIsAlreadyParsed
-				.put(importedOrIncludedSchema.getDocumentBaseURI(), "");
+		URIsAlreadyParsed.put(importedOrIncludedSchema.getDocumentBaseURI(), "");
 		if (importedOrIncludedSchema != null) {
-			org.w3c.dom.Element impSchElem = importedOrIncludedSchema
-					.getElement();
+			org.w3c.dom.Element impSchElem = importedOrIncludedSchema.getElement();
 
 			// EDW NA LAVW YP'OPSIN KAI TA "group" elements
-			NodeList elementNodesList = impSchElem
-					.getElementsByTagName("element");
-			NodeList complexTypeNodesList = impSchElem
-					.getElementsByTagName("complexType");
-			NodeList simpleTypeNodesList = impSchElem
-					.getElementsByTagName("simpleType");
-			NodeList groupTypeNodesList = impSchElem
-					.getElementsByTagName("group");
-			// -System.out.println(elementNodesList.getLength()+" "+complexTypeNodesList.getLength()+" "+simpleTypeNodesList.getLength()+" "
+			NodeList elementNodesList = impSchElem.getElementsByTagName("element");
+			NodeList complexTypeNodesList = impSchElem.getElementsByTagName("complexType");
+			NodeList simpleTypeNodesList = impSchElem.getElementsByTagName("simpleType");
+			NodeList groupTypeNodesList = impSchElem.getElementsByTagName("group");
+			// -System.out.println(elementNodesList.getLength()+"
+			// "+complexTypeNodesList.getLength()+"
+			// "+simpleTypeNodesList.getLength()+" "
 			// +groupTypeNodesList.getLength());
 
-			if (elementNodesList != null && complexTypeNodesList != null
-					&& simpleTypeNodesList != null
+			if (elementNodesList != null && complexTypeNodesList != null && simpleTypeNodesList != null
 					&& groupTypeNodesList != null) {
-				if (elementNodesList.getLength() == 0
-						&& complexTypeNodesList.getLength() == 0
-						&& simpleTypeNodesList.getLength() == 0
-						&& groupTypeNodesList.getLength() == 0) {
-					elementNodesList = impSchElem
-							.getElementsByTagName(MitsosParser.nativeTypePrefix
-									+ "element");
+				if (elementNodesList.getLength() == 0 && complexTypeNodesList.getLength() == 0
+						&& simpleTypeNodesList.getLength() == 0 && groupTypeNodesList.getLength() == 0) {
+					elementNodesList = impSchElem.getElementsByTagName(MitsosParser.nativeTypePrefix + "element");
 					complexTypeNodesList = impSchElem
-							.getElementsByTagName(MitsosParser.nativeTypePrefix
-									+ "complexType");
-					simpleTypeNodesList = impSchElem
-							.getElementsByTagName(MitsosParser.nativeTypePrefix
-									+ "simpleType");
-					groupTypeNodesList = impSchElem
-							.getElementsByTagName(MitsosParser.nativeTypePrefix
-									+ "group");
-					// -System.out.println(elementNodesList.getLength()+" "+complexTypeNodesList.getLength()+" "+simpleTypeNodesList.getLength());
+							.getElementsByTagName(MitsosParser.nativeTypePrefix + "complexType");
+					simpleTypeNodesList = impSchElem.getElementsByTagName(MitsosParser.nativeTypePrefix + "simpleType");
+					groupTypeNodesList = impSchElem.getElementsByTagName(MitsosParser.nativeTypePrefix + "group");
+					// -System.out.println(elementNodesList.getLength()+"
+					// "+complexTypeNodesList.getLength()+"
+					// "+simpleTypeNodesList.getLength());
 
-					if (elementNodesList.getLength() == 0
-							&& complexTypeNodesList.getLength() == 0
-							&& simpleTypeNodesList.getLength() == 0
-							&& groupTypeNodesList.getLength() == 0) {
+					if (elementNodesList.getLength() == 0 && complexTypeNodesList.getLength() == 0
+							&& simpleTypeNodesList.getLength() == 0 && groupTypeNodesList.getLength() == 0) {
 						Vector xmlSchemaKeys = new Vector();
 						Set entries = MitsosParser.namespaces.entrySet();
 						Iterator iter1 = entries.iterator();
 						while (iter1.hasNext()) {
 							Entry entry = (Entry) iter1.next();
 							if (entry.getValue() != null
-									&& entry.getValue().equals(
-											"http://www.w3.org/2001/XMLSchema")) {
+									&& entry.getValue().equals("http://www.w3.org/2001/XMLSchema")) {
 								xmlSchemaKeys.add(entry.getKey());
 							}
 						}
@@ -144,21 +125,15 @@ public class WSDL_XSD_SchemaToolkit {
 								String ns = (String) xmlSchemaKeys.get(i);
 								String prefix = ns + ":";
 
-								elementNodesList = impSchElem
-										.getElementsByTagName(prefix
-												+ "element");
-								complexTypeNodesList = impSchElem
-										.getElementsByTagName(prefix
-												+ "complexType");
-								simpleTypeNodesList = impSchElem
-										.getElementsByTagName(prefix
-												+ "simpleType");
-								groupTypeNodesList = impSchElem
-										.getElementsByTagName(prefix + "group");
-								// -System.out.println(elementNodesList.getLength()+" "+complexTypeNodesList.getLength()+" "+simpleTypeNodesList.getLength());
+								elementNodesList = impSchElem.getElementsByTagName(prefix + "element");
+								complexTypeNodesList = impSchElem.getElementsByTagName(prefix + "complexType");
+								simpleTypeNodesList = impSchElem.getElementsByTagName(prefix + "simpleType");
+								groupTypeNodesList = impSchElem.getElementsByTagName(prefix + "group");
+								// -System.out.println(elementNodesList.getLength()+"
+								// "+complexTypeNodesList.getLength()+"
+								// "+simpleTypeNodesList.getLength());
 
-								if (elementNodesList.getLength() != 0
-										|| complexTypeNodesList.getLength() != 0
+								if (elementNodesList.getLength() != 0 || complexTypeNodesList.getLength() != 0
 										|| simpleTypeNodesList.getLength() != 0
 										|| groupTypeNodesList.getLength() != 0) {
 									break;
@@ -176,10 +151,8 @@ public class WSDL_XSD_SchemaToolkit {
 			if (elementNodesList != null) {
 				for (int i = 0; i < elementNodesList.getLength(); i++) {
 					Node n = elementNodesList.item(i);
-					if (n.hasAttributes()
-							&& n.getAttributes().getNamedItem("name") != null) {
-						if (n.getAttributes().getNamedItem("name")
-								.getNodeValue().equals(theNodeNameAttValue)) {
+					if (n.hasAttributes() && n.getAttributes().getNamedItem("name") != null) {
+						if (n.getAttributes().getNamedItem("name").getNodeValue().equals(theNodeNameAttValue)) {
 							// -System.out.println("getNodeOfType: ELEMENT");
 							return n;
 						}
@@ -190,11 +163,10 @@ public class WSDL_XSD_SchemaToolkit {
 			if (complexTypeNodesList != null) {
 				for (int i = 0; i < complexTypeNodesList.getLength(); i++) {
 					Node n = complexTypeNodesList.item(i);
-					if (n.hasAttributes()
-							&& n.getAttributes().getNamedItem("name") != null) {
-						if (n.getAttributes().getNamedItem("name")
-								.getNodeValue().equals(theNodeNameAttValue)) {
-							// -System.out.println("getNodeOfType: COMPLEX TYPE");
+					if (n.hasAttributes() && n.getAttributes().getNamedItem("name") != null) {
+						if (n.getAttributes().getNamedItem("name").getNodeValue().equals(theNodeNameAttValue)) {
+							// -System.out.println("getNodeOfType: COMPLEX
+							// TYPE");
 							return n;
 						}
 					}
@@ -204,11 +176,10 @@ public class WSDL_XSD_SchemaToolkit {
 			if (simpleTypeNodesList != null) {
 				for (int i = 0; i < simpleTypeNodesList.getLength(); i++) {
 					Node n = simpleTypeNodesList.item(i);
-					if (n.hasAttributes()
-							&& n.getAttributes().getNamedItem("name") != null) {
-						if (n.getAttributes().getNamedItem("name")
-								.getNodeValue().equals(theNodeNameAttValue)) {
-							// -System.out.println("getNodeOfType: SIMPLE TYPE");
+					if (n.hasAttributes() && n.getAttributes().getNamedItem("name") != null) {
+						if (n.getAttributes().getNamedItem("name").getNodeValue().equals(theNodeNameAttValue)) {
+							// -System.out.println("getNodeOfType: SIMPLE
+							// TYPE");
 							return n;
 						}
 					}
@@ -218,11 +189,9 @@ public class WSDL_XSD_SchemaToolkit {
 			if (groupTypeNodesList != null) {
 				for (int i = 0; i < groupTypeNodesList.getLength(); i++) {
 					Node n = groupTypeNodesList.item(i);
-					if (n.hasAttributes()
-							&& n.getAttributes().getNamedItem("name") != null) {
+					if (n.hasAttributes() && n.getAttributes().getNamedItem("name") != null) {
 						// -System.out.println(n.getAttributes().getNamedItem("name").getNodeValue());
-						if (n.getAttributes().getNamedItem("name")
-								.getNodeValue().equals(theNodeNameAttValue)) {
+						if (n.getAttributes().getNamedItem("name").getNodeValue().equals(theNodeNameAttValue)) {
 							// -System.out.println("getNodeOfType: GROUP");
 							return n;
 						}
@@ -234,19 +203,13 @@ public class WSDL_XSD_SchemaToolkit {
 			if (includesList != null) {
 				Iterator includesIter = includesList.iterator();
 				while (includesIter.hasNext()) {
-					SchemaReferenceImpl schImpl = (SchemaReferenceImpl) includesIter
-							.next();
+					SchemaReferenceImpl schImpl = (SchemaReferenceImpl) includesIter.next();
 					Schema includedSchema = schImpl.getReferencedSchema();
 					// -System.out.println("\t\t\tCALLED FROM 1");
-					if (includedSchema.getDocumentBaseURI() != null
-							&& previousXSDURI != null) {
-						if (!includedSchema.getDocumentBaseURI().equals(
-								previousXSDURI)) {
-							Node n1 = getNodeOfType_ITERATIVE(nameOfNode,
-									includedSchema,
-									importedOrIncludedSchema
-											.getDocumentBaseURI(),
-									theSchemaOfTheWSDL);
+					if (includedSchema.getDocumentBaseURI() != null && previousXSDURI != null) {
+						if (!includedSchema.getDocumentBaseURI().equals(previousXSDURI)) {
+							Node n1 = getNodeOfType_ITERATIVE(nameOfNode, includedSchema,
+									importedOrIncludedSchema.getDocumentBaseURI(), theSchemaOfTheWSDL);
 							if (n1 != null)
 								return n1;
 						} else {
@@ -256,10 +219,8 @@ public class WSDL_XSD_SchemaToolkit {
 
 					else if (includedSchema.getDocumentBaseURI() != null
 							&& importedOrIncludedSchema.getDocumentBaseURI() != null) {
-						Node n1 = getNodeOfType_ITERATIVE(nameOfNode,
-								includedSchema,
-								importedOrIncludedSchema.getDocumentBaseURI(),
-								theSchemaOfTheWSDL);
+						Node n1 = getNodeOfType_ITERATIVE(nameOfNode, includedSchema,
+								importedOrIncludedSchema.getDocumentBaseURI(), theSchemaOfTheWSDL);
 						if (n1 != null)
 							return n1;
 					}
@@ -274,31 +235,21 @@ public class WSDL_XSD_SchemaToolkit {
 				Iterator importsIter = col.iterator();
 				while (importsIter.hasNext()) {
 					try {
-						SchemaImportImpl schImpl = (SchemaImportImpl) importsIter
-								.next();
+						SchemaImportImpl schImpl = (SchemaImportImpl) importsIter.next();
 						Schema importedSchema = schImpl.getReferencedSchema();
-						if (importedSchema.getDocumentBaseURI() != null
-								&& previousXSDURI != null) {
-							if (!importedSchema.getDocumentBaseURI().equals(
-									previousXSDURI)) {
-								Node n1 = getNodeOfType_ITERATIVE(nameOfNode,
-										importedSchema,
-										importedOrIncludedSchema
-												.getDocumentBaseURI(),
-										theSchemaOfTheWSDL);
+						if (importedSchema.getDocumentBaseURI() != null && previousXSDURI != null) {
+							if (!importedSchema.getDocumentBaseURI().equals(previousXSDURI)) {
+								Node n1 = getNodeOfType_ITERATIVE(nameOfNode, importedSchema,
+										importedOrIncludedSchema.getDocumentBaseURI(), theSchemaOfTheWSDL);
 								if (n1 != null)
 									return n1;
 							} else {
 								// -System.out.println("AAAAAAAAAAAAAAAAAAA!~!!!!!!!!!!!!!!!!");
 							}
 						} else if (importedSchema.getDocumentBaseURI() != null
-								&& importedOrIncludedSchema
-										.getDocumentBaseURI() != null) {
-							Node n1 = getNodeOfType_ITERATIVE(nameOfNode,
-									importedSchema,
-									importedOrIncludedSchema
-											.getDocumentBaseURI(),
-									theSchemaOfTheWSDL);
+								&& importedOrIncludedSchema.getDocumentBaseURI() != null) {
+							Node n1 = getNodeOfType_ITERATIVE(nameOfNode, importedSchema,
+									importedOrIncludedSchema.getDocumentBaseURI(), theSchemaOfTheWSDL);
 							if (n1 != null)
 								return n1;
 						}
@@ -311,37 +262,23 @@ public class WSDL_XSD_SchemaToolkit {
 								Vector schImpls = (Vector) importsIter.next();
 								if (schImpls.size() > 0) {
 									for (int i = 0; i < schImpls.size(); i++) {
-										SchemaImportImpl schImpl = (SchemaImportImpl) schImpls
-												.get(i);
-										Schema importedSchema = schImpl
-												.getReferencedSchema();
+										SchemaImportImpl schImpl = (SchemaImportImpl) schImpls.get(i);
+										Schema importedSchema = schImpl.getReferencedSchema();
 
-										if (importedSchema.getDocumentBaseURI() != null
-												&& previousXSDURI != null) {
-											if (!importedSchema
-													.getDocumentBaseURI()
-													.equals(previousXSDURI)) {
-												Node n1 = getNodeOfType_ITERATIVE(
-														nameOfNode,
-														importedSchema,
-														importedOrIncludedSchema
-																.getDocumentBaseURI(),
+										if (importedSchema.getDocumentBaseURI() != null && previousXSDURI != null) {
+											if (!importedSchema.getDocumentBaseURI().equals(previousXSDURI)) {
+												Node n1 = getNodeOfType_ITERATIVE(nameOfNode, importedSchema,
+														importedOrIncludedSchema.getDocumentBaseURI(),
 														theSchemaOfTheWSDL);
 												if (n1 != null)
 													return n1;
 											} else {
 												// -System.out.println("AAAAAAAAAAAAAAAAAAA!~!!!!!!!!!!!!!!!!");
 											}
-										} else if (importedSchema
-												.getDocumentBaseURI() != null
-												&& importedOrIncludedSchema
-														.getDocumentBaseURI() != null) {
-											Node n1 = getNodeOfType_ITERATIVE(
-													nameOfNode,
-													importedSchema,
-													importedOrIncludedSchema
-															.getDocumentBaseURI(),
-													theSchemaOfTheWSDL);
+										} else if (importedSchema.getDocumentBaseURI() != null
+												&& importedOrIncludedSchema.getDocumentBaseURI() != null) {
+											Node n1 = getNodeOfType_ITERATIVE(nameOfNode, importedSchema,
+													importedOrIncludedSchema.getDocumentBaseURI(), theSchemaOfTheWSDL);
 											if (n1 != null)
 												return n1;
 										}
@@ -363,8 +300,7 @@ public class WSDL_XSD_SchemaToolkit {
 
 	}
 
-	public static Node getNodeOfType(String nameOfNode,
-			javax.wsdl.extensions.schema.Schema theSchemaOfTheWSDL,
+	public static Node getNodeOfType(String nameOfNode, javax.wsdl.extensions.schema.Schema theSchemaOfTheWSDL,
 			String previousXSDURI) {
 
 		// previousXSDURI used gia na glitwsw stackOverFlow an to ena XSD kanei
@@ -374,9 +310,10 @@ public class WSDL_XSD_SchemaToolkit {
 			// -System.out.println("AAA1");
 		}
 		Node res = null;
-		// -System.out.println("### ### Looking for Node:  "+nameOfNode
-		// +"  in: "+theSchemaOfTheWSDL.getDocumentBaseURI());
-		// -System.out.println("############# Previous XSD URI:"+previousXSDURI);
+		// -System.out.println("### ### Looking for Node: "+nameOfNode
+		// +" in: "+theSchemaOfTheWSDL.getDocumentBaseURI());
+		// -System.out.println("############# Previous XSD
+		// URI:"+previousXSDURI);
 		if (nameOfNode == null || theSchemaOfTheWSDL == null)
 			return null;
 
@@ -384,10 +321,8 @@ public class WSDL_XSD_SchemaToolkit {
 		String theNodeNamespaceKey = null;
 
 		if (nameOfNode.contains(":")) {
-			theNodeNamespaceKey = nameOfNode.substring(0,
-					nameOfNode.indexOf(":"));
-			theNodeNameAttValue = nameOfNode
-					.substring(nameOfNode.indexOf(":") + 1);
+			theNodeNamespaceKey = nameOfNode.substring(0, nameOfNode.indexOf(":"));
+			theNodeNameAttValue = nameOfNode.substring(nameOfNode.indexOf(":") + 1);
 		} else {
 			theNodeNamespaceKey = null;
 			theNodeNameAttValue = nameOfNode;
@@ -395,11 +330,10 @@ public class WSDL_XSD_SchemaToolkit {
 
 		Schema nsSchema = null;
 		if (theNodeNamespaceKey != null) {
-			String theNodeNamespace = (String) MitsosParser.namespaces
-					.get(theNodeNamespaceKey);
+			String theNodeNamespace = (String) MitsosParser.namespaces.get(theNodeNamespaceKey);
 			if (theNodeNamespace != null) {
-				Schema nsSchema1 = getTheImportedOrIncludedSchemaWithTheSpecificNS(
-						theSchemaOfTheWSDL, theNodeNamespace);
+				Schema nsSchema1 = getTheImportedOrIncludedSchemaWithTheSpecificNS(theSchemaOfTheWSDL,
+						theNodeNamespace);
 				if (nsSchema1 != null) {
 					nsSchema = nsSchema1;
 				} else {
@@ -414,50 +348,37 @@ public class WSDL_XSD_SchemaToolkit {
 			org.w3c.dom.Element impSchElem = nsSchema.getElement();
 
 			// EDW NA LAVW YP'OPSIN KAI TA "group" elements
-			NodeList elementNodesList = impSchElem
-					.getElementsByTagName("element");
-			NodeList complexTypeNodesList = impSchElem
-					.getElementsByTagName("complexType");
-			NodeList simpleTypeNodesList = impSchElem
-					.getElementsByTagName("simpleType");
-			NodeList groupTypeNodesList = impSchElem
-					.getElementsByTagName("group");
-			// -System.out.println(elementNodesList.getLength()+" "+complexTypeNodesList.getLength()+" "+simpleTypeNodesList.getLength()+" "
+			NodeList elementNodesList = impSchElem.getElementsByTagName("element");
+			NodeList complexTypeNodesList = impSchElem.getElementsByTagName("complexType");
+			NodeList simpleTypeNodesList = impSchElem.getElementsByTagName("simpleType");
+			NodeList groupTypeNodesList = impSchElem.getElementsByTagName("group");
+			// -System.out.println(elementNodesList.getLength()+"
+			// "+complexTypeNodesList.getLength()+"
+			// "+simpleTypeNodesList.getLength()+" "
 			// +groupTypeNodesList.getLength());
 
-			if (elementNodesList != null && complexTypeNodesList != null
-					&& simpleTypeNodesList != null
+			if (elementNodesList != null && complexTypeNodesList != null && simpleTypeNodesList != null
 					&& groupTypeNodesList != null) {
-				if (elementNodesList.getLength() == 0
-						&& complexTypeNodesList.getLength() == 0
-						&& simpleTypeNodesList.getLength() == 0
-						&& groupTypeNodesList.getLength() == 0) {
-					elementNodesList = impSchElem
-							.getElementsByTagName(MitsosParser.nativeTypePrefix
-									+ "element");
+				if (elementNodesList.getLength() == 0 && complexTypeNodesList.getLength() == 0
+						&& simpleTypeNodesList.getLength() == 0 && groupTypeNodesList.getLength() == 0) {
+					elementNodesList = impSchElem.getElementsByTagName(MitsosParser.nativeTypePrefix + "element");
 					complexTypeNodesList = impSchElem
-							.getElementsByTagName(MitsosParser.nativeTypePrefix
-									+ "complexType");
-					simpleTypeNodesList = impSchElem
-							.getElementsByTagName(MitsosParser.nativeTypePrefix
-									+ "simpleType");
-					groupTypeNodesList = impSchElem
-							.getElementsByTagName(MitsosParser.nativeTypePrefix
-									+ "group");
-					// -System.out.println(elementNodesList.getLength()+" "+complexTypeNodesList.getLength()+" "+simpleTypeNodesList.getLength());
+							.getElementsByTagName(MitsosParser.nativeTypePrefix + "complexType");
+					simpleTypeNodesList = impSchElem.getElementsByTagName(MitsosParser.nativeTypePrefix + "simpleType");
+					groupTypeNodesList = impSchElem.getElementsByTagName(MitsosParser.nativeTypePrefix + "group");
+					// -System.out.println(elementNodesList.getLength()+"
+					// "+complexTypeNodesList.getLength()+"
+					// "+simpleTypeNodesList.getLength());
 
-					if (elementNodesList.getLength() == 0
-							&& complexTypeNodesList.getLength() == 0
-							&& simpleTypeNodesList.getLength() == 0
-							&& groupTypeNodesList.getLength() == 0) {
+					if (elementNodesList.getLength() == 0 && complexTypeNodesList.getLength() == 0
+							&& simpleTypeNodesList.getLength() == 0 && groupTypeNodesList.getLength() == 0) {
 						Vector xmlSchemaKeys = new Vector();
 						Set entries = MitsosParser.namespaces.entrySet();
 						Iterator iter1 = entries.iterator();
 						while (iter1.hasNext()) {
 							Entry entry = (Entry) iter1.next();
 							if (entry.getValue() != null
-									&& entry.getValue().equals(
-											"http://www.w3.org/2001/XMLSchema")) {
+									&& entry.getValue().equals("http://www.w3.org/2001/XMLSchema")) {
 								xmlSchemaKeys.add(entry.getKey());
 							}
 						}
@@ -467,21 +388,15 @@ public class WSDL_XSD_SchemaToolkit {
 								String ns = (String) xmlSchemaKeys.get(i);
 								String prefix = ns + ":";
 
-								elementNodesList = impSchElem
-										.getElementsByTagName(prefix
-												+ "element");
-								complexTypeNodesList = impSchElem
-										.getElementsByTagName(prefix
-												+ "complexType");
-								simpleTypeNodesList = impSchElem
-										.getElementsByTagName(prefix
-												+ "simpleType");
-								groupTypeNodesList = impSchElem
-										.getElementsByTagName(prefix + "group");
-								// -System.out.println(elementNodesList.getLength()+" "+complexTypeNodesList.getLength()+" "+simpleTypeNodesList.getLength());
+								elementNodesList = impSchElem.getElementsByTagName(prefix + "element");
+								complexTypeNodesList = impSchElem.getElementsByTagName(prefix + "complexType");
+								simpleTypeNodesList = impSchElem.getElementsByTagName(prefix + "simpleType");
+								groupTypeNodesList = impSchElem.getElementsByTagName(prefix + "group");
+								// -System.out.println(elementNodesList.getLength()+"
+								// "+complexTypeNodesList.getLength()+"
+								// "+simpleTypeNodesList.getLength());
 
-								if (elementNodesList.getLength() != 0
-										|| complexTypeNodesList.getLength() != 0
+								if (elementNodesList.getLength() != 0 || complexTypeNodesList.getLength() != 0
 										|| simpleTypeNodesList.getLength() != 0
 										|| groupTypeNodesList.getLength() != 0) {
 									break;
@@ -499,10 +414,8 @@ public class WSDL_XSD_SchemaToolkit {
 			if (elementNodesList != null) {
 				for (int i = 0; i < elementNodesList.getLength(); i++) {
 					Node n = elementNodesList.item(i);
-					if (n.hasAttributes()
-							&& n.getAttributes().getNamedItem("name") != null) {
-						if (n.getAttributes().getNamedItem("name")
-								.getNodeValue().equals(theNodeNameAttValue)) {
+					if (n.hasAttributes() && n.getAttributes().getNamedItem("name") != null) {
+						if (n.getAttributes().getNamedItem("name").getNodeValue().equals(theNodeNameAttValue)) {
 							// -System.out.println("getNodeOfType: ELEMENT");
 							return n;
 						}
@@ -513,11 +426,10 @@ public class WSDL_XSD_SchemaToolkit {
 			if (complexTypeNodesList != null) {
 				for (int i = 0; i < complexTypeNodesList.getLength(); i++) {
 					Node n = complexTypeNodesList.item(i);
-					if (n.hasAttributes()
-							&& n.getAttributes().getNamedItem("name") != null) {
-						if (n.getAttributes().getNamedItem("name")
-								.getNodeValue().equals(theNodeNameAttValue)) {
-							// -System.out.println("getNodeOfType: COMPLEX TYPE");
+					if (n.hasAttributes() && n.getAttributes().getNamedItem("name") != null) {
+						if (n.getAttributes().getNamedItem("name").getNodeValue().equals(theNodeNameAttValue)) {
+							// -System.out.println("getNodeOfType: COMPLEX
+							// TYPE");
 							return n;
 						}
 					}
@@ -527,11 +439,10 @@ public class WSDL_XSD_SchemaToolkit {
 			if (simpleTypeNodesList != null) {
 				for (int i = 0; i < simpleTypeNodesList.getLength(); i++) {
 					Node n = simpleTypeNodesList.item(i);
-					if (n.hasAttributes()
-							&& n.getAttributes().getNamedItem("name") != null) {
-						if (n.getAttributes().getNamedItem("name")
-								.getNodeValue().equals(theNodeNameAttValue)) {
-							// -System.out.println("getNodeOfType: SIMPLE TYPE");
+					if (n.hasAttributes() && n.getAttributes().getNamedItem("name") != null) {
+						if (n.getAttributes().getNamedItem("name").getNodeValue().equals(theNodeNameAttValue)) {
+							// -System.out.println("getNodeOfType: SIMPLE
+							// TYPE");
 							return n;
 						}
 					}
@@ -541,11 +452,9 @@ public class WSDL_XSD_SchemaToolkit {
 			if (groupTypeNodesList != null) {
 				for (int i = 0; i < groupTypeNodesList.getLength(); i++) {
 					Node n = groupTypeNodesList.item(i);
-					if (n.hasAttributes()
-							&& n.getAttributes().getNamedItem("name") != null) {
+					if (n.hasAttributes() && n.getAttributes().getNamedItem("name") != null) {
 						// -System.out.println(n.getAttributes().getNamedItem("name").getNodeValue());
-						if (n.getAttributes().getNamedItem("name")
-								.getNodeValue().equals(theNodeNameAttValue)) {
+						if (n.getAttributes().getNamedItem("name").getNodeValue().equals(theNodeNameAttValue)) {
 							// -System.out.println("getNodeOfType: GROUP");
 							return n;
 						}
@@ -557,18 +466,13 @@ public class WSDL_XSD_SchemaToolkit {
 			if (includesList != null) {
 				Iterator includesIter = includesList.iterator();
 				while (includesIter.hasNext()) {
-					SchemaReferenceImpl schImpl = (SchemaReferenceImpl) includesIter
-							.next();
+					SchemaReferenceImpl schImpl = (SchemaReferenceImpl) includesIter.next();
 					Schema includedSchema = schImpl.getReferencedSchema();
 					// -System.out.println("\t\t\tCALLED FROM 1");
-					if (includedSchema.getDocumentBaseURI() != null
-							&& previousXSDURI != null) {
-						if (!includedSchema.getDocumentBaseURI().equals(
-								previousXSDURI)) {
-							Node n1 = getNodeOfType_ITERATIVE(nameOfNode,
-									includedSchema,
-									theSchemaOfTheWSDL.getDocumentBaseURI(),
-									theSchemaOfTheWSDL);
+					if (includedSchema.getDocumentBaseURI() != null && previousXSDURI != null) {
+						if (!includedSchema.getDocumentBaseURI().equals(previousXSDURI)) {
+							Node n1 = getNodeOfType_ITERATIVE(nameOfNode, includedSchema,
+									theSchemaOfTheWSDL.getDocumentBaseURI(), theSchemaOfTheWSDL);
 							if (n1 != null)
 								return n1;
 						} else {
@@ -578,10 +482,8 @@ public class WSDL_XSD_SchemaToolkit {
 
 					else if (includedSchema.getDocumentBaseURI() != null
 							&& theSchemaOfTheWSDL.getDocumentBaseURI() != null) {
-						Node n1 = getNodeOfType_ITERATIVE(nameOfNode,
-								includedSchema,
-								theSchemaOfTheWSDL.getDocumentBaseURI(),
-								theSchemaOfTheWSDL);
+						Node n1 = getNodeOfType_ITERATIVE(nameOfNode, includedSchema,
+								theSchemaOfTheWSDL.getDocumentBaseURI(), theSchemaOfTheWSDL);
 						if (n1 != null)
 							return n1;
 					}
@@ -596,18 +498,12 @@ public class WSDL_XSD_SchemaToolkit {
 				Iterator importsIter = col.iterator();
 				while (importsIter.hasNext()) {
 					try {
-						SchemaImportImpl schImpl = (SchemaImportImpl) importsIter
-								.next();
+						SchemaImportImpl schImpl = (SchemaImportImpl) importsIter.next();
 						Schema importedSchema = schImpl.getReferencedSchema();
-						if (importedSchema.getDocumentBaseURI() != null
-								&& previousXSDURI != null) {
-							if (!importedSchema.getDocumentBaseURI().equals(
-									previousXSDURI)) {
-								Node n1 = getNodeOfType_ITERATIVE(
-										nameOfNode,
-										importedSchema,
-										theSchemaOfTheWSDL.getDocumentBaseURI(),
-										theSchemaOfTheWSDL);
+						if (importedSchema.getDocumentBaseURI() != null && previousXSDURI != null) {
+							if (!importedSchema.getDocumentBaseURI().equals(previousXSDURI)) {
+								Node n1 = getNodeOfType_ITERATIVE(nameOfNode, importedSchema,
+										theSchemaOfTheWSDL.getDocumentBaseURI(), theSchemaOfTheWSDL);
 								if (n1 != null)
 									return n1;
 							} else {
@@ -615,10 +511,8 @@ public class WSDL_XSD_SchemaToolkit {
 							}
 						} else if (importedSchema.getDocumentBaseURI() != null
 								&& theSchemaOfTheWSDL.getDocumentBaseURI() != null) {
-							Node n1 = getNodeOfType_ITERATIVE(nameOfNode,
-									importedSchema,
-									theSchemaOfTheWSDL.getDocumentBaseURI(),
-									theSchemaOfTheWSDL);
+							Node n1 = getNodeOfType_ITERATIVE(nameOfNode, importedSchema,
+									theSchemaOfTheWSDL.getDocumentBaseURI(), theSchemaOfTheWSDL);
 							if (n1 != null)
 								return n1;
 						}
@@ -632,37 +526,22 @@ public class WSDL_XSD_SchemaToolkit {
 								Vector schImpls = (Vector) importsIter.next();
 								if (schImpls.size() > 0) {
 									for (int i = 0; i < schImpls.size(); i++) {
-										SchemaImportImpl schImpl = (SchemaImportImpl) schImpls
-												.get(i);
-										Schema importedSchema = schImpl
-												.getReferencedSchema();
+										SchemaImportImpl schImpl = (SchemaImportImpl) schImpls.get(i);
+										Schema importedSchema = schImpl.getReferencedSchema();
 
-										if (importedSchema.getDocumentBaseURI() != null
-												&& previousXSDURI != null) {
-											if (!importedSchema
-													.getDocumentBaseURI()
-													.equals(previousXSDURI)) {
-												Node n1 = getNodeOfType_ITERATIVE(
-														nameOfNode,
-														importedSchema,
-														theSchemaOfTheWSDL
-																.getDocumentBaseURI(),
-														theSchemaOfTheWSDL);
+										if (importedSchema.getDocumentBaseURI() != null && previousXSDURI != null) {
+											if (!importedSchema.getDocumentBaseURI().equals(previousXSDURI)) {
+												Node n1 = getNodeOfType_ITERATIVE(nameOfNode, importedSchema,
+														theSchemaOfTheWSDL.getDocumentBaseURI(), theSchemaOfTheWSDL);
 												if (n1 != null)
 													return n1;
 											} else {
 												// -System.out.println("AAAAAAAAAAAAAAAAAAA!~!!!!!!!!!!!!!!!!");
 											}
-										} else if (importedSchema
-												.getDocumentBaseURI() != null
-												&& theSchemaOfTheWSDL
-														.getDocumentBaseURI() != null) {
-											Node n1 = getNodeOfType_ITERATIVE(
-													nameOfNode,
-													importedSchema,
-													theSchemaOfTheWSDL
-															.getDocumentBaseURI(),
-													theSchemaOfTheWSDL);
+										} else if (importedSchema.getDocumentBaseURI() != null
+												&& theSchemaOfTheWSDL.getDocumentBaseURI() != null) {
+											Node n1 = getNodeOfType_ITERATIVE(nameOfNode, importedSchema,
+													theSchemaOfTheWSDL.getDocumentBaseURI(), theSchemaOfTheWSDL);
 											if (n1 != null)
 												return n1;
 										}
@@ -686,8 +565,7 @@ public class WSDL_XSD_SchemaToolkit {
 	}
 
 	public static javax.wsdl.extensions.schema.Schema getTheImportedOrIncludedSchemaWithTheSpecificNS(
-			javax.wsdl.extensions.schema.Schema theSchemaOfTheWSDL,
-			String xsdNamespaceURI) {
+			javax.wsdl.extensions.schema.Schema theSchemaOfTheWSDL, String xsdNamespaceURI) {
 
 		if (theSchemaOfTheWSDL == null)
 			return null;
@@ -704,8 +582,7 @@ public class WSDL_XSD_SchemaToolkit {
 			List importsList = (List) importsItt.next();
 			Iterator importsItt2 = importsList.iterator();
 			while (importsItt2.hasNext()) {
-				SchemaImportImpl schemaImportInitial = (SchemaImportImpl) importsItt2
-						.next();
+				SchemaImportImpl schemaImportInitial = (SchemaImportImpl) importsItt2.next();
 				SchemaImportImpl schemaImport = null;
 
 				// -System.out.println(schemaImportInitial.getNamespaceURI());
@@ -713,19 +590,17 @@ public class WSDL_XSD_SchemaToolkit {
 				boolean currentSchemaIsTheRightOne = false;
 
 				if (schemaImportInitial.getNamespaceURI() != null
-						&& schemaImportInitial.getNamespaceURI().equals(
-								xsdNamespaceURI)) {
+						&& schemaImportInitial.getNamespaceURI().equals(xsdNamespaceURI)) {
 					currentSchemaIsTheRightOne = true;
 					schemaImport = schemaImportInitial;
-					javax.wsdl.extensions.schema.Schema importedSchema = schemaImport
-							.getReferencedSchema();
+					javax.wsdl.extensions.schema.Schema importedSchema = schemaImport.getReferencedSchema();
 					if (importedSchema != null) {
-						// -System.out.println("Base URI 1: "+importedSchema.getDocumentBaseURI());
+						// -System.out.println("Base URI 1:
+						// "+importedSchema.getDocumentBaseURI());
 					} else {
 						// importedSchema
 
-						List extElementsList = MitsosParser.theWSDLDefinition
-								.getTypes().getExtensibilityElements();
+						List extElementsList = MitsosParser.theWSDLDefinition.getTypes().getExtensibilityElements();
 
 						if (extElementsList != null) {
 							// -System.out.print(extElementsList.size()+"\n");
@@ -735,8 +610,7 @@ public class WSDL_XSD_SchemaToolkit {
 									com.ibm.wsdl.extensions.schema.SchemaImpl theWSDLxsdSchema = (com.ibm.wsdl.extensions.schema.SchemaImpl) iter1
 											.next();
 									// -System.out.println(theWSDLxsdSchema.getElement().getAttribute("targetNamespace"));
-									if (theWSDLxsdSchema.getElement()
-											.getAttribute("targetNamespace")
+									if (theWSDLxsdSchema.getElement().getAttribute("targetNamespace")
 											.equals(xsdNamespaceURI)) {
 										return theWSDLxsdSchema;
 									}
@@ -750,8 +624,7 @@ public class WSDL_XSD_SchemaToolkit {
 					return importedSchema;
 
 				} else {
-					javax.wsdl.extensions.schema.Schema s11 = schemaImportInitial
-							.getReferencedSchema();
+					javax.wsdl.extensions.schema.Schema s11 = schemaImportInitial.getReferencedSchema();
 					if (s11 != null) {
 						Map importsMap1 = s11.getImports();
 						Iterator importsItt1 = importsMap1.values().iterator();
@@ -765,18 +638,16 @@ public class WSDL_XSD_SchemaToolkit {
 								if (currentSchemaIsTheRightOne)
 									break;
 
-								schemaImportInitial = (SchemaImportImpl) importsItt21
-										.next();
+								schemaImportInitial = (SchemaImportImpl) importsItt21.next();
 								// ////-System.out.println(schemaImportInitial.getNamespaceURI());
 								if (schemaImportInitial.getNamespaceURI() != null
-										&& schemaImportInitial
-												.getNamespaceURI().equals(
-														xsdNamespaceURI)) {
+										&& schemaImportInitial.getNamespaceURI().equals(xsdNamespaceURI)) {
 									currentSchemaIsTheRightOne = true;
 									schemaImport = schemaImportInitial;
 									javax.wsdl.extensions.schema.Schema importedSchema = schemaImport
 											.getReferencedSchema();
-									// -System.out.println("Base URI 2: "+importedSchema.getDocumentBaseURI());
+									// -System.out.println("Base URI 2:
+									// "+importedSchema.getDocumentBaseURI());
 									return importedSchema;
 								}
 							}
@@ -784,13 +655,11 @@ public class WSDL_XSD_SchemaToolkit {
 					}
 				}
 
-				if (schemaImport != null
-						&& schemaImport.getNamespaceURI() != null
-						&& schemaImport.getNamespaceURI().equals(
-								xsdNamespaceURI)) {
-					javax.wsdl.extensions.schema.Schema importedSchema = schemaImport
-							.getReferencedSchema();
-					// -System.out.println("Base URI 3: "+importedSchema.getDocumentBaseURI());
+				if (schemaImport != null && schemaImport.getNamespaceURI() != null
+						&& schemaImport.getNamespaceURI().equals(xsdNamespaceURI)) {
+					javax.wsdl.extensions.schema.Schema importedSchema = schemaImport.getReferencedSchema();
+					// -System.out.println("Base URI 3:
+					// "+importedSchema.getDocumentBaseURI());
 					return importedSchema;
 				}
 			}

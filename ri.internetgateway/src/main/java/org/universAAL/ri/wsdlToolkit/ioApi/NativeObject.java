@@ -51,18 +51,15 @@ public class NativeObject {
 		if (this.objectName == null) {
 			System.out.println();
 		}
-		no.setObjectName(new QName(this.objectName.getNamespaceURI(), this
-				.getObjectName().getLocalPart(), this.getObjectName()
-				.getPrefix()));
+		no.setObjectName(new QName(this.objectName.getNamespaceURI(), this.getObjectName().getLocalPart(),
+				this.getObjectName().getPrefix()));
 
 		if (this.objectType == null) {
-			no.setObjectType(new QName(this.objectName.getNamespaceURI(), this
-					.getObjectName().getLocalPart(), this.getObjectName()
-					.getPrefix()));
+			no.setObjectType(new QName(this.objectName.getNamespaceURI(), this.getObjectName().getLocalPart(),
+					this.getObjectName().getPrefix()));
 		} else {
-			no.setObjectType(new QName(this.objectType.getNamespaceURI(), this
-					.getObjectType().getLocalPart(), this.getObjectType()
-					.getPrefix()));
+			no.setObjectType(new QName(this.objectType.getNamespaceURI(), this.getObjectType().getLocalPart(),
+					this.getObjectType().getPrefix()));
 		}
 		// no.setObjectType(new
 		// QName(this.objectType.getNamespaceURI(),this.getObjectType().getLocalPart(),this.getObjectType().getPrefix()));
@@ -145,10 +142,8 @@ public class NativeObject {
 		getParents(this, parents, 20);
 		List<String> parents2 = new ArrayList<String>();
 		getParents(no, parents2, 20);
-		if (this.objectName.getLocalPart().equals(
-				no.getObjectName().getLocalPart())
-				&& this.objectType.getLocalPart().equals(
-						no.getObjectType().getLocalPart())) {
+		if (this.objectName.getLocalPart().equals(no.getObjectName().getLocalPart())
+				&& this.objectType.getLocalPart().equals(no.getObjectType().getLocalPart())) {
 			if (parents.size() != parents2.size()) {
 				return false;
 			}
@@ -186,19 +181,15 @@ public class NativeObject {
 	@Override
 	public String toString() {
 		if (this.getHasAllowedValues().size() == 0) {
-			String result = this.getObjectName().getLocalPart() + "  {"
-					+ this.getObjectType().getLocalPart() + "}";
+			String result = this.getObjectName().getLocalPart() + "  {" + this.getObjectType().getLocalPart() + "}";
 			return result;
 		} else {
 			String allowedValuesString = "";
 			for (int i1 = 0; i1 < this.getHasAllowedValues().size(); i1++) {
-				allowedValuesString += this.getHasAllowedValues().get(i1)
-						+ ", ";
+				allowedValuesString += this.getHasAllowedValues().get(i1) + ", ";
 			}
-			allowedValuesString = allowedValuesString.substring(0,
-					allowedValuesString.lastIndexOf(","));
-			String result = this.getObjectName().getLocalPart() + "  {"
-					+ this.getObjectType().getLocalPart() + "}";
+			allowedValuesString = allowedValuesString.substring(0, allowedValuesString.lastIndexOf(","));
+			String result = this.getObjectName().getLocalPart() + "  {" + this.getObjectType().getLocalPart() + "}";
 			return result;
 		}
 	}

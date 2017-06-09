@@ -21,8 +21,8 @@ package org.universAAL.ri.gateway.operations;
  */
 public interface OperationChain {
 
-    enum OperationResult {
-	ALLOW, DENY,
-    }
+	enum OperationResult {
+		ALLOW, DENY,
+	}
 
 }

@@ -38,11 +38,9 @@ public class ServiceImpl implements ServiceInterface {
 		caller = new DefaultServiceCaller(Activator.mc);
 
 		sr = caller.call(turtleStr);
-		Object[] contentSerializerParams = new Object[] { MessageContentSerializer.class
-				.getName() };
+		Object[] contentSerializerParams = new Object[] { MessageContentSerializer.class.getName() };
 		MessageContentSerializer s = (org.universAAL.middleware.serialization.MessageContentSerializer) Activator.mc
-				.getContainer().fetchSharedObject(Activator.mc,
-						contentSerializerParams);
+				.getContainer().fetchSharedObject(Activator.mc, contentSerializerParams);
 		String serializedStr = s.serialize(sr);
 
 		return serializedStr;

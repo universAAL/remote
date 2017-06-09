@@ -48,75 +48,79 @@ import org.universAAL.ri.rest.manager.wrappers.SpaceWrapper;
 @XmlRootElement(name = "spaces")
 @Path("/uaal/spaces")
 public class Spaces {
-    
-    @XmlElement(name = "link")
-    @XmlJavaTypeAdapter(JaxbAdapter.class)
-    private Link self=Link.fromPath("/uaal/spaces").rel("self").build();	// Link to self
-//    private Link self=Link.fromUriBuilder(UriBuilder.fromPath("/uaal/spaces").host("http://localhost:9000")).rel("self").build();
 
-    @XmlElement(name = "space") // @XmlElementRef?
-    private ArrayList<Space> spaces;						// List of spaces
+	@XmlElement(name = "link")
+	@XmlJavaTypeAdapter(JaxbAdapter.class)
+	private Link self = Link.fromPath("/uaal/spaces").rel("self").build(); // Link
+																			// to
+																			// self
+	// private Link
+	// self=Link.fromUriBuilder(UriBuilder.fromPath("/uaal/spaces").host("http://localhost:9000")).rel("self").build();
 
-    public ArrayList<Space> getSpaces() {
-	return spaces;
-    }
+	@XmlElement(name = "space") // @XmlElementRef?
+	private ArrayList<Space> spaces; // List of spaces
 
-    public void setSpaces(ArrayList<Space> spaces) {
-	this.spaces = spaces;
-    }
-    
-    public Spaces(){
-
-    }
-    
-    //===============REST METHODS===============
-    
-    @GET		// GET localhost:9000/uaal/spaces      (redirected from Uaal class)
-    @Produces(Activator.TYPES)
-    public Spaces getSpacesResource(){
-	Activator.logI("Spaces.getSpacesResource", "GET host:port/uaal/spaces ");
-	Spaces allspaces=new Spaces();
-        ArrayList<Space> spaces = new ArrayList<Space>();
-        
-        Enumeration<SpaceWrapper> tenants = UaalWrapper.getInstance().getTenants();
-        while (tenants.hasMoreElements()){
-            spaces.add(tenants.nextElement().getResource());
-        }
-        
-        /*if(Activator.tenantMngr!=null){
-            Map<String, String> tenants = Activator.tenantMngr.getTenants();
-            Set<String> tenantNames = tenants.keySet();
-            for(String tenantName:tenantNames){
-        	spaces.add(new Space(tenantName));
-            }
-        }*/
-	
-	allspaces.setSpaces(spaces);
-	return allspaces;
-    }
-    
-    @POST	// POST localhost:9000/uaal/spaces      <Body: Space>
-    @Consumes(Activator.TYPES)
-    public Response addSpaceResource(Space space) throws URISyntaxException{
-	Activator.logI("Spaces.addSpaceResource", "POST host:port/uaal/spaces ");
-	//The space generated from the POST body does not contain any "link" elements, but I wouldnt have allowed it anyway
-	//Set the links manually, like in the space constructor
-	space.setSelf(Link.fromPath("/uaal/spaces/"+space.getId()).rel("self").build());
-	space.setContext(Link.fromPath("/uaal/spaces/"+space.getId()+"/context").rel("context").build());
-	space.setService(Link.fromPath("/uaal/spaces/"+space.getId()+"/service").rel("service").build());
-	UaalWrapper.getInstance().addTenant(new SpaceWrapper(space));
-	if(Activator.getTenantMngr()!=null){
-	    Activator.getTenantMngr().registerTenant(space.getId(), "SpaceWrapper created through REST interface");
+	public ArrayList<Space> getSpaces() {
+		return spaces;
 	}
-	Activator.getPersistence().storeSpace(space, (String)null);
-	return Response.created(new URI("uaal/spaces/"+space.getId())).build();
-    }
-    
-    @Path("/{id}")		// GET localhost:9000/uaal/spaces/123     (Redirects to Space class)
-    @Produces(Activator.TYPES)
-    public Space getSpaceResourceLocator(){
-	Activator.logI("Spaces.getSpaceResourceLocator", ">>>GET host:port/uaal/spaces/X ");
-	return new Space();
-    }
+
+	public void setSpaces(ArrayList<Space> spaces) {
+		this.spaces = spaces;
+	}
+
+	public Spaces() {
+
+	}
+
+	// ===============REST METHODS===============
+
+	@GET // GET localhost:9000/uaal/spaces (redirected from Uaal class)
+	@Produces(Activator.TYPES)
+	public Spaces getSpacesResource() {
+		Activator.logI("Spaces.getSpacesResource", "GET host:port/uaal/spaces ");
+		Spaces allspaces = new Spaces();
+		ArrayList<Space> spaces = new ArrayList<Space>();
+
+		Enumeration<SpaceWrapper> tenants = UaalWrapper.getInstance().getTenants();
+		while (tenants.hasMoreElements()) {
+			spaces.add(tenants.nextElement().getResource());
+		}
+
+		/*
+		 * if(Activator.tenantMngr!=null){ Map<String, String> tenants =
+		 * Activator.tenantMngr.getTenants(); Set<String> tenantNames =
+		 * tenants.keySet(); for(String tenantName:tenantNames){ spaces.add(new
+		 * Space(tenantName)); } }
+		 */
+
+		allspaces.setSpaces(spaces);
+		return allspaces;
+	}
+
+	@POST // POST localhost:9000/uaal/spaces <Body: Space>
+	@Consumes(Activator.TYPES)
+	public Response addSpaceResource(Space space) throws URISyntaxException {
+		Activator.logI("Spaces.addSpaceResource", "POST host:port/uaal/spaces ");
+		// The space generated from the POST body does not contain any "link"
+		// elements, but I wouldnt have allowed it anyway
+		// Set the links manually, like in the space constructor
+		space.setSelf(Link.fromPath("/uaal/spaces/" + space.getId()).rel("self").build());
+		space.setContext(Link.fromPath("/uaal/spaces/" + space.getId() + "/context").rel("context").build());
+		space.setService(Link.fromPath("/uaal/spaces/" + space.getId() + "/service").rel("service").build());
+		UaalWrapper.getInstance().addTenant(new SpaceWrapper(space));
+		if (Activator.getTenantMngr() != null) {
+			Activator.getTenantMngr().registerTenant(space.getId(), "SpaceWrapper created through REST interface");
+		}
+		Activator.getPersistence().storeSpace(space, (String) null);
+		return Response.created(new URI("uaal/spaces/" + space.getId())).build();
+	}
+
+	@Path("/{id}") // GET localhost:9000/uaal/spaces/123 (Redirects to Space
+					// class)
+	@Produces(Activator.TYPES)
+	public Space getSpaceResourceLocator() {
+		Activator.logI("Spaces.getSpaceResourceLocator", ">>>GET host:port/uaal/spaces/X ");
+		return new Space();
+	}
 
 }

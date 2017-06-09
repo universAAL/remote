@@ -34,51 +34,48 @@ import org.universAAL.ri.gateway.protocol.LinkMessage.LinkMessageType;
  */
 public class DisconnectionRequest extends LinkMessage implements Serializable {
 
-    /**
-     *
-     */
-    private static final long serialVersionUID = -7160538663305545199L;
-    private String peerId;
-    private String aalSpaceId;
-    private UUID sessionId;
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = -7160538663305545199L;
+	private String peerId;
+	private String aalSpaceId;
+	private UUID sessionId;
 
-    public DisconnectionRequest(final String peer, final String space,
-	    final UUID session) {
-	super();
-	this.peerId = peer;
-	this.aalSpaceId = space;
-	this.sessionId = session;
-    }
+	public DisconnectionRequest(final String peer, final String space, final UUID session) {
+		super();
+		this.peerId = peer;
+		this.aalSpaceId = space;
+		this.sessionId = session;
+	}
 
-    @Override
-    public String toString() {
-	return "DisconnectionRequest ["
-		+ (peerId != null ? "peerId =" + peerId + ", " : "")
-		+ (aalSpaceId != null ? "aalSpaceId =" + aalSpaceId + ", " : "")
-		+ (aalSpaceId != null ? "scopeId=" + aalSpaceId + ", " : "")
-		+ (sessionId != null ? "sessionId=" + sessionId + " " : "")
-		+ "]";
-    }
+	@Override
+	public String toString() {
+		return "DisconnectionRequest [" + (peerId != null ? "peerId =" + peerId + ", " : "")
+				+ (aalSpaceId != null ? "aalSpaceId =" + aalSpaceId + ", " : "")
+				+ (aalSpaceId != null ? "scopeId=" + aalSpaceId + ", " : "")
+				+ (sessionId != null ? "sessionId=" + sessionId + " " : "") + "]";
+	}
 
-    public String getAALSpaceId() {
-	return aalSpaceId;
-    }
+	public String getAALSpaceId() {
+		return aalSpaceId;
+	}
 
-    public String getPeerId() {
-	return peerId;
-    }
+	public String getPeerId() {
+		return peerId;
+	}
 
-    public String getScopeId() {
-	return aalSpaceId;
-    }
+	public String getScopeId() {
+		return aalSpaceId;
+	}
 
-    public UUID getSessionId() {
-	return sessionId;
-    }
+	public UUID getSessionId() {
+		return sessionId;
+	}
 
-    @Override
-    public int getType() {
-	return LinkMessageType.DISCONNECTION_REQUEST.ordinal();
-    }
+	@Override
+	public int getType() {
+		return LinkMessageType.DISCONNECTION_REQUEST.ordinal();
+	}
 
 }

@@ -70,16 +70,13 @@ public class WSDLParser {
 	 *         information
 	 * @see ParsedWSDLDefinition
 	 */
-	public static ParsedWSDLDefinition parseWSDLwithAxis(String wsdlURL,
-			boolean Axis2Enabled, boolean Axis1Enabled) {
+	public static ParsedWSDLDefinition parseWSDLwithAxis(String wsdlURL, boolean Axis2Enabled, boolean Axis1Enabled) {
 		if (pingURL(wsdlURL)) {
 			try {
 
 				String styleAndUse = getWSDLStyleAndUse(wsdlURL);
-				String style = styleAndUse.substring(0,
-						styleAndUse.indexOf("#"));
-				String use = styleAndUse
-						.substring(styleAndUse.indexOf("#") + 1);
+				String style = styleAndUse.substring(0, styleAndUse.indexOf("#"));
+				String use = styleAndUse.substring(styleAndUse.indexOf("#") + 1);
 				if (style != null && use != null) {
 					style = style.toUpperCase();
 					use = use.toUpperCase();
@@ -90,8 +87,7 @@ public class WSDLParser {
 					if (styleAndUse.equals("rpc#encoded")) {
 						// Use ONLY MITSOS Parser (and/or Axis1)
 						System.out.println("RPC/ENCODED!!!!!!!");
-						ParsedWSDLDefinition parsedDef = MitsosParser
-								.parseWSDL(wsdlURL);
+						ParsedWSDLDefinition parsedDef = MitsosParser.parseWSDL(wsdlURL);
 						parsedDef.setBindingStyle("RPC");
 						parsedDef.setOperationsUse("ENCODED");
 						fixTheParserPaths(parsedDef);
@@ -103,12 +99,10 @@ public class WSDLParser {
 						// MITSOS
 						System.out.println("NOT RPC ENCODED!!!!!!!");
 						if (Axis2Enabled) {
-							ParsedWSDLDefinition parsedDef = Axis2ParserWrapper
-									.parseWSDLwithAxis2(wsdlURL);
+							ParsedWSDLDefinition parsedDef = Axis2ParserWrapper.parseWSDLwithAxis2(wsdlURL);
 							if (parsedDef == null) {
 								// try to call MitsosParser
-								System.out
-										.println("\n\nTrying to Parse WSDL with MitsosParser...");
+								System.out.println("\n\nTrying to Parse WSDL with MitsosParser...");
 								parsedDef = MitsosParser.parseWSDL(wsdlURL);
 							}
 
@@ -116,22 +110,18 @@ public class WSDLParser {
 							parsedDef.setOperationsUse(use);
 							fixTheParserPaths(parsedDef);
 
-							parsedDef
-									.setDocumentation(getDocumentation(wsdlURL));
+							parsedDef.setDocumentation(getDocumentation(wsdlURL));
 							return parsedDef;
 
 						} else {
-							System.out
-									.println("\n\nTrying to Parse WSDL with MitsosParser...");
-							ParsedWSDLDefinition parsedDef = MitsosParser
-									.parseWSDL(wsdlURL);
+							System.out.println("\n\nTrying to Parse WSDL with MitsosParser...");
+							ParsedWSDLDefinition parsedDef = MitsosParser.parseWSDL(wsdlURL);
 
 							parsedDef.setBindingStyle(style);
 							parsedDef.setOperationsUse(use);
 							fixTheParserPaths(parsedDef);
 
-							parsedDef
-									.setDocumentation(getDocumentation(wsdlURL));
+							parsedDef.setDocumentation(getDocumentation(wsdlURL));
 							return parsedDef;
 						}
 					}
@@ -143,8 +133,7 @@ public class WSDLParser {
 					if (styleAndUse.equals("rpc#encoded")) {
 						// Use ONLY MITSOS Parser (and/or Axis1)
 						System.out.println("RPC/ENCODED!!!!!!!");
-						ParsedWSDLDefinition parsedDef = Axis1ParserWrapper
-								.parseWSDLwithAxis1(wsdlURL);
+						ParsedWSDLDefinition parsedDef = Axis1ParserWrapper.parseWSDLwithAxis1(wsdlURL);
 						if (parsedDef != null) {
 							parsedDef.setParsingTool("Axis1");
 
@@ -160,15 +149,12 @@ public class WSDLParser {
 						// MITSOS
 						System.out.println("NOT RPC ENCODED!!!!!!!");
 						if (Axis2Enabled) {
-							ParsedWSDLDefinition parsedDef = Axis2ParserWrapper
-									.parseWSDLwithAxis2(wsdlURL);
+							ParsedWSDLDefinition parsedDef = Axis2ParserWrapper.parseWSDLwithAxis2(wsdlURL);
 
 							if (parsedDef == null) {
 								// try to call MitsosParser
-								System.out
-										.println("\n\nTrying to Parse WSDL with Axis 1...");
-								parsedDef = Axis1ParserWrapper
-										.parseWSDLwithAxis1(wsdlURL);
+								System.out.println("\n\nTrying to Parse WSDL with Axis 1...");
+								parsedDef = Axis1ParserWrapper.parseWSDLwithAxis1(wsdlURL);
 								if (parsedDef != null) {
 									parsedDef.setParsingTool("Axis1");
 									parsedDef.setBindingStyle(style);
@@ -181,21 +167,17 @@ public class WSDLParser {
 							}
 
 							fixTheParserPaths(parsedDef);
-							parsedDef
-									.setDocumentation(getDocumentation(wsdlURL));
+							parsedDef.setDocumentation(getDocumentation(wsdlURL));
 							return parsedDef;
 
 						} else {
-							System.out
-									.println("\n\nTrying to Parse WSDL with Axis 1...");
-							ParsedWSDLDefinition parsedDef = MitsosParser
-									.parseWSDL(wsdlURL);
+							System.out.println("\n\nTrying to Parse WSDL with Axis 1...");
+							ParsedWSDLDefinition parsedDef = MitsosParser.parseWSDL(wsdlURL);
 
 							parsedDef.setBindingStyle(style);
 							parsedDef.setOperationsUse(use);
 							fixTheParserPaths(parsedDef);
-							parsedDef
-									.setDocumentation(getDocumentation(wsdlURL));
+							parsedDef.setDocumentation(getDocumentation(wsdlURL));
 							return parsedDef;
 						}
 					}
@@ -265,62 +247,49 @@ public class WSDLParser {
 						List opers = binding.getBindingOperations();
 						if (opers != null) {
 							for (int i = 0; i < opers.size(); i++) {
-								BindingOperation bindingOper = (BindingOperation) opers
-										.get(i);
+								BindingOperation bindingOper = (BindingOperation) opers.get(i);
 								if (bindingStyle == null) {
-									List l11 = bindingOper
-											.getExtensibilityElements();
+									List l11 = bindingOper.getExtensibilityElements();
 									for (int i11 = 0; i11 < l11.size(); i11++) {
 										try {
 											com.ibm.wsdl.extensions.soap.SOAPOperationImpl soapOperImpl = (com.ibm.wsdl.extensions.soap.SOAPOperationImpl) l11
 													.get(i11);
-											bindingStyle = soapOperImpl
-													.getStyle();
+											bindingStyle = soapOperImpl.getStyle();
 										} catch (Exception e) {
 											try {
 												com.ibm.wsdl.extensions.soap12.SOAP12OperationImpl soapOperImpl = (com.ibm.wsdl.extensions.soap12.SOAP12OperationImpl) l11
 														.get(i11);
-												bindingStyle = soapOperImpl
-														.getStyle();
+												bindingStyle = soapOperImpl.getStyle();
 											} catch (Exception e1) {
 												// e1.printStackTrace();
 											}
 										}
 									}
 								}
-								if (operationUse == null
-										|| operationUse.equals("")
-										|| operationUse.equals("unknown")) {
+								if (operationUse == null || operationUse.equals("") || operationUse.equals("unknown")) {
 									operationUse = "unknown";
 								}
-								List extensibilityElementsList = bindingOper
-										.getBindingInput()
+								List extensibilityElementsList = bindingOper.getBindingInput()
 										.getExtensibilityElements();
 								if (extensibilityElementsList != null) {
-									for (int f1 = 0; f1 < extensibilityElementsList
-											.size(); f1++) {
+									for (int f1 = 0; f1 < extensibilityElementsList.size(); f1++) {
 										javax.wsdl.extensions.ExtensibilityElement extel = (javax.wsdl.extensions.ExtensibilityElement) extensibilityElementsList
 												.get(f1);
 										try {
 											com.ibm.wsdl.extensions.soap.SOAPBodyImpl soapBodyImpl = (com.ibm.wsdl.extensions.soap.SOAPBodyImpl) extensibilityElementsList
 													.get(f1);
-											if (soapBodyImpl.getUse().equals(
-													"encoded")) {
+											if (soapBodyImpl.getUse().equals("encoded")) {
 												operationUse = "encoded";
-											} else if (soapBodyImpl.getUse()
-													.equals("literal")) {
+											} else if (soapBodyImpl.getUse().equals("literal")) {
 												operationUse = "literal";
 											}
 										} catch (Exception e) {
 											try {
 												com.ibm.wsdl.extensions.soap12.SOAP12BodyImpl soapBodyImpl = (com.ibm.wsdl.extensions.soap12.SOAP12BodyImpl) extensibilityElementsList
 														.get(f1);
-												if (soapBodyImpl.getUse()
-														.equals("encoded")) {
+												if (soapBodyImpl.getUse().equals("encoded")) {
 													operationUse = "encoded";
-												} else if (soapBodyImpl
-														.getUse().equals(
-																"literal")) {
+												} else if (soapBodyImpl.getUse().equals("literal")) {
 													operationUse = "literal";
 												}
 											} catch (Exception e1) {
@@ -343,7 +312,7 @@ public class WSDLParser {
 	}
 
 	/**
-	 * Returns documentation of a web service	 
+	 * Returns documentation of a web service
 	 * 
 	 * @param wsdlURL
 	 *            the url of the SOAP web service
@@ -374,7 +343,7 @@ public class WSDLParser {
 	}
 
 	/**
-	 * Removes HTML tags from a String	 
+	 * Removes HTML tags from a String
 	 * 
 	 * @param documentation
 	 *            the String that HTML tags are going to be removed
@@ -382,17 +351,14 @@ public class WSDLParser {
 	 */
 	private static String removeHTMLTags(String documentation) {
 		// remove html tags from string
-		String documentation_without_HTML = documentation.replaceAll("\\<.*?>",
-				"");
+		String documentation_without_HTML = documentation.replaceAll("\\<.*?>", "");
 		// remove special characters
-		documentation_without_HTML = documentation_without_HTML.replaceAll(
-				"[^a-zA-Z 0-9]+", "");
+		documentation_without_HTML = documentation_without_HTML.replaceAll("[^a-zA-Z 0-9]+", "");
 
 		return documentation_without_HTML;
 	}
 
-	public static void cloneAllParsedComplexandNativeObjects(
-			ParsedWSDLDefinition theDefinition) {
+	public static void cloneAllParsedComplexandNativeObjects(ParsedWSDLDefinition theDefinition) {
 		if (theDefinition == null || theDefinition.getWsdlOperations() == null) {
 			return;
 		}
@@ -415,8 +381,7 @@ public class WSDLParser {
 						input.getHasNativeOrComplexObjects().set(i, newNo);
 						System.out.println();
 
-					} else if (obj.getClass().getName()
-							.contains("ComplexObject")) {
+					} else if (obj.getClass().getName().contains("ComplexObject")) {
 						ComplexObject co = (ComplexObject) obj;
 						// clonedTypes=new HashMap();
 						// clonedTypes.add(co.getObjectType());
@@ -438,8 +403,7 @@ public class WSDLParser {
 						input.getHasSoapHeaders().set(i, newNo);
 						System.out.println();
 
-					} else if (obj.getClass().getName()
-							.contains("ComplexObject")) {
+					} else if (obj.getClass().getName().contains("ComplexObject")) {
 						ComplexObject co = (ComplexObject) obj;
 						// clonedTypes=new HashMap();
 						// clonedTypes.add(co.getObjectType());
@@ -453,8 +417,7 @@ public class WSDLParser {
 			WSOperationOutput output = oper.getHasOutput();
 
 			if (output != null && output.getHasNativeOrComplexObjects() != null) {
-				for (int i = 0; i < output.getHasNativeOrComplexObjects()
-						.size(); i++) {
+				for (int i = 0; i < output.getHasNativeOrComplexObjects().size(); i++) {
 					Object obj = output.getHasNativeOrComplexObjects().get(i);
 					if (obj == null) {
 						continue;
@@ -465,8 +428,7 @@ public class WSDLParser {
 						output.getHasNativeOrComplexObjects().set(i, newNo);
 						System.out.println();
 
-					} else if (obj.getClass().getName()
-							.contains("ComplexObject")) {
+					} else if (obj.getClass().getName().contains("ComplexObject")) {
 						ComplexObject co = (ComplexObject) obj;
 						ComplexObject newCo = co.cloneTheCO();
 						output.getHasNativeOrComplexObjects().set(i, newCo);
@@ -486,8 +448,7 @@ public class WSDLParser {
 						output.getHasSoapHeaders().set(i, newNo);
 						System.out.println();
 
-					} else if (obj.getClass().getName()
-							.contains("ComplexObject")) {
+					} else if (obj.getClass().getName().contains("ComplexObject")) {
 						ComplexObject co = (ComplexObject) obj;
 						// clonedTypes=new HashMap();
 						// clonedTypes.add(co.getObjectType());
@@ -499,8 +460,6 @@ public class WSDLParser {
 			}
 		}
 	}
-
-
 
 	public static void fixTheParserPaths(ParsedWSDLDefinition theDefinition) {
 		if (theDefinition == null || theDefinition.getWsdlOperations() == null) {
@@ -514,30 +473,24 @@ public class WSDLParser {
 			Vector inQNamesSoFar = new Vector();
 			Vector outQNamesSoFar = new Vector();
 
-			inQNamesSoFar.add(new QName(theDefinition.getServiceURL(),
-					theDefinition.getWsdlURL().getFile()));
-			outQNamesSoFar.add(new QName(theDefinition.getServiceURL(),
-					theDefinition.getWsdlURL().getPath()));
-
+			inQNamesSoFar.add(new QName(theDefinition.getServiceURL(), theDefinition.getWsdlURL().getFile()));
+			outQNamesSoFar.add(new QName(theDefinition.getServiceURL(), theDefinition.getWsdlURL().getPath()));
 
 			// WS Assessment DIST/DIST/Example
 			// WSDLs/Service1.wsdl::getMap::INPUTS::location]
 			WSOperation oper = (WSOperation) operIter.next();
-			inQNamesSoFar.add(new QName(theDefinition.getServiceURL(), oper
-					.getOperationName()));
+			inQNamesSoFar.add(new QName(theDefinition.getServiceURL(), oper.getOperationName()));
 
 			QName[] operQNarray = new QName[inQNamesSoFar.size() + 1];
 			for (int i = 0; i < inQNamesSoFar.size(); i++) {
 				operQNarray[i] = (QName) inQNamesSoFar.get(i);
 			}
-			operQNarray[operQNarray.length - 1] = new QName(
-					oper.getOperationName());
+			operQNarray[operQNarray.length - 1] = new QName(oper.getOperationName());
 
 			inQNamesSoFar.add(new QName("INPUTS"));
 			WSOperationInput input = oper.getHasInput();
 
-			Iterator inObjsIter = input.getHasNativeOrComplexObjects()
-					.iterator();
+			Iterator inObjsIter = input.getHasNativeOrComplexObjects().iterator();
 			while (inObjsIter.hasNext()) {
 				Object obj = inObjsIter.next();
 				if (obj.getClass().getName().contains("NativeObject")) {
@@ -599,12 +552,10 @@ public class WSDLParser {
 
 			WSOperationOutput output = oper.getHasOutput();
 
-			outQNamesSoFar.add(new QName(theDefinition.getServiceURL(), oper
-					.getOperationName()));
+			outQNamesSoFar.add(new QName(theDefinition.getServiceURL(), oper.getOperationName()));
 			outQNamesSoFar.add(new QName("OUTPUTS"));
 
-			Iterator outObjsIter = output.getHasNativeOrComplexObjects()
-					.iterator();
+			Iterator outObjsIter = output.getHasNativeOrComplexObjects().iterator();
 			while (outObjsIter.hasNext()) {
 				Object obj = outObjsIter.next();
 				if (obj.getClass().getName().contains("NativeObject")) {
@@ -672,8 +623,7 @@ public class WSDLParser {
 
 	}
 
-	private static void fixComplexObjectPathIterative(ComplexObject co,
-			Vector qNamesSoFar, int count) {
+	private static void fixComplexObjectPathIterative(ComplexObject co, Vector qNamesSoFar, int count) {
 		if (co == null) {
 			return;
 		}
@@ -687,10 +637,8 @@ public class WSDLParser {
 			for (int i = 0; i < qNamesSoFar.size(); i++) {
 				// qNarray[i] = (QName) qNamesSoFar.get(i);
 				if (qNamesSoFar.get(i) != null) {
-					QName qName1 = new QName(
-							((QName) qNamesSoFar.get(i)).getNamespaceURI(),
-							((QName) qNamesSoFar.get(i)).getLocalPart(),
-							((QName) qNamesSoFar.get(i)).getPrefix());
+					QName qName1 = new QName(((QName) qNamesSoFar.get(i)).getNamespaceURI(),
+							((QName) qNamesSoFar.get(i)).getLocalPart(), ((QName) qNamesSoFar.get(i)).getPrefix());
 					qNarray[i] = qName1;
 				} else {
 					qNarray[i] = new QName("");
@@ -709,10 +657,8 @@ public class WSDLParser {
 			QName[] qNarray = new QName[qNamesSoFar.size() + 1];
 			for (int i = 0; i < qNamesSoFar.size(); i++) {
 				if (qNamesSoFar.get(i) != null) {
-					QName qName1 = new QName(
-							((QName) qNamesSoFar.get(i)).getNamespaceURI(),
-							((QName) qNamesSoFar.get(i)).getLocalPart(),
-							((QName) qNamesSoFar.get(i)).getPrefix());
+					QName qName1 = new QName(((QName) qNamesSoFar.get(i)).getNamespaceURI(),
+							((QName) qNamesSoFar.get(i)).getLocalPart(), ((QName) qNamesSoFar.get(i)).getPrefix());
 					qNarray[i] = qName1;
 				} else {
 					qNarray[i] = new QName("");
@@ -733,8 +679,7 @@ public class WSDLParser {
 			Iterator iter3 = co.getHasExtendedObjects().iterator();
 			while (iter3.hasNext()) {
 				Object obj = iter3.next();
-				if (obj != null
-						&& obj.getClass().getName().contains("NativeObject")) {
+				if (obj != null && obj.getClass().getName().contains("NativeObject")) {
 					NativeObject no1 = (NativeObject) obj;
 					no1.setHasParent(co);
 					no1.setIsInput(co.isIsInput());
@@ -743,9 +688,7 @@ public class WSDLParser {
 					for (int i = 0; i < qNamesSoFar.size(); i++) {
 						// qNarray[i] = (QName) qNamesSoFar.get(i);
 						if (qNamesSoFar.get(i) != null) {
-							QName qName1 = new QName(
-									((QName) qNamesSoFar.get(i))
-											.getNamespaceURI(),
+							QName qName1 = new QName(((QName) qNamesSoFar.get(i)).getNamespaceURI(),
 									((QName) qNamesSoFar.get(i)).getLocalPart(),
 									((QName) qNamesSoFar.get(i)).getPrefix());
 							qNarray[i] = qName1;
@@ -755,8 +698,7 @@ public class WSDLParser {
 					}
 					qNarray[qNarray.length - 1] = no1.getObjectName();
 
-				} else if (obj != null
-						&& obj.getClass().getName().contains("ComplexObject")) {
+				} else if (obj != null && obj.getClass().getName().contains("ComplexObject")) {
 					ComplexObject co1 = (ComplexObject) obj;
 					co1.setHasParent(co);
 					co1.setIsInput(co.isIsInput());
@@ -764,9 +706,7 @@ public class WSDLParser {
 					QName[] qNarray = new QName[qNamesSoFar.size() + 1];
 					for (int i = 0; i < qNamesSoFar.size(); i++) {
 						if (qNamesSoFar.get(i) != null) {
-							QName qName1 = new QName(
-									((QName) qNamesSoFar.get(i))
-											.getNamespaceURI(),
+							QName qName1 = new QName(((QName) qNamesSoFar.get(i)).getNamespaceURI(),
 									((QName) qNamesSoFar.get(i)).getLocalPart(),
 									((QName) qNamesSoFar.get(i)).getPrefix());
 							qNarray[i] = qName1;
@@ -781,8 +721,7 @@ public class WSDLParser {
 
 					count++;
 					if (count < 30) {
-						fixComplexObjectPathIterative(co1, newQNamesVector,
-								count);
+						fixComplexObjectPathIterative(co1, newQNamesVector, count);
 					}
 				}
 			}
@@ -805,8 +744,7 @@ public class WSDLParser {
 				URL url = new URL(urlStr);
 				URLConnection conn = url.openConnection();
 				conn.setReadTimeout(5000);
-				BufferedReader rd = new BufferedReader(new InputStreamReader(
-						conn.getInputStream()));
+				BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
 				rd.close();
 				return true;
 			} catch (Exception e) {

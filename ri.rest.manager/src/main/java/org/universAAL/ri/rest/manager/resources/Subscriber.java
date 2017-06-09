@@ -53,133 +53,139 @@ import org.universAAL.ri.rest.manager.wrappers.SpaceWrapper;
 @Path("uaal/spaces/{id}/context/subscribers/{subid}")
 public class Subscriber {
 
-    @XmlAttribute
-    @PathParam("subid")
-    private String id;
+	@XmlAttribute
+	@PathParam("subid")
+	private String id;
 
-    @XmlElement(name = "link")
-    @XmlJavaTypeAdapter(JaxbAdapter.class)
-    private Link self;
-    
-    @XmlElement(name = "callback")
-    private String callback;
-    
-    @XmlElement(name = "pattern") // TODO @XMLElement(nillable=true) for not showing in .../subscribers ?
-    private String pattern;
+	@XmlElement(name = "link")
+	@XmlJavaTypeAdapter(JaxbAdapter.class)
+	private Link self;
 
-    public Link getSelf() {
-	return self;
-    }
+	@XmlElement(name = "callback")
+	private String callback;
 
-    public void setSelf(Link self) {
-	this.self = self;
-    }
+	@XmlElement(name = "pattern") // TODO @XMLElement(nillable=true) for not
+									// showing in .../subscribers ?
+	private String pattern;
 
-    public String getId() {
-	return id;
-    }
-
-    public void setId(String id) {
-	this.id = id;
-    }
-    
-    public String getCallback() {
-        return callback;
-    }
-
-    public void setCallback(String callback) {
-        this.callback = callback;
-    }
-
-    public String getPattern() {
-        return pattern;
-    }
-
-    public void setPattern(String patetrn) {
-        this.pattern = patetrn;
-    }
-
-
-    public Subscriber(String id, String subid, String callback, String pattern) {
-	setId(subid);
-	setSelf(Link.fromPath("/uaal/spaces/"+id+"/context/subscribers/"+subid).rel("self").build());
-	setCallback(callback);
-	setPattern(pattern);
-    }
-
-    public Subscriber() {
-	
-    }
-    
-    //===============REST METHODS===============
-    
-    @GET
-    @Produces(Activator.TYPES)
-    public Subscriber getSubscriberResource(@PathParam("id") String id, @PathParam("subid") String subid){
-	Activator.logI("Subscriber.getSubscriberResource", "GET host:port/uaal/spaces/X/context/subscribers/Y");
-	SpaceWrapper tenant = UaalWrapper.getInstance().getTenant(id);
-	if(tenant!=null){
-	    SubscriberWrapper wrapper = tenant.getContextSubscriber(subid);
-	    if(wrapper!=null){
-		return wrapper.getResource();
-	    }
+	public Link getSelf() {
+		return self;
 	}
-	return null;
-    }
-    
-    @DELETE
-    public Response deleteSubscriberResource(@PathParam("id") String id, @PathParam("subid") String subid){
-	Activator.logI("Subscriber.deleteSubscriberResource", "DELETE host:port/uaal/spaces/X/context/subscribers/Y");
-	SpaceWrapper tenant = UaalWrapper.getInstance().getTenant(id);
-	if(tenant!=null){
-	    tenant.removeContextSubscriber(subid);
-	    Activator.getPersistence().removeSubscriber(id, subid);
-	    return Response.ok().build();//.nocontent?
+
+	public void setSelf(Link self) {
+		this.self = self;
 	}
-	return Response.status(Status.NOT_FOUND).build();
-    }
-    
-    @PUT
-    @Consumes(Activator.TYPES)
-    public Response putCalleeResource(@PathParam("id") String id, @PathParam("subid") String subid, Subscriber sub) throws URISyntaxException{
-	Activator.logI("Subscriber.putCalleeResource", "PUT host:port/uaal/spaces/X/context/subscribers/Y");
-	//The sub generated from the PUT body does not contain any "link" elements, but I wouldnt have allowed it anyway
-	if (subid.equals(sub.id)) {// Do not allow changes to id
-	    SpaceWrapper tenant = UaalWrapper.getInstance().getTenant(id);
-	    if (tenant != null) {
-		if(Activator.getParser()!=null){
-		    if (sub.getPattern() != null) {
-			ContextEventPattern cep = (ContextEventPattern) Activator
-				.getParser().deserialize(sub.getPattern());
-			if (cep != null) { //Just check that they are OK
-			    SubscriberWrapper original = tenant.getContextSubscriber(subid);
-			    if (original != null) {//Can only change existing ones
-				sub.setSelf(Link.fromPath("/uaal/spaces/"+id+"/service/callees/"+sub.getId()).rel("self").build());
-				original.setResource(sub);
-				if(tenant.updateContextSubscriber(original)){
-				    Activator.getPersistence().storeSubscriber(id, sub);
-				    return Response.created(new URI("uaal/spaces/"+id+"/service/callees/"+sub.getId())).build();
-				}else{
-				    return Response.notModified().build();
-				}
-			    } else {
-				return Response.status(Status.NOT_FOUND).build();
-			    }
-			} else {
-			    return Response.status(Status.BAD_REQUEST).build();
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public String getCallback() {
+		return callback;
+	}
+
+	public void setCallback(String callback) {
+		this.callback = callback;
+	}
+
+	public String getPattern() {
+		return pattern;
+	}
+
+	public void setPattern(String patetrn) {
+		this.pattern = patetrn;
+	}
+
+	public Subscriber(String id, String subid, String callback, String pattern) {
+		setId(subid);
+		setSelf(Link.fromPath("/uaal/spaces/" + id + "/context/subscribers/" + subid).rel("self").build());
+		setCallback(callback);
+		setPattern(pattern);
+	}
+
+	public Subscriber() {
+
+	}
+
+	// ===============REST METHODS===============
+
+	@GET
+	@Produces(Activator.TYPES)
+	public Subscriber getSubscriberResource(@PathParam("id") String id, @PathParam("subid") String subid) {
+		Activator.logI("Subscriber.getSubscriberResource", "GET host:port/uaal/spaces/X/context/subscribers/Y");
+		SpaceWrapper tenant = UaalWrapper.getInstance().getTenant(id);
+		if (tenant != null) {
+			SubscriberWrapper wrapper = tenant.getContextSubscriber(subid);
+			if (wrapper != null) {
+				return wrapper.getResource();
 			}
-		    } else {
-			return Response.status(Status.BAD_REQUEST).build();
-		    }
-		}else{
-		    return Response.serverError().build();
 		}
-	    } else {
-		return Response.status(Status.NOT_FOUND).build();
-	    }
-	} else {
-	    return Response.notModified().build();
+		return null;
 	}
-    }
+
+	@DELETE
+	public Response deleteSubscriberResource(@PathParam("id") String id, @PathParam("subid") String subid) {
+		Activator.logI("Subscriber.deleteSubscriberResource", "DELETE host:port/uaal/spaces/X/context/subscribers/Y");
+		SpaceWrapper tenant = UaalWrapper.getInstance().getTenant(id);
+		if (tenant != null) {
+			tenant.removeContextSubscriber(subid);
+			Activator.getPersistence().removeSubscriber(id, subid);
+			return Response.ok().build();// .nocontent?
+		}
+		return Response.status(Status.NOT_FOUND).build();
+	}
+
+	@PUT
+	@Consumes(Activator.TYPES)
+	public Response putCalleeResource(@PathParam("id") String id, @PathParam("subid") String subid, Subscriber sub)
+			throws URISyntaxException {
+		Activator.logI("Subscriber.putCalleeResource", "PUT host:port/uaal/spaces/X/context/subscribers/Y");
+		// The sub generated from the PUT body does not contain any "link"
+		// elements, but I wouldnt have allowed it anyway
+		if (subid.equals(sub.id)) {// Do not allow changes to id
+			SpaceWrapper tenant = UaalWrapper.getInstance().getTenant(id);
+			if (tenant != null) {
+				if (Activator.getParser() != null) {
+					if (sub.getPattern() != null) {
+						ContextEventPattern cep = (ContextEventPattern) Activator.getParser()
+								.deserialize(sub.getPattern());
+						if (cep != null) { // Just check that they are OK
+							SubscriberWrapper original = tenant.getContextSubscriber(subid);
+							if (original != null) {// Can only change existing
+													// ones
+								sub.setSelf(Link.fromPath("/uaal/spaces/" + id + "/service/callees/" + sub.getId())
+										.rel("self").build());
+								original.setResource(sub);
+								if (tenant.updateContextSubscriber(original)) {
+									Activator.getPersistence().storeSubscriber(id, sub);
+									return Response
+											.created(new URI("uaal/spaces/" + id + "/service/callees/" + sub.getId()))
+											.build();
+								} else {
+									return Response.notModified().build();
+								}
+							} else {
+								return Response.status(Status.NOT_FOUND).build();
+							}
+						} else {
+							return Response.status(Status.BAD_REQUEST).build();
+						}
+					} else {
+						return Response.status(Status.BAD_REQUEST).build();
+					}
+				} else {
+					return Response.serverError().build();
+				}
+			} else {
+				return Response.status(Status.NOT_FOUND).build();
+			}
+		} else {
+			return Response.notModified().build();
+		}
+	}
 
 }

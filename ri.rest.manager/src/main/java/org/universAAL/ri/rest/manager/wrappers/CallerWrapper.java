@@ -27,31 +27,31 @@ import org.universAAL.middleware.service.ServiceResponse;
 import org.universAAL.ri.rest.manager.Activator;
 import org.universAAL.ri.rest.manager.resources.Caller;
 
-public class CallerWrapper extends ServiceCaller{
-    
-    private Caller resource;
+public class CallerWrapper extends ServiceCaller {
 
-    public Caller getResource() {
-        return resource;
-    }
+	private Caller resource;
 
-    public void setResource(Caller resource) {
-        this.resource = resource;
-    }
+	public Caller getResource() {
+		return resource;
+	}
 
-    public CallerWrapper(ModuleContext context, Caller r) {
-	super(context);
-	resource=r;
-    }
+	public void setResource(Caller resource) {
+		this.resource = resource;
+	}
 
-    @Override
-    public void communicationChannelBroken() {
-	Activator.logW("CallerWrapper.communicationChannelBroken", "communication Channel Broken");
-    }
+	public CallerWrapper(ModuleContext context, Caller r) {
+		super(context);
+		resource = r;
+	}
 
-    @Override
-    public void handleResponse(String reqID, ServiceResponse response) {
-	Activator.logW("CallerWrapper.handleResponse", "REST API Caller does not handle asynchronous calls");
-    }
+	@Override
+	public void communicationChannelBroken() {
+		Activator.logW("CallerWrapper.communicationChannelBroken", "communication Channel Broken");
+	}
+
+	@Override
+	public void handleResponse(String reqID, ServiceResponse response) {
+		Activator.logW("CallerWrapper.handleResponse", "REST API Caller does not handle asynchronous calls");
+	}
 
 }

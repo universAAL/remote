@@ -32,109 +32,98 @@ import org.universAAL.ri.gateway.operations.OperationChain.OperationResult;
 
 public class TurtleFileSecurityDefinitionTest {
 
-    private static ModuleContext mc;
+	private static ModuleContext mc;
 
-    @BeforeClass
-    public static void setUp() throws Exception {
-	mc = new JUnitModuleContext();
-	mc.getContainer().shareObject(mc, new TurtleSerializer(),
-		new Object[] { MessageContentSerializer.class.getName() });
+	@BeforeClass
+	public static void setUp() throws Exception {
+		mc = new JUnitModuleContext();
+		mc.getContainer().shareObject(mc, new TurtleSerializer(),
+				new Object[] { MessageContentSerializer.class.getName() });
 
-	mc.getContainer().shareObject(mc, new DummyAALSPaceManager(),
-		new Object[] { AALSpaceManager.class.getName() });
+		mc.getContainer().shareObject(mc, new DummyAALSPaceManager(), new Object[] { AALSpaceManager.class.getName() });
 
-	mc.getContainer().shareObject(mc, new DummyTenantManager(),
-		new Object[] { TenantManager.class.getName() });
+		mc.getContainer().shareObject(mc, new DummyTenantManager(), new Object[] { TenantManager.class.getName() });
 
-	org.universAAL.middleware.tracker.impl.Activator.fetchParams = new Object[] { IBusMemberRegistry.class
-		.getName() };
+		org.universAAL.middleware.tracker.impl.Activator.fetchParams = new Object[] {
+				IBusMemberRegistry.class.getName() };
 
-	mc.getContainer().shareObject(mc, new DummyBusRegistry(),
-		IBusMemberRegistry.busRegistryShareParams);
+		mc.getContainer().shareObject(mc, new DummyBusRegistry(), IBusMemberRegistry.busRegistryShareParams);
 
-	OntologyManagement.getInstance().register(mc, new DataRepOntology());
-	OntologyManagement.getInstance().register(mc, new ServiceBusOntology());
-	// OntologyManagement.getInstance().register(mc, new UIBusOntology());
-	OntologyManagement.getInstance().register(mc, new LocationOntology());
-	OntologyManagement.getInstance().register(mc, new SysinfoOntology());
-	// OntologyManagement.getInstance().register(mc, new ShapeOntology());
-	// OntologyManagement.getInstance().register(mc, new PhThingOntology());
-	// OntologyManagement.getInstance().register(mc, new SpaceOntology());
-	// OntologyManagement.getInstance().register(mc, new VCardOntology());
-	// OntologyManagement.getInstance().register(mc, new ProfileOntology());
-	// OntologyManagement.getInstance().register(mc, new
-	// MenuProfileOntology());
+		OntologyManagement.getInstance().register(mc, new DataRepOntology());
+		OntologyManagement.getInstance().register(mc, new ServiceBusOntology());
+		// OntologyManagement.getInstance().register(mc, new UIBusOntology());
+		OntologyManagement.getInstance().register(mc, new LocationOntology());
+		OntologyManagement.getInstance().register(mc, new SysinfoOntology());
+		// OntologyManagement.getInstance().register(mc, new ShapeOntology());
+		// OntologyManagement.getInstance().register(mc, new PhThingOntology());
+		// OntologyManagement.getInstance().register(mc, new SpaceOntology());
+		// OntologyManagement.getInstance().register(mc, new VCardOntology());
+		// OntologyManagement.getInstance().register(mc, new ProfileOntology());
+		// OntologyManagement.getInstance().register(mc, new
+		// MenuProfileOntology());
 
-	new Gateway().start(mc);
-    }
+		new Gateway().start(mc);
+	}
 
-    @Test
-    public void test1() {
+	@Test
+	public void test1() {
 
-	URL f = this.getClass().getResource("/AcceptALL.ttl");
-	assertNotNull(f);
-	TurtleFileSecurityDefinition tfsd = new TurtleFileSecurityDefinition(f);
-    }
+		URL f = this.getClass().getResource("/AcceptALL.ttl");
+		assertNotNull(f);
+		TurtleFileSecurityDefinition tfsd = new TurtleFileSecurityDefinition(f);
+	}
 
-    @Test
-    public void test2() {
+	@Test
+	public void test2() {
 
-	URL f = this.getClass().getResource("/AcceptALL.ttl");
-	assertNotNull(f);
-	TurtleFileSecurityDefinition tfsd = new TurtleFileSecurityDefinition(f);
-	assertNotNull(tfsd.getExportOperationChain());
-	assertNotNull(tfsd.getExportOperationChain().check(new Resource[] {}));
-	assertTrue(tfsd.getExportOperationChain().check(new Resource[] {})
-		.equals(OperationResult.ALLOW));
-    }
+		URL f = this.getClass().getResource("/AcceptALL.ttl");
+		assertNotNull(f);
+		TurtleFileSecurityDefinition tfsd = new TurtleFileSecurityDefinition(f);
+		assertNotNull(tfsd.getExportOperationChain());
+		assertNotNull(tfsd.getExportOperationChain().check(new Resource[] {}));
+		assertTrue(tfsd.getExportOperationChain().check(new Resource[] {}).equals(OperationResult.ALLOW));
+	}
 
-    @Test
-    public void test3() {
+	@Test
+	public void test3() {
 
-	URL f = this.getClass().getResource("/AcceptALL.ttl");
-	assertNotNull(f);
-	TurtleFileSecurityDefinition tfsd = new TurtleFileSecurityDefinition(f);
+		URL f = this.getClass().getResource("/AcceptALL.ttl");
+		assertNotNull(f);
+		TurtleFileSecurityDefinition tfsd = new TurtleFileSecurityDefinition(f);
 
-	ContextEventPattern cep = new ContextEventPattern();
-	cep.addRestriction(MergedRestriction.getAllValuesRestriction(
-		ContextEvent.PROP_RDF_SUBJECT, SystemInfo.MY_URI));
-	cep.addRestriction(MergedRestriction.getFixedValueRestriction(
-		ContextEvent.PROP_RDF_PREDICATE, SystemInfo.PROP_ALIVE));
-	cep.addRestriction(MergedRestriction.getFixedValueRestriction(
-		ContextEvent.PROP_RDF_OBJECT, new Boolean(true)));
+		ContextEventPattern cep = new ContextEventPattern();
+		cep.addRestriction(MergedRestriction.getAllValuesRestriction(ContextEvent.PROP_RDF_SUBJECT, SystemInfo.MY_URI));
+		cep.addRestriction(
+				MergedRestriction.getFixedValueRestriction(ContextEvent.PROP_RDF_PREDICATE, SystemInfo.PROP_ALIVE));
+		cep.addRestriction(MergedRestriction.getFixedValueRestriction(ContextEvent.PROP_RDF_OBJECT, new Boolean(true)));
 
-	assertTrue(tfsd.getExportOperationChain().check(new Resource[] {})
-		.equals(OperationResult.ALLOW));
-    }
+		assertTrue(tfsd.getExportOperationChain().check(new Resource[] {}).equals(OperationResult.ALLOW));
+	}
 
-    @Test
-    public void test4() {
+	@Test
+	public void test4() {
 
-	URL f = this.getClass().getResource("/DenyALL.ttl");
-	assertNotNull(f);
-	TurtleFileSecurityDefinition tfsd = new TurtleFileSecurityDefinition(f);
-	assertNotNull(tfsd.getExportOperationChain());
-	assertNotNull(tfsd.getExportOperationChain().check(new Resource[] {}));
-	assertTrue(tfsd.getExportOperationChain().check(new Resource[] {})
-		.equals(OperationResult.DENY));
-    }
+		URL f = this.getClass().getResource("/DenyALL.ttl");
+		assertNotNull(f);
+		TurtleFileSecurityDefinition tfsd = new TurtleFileSecurityDefinition(f);
+		assertNotNull(tfsd.getExportOperationChain());
+		assertNotNull(tfsd.getExportOperationChain().check(new Resource[] {}));
+		assertTrue(tfsd.getExportOperationChain().check(new Resource[] {}).equals(OperationResult.DENY));
+	}
 
-    @Test
-    public void test5() {
+	@Test
+	public void test5() {
 
-	URL f = this.getClass().getResource("/DenyALL.ttl");
-	assertNotNull(f);
-	TurtleFileSecurityDefinition tfsd = new TurtleFileSecurityDefinition(f);
+		URL f = this.getClass().getResource("/DenyALL.ttl");
+		assertNotNull(f);
+		TurtleFileSecurityDefinition tfsd = new TurtleFileSecurityDefinition(f);
 
-	ContextEventPattern cep = new ContextEventPattern();
-	cep.addRestriction(MergedRestriction.getAllValuesRestriction(
-		ContextEvent.PROP_RDF_SUBJECT, SystemInfo.MY_URI));
-	cep.addRestriction(MergedRestriction.getFixedValueRestriction(
-		ContextEvent.PROP_RDF_PREDICATE, SystemInfo.PROP_ALIVE));
-	cep.addRestriction(MergedRestriction.getFixedValueRestriction(
-		ContextEvent.PROP_RDF_OBJECT, new Boolean(true)));
+		ContextEventPattern cep = new ContextEventPattern();
+		cep.addRestriction(MergedRestriction.getAllValuesRestriction(ContextEvent.PROP_RDF_SUBJECT, SystemInfo.MY_URI));
+		cep.addRestriction(
+				MergedRestriction.getFixedValueRestriction(ContextEvent.PROP_RDF_PREDICATE, SystemInfo.PROP_ALIVE));
+		cep.addRestriction(MergedRestriction.getFixedValueRestriction(ContextEvent.PROP_RDF_OBJECT, new Boolean(true)));
 
-	assertTrue(tfsd.getExportOperationChain().check(new Resource[] {})
-		.equals(OperationResult.DENY));
-    }
+		assertTrue(tfsd.getExportOperationChain().check(new Resource[] {}).equals(OperationResult.DENY));
+	}
 }

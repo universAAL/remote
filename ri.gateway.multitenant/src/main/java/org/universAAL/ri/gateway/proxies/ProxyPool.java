@@ -35,106 +35,103 @@ import org.universAAL.ri.gateway.protocol.ImportMessage;
  */
 public class ProxyPool {
 
-    /**
-     * Collection ProxyID to {@link ProxyBusMember}.
-     */
-    Map<String, ProxyBusMember> map = new HashMap<String, ProxyBusMember>();
+	/**
+	 * Collection ProxyID to {@link ProxyBusMember}.
+	 */
+	Map<String, ProxyBusMember> map = new HashMap<String, ProxyBusMember>();
 
-    /**
-     * Get the {@link ProxyBusMember} from its busMemberId (which is not always
-     * the same as the {@link BusMember} it represents).
-     * 
-     * @param proxyID
-     * @return
-     */
-    public ProxyBusMember get(final String proxyID) {
-	return map.get(proxyID);
-    }
-
-    /**
-     * Adds {@link ProxyBusMember} to the pool. if {@link ProxyBusMember} is
-     * already added, there is no effect.
-     * 
-     * @param proxy
-     */
-    public synchronized void add(final ProxyBusMember proxy) {
-	map.put(proxy.getBusMemberId(), proxy);
-    }
-
-    /**
-     * Test compatibility of parameters with all {@link ProxyBusMember}s in the
-     * pool.
-     * 
-     * @param newParameters
-     *            the registration parameters required for the compatible
-     *            {@link ProxyBusMember}
-     * @return the first compatible {@link ProxyBusMember} or null if not found.
-     */
-    public ProxyBusMember searchCompatible(final Resource[] newParameters) {
-	ProxyBusMember match = null;
-	final Iterator<ProxyBusMember> it = map.values().iterator();
-	while (it.hasNext() && match == null) {
-	    final ProxyBusMember pbm = it.next();
-	    if (pbm.isCompatible(newParameters)) {
-		match = pbm;
-	    }
+	/**
+	 * Get the {@link ProxyBusMember} from its busMemberId (which is not always
+	 * the same as the {@link BusMember} it represents).
+	 * 
+	 * @param proxyID
+	 * @return
+	 */
+	public ProxyBusMember get(final String proxyID) {
+		return map.get(proxyID);
 	}
-	return match;
-    }
 
-    /**
-     * Get all {@link ProxyBusMember}s in the pool.
-     * 
-     * @return the collection of all currently present {@link ProxyBusMember}s
-     *         in the pool
-     */
-    public Collection<ProxyBusMember> all() {
-	return map.values();
-    }
-
-    /**
-     * Safely remove a {@link ProxyBusMember} from the bus. and send a message
-     * to all it's peers to remove the remote proxy. this method will also
-     * {@link ProxyBusMember#close() terminate} the {@link ProxyBusMember}.
-     * 
-     * @param pbm
-     */
-    public void removeProxyWithSend(final ProxyBusMember pbm) {
-	final Collection<BusMemberReference> allSessionsAssociatedToProxy = pbm
-		.getRemoteProxiesReferences();
-	// send importRemove to all sessions
-	for (final BusMemberReference bmr : allSessionsAssociatedToProxy) {
-	    Session s = bmr.getChannel();
-	    if (s.isActive()) {
-		// if session is not active it has been already removed in peer
-		bmr.getChannel().send(
-			ImportMessage.importRemove(pbm.getBusMemberId()));
-	    }
+	/**
+	 * Adds {@link ProxyBusMember} to the pool. if {@link ProxyBusMember} is
+	 * already added, there is no effect.
+	 * 
+	 * @param proxy
+	 */
+	public synchronized void add(final ProxyBusMember proxy) {
+		map.put(proxy.getBusMemberId(), proxy);
 	}
-	removeProxy(pbm);
-    }
 
-    /**
-     * Check if a Proxy is orphan (is it has no references) if so removes it and
-     * properly closes it.
-     * 
-     * @param pbm
-     *            the Proxy to check.
-     * @return true iff the proxy is orphan => removed.
-     */
-    public boolean removeProxyIfOrphan(final ProxyBusMember pbm) {
-	if (pbm.getRemoteProxiesReferences().isEmpty()) {
-	    LogUtils.logDebug(Gateway.getInstance().context, getClass(),
-		    "removeProxyIfOrphan",
-		    "No more References, removing proxy.");
-	    removeProxy(pbm);
-	    return true;
+	/**
+	 * Test compatibility of parameters with all {@link ProxyBusMember}s in the
+	 * pool.
+	 * 
+	 * @param newParameters
+	 *            the registration parameters required for the compatible
+	 *            {@link ProxyBusMember}
+	 * @return the first compatible {@link ProxyBusMember} or null if not found.
+	 */
+	public ProxyBusMember searchCompatible(final Resource[] newParameters) {
+		ProxyBusMember match = null;
+		final Iterator<ProxyBusMember> it = map.values().iterator();
+		while (it.hasNext() && match == null) {
+			final ProxyBusMember pbm = it.next();
+			if (pbm.isCompatible(newParameters)) {
+				match = pbm;
+			}
+		}
+		return match;
 	}
-	return false;
-    }
 
-    private synchronized void removeProxy(final ProxyBusMember pbm) {
-	pbm.close();
-	map.remove(pbm.getBusMemberId());
-    }
+	/**
+	 * Get all {@link ProxyBusMember}s in the pool.
+	 * 
+	 * @return the collection of all currently present {@link ProxyBusMember}s
+	 *         in the pool
+	 */
+	public Collection<ProxyBusMember> all() {
+		return map.values();
+	}
+
+	/**
+	 * Safely remove a {@link ProxyBusMember} from the bus. and send a message
+	 * to all it's peers to remove the remote proxy. this method will also
+	 * {@link ProxyBusMember#close() terminate} the {@link ProxyBusMember}.
+	 * 
+	 * @param pbm
+	 */
+	public void removeProxyWithSend(final ProxyBusMember pbm) {
+		final Collection<BusMemberReference> allSessionsAssociatedToProxy = pbm.getRemoteProxiesReferences();
+		// send importRemove to all sessions
+		for (final BusMemberReference bmr : allSessionsAssociatedToProxy) {
+			Session s = bmr.getChannel();
+			if (s.isActive()) {
+				// if session is not active it has been already removed in peer
+				bmr.getChannel().send(ImportMessage.importRemove(pbm.getBusMemberId()));
+			}
+		}
+		removeProxy(pbm);
+	}
+
+	/**
+	 * Check if a Proxy is orphan (is it has no references) if so removes it and
+	 * properly closes it.
+	 * 
+	 * @param pbm
+	 *            the Proxy to check.
+	 * @return true iff the proxy is orphan => removed.
+	 */
+	public boolean removeProxyIfOrphan(final ProxyBusMember pbm) {
+		if (pbm.getRemoteProxiesReferences().isEmpty()) {
+			LogUtils.logDebug(Gateway.getInstance().context, getClass(), "removeProxyIfOrphan",
+					"No more References, removing proxy.");
+			removeProxy(pbm);
+			return true;
+		}
+		return false;
+	}
+
+	private synchronized void removeProxy(final ProxyBusMember pbm) {
+		pbm.close();
+		map.remove(pbm.getBusMemberId());
+	}
 }

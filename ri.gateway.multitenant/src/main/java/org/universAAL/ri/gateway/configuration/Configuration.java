@@ -27,50 +27,50 @@ import org.universAAL.ri.gateway.operations.OperationChainManager;
  */
 public interface Configuration extends OperationChainManager {
 
-    /**
-     * Definition of the Connection mode.
-     * 
-     * @author amedrano
-     * 
-     */
-    public enum ConnectionMode {
-	SERVER, CLIENT
-    }
+	/**
+	 * Definition of the Connection mode.
+	 * 
+	 * @author amedrano
+	 * 
+	 */
+	public enum ConnectionMode {
+		SERVER, CLIENT
+	}
 
-    /**
-     * Get the Connection mode intended for the {@link Session} represented by
-     * this configuration.
-     * 
-     * @return the Connection mode.
-     */
-    ConnectionMode getConnectionMode();
+	/**
+	 * Get the Connection mode intended for the {@link Session} represented by
+	 * this configuration.
+	 * 
+	 * @return the Connection mode.
+	 */
+	ConnectionMode getConnectionMode();
 
-    /**
-     * Get the Host the Session should connect to. <br>
-     * For {@link ConnectionMode#CLIENT clients} this is the hostname of the
-     * server. <br>
-     * For {@link ConnectionMode#SERVER servers} this is the interface they have
-     * to listen to (default should be 0.0.0.0, i.e: all).
-     * 
-     * @return the Hostname.
-     */
-    String getConnectionHost();
+	/**
+	 * Get the Host the Session should connect to. <br>
+	 * For {@link ConnectionMode#CLIENT clients} this is the hostname of the
+	 * server. <br>
+	 * For {@link ConnectionMode#SERVER servers} this is the interface they have
+	 * to listen to (default should be 0.0.0.0, i.e: all).
+	 * 
+	 * @return the Hostname.
+	 */
+	String getConnectionHost();
 
-    /**
-     * Get the port to connect to. <br>
-     * For {@link ConnectionMode#CLIENT clients} this is the port which the
-     * server is set up at. <br>
-     * for {@link ConnectionMode#SERVER servers} this is the port which they
-     * have to listen to.
-     * 
-     * @return the port.
-     */
-    int getConnectionPort();
+	/**
+	 * Get the port to connect to. <br>
+	 * For {@link ConnectionMode#CLIENT clients} this is the port which the
+	 * server is set up at. <br>
+	 * for {@link ConnectionMode#SERVER servers} this is the port which they
+	 * have to listen to.
+	 * 
+	 * @return the port.
+	 */
+	int getConnectionPort();
 
-    /**
-     * Get the encryption cipher to be used for the communication link.
-     * 
-     * @return the {@link Cipher} implementation configured for this link.
-     */
-    Cipher getCipher();
+	/**
+	 * Get the encryption cipher to be used for the communication link.
+	 * 
+	 * @return the {@link Cipher} implementation configured for this link.
+	 */
+	Cipher getCipher();
 }

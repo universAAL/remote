@@ -24,17 +24,16 @@ import org.universAAL.middleware.tracker.IBusMemberRegistryListener;
  */
 public class DummyBusRegistry implements IBusMemberRegistry {
 
-    /** {@inheritDoc} */
-    public void addListener(IBusMemberRegistryListener listener,
-	    boolean notifyAboutPreviouslyRegisteredMembers) {
-	// TODO Auto-generated method stub
+	/** {@inheritDoc} */
+	public void addListener(IBusMemberRegistryListener listener, boolean notifyAboutPreviouslyRegisteredMembers) {
+		// TODO Auto-generated method stub
 
-    }
+	}
 
-    /** {@inheritDoc} */
-    public void removeListener(IBusMemberRegistryListener listener) {
-	// TODO Auto-generated method stub
+	/** {@inheritDoc} */
+	public void removeListener(IBusMemberRegistryListener listener) {
+		// TODO Auto-generated method stub
 
-    }
+	}
 
 }

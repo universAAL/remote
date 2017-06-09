@@ -28,7 +28,7 @@ under the License.
       <title>File: 2,
              Errors: 16,
              Warnings: 1,
-             Infos: 22
+             Infos: 15
       </title>
             <link>http://remote/ri.keepalive.sender//checkstyle.html</link>
       <description>
@@ -49,7 +49,7 @@ under the License.
                   <a href="http://remote/ri.keepalive.sender//checkstyle.html#org.universAAL.ri.keepalive.sender.Sender.java">org/universAAL/ri/keepalive/sender/Sender.java</a>
                 </td>
                 <td>
-                  15
+                  8
                 </td>
                 <td>
                   0

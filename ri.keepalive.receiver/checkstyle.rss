@@ -28,7 +28,7 @@ under the License.
       <title>File: 4,
              Errors: 31,
              Warnings: 1,
-             Infos: 33
+             Infos: 29
       </title>
             <link>http://remote/ri.keepalive.receiver//checkstyle.html</link>
       <description>
@@ -63,7 +63,7 @@ under the License.
                   <a href="http://remote/ri.keepalive.receiver//checkstyle.html#org.universAAL.ri.keepalive.receiver.SendMail.java">org/universAAL/ri/keepalive/receiver/SendMail.java</a>
                 </td>
                 <td>
-                  10
+                  7
                 </td>
                 <td>
                   0
@@ -77,7 +77,7 @@ under the License.
                   <a href="http://remote/ri.keepalive.receiver//checkstyle.html#org.universAAL.ri.keepalive.receiver.CSubscriber.java">org/universAAL/ri/keepalive/receiver/CSubscriber.java</a>
                 </td>
                 <td>
-                  8
+                  7
                 </td>
                 <td>
                   0

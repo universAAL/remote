@@ -191,7 +191,7 @@
 <td>Exception is caught when Exception is not thrown in org.universAAL.ri.internetgateway.InternetGateway.ping(String, int)</td>
 <td>STYLE</td>
 <td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#REC_CATCH_EXCEPTION">REC_CATCH_EXCEPTION</a></td>
-<td>76</td>
+<td>74</td>
 <td>Medium</td></tr></table></div><a name="org.universAAL.ri.restToolkit.ClientHttpRequest"></a>
 <div class="section">
 <h3><a name="org.universAAL.ri.restToolkit.ClientHttpRequest"></a>org.universAAL.ri.restToolkit.ClientHttpRequest</h3>
@@ -206,13 +206,13 @@
 <td>Found reliance on default encoding in org.universAAL.ri.restToolkit.ClientHttpRequest.write(String): String.getBytes()</td>
 <td>I18N</td>
 <td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#DM_DEFAULT_ENCODING">DM_DEFAULT_ENCODING</a></td>
-<td>59</td>
+<td>62</td>
 <td>High</td></tr>
 <tr class="a">
 <td>org.universAAL.ri.restToolkit.ClientHttpRequest.setParameter(String, File) may fail to clean up java.io.InputStream</td>
 <td>EXPERIMENTAL</td>
 <td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#OBL_UNSATISFIED_OBLIGATION">OBL_UNSATISFIED_OBLIGATION</a></td>
-<td>234</td>
+<td>261</td>
 <td>Medium</td></tr></table></div><a name="org.universAAL.ri.restToolkit.RestClient"></a>
 <div class="section">
 <h3><a name="org.universAAL.ri.restToolkit.RestClient"></a>org.universAAL.ri.restToolkit.RestClient</h3>
@@ -227,31 +227,31 @@
 <td>Dead store to data in org.universAAL.ri.restToolkit.RestClient.getRequest(String, HashMap)</td>
 <td>STYLE</td>
 <td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#DLS_DEAD_LOCAL_STORE">DLS_DEAD_LOCAL_STORE</a></td>
-<td>41</td>
+<td>40</td>
 <td>Medium</td></tr>
 <tr class="b">
 <td>Found reliance on default encoding in org.universAAL.ri.restToolkit.RestClient.getRequest(String, HashMap): new java.io.InputStreamReader(InputStream)</td>
 <td>I18N</td>
 <td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#DM_DEFAULT_ENCODING">DM_DEFAULT_ENCODING</a></td>
-<td>65</td>
+<td>63</td>
 <td>High</td></tr>
 <tr class="a">
 <td>Exception is caught when Exception is not thrown in org.universAAL.ri.restToolkit.RestClient.getRequest(String, HashMap)</td>
 <td>STYLE</td>
 <td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#REC_CATCH_EXCEPTION">REC_CATCH_EXCEPTION</a></td>
-<td>72</td>
+<td>70</td>
 <td>Medium</td></tr>
 <tr class="b">
 <td>org.universAAL.ri.restToolkit.RestClient.getRequest(String, HashMap) concatenates strings using + in a loop</td>
 <td>PERFORMANCE</td>
 <td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#SBSC_USE_STRINGBUFFER_CONCATENATION">SBSC_USE_STRINGBUFFER_CONCATENATION</a></td>
-<td>68</td>
+<td>66</td>
 <td>Medium</td></tr>
 <tr class="a">
 <td>org.universAAL.ri.restToolkit.RestClient.postRequest(String, HashMap) concatenates strings using + in a loop</td>
 <td>PERFORMANCE</td>
 <td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#SBSC_USE_STRINGBUFFER_CONCATENATION">SBSC_USE_STRINGBUFFER_CONCATENATION</a></td>
-<td>93</td>
+<td>89</td>
 <td>Medium</td></tr></table></div><a name="org.universAAL.ri.wsdlToolkit.axis2Parser.AdditionalTypesParser"></a>
 <div class="section">
 <h3><a name="org.universAAL.ri.wsdlToolkit.axis2Parser.AdditionalTypesParser"></a>org.universAAL.ri.wsdlToolkit.axis2Parser.AdditionalTypesParser</h3>
@@ -272,55 +272,55 @@
 <td>Possible null pointer dereference of containedCO in org.universAAL.ri.wsdlToolkit.axis2Parser.AdditionalTypesParser.parseArrayType(AxisService, ComplexObject, QName, ParsedWSDLDefinition, XmlSchemaType, boolean)</td>
 <td>CORRECTNESS</td>
 <td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#NP_NULL_ON_SOME_PATH">NP_NULL_ON_SOME_PATH</a></td>
-<td>3431</td>
+<td>2594</td>
 <td>Medium</td></tr>
 <tr class="a">
 <td>Possible null pointer dereference of newObj2 in org.universAAL.ri.wsdlToolkit.axis2Parser.AdditionalTypesParser.parseXMLSchemaChoiceElement(AxisService, XmlSchemaChoice, ComplexObject, ParsedWSDLDefinition, boolean)</td>
 <td>CORRECTNESS</td>
 <td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#NP_NULL_ON_SOME_PATH">NP_NULL_ON_SOME_PATH</a></td>
-<td>1729</td>
+<td>1329</td>
 <td>Medium</td></tr>
 <tr class="b">
 <td>Redundant nullcheck of abstractElem, which is known to be non-null in org.universAAL.ri.wsdlToolkit.axis2Parser.AdditionalTypesParser.parseArrayType(AxisService, ComplexObject, QName, ParsedWSDLDefinition, XmlSchemaType, boolean)</td>
 <td>STYLE</td>
 <td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#RCN_REDUNDANT_NULLCHECK_OF_NONNULL_VALUE">RCN_REDUNDANT_NULLCHECK_OF_NONNULL_VALUE</a></td>
-<td>2745</td>
+<td>2096</td>
 <td>Medium</td></tr>
 <tr class="a">
 <td>Redundant nullcheck of co1, which is known to be non-null in org.universAAL.ri.wsdlToolkit.axis2Parser.AdditionalTypesParser.parseArrayType(AxisService, ComplexObject, QName, ParsedWSDLDefinition, XmlSchemaType, boolean)</td>
 <td>STYLE</td>
 <td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#RCN_REDUNDANT_NULLCHECK_OF_NONNULL_VALUE">RCN_REDUNDANT_NULLCHECK_OF_NONNULL_VALUE</a></td>
-<td>3388</td>
+<td>2555</td>
 <td>Medium</td></tr>
 <tr class="b">
 <td>Redundant nullcheck of newObj2, which is known to be non-null in org.universAAL.ri.wsdlToolkit.axis2Parser.AdditionalTypesParser.parseXMLSchemaChoiceElement(AxisService, XmlSchemaChoice, ComplexObject, ParsedWSDLDefinition, boolean)</td>
 <td>STYLE</td>
 <td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#RCN_REDUNDANT_NULLCHECK_OF_NONNULL_VALUE">RCN_REDUNDANT_NULLCHECK_OF_NONNULL_VALUE</a></td>
-<td>1616</td>
+<td>1243</td>
 <td>Medium</td></tr>
 <tr class="a">
 <td>Redundant nullcheck of newObj21, which is known to be non-null in org.universAAL.ri.wsdlToolkit.axis2Parser.AdditionalTypesParser.parseXMLSchemaChoiceElement(AxisService, XmlSchemaChoice, ComplexObject, ParsedWSDLDefinition, boolean)</td>
 <td>STYLE</td>
 <td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#RCN_REDUNDANT_NULLCHECK_OF_NONNULL_VALUE">RCN_REDUNDANT_NULLCHECK_OF_NONNULL_VALUE</a></td>
-<td>1968</td>
+<td>1467</td>
 <td>Medium</td></tr>
 <tr class="b">
 <td>Redundant nullcheck of co1, which is known to be non-null in org.universAAL.ri.wsdlToolkit.axis2Parser.AdditionalTypesParser.parseXmlSchemaAttributeGroup_NEW(AxisService, XmlSchemaAttributeGroup, ParsedWSDLDefinition)</td>
 <td>STYLE</td>
 <td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#RCN_REDUNDANT_NULLCHECK_OF_NONNULL_VALUE">RCN_REDUNDANT_NULLCHECK_OF_NONNULL_VALUE</a></td>
-<td>99</td>
+<td>96</td>
 <td>Medium</td></tr>
 <tr class="a">
-<td>Nullcheck of newSimpleOrComplexObjectElement at line 875 of value previously dereferenced in org.universAAL.ri.wsdlToolkit.axis2Parser.AdditionalTypesParser.parseXmlSchemaAllType(AxisService, XmlSchemaAll, ComplexObject, ParsedWSDLDefinition)</td>
+<td>Nullcheck of newSimpleOrComplexObjectElement at line 696 of value previously dereferenced in org.universAAL.ri.wsdlToolkit.axis2Parser.AdditionalTypesParser.parseXmlSchemaAllType(AxisService, XmlSchemaAll, ComplexObject, ParsedWSDLDefinition)</td>
 <td>CORRECTNESS</td>
 <td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#RCN_REDUNDANT_NULLCHECK_WOULD_HAVE_BEEN_A_NPE">RCN_REDUNDANT_NULLCHECK_WOULD_HAVE_BEEN_A_NPE</a></td>
-<td>875</td>
+<td>696</td>
 <td>Medium</td></tr>
 <tr class="b">
-<td>Nullcheck of newObj1 at line 428 of value previously dereferenced in org.universAAL.ri.wsdlToolkit.axis2Parser.AdditionalTypesParser.parseXmlSchemaElement(AxisService, Object, ComplexObject, ParsedWSDLDefinition)</td>
+<td>Nullcheck of newObj1 at line 373 of value previously dereferenced in org.universAAL.ri.wsdlToolkit.axis2Parser.AdditionalTypesParser.parseXmlSchemaElement(AxisService, Object, ComplexObject, ParsedWSDLDefinition)</td>
 <td>CORRECTNESS</td>
 <td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#RCN_REDUNDANT_NULLCHECK_WOULD_HAVE_BEEN_A_NPE">RCN_REDUNDANT_NULLCHECK_WOULD_HAVE_BEEN_A_NPE</a></td>
-<td>177</td>
+<td>163</td>
 <td>Medium</td></tr></table></div><a name="org.universAAL.ri.wsdlToolkit.axis2Parser.ComplexTypesParser"></a>
 <div class="section">
 <h3><a name="org.universAAL.ri.wsdlToolkit.axis2Parser.ComplexTypesParser"></a>org.universAAL.ri.wsdlToolkit.axis2Parser.ComplexTypesParser</h3>
@@ -350,19 +350,19 @@
 <td>Unchecked/unconfirmed cast from org.apache.ws.commons.schema.XmlSchemaType to org.apache.ws.commons.schema.XmlSchemaSimpleType in org.universAAL.ri.wsdlToolkit.axis2Parser.SimpleTypesParser.parseSimpleType(XmlSchemaElement, XmlSchemaType, NativeObject, ParsedWSDLDefinition, AxisService)</td>
 <td>STYLE</td>
 <td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#BC_UNCONFIRMED_CAST">BC_UNCONFIRMED_CAST</a></td>
-<td>332</td>
+<td>271</td>
 <td>Medium</td></tr>
 <tr class="a">
 <td>Redundant nullcheck of co1, which is known to be non-null in org.universAAL.ri.wsdlToolkit.axis2Parser.SimpleTypesParser.parseSimpleContent(AxisService, XmlSchemaSimpleContent, ComplexObject, ParsedWSDLDefinition)</td>
 <td>STYLE</td>
 <td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#RCN_REDUNDANT_NULLCHECK_OF_NONNULL_VALUE">RCN_REDUNDANT_NULLCHECK_OF_NONNULL_VALUE</a></td>
-<td>722</td>
+<td>567</td>
 <td>Medium</td></tr>
 <tr class="b">
-<td>Nullcheck of simpleContent at line 545 of value previously dereferenced in org.universAAL.ri.wsdlToolkit.axis2Parser.SimpleTypesParser.parseSimpleContent(AxisService, XmlSchemaSimpleContent, ComplexObject, ParsedWSDLDefinition)</td>
+<td>Nullcheck of simpleContent at line 425 of value previously dereferenced in org.universAAL.ri.wsdlToolkit.axis2Parser.SimpleTypesParser.parseSimpleContent(AxisService, XmlSchemaSimpleContent, ComplexObject, ParsedWSDLDefinition)</td>
 <td>CORRECTNESS</td>
 <td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#RCN_REDUNDANT_NULLCHECK_WOULD_HAVE_BEEN_A_NPE">RCN_REDUNDANT_NULLCHECK_WOULD_HAVE_BEEN_A_NPE</a></td>
-<td>544</td>
+<td>424</td>
 <td>High</td></tr></table></div><a name="org.universAAL.ri.wsdlToolkit.invocation.Axis1WebServiceInvoker"></a>
 <div class="section">
 <h3><a name="org.universAAL.ri.wsdlToolkit.invocation.Axis1WebServiceInvoker"></a>org.universAAL.ri.wsdlToolkit.invocation.Axis1WebServiceInvoker</h3>
@@ -377,13 +377,13 @@
 <td>Dead store to obj in org.universAAL.ri.wsdlToolkit.invocation.Axis1WebServiceInvoker.getInputAsObjectArray(Vector, WSOperation, ParsedWSDLDefinition)</td>
 <td>STYLE</td>
 <td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#DLS_DEAD_LOCAL_STORE">DLS_DEAD_LOCAL_STORE</a></td>
-<td>104</td>
+<td>95</td>
 <td>Medium</td></tr>
 <tr class="a">
 <td>Dead store to inputsAsObjectArray in org.universAAL.ri.wsdlToolkit.invocation.Axis1WebServiceInvoker.invokeWebService(URL, QName, WSOperationInput, WSOperation, ParsedWSDLDefinition)</td>
 <td>STYLE</td>
 <td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#DLS_DEAD_LOCAL_STORE">DLS_DEAD_LOCAL_STORE</a></td>
-<td>58</td>
+<td>53</td>
 <td>Medium</td></tr></table></div><a name="org.universAAL.ri.wsdlToolkit.invocation.Axis2InvocationResultHandler_RPC"></a>
 <div class="section">
 <h3><a name="org.universAAL.ri.wsdlToolkit.invocation.Axis2InvocationResultHandler_RPC"></a>org.universAAL.ri.wsdlToolkit.invocation.Axis2InvocationResultHandler_RPC</h3>
@@ -398,7 +398,7 @@
 <td>Dead store to vec in org.universAAL.ri.wsdlToolkit.invocation.Axis2InvocationResultHandler_RPC.findTheArrayObjectNodesInTheResponseBody(MessageContext, NativeObject, ComplexObject)</td>
 <td>STYLE</td>
 <td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#DLS_DEAD_LOCAL_STORE">DLS_DEAD_LOCAL_STORE</a></td>
-<td>508</td>
+<td>452</td>
 <td>High</td></tr></table></div><a name="org.universAAL.ri.wsdlToolkit.invocation.Axis2InvocationResultHandler_RpcEncoded"></a>
 <div class="section">
 <h3><a name="org.universAAL.ri.wsdlToolkit.invocation.Axis2InvocationResultHandler_RpcEncoded"></a>org.universAAL.ri.wsdlToolkit.invocation.Axis2InvocationResultHandler_RpcEncoded</h3>
@@ -413,13 +413,13 @@
 <td>org.universAAL.ri.wsdlToolkit.invocation.Axis2InvocationResultHandler_RpcEncoded.setArrayObjectValues(SOAPBody, ComplexObject, OMElementImpl) might ignore java.lang.Exception</td>
 <td>BAD_PRACTICE</td>
 <td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#DE_MIGHT_IGNORE">DE_MIGHT_IGNORE</a></td>
-<td>382</td>
+<td>346</td>
 <td>Medium</td></tr>
 <tr class="b">
 <td>Redundant nullcheck of iter1, which is known to be non-null in org.universAAL.ri.wsdlToolkit.invocation.Axis2InvocationResultHandler_RpcEncoded.setArrayObjectValues(SOAPBody, ComplexObject, OMElementImpl)</td>
 <td>STYLE</td>
 <td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#RCN_REDUNDANT_NULLCHECK_OF_NONNULL_VALUE">RCN_REDUNDANT_NULLCHECK_OF_NONNULL_VALUE</a></td>
-<td>404</td>
+<td>367</td>
 <td>Medium</td></tr></table></div><a name="org.universAAL.ri.wsdlToolkit.invocation.Axis2WebServiceInvoker"></a>
 <div class="section">
 <h3><a name="org.universAAL.ri.wsdlToolkit.invocation.Axis2WebServiceInvoker"></a>org.universAAL.ri.wsdlToolkit.invocation.Axis2WebServiceInvoker</h3>
@@ -434,13 +434,13 @@
 <td>Dead store to valueForCO2 in org.universAAL.ri.wsdlToolkit.invocation.Axis2WebServiceInvoker.createOMElementForComplexObjectInput(SOAPFactory, ComplexObject, OMNamespace)</td>
 <td>STYLE</td>
 <td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#DLS_DEAD_LOCAL_STORE">DLS_DEAD_LOCAL_STORE</a></td>
-<td>311</td>
+<td>282</td>
 <td>Medium</td></tr>
 <tr class="a">
 <td>Possible null pointer dereference of theServiceClient in org.universAAL.ri.wsdlToolkit.invocation.Axis2WebServiceInvoker.invokeWebService(WSOperation, ParsedWSDLDefinition) on exception path</td>
 <td>CORRECTNESS</td>
 <td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#NP_NULL_ON_SOME_PATH_EXCEPTION">NP_NULL_ON_SOME_PATH_EXCEPTION</a></td>
-<td>127</td>
+<td>113</td>
 <td>Medium</td></tr></table></div><a name="org.universAAL.ri.wsdlToolkit.ioApi.NativeObject"></a>
 <div class="section">
 <h3><a name="org.universAAL.ri.wsdlToolkit.ioApi.NativeObject"></a>org.universAAL.ri.wsdlToolkit.ioApi.NativeObject</h3>
@@ -455,13 +455,13 @@
 <td>org.universAAL.ri.wsdlToolkit.ioApi.NativeObject defines equals(NativeObject) method and uses Object.equals(Object)</td>
 <td>CORRECTNESS</td>
 <td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#EQ_SELF_USE_OBJECT">EQ_SELF_USE_OBJECT</a></td>
-<td>144</td>
+<td>141</td>
 <td>Medium</td></tr>
 <tr class="b">
 <td>org.universAAL.ri.wsdlToolkit.ioApi.NativeObject defines equals and uses Object.hashCode()</td>
 <td>BAD_PRACTICE</td>
 <td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#HE_EQUALS_USE_HASHCODE">HE_EQUALS_USE_HASHCODE</a></td>
-<td>144</td>
+<td>141</td>
 <td>Medium</td></tr>
 <tr class="a">
 <td>Possible null pointer dereference of NativeObject.objectName in org.universAAL.ri.wsdlToolkit.ioApi.NativeObject.cloneTheNO()</td>
@@ -473,7 +473,7 @@
 <td>org.universAAL.ri.wsdlToolkit.ioApi.NativeObject.toString() concatenates strings using + in a loop</td>
 <td>PERFORMANCE</td>
 <td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#SBSC_USE_STRINGBUFFER_CONCATENATION">SBSC_USE_STRINGBUFFER_CONCATENATION</a></td>
-<td>195</td>
+<td>189</td>
 <td>Medium</td></tr></table></div><a name="org.universAAL.ri.wsdlToolkit.parser.DocumentStyleWSDLParser"></a>
 <div class="section">
 <h3><a name="org.universAAL.ri.wsdlToolkit.parser.DocumentStyleWSDLParser"></a>org.universAAL.ri.wsdlToolkit.parser.DocumentStyleWSDLParser</h3>
@@ -488,55 +488,55 @@
 <td>Dead store to co in org.universAAL.ri.wsdlToolkit.parser.DocumentStyleWSDLParser.parseTypeFromElementNodeOfXSD(Schema, Node, ComplexObject)</td>
 <td>STYLE</td>
 <td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#DLS_DEAD_LOCAL_STORE">DLS_DEAD_LOCAL_STORE</a></td>
-<td>712</td>
+<td>623</td>
 <td>High</td></tr>
 <tr class="a">
 <td>Call to javax.xml.namespace.QName.equals(String) in org.universAAL.ri.wsdlToolkit.parser.DocumentStyleWSDLParser.parseSequenceOrChoiceNode(Schema, Node, int, ComplexObject)</td>
 <td>CORRECTNESS</td>
 <td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#EC_UNRELATED_TYPES">EC_UNRELATED_TYPES</a></td>
-<td>299</td>
+<td>269</td>
 <td>High</td></tr>
 <tr class="b">
 <td>org.universAAL.ri.wsdlToolkit.parser.DocumentStyleWSDLParser.getExtendedTypeAsAComplexObject(Node, Schema) concatenates strings using + in a loop</td>
 <td>PERFORMANCE</td>
 <td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#SBSC_USE_STRINGBUFFER_CONCATENATION">SBSC_USE_STRINGBUFFER_CONCATENATION</a></td>
-<td>99</td>
+<td>95</td>
 <td>Medium</td></tr>
 <tr class="a">
 <td>org.universAAL.ri.wsdlToolkit.parser.DocumentStyleWSDLParser.parseDocumentType_Deprecated(Definition, QName, WSOperationInput, WSOperationOutput) concatenates strings using + in a loop</td>
 <td>PERFORMANCE</td>
 <td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#SBSC_USE_STRINGBUFFER_CONCATENATION">SBSC_USE_STRINGBUFFER_CONCATENATION</a></td>
-<td>1674</td>
+<td>1436</td>
 <td>Medium</td></tr>
 <tr class="b">
 <td>org.universAAL.ri.wsdlToolkit.parser.DocumentStyleWSDLParser.parseImportedXSDforLiteral(SchemaImpl, QName, WSOperationInput, WSOperationOutput, String) concatenates strings using + in a loop</td>
 <td>PERFORMANCE</td>
 <td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#SBSC_USE_STRINGBUFFER_CONCATENATION">SBSC_USE_STRINGBUFFER_CONCATENATION</a></td>
-<td>2039</td>
+<td>1737</td>
 <td>Medium</td></tr>
 <tr class="a">
 <td>org.universAAL.ri.wsdlToolkit.parser.DocumentStyleWSDLParser.parseIncludedXSDforLiteral(SchemaImpl, QName, WSOperationInput, WSOperationOutput) concatenates strings using + in a loop</td>
 <td>PERFORMANCE</td>
 <td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#SBSC_USE_STRINGBUFFER_CONCATENATION">SBSC_USE_STRINGBUFFER_CONCATENATION</a></td>
-<td>2359</td>
+<td>1999</td>
 <td>Medium</td></tr>
 <tr class="b">
 <td>org.universAAL.ri.wsdlToolkit.parser.DocumentStyleWSDLParser.parseSequenceOrChoiceNode(Schema, Node, int, ComplexObject) concatenates strings using + in a loop</td>
 <td>PERFORMANCE</td>
 <td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#SBSC_USE_STRINGBUFFER_CONCATENATION">SBSC_USE_STRINGBUFFER_CONCATENATION</a></td>
-<td>350</td>
+<td>323</td>
 <td>Medium</td></tr>
 <tr class="a">
 <td>org.universAAL.ri.wsdlToolkit.parser.DocumentStyleWSDLParser.parseTypeFromElementNodeOfXSD(Schema, Node, ComplexObject) concatenates strings using + in a loop</td>
 <td>PERFORMANCE</td>
 <td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#SBSC_USE_STRINGBUFFER_CONCATENATION">SBSC_USE_STRINGBUFFER_CONCATENATION</a></td>
-<td>732</td>
+<td>640</td>
 <td>Medium</td></tr>
 <tr class="b">
 <td>org.universAAL.ri.wsdlToolkit.parser.DocumentStyleWSDLParser.parseTypeIterativeForXSDImport(Schema, String, int, boolean, ComplexObject) concatenates strings using + in a loop</td>
 <td>PERFORMANCE</td>
 <td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#SBSC_USE_STRINGBUFFER_CONCATENATION">SBSC_USE_STRINGBUFFER_CONCATENATION</a></td>
-<td>2717</td>
+<td>2297</td>
 <td>Medium</td></tr></table></div><a name="org.universAAL.ri.wsdlToolkit.parser.LoggingOutputStream"></a>
 <div class="section">
 <h3><a name="org.universAAL.ri.wsdlToolkit.parser.LoggingOutputStream"></a>org.universAAL.ri.wsdlToolkit.parser.LoggingOutputStream</h3>
@@ -602,31 +602,31 @@
 <td>Exception is caught when Exception is not thrown in org.universAAL.ri.wsdlToolkit.parser.MitsosParser.parseOperation(WSOperation, Definition, Operation, String, String)</td>
 <td>STYLE</td>
 <td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#REC_CATCH_EXCEPTION">REC_CATCH_EXCEPTION</a></td>
-<td>1309</td>
+<td>1235</td>
 <td>Medium</td></tr>
 <tr class="a">
 <td>org.universAAL.ri.wsdlToolkit.parser.MitsosParser.parseExtElements(Definition, QName, NativeObject, ComplexObject) concatenates strings using + in a loop</td>
 <td>PERFORMANCE</td>
 <td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#SBSC_USE_STRINGBUFFER_CONCATENATION">SBSC_USE_STRINGBUFFER_CONCATENATION</a></td>
-<td>2268</td>
+<td>2109</td>
 <td>Medium</td></tr>
 <tr class="b">
 <td>org.universAAL.ri.wsdlToolkit.parser.MitsosParser.parseExtendedType(SchemaImpl, Node, int, ComplexObject) concatenates strings using + in a loop</td>
 <td>PERFORMANCE</td>
 <td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#SBSC_USE_STRINGBUFFER_CONCATENATION">SBSC_USE_STRINGBUFFER_CONCATENATION</a></td>
-<td>2843</td>
+<td>2573</td>
 <td>Medium</td></tr>
 <tr class="a">
 <td>org.universAAL.ri.wsdlToolkit.parser.MitsosParser.parseImportedXSD(SchemaImpl, QName, WSOperationInput, WSOperationOutput, NativeObject, ComplexObject) concatenates strings using + in a loop</td>
 <td>PERFORMANCE</td>
 <td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#SBSC_USE_STRINGBUFFER_CONCATENATION">SBSC_USE_STRINGBUFFER_CONCATENATION</a></td>
-<td>673</td>
+<td>649</td>
 <td>Medium</td></tr>
 <tr class="b">
 <td>org.universAAL.ri.wsdlToolkit.parser.MitsosParser.parseTypeIterative(SchemaImpl, String, int, boolean, ComplexObject) concatenates strings using + in a loop</td>
 <td>PERFORMANCE</td>
 <td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#SBSC_USE_STRINGBUFFER_CONCATENATION">SBSC_USE_STRINGBUFFER_CONCATENATION</a></td>
-<td>3027</td>
+<td>2724</td>
 <td>Medium</td></tr></table></div><a name="org.universAAL.ri.wsdlToolkit.parser.StdOutErrLevel"></a>
 <div class="section">
 <h3><a name="org.universAAL.ri.wsdlToolkit.parser.StdOutErrLevel"></a>org.universAAL.ri.wsdlToolkit.parser.StdOutErrLevel</h3>
@@ -641,7 +641,7 @@
 <td>org.universAAL.ri.wsdlToolkit.parser.StdOutErrLevel.STDOUT isn't final but should be</td>
 <td>MALICIOUS_CODE</td>
 <td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#MS_SHOULD_BE_FINAL">MS_SHOULD_BE_FINAL</a></td>
-<td>40</td>
+<td>39</td>
 <td>High</td></tr></table></div><a name="org.universAAL.ri.wsdlToolkit.parser.WSDLParser"></a>
 <div class="section">
 <h3><a name="org.universAAL.ri.wsdlToolkit.parser.WSDLParser"></a>org.universAAL.ri.wsdlToolkit.parser.WSDLParser</h3>
@@ -656,79 +656,79 @@
 <td>Dead store to data in org.universAAL.ri.wsdlToolkit.parser.WSDLParser.pingURL(String)</td>
 <td>STYLE</td>
 <td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#DLS_DEAD_LOCAL_STORE">DLS_DEAD_LOCAL_STORE</a></td>
-<td>803</td>
+<td>742</td>
 <td>Medium</td></tr>
 <tr class="a">
 <td>Found reliance on default encoding in org.universAAL.ri.wsdlToolkit.parser.WSDLParser.pingURL(String): new java.io.InputStreamReader(InputStream)</td>
 <td>I18N</td>
 <td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#DM_DEFAULT_ENCODING">DM_DEFAULT_ENCODING</a></td>
-<td>809</td>
+<td>747</td>
 <td>High</td></tr>
 <tr class="b">
 <td>org.universAAL.ri.wsdlToolkit.parser.WSDLParser.getDocumentation(String) invokes inefficient new String() constructor</td>
 <td>PERFORMANCE</td>
 <td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#DM_STRING_VOID_CTOR">DM_STRING_VOID_CTOR</a></td>
-<td>353</td>
+<td>322</td>
 <td>Medium</td></tr>
 <tr class="a">
 <td>Possible null pointer dereference of parsedDef in org.universAAL.ri.wsdlToolkit.parser.WSDLParser.parseWSDLwithAxis(String, boolean, boolean)</td>
 <td>CORRECTNESS</td>
 <td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#NP_NULL_ON_SOME_PATH">NP_NULL_ON_SOME_PATH</a></td>
-<td>155</td>
+<td>144</td>
 <td>Medium</td></tr>
 <tr class="b">
 <td>Possible null pointer dereference of parsedDef in org.universAAL.ri.wsdlToolkit.parser.WSDLParser.parseWSDLwithAxis(String, boolean, boolean)</td>
 <td>CORRECTNESS</td>
 <td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#NP_NULL_ON_SOME_PATH">NP_NULL_ON_SOME_PATH</a></td>
-<td>185</td>
+<td>170</td>
 <td>Medium</td></tr>
 <tr class="a">
 <td>Exception is caught when Exception is not thrown in org.universAAL.ri.wsdlToolkit.parser.WSDLParser.pingURL(String)</td>
 <td>STYLE</td>
 <td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#REC_CATCH_EXCEPTION">REC_CATCH_EXCEPTION</a></td>
-<td>812</td>
+<td>750</td>
 <td>Medium</td></tr>
 <tr class="b">
 <td>Useless object stored in variable qNarray of method org.universAAL.ri.wsdlToolkit.parser.WSDLParser.fixComplexObjectPathIterative(ComplexObject, Vector, int)</td>
 <td>STYLE</td>
 <td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#UC_USELESS_OBJECT">UC_USELESS_OBJECT</a></td>
-<td>686</td>
+<td>636</td>
 <td>Medium</td></tr>
 <tr class="a">
 <td>Useless object stored in variable qNarray of method org.universAAL.ri.wsdlToolkit.parser.WSDLParser.fixComplexObjectPathIterative(ComplexObject, Vector, int)</td>
 <td>STYLE</td>
 <td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#UC_USELESS_OBJECT">UC_USELESS_OBJECT</a></td>
-<td>742</td>
+<td>687</td>
 <td>Medium</td></tr>
 <tr class="b">
 <td>Useless object stored in variable operQNarray of method org.universAAL.ri.wsdlToolkit.parser.WSDLParser.fixTheParserPaths(ParsedWSDLDefinition)</td>
 <td>STYLE</td>
 <td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#UC_USELESS_OBJECT">UC_USELESS_OBJECT</a></td>
-<td>529</td>
+<td>484</td>
 <td>Medium</td></tr>
 <tr class="a">
 <td>Useless object stored in variable qNarray of method org.universAAL.ri.wsdlToolkit.parser.WSDLParser.fixTheParserPaths(ParsedWSDLDefinition)</td>
 <td>STYLE</td>
 <td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#UC_USELESS_OBJECT">UC_USELESS_OBJECT</a></td>
-<td>547</td>
+<td>500</td>
 <td>Medium</td></tr>
 <tr class="b">
 <td>Useless object stored in variable qNarray of method org.universAAL.ri.wsdlToolkit.parser.WSDLParser.fixTheParserPaths(ParsedWSDLDefinition)</td>
 <td>STYLE</td>
 <td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#UC_USELESS_OBJECT">UC_USELESS_OBJECT</a></td>
-<td>577</td>
+<td>530</td>
 <td>Medium</td></tr>
 <tr class="a">
 <td>Useless object stored in variable qNarray of method org.universAAL.ri.wsdlToolkit.parser.WSDLParser.fixTheParserPaths(ParsedWSDLDefinition)</td>
 <td>STYLE</td>
 <td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#UC_USELESS_OBJECT">UC_USELESS_OBJECT</a></td>
-<td>615</td>
+<td>566</td>
 <td>Medium</td></tr>
 <tr class="b">
 <td>Useless object stored in variable qNarray of method org.universAAL.ri.wsdlToolkit.parser.WSDLParser.fixTheParserPaths(ParsedWSDLDefinition)</td>
 <td>STYLE</td>
 <td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#UC_USELESS_OBJECT">UC_USELESS_OBJECT</a></td>
-<td>647</td>
+<td>598</td>
 <td>Medium</td></tr></table></div><a name="org.universAAL.ri.wsdlToolkit.parser.WSDL_XSD_SchemaToolkit"></a>
 <div class="section">
 <h3><a name="org.universAAL.ri.wsdlToolkit.parser.WSDL_XSD_SchemaToolkit"></a>org.universAAL.ri.wsdlToolkit.parser.WSDL_XSD_SchemaToolkit</h3>
@@ -743,43 +743,43 @@
 <td>Dead store to theNodeNamespaceKey in org.universAAL.ri.wsdlToolkit.parser.WSDL_XSD_SchemaToolkit.getNodeOfType_ITERATIVE(String, Schema, String, Schema)</td>
 <td>STYLE</td>
 <td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#DLS_DEAD_LOCAL_STORE">DLS_DEAD_LOCAL_STORE</a></td>
-<td>78</td>
+<td>76</td>
 <td>Medium</td></tr>
 <tr class="a">
 <td>Possible null pointer dereference of nsSchema in org.universAAL.ri.wsdlToolkit.parser.WSDL_XSD_SchemaToolkit.getNodeOfType(String, Schema, String)</td>
 <td>CORRECTNESS</td>
 <td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#NP_NULL_ON_SOME_PATH">NP_NULL_ON_SOME_PATH</a></td>
-<td>412</td>
+<td>346</td>
 <td>Medium</td></tr>
 <tr class="b">
 <td>Redundant nullcheck of importedOrIncludedSchema, which is known to be non-null in org.universAAL.ri.wsdlToolkit.parser.WSDL_XSD_SchemaToolkit.getNodeOfType_ITERATIVE(String, Schema, String, Schema)</td>
 <td>STYLE</td>
 <td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#RCN_REDUNDANT_NULLCHECK_OF_NONNULL_VALUE">RCN_REDUNDANT_NULLCHECK_OF_NONNULL_VALUE</a></td>
-<td>89</td>
+<td>84</td>
 <td>Medium</td></tr>
 <tr class="a">
 <td>Redundant nullcheck of schemaImport which is known to be null in org.universAAL.ri.wsdlToolkit.parser.WSDL_XSD_SchemaToolkit.getTheImportedOrIncludedSchemaWithTheSpecificNS(Schema, String)</td>
 <td>STYLE</td>
 <td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#RCN_REDUNDANT_NULLCHECK_OF_NULL_VALUE">RCN_REDUNDANT_NULLCHECK_OF_NULL_VALUE</a></td>
-<td>787</td>
+<td>658</td>
 <td>Medium</td></tr>
 <tr class="b">
-<td>Nullcheck of nameOfNode at line 380 of value previously dereferenced in org.universAAL.ri.wsdlToolkit.parser.WSDL_XSD_SchemaToolkit.getNodeOfType(String, Schema, String)</td>
+<td>Nullcheck of nameOfNode at line 317 of value previously dereferenced in org.universAAL.ri.wsdlToolkit.parser.WSDL_XSD_SchemaToolkit.getNodeOfType(String, Schema, String)</td>
 <td>CORRECTNESS</td>
 <td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#RCN_REDUNDANT_NULLCHECK_WOULD_HAVE_BEEN_A_NPE">RCN_REDUNDANT_NULLCHECK_WOULD_HAVE_BEEN_A_NPE</a></td>
-<td>373</td>
+<td>309</td>
 <td>Medium</td></tr>
 <tr class="a">
-<td>Nullcheck of nsSchema at line 413 of value previously dereferenced in org.universAAL.ri.wsdlToolkit.parser.WSDL_XSD_SchemaToolkit.getNodeOfType(String, Schema, String)</td>
+<td>Nullcheck of nsSchema at line 347 of value previously dereferenced in org.universAAL.ri.wsdlToolkit.parser.WSDL_XSD_SchemaToolkit.getNodeOfType(String, Schema, String)</td>
 <td>CORRECTNESS</td>
 <td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#RCN_REDUNDANT_NULLCHECK_WOULD_HAVE_BEEN_A_NPE">RCN_REDUNDANT_NULLCHECK_WOULD_HAVE_BEEN_A_NPE</a></td>
-<td>412</td>
+<td>346</td>
 <td>Medium</td></tr>
 <tr class="b">
 <td>Useless condition: it's known that currentSchemaIsTheRightOne == false at this point</td>
 <td>STYLE</td>
 <td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#UC_USELESS_CONDITION">UC_USELESS_CONDITION</a></td>
-<td>766</td>
+<td>639</td>
 <td>High</td></tr></table></div>
       </div>
     </div>

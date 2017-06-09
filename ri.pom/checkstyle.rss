@@ -26,9 +26,9 @@ under the License.
     <copyright>&#169;2017 universAAL Consortium</copyright>
     <item>
       <title>File: 119,
-             Errors: 1921,
-             Warnings: 305,
-             Infos: 3258
+             Errors: 1927,
+             Warnings: 304,
+             Infos: 1569
       </title>
             <link>http://remote/ri.pom//checkstyle.html</link>
       <description>
@@ -49,7 +49,7 @@ under the License.
                   <a href="http://remote/ri.pom//checkstyle.html#org.universAAL.ri.api.manager.push.CryptUtil.java">org/universAAL/ri/api/manager/push/CryptUtil.java</a>
                 </td>
                 <td>
-                  20
+                  18
                 </td>
                 <td>
                   2
@@ -91,7 +91,7 @@ under the License.
                   <a href="http://remote/ri.pom//checkstyle.html#org.universAAL.ri.keepalive.receiver.SendMail.java">org/universAAL/ri/keepalive/receiver/SendMail.java</a>
                 </td>
                 <td>
-                  10
+                  7
                 </td>
                 <td>
                   0
@@ -133,7 +133,7 @@ under the License.
                   <a href="http://remote/ri.pom//checkstyle.html#org.universAAL.ri.wsdlToolkit.parser.WSDL_XSD_SchemaToolkit.java">org/universAAL/ri/wsdlToolkit/parser/WSDL_XSD_SchemaToolkit.java</a>
                 </td>
                 <td>
-                  21
+                  15
                 </td>
                 <td>
                   16
@@ -147,13 +147,13 @@ under the License.
                   <a href="http://remote/ri.pom//checkstyle.html#org.universAAL.ri.api.manager.push.PushManager.java">org/universAAL/ri/api/manager/push/PushManager.java</a>
                 </td>
                 <td>
-                  15
+                  11
                 </td>
                 <td>
                   0
                 </td>
                 <td>
-                  5
+                  7
                 </td>
               </tr>
                           <tr>
@@ -273,7 +273,7 @@ under the License.
                   <a href="http://remote/ri.pom//checkstyle.html#org.universAAL.ri.gateway.proxies.ProxyBusMember.java">org/universAAL/ri/gateway/proxies/ProxyBusMember.java</a>
                 </td>
                 <td>
-                  20
+                  19
                 </td>
                 <td>
                   0
@@ -287,7 +287,7 @@ under the License.
                   <a href="http://remote/ri.pom//checkstyle.html#org.universAAL.ri.api.manager.server.persistence.PersistenceDerby.java">org/universAAL/ri/api/manager/server/persistence/PersistenceDerby.java</a>
                 </td>
                 <td>
-                  210
+                  31
                 </td>
                 <td>
                   0
@@ -315,7 +315,7 @@ under the License.
                   <a href="http://remote/ri.pom//checkstyle.html#org.universAAL.ri.servicegateway.osgi.GatewayPortTracker.java">org/universAAL/ri/servicegateway/osgi/GatewayPortTracker.java</a>
                 </td>
                 <td>
-                  7
+                  5
                 </td>
                 <td>
                   1
@@ -343,7 +343,7 @@ under the License.
                   <a href="http://remote/ri.pom//checkstyle.html#org.universAAL.ri.api.manager.server.Authenticator.java">org/universAAL/ri/api/manager/server/Authenticator.java</a>
                 </td>
                 <td>
-                  30
+                  14
                 </td>
                 <td>
                   0
@@ -357,7 +357,7 @@ under the License.
                   <a href="http://remote/ri.pom//checkstyle.html#org.universAAL.ri.keepalive.receiver.CSubscriber.java">org/universAAL/ri/keepalive/receiver/CSubscriber.java</a>
                 </td>
                 <td>
-                  8
+                  7
                 </td>
                 <td>
                   0
@@ -399,7 +399,7 @@ under the License.
                   <a href="http://remote/ri.pom//checkstyle.html#org.universAAL.ri.wsdlToolkit.parser.MitsosParser.java">org/universAAL/ri/wsdlToolkit/parser/MitsosParser.java</a>
                 </td>
                 <td>
-                  174
+                  140
                 </td>
                 <td>
                   33
@@ -483,7 +483,7 @@ under the License.
                   <a href="http://remote/ri.pom//checkstyle.html#org.universAAL.ri.api.manager.RemoteUAAL.java">org/universAAL/ri/api/manager/RemoteUAAL.java</a>
                 </td>
                 <td>
-                  59
+                  28
                 </td>
                 <td>
                   0
@@ -539,7 +539,7 @@ under the License.
                   <a href="http://remote/ri.pom//checkstyle.html#org.universAAL.ri.api.manager.RemoteAPI.java">org/universAAL/ri/api/manager/RemoteAPI.java</a>
                 </td>
                 <td>
-                  19
+                  17
                 </td>
                 <td>
                   0
@@ -553,7 +553,7 @@ under the License.
                   <a href="http://remote/ri.pom//checkstyle.html#org.universAAL.ri.api.manager.server.RemoteServlet.java">org/universAAL/ri/api/manager/server/RemoteServlet.java</a>
                 </td>
                 <td>
-                  120
+                  12
                 </td>
                 <td>
                   0
@@ -567,7 +567,7 @@ under the License.
                   <a href="http://remote/ri.pom//checkstyle.html#org.universAAL.ri.keepalive.sender.Sender.java">org/universAAL/ri/keepalive/sender/Sender.java</a>
                 </td>
                 <td>
-                  15
+                  8
                 </td>
                 <td>
                   0
@@ -581,13 +581,13 @@ under the License.
                   <a href="http://remote/ri.pom//checkstyle.html#org.universAAL.ri.api.manager.push.PushHTTP.java">org/universAAL/ri/api/manager/push/PushHTTP.java</a>
                 </td>
                 <td>
-                  69
+                  14
                 </td>
                 <td>
                   0
                 </td>
                 <td>
-                  3
+                  5
                 </td>
               </tr>
                           <tr>
@@ -609,7 +609,7 @@ under the License.
                   <a href="http://remote/ri.pom//checkstyle.html#org.universAAL.ri.gateway.Exporter.java">org/universAAL/ri/gateway/Exporter.java</a>
                 </td>
                 <td>
-                  19
+                  18
                 </td>
                 <td>
                   2
@@ -651,13 +651,13 @@ under the License.
                   <a href="http://remote/ri.pom//checkstyle.html#org.universAAL.ri.api.manager.push.PushGCM.java">org/universAAL/ri/api/manager/push/PushGCM.java</a>
                 </td>
                 <td>
-                  264
+                  27
                 </td>
                 <td>
                   0
                 </td>
                 <td>
-                  8
+                  10
                 </td>
               </tr>
                           <tr>
@@ -707,7 +707,7 @@ under the License.
                   <a href="http://remote/ri.pom//checkstyle.html#org.universAAL.ri.wsdlToolkit.invocation.Axis2WebServiceInvoker.java">org/universAAL/ri/wsdlToolkit/invocation/Axis2WebServiceInvoker.java</a>
                 </td>
                 <td>
-                  9
+                  8
                 </td>
                 <td>
                   1
@@ -721,7 +721,7 @@ under the License.
                   <a href="http://remote/ri.pom//checkstyle.html#org.universAAL.ri.wsdlToolkit.parser.DocumentStyleWSDLParser.java">org/universAAL/ri/wsdlToolkit/parser/DocumentStyleWSDLParser.java</a>
                 </td>
                 <td>
-                  82
+                  53
                 </td>
                 <td>
                   18
@@ -819,7 +819,7 @@ under the License.
                   <a href="http://remote/ri.pom//checkstyle.html#org.universAAL.ri.gateway.communicator.service.impl.AbstractLinkHandler.java">org/universAAL/ri/gateway/communicator/service/impl/AbstractLinkHandler.java</a>
                 </td>
                 <td>
-                  1
+                  2
                 </td>
                 <td>
                   10
@@ -847,7 +847,7 @@ under the License.
                   <a href="http://remote/ri.pom//checkstyle.html#org.universAAL.ri.wsdlToolkit.invocation.Axis2_RpcEncodedMessageBuilder.java">org/universAAL/ri/wsdlToolkit/invocation/Axis2_RpcEncodedMessageBuilder.java</a>
                 </td>
                 <td>
-                  339
+                  8
                 </td>
                 <td>
                   3
@@ -889,7 +889,7 @@ under the License.
                   <a href="http://remote/ri.pom//checkstyle.html#org.universAAL.ri.wsdlToolkit.axis2Parser.SimpleTypesParser.java">org/universAAL/ri/wsdlToolkit/axis2Parser/SimpleTypesParser.java</a>
                 </td>
                 <td>
-                  22
+                  21
                 </td>
                 <td>
                   1
@@ -973,7 +973,7 @@ under the License.
                   <a href="http://remote/ri.pom//checkstyle.html#org.universAAL.ri.api.manager.server.persistence.PersistenceMySQL.java">org/universAAL/ri/api/manager/server/persistence/PersistenceMySQL.java</a>
                 </td>
                 <td>
-                  260
+                  31
                 </td>
                 <td>
                   1
@@ -1029,7 +1029,7 @@ under the License.
                   <a href="http://remote/ri.pom//checkstyle.html#org.universAAL.ri.api.manager.RemoteAPIImpl.java">org/universAAL/ri/api/manager/RemoteAPIImpl.java</a>
                 </td>
                 <td>
-                  133
+                  17
                 </td>
                 <td>
                   0
@@ -1043,10 +1043,10 @@ under the License.
                   <a href="http://remote/ri.pom//checkstyle.html#org.universAAL.ri.wsdlToolkit.axis2Parser.ComplexTypesParser.java">org/universAAL/ri/wsdlToolkit/axis2Parser/ComplexTypesParser.java</a>
                 </td>
                 <td>
-                  264
+                  81
                 </td>
                 <td>
-                  13
+                  12
                 </td>
                 <td>
                   6
@@ -1057,7 +1057,7 @@ under the License.
                   <a href="http://remote/ri.pom//checkstyle.html#org.universAAL.ri.wsdlToolkit.ioApi.WSOperation.java">org/universAAL/ri/wsdlToolkit/ioApi/WSOperation.java</a>
                 </td>
                 <td>
-                  8
+                  7
                 </td>
                 <td>
                   0
@@ -1099,7 +1099,7 @@ under the License.
                   <a href="http://remote/ri.pom//checkstyle.html#org.universAAL.ri.internetgateway.InternetGateway.java">org/universAAL/ri/internetgateway/InternetGateway.java</a>
                 </td>
                 <td>
-                  28
+                  9
                 </td>
                 <td>
                   0
@@ -1127,7 +1127,7 @@ under the License.
                   <a href="http://remote/ri.pom//checkstyle.html#org.universAAL.ri.api.manager.Activator.java">org/universAAL/ri/api/manager/Activator.java</a>
                 </td>
                 <td>
-                  76
+                  28
                 </td>
                 <td>
                   0
@@ -1155,7 +1155,7 @@ under the License.
                   <a href="http://remote/ri.pom//checkstyle.html#org.universAAL.ri.gateway.communicator.service.impl.SessionManager.java">org/universAAL/ri/gateway/communicator/service/impl/SessionManager.java</a>
                 </td>
                 <td>
-                  3
+                  4
                 </td>
                 <td>
                   8
@@ -1267,7 +1267,7 @@ under the License.
                   <a href="http://remote/ri.pom//checkstyle.html#org.universAAL.ri.servicegateway.GatewayPort.java">org/universAAL/ri/servicegateway/GatewayPort.java</a>
                 </td>
                 <td>
-                  16
+                  12
                 </td>
                 <td>
                   1
@@ -1295,7 +1295,7 @@ under the License.
                   <a href="http://remote/ri.pom//checkstyle.html#org.universAAL.ri.api.manager.Configuration.java">org/universAAL/ri/api/manager/Configuration.java</a>
                 </td>
                 <td>
-                  24
+                  20
                 </td>
                 <td>
                   1
@@ -1351,7 +1351,7 @@ under the License.
                   <a href="http://remote/ri.pom//checkstyle.html#org.universAAL.ri.wsdlToolkit.parser.Axis1ParserWrapper.java">org/universAAL/ri/wsdlToolkit/parser/Axis1ParserWrapper.java</a>
                 </td>
                 <td>
-                  66
+                  64
                 </td>
                 <td>
                   11
@@ -1379,7 +1379,7 @@ under the License.
                   <a href="http://remote/ri.pom//checkstyle.html#org.universAAL.ri.restToolkit.RestClient.java">org/universAAL/ri/restToolkit/RestClient.java</a>
                 </td>
                 <td>
-                  27
+                  9
                 </td>
                 <td>
                   0
@@ -1435,7 +1435,7 @@ under the License.
                   <a href="http://remote/ri.pom//checkstyle.html#org.universAAL.ri.wsdlToolkit.axis2Parser.AdditionalTypesParser.java">org/universAAL/ri/wsdlToolkit/axis2Parser/AdditionalTypesParser.java</a>
                 </td>
                 <td>
-                  48
+                  43
                 </td>
                 <td>
                   12
@@ -1449,7 +1449,7 @@ under the License.
                   <a href="http://remote/ri.pom//checkstyle.html#org.universAAL.ri.servicegateway.osgi.Activator.java">org/universAAL/ri/servicegateway/osgi/Activator.java</a>
                 </td>
                 <td>
-                  8
+                  7
                 </td>
                 <td>
                   1
@@ -1505,7 +1505,7 @@ under the License.
                   <a href="http://remote/ri.pom//checkstyle.html#org.universAAL.ri.restToolkit.ClientHttpRequest.java">org/universAAL/ri/restToolkit/ClientHttpRequest.java</a>
                 </td>
                 <td>
-                  29
+                  33
                 </td>
                 <td>
                   1
@@ -1533,7 +1533,7 @@ under the License.
                   <a href="http://remote/ri.pom//checkstyle.html#org.universAAL.ri.wsdlToolkit.parser.WSDLParser.java">org/universAAL/ri/wsdlToolkit/parser/WSDLParser.java</a>
                 </td>
                 <td>
-                  22
+                  20
                 </td>
                 <td>
                   3
@@ -1547,7 +1547,7 @@ under the License.
                   <a href="http://remote/ri.pom//checkstyle.html#org.universAAL.ri.wsdlToolkit.invocation.Axis1WebServiceInvoker.java">org/universAAL/ri/wsdlToolkit/invocation/Axis1WebServiceInvoker.java</a>
                 </td>
                 <td>
-                  8
+                  7
                 </td>
                 <td>
                   1
@@ -1645,7 +1645,7 @@ under the License.
                   <a href="http://remote/ri.pom//checkstyle.html#org.universAAL.ri.api.manager.server.persistence.Persistence.java">org/universAAL/ri/api/manager/server/persistence/Persistence.java</a>
                 </td>
                 <td>
-                  22
+                  19
                 </td>
                 <td>
                   0
@@ -1687,7 +1687,7 @@ under the License.
                   <a href="http://remote/ri.pom//checkstyle.html#org.universAAL.ri.wsdlToolkit.axis2Parser.Axis2ParserWrapper.java">org/universAAL/ri/wsdlToolkit/axis2Parser/Axis2ParserWrapper.java</a>
                 </td>
                 <td>
-                  26
+                  18
                 </td>
                 <td>
                   7

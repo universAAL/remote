@@ -77,7 +77,7 @@ under the License.
                   <a href="http://remote/ri.gateway.multitenant//checkstyle.html#org.universAAL.ri.gateway.communicator.service.impl.AbstractLinkHandler.java">org/universAAL/ri/gateway/communicator/service/impl/AbstractLinkHandler.java</a>
                 </td>
                 <td>
-                  1
+                  2
                 </td>
                 <td>
                   10
@@ -329,7 +329,7 @@ under the License.
                   <a href="http://remote/ri.gateway.multitenant//checkstyle.html#org.universAAL.ri.gateway.proxies.ProxyBusMember.java">org/universAAL/ri/gateway/proxies/ProxyBusMember.java</a>
                 </td>
                 <td>
-                  20
+                  19
                 </td>
                 <td>
                   0
@@ -357,7 +357,7 @@ under the License.
                   <a href="http://remote/ri.gateway.multitenant//checkstyle.html#org.universAAL.ri.gateway.communicator.service.impl.SessionManager.java">org/universAAL/ri/gateway/communicator/service/impl/SessionManager.java</a>
                 </td>
                 <td>
-                  3
+                  4
                 </td>
                 <td>
                   8
@@ -623,7 +623,7 @@ under the License.
                   <a href="http://remote/ri.gateway.multitenant//checkstyle.html#org.universAAL.ri.gateway.Exporter.java">org/universAAL/ri/gateway/Exporter.java</a>
                 </td>
                 <td>
-                  19
+                  18
                 </td>
                 <td>
                   2

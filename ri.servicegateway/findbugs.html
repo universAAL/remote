@@ -137,13 +137,13 @@
 <td>Found reliance on default encoding in org.universAAL.ri.servicegateway.GatewayPort.getUserAndPass(String): new String(byte[])</td>
 <td>I18N</td>
 <td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#DM_DEFAULT_ENCODING">DM_DEFAULT_ENCODING</a></td>
-<td>110</td>
+<td>109</td>
 <td>High</td></tr>
 <tr class="a">
 <td>org.universAAL.ontology.profile.User is incompatible with expected argument type String in org.universAAL.ri.servicegateway.GatewayPort.logout(User)</td>
 <td>CORRECTNESS</td>
 <td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#GC_UNRELATED_TYPES">GC_UNRELATED_TYPES</a></td>
-<td>173</td>
+<td>171</td>
 <td>High</td></tr></table></div><a name="org.universAAL.ri.servicegateway.impl.Base64"></a>
 <div class="section">
 <h3><a name="org.universAAL.ri.servicegateway.impl.Base64"></a>org.universAAL.ri.servicegateway.impl.Base64</h3>
@@ -158,31 +158,31 @@
 <td>Dead store to dontBreakLines in org.universAAL.ri.servicegateway.impl.Base64.encodeObject(Serializable, int)</td>
 <td>STYLE</td>
 <td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#DLS_DEAD_LOCAL_STORE">DLS_DEAD_LOCAL_STORE</a></td>
-<td>606</td>
+<td>595</td>
 <td>Medium</td></tr>
 <tr class="b">
 <td>Found reliance on default encoding in org.universAAL.ri.servicegateway.impl.Base64.decode(String, int): String.getBytes()</td>
 <td>I18N</td>
 <td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#DM_DEFAULT_ENCODING">DM_DEFAULT_ENCODING</a></td>
-<td>1023</td>
+<td>1004</td>
 <td>High</td></tr>
 <tr class="a">
 <td>Found reliance on default encoding in org.universAAL.ri.servicegateway.impl.Base64.encodeBytes(byte[], int, int, int): new String(byte[])</td>
 <td>I18N</td>
 <td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#DM_DEFAULT_ENCODING">DM_DEFAULT_ENCODING</a></td>
-<td>788</td>
+<td>776</td>
 <td>High</td></tr>
 <tr class="b">
 <td>Found reliance on default encoding in org.universAAL.ri.servicegateway.impl.Base64.encodeBytes(byte[], int, int, int): new String(byte[], int, int)</td>
 <td>I18N</td>
 <td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#DM_DEFAULT_ENCODING">DM_DEFAULT_ENCODING</a></td>
-<td>827</td>
+<td>815</td>
 <td>High</td></tr>
 <tr class="a">
 <td>Found reliance on default encoding in org.universAAL.ri.servicegateway.impl.Base64.encodeObject(Serializable, int): new String(byte[])</td>
 <td>I18N</td>
 <td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#DM_DEFAULT_ENCODING">DM_DEFAULT_ENCODING</a></td>
-<td>651</td>
+<td>640</td>
 <td>High</td></tr></table></div><a name="org.universAAL.ri.servicegateway.impl.Base64InputStream"></a>
 <div class="section">
 <h3><a name="org.universAAL.ri.servicegateway.impl.Base64InputStream"></a>org.universAAL.ri.servicegateway.impl.Base64$InputStream</h3>
@@ -197,7 +197,7 @@
 <td>Unread field: org.universAAL.ri.servicegateway.impl.Base64$InputStream.alphabet</td>
 <td>PERFORMANCE</td>
 <td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#URF_UNREAD_FIELD">URF_UNREAD_FIELD</a></td>
-<td>1447</td>
+<td>1421</td>
 <td>Medium</td></tr></table></div><a name="org.universAAL.ri.servicegateway.impl.Base64OutputStream"></a>
 <div class="section">
 <h3><a name="org.universAAL.ri.servicegateway.impl.Base64OutputStream"></a>org.universAAL.ri.servicegateway.impl.Base64$OutputStream</h3>
@@ -212,7 +212,7 @@
 <td>Unread field: org.universAAL.ri.servicegateway.impl.Base64$OutputStream.alphabet</td>
 <td>PERFORMANCE</td>
 <td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#URF_UNREAD_FIELD">URF_UNREAD_FIELD</a></td>
-<td>1667</td>
+<td>1637</td>
 <td>Medium</td></tr></table></div><a name="org.universAAL.ri.servicegateway.osgi.Activator"></a>
 <div class="section">
 <h3><a name="org.universAAL.ri.servicegateway.osgi.Activator"></a>org.universAAL.ri.servicegateway.osgi.Activator</h3>
@@ -248,7 +248,7 @@
 <td>Inconsistent synchronization of org.universAAL.ri.servicegateway.osgi.GatewayPortTracker.httpService; locked 80% of time</td>
 <td>MT_CORRECTNESS</td>
 <td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#IS2_INCONSISTENT_SYNC">IS2_INCONSISTENT_SYNC</a></td>
-<td>184</td>
+<td>176</td>
 <td>Medium</td></tr></table></div><a name="org.universAAL.ri.servicegateway.osgi.GatewayPortTrackerGatewayHttpContext"></a>
 <div class="section">
 <h3><a name="org.universAAL.ri.servicegateway.osgi.GatewayPortTrackerGatewayHttpContext"></a>org.universAAL.ri.servicegateway.osgi.GatewayPortTracker$GatewayHttpContext</h3>
@@ -263,7 +263,7 @@
 <td>Should org.universAAL.ri.servicegateway.osgi.GatewayPortTracker$GatewayHttpContext be a _static_ inner class?</td>
 <td>PERFORMANCE</td>
 <td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#SIC_INNER_SHOULD_BE_STATIC">SIC_INNER_SHOULD_BE_STATIC</a></td>
-<td>62</td>
+<td>60</td>
 <td>Medium</td></tr></table></div>
       </div>
     </div>

@@ -86,225 +86,225 @@
 <tr>  <td class="numLine">&nbsp;34</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;35</td>  <td class="nbHits">&nbsp;</td>
-  <td class="src"><pre class="src">&nbsp;    <span class="comment">/**</span></pre></td></tr>
+  <td class="src"><pre class="src">&nbsp;        <span class="comment">/**</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;36</td>  <td class="nbHits">&nbsp;</td>
-  <td class="src"><pre class="src">&nbsp;<span class="comment">     * Get the busmemberId. &lt;br&gt;</span></pre></td></tr>
+  <td class="src"><pre class="src">&nbsp;<span class="comment">         * Get the busmemberId. &lt;br&gt;</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;37</td>  <td class="nbHits">&nbsp;</td>
-  <td class="src"><pre class="src">&nbsp;<span class="comment">     * For imported proxies this ID of the internal busMember of the proxy. &lt;br&gt;</span></pre></td></tr>
+  <td class="src"><pre class="src">&nbsp;<span class="comment">         * For imported proxies this ID of the internal busMember of the proxy. &lt;br&gt;</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;38</td>  <td class="nbHits">&nbsp;</td>
-  <td class="src"><pre class="src">&nbsp;<span class="comment">     * For exported proxies this ID is of the represented {@link BusMember}.</span></pre></td></tr>
+  <td class="src"><pre class="src">&nbsp;<span class="comment">         * For exported proxies this ID is of the represented {@link BusMember}.</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;39</td>  <td class="nbHits">&nbsp;</td>
-  <td class="src"><pre class="src">&nbsp;<span class="comment">     * </span></pre></td></tr>
+  <td class="src"><pre class="src">&nbsp;<span class="comment">         * </span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;40</td>  <td class="nbHits">&nbsp;</td>
-  <td class="src"><pre class="src">&nbsp;<span class="comment">     * @return</span></pre></td></tr>
+  <td class="src"><pre class="src">&nbsp;<span class="comment">         * @return</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;41</td>  <td class="nbHits">&nbsp;</td>
-  <td class="src"><pre class="src">&nbsp;<span class="comment">     */</span></pre></td></tr>
+  <td class="src"><pre class="src">&nbsp;<span class="comment">         */</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;42</td>  <td class="nbHits">&nbsp;</td>
-  <td class="src"><pre class="src">&nbsp;    String getBusMemberId();</pre></td></tr>
+  <td class="src"><pre class="src">&nbsp;        String getBusMemberId();</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;43</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;44</td>  <td class="nbHits">&nbsp;</td>
-  <td class="src"><pre class="src">&nbsp;    <span class="comment">/**</span></pre></td></tr>
+  <td class="src"><pre class="src">&nbsp;        <span class="comment">/**</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;45</td>  <td class="nbHits">&nbsp;</td>
-  <td class="src"><pre class="src">&nbsp;<span class="comment">     * Add a {@link BusMemberReference} to the proxy. This means that from this</span></pre></td></tr>
+  <td class="src"><pre class="src">&nbsp;<span class="comment">         * Add a {@link BusMemberReference} to the proxy. This means that from this</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;46</td>  <td class="nbHits">&nbsp;</td>
-  <td class="src"><pre class="src">&nbsp;<span class="comment">     * moment on the remote proxy and the local proxy can (and should)</span></pre></td></tr>
+  <td class="src"><pre class="src">&nbsp;<span class="comment">         * moment on the remote proxy and the local proxy can (and should)</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;47</td>  <td class="nbHits">&nbsp;</td>
-  <td class="src"><pre class="src">&nbsp;<span class="comment">     * communicate with each other. &lt;br&gt;</span></pre></td></tr>
+  <td class="src"><pre class="src">&nbsp;<span class="comment">         * communicate with each other. &lt;br&gt;</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;48</td>  <td class="nbHits">&nbsp;</td>
-  <td class="src"><pre class="src">&nbsp;<span class="comment">     * </span></pre></td></tr>
+  <td class="src"><pre class="src">&nbsp;<span class="comment">         * </span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;49</td>  <td class="nbHits">&nbsp;</td>
-  <td class="src"><pre class="src">&nbsp;<span class="comment">     * A proxy may have more than one remote reference, each time the local</span></pre></td></tr>
+  <td class="src"><pre class="src">&nbsp;<span class="comment">         * A proxy may have more than one remote reference, each time the local</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;50</td>  <td class="nbHits">&nbsp;</td>
-  <td class="src"><pre class="src">&nbsp;<span class="comment">     * proxy is to send a message it should send it to the whole list of remote</span></pre></td></tr>
+  <td class="src"><pre class="src">&nbsp;<span class="comment">         * proxy is to send a message it should send it to the whole list of remote</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;51</td>  <td class="nbHits">&nbsp;</td>
-  <td class="src"><pre class="src">&nbsp;<span class="comment">     * proxies (list of references), provided for each the outgoing security</span></pre></td></tr>
+  <td class="src"><pre class="src">&nbsp;<span class="comment">         * proxies (list of references), provided for each the outgoing security</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;52</td>  <td class="nbHits">&nbsp;</td>
-  <td class="src"><pre class="src">&nbsp;<span class="comment">     * checks per message is passed.</span></pre></td></tr>
+  <td class="src"><pre class="src">&nbsp;<span class="comment">         * checks per message is passed.</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;53</td>  <td class="nbHits">&nbsp;</td>
-  <td class="src"><pre class="src">&nbsp;<span class="comment">     * </span></pre></td></tr>
+  <td class="src"><pre class="src">&nbsp;<span class="comment">         * </span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;54</td>  <td class="nbHits">&nbsp;</td>
-  <td class="src"><pre class="src">&nbsp;<span class="comment">     * @param remoteReference</span></pre></td></tr>
+  <td class="src"><pre class="src">&nbsp;<span class="comment">         * @param remoteReference</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;55</td>  <td class="nbHits">&nbsp;</td>
-  <td class="src"><pre class="src">&nbsp;<span class="comment">     *            The reference to a remote proxy, its busmemberid and the</span></pre></td></tr>
+  <td class="src"><pre class="src">&nbsp;<span class="comment">         *            The reference to a remote proxy, its busmemberid and the</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;56</td>  <td class="nbHits">&nbsp;</td>
-  <td class="src"><pre class="src">&nbsp;<span class="comment">     *            session through which to find it.</span></pre></td></tr>
+  <td class="src"><pre class="src">&nbsp;<span class="comment">         *            session through which to find it.</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;57</td>  <td class="nbHits">&nbsp;</td>
-  <td class="src"><pre class="src">&nbsp;<span class="comment">     */</span></pre></td></tr>
+  <td class="src"><pre class="src">&nbsp;<span class="comment">         */</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;58</td>  <td class="nbHits">&nbsp;</td>
-  <td class="src"><pre class="src">&nbsp;    <span class="keyword">void</span> addRemoteProxyReference(BusMemberReference remoteReference);</pre></td></tr>
+  <td class="src"><pre class="src">&nbsp;        <span class="keyword">void</span> addRemoteProxyReference(BusMemberReference remoteReference);</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;59</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;60</td>  <td class="nbHits">&nbsp;</td>
-  <td class="src"><pre class="src">&nbsp;    <span class="comment">/**</span></pre></td></tr>
+  <td class="src"><pre class="src">&nbsp;        <span class="comment">/**</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;61</td>  <td class="nbHits">&nbsp;</td>
-  <td class="src"><pre class="src">&nbsp;<span class="comment">     * Remove a concrete remote proxy. Does not send</span></pre></td></tr>
+  <td class="src"><pre class="src">&nbsp;<span class="comment">         * Remove a concrete remote proxy. Does not send</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;62</td>  <td class="nbHits">&nbsp;</td>
-  <td class="src"><pre class="src">&nbsp;<span class="comment">     * {@link ImportMessageType#ImportRemove Remove message}</span></pre></td></tr>
+  <td class="src"><pre class="src">&nbsp;<span class="comment">         * {@link ImportMessageType#ImportRemove Remove message}</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;63</td>  <td class="nbHits">&nbsp;</td>
-  <td class="src"><pre class="src">&nbsp;<span class="comment">     * </span></pre></td></tr>
+  <td class="src"><pre class="src">&nbsp;<span class="comment">         * </span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;64</td>  <td class="nbHits">&nbsp;</td>
-  <td class="src"><pre class="src">&nbsp;<span class="comment">     * @param remoteReference</span></pre></td></tr>
+  <td class="src"><pre class="src">&nbsp;<span class="comment">         * @param remoteReference</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;65</td>  <td class="nbHits">&nbsp;</td>
-  <td class="src"><pre class="src">&nbsp;<span class="comment">     *            the remote's proxy reference to stop communicating with.</span></pre></td></tr>
+  <td class="src"><pre class="src">&nbsp;<span class="comment">         *            the remote's proxy reference to stop communicating with.</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;66</td>  <td class="nbHits">&nbsp;</td>
-  <td class="src"><pre class="src">&nbsp;<span class="comment">     */</span></pre></td></tr>
+  <td class="src"><pre class="src">&nbsp;<span class="comment">         */</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;67</td>  <td class="nbHits">&nbsp;</td>
-  <td class="src"><pre class="src">&nbsp;    <span class="keyword">void</span> removeRemoteProxyReference(BusMemberReference remoteReference);</pre></td></tr>
+  <td class="src"><pre class="src">&nbsp;        <span class="keyword">void</span> removeRemoteProxyReference(BusMemberReference remoteReference);</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;68</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;69</td>  <td class="nbHits">&nbsp;</td>
-  <td class="src"><pre class="src">&nbsp;    <span class="comment">/**</span></pre></td></tr>
+  <td class="src"><pre class="src">&nbsp;        <span class="comment">/**</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;70</td>  <td class="nbHits">&nbsp;</td>
-  <td class="src"><pre class="src">&nbsp;<span class="comment">     * Disconnect from all references that use the same session.Does not send</span></pre></td></tr>
+  <td class="src"><pre class="src">&nbsp;<span class="comment">         * Disconnect from all references that use the same session.Does not send</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;71</td>  <td class="nbHits">&nbsp;</td>
-  <td class="src"><pre class="src">&nbsp;<span class="comment">     * {@link ImportMessageType#ImportRemove Remove message}</span></pre></td></tr>
+  <td class="src"><pre class="src">&nbsp;<span class="comment">         * {@link ImportMessageType#ImportRemove Remove message}</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;72</td>  <td class="nbHits">&nbsp;</td>
-  <td class="src"><pre class="src">&nbsp;<span class="comment">     * </span></pre></td></tr>
+  <td class="src"><pre class="src">&nbsp;<span class="comment">         * </span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;73</td>  <td class="nbHits">&nbsp;</td>
-  <td class="src"><pre class="src">&nbsp;<span class="comment">     * @param session</span></pre></td></tr>
+  <td class="src"><pre class="src">&nbsp;<span class="comment">         * @param session</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;74</td>  <td class="nbHits">&nbsp;</td>
-  <td class="src"><pre class="src">&nbsp;<span class="comment">     *            the session that is to be disconnected.</span></pre></td></tr>
+  <td class="src"><pre class="src">&nbsp;<span class="comment">         *            the session that is to be disconnected.</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;75</td>  <td class="nbHits">&nbsp;</td>
-  <td class="src"><pre class="src">&nbsp;<span class="comment">     */</span></pre></td></tr>
+  <td class="src"><pre class="src">&nbsp;<span class="comment">         */</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;76</td>  <td class="nbHits">&nbsp;</td>
-  <td class="src"><pre class="src">&nbsp;    <span class="keyword">void</span> removeRemoteProxyReferences(Session session);</pre></td></tr>
+  <td class="src"><pre class="src">&nbsp;        <span class="keyword">void</span> removeRemoteProxyReferences(Session session);</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;77</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;78</td>  <td class="nbHits">&nbsp;</td>
-  <td class="src"><pre class="src">&nbsp;    <span class="comment">/**</span></pre></td></tr>
+  <td class="src"><pre class="src">&nbsp;        <span class="comment">/**</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;79</td>  <td class="nbHits">&nbsp;</td>
-  <td class="src"><pre class="src">&nbsp;<span class="comment">     * List all current references for this proxy. &lt;br&gt;</span></pre></td></tr>
+  <td class="src"><pre class="src">&nbsp;<span class="comment">         * List all current references for this proxy. &lt;br&gt;</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;80</td>  <td class="nbHits">&nbsp;</td>
-  <td class="src"><pre class="src">&nbsp;<span class="comment">     * usually used to check the size, when the size of the set of references is</span></pre></td></tr>
+  <td class="src"><pre class="src">&nbsp;<span class="comment">         * usually used to check the size, when the size of the set of references is</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;81</td>  <td class="nbHits">&nbsp;</td>
-  <td class="src"><pre class="src">&nbsp;<span class="comment">     * 0 it means that the proxy should be closed and all Java-references so the</span></pre></td></tr>
+  <td class="src"><pre class="src">&nbsp;<span class="comment">         * 0 it means that the proxy should be closed and all Java-references so the</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;82</td>  <td class="nbHits">&nbsp;</td>
-  <td class="src"><pre class="src">&nbsp;<span class="comment">     * object can be collected.</span></pre></td></tr>
+  <td class="src"><pre class="src">&nbsp;<span class="comment">         * object can be collected.</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;83</td>  <td class="nbHits">&nbsp;</td>
-  <td class="src"><pre class="src">&nbsp;<span class="comment">     * </span></pre></td></tr>
+  <td class="src"><pre class="src">&nbsp;<span class="comment">         * </span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;84</td>  <td class="nbHits">&nbsp;</td>
-  <td class="src"><pre class="src">&nbsp;<span class="comment">     * @return the set of referneces.</span></pre></td></tr>
+  <td class="src"><pre class="src">&nbsp;<span class="comment">         * @return the set of referneces.</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;85</td>  <td class="nbHits">&nbsp;</td>
-  <td class="src"><pre class="src">&nbsp;<span class="comment">     */</span></pre></td></tr>
+  <td class="src"><pre class="src">&nbsp;<span class="comment">         */</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;86</td>  <td class="nbHits">&nbsp;</td>
-  <td class="src"><pre class="src">&nbsp;    Collection&lt;BusMemberReference&gt; getRemoteProxiesReferences();</pre></td></tr>
+  <td class="src"><pre class="src">&nbsp;        Collection&lt;BusMemberReference&gt; getRemoteProxiesReferences();</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;87</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;88</td>  <td class="nbHits">&nbsp;</td>
-  <td class="src"><pre class="src">&nbsp;    <span class="comment">/**</span></pre></td></tr>
+  <td class="src"><pre class="src">&nbsp;        <span class="comment">/**</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;89</td>  <td class="nbHits">&nbsp;</td>
-  <td class="src"><pre class="src">&nbsp;<span class="comment">     * Get the subscription parameters of the {@link BusMember} being proxied by</span></pre></td></tr>
+  <td class="src"><pre class="src">&nbsp;<span class="comment">         * Get the subscription parameters of the {@link BusMember} being proxied by</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;90</td>  <td class="nbHits">&nbsp;</td>
-  <td class="src"><pre class="src">&nbsp;<span class="comment">     * this proxy.</span></pre></td></tr>
+  <td class="src"><pre class="src">&nbsp;<span class="comment">         * this proxy.</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;91</td>  <td class="nbHits">&nbsp;</td>
-  <td class="src"><pre class="src">&nbsp;<span class="comment">     * </span></pre></td></tr>
+  <td class="src"><pre class="src">&nbsp;<span class="comment">         * </span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;92</td>  <td class="nbHits">&nbsp;</td>
-  <td class="src"><pre class="src">&nbsp;<span class="comment">     * @return</span></pre></td></tr>
+  <td class="src"><pre class="src">&nbsp;<span class="comment">         * @return</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;93</td>  <td class="nbHits">&nbsp;</td>
-  <td class="src"><pre class="src">&nbsp;<span class="comment">     */</span></pre></td></tr>
+  <td class="src"><pre class="src">&nbsp;<span class="comment">         */</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;94</td>  <td class="nbHits">&nbsp;</td>
-  <td class="src"><pre class="src">&nbsp;    Resource[] getSubscriptionParameters();</pre></td></tr>
+  <td class="src"><pre class="src">&nbsp;        Resource[] getSubscriptionParameters();</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;95</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;96</td>  <td class="nbHits">&nbsp;</td>
-  <td class="src"><pre class="src">&nbsp;    <span class="comment">/**</span></pre></td></tr>
+  <td class="src"><pre class="src">&nbsp;        <span class="comment">/**</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;97</td>  <td class="nbHits">&nbsp;</td>
-  <td class="src"><pre class="src">&nbsp;<span class="comment">     * When a session receives a {@link WrappedBusMessage}, it delivers it to</span></pre></td></tr>
+  <td class="src"><pre class="src">&nbsp;<span class="comment">         * When a session receives a {@link WrappedBusMessage}, it delivers it to</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;98</td>  <td class="nbHits">&nbsp;</td>
-  <td class="src"><pre class="src">&nbsp;<span class="comment">     * the {@link ProxyBusMember} which its</span></pre></td></tr>
+  <td class="src"><pre class="src">&nbsp;<span class="comment">         * the {@link ProxyBusMember} which its</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;99</td>  <td class="nbHits">&nbsp;</td>
-  <td class="src"><pre class="src">&nbsp;<span class="comment">     * {@link ProxyBusMember#getBusMemberId() busMemberId} matches the</span></pre></td></tr>
+  <td class="src"><pre class="src">&nbsp;<span class="comment">         * {@link ProxyBusMember#getBusMemberId() busMemberId} matches the</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;100</td>  <td class="nbHits">&nbsp;</td>
-  <td class="src"><pre class="src">&nbsp;<span class="comment">     * {@link WrappedBusMessage#getRemoteProxyRegistrationId() </span></pre></td></tr>
+  <td class="src"><pre class="src">&nbsp;<span class="comment">         * {@link WrappedBusMessage#getRemoteProxyRegistrationId()</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;101</td>  <td class="nbHits">&nbsp;</td>
-  <td class="src"><pre class="src">&nbsp;<span class="comment">     * WrappedBusMessage's destination}. The delivery is received through this</span></pre></td></tr>
+  <td class="src"><pre class="src">&nbsp;<span class="comment">         * WrappedBusMessage's destination}. The delivery is received through this</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;102</td>  <td class="nbHits">&nbsp;</td>
-  <td class="src"><pre class="src">&nbsp;<span class="comment">     * method.</span></pre></td></tr>
+  <td class="src"><pre class="src">&nbsp;<span class="comment">         * method.</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;103</td>  <td class="nbHits">&nbsp;</td>
-  <td class="src"><pre class="src">&nbsp;<span class="comment">     * </span></pre></td></tr>
+  <td class="src"><pre class="src">&nbsp;<span class="comment">         * </span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;104</td>  <td class="nbHits">&nbsp;</td>
-  <td class="src"><pre class="src">&nbsp;<span class="comment">     * @param session</span></pre></td></tr>
+  <td class="src"><pre class="src">&nbsp;<span class="comment">         * @param session</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;105</td>  <td class="nbHits">&nbsp;</td>
-  <td class="src"><pre class="src">&nbsp;<span class="comment">     *            the session through which the message was received.</span></pre></td></tr>
+  <td class="src"><pre class="src">&nbsp;<span class="comment">         *            the session through which the message was received.</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;106</td>  <td class="nbHits">&nbsp;</td>
-  <td class="src"><pre class="src">&nbsp;<span class="comment">     * @param busMessage</span></pre></td></tr>
+  <td class="src"><pre class="src">&nbsp;<span class="comment">         * @param busMessage</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;107</td>  <td class="nbHits">&nbsp;</td>
-  <td class="src"><pre class="src">&nbsp;<span class="comment">     *            the actual message received.</span></pre></td></tr>
+  <td class="src"><pre class="src">&nbsp;<span class="comment">         *            the actual message received.</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;108</td>  <td class="nbHits">&nbsp;</td>
-  <td class="src"><pre class="src">&nbsp;<span class="comment">     */</span></pre></td></tr>
+  <td class="src"><pre class="src">&nbsp;<span class="comment">         */</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;109</td>  <td class="nbHits">&nbsp;</td>
-  <td class="src"><pre class="src">&nbsp;    <span class="keyword">void</span> handleMessage(Session session, WrappedBusMessage busMessage);</pre></td></tr>
+  <td class="src"><pre class="src">&nbsp;        <span class="keyword">void</span> handleMessage(Session session, WrappedBusMessage busMessage);</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;110</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;111</td>  <td class="nbHits">&nbsp;</td>
-  <td class="src"><pre class="src">&nbsp;    <span class="comment">/**</span></pre></td></tr>
+  <td class="src"><pre class="src">&nbsp;        <span class="comment">/**</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;112</td>  <td class="nbHits">&nbsp;</td>
-  <td class="src"><pre class="src">&nbsp;<span class="comment">     * Used to check if a {@link ProxyBusMember} is capable of assuming the</span></pre></td></tr>
+  <td class="src"><pre class="src">&nbsp;<span class="comment">         * Used to check if a {@link ProxyBusMember} is capable of assuming the</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;113</td>  <td class="nbHits">&nbsp;</td>
-  <td class="src"><pre class="src">&nbsp;<span class="comment">     * proxy duties of a requested proxy with the given parameters. &lt;br&gt;</span></pre></td></tr>
+  <td class="src"><pre class="src">&nbsp;<span class="comment">         * proxy duties of a requested proxy with the given parameters. &lt;br&gt;</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;114</td>  <td class="nbHits">&nbsp;</td>
-  <td class="src"><pre class="src">&nbsp;<span class="comment">     * </span></pre></td></tr>
+  <td class="src"><pre class="src">&nbsp;<span class="comment">         * </span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;115</td>  <td class="nbHits">&nbsp;</td>
-  <td class="src"><pre class="src">&nbsp;<span class="comment">     * Usually this is just the comparison of arrays of registration parameters</span></pre></td></tr>
+  <td class="src"><pre class="src">&nbsp;<span class="comment">         * Usually this is just the comparison of arrays of registration parameters</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;116</td>  <td class="nbHits">&nbsp;</td>
-  <td class="src"><pre class="src">&nbsp;<span class="comment">     * </span></pre></td></tr>
+  <td class="src"><pre class="src">&nbsp;<span class="comment">         * </span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;117</td>  <td class="nbHits">&nbsp;</td>
-  <td class="src"><pre class="src">&nbsp;<span class="comment">     * @param registrationParameters</span></pre></td></tr>
+  <td class="src"><pre class="src">&nbsp;<span class="comment">         * @param registrationParameters</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;118</td>  <td class="nbHits">&nbsp;</td>
-  <td class="src"><pre class="src">&nbsp;<span class="comment">     * @return true if the proxy is compatible with the parameters.</span></pre></td></tr>
+  <td class="src"><pre class="src">&nbsp;<span class="comment">         * @return true if the proxy is compatible with the parameters.</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;119</td>  <td class="nbHits">&nbsp;</td>
-  <td class="src"><pre class="src">&nbsp;<span class="comment">     */</span></pre></td></tr>
+  <td class="src"><pre class="src">&nbsp;<span class="comment">         */</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;120</td>  <td class="nbHits">&nbsp;</td>
-  <td class="src"><pre class="src">&nbsp;    <span class="keyword">boolean</span> isCompatible(Resource[] registrationParameters);</pre></td></tr>
+  <td class="src"><pre class="src">&nbsp;        <span class="keyword">boolean</span> isCompatible(Resource[] registrationParameters);</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;121</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;122</td>  <td class="nbHits">&nbsp;</td>
-  <td class="src"><pre class="src">&nbsp;    <span class="comment">/**</span></pre></td></tr>
+  <td class="src"><pre class="src">&nbsp;        <span class="comment">/**</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;123</td>  <td class="nbHits">&nbsp;</td>
-  <td class="src"><pre class="src">&nbsp;<span class="comment">     * Called when the proxy has to disconnect from the bus.</span></pre></td></tr>
+  <td class="src"><pre class="src">&nbsp;<span class="comment">         * Called when the proxy has to disconnect from the bus.</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;124</td>  <td class="nbHits">&nbsp;</td>
-  <td class="src"><pre class="src">&nbsp;<span class="comment">     */</span></pre></td></tr>
+  <td class="src"><pre class="src">&nbsp;<span class="comment">         */</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;125</td>  <td class="nbHits">&nbsp;</td>
-  <td class="src"><pre class="src">&nbsp;    <span class="keyword">void</span> close();</pre></td></tr>
+  <td class="src"><pre class="src">&nbsp;        <span class="keyword">void</span> close();</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;126</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;127</td>  <td class="nbHits">&nbsp;</td>
-  <td class="src"><pre class="src">&nbsp;    <span class="comment">/**</span></pre></td></tr>
+  <td class="src"><pre class="src">&nbsp;        <span class="comment">/**</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;128</td>  <td class="nbHits">&nbsp;</td>
-  <td class="src"><pre class="src">&nbsp;<span class="comment">     * When a update of registration parameters is required.</span></pre></td></tr>
+  <td class="src"><pre class="src">&nbsp;<span class="comment">         * When a update of registration parameters is required.</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;129</td>  <td class="nbHits">&nbsp;</td>
-  <td class="src"><pre class="src">&nbsp;<span class="comment">     * </span></pre></td></tr>
+  <td class="src"><pre class="src">&nbsp;<span class="comment">         * </span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;130</td>  <td class="nbHits">&nbsp;</td>
-  <td class="src"><pre class="src">&nbsp;<span class="comment">     * @param newParams</span></pre></td></tr>
+  <td class="src"><pre class="src">&nbsp;<span class="comment">         * @param newParams</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;131</td>  <td class="nbHits">&nbsp;</td>
-  <td class="src"><pre class="src">&nbsp;<span class="comment">     *            the new parameters to use.</span></pre></td></tr>
+  <td class="src"><pre class="src">&nbsp;<span class="comment">         *            the new parameters to use.</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;132</td>  <td class="nbHits">&nbsp;</td>
-  <td class="src"><pre class="src">&nbsp;<span class="comment">     */</span></pre></td></tr>
+  <td class="src"><pre class="src">&nbsp;<span class="comment">         */</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;133</td>  <td class="nbHits">&nbsp;</td>
-  <td class="src"><pre class="src">&nbsp;    <span class="keyword">void</span> addSubscriptionParameters(Resource[] newParams);</pre></td></tr>
+  <td class="src"><pre class="src">&nbsp;        <span class="keyword">void</span> addSubscriptionParameters(Resource[] newParams);</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;134</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;135</td>  <td class="nbHits">&nbsp;</td>
-  <td class="src"><pre class="src">&nbsp;    <span class="comment">/**</span></pre></td></tr>
+  <td class="src"><pre class="src">&nbsp;        <span class="comment">/**</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;136</td>  <td class="nbHits">&nbsp;</td>
-  <td class="src"><pre class="src">&nbsp;<span class="comment">     * When a update of registration parameters is required.</span></pre></td></tr>
+  <td class="src"><pre class="src">&nbsp;<span class="comment">         * When a update of registration parameters is required.</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;137</td>  <td class="nbHits">&nbsp;</td>
-  <td class="src"><pre class="src">&nbsp;<span class="comment">     * </span></pre></td></tr>
+  <td class="src"><pre class="src">&nbsp;<span class="comment">         * </span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;138</td>  <td class="nbHits">&nbsp;</td>
-  <td class="src"><pre class="src">&nbsp;<span class="comment">     * @param newParams</span></pre></td></tr>
+  <td class="src"><pre class="src">&nbsp;<span class="comment">         * @param newParams</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;139</td>  <td class="nbHits">&nbsp;</td>
-  <td class="src"><pre class="src">&nbsp;<span class="comment">     *            the new parameters to use.</span></pre></td></tr>
+  <td class="src"><pre class="src">&nbsp;<span class="comment">         *            the new parameters to use.</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;140</td>  <td class="nbHits">&nbsp;</td>
-  <td class="src"><pre class="src">&nbsp;<span class="comment">     */</span></pre></td></tr>
+  <td class="src"><pre class="src">&nbsp;<span class="comment">         */</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;141</td>  <td class="nbHits">&nbsp;</td>
-  <td class="src"><pre class="src">&nbsp;    <span class="keyword">void</span> removeSubscriptionParameters(Resource[] newParams);</pre></td></tr>
+  <td class="src"><pre class="src">&nbsp;        <span class="keyword">void</span> removeSubscriptionParameters(Resource[] newParams);</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;142</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;143</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;}</pre></td></tr>
 </table>
 
-<div class="footer">Report generated by <a href="http://cobertura.sourceforge.net/" target="_top">Cobertura</a> 2.1.1 on 6/3/17 2:02 PM.</div>
+<div class="footer">Report generated by <a href="http://cobertura.sourceforge.net/" target="_top">Cobertura</a> 2.1.1 on 6/9/17 4:20 AM.</div>
 </body>
 </html>

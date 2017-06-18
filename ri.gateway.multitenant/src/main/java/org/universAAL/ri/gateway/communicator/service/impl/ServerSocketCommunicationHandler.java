@@ -39,7 +39,7 @@ import java.util.concurrent.Executors;
 
 import org.universAAL.log.Logger;
 import org.universAAL.log.LoggerFactory;
-import org.universAAL.middleware.managers.api.AALSpaceManager;
+import org.universAAL.middleware.managers.api.SpaceManager;
 import org.universAAL.ri.gateway.Gateway;
 import org.universAAL.ri.gateway.ProxyMessageReceiver;
 import org.universAAL.ri.gateway.Session;
@@ -180,7 +180,7 @@ public class ServerSocketCommunicationHandler extends AbstractSocketCommunicatio
 
 		@Override
 		protected boolean handleSessionProtocol(final Message msg) {
-			final AALSpaceManager spaceManager = Gateway.getInstance().spaceManager.getObject();
+			final SpaceManager spaceManager = Gateway.getInstance().spaceManager.getObject();
 			final SessionManager sessionManger = SessionManager.getInstance();
 			LinkMessage link = null;
 			if (msg instanceof LinkMessage) {

@@ -11,7 +11,7 @@ import org.universAAL.container.JUnit.JUnitModuleContext;
 import org.universAAL.middleware.container.ModuleContext;
 import org.universAAL.middleware.context.ContextEvent;
 import org.universAAL.middleware.context.ContextEventPattern;
-import org.universAAL.middleware.managers.api.AALSpaceManager;
+import org.universAAL.middleware.managers.api.SpaceManager;
 import org.universAAL.middleware.managers.api.TenantManager;
 import org.universAAL.middleware.owl.DataRepOntology;
 import org.universAAL.middleware.owl.MergedRestriction;
@@ -40,7 +40,7 @@ public class TurtleFileSecurityDefinitionTest {
 		mc.getContainer().shareObject(mc, new TurtleSerializer(),
 				new Object[] { MessageContentSerializer.class.getName() });
 
-		mc.getContainer().shareObject(mc, new DummyAALSPaceManager(), new Object[] { AALSpaceManager.class.getName() });
+		mc.getContainer().shareObject(mc, new DummyAALSPaceManager(), new Object[] { SpaceManager.class.getName() });
 
 		mc.getContainer().shareObject(mc, new DummyTenantManager(), new Object[] { TenantManager.class.getName() });
 

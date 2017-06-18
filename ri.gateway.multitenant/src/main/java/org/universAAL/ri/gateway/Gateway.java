@@ -34,7 +34,7 @@ import org.universAAL.log.LoggerFactory;
 import org.universAAL.middleware.container.ModuleActivator;
 import org.universAAL.middleware.container.ModuleContext;
 import org.universAAL.middleware.container.utils.LogUtils;
-import org.universAAL.middleware.managers.api.AALSpaceManager;
+import org.universAAL.middleware.managers.api.SpaceManager;
 import org.universAAL.middleware.managers.api.TenantManager;
 import org.universAAL.middleware.serialization.MessageContentSerializer;
 import org.universAAL.middleware.tracker.IBusMemberRegistry;
@@ -56,7 +56,7 @@ public class Gateway implements ModuleActivator, SessionEventListener {
 
 	private static WaitingDependencyProxy<Gateway> singleton;
 
-	public DependencyProxy<AALSpaceManager> spaceManager;
+	public DependencyProxy<SpaceManager> spaceManager;
 
 	public DependencyProxy<TenantManager> tenantManager;
 
@@ -117,8 +117,8 @@ public class Gateway implements ModuleActivator, SessionEventListener {
 		sessions = new HashMap<Session, String>();
 		servers = new HashMap<Server, String>();
 
-		spaceManager = new PassiveDependencyProxy<AALSpaceManager>(context,
-				new Object[] { AALSpaceManager.class.getName() });
+		spaceManager = new PassiveDependencyProxy<SpaceManager>(context,
+				new Object[] { SpaceManager.class.getName() });
 
 		serializer = new PassiveDependencyProxy<MessageContentSerializer>(context,
 				new Object[] { MessageContentSerializer.class.getName() });

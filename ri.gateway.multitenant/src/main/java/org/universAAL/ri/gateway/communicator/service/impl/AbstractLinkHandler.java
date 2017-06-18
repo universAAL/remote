@@ -28,7 +28,7 @@ import java.util.UUID;
 
 import org.universAAL.log.Logger;
 import org.universAAL.log.LoggerFactory;
-import org.universAAL.middleware.managers.api.AALSpaceManager;
+import org.universAAL.middleware.managers.api.SpaceManager;
 import org.universAAL.ri.gateway.Gateway;
 import org.universAAL.ri.gateway.communication.cipher.Cipher;
 import org.universAAL.ri.gateway.communicator.service.CommunicationHelper;
@@ -157,8 +157,8 @@ public abstract class AbstractLinkHandler implements Runnable {
 	}
 
 	protected boolean reconnect() {
-		final AALSpaceManager spaceManager = Gateway.getInstance().spaceManager.getObject();
-		final String spaceId = spaceManager.getAALSpaceDescriptor().getSpaceCard().getSpaceID();
+		final SpaceManager spaceManager = Gateway.getInstance().spaceManager.getObject();
+		final String spaceId = spaceManager.getSpaceDescriptor().getSpaceCard().getSpaceID();
 		final String peerId = spaceManager.getMyPeerCard().getPeerID();
 
 		if (spaceId.equals(refSM.getAALSpaceIdFromSession(currentSession)) == false) {
@@ -220,9 +220,9 @@ public abstract class AbstractLinkHandler implements Runnable {
 	}
 
 	protected boolean connect() {
-		final AALSpaceManager spaceManager = Gateway.getInstance().spaceManager.getObject();
-		final String spaceId = spaceManager.getAALSpaceDescriptor().getSpaceCard().getSpaceID();
-		final String spaceName = spaceManager.getAALSpaceDescriptor().getSpaceCard().getSpaceName();
+		final SpaceManager spaceManager = Gateway.getInstance().spaceManager.getObject();
+		final String spaceId = spaceManager.getSpaceDescriptor().getSpaceCard().getSpaceID();
+		final String spaceName = spaceManager.getSpaceDescriptor().getSpaceCard().getSpaceName();
 		final String peerId = spaceManager.getMyPeerCard().getPeerID();
 		final ConnectionRequest request = new ConnectionRequest(peerId, spaceId, spaceName);
 		try {
@@ -263,8 +263,8 @@ public abstract class AbstractLinkHandler implements Runnable {
 	protected abstract Message getNextMessage(InputStream in) throws Exception;
 
 	protected boolean disconnect() {
-		final AALSpaceManager spaceManager = Gateway.getInstance().spaceManager.getObject();
-		final String spaceId = spaceManager.getAALSpaceDescriptor().getSpaceCard().getSpaceID();
+		final SpaceManager spaceManager = Gateway.getInstance().spaceManager.getObject();
+		final String spaceId = spaceManager.getSpaceDescriptor().getSpaceCard().getSpaceID();
 		final String peerId = spaceManager.getMyPeerCard().getPeerID();
 		final DisconnectionRequest request = new DisconnectionRequest(peerId, spaceId, currentSession);
 		boolean result = true;

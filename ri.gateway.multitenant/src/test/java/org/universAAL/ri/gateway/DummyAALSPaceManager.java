@@ -22,17 +22,17 @@ import java.util.Map;
 import java.util.Set;
 
 import org.universAAL.middleware.interfaces.PeerCard;
-import org.universAAL.middleware.interfaces.aalspace.AALSpaceCard;
-import org.universAAL.middleware.interfaces.aalspace.AALSpaceDescriptor;
+import org.universAAL.middleware.interfaces.space.SpaceCard;
+import org.universAAL.middleware.interfaces.space.SpaceDescriptor;
 import org.universAAL.middleware.managers.api.AALSpaceListener;
-import org.universAAL.middleware.managers.api.AALSpaceManager;
+import org.universAAL.middleware.managers.api.SpaceManager;
 import org.universAAL.middleware.managers.api.MatchingResult;
 
 /**
  * @author amedrano
  *
  */
-public class DummyAALSPaceManager implements AALSpaceManager {
+public class DummyAALSPaceManager implements SpaceManager {
 
 	/** {@inheritDoc} */
 	public void loadConfigurations(Dictionary configurations) {
@@ -59,31 +59,31 @@ public class DummyAALSPaceManager implements AALSpaceManager {
 	}
 
 	/** {@inheritDoc} */
-	public Set<AALSpaceCard> getAALSpaces() {
+	public Set<SpaceCard> getAALSpaces() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	/** {@inheritDoc} */
-	public AALSpaceDescriptor getAALSpaceDescriptor() {
+	public SpaceDescriptor getSpaceDescriptor() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	/** {@inheritDoc} */
-	public Map<String, AALSpaceDescriptor> getManagedAALSpaces() {
+	public Map<String, SpaceDescriptor> getManagedAALSpaces() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	/** {@inheritDoc} */
-	public void join(AALSpaceCard spaceCard) {
+	public void join(SpaceCard spaceCard) {
 		// TODO Auto-generated method stub
 
 	}
 
 	/** {@inheritDoc} */
-	public void leaveAALSpace(AALSpaceDescriptor spaceDescriptor) {
+	public void leaveAALSpace(SpaceDescriptor spaceDescriptor) {
 		// TODO Auto-generated method stub
 
 	}

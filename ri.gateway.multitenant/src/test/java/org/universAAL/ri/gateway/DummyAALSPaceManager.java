@@ -24,7 +24,7 @@ import java.util.Set;
 import org.universAAL.middleware.interfaces.PeerCard;
 import org.universAAL.middleware.interfaces.space.SpaceCard;
 import org.universAAL.middleware.interfaces.space.SpaceDescriptor;
-import org.universAAL.middleware.managers.api.AALSpaceListener;
+import org.universAAL.middleware.managers.api.SpaceListener;
 import org.universAAL.middleware.managers.api.SpaceManager;
 import org.universAAL.middleware.managers.api.MatchingResult;
 
@@ -59,7 +59,7 @@ public class DummyAALSPaceManager implements SpaceManager {
 	}
 
 	/** {@inheritDoc} */
-	public Set<SpaceCard> getAALSpaces() {
+	public Set<SpaceCard> getSpaces() {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -71,7 +71,7 @@ public class DummyAALSPaceManager implements SpaceManager {
 	}
 
 	/** {@inheritDoc} */
-	public Map<String, SpaceDescriptor> getManagedAALSpaces() {
+	public Map<String, SpaceDescriptor> getManagedSpaces() {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -83,7 +83,7 @@ public class DummyAALSPaceManager implements SpaceManager {
 	}
 
 	/** {@inheritDoc} */
-	public void leaveAALSpace(SpaceDescriptor spaceDescriptor) {
+	public void leaveSpace(SpaceDescriptor spaceDescriptor) {
 		// TODO Auto-generated method stub
 
 	}
@@ -107,13 +107,13 @@ public class DummyAALSPaceManager implements SpaceManager {
 	}
 
 	/** {@inheritDoc} */
-	public void addAALSpaceListener(AALSpaceListener listener) {
+	public void addSpaceListener(SpaceListener listener) {
 		// TODO Auto-generated method stub
 
 	}
 
 	/** {@inheritDoc} */
-	public void removeAALSpaceListener(AALSpaceListener listener) {
+	public void removeSpaceListener(SpaceListener listener) {
 		// TODO Auto-generated method stub
 
 	}

@@ -35,7 +35,7 @@ import org.osgi.framework.ServiceReference;
 import org.osgi.service.http.HttpService;
 import org.osgi.service.http.NamespaceException;
 import org.universAAL.middleware.container.ModuleContext;
-import org.universAAL.middleware.container.osgi.uAALBundleContainer;
+import org.universAAL.middleware.container.osgi.OSGiContainer;
 import org.universAAL.middleware.container.utils.LogUtils;
 import org.universAAL.middleware.serialization.MessageContentSerializerEx;
 import org.universAAL.ri.api.manager.push.CryptUtil;
@@ -121,7 +121,7 @@ public class Activator implements BundleActivator {
 	 */
 	public void start(BundleContext bcontext) throws Exception {
 		osgiContext = bcontext;
-		uaalContext = uAALBundleContainer.THE_CONTAINER.registerModule(new Object[] { bcontext });
+		uaalContext = OSGiContainer.THE_CONTAINER.registerModule(new Object[] { bcontext });
 
 		// Find uAAL serializer
 		serializerListener = new SerializerListener();

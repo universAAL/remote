@@ -26,7 +26,7 @@ import java.util.Timer;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 import org.universAAL.middleware.container.ModuleContext;
-import org.universAAL.middleware.container.osgi.uAALBundleContainer;
+import org.universAAL.middleware.container.osgi.OSGiContainer;
 import org.universAAL.middleware.container.utils.LogUtils;
 
 import org.universAAL.middleware.context.ContextEvent;
@@ -47,7 +47,7 @@ public class Activator implements BundleActivator {
 
 	public void start(BundleContext bcontext) throws Exception {
 		Activator.osgiContext = bcontext;
-		Activator.context = uAALBundleContainer.THE_CONTAINER.registerModule(new Object[] { bcontext });
+		Activator.context = OSGiContainer.THE_CONTAINER.registerModule(new Object[] { bcontext });
 		ContextProvider info = new ContextProvider();
 		info.setType(ContextProviderType.gauge);
 		ContextEventPattern cep = new ContextEventPattern();

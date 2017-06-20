@@ -31,7 +31,7 @@ import org.osgi.framework.ServiceEvent;
 import org.osgi.framework.ServiceListener;
 import org.osgi.framework.ServiceReference;
 import org.universAAL.middleware.container.ModuleContext;
-import org.universAAL.middleware.container.osgi.uAALBundleContainer;
+import org.universAAL.middleware.container.osgi.OSGiContainer;
 import org.universAAL.middleware.container.utils.LogUtils;
 import org.universAAL.middleware.managers.api.TenantManager;
 import org.universAAL.middleware.serialization.MessageContentSerializerEx;
@@ -60,7 +60,7 @@ public class Activator implements BundleActivator {
 
 	public void start(BundleContext bcontext) throws Exception {
 		Activator.osgiContext = bcontext;
-		Activator.uaalContext = uAALBundleContainer.THE_CONTAINER.registerModule(new Object[] { bcontext });
+		Activator.uaalContext = OSGiContainer.THE_CONTAINER.registerModule(new Object[] { bcontext });
 
 		// Find tenant manager
 		tenantListener = new TenantListener();

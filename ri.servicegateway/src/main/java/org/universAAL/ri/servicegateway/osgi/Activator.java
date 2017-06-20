@@ -22,7 +22,7 @@ package org.universAAL.ri.servicegateway.osgi;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 import org.universAAL.middleware.container.ModuleContext;
-import org.universAAL.middleware.container.osgi.uAALBundleContainer;
+import org.universAAL.middleware.container.osgi.OSGiContainer;
 import org.universAAL.ri.servicegateway.GatewayPort;
 
 /**
@@ -51,7 +51,7 @@ public class Activator implements BundleActivator {
 
 		Activator.context = context;
 		BundleContext[] bc = { context };
-		Activator.mcontext = uAALBundleContainer.THE_CONTAINER.registerModule(bc);
+		Activator.mcontext = OSGiContainer.THE_CONTAINER.registerModule(bc);
 
 		// start the tracker on the GatewayPort name
 		gatewayPortTracker = new GatewayPortTracker(context, mcontext, GatewayPort.class.getName(), null); // no

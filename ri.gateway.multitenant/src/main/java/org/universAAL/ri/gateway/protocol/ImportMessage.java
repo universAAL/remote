@@ -33,7 +33,7 @@ public class ImportMessage extends Message {
 	 */
 	private static final long serialVersionUID = -3533596854780040065L;
 
-	private static final String PARAMETER_BAG = Resource.uAAL_NAMESPACE_PREFIX + "parameterGatewayBag";
+	private static final String PARAMETER_BAG = Resource.NAMESPACE_PREFIX + "parameterGatewayBag";
 
 	/**
 	 * The type of the current {@link ImportMessage}.

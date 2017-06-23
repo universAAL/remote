@@ -27,10 +27,6 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import org.universAAL.ioc.dependencies.DependencyProxy;
-import org.universAAL.ioc.dependencies.impl.PassiveDependencyProxy;
-import org.universAAL.ioc.dependencies.impl.WaitingDependencyProxy;
-import org.universAAL.log.LoggerFactory;
 import org.universAAL.middleware.container.ModuleActivator;
 import org.universAAL.middleware.container.ModuleContext;
 import org.universAAL.middleware.container.utils.LogUtils;
@@ -42,7 +38,11 @@ import org.universAAL.ri.gateway.SessionEvent.SessionStatus;
 import org.universAAL.ri.gateway.configuration.Configuration;
 import org.universAAL.ri.gateway.configuration.Configuration.ConnectionMode;
 import org.universAAL.ri.gateway.configuration.ConfigurationFile;
+import org.universAAL.ri.gateway.log.LoggerFactory;
 import org.universAAL.ri.gateway.proxies.ProxyPool;
+import org.universAAL.utilities.ioc.dependencies.DependencyProxy;
+import org.universAAL.utilities.ioc.dependencies.impl.PassiveDependencyProxy;
+import org.universAAL.utilities.ioc.dependencies.impl.WaitingDependencyProxy;
 
 /**
  * Main Class for the AALSpace Gateway. It is in charge of managing

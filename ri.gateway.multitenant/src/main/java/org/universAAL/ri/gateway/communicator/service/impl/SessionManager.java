@@ -33,10 +33,10 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
-import org.universAAL.log.Logger;
-import org.universAAL.log.LoggerFactory;
 import org.universAAL.middleware.managers.api.TenantManager;
 import org.universAAL.ri.gateway.Gateway;
+import org.universAAL.ri.gateway.log.Logger;
+import org.universAAL.ri.gateway.log.LoggerFactory;
 
 /**
  *

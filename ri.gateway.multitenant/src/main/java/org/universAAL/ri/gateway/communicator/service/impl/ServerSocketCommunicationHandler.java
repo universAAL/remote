@@ -37,8 +37,6 @@ import java.util.UUID;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import org.universAAL.log.Logger;
-import org.universAAL.log.LoggerFactory;
 import org.universAAL.middleware.managers.api.SpaceManager;
 import org.universAAL.ri.gateway.Gateway;
 import org.universAAL.ri.gateway.ProxyMessageReceiver;
@@ -46,6 +44,8 @@ import org.universAAL.ri.gateway.Session;
 import org.universAAL.ri.gateway.SessionEvent;
 import org.universAAL.ri.gateway.communicator.service.CommunicationHelper;
 import org.universAAL.ri.gateway.configuration.Configuration;
+import org.universAAL.ri.gateway.log.Logger;
+import org.universAAL.ri.gateway.log.LoggerFactory;
 import org.universAAL.ri.gateway.protocol.LinkMessage;
 import org.universAAL.ri.gateway.protocol.LinkMessage.LinkMessageType;
 import org.universAAL.ri.gateway.protocol.Message;

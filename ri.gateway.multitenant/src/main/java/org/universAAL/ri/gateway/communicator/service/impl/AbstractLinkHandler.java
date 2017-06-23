@@ -26,12 +26,12 @@ import java.io.OutputStream;
 import java.net.Socket;
 import java.util.UUID;
 
-import org.universAAL.log.Logger;
-import org.universAAL.log.LoggerFactory;
 import org.universAAL.middleware.managers.api.SpaceManager;
 import org.universAAL.ri.gateway.Gateway;
 import org.universAAL.ri.gateway.communication.cipher.Cipher;
 import org.universAAL.ri.gateway.communicator.service.CommunicationHelper;
+import org.universAAL.ri.gateway.log.Logger;
+import org.universAAL.ri.gateway.log.LoggerFactory;
 import org.universAAL.ri.gateway.protocol.LinkMessage;
 import org.universAAL.ri.gateway.protocol.LinkMessage.LinkMessageType;
 import org.universAAL.ri.gateway.protocol.Message;

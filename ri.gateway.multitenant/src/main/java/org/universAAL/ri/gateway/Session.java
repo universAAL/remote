@@ -23,8 +23,6 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.concurrent.TimeoutException;
 
-import org.universAAL.log.Logger;
-import org.universAAL.log.LoggerFactory;
 import org.universAAL.middleware.container.utils.LogUtils;
 import org.universAAL.ri.gateway.communication.cipher.Cipher;
 import org.universAAL.ri.gateway.communicator.service.impl.AbstractSocketCommunicationHandler;
@@ -32,6 +30,8 @@ import org.universAAL.ri.gateway.communicator.service.impl.ClientSocketCommunica
 import org.universAAL.ri.gateway.communicator.service.impl.ServerSocketCommunicationHandler;
 import org.universAAL.ri.gateway.configuration.Configuration;
 import org.universAAL.ri.gateway.configuration.Configuration.ConnectionMode;
+import org.universAAL.ri.gateway.log.Logger;
+import org.universAAL.ri.gateway.log.LoggerFactory;
 import org.universAAL.ri.gateway.operations.MessageOperationChain;
 import org.universAAL.ri.gateway.operations.OperationChainManager;
 import org.universAAL.ri.gateway.operations.ParameterCheckOpertaionChain;

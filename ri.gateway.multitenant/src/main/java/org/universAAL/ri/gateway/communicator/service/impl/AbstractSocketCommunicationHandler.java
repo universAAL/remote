@@ -32,12 +32,12 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
-import org.universAAL.log.Logger;
-import org.universAAL.log.LoggerFactory;
 import org.universAAL.ri.gateway.Gateway;
 import org.universAAL.ri.gateway.communication.cipher.Cipher;
 import org.universAAL.ri.gateway.communicator.service.CommunicationHandler;
 import org.universAAL.ri.gateway.communicator.service.CommunicationHelper;
+import org.universAAL.ri.gateway.log.Logger;
+import org.universAAL.ri.gateway.log.LoggerFactory;
 import org.universAAL.ri.gateway.protocol.Message;
 
 /**

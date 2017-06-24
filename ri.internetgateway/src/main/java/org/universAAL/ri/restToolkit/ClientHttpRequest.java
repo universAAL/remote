@@ -1,17 +1,17 @@
 /*
 	Copyright 2007-2014 CERTH-ITI, http://www.iti.gr
-	Centre of Research and Technology Hellas 
+	Centre of Research and Technology Hellas
 	Information Technologies Institute
 
-	See the NOTICE file distributed with this work for additional 
+	See the NOTICE file distributed with this work for additional
 	information regarding copyright ownership
-	
+
 	Licensed under the Apache License, Version 2.0 (the "License");
 	you may not use this file except in compliance with the License.
 	You may obtain a copy of the License at
-	
+
 	  http://www.apache.org/licenses/LICENSE-2.0
-	
+
 	Unless required by applicable law or agreed to in writing, software
 	distributed under the License is distributed on an "AS IS" BASIS,
 	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -141,7 +141,7 @@ public class ClientHttpRequest {
 
 	/**
 	 * adds a cookie to the requst
-	 * 
+	 *
 	 * @param name
 	 *            cookie name
 	 * @param value
@@ -154,7 +154,7 @@ public class ClientHttpRequest {
 
 	/**
 	 * adds cookies to the request
-	 * 
+	 *
 	 * @param cookies
 	 *            the cookie "name-to-value" map
 	 * @throws IOException
@@ -167,7 +167,7 @@ public class ClientHttpRequest {
 
 	/**
 	 * adds cookies to the request
-	 * 
+	 *
 	 * @param cookies
 	 *            array of cookie names and values (cookies[2*i] is a name,
 	 *            cookies[2*i + 1] is a value)
@@ -190,7 +190,7 @@ public class ClientHttpRequest {
 
 	/**
 	 * adds a string parameter to the request
-	 * 
+	 *
 	 * @param name
 	 *            parameter name
 	 * @param value
@@ -222,7 +222,7 @@ public class ClientHttpRequest {
 
 	/**
 	 * adds a file parameter to the request
-	 * 
+	 *
 	 * @param name
 	 *            parameter name
 	 * @param filename
@@ -250,7 +250,7 @@ public class ClientHttpRequest {
 
 	/**
 	 * adds a file parameter to the request
-	 * 
+	 *
 	 * @param name
 	 *            parameter name
 	 * @param file
@@ -265,7 +265,7 @@ public class ClientHttpRequest {
 	 * adds a parameter to the request; if the parameter is a File, the file is
 	 * uploaded, otherwise the string value of the parameter is passed in the
 	 * request
-	 * 
+	 *
 	 * @param name
 	 *            parameter name
 	 * @param object
@@ -283,7 +283,7 @@ public class ClientHttpRequest {
 
 	/**
 	 * adds parameters to the request
-	 * 
+	 *
 	 * @param parameters
 	 *            "name-to-value" map of parameters; if a value is a file, the
 	 *            file is uploaded, otherwise it is stringified and sent in the
@@ -301,7 +301,7 @@ public class ClientHttpRequest {
 
 	/**
 	 * adds parameters to the request
-	 * 
+	 *
 	 * @param parameters
 	 *            array of parameter names and values (parameters[2*i] is a
 	 *            name, parameters[2*i + 1] is a value); if a value is a file,
@@ -320,7 +320,7 @@ public class ClientHttpRequest {
 	/**
 	 * posts the requests to the server, with all the cookies and parameters
 	 * that were added
-	 * 
+	 *
 	 * @return input stream with the server response
 	 * @throws IOException
 	 */
@@ -335,7 +335,7 @@ public class ClientHttpRequest {
 	 * posts the requests to the server, with all the cookies and parameters
 	 * that were added before (if any), and with parameters that are passed in
 	 * the argument
-	 * 
+	 *
 	 * @param parameters
 	 *            request parameters
 	 * @return input stream with the server response
@@ -351,7 +351,7 @@ public class ClientHttpRequest {
 	 * posts the requests to the server, with all the cookies and parameters
 	 * that were added before (if any), and with parameters that are passed in
 	 * the argument
-	 * 
+	 *
 	 * @param parameters
 	 *            request parameters
 	 * @return input stream with the server response
@@ -367,7 +367,7 @@ public class ClientHttpRequest {
 	 * posts the requests to the server, with all the cookies and parameters
 	 * that were added before (if any), and with cookies and parameters that are
 	 * passed in the arguments
-	 * 
+	 *
 	 * @param cookies
 	 *            request cookies
 	 * @param parameters
@@ -387,7 +387,7 @@ public class ClientHttpRequest {
 	 * posts the requests to the server, with all the cookies and parameters
 	 * that were added before (if any), and with cookies and parameters that are
 	 * passed in the arguments
-	 * 
+	 *
 	 * @param cookies
 	 *            request cookies
 	 * @param parameters
@@ -405,7 +405,7 @@ public class ClientHttpRequest {
 
 	/**
 	 * post the POST request to the server, with the specified parameter
-	 * 
+	 *
 	 * @param name
 	 *            parameter name
 	 * @param value
@@ -421,7 +421,7 @@ public class ClientHttpRequest {
 
 	/**
 	 * post the POST request to the server, with the specified parameters
-	 * 
+	 *
 	 * @param name1
 	 *            first parameter name
 	 * @param value1
@@ -441,7 +441,7 @@ public class ClientHttpRequest {
 
 	/**
 	 * post the POST request to the server, with the specified parameters
-	 * 
+	 *
 	 * @param name1
 	 *            first parameter name
 	 * @param value1
@@ -466,7 +466,7 @@ public class ClientHttpRequest {
 
 	/**
 	 * post the POST request to the server, with the specified parameters
-	 * 
+	 *
 	 * @param name1
 	 *            first parameter name
 	 * @param value1
@@ -496,7 +496,7 @@ public class ClientHttpRequest {
 	/**
 	 * posts a new request to specified URL, with parameters that are passed in
 	 * the argument
-	 * 
+	 *
 	 * @param parameters
 	 *            request parameters
 	 * @return input stream with the server response
@@ -510,7 +510,7 @@ public class ClientHttpRequest {
 	/**
 	 * posts a new request to specified URL, with parameters that are passed in
 	 * the argument
-	 * 
+	 *
 	 * @param parameters
 	 *            request parameters
 	 * @return input stream with the server response
@@ -524,7 +524,7 @@ public class ClientHttpRequest {
 	/**
 	 * posts a new request to specified URL, with cookies and parameters that
 	 * are passed in the argument
-	 * 
+	 *
 	 * @param cookies
 	 *            request cookies
 	 * @param parameters
@@ -541,7 +541,7 @@ public class ClientHttpRequest {
 	/**
 	 * posts a new request to specified URL, with cookies and parameters that
 	 * are passed in the argument
-	 * 
+	 *
 	 * @param cookies
 	 *            request cookies
 	 * @param parameters
@@ -557,7 +557,7 @@ public class ClientHttpRequest {
 
 	/**
 	 * post the POST request specified URL, with the specified parameter
-	 * 
+	 *
 	 * @param name
 	 *            parameter name
 	 * @param value
@@ -572,7 +572,7 @@ public class ClientHttpRequest {
 
 	/**
 	 * post the POST request to specified URL, with the specified parameters
-	 * 
+	 *
 	 * @param name1
 	 *            first parameter name
 	 * @param value1
@@ -592,7 +592,7 @@ public class ClientHttpRequest {
 
 	/**
 	 * post the POST request to specified URL, with the specified parameters
-	 * 
+	 *
 	 * @param name1
 	 *            first parameter name
 	 * @param value1
@@ -616,7 +616,7 @@ public class ClientHttpRequest {
 
 	/**
 	 * post the POST request to specified URL, with the specified parameters
-	 * 
+	 *
 	 * @param name1
 	 *            first parameter name
 	 * @param value1

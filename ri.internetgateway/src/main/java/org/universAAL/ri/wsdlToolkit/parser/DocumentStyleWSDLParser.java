@@ -1,17 +1,17 @@
 /*
 	Copyright 2007-2014 CERTH-ITI, http://www.iti.gr
-	Centre of Research and Technology Hellas 
+	Centre of Research and Technology Hellas
 	Information Technologies Institute
 
-	See the NOTICE file distributed with this work for additional 
+	See the NOTICE file distributed with this work for additional
 	information regarding copyright ownership
-	
+
 	Licensed under the Apache License, Version 2.0 (the "License");
 	you may not use this file except in compliance with the License.
 	You may obtain a copy of the License at
-	
+
 	  http://www.apache.org/licenses/LICENSE-2.0
-	
+
 	Unless required by applicable law or agreed to in writing, software
 	distributed under the License is distributed on an "AS IS" BASIS,
 	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -45,9 +45,9 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 /**
- * 
+ *
  * This class is used for parsing the documentation of a WSDL file.
- * 
+ *
  * @author kgiannou
  */
 
@@ -216,7 +216,7 @@ public class DocumentStyleWSDLParser {
 							 * if(baseType.contains(":")){//DEN Ginetai na einai
 							 * simple type to base tou extended type, //ara
 							 * vlepw mono ayti tin periptwsi...
-							 * 
+							 *
 							 * String key1=baseType.substring(0,
 							 * baseType.indexOf(":")); String
 							 * xsdNamespace=(String)namespaces.get(key1);
@@ -224,13 +224,13 @@ public class DocumentStyleWSDLParser {
 							 * ////-System.out.println("Namespace Found!!!");
 							 * String type1=baseType.substring(key1.length()+1,
 							 * baseType.length());
-							 * 
+							 *
 							 * parseImportedXSDforLiteral3(s1, type1, ta,
 							 * iterNumber+1,true,co, xsdNamespace);
 							 * //-System.out.println("WW");
-							 * 
+							 *
 							 * }
-							 * 
+							 *
 							 * }
 							 */
 						}
@@ -729,7 +729,7 @@ public class DocumentStyleWSDLParser {
 		 * try{ if(n.getAttributes().getNamedItem("type").equals(
 		 * "AdministrativeAreaCodeType")){ //-System.out.println("AAA"); }
 		 * }catch(Exception e){
-		 * 
+		 *
 		 * }
 		 */
 		// -System.out.println("** parseTypeFromComplexTypeNodeOfXSD **");
@@ -997,7 +997,7 @@ public class DocumentStyleWSDLParser {
 		 * getDocumentBaseURI());
 		 * parseTypeIterativeFromSpecificNamespace(theWSDLxsdSchema,
 		 * includedSchema, xsdNamespace, type1, co); return; } } }
-		 * 
+		 *
 		 * Map importsMap=theImportedSchema.getImports(); if(importsMap!=null){
 		 * Collection col=importsMap.values(); Iterator
 		 * importsIter=col.iterator(); while(importsIter.hasNext()){
@@ -1948,10 +1948,10 @@ public class DocumentStyleWSDLParser {
 					/*
 					 * if(n1.getNodeName()!=null&&n1.getNodeName().contains(
 					 * "import" )){
-					 * 
+					 *
 					 * importedXSDsNamespaces.put("one", new Integer(1));
-					 * 
-					 * 
+					 *
+					 *
 					 * }
 					 */
 
@@ -2200,7 +2200,7 @@ public class DocumentStyleWSDLParser {
 											/*
 											 * parseImportedXSD
 											 * schemaImpl.getImports();
-											 * 
+											 *
 											 * schemaImpl.getIncludes();
 											 */
 										}

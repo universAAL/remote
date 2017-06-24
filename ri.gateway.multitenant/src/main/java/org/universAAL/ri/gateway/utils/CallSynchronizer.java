@@ -24,9 +24,9 @@ import java.util.concurrent.TimeoutException;
 /**
  * A Helper class that enables to perform calls and wait for the asynchronous
  * response.
- * 
+ *
  * @author amedrano
- * 
+ *
  */
 public abstract class CallSynchronizer<ID, INPUT, OUTPUT> {
 
@@ -74,13 +74,13 @@ public abstract class CallSynchronizer<ID, INPUT, OUTPUT> {
 	 * This method is the main method to syncronize the caller thread. The
 	 * caller {@link Thread} will be stoped until another thread calls
 	 * {@link CallSynchronizer#performResponse(ID, Object)}.
-	 * 
+	 *
 	 * @param callerID
 	 *            the Id to identify the call.
 	 * @param input
 	 *            The input needed to perform the call.
 	 * @return the call response.
-	 * 
+	 *
 	 * @throws InterruptedException
 	 *             when the call was aborted by other thread.
 	 * @throws TimeoutException
@@ -115,7 +115,7 @@ public abstract class CallSynchronizer<ID, INPUT, OUTPUT> {
 	/**
 	 * This method operates the call, it performs the adequate operations to
 	 * ensure there will be a response calling on another thread.
-	 * 
+	 *
 	 * @param callerID
 	 *            the call identifier
 	 * @param input
@@ -126,7 +126,7 @@ public abstract class CallSynchronizer<ID, INPUT, OUTPUT> {
 	/**
 	 * When a response for a call is found, this method should be used to notify
 	 * the Caller {@link Thread} waiting for it.
-	 * 
+	 *
 	 * @param id
 	 * @param output
 	 */
@@ -143,7 +143,7 @@ public abstract class CallSynchronizer<ID, INPUT, OUTPUT> {
 	 * Abort the call with the given ID. it unblocks the call and the
 	 * {@link CallSynchronizer#performCall(Object, Object)} will throw a
 	 * {@link InterruptedException}.
-	 * 
+	 *
 	 * @param id
 	 */
 	public void abortCall(ID id) {

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright 2014 Universidad Politécnica de Madrid UPM
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -22,9 +22,9 @@ import org.universAAL.ri.gateway.Gateway;
 /**
  * Message used to forward a {@link BusMessage} (ServiceRequest,
  * ServiceResponse, ContextEvent, UIRequest UIResponse).
- * 
+ *
  * @author amedrano
- * 
+ *
  */
 public class WrappedBusMessage extends Message {
 
@@ -51,7 +51,7 @@ public class WrappedBusMessage extends Message {
 
 	/**
 	 * Constructor of a wrapped Message.
-	 * 
+	 *
 	 * @param destination
 	 *            the remote BusMemberId how should handle the message.
 	 * @param busMessage
@@ -65,7 +65,7 @@ public class WrappedBusMessage extends Message {
 
 	/**
 	 * Constructor for a WrapedMessage response.
-	 * 
+	 *
 	 * @param wrappedbusMessageRequest
 	 * @param busMessage
 	 */
@@ -106,7 +106,7 @@ public class WrappedBusMessage extends Message {
 
 	/**
 	 * Returns content of the message.
-	 * 
+	 *
 	 * @return content of the message
 	 */
 	public String getContent() {
@@ -115,7 +115,7 @@ public class WrappedBusMessage extends Message {
 
 	/**
 	 * Get the destination Proxy BusMemberID.
-	 * 
+	 *
 	 * @return
 	 */
 	public String getRemoteProxyRegistrationId() {
@@ -124,7 +124,7 @@ public class WrappedBusMessage extends Message {
 
 	/**
 	 * Un-marshal the Content into a BusMessage.
-	 * 
+	 *
 	 * @return
 	 */
 	public ScopedResource getMessage() {

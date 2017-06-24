@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright 2014 Universidad Politécnica de Madrid UPM
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -22,9 +22,9 @@ import org.universAAL.ri.gateway.Session;
 
 /**
  * An identifier of a concrete {@link BusMember} across all Scopes.
- * 
+ *
  * @author amedrano
- * 
+ *
  */
 public class BusMemberReference implements Serializable {
 
@@ -45,7 +45,7 @@ public class BusMemberReference implements Serializable {
 
 	/**
 	 * Constructor for a {@link BusMember} identifier.
-	 * 
+	 *
 	 * @param session
 	 * @param busMemberid
 	 */
@@ -60,7 +60,7 @@ public class BusMemberReference implements Serializable {
 
 	/**
 	 * Get the {@link Session} to reach the {@link BusMember}.
-	 * 
+	 *
 	 * @return the MessageSender.
 	 */
 	public Session getChannel() {
@@ -69,7 +69,7 @@ public class BusMemberReference implements Serializable {
 
 	/**
 	 * Get the {@link BusMember} id within its scope.
-	 * 
+	 *
 	 * @return the id.
 	 */
 	public String getBusMemberid() {

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright 2014 Universidad Politécnica de Madrid UPM
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -29,9 +29,9 @@ import org.universAAL.ri.gateway.protocol.ImportMessage;
 
 /**
  * A place holder for all {@link ProxyBusMember}s.
- * 
+ *
  * @author amedrano
- * 
+ *
  */
 public class ProxyPool {
 
@@ -43,7 +43,7 @@ public class ProxyPool {
 	/**
 	 * Get the {@link ProxyBusMember} from its busMemberId (which is not always
 	 * the same as the {@link BusMember} it represents).
-	 * 
+	 *
 	 * @param proxyID
 	 * @return
 	 */
@@ -54,7 +54,7 @@ public class ProxyPool {
 	/**
 	 * Adds {@link ProxyBusMember} to the pool. if {@link ProxyBusMember} is
 	 * already added, there is no effect.
-	 * 
+	 *
 	 * @param proxy
 	 */
 	public synchronized void add(final ProxyBusMember proxy) {
@@ -64,7 +64,7 @@ public class ProxyPool {
 	/**
 	 * Test compatibility of parameters with all {@link ProxyBusMember}s in the
 	 * pool.
-	 * 
+	 *
 	 * @param newParameters
 	 *            the registration parameters required for the compatible
 	 *            {@link ProxyBusMember}
@@ -84,7 +84,7 @@ public class ProxyPool {
 
 	/**
 	 * Get all {@link ProxyBusMember}s in the pool.
-	 * 
+	 *
 	 * @return the collection of all currently present {@link ProxyBusMember}s
 	 *         in the pool
 	 */
@@ -96,7 +96,7 @@ public class ProxyPool {
 	 * Safely remove a {@link ProxyBusMember} from the bus. and send a message
 	 * to all it's peers to remove the remote proxy. this method will also
 	 * {@link ProxyBusMember#close() terminate} the {@link ProxyBusMember}.
-	 * 
+	 *
 	 * @param pbm
 	 */
 	public void removeProxyWithSend(final ProxyBusMember pbm) {
@@ -115,7 +115,7 @@ public class ProxyPool {
 	/**
 	 * Check if a Proxy is orphan (is it has no references) if so removes it and
 	 * properly closes it.
-	 * 
+	 *
 	 * @param pbm
 	 *            the Proxy to check.
 	 * @return true iff the proxy is orphan => removed.

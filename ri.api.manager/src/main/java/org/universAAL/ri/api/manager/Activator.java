@@ -1,18 +1,18 @@
 /*
 	Copyright 2014 ITACA-TSB, http://www.tsb.upv.es
-	Instituto Tecnologico de Aplicaciones de Comunicacion 
-	Avanzadas - Grupo Tecnologias para la Salud y el 
+	Instituto Tecnologico de Aplicaciones de Comunicacion
+	Avanzadas - Grupo Tecnologias para la Salud y el
 	Bienestar (TSB)
-	
-	See the NOTICE file distributed with this work for additional 
+
+	See the NOTICE file distributed with this work for additional
 	information regarding copyright ownership
-	
+
 	Licensed under the Apache License, Version 2.0 (the "License");
 	you may not use this file except in compliance with the License.
 	You may obtain a copy of the License at
-	
+
 	  http://www.apache.org/licenses/LICENSE-2.0
-	
+
 	Unless required by applicable law or agreed to in writing, software
 	distributed under the License is distributed on an "AS IS" BASIS,
 	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -45,9 +45,9 @@ import org.universAAL.ri.api.manager.server.persistence.Persistence;
 
 /**
  * OSGi Activator to start everything.
- * 
+ *
  * @author alfiva
- * 
+ *
  */
 public class Activator implements BundleActivator {
 	/**
@@ -115,7 +115,7 @@ public class Activator implements BundleActivator {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.osgi.framework.BundleActivator#start(org.osgi.framework.
 	 * BundleContext)
 	 */
@@ -191,7 +191,7 @@ public class Activator implements BundleActivator {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.osgi.framework.BundleActivator#stop(org.osgi.framework.BundleContext)
 	 */
@@ -216,7 +216,7 @@ public class Activator implements BundleActivator {
 
 	/**
 	 * Registers the Servlet into the OSGi HTTP service.
-	 * 
+	 *
 	 * @param http
 	 *            The referenced OSGi HTTP service
 	 * @return true if it managed to register
@@ -239,7 +239,7 @@ public class Activator implements BundleActivator {
 
 	/**
 	 * Unregisters the Servlet from the OSGi HTTP service.
-	 * 
+	 *
 	 * @param http
 	 *            The referenced OSGi HTTP service
 	 * @return true if it managed to unregister
@@ -258,9 +258,9 @@ public class Activator implements BundleActivator {
 
 	/**
 	 * Listener for reacting to the presence of OSGi HTTP services
-	 * 
+	 *
 	 * @author alfiva
-	 * 
+	 *
 	 */
 	private class HttpListener implements ServiceListener {
 		public void serviceChanged(ServiceEvent event) {
@@ -280,9 +280,9 @@ public class Activator implements BundleActivator {
 
 	/**
 	 * Listener for reacting to the presence of uAAL Serializers
-	 * 
+	 *
 	 * @author alfiva
-	 * 
+	 *
 	 */
 	private class SerializerListener implements ServiceListener {
 
@@ -303,7 +303,7 @@ public class Activator implements BundleActivator {
 
 	/**
 	 * Helper method to log DEBUG messages
-	 * 
+	 *
 	 * @param method
 	 *            The method calling to log
 	 * @param msg
@@ -315,7 +315,7 @@ public class Activator implements BundleActivator {
 
 	/**
 	 * Helper method to log INFO messages
-	 * 
+	 *
 	 * @param method
 	 *            The method calling to log
 	 * @param msg
@@ -327,7 +327,7 @@ public class Activator implements BundleActivator {
 
 	/**
 	 * Helper method to log WARN messages
-	 * 
+	 *
 	 * @param method
 	 *            The method calling to log
 	 * @param msg
@@ -339,7 +339,7 @@ public class Activator implements BundleActivator {
 
 	/**
 	 * Helper method to log ERROR messages
-	 * 
+	 *
 	 * @param method
 	 *            The method calling to log
 	 * @param msg
@@ -351,7 +351,7 @@ public class Activator implements BundleActivator {
 
 	/**
 	 * Get the instance of the Persistence engine
-	 * 
+	 *
 	 * @return the Persistence engine
 	 */
 	public static Persistence getPersistence() {
@@ -360,7 +360,7 @@ public class Activator implements BundleActivator {
 
 	/**
 	 * Get the instance of the Remote API impl
-	 * 
+	 *
 	 * @return the Remote API impl
 	 */
 	public static RemoteAPIImpl getRemoteAPI() {
@@ -369,7 +369,7 @@ public class Activator implements BundleActivator {
 
 	/**
 	 * Get the instance of the uAAL serializer
-	 * 
+	 *
 	 * @return the uAAL serializer
 	 */
 	public static MessageContentSerializerEx getParser() {
@@ -379,7 +379,7 @@ public class Activator implements BundleActivator {
 	/**
 	 * Get the value of the "hard" variable identifying if a hardcoded
 	 * authenticated servlet is being registered programmatically
-	 * 
+	 *
 	 * @return true if it is using the hardcoded servlet registration with
 	 *         authentication.
 	 */
@@ -390,7 +390,7 @@ public class Activator implements BundleActivator {
 	/**
 	 * Identifies if an encryption key has been setup and therefore encryption
 	 * is enabled for communication with GCM.
-	 * 
+	 *
 	 * @return true if encryption is enabled.
 	 */
 	public static boolean isGCMEncrypted() {
@@ -400,7 +400,7 @@ public class Activator implements BundleActivator {
 	/**
 	 * Get an instance of ExecutorService that provides access to a Fixed size
 	 * Thread Pool
-	 * 
+	 *
 	 * @return ExecutorService instance
 	 */
 	public static ExecutorService getThreadsPool() {

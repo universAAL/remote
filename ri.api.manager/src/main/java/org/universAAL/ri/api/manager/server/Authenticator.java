@@ -1,18 +1,18 @@
 /*
 	Copyright 2014 ITACA-TSB, http://www.tsb.upv.es
-	Instituto Tecnologico de Aplicaciones de Comunicacion 
-	Avanzadas - Grupo Tecnologias para la Salud y el 
+	Instituto Tecnologico de Aplicaciones de Comunicacion
+	Avanzadas - Grupo Tecnologias para la Salud y el
 	Bienestar (TSB)
-	
-	See the NOTICE file distributed with this work for additional 
+
+	See the NOTICE file distributed with this work for additional
 	information regarding copyright ownership
-	
+
 	Licensed under the Apache License, Version 2.0 (the "License");
 	you may not use this file except in compliance with the License.
 	You may obtain a copy of the License at
-	
+
 	  http://www.apache.org/licenses/LICENSE-2.0
-	
+
 	Unless required by applicable law or agreed to in writing, software
 	distributed under the License is distributed on an "AS IS" BASIS,
 	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -37,9 +37,9 @@ import org.universAAL.ri.api.manager.RemoteAPI;
  * Implementatino of OSGi HttpContext to be used by the Servlet. It is used only
  * for Authentication purposes, and only if the hardcoded registration of
  * servlet is enabled.
- * 
+ *
  * @author alfiva
- * 
+ *
  */
 public class Authenticator implements HttpContext {
 
@@ -59,7 +59,7 @@ public class Authenticator implements HttpContext {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.osgi.service.http.HttpContext#handleSecurity(javax.servlet.http.
 	 * HttpServletRequest, javax.servlet.http.HttpServletResponse)
 	 */
@@ -89,7 +89,7 @@ public class Authenticator implements HttpContext {
 	 * the PWD. If the request is a REGISTER, the in-memory pairs are ignored,
 	 * in case the PWD has been changed externally in the DB and needs to be
 	 * re-checked.
-	 * 
+	 *
 	 * @param user
 	 *            User
 	 * @param pass
@@ -129,7 +129,7 @@ public class Authenticator implements HttpContext {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.osgi.service.http.HttpContext#getResource(java.lang.String)
 	 */
 	public URL getResource(String name) {
@@ -139,7 +139,7 @@ public class Authenticator implements HttpContext {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.osgi.service.http.HttpContext#getMimeType(java.lang.String)
 	 */
 	public String getMimeType(String name) {
@@ -149,7 +149,7 @@ public class Authenticator implements HttpContext {
 
 	/**
 	 * Parses the Authorization header for BASIC authentication
-	 * 
+	 *
 	 * @param auth
 	 *            The BASE64 encoded user:pass values. If null or empty, returns
 	 *            false

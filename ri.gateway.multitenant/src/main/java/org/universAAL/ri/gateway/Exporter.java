@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright 2014 Universidad Politécnica de Madrid UPM
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -52,7 +52,7 @@ import org.universAAL.ri.gateway.utils.ArraySet;
  * When a new session is created, it has to be notified to the exporter to send
  * the new session all the issued import requests. <br>
  * There should only be one {@link Exporter} per ASG.
- * 
+ *
  * @author amedrano
  * @TODO adapt to new tracker interface
  */
@@ -82,7 +82,7 @@ public class Exporter implements IBusMemberRegistryListener {
 
 	/**
 	 * Main Constructor.
-	 * 
+	 *
 	 * @param pool
 	 *            the pool of proxies to use.
 	 */
@@ -118,10 +118,10 @@ public class Exporter implements IBusMemberRegistryListener {
 	 * so, sends the import request message, and waits for response, if the
 	 * import is accepted, then the proxy will be associated to the remote proxy
 	 * in the response. <br>
-	 * 
+	 *
 	 * Initiates Import-request protocol: <br>
 	 * <img src="doc-files/Import-ImportRequest.png">
-	 * 
+	 *
 	 * @param busMemberId
 	 *            the id of the busMember to attempt export.
 	 * @param session
@@ -213,7 +213,7 @@ public class Exporter implements IBusMemberRegistryListener {
 	 * are allowed and accepted by remote, then local {@link ProxyBusMember} is
 	 * updated (via remove then add BMR). Finally the task checks if the
 	 * {@link ProxyBusMember} is still connected, and recycles ioc.
-	 * 
+	 *
 	 * @author amedrano
 	 *
 	 */
@@ -292,11 +292,11 @@ public class Exporter implements IBusMemberRegistryListener {
 
 	/**
 	 * Executed when registration parameters change for an exported proxy.<br>
-	 * 
+	 *
 	 * Initiates Import-refresh protocol: <br>
 	 * <img src="doc-files/Import-ImportRefresh.png"> <br>
 	 * Where refresh is either add or remove registration parameters.
-	 * 
+	 *
 	 */
 	private class RefreshTask implements Runnable {
 
@@ -385,7 +385,7 @@ public class Exporter implements IBusMemberRegistryListener {
 	 * To be called when a new {@link Session} is become active. Checks all the
 	 * possible {@link BusMember}s to be exported and checks for each if it
 	 * should be exported in the new session.
-	 * 
+	 *
 	 * @param session
 	 */
 	public void activatedSession(final Session session) {
@@ -400,7 +400,7 @@ public class Exporter implements IBusMemberRegistryListener {
 	 * required. <br>
 	 * Does not send remove-requests to peers, {@link Importer} in peers will be
 	 * {@link Importer#reset() reseted} as soon as the connection is lost.
-	 * 
+	 *
 	 * @param session
 	 */
 	public void stopedSession(final Session session) {
@@ -410,7 +410,7 @@ public class Exporter implements IBusMemberRegistryListener {
 	/**
 	 * Checks the {@link BusMember} to see if it can be exported, i.e: it is the
 	 * correct type of BusMember. No specific security checks are done.
-	 * 
+	 *
 	 * @param member
 	 * @return
 	 */
@@ -440,7 +440,7 @@ public class Exporter implements IBusMemberRegistryListener {
 
 	/**
 	 * Invoked when an existing BusMember is unregistered from the bus.<br>
-	 * 
+	 *
 	 * Initiates Import-remove protocol: <br>
 	 * <img src="doc-files/Import-ImportRemove.png">
 	 */
@@ -507,7 +507,7 @@ public class Exporter implements IBusMemberRegistryListener {
 	/**
 	 * Called to check (and handle) if the remote {@link Importer} is sending a
 	 * remove request.
-	 * 
+	 *
 	 * @param busMemberId
 	 * @param session
 	 * @return
@@ -525,7 +525,7 @@ public class Exporter implements IBusMemberRegistryListener {
 	}
 
 	/**
-	 * 
+	 *
 	 * Stop all operations.
 	 */
 
@@ -553,7 +553,7 @@ public class Exporter implements IBusMemberRegistryListener {
 	/**
 	 * Check whether the URI corresponds to a local {@link BusMember} (excluding
 	 * {@link ProxyBusMember}s).
-	 * 
+	 *
 	 * @param bmURI
 	 *            the String containing the URI of the BusMember to check.
 	 * @return true iif there is a local {@link BusMember} that corresponds to

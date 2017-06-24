@@ -12,9 +12,9 @@ import org.universAAL.middleware.container.utils.LogUtils;
 import org.universAAL.ri.servicegateway.osgi.Activator;
 
 /**
- * 
+ *
  * @author eandgrg
- * 
+ *
  */
 public class ArtifactIT extends IntegrationTest {
 

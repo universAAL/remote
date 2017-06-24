@@ -8,7 +8,7 @@ import org.apache.cxf.phase.Phase;
 /**
  * This class is used for logout a user, after the web service method
  * invocation.
- * 
+ *
  */
 public class OutInterceptor extends AbstractPhaseInterceptor<Message> {
 

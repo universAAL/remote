@@ -8,11 +8,11 @@ import javax.xml.bind.annotation.XmlType;
 /**
  * <p>
  * Java class for getFreeAALServices complex type.
- * 
+ *
  * <p>
  * The following schema fragment specifies the expected content contained within
  * this class.
- * 
+ *
  * <pre>
  * &lt;complexType name="getFreeAALServices">
  *   &lt;complexContent>
@@ -25,8 +25,8 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- * 
- * 
+ *
+ *
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "getFreeAALServicesMsg", propOrder = { "sessionKey", "isFitToUser" })
@@ -37,9 +37,9 @@ public class GetFreeAALServices {
 
 	/**
 	 * Gets the value of the sessionKey property.
-	 * 
+	 *
 	 * @return possible object is {@link String }
-	 * 
+	 *
 	 */
 	public String getSessionKey() {
 		return sessionKey;
@@ -47,10 +47,10 @@ public class GetFreeAALServices {
 
 	/**
 	 * Sets the value of the sessionKey property.
-	 * 
+	 *
 	 * @param value
 	 *            allowed object is {@link String }
-	 * 
+	 *
 	 */
 	public void setSessionKey(String value) {
 		this.sessionKey = value;
@@ -58,7 +58,7 @@ public class GetFreeAALServices {
 
 	/**
 	 * Gets the value of the isFitToUser property.
-	 * 
+	 *
 	 */
 	public boolean isIsFitToUser() {
 		return isFitToUser;
@@ -66,7 +66,7 @@ public class GetFreeAALServices {
 
 	/**
 	 * Sets the value of the isFitToUser property.
-	 * 
+	 *
 	 */
 	public void setIsFitToUser(boolean value) {
 		this.isFitToUser = value;

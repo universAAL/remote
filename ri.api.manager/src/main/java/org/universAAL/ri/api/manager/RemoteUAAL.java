@@ -1,18 +1,18 @@
 /*
 	Copyright 2014 ITACA-TSB, http://www.tsb.upv.es
-	Instituto Tecnologico de Aplicaciones de Comunicacion 
-	Avanzadas - Grupo Tecnologias para la Salud y el 
+	Instituto Tecnologico de Aplicaciones de Comunicacion
+	Avanzadas - Grupo Tecnologias para la Salud y el
 	Bienestar (TSB)
-	
-	See the NOTICE file distributed with this work for additional 
+
+	See the NOTICE file distributed with this work for additional
 	information regarding copyright ownership
-	
+
 	Licensed under the Apache License, Version 2.0 (the "License");
 	you may not use this file except in compliance with the License.
 	You may obtain a copy of the License at
-	
+
 	  http://www.apache.org/licenses/LICENSE-2.0
-	
+
 	Unless required by applicable law or agreed to in writing, software
 	distributed under the License is distributed on an "AS IS" BASIS,
 	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -39,9 +39,9 @@ import org.universAAL.ri.api.manager.push.PushManager;
 /**
  * Extension of the Utility API UAAL helper class that adds a few small tweaks
  * to acomodate remote node information.
- * 
+ *
  * @author alfiva
- * 
+ *
  */
 public class RemoteUAAL extends UAAL {
 
@@ -77,7 +77,7 @@ public class RemoteUAAL extends UAAL {
 
 	/**
 	 * Get the list of context event patterns of subscribers registered so far.
-	 * 
+	 *
 	 * @return The list of URIs of context event patterns of subscribers
 	 */
 	public List<String> getCEPsList() {
@@ -86,7 +86,7 @@ public class RemoteUAAL extends UAAL {
 
 	/**
 	 * Get the list of service profiles of callees registered so far.
-	 * 
+	 *
 	 * @return The list of URIs of service profiles of callees
 	 */
 	public List<String> getSProfilesList() {
@@ -136,7 +136,7 @@ public class RemoteUAAL extends UAAL {
 
 	/**
 	 * Basic constructor. Use this one instead of the UAAL one.
-	 * 
+	 *
 	 * @param context
 	 *            The uAAL context
 	 * @param node
@@ -155,7 +155,7 @@ public class RemoteUAAL extends UAAL {
 
 	/**
 	 * Get the client remote node endpoint information.
-	 * 
+	 *
 	 * @return remote endpoint.
 	 */
 	public String getRemoteID() {
@@ -164,7 +164,7 @@ public class RemoteUAAL extends UAAL {
 
 	/**
 	 * Get the client remote node encryption key to use for GCM
-	 * 
+	 *
 	 * @return encryption key to use for GCM, or null if it does not apply
 	 */
 	public String getKey() {
@@ -173,7 +173,7 @@ public class RemoteUAAL extends UAAL {
 
 	/**
 	 * Set the client remote node endpoint information.
-	 * 
+	 *
 	 * @param remote
 	 *            endpoint.
 	 * @param key
@@ -187,11 +187,11 @@ public class RemoteUAAL extends UAAL {
 	/**
 	 * Use this method to create a Listener to be used in the sendC() method of
 	 * the Utility API, instead of creating it ex profeso.
-	 * 
+	 *
 	 * @param uri
 	 *            The URI of the context event pattern being used for this
 	 *            listener
-	 * 
+	 *
 	 * @return A ICListener
 	 */
 	public ICListener createCListener(String uri) {
@@ -201,10 +201,10 @@ public class RemoteUAAL extends UAAL {
 	/**
 	 * Use this method to create a Listener to be used in the callS() method of
 	 * the Utility API, instead of creating it ex profeso.
-	 * 
+	 *
 	 * @param uri
 	 *            The URI of the service profile being used for this listener
-	 * 
+	 *
 	 * @return A ISListener
 	 */
 	public ISListener createSListener(String uri) {
@@ -214,9 +214,9 @@ public class RemoteUAAL extends UAAL {
 	/**
 	 * Custom ICListener to be used in the sendC() method of the Utility API. It
 	 * has access to the client remote node endpoint information.
-	 * 
+	 *
 	 * @author alfiva
-	 * 
+	 *
 	 */
 	public class CListener implements ICListener {
 		private String toURI;
@@ -229,11 +229,11 @@ public class RemoteUAAL extends UAAL {
 		 * This is called everytime a ContextEvent is addressed to a remote
 		 * node. It will pack the callback message and send it to the client
 		 * remote node endpoint.
-		 * 
+		 *
 		 * This is called from the single ContextStrategy thread. This method
 		 * will perform network operations, which will take time, so it uses an
 		 * inner thread every time is called.
-		 * 
+		 *
 		 * @param event
 		 *            The event to send back to the client
 		 */
@@ -259,14 +259,14 @@ public class RemoteUAAL extends UAAL {
 	/**
 	 * Custom ISListener to be used in the callS() method of the Utility API. It
 	 * has access to the client remote node endpoint information.
-	 * 
+	 *
 	 * This is called from the single ServiceStrategy thread. This method will
 	 * perform network operations, which will take time. Unfortunately it cannot
 	 * use a Thread for them because it is a synchronous execution that must
 	 * return a response, and it would block anyway.
-	 * 
+	 *
 	 * @author alfiva
-	 * 
+	 *
 	 */
 	public class SListener implements ISListener {
 		private String toURI;
@@ -279,7 +279,7 @@ public class RemoteUAAL extends UAAL {
 		 * This is called everytime a ServiceCall is addressed to a remote node.
 		 * It will pack the callback message and send it to the client remote
 		 * node endpoint.
-		 * 
+		 *
 		 * @param call
 		 *            The call to send back to the client
 		 * @return The response that the client will have created

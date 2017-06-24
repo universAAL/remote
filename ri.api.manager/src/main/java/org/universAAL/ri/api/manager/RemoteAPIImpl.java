@@ -1,18 +1,18 @@
 /*
 	Copyright 2014 ITACA-TSB, http://www.tsb.upv.es
-	Instituto Tecnologico de Aplicaciones de Comunicacion 
-	Avanzadas - Grupo Tecnologias para la Salud y el 
+	Instituto Tecnologico de Aplicaciones de Comunicacion
+	Avanzadas - Grupo Tecnologias para la Salud y el
 	Bienestar (TSB)
-	
-	See the NOTICE file distributed with this work for additional 
+
+	See the NOTICE file distributed with this work for additional
 	information regarding copyright ownership
-	
+
 	Licensed under the Apache License, Version 2.0 (the "License");
 	you may not use this file except in compliance with the License.
 	You may obtain a copy of the License at
-	
+
 	  http://www.apache.org/licenses/LICENSE-2.0
-	
+
 	Unless required by applicable law or agreed to in writing, software
 	distributed under the License is distributed on an "AS IS" BASIS,
 	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -38,9 +38,9 @@ import org.universAAL.ri.api.manager.push.CryptUtil;
 
 /**
  * Implementation of the RemoteAPI interface.
- * 
+ *
  * @author alfiva
- * 
+ *
  */
 public class RemoteAPIImpl implements RemoteAPI {
 
@@ -57,7 +57,7 @@ public class RemoteAPIImpl implements RemoteAPI {
 
 	/**
 	 * Basic constructor.
-	 * 
+	 *
 	 * @param ctxt
 	 *            The uAAL context
 	 */
@@ -67,7 +67,7 @@ public class RemoteAPIImpl implements RemoteAPI {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.universAAL.ri.api.manager.RemoteAPI#register(java.lang.String,
 	 * java.lang.String)
 	 */
@@ -101,7 +101,7 @@ public class RemoteAPIImpl implements RemoteAPI {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.universAAL.ri.api.manager.RemoteAPI#sendC(java.lang.String,
 	 * java.lang.String)
 	 */
@@ -128,7 +128,7 @@ public class RemoteAPIImpl implements RemoteAPI {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.universAAL.ri.api.manager.RemoteAPI#subscribeC(java.lang.String,
 	 * java.lang.String)
 	 */
@@ -163,7 +163,7 @@ public class RemoteAPIImpl implements RemoteAPI {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.universAAL.ri.api.manager.RemoteAPI#callS(java.lang.String,
 	 * java.lang.String)
 	 */
@@ -219,7 +219,7 @@ public class RemoteAPIImpl implements RemoteAPI {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.universAAL.ri.api.manager.RemoteAPI#provideS(java.lang.String,
 	 * java.lang.String)
 	 */
@@ -254,7 +254,7 @@ public class RemoteAPIImpl implements RemoteAPI {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.universAAL.ri.api.manager.RemoteAPI#unregister(java.lang.String)
 	 */
 	public void unregister(String id) throws APIImplException {
@@ -274,7 +274,7 @@ public class RemoteAPIImpl implements RemoteAPI {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.universAAL.ri.api.manager.RemoteAPI#unregisterAll()
 	 */
 	public void unregisterAll() {

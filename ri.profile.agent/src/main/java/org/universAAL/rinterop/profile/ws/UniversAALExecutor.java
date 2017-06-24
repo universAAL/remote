@@ -7,7 +7,7 @@ import java.util.concurrent.Executor;
 /**
  * Uses to execute the WEB Service command on the AccessControlContext for the
  * logged user.
- * 
+ *
  * @author Ivailo Bakalov
  */
 public class UniversAALExecutor implements Executor {

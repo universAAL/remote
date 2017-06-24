@@ -1,18 +1,18 @@
 /*
 	Copyright 2014 ITACA-TSB, http://www.tsb.upv.es
-	Instituto Tecnologico de Aplicaciones de Comunicacion 
-	Avanzadas - Grupo Tecnologias para la Salud y el 
+	Instituto Tecnologico de Aplicaciones de Comunicacion
+	Avanzadas - Grupo Tecnologias para la Salud y el
 	Bienestar (TSB)
-	
-	See the NOTICE file distributed with this work for additional 
+
+	See the NOTICE file distributed with this work for additional
 	information regarding copyright ownership
-	
+
 	Licensed under the Apache License, Version 2.0 (the "License");
 	you may not use this file except in compliance with the License.
 	You may obtain a copy of the License at
-	
+
 	  http://www.apache.org/licenses/LICENSE-2.0
-	
+
 	Unless required by applicable law or agreed to in writing, software
 	distributed under the License is distributed on an "AS IS" BASIS,
 	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -35,9 +35,9 @@ import org.universAAL.ri.api.manager.RemoteAPI;
 
 /**
  * An implementation of the Persistence interface using MySQL Database.
- * 
+ *
  * @author alfiva
- * 
+ *
  */
 public class PersistenceMySQL implements Persistence {
 
@@ -62,7 +62,7 @@ public class PersistenceMySQL implements Persistence {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.universAAL.ri.api.manager.server.persistence.Persistence#init(org.
 	 * universAAL.ri.api.manager.RemoteAPI)
@@ -132,7 +132,7 @@ public class PersistenceMySQL implements Persistence {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.universAAL.ri.api.manager.server.persistence.Persistence#
 	 * storeRegister(java.lang.String, java.lang.String)
 	 */
@@ -154,7 +154,7 @@ public class PersistenceMySQL implements Persistence {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.universAAL.ri.api.manager.server.persistence.Persistence#
 	 * storeSubscriber(java.lang.String, java.lang.String)
 	 */
@@ -167,7 +167,7 @@ public class PersistenceMySQL implements Persistence {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.universAAL.ri.api.manager.server.persistence.Persistence#storeCallee(
 	 * java.lang.String, java.lang.String)
@@ -183,7 +183,7 @@ public class PersistenceMySQL implements Persistence {
 	 * Convenient method to execute storeXXX methods of the interface, through a
 	 * SQL INSERT (though it could be any SQL sentence that requires using
 	 * .execute)
-	 * 
+	 *
 	 * @param sql
 	 *            The SQL instruction to execute
 	 */
@@ -222,7 +222,7 @@ public class PersistenceMySQL implements Persistence {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.universAAL.ri.api.manager.server.persistence.Persistence#
 	 * removeRegister(java.lang.String)
 	 */
@@ -270,7 +270,7 @@ public class PersistenceMySQL implements Persistence {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.universAAL.ri.api.manager.server.persistence.Persistence#restore()
 	 */
@@ -342,7 +342,7 @@ public class PersistenceMySQL implements Persistence {
 	 * Maintenance method that removes all stored data from all tables that was
 	 * introduced more than @param millis ago. Removal is not accurate to the
 	 * millisecond, it rounds to the day.
-	 * 
+	 *
 	 * @param millis
 	 *            Minimum age, in milliseconds, at which the data will be
 	 *            removed (data older than this will be removed)
@@ -403,7 +403,7 @@ public class PersistenceMySQL implements Persistence {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.universAAL.ri.api.manager.server.persistence.Persistence#storeUserPWD
 	 * (java.lang.String, java.lang.String)
@@ -415,7 +415,7 @@ public class PersistenceMySQL implements Persistence {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.universAAL.ri.api.manager.server.persistence.Persistence#checkUserPWD
 	 * (java.lang.String, java.lang.String)
@@ -467,7 +467,7 @@ public class PersistenceMySQL implements Persistence {
 	/**
 	 * Check if there is already a row with a certain id in the .registers
 	 * table.
-	 * 
+	 *
 	 * @param id
 	 *            The id column value to look for
 	 * @return true if it already exists
@@ -478,7 +478,7 @@ public class PersistenceMySQL implements Persistence {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.universAAL.ri.api.manager.server.persistence.Persistence#checkUser(
 	 * java.lang.String)
@@ -489,7 +489,7 @@ public class PersistenceMySQL implements Persistence {
 
 	/**
 	 * Checks if there is already a row with a certain id in a certain DB
-	 * 
+	 *
 	 * @param id
 	 *            The id column value to look for
 	 * @param db

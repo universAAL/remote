@@ -2,15 +2,15 @@
  * Copyright 2014-2014 CNR-ISTI, http://isti.cnr.it
  * Institute of Information Science and Technologies
  * of the Italian National Research Council
- *   
+ *
  * Copyright 2014 Universidad Politécnica de Madrid UPM
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -27,11 +27,11 @@ import java.io.Serializable;
 /**
  * Main Message class. All Messages interchanged between ASGs should be
  * subclasses of this class.
- * 
+ *
  * @author amedrano
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @version $LastChangedRevision$ ($LastChangedDate$)
- * 
+ *
  */
 public abstract class Message implements Serializable {
 
@@ -67,7 +67,7 @@ public abstract class Message implements Serializable {
 
 	/**
 	 * Constructor for a {@link Message} in response to another.
-	 * 
+	 *
 	 * @param respondTo
 	 *            message to which to respond to.
 	 */

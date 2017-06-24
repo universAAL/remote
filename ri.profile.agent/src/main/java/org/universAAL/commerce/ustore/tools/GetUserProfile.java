@@ -8,11 +8,11 @@ import javax.xml.bind.annotation.XmlType;
 /**
  * <p>
  * Java class for getUserProfile complex type.
- * 
+ *
  * <p>
  * The following schema fragment specifies the expected content contained within
  * this class.
- * 
+ *
  * <pre>
  * &lt;complexType name="getUserProfile">
  *   &lt;complexContent>
@@ -24,8 +24,8 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- * 
- * 
+ *
+ *
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "getUserProfileMsg", propOrder = { "sessionKey" })
@@ -35,9 +35,9 @@ public class GetUserProfile {
 
 	/**
 	 * Gets the value of the sessionKey property.
-	 * 
+	 *
 	 * @return possible object is {@link String }
-	 * 
+	 *
 	 */
 	public String getSessionKey() {
 		return sessionKey;
@@ -45,10 +45,10 @@ public class GetUserProfile {
 
 	/**
 	 * Sets the value of the sessionKey property.
-	 * 
+	 *
 	 * @param value
 	 *            allowed object is {@link String }
-	 * 
+	 *
 	 */
 	public void setSessionKey(String value) {
 		this.sessionKey = value;

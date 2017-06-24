@@ -1,17 +1,17 @@
 /*
 	Copyright 2007-2014 CERTH-ITI, http://www.iti.gr
-	Centre of Research and Technology Hellas 
+	Centre of Research and Technology Hellas
 	Information Technologies Institute
 
-	See the NOTICE file distributed with this work for additional 
+	See the NOTICE file distributed with this work for additional
 	information regarding copyright ownership
-	
+
 	Licensed under the Apache License, Version 2.0 (the "License");
 	you may not use this file except in compliance with the License.
 	You may obtain a copy of the License at
-	
+
 	  http://www.apache.org/licenses/LICENSE-2.0
-	
+
 	Unless required by applicable law or agreed to in writing, software
 	distributed under the License is distributed on an "AS IS" BASIS,
 	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -54,9 +54,9 @@ import org.universAAL.ri.wsdlToolkit.ioApi.WSOperationOutput;
 import org.w3c.dom.Node;
 
 /**
- * 
+ *
  * Class used for parsing WSDL files of SOAP 1.1 protocol.
- * 
+ *
  * @author kgiannou
  */
 
@@ -386,7 +386,7 @@ public class Axis1ParserWrapper {
 			 * QName(co.objectName
 			 * .getNamespaceURI(),co.objectName.getLocalPart()
 			 * ,co.objectName.getPrefix());
-			 * 
+			 *
 			 * co=co1.cloneTheCO(); co.setObjectName(coName); }else{
 			 * co=co1.cloneTheCO(); }
 			 */
@@ -410,12 +410,12 @@ public class Axis1ParserWrapper {
 			 * co.getHasExtendedObjects
 			 * ().add(((ComplexObject)co1.getHasExtendedObjects
 			 * ().get(i)).cloneTheCO()); }
-			 * 
+			 *
 			 * for(int i=0;i<co1.getHasComplexObjects().size();i++){
 			 * co.getHasComplexObjects
 			 * ().add(((ComplexObject)co1.getHasComplexObjects
 			 * ().get(i)).cloneTheCO()); }
-			 * 
+			 *
 			 * for(int i=0;i<co1.getHasNativeObjects().size();i++){
 			 * co.getHasNativeObjects
 			 * ().add(((NativeObject)co1.getHasNativeObjects

@@ -1,18 +1,18 @@
 /*
 	Copyright 2015 ITACA-TSB, http://www.tsb.upv.es
-	Instituto Tecnologico de Aplicaciones de Comunicacion 
-	Avanzadas - Grupo Tecnologias para la Salud y el 
+	Instituto Tecnologico de Aplicaciones de Comunicacion
+	Avanzadas - Grupo Tecnologias para la Salud y el
 	Bienestar (TSB)
-	
-	See the NOTICE file distributed with this work for additional 
+
+	See the NOTICE file distributed with this work for additional
 	information regarding copyright ownership
-	
+
 	Licensed under the Apache License, Version 2.0 (the "License");
 	you may not use this file except in compliance with the License.
 	You may obtain a copy of the License at
-	
+
 	  http://www.apache.org/licenses/LICENSE-2.0
-	
+
 	Unless required by applicable law or agreed to in writing, software
 	distributed under the License is distributed on an "AS IS" BASIS,
 	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -32,18 +32,18 @@ import org.universAAL.ri.rest.manager.resources.Subscriber;
  * Database interface for persisting the calls from clients. This allows clients
  * not having to re-send their subscriptions or registers when the server goes
  * down.
- * 
+ *
  * The persistence operates only at the level of the requests by the clients,
  * not the actual nodes and wrappers in MW. These will go up and down together
  * with the manager bundle. It is better to see this as a persistence for when
  * the bundle is down, rather than the whole server.
- * 
+ *
  * Only information about registration, context subscribers and service callees
  * is persisted for the remote nodes. Context events and service calls are not
  * persisted since they are "consumed" as they come.
- * 
+ *
  * @author alfiva
- * 
+ *
  */
 public interface Persistence {
 
@@ -79,7 +79,7 @@ public interface Persistence {
 	 * Store a new user-password pair for later authentication. There is no
 	 * "change" method for this, so any change will require manual modification
 	 * of the persistence.
-	 * 
+	 *
 	 * @param user
 	 *            User
 	 * @param pwd
@@ -90,7 +90,7 @@ public interface Persistence {
 	/**
 	 * Method that checks the proper authentication of a persisted user-password
 	 * pair.
-	 * 
+	 *
 	 * @param user
 	 *            User
 	 * @param pwd
@@ -102,7 +102,7 @@ public interface Persistence {
 
 	/**
 	 * Check if a user is already persisted with an associated password pair.
-	 * 
+	 *
 	 * @param user
 	 *            to check
 	 * @return true if there is already a user-password pair persisted.

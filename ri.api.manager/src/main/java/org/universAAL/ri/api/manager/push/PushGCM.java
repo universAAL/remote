@@ -1,18 +1,18 @@
 /*
 	Copyright 2014 ITACA-TSB, http://www.tsb.upv.es
-	Instituto Tecnologico de Aplicaciones de Comunicacion 
-	Avanzadas - Grupo Tecnologias para la Salud y el 
+	Instituto Tecnologico de Aplicaciones de Comunicacion
+	Avanzadas - Grupo Tecnologias para la Salud y el
 	Bienestar (TSB)
-	
-	See the NOTICE file distributed with this work for additional 
+
+	See the NOTICE file distributed with this work for additional
 	information regarding copyright ownership
-	
+
 	Licensed under the Apache License, Version 2.0 (the "License");
 	you may not use this file except in compliance with the License.
 	You may obtain a copy of the License at
-	
+
 	  http://www.apache.org/licenses/LICENSE-2.0
-	
+
 	Unless required by applicable law or agreed to in writing, software
 	distributed under the License is distributed on an "AS IS" BASIS,
 	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -56,9 +56,9 @@ import com.google.android.gcm.server.Message.Builder;
 /**
  * Class that manages the push of callbacks to client remote node endpoints
  * using Google Cloud Messaging.
- * 
+ *
  * @author alfiva
- * 
+ *
  */
 public class PushGCM {
 
@@ -79,7 +79,7 @@ public class PushGCM {
 	/**
 	 * Build a Context Event callback message and send it to the client remote
 	 * node endpoint through GCM.
-	 * 
+	 *
 	 * @param nodeid
 	 *            The client id, needed in case the GCM key needs to be updated
 	 *            in the DB
@@ -160,7 +160,7 @@ public class PushGCM {
 	/**
 	 * Build a ServiceCall callback message and send it to the client remote
 	 * node endpoint through GCM.
-	 * 
+	 *
 	 * @param nodeid
 	 *            The client id, needed in case the GCM key needs to be updated
 	 *            in the DB
@@ -273,7 +273,7 @@ public class PushGCM {
 
 	/**
 	 * Sends an arbitrary message to the remote endpoint client through GCM.
-	 * 
+	 *
 	 * @param nodeid
 	 *            The client id, needed in case the GCM key needs to be updated
 	 *            in the DB
@@ -339,7 +339,7 @@ public class PushGCM {
 	/**
 	 * Handles the response sent by the remote client, sending it to the right
 	 * pending call.
-	 * 
+	 *
 	 * @param resp
 	 *            The encoded response text sent by the client
 	 * @param nodeid

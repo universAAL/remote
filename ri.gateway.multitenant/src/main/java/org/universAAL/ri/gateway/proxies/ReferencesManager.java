@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright 2014 Universidad Politécnica de Madrid UPM
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -26,9 +26,9 @@ import org.universAAL.ri.gateway.Session;
 
 /**
  * Utility class to help {@link ProxyBusMember}s to manage their references.
- * 
+ *
  * @author amedrano
- * 
+ *
  */
 public class ReferencesManager {
 
@@ -39,7 +39,7 @@ public class ReferencesManager {
 
 	/**
 	 * Add a reference.
-	 * 
+	 *
 	 * @param remoteReference
 	 */
 	public synchronized void addRemoteProxyReference(final BusMemberReference remoteReference) {
@@ -58,7 +58,7 @@ public class ReferencesManager {
 
 	/**
 	 * Remove a reference.
-	 * 
+	 *
 	 * @param remoteReference
 	 */
 	public synchronized void removeRemoteProxyReference(final BusMemberReference remoteReference) {
@@ -70,7 +70,7 @@ public class ReferencesManager {
 
 	/**
 	 * Remove all references related to session.
-	 * 
+	 *
 	 * @param session
 	 */
 	public synchronized void removeRemoteProxyReferences(final Session session) {
@@ -79,7 +79,7 @@ public class ReferencesManager {
 
 	/**
 	 * Create a copy of the internal Collection of references.
-	 * 
+	 *
 	 * @return
 	 */
 	public Collection<BusMemberReference> getRemoteProxiesReferences() {

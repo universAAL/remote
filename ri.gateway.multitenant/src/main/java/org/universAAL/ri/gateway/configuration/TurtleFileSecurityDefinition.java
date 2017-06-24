@@ -36,7 +36,7 @@ import org.universAAL.ri.gateway.operations.ParameterCheckOpertaionChain;
 /**
  * Implementation that reads and interprets security configuration from a turtle
  * file.
- * 
+ *
  * @author amedrano
  *
  */

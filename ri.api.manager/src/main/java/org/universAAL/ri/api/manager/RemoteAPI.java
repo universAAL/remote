@@ -1,18 +1,18 @@
 /*
 	Copyright 2014 ITACA-TSB, http://www.tsb.upv.es
-	Instituto Tecnologico de Aplicaciones de Comunicacion 
-	Avanzadas - Grupo Tecnologias para la Salud y el 
+	Instituto Tecnologico de Aplicaciones de Comunicacion
+	Avanzadas - Grupo Tecnologias para la Salud y el
 	Bienestar (TSB)
-	
-	See the NOTICE file distributed with this work for additional 
+
+	See the NOTICE file distributed with this work for additional
 	information regarding copyright ownership
-	
+
 	Licensed under the Apache License, Version 2.0 (the "License");
 	you may not use this file except in compliance with the License.
 	You may obtain a copy of the License at
-	
+
 	  http://www.apache.org/licenses/LICENSE-2.0
-	
+
 	Unless required by applicable law or agreed to in writing, software
 	distributed under the License is distributed on an "AS IS" BASIS,
 	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -24,9 +24,9 @@ package org.universAAL.ri.api.manager;
 /**
  * Interface that defines the methods of the Remote API, that will be available
  * through the server HTTP endpoint, according to the R-API documentation.
- * 
+ *
  * @author alfiva
- * 
+ *
  */
 public interface RemoteAPI {
 	/**
@@ -109,7 +109,7 @@ public interface RemoteAPI {
 	 * This method must be called once before any other method. Subsequent calls
 	 * will only update the remote endpoint reference, not restart the
 	 * registration.
-	 * 
+	 *
 	 * @param id
 	 *            The token that uniquely identifies the client remote node
 	 * @param remote
@@ -138,7 +138,7 @@ public interface RemoteAPI {
 	 * describes the provided events of this provider is empty, which means it
 	 * can publish any type of event. Notice this Provider info is set ONLY THE
 	 * FIRST TIME and cannot be changed by later calls.
-	 * 
+	 *
 	 * @param id
 	 *            The token that uniquely identifies the client remote node
 	 * @param cevent
@@ -158,7 +158,7 @@ public interface RemoteAPI {
 	 * method. Usually, a limited number of subscriptions is needed. Remember
 	 * that you can combine different patterns to be handled by a single
 	 * subscriber.
-	 * 
+	 *
 	 * @param id
 	 *            The token that uniquely identifies the client remote node
 	 * @param cpattern
@@ -175,7 +175,7 @@ public interface RemoteAPI {
 	 * if this is the first time the method is called. The call to the service
 	 * is synchronous: this method returns the response of the call straight
 	 * from Service Bus.
-	 * 
+	 *
 	 * @param id
 	 *            The token that uniquely identifies the client remote node
 	 * @param srequest
@@ -194,7 +194,7 @@ public interface RemoteAPI {
 	 * back to the client endpoint. Since every call to this method creates a
 	 * new callee, you should be careful with how many times you call this
 	 * method. Usually, a limited number of callees is needed.
-	 * 
+	 *
 	 * @param id
 	 *            The token that uniquely identifies the client remote node
 	 * @param sprofile
@@ -210,7 +210,7 @@ public interface RemoteAPI {
 	 * It frees all associated resources allocated to the client by previous
 	 * calls. No callbacks will be sent to the client endpoint after this, and
 	 * no further method calls will be allowed.
-	 * 
+	 *
 	 * @param id
 	 *            The token that uniquely identifies the client remote node
 	 * @throws Exception
@@ -228,13 +228,13 @@ public interface RemoteAPI {
 	 * kept running in the MW when there is no one to answer to them. Unlike
 	 * unregister(), it does not throw Exception: if a node fails to be
 	 * unregistered, an error is logged and it continues with the rest.
-	 * 
+	 *
 	 */
 	void unregisterAll();
 
 	/**
 	 * Get the encryption key to use to encrypt messages via GCM if proceeds.
-	 * 
+	 *
 	 * @param id
 	 *            The token that uniquely identifies the client remote node
 	 * @return The encryption key or null if it does not apply.

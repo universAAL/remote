@@ -15,7 +15,7 @@ import org.universAAL.rinterop.profile.agent.osgi.Activator;
  * This class checks the HTTP request for Basic Authentication properties, and
  * login the authorized user, or anonymous user if no authentication credentials
  * were provided with the request.
- * 
+ *
  */
 public class InInterceptor extends AbstractPhaseInterceptor<Message> {
 

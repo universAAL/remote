@@ -1,18 +1,18 @@
 /*
 	Copyright 2015 ITACA-TSB, http://www.tsb.upv.es
-	Instituto Tecnologico de Aplicaciones de Comunicacion 
-	Avanzadas - Grupo Tecnologias para la Salud y el 
+	Instituto Tecnologico de Aplicaciones de Comunicacion
+	Avanzadas - Grupo Tecnologias para la Salud y el
 	Bienestar (TSB)
-	
-	See the NOTICE file distributed with this work for additional 
+
+	See the NOTICE file distributed with this work for additional
 	information regarding copyright ownership
-	
+
 	Licensed under the Apache License, Version 2.0 (the "License");
 	you may not use this file except in compliance with the License.
 	You may obtain a copy of the License at
-	
+
 	  http://www.apache.org/licenses/LICENSE-2.0
-	
+
 	Unless required by applicable law or agreed to in writing, software
 	distributed under the License is distributed on an "AS IS" BASIS,
 	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -49,9 +49,9 @@ import org.universAAL.ri.rest.manager.wrappers.UaalWrapper;
 /**
  * An implementation of the Persistence interface using Apache Derby SQL
  * Database.
- * 
+ *
  * @author alfiva
- * 
+ *
  */
 public class PersistenceDerby implements Persistence {
 
@@ -500,7 +500,7 @@ public class PersistenceDerby implements Persistence {
 	 * Maintenance method that removes all stored data from all tables that was
 	 * introduced more than @param millis ago. Removal is not accurate to the
 	 * millisecond, it rounds to the day.
-	 * 
+	 *
 	 * @param millis
 	 *            Minimum age, in milliseconds, at which the data will be
 	 *            removed (data older than this will be removed)

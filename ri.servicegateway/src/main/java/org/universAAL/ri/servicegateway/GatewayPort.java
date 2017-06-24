@@ -1,16 +1,16 @@
 /*
 	Copyright 2008-2010 Vodafone Italy, http://www.vodafone.it
 	Vodafone Omnitel N.V.
-	
-	See the NOTICE file distributed with this work for additional 
+
+	See the NOTICE file distributed with this work for additional
 	information regarding copyright ownership
-	
+
 	Licensed under the Apache License, Version 2.0 (the "License");
 	you may not use this file except in compliance with the License.
 	You may obtain a copy of the License at
-	
+
 	  http://www.apache.org/licenses/LICENSE-2.0
-	
+
 	Unless required by applicable law or agreed to in writing, software
 	distributed under the License is distributed on an "AS IS" BASIS,
 	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -41,7 +41,7 @@ import org.universAAL.security.authenticator.client.UserPaswordAuthenticatorClie
  * {@link #doGet(HttpServletRequest, HttpServletResponse)} or
  * {@link #doPost(HttpServletRequest, HttpServletResponse)}. Then set the module
  * context and call {@link #register()}. When done, call {@link #unregister()}.
- * 
+ *
  * @author
  * @author Carsten Stockloew
  */
@@ -75,7 +75,7 @@ public abstract class GatewayPort extends javax.servlet.http.HttpServlet {
 
 	/**
 	 * Set the HTTP Basic Authentication response with the realm.
-	 * 
+	 *
 	 * @param req
 	 *            The request from goGet method
 	 * @param resp
@@ -89,7 +89,7 @@ public abstract class GatewayPort extends javax.servlet.http.HttpServlet {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param auth
 	 *            The BASE64 encoded user:pass values. If null or empty, returns
 	 *            false
@@ -123,7 +123,7 @@ public abstract class GatewayPort extends javax.servlet.http.HttpServlet {
 
 	/**
 	 * Handle the login phase
-	 * 
+	 *
 	 * @param req
 	 *            The request from goGet method, used to retrieve the
 	 *            "Authorization" header
@@ -184,7 +184,7 @@ public abstract class GatewayPort extends javax.servlet.http.HttpServlet {
 
 	/**
 	 * The URL where the servlet is registered and accessed by the web client.
-	 * 
+	 *
 	 * @return A string starting with "/" to access the service. For example
 	 *         "/myservlet"
 	 */
@@ -202,7 +202,7 @@ public abstract class GatewayPort extends javax.servlet.http.HttpServlet {
 	 * &lt;script type="text/javascript" src="/myservicedir/script.js"&gt;
 	 * </code>
 	 * </p>
-	 * 
+	 *
 	 * @return The string representing the symbolic datadir, <em>null</em> if no
 	 *         data directory is needed
 	 */

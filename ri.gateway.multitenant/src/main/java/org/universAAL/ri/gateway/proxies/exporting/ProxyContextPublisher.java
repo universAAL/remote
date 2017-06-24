@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright 2014 Universidad Politécnica de Madrid UPM
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -40,12 +40,12 @@ import org.universAAL.ri.gateway.proxies.importing.ProxyContextSubscriber;
  * A {@link ContextPublisher} which will listen to remote
  * {@link ProxyContextSubscriber}' messages and reinject them in to the local
  * bus. <br>
- * 
+ *
  * All exported {@link ContextSubscriber}s may be represented locally by the
  * same {@link ProxyContextPublisher}.
- * 
+ *
  * @author amedrano
- * 
+ *
  */
 public class ProxyContextPublisher extends ContextPublisher implements ProxyBusMember {
 
@@ -53,7 +53,7 @@ public class ProxyContextPublisher extends ContextPublisher implements ProxyBusM
 
 	/**
 	 * Create a generic (all
-	 * 
+	 *
 	 * @return
 	 */
 	private static ContextProvider constructProvider() {

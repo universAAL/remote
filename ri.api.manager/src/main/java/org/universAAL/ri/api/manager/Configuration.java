@@ -1,18 +1,18 @@
 /*
 	Copyright 2014 ITACA-TSB, http://www.tsb.upv.es
-	Instituto Tecnologico de Aplicaciones de Comunicacion 
-	Avanzadas - Grupo Tecnologias para la Salud y el 
+	Instituto Tecnologico de Aplicaciones de Comunicacion
+	Avanzadas - Grupo Tecnologias para la Salud y el
 	Bienestar (TSB)
-	
-	See the NOTICE file distributed with this work for additional 
+
+	See the NOTICE file distributed with this work for additional
 	information regarding copyright ownership
-	
+
 	Licensed under the Apache License, Version 2.0 (the "License");
 	you may not use this file except in compliance with the License.
 	You may obtain a copy of the License at
-	
+
 	  http://www.apache.org/licenses/LICENSE-2.0
-	
+
 	Unless required by applicable law or agreed to in writing, software
 	distributed under the License is distributed on an "AS IS" BASIS,
 	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -29,9 +29,9 @@ import org.universAAL.middleware.container.ModuleContext;
 /**
  * Helper class to centralized access to configuration parameters, which should
  * help when porting to uAAL Config Manager.
- * 
+ *
  * @author alfiva
- * 
+ *
  */
 public class Configuration {
 	/**
@@ -101,7 +101,7 @@ public class Configuration {
 
 	/**
 	 * Determines the type of endpoint
-	 * 
+	 *
 	 * @param remote
 	 *            String representation of the endpoint
 	 * @return RemoteAPI.REMOTE_POST if the endpoint is http or https
@@ -128,7 +128,7 @@ public class Configuration {
 	/**
 	 * Get the Server Application Google Cloud Messaging Key. There is a
 	 * diffferent one for each server.
-	 * 
+	 *
 	 * @return App Server GCM key
 	 */
 	public static String getGCMKey() {
@@ -138,7 +138,7 @@ public class Configuration {
 	/**
 	 * Get if DRY mode: messages to GCM are handled OK, but not actually
 	 * delivered to clients. For testing purposes.
-	 * 
+	 *
 	 * @return true if in DRY mode (no messages sent to clients)
 	 */
 	public static boolean getGCMDry() {
@@ -147,7 +147,7 @@ public class Configuration {
 
 	/**
 	 * Get encryption key for messages sent through GCM.
-	 * 
+	 *
 	 * @return The path to the key to use for encryption, or null if encryption
 	 *         is disabled
 	 */
@@ -158,7 +158,7 @@ public class Configuration {
 	/**
 	 * Determine if additional debug logging is available. This is used when the
 	 * information to be logged may contain sensitive data.
-	 * 
+	 *
 	 * @return true if everything should be logged
 	 */
 	public static boolean getLogDebug() {
@@ -168,7 +168,7 @@ public class Configuration {
 	/**
 	 * Get the path where the folder containing the DB will be read/created.
 	 * Only used if using Derby DB persistence (default).
-	 * 
+	 *
 	 * @return Path to folder of the DB
 	 */
 	public static String getDBPath(ModuleContext context) {
@@ -178,7 +178,7 @@ public class Configuration {
 	/**
 	 * Get the value, in milliseconds, of time at which removal of older stored
 	 * data will be removed. Only for Derby DB Persistence.
-	 * 
+	 *
 	 * @return Minimum age, in milliseconds, at which the data will be removed
 	 *         (data older than this will be removed)
 	 */
@@ -189,7 +189,7 @@ public class Configuration {
 	/**
 	 * Get the context path part of the URL to be used as "alias" when
 	 * registering the servlet.
-	 * 
+	 *
 	 * @return Context Path of URL
 	 */
 	public static String getContext() {
@@ -202,7 +202,7 @@ public class Configuration {
 	 * registered by the web container using its own configuration methods
 	 * (might require packaging this project as a .war), and also the
 	 * authenticatino measures.
-	 * 
+	 *
 	 * @return true if hardcoded registration of the servlet is enabled
 	 */
 	public static boolean getHardcoded() {
@@ -212,7 +212,7 @@ public class Configuration {
 	/**
 	 * Get if GET debug mode is enabled. If so, GET HTTP Request will be
 	 * accepted just like if they were POST.
-	 * 
+	 *
 	 * @return true if GET requests are accepted.
 	 */
 	public static boolean getGETenabled() {

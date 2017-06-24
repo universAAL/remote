@@ -9,11 +9,11 @@ import javax.xml.bind.annotation.XmlType;
 /**
  * <p>
  * Java class for getUserProfileResponse complex type.
- * 
+ *
  * <p>
  * The following schema fragment specifies the expected content contained within
  * this class.
- * 
+ *
  * <pre>
  * &lt;complexType name="getUserProfileResponse">
  *   &lt;complexContent>
@@ -25,8 +25,8 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- * 
- * 
+ *
+ *
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "getUserProfileResponseMsg", propOrder = { "_return" })
@@ -37,9 +37,9 @@ public class GetUserProfileResponse {
 
 	/**
 	 * Gets the value of the return property.
-	 * 
+	 *
 	 * @return possible object is {@link String }
-	 * 
+	 *
 	 */
 	public String getReturn() {
 		return _return;
@@ -47,10 +47,10 @@ public class GetUserProfileResponse {
 
 	/**
 	 * Sets the value of the return property.
-	 * 
+	 *
 	 * @param value
 	 *            allowed object is {@link String }
-	 * 
+	 *
 	 */
 	public void setReturn(String value) {
 		this._return = value;

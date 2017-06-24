@@ -1,18 +1,18 @@
 /*
 	Copyright 2015 ITACA-SABIEN, http://www.tsb.upv.es
-	Instituto Tecnologico de Aplicaciones de Comunicacion 
-	Avanzadas - Grupo Tecnologias para la Salud y el 
+	Instituto Tecnologico de Aplicaciones de Comunicacion
+	Avanzadas - Grupo Tecnologias para la Salud y el
 	Bienestar (SABIEN)
-	
-	See the NOTICE file distributed with this work for additional 
+
+	See the NOTICE file distributed with this work for additional
 	information regarding copyright ownership
-	
+
 	Licensed under the Apache License, Version 2.0 (the "License");
 	you may not use this file except in compliance with the License.
 	You may obtain a copy of the License at
-	
+
 	  http://www.apache.org/licenses/LICENSE-2.0
-	
+
 	Unless required by applicable law or agreed to in writing, software
 	distributed under the License is distributed on an "AS IS" BASIS,
 	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -47,7 +47,7 @@ public class CryptUtil {
 
 	/**
 	 * Initialization method - reads the shared key from the file system
-	 * 
+	 *
 	 * @param String
 	 *            key - full path to encryption key including file name
 	 */
@@ -63,11 +63,11 @@ public class CryptUtil {
 	/**
 	 * decrypt the parameter string with the shared key read during
 	 * initialization
-	 * 
+	 *
 	 * @param String
 	 *            chiper - the string to decrypt
 	 * @return the decrypted string
-	 * 
+	 *
 	 */
 	public static String decrypt(String cipher) throws Exception {
 		return decrypt(cipher, skey);
@@ -76,13 +76,13 @@ public class CryptUtil {
 	/**
 	 * decrypt the first parameter string with the shared key received as the
 	 * second parameter
-	 * 
+	 *
 	 * @param String
 	 *            chiper - the string to decrypt
 	 * @param SecretKey
 	 *            skey - the shared key
 	 * @return the decrypted string
-	 * 
+	 *
 	 */
 	public static String decrypt(String cipher, SecretKey skey) throws Exception {
 		Cipher desCipher = Cipher.getInstance(cipherTransformation);
@@ -93,11 +93,11 @@ public class CryptUtil {
 	/**
 	 * encrypt the parameter string with the shared key read during
 	 * initialization
-	 * 
+	 *
 	 * @param String
 	 *            clear - the string to encrypt
 	 * @return the encrypted string
-	 * 
+	 *
 	 */
 	public static String encrypt(String clear) throws Exception {
 		return encrypt(clear, skey);
@@ -106,13 +106,13 @@ public class CryptUtil {
 	/**
 	 * encrypt the first parameter string with the shared key received as the
 	 * second parameter
-	 * 
+	 *
 	 * @param String
 	 *            clear - the string to encrypt
 	 * @param SecretKey
 	 *            skey - the shared key
 	 * @return the encrypted string
-	 * 
+	 *
 	 */
 	public static String encrypt(String clear, SecretKey skey) throws Exception {
 		Cipher desCipher = Cipher.getInstance(cipherTransformation);

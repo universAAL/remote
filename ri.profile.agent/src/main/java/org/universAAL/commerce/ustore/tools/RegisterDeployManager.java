@@ -8,11 +8,11 @@ import javax.xml.bind.annotation.XmlType;
 /**
  * <p>
  * Java class for registerDeployManager complex type.
- * 
+ *
  * <p>
  * The following schema fragment specifies the expected content contained within
  * this class.
- * 
+ *
  * <pre>
  * &lt;complexType name="registerDeployManager">
  *   &lt;complexContent>
@@ -27,8 +27,8 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- * 
- * 
+ *
+ *
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "registerDeployManagerMsg", propOrder = { "userName", "password", "ipAddress", "port" })
@@ -41,9 +41,9 @@ public class RegisterDeployManager {
 
 	/**
 	 * Gets the value of the userName property.
-	 * 
+	 *
 	 * @return possible object is {@link String }
-	 * 
+	 *
 	 */
 	public String getUserName() {
 		return userName;
@@ -51,10 +51,10 @@ public class RegisterDeployManager {
 
 	/**
 	 * Sets the value of the userName property.
-	 * 
+	 *
 	 * @param value
 	 *            allowed object is {@link String }
-	 * 
+	 *
 	 */
 	public void setUserName(String value) {
 		this.userName = value;
@@ -62,9 +62,9 @@ public class RegisterDeployManager {
 
 	/**
 	 * Gets the value of the password property.
-	 * 
+	 *
 	 * @return possible object is {@link String }
-	 * 
+	 *
 	 */
 	public String getPassword() {
 		return password;
@@ -72,10 +72,10 @@ public class RegisterDeployManager {
 
 	/**
 	 * Sets the value of the password property.
-	 * 
+	 *
 	 * @param value
 	 *            allowed object is {@link String }
-	 * 
+	 *
 	 */
 	public void setPassword(String value) {
 		this.password = value;
@@ -83,9 +83,9 @@ public class RegisterDeployManager {
 
 	/**
 	 * Gets the value of the ipAddress property.
-	 * 
+	 *
 	 * @return possible object is {@link String }
-	 * 
+	 *
 	 */
 	public String getIpAddress() {
 		return ipAddress;
@@ -93,10 +93,10 @@ public class RegisterDeployManager {
 
 	/**
 	 * Sets the value of the ipAddress property.
-	 * 
+	 *
 	 * @param value
 	 *            allowed object is {@link String }
-	 * 
+	 *
 	 */
 	public void setIpAddress(String value) {
 		this.ipAddress = value;
@@ -104,9 +104,9 @@ public class RegisterDeployManager {
 
 	/**
 	 * Gets the value of the port property.
-	 * 
+	 *
 	 * @return possible object is {@link String }
-	 * 
+	 *
 	 */
 	public String getPort() {
 		return port;
@@ -114,10 +114,10 @@ public class RegisterDeployManager {
 
 	/**
 	 * Sets the value of the port property.
-	 * 
+	 *
 	 * @param value
 	 *            allowed object is {@link String }
-	 * 
+	 *
 	 */
 	public void setPort(String value) {
 		this.port = value;

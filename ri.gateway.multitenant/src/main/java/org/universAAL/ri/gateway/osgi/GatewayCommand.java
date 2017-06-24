@@ -45,7 +45,7 @@ public class GatewayCommand extends OsgiCommandSupport {
 
 	/*
 	 * private enum Subcommands { CONFIG, }
-	 * 
+	 *
 	 * @Option(name = "-c", aliases = "--config", description =
 	 * "Shows the active configurations", required = false, multiValued = false)
 	 * EnumSet<Subcommands> config = EnumSet.of(Subcommands.CONFIG);

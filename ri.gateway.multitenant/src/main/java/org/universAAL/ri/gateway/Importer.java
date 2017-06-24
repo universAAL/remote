@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright 2014 Universidad Politécnica de Madrid UPM
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -41,9 +41,9 @@ import org.universAAL.ri.gateway.proxies.updating.Updater;
  * associating a local proxy to the request. <br>
  * There should be an instance of {@link Importer} per {@link Session}; import
  * operations are restricted to each session.
- * 
+ *
  * @author amedrano
- * 
+ *
  */
 public class Importer {
 
@@ -83,7 +83,7 @@ public class Importer {
 	/**
 	 * A task devoted to manage import requests. <br>
 	 * <img src="doc-files/Import-ImportRequest.png">
-	 * 
+	 *
 	 * @author amedrano
 	 *
 	 */
@@ -147,7 +147,7 @@ public class Importer {
 	/**
 	 * A task to handle Remove requests <br>
 	 * <img src="doc-files/Import-ImportRemove.png">
-	 * 
+	 *
 	 * @author amedrano
 	 *
 	 */
@@ -170,7 +170,7 @@ public class Importer {
 			 * When remote importer sends importRemove, it will be received
 			 * here. Maybe import security is changed and remote proxy is no
 			 * longer allowed.
-			 * 
+			 *
 			 * It has to tell the exporter to remove a reference not the
 			 * exported proxy.
 			 */
@@ -193,13 +193,13 @@ public class Importer {
 	 * Checks the security for the new parameters and then Deals with accepted
 	 * Refresh requests (addSubscriptionParameters or
 	 * removeSubscriptionParameters).<br>
-	 * 
+	 *
 	 * Responds to Import-refresh protocol: <br>
 	 * <img src="doc-files/Import-ImportRequest.png">
-	 * 
+	 *
 	 * <br>
 	 * Where refresh is either add or remove registration parameters.
-	 * 
+	 *
 	 * @param msg
 	 *            the add or remove subscription message.
 	 * @param up
@@ -213,7 +213,7 @@ public class Importer {
 
 		/**
 		 * Constructor
-		 * 
+		 *
 		 * @param msg
 		 * @param up
 		 */
@@ -299,16 +299,16 @@ public class Importer {
 	/**
 	 * Receives Gateway Level layer messages (aka {@link ImportMessage}
 	 * protocol), and manages the importer protocol for each case: <br>
-	 * 
+	 *
 	 * <h3>handles Import-request protocol:
 	 * <h3><img src="doc-files/Import-ImportRequest.png">
-	 * 
+	 *
 	 * <h3>handles Import-remove protocol:
 	 * <h3><img src="doc-files/Import-ImportRemove.png">
-	 * 
+	 *
 	 * <h3>handles Import-refresh protocol:
 	 * <h3><img src="doc-files/Import-ImportRefresh.png">
-	 * 
+	 *
 	 * @param msg
 	 */
 	public void handleImportMessage(final ImportMessage msg) {
@@ -337,7 +337,7 @@ public class Importer {
 
 	/**
 	 * Remove a reference to the remoteBusMemberId.
-	 * 
+	 *
 	 * @param remoteBusMemberId
 	 */
 	private void remove(final String remoteBusMemberId) {

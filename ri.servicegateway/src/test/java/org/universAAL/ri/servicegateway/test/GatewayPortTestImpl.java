@@ -12,15 +12,15 @@ import org.universAAL.ri.servicegateway.GatewayPort;
 import org.universAAL.ri.servicegateway.osgi.Activator;
 
 /**
- * 
+ *
  * @author eandgrg
- * 
+ *
  */
 
 public class GatewayPortTestImpl extends GatewayPort {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 

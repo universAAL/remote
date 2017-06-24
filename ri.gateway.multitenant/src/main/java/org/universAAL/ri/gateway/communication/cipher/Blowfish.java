@@ -1,10 +1,10 @@
 /*
  Copyright 2014 UPM, http://www.upm.es
  Life Supporting Technologies, TFB, Universidad Politécnica de Madrid
- 
+
 Copyright 2011-2014 AGH-UST, http://www.agh.edu.pl
 Faculty of Computer Science, Electronics and Telecommunications
-Department of Computer Science 
+Department of Computer Science
 
 See the NOTICE file distributed with this work for additional
 information regarding copyright ownership
@@ -31,9 +31,9 @@ import org.bouncycastle.crypto.params.KeyParameter;
 
 /**
  * A BlowFish Cipher wrapper, using a symmetrical key encryption.
- * 
+ *
  * @author amedrano
- * 
+ *
  */
 public class Blowfish implements Cipher {
 

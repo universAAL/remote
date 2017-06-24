@@ -1,17 +1,17 @@
 /*
 	Copyright 2007-2014 CERTH-ITI, http://www.iti.gr
-	Centre of Research and Technology Hellas 
+	Centre of Research and Technology Hellas
 	Information Technologies Institute
 
-	See the NOTICE file distributed with this work for additional 
+	See the NOTICE file distributed with this work for additional
 	information regarding copyright ownership
-	
+
 	Licensed under the Apache License, Version 2.0 (the "License");
 	you may not use this file except in compliance with the License.
 	You may obtain a copy of the License at
-	
+
 	  http://www.apache.org/licenses/LICENSE-2.0
-	
+
 	Unless required by applicable law or agreed to in writing, software
 	distributed under the License is distributed on an "AS IS" BASIS,
 	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -47,9 +47,9 @@ import org.w3c.dom.Element;
 import java.net.URLConnection;
 
 /**
- * 
+ *
  * Main class used for parsing WSDL files.
- * 
+ *
  * @author kgiannou
  */
 
@@ -59,7 +59,7 @@ public class WSDLParser {
 	 * Returns a ParsedWSDLDefinition after a successful parsing of a SOAP web
 	 * service. This method checks first if the web service is online, and then
 	 * performs the parsing.
-	 * 
+	 *
 	 * @param wsdlURL
 	 *            the url of the SOAP web service
 	 * @param Axis2Enabled
@@ -197,7 +197,7 @@ public class WSDLParser {
 	 * Returns the binding style (rpc or document) and the operation use
 	 * (encoded or literal) of the web service, separated with the "#"
 	 * character.
-	 * 
+	 *
 	 * @param wsdlURL
 	 *            the url of the SOAP web service
 	 * @return String containing the binding style and the operation use of the
@@ -313,7 +313,7 @@ public class WSDLParser {
 
 	/**
 	 * Returns documentation of a web service
-	 * 
+	 *
 	 * @param wsdlURL
 	 *            the url of the SOAP web service
 	 * @return String containing the documentation of the web service
@@ -344,7 +344,7 @@ public class WSDLParser {
 
 	/**
 	 * Removes HTML tags from a String
-	 * 
+	 *
 	 * @param documentation
 	 *            the String that HTML tags are going to be removed
 	 * @return String the documentation String without HTML tags
@@ -731,7 +731,7 @@ public class WSDLParser {
 
 	/**
 	 * Pings a url
-	 * 
+	 *
 	 * @param endpoint
 	 *            the url that is to be pinged
 	 * @return a boolean indicating if the url is pinged or not

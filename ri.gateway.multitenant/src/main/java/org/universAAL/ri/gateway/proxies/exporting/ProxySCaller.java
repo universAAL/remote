@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright 2014 Universidad Politécnica de Madrid UPM
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -40,15 +40,15 @@ import org.universAAL.ri.gateway.utils.ArraySet;
  * Proxy that receives {@link ServiceCall}s and injects them to the bus in other
  * to get a {@link ServiceResponse} from the represented {@link ServiceCallee}.
  * <br>
- * 
+ *
  * An instance of this proxy is used per each exported {@link ServiceCallee}.
  * <br>
- * 
+ *
  * Important: this class is not a {@link BusMember}, like the other proxies;
  * thus it does not register to buses.
- * 
+ *
  * @author amedrano
- * 
+ *
  */
 public class ProxySCaller extends ServiceCaller implements ProxyBusMember {
 
@@ -60,7 +60,7 @@ public class ProxySCaller extends ServiceCaller implements ProxyBusMember {
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param context
 	 * @param profiles
 	 * @param proxiedBusMember

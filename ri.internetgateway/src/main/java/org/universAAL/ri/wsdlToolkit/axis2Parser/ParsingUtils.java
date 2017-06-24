@@ -1,17 +1,17 @@
 /*
 	Copyright 2007-2014 CERTH-ITI, http://www.iti.gr
-	Centre of Research and Technology Hellas 
+	Centre of Research and Technology Hellas
 	Information Technologies Institute
 
-	See the NOTICE file distributed with this work for additional 
+	See the NOTICE file distributed with this work for additional
 	information regarding copyright ownership
-	
+
 	Licensed under the Apache License, Version 2.0 (the "License");
 	you may not use this file except in compliance with the License.
 	You may obtain a copy of the License at
-	
+
 	  http://www.apache.org/licenses/LICENSE-2.0
-	
+
 	Unless required by applicable law or agreed to in writing, software
 	distributed under the License is distributed on an "AS IS" BASIS,
 	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -38,9 +38,9 @@ import org.universAAL.ri.wsdlToolkit.ioApi.NativeObject;
 import org.universAAL.ri.wsdlToolkit.ioApi.ParsedWSDLDefinition;
 
 /**
- * 
+ *
  * This class provides some utilities for the parser mechanism
- * 
+ *
  * @author kgiannou
  */
 
@@ -97,11 +97,11 @@ public class ParsingUtils {
 
 	/*
 	 * private static Vector parsedSchemasForAttSearch_ITERATIVE;
-	 * 
+	 *
 	 * private static boolean schemaHasAlreadyBeenParsed(String schemaName){
 	 * if(parsedSchemasForAttSearch_ITERATIVE==null||schemaName==null)return
 	 * false;
-	 * 
+	 *
 	 * for(int i=0;i<parsedSchemasForAttSearch_ITERATIVE.size();i++){
 	 * if(schemaName.equals(parsedSchemasForAttSearch_ITERATIVE.get(i))){//Na
 	 * ftiaksw ton elegxo return true; } } return false; }
@@ -170,8 +170,8 @@ public class ParsingUtils {
 		 * schemaAttribute.getSchemaTypeName()); } if(xmlSchemaType!=null){
 		 * return xmlSchemaType; }else{ System.out.println(); } }
 		 * }catch(Exception e){ e.printStackTrace(); System.out.println(); }
-		 * 
-		 * 
+		 *
+		 *
 		 * return null;
 		 */
 
@@ -241,8 +241,8 @@ public class ParsingUtils {
 		 * schemaAttribute.getSchemaTypeName()); } if(xmlSchemaType!=null){
 		 * return xmlSchemaType; }else{ System.out.println(); } }
 		 * }catch(Exception e){ e.printStackTrace(); System.out.println(); }
-		 * 
-		 * 
+		 *
+		 *
 		 * return null;
 		 */
 
@@ -638,12 +638,12 @@ public class ParsingUtils {
 	 * if(ComplexTypesParser.parsedComplexObjectsHashmap
 	 * ==null||ComplexTypesParser.parsedComplexObjectsHashmap.values()==null)
 	 * return;
-	 * 
+	 *
 	 * updatedComplexTypes=new HashMap(); Iterator
 	 * iter=ComplexTypesParser.parsedComplexObjectsHashmap.values().iterator();
 	 * while(iter.hasNext()){ try{ ComplexObject co=(ComplexObject)iter.next();
 	 * if(co.getHasComplexObjects()==null)continue;
-	 * 
+	 *
 	 * for(int i=0;i<co.getHasComplexObjects().size();i++){ ComplexObject
 	 * co1=(ComplexObject)co.getHasComplexObjects().get(i); QName co1Type =
 	 * co1.getObjectType();
@@ -664,12 +664,12 @@ public class ParsingUtils {
 	 * System.out.println(); updatedComplexTypes.put(co1Type, co1);
 	 * updateAllComplexObjectsOfTheCO_ITERATIVE(co1); }else{
 	 * updateAllComplexObjectsOfTheCO_ITERATIVE(co1); } } }
-	 * 
+	 *
 	 * }catch(Exception e){ e.printStackTrace(); System.out.println(); } }
 	 * System.out.println();
-	 * 
+	 *
 	 * }
-	 * 
+	 *
 	 * private static void
 	 * updateAllComplexObjectsOfTheCO_ITERATIVE(ComplexObject co1) {
 	 * if(co1.getHasComplexObjects()==null)return; Iterator
@@ -693,9 +693,9 @@ public class ParsingUtils {
 	 * updatedComplexTypes.put(co2Type, co2); System.out.println();
 	 * updateAllComplexObjectsOfTheCO_ITERATIVE(co2); }else{
 	 * updateAllComplexObjectsOfTheCO_ITERATIVE(co2); } }
-	 * 
+	 *
 	 * }catch(Exception e){ e.printStackTrace(); System.out.println(); }
-	 * 
+	 *
 	 * } }
 	 */
 

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright 2014 Universidad Politécnica de Madrid UPM
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -24,7 +24,7 @@ import org.universAAL.ri.gateway.proxies.ProxyBusMember;
 
 /**
  * @author amedrano
- * 
+ *
  */
 public class ImportMessage extends Message {
 
@@ -85,9 +85,9 @@ public class ImportMessage extends Message {
 
 	/**
 	 * Different type of import messages.
-	 * 
+	 *
 	 * @author amedrano
-	 * 
+	 *
 	 */
 	public enum ImportMessageType {
 		ImportRequest, ImportResponse, ImportRemove, ImportAddSubscription, ImportRemoveSubscription
@@ -140,7 +140,7 @@ public class ImportMessage extends Message {
 
 	/**
 	 * Response constructor.
-	 * 
+	 *
 	 * @param respondTo
 	 */
 	protected ImportMessage(final Message respondTo) {
@@ -149,7 +149,7 @@ public class ImportMessage extends Message {
 
 	/**
 	 * Check that an ImportResponse type Message has been accepted.
-	 * 
+	 *
 	 * @return
 	 */
 	public boolean isAccepted() {
@@ -159,7 +159,7 @@ public class ImportMessage extends Message {
 	/**
 	 * Create a importRequest {@link ImportMessage} for a particular
 	 * {@link ProxyBusMember} with certain parameters.
-	 * 
+	 *
 	 * @param requestedBusMember
 	 *            the busMember identification for future reference, This should
 	 *            be the reference of the proxy created locally.
@@ -176,7 +176,7 @@ public class ImportMessage extends Message {
 
 	/**
 	 * Create a importResponse {@link ImportMessage}.
-	 * 
+	 *
 	 * @param request
 	 *            the request to respond to.
 	 * @param proxyIdentifyer
@@ -199,7 +199,7 @@ public class ImportMessage extends Message {
 	/**
 	 * Create a importAddSubscription {@link ImportMessage} for a particular
 	 * {@link ProxyBusMember} with certain parameters.
-	 * 
+	 *
 	 * @param requestedBusMember
 	 *            the busMember identification for future reference, This should
 	 *            be the local reference.
@@ -219,7 +219,7 @@ public class ImportMessage extends Message {
 	/**
 	 * Create a importRemoveSubscription {@link ImportMessage} for a particular
 	 * {@link ProxyBusMember} with certain parameters.
-	 * 
+	 *
 	 * @param requestedBusMember
 	 *            the busMember identification for future reference, This should
 	 *            be the local reference.
@@ -239,7 +239,7 @@ public class ImportMessage extends Message {
 	/**
 	 * Create a importRemove {@link ImportMessage} for a particular
 	 * {@link ProxyBusMember} .
-	 * 
+	 *
 	 * @param requestedBusMember
 	 *            the busMember identification for future reference, This should
 	 *            be the local proxy reference.

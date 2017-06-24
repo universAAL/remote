@@ -1,19 +1,19 @@
-/*	
+/*
 	Copyright 2010-2014 UPM http://www.upm.es
 	Universidad Politï¿½cnica de Madrdid
-	
+
 	OCO Source Materials
 	ï¿½ Copyright IBM Corp. 2011
-	
-	See the NOTICE file distributed with this work for additional 
+
+	See the NOTICE file distributed with this work for additional
 	information regarding copyright ownership
-	
+
 	Licensed under the Apache License, Version 2.0 (the "License");
 	you may not use this file except in compliance with the License.
 	You may obtain a copy of the License at
-	
+
 	  http://www.apache.org/licenses/LICENSE-2.0
-	
+
 	Unless required by applicable law or agreed to in writing, software
 	distributed under the License is distributed on an "AS IS" BASIS,
 	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -60,7 +60,7 @@ import org.universAAL.rinterop.profile.agent.impl.Queries;
  * This class actually implements the
  * {@link org.universAAL.ProfileCHEProvider.ProfileCHEProvider.treat.logger.ProfileLogger}
  * by using the context history.
- * 
+ *
  * @author
  */
 public class ContextHistoryProfileAgent implements ProfileCHEProvider {
@@ -99,7 +99,7 @@ public class ContextHistoryProfileAgent implements ProfileCHEProvider {
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param context
 	 */
 	public ContextHistoryProfileAgent(ModuleContext context) {
@@ -259,7 +259,7 @@ public class ContextHistoryProfileAgent implements ProfileCHEProvider {
 	/**
 	 * Gets all results from a RDF Bag resource and returns them as an ArrayList
 	 * of uAAL ontologies.
-	 * 
+	 *
 	 * @param bag
 	 *            The RDF Bag Resource
 	 * @return The ArrayList with results
@@ -288,7 +288,7 @@ public class ContextHistoryProfileAgent implements ProfileCHEProvider {
 
 	/**
 	 * Helper method to get the result from the Service Response of CHE.
-	 * 
+	 *
 	 * @param call
 	 *            The service response
 	 * @return the result SPARQL string
@@ -318,7 +318,7 @@ public class ContextHistoryProfileAgent implements ProfileCHEProvider {
 
 	/**
 	 * Prepares the call to the Do SPARQL service of CHE.
-	 * 
+	 *
 	 * @param query
 	 *            The SPARQL query
 	 * @return The prepared request
@@ -491,7 +491,7 @@ public class ContextHistoryProfileAgent implements ProfileCHEProvider {
 	/**
 	 * Splits a Turtle serialized string into prefixes and content, so it can be
 	 * used inside SPARQL queries.
-	 * 
+	 *
 	 * @param serialized
 	 *            The turtle string
 	 * @return An array of length 2. The first item [0] is the string with the

@@ -1,4 +1,3 @@
-org.universAAL.log
 org.universAAL.ri.api.manager
 org.universAAL.ri.api.manager.exceptions
 org.universAAL.ri.api.manager.push
@@ -9,6 +8,7 @@ org.universAAL.ri.gateway.communication.cipher
 org.universAAL.ri.gateway.communicator.service
 org.universAAL.ri.gateway.communicator.service.impl
 org.universAAL.ri.gateway.configuration
+org.universAAL.ri.gateway.log
 org.universAAL.ri.gateway.operations
 org.universAAL.ri.gateway.osgi
 org.universAAL.ri.gateway.protocol

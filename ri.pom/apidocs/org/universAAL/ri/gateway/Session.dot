@@ -10,7 +10,7 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.universAAL.ri.gateway.Session
-	c19549 [label=<<table title="org.universAAL.ri.gateway.Session" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./Session.html">
+	c19547 [label=<<table title="org.universAAL.ri.gateway.Session" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./Session.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> Session </td></tr>
 		</table></td></tr>
@@ -37,10 +37,10 @@ digraph G {
 		</table></td></tr>
 		</table>>, URL="./protocol/MessageSender.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	//org.universAAL.ri.gateway.Session implements org.universAAL.ri.gateway.protocol.MessageSender
-	c19582:p -> c19549:p [dir=back,arrowtail=empty,style=dashed];
+	c19582:p -> c19547:p [dir=back,arrowtail=empty,style=dashed];
 	//org.universAAL.ri.gateway.Session implements org.universAAL.ri.gateway.protocol.MessageReceiver
-	c19581:p -> c19549:p [dir=back,arrowtail=empty,style=dashed];
+	c19581:p -> c19547:p [dir=back,arrowtail=empty,style=dashed];
 	//org.universAAL.ri.gateway.Session implements org.universAAL.ri.gateway.operations.OperationChainManager
-	c19574:p -> c19549:p [dir=back,arrowtail=empty,style=dashed];
+	c19574:p -> c19547:p [dir=back,arrowtail=empty,style=dashed];
 }
 

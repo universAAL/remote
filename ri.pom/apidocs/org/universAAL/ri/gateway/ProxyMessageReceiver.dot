@@ -10,7 +10,7 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.universAAL.ri.gateway.ProxyMessageReceiver
-	c16022 [label=<<table title="org.universAAL.ri.gateway.ProxyMessageReceiver" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./ProxyMessageReceiver.html">
+	c16020 [label=<<table title="org.universAAL.ri.gateway.ProxyMessageReceiver" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./ProxyMessageReceiver.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> ProxyMessageReceiver </td></tr>
 		</table></td></tr>
@@ -23,6 +23,6 @@ digraph G {
 		</table></td></tr>
 		</table>>, URL="./protocol/MessageReceiver.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	//org.universAAL.ri.gateway.ProxyMessageReceiver implements org.universAAL.ri.gateway.protocol.MessageReceiver
-	c16062:p -> c16022:p [dir=back,arrowtail=empty,style=dashed];
+	c16062:p -> c16020:p [dir=back,arrowtail=empty,style=dashed];
 }
 

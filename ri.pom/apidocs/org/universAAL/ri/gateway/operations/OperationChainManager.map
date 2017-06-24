@@ -1,11 +1,11 @@
 <map id="G" name="G">
-<area shape="rect" id="c14405" href="../Session.html" title="org.universAAL.ri.gateway.Session" alt="" coords="15,121,83,146"/>
+<area shape="rect" id="c14403" href="../Session.html" title="org.universAAL.ri.gateway.Session" alt="" coords="15,121,83,146"/>
 <area shape="rect" id="node1" href="../Session.html" title="&lt;TABLE&gt;" alt="" coords="5,109,93,157"/>
-<area shape="rect" id="c14417" href="../configuration/TurtleFileSecurityDefinition.html" title="org.universAAL.ri.gateway.configuration.TurtleFileSecurityDefinition" alt="" coords="127,121,305,146"/>
+<area shape="rect" id="c14415" href="../configuration/TurtleFileSecurityDefinition.html" title="org.universAAL.ri.gateway.configuration.TurtleFileSecurityDefinition" alt="" coords="127,121,305,146"/>
 <area shape="rect" id="node2" href="../configuration/TurtleFileSecurityDefinition.html" title="&lt;TABLE&gt;" alt="" coords="117,109,315,157"/>
-<area shape="rect" id="c14421" href="../configuration/NoSecurityDefinition.html" title="org.universAAL.ri.gateway.configuration.NoSecurityDefinition" alt="" coords="349,121,491,146"/>
+<area shape="rect" id="c14419" href="../configuration/NoSecurityDefinition.html" title="org.universAAL.ri.gateway.configuration.NoSecurityDefinition" alt="" coords="349,121,491,146"/>
 <area shape="rect" id="node3" href="../configuration/NoSecurityDefinition.html" title="&lt;TABLE&gt;" alt="" coords="339,109,501,157"/>
-<area shape="rect" id="c14422" href="../configuration/Configuration.html" title="org.universAAL.ri.gateway.configuration.Configuration" alt="" coords="535,113,633,154"/>
+<area shape="rect" id="c14420" href="../configuration/Configuration.html" title="org.universAAL.ri.gateway.configuration.Configuration" alt="" coords="535,113,633,154"/>
 <area shape="rect" id="node4" href="../configuration/Configuration.html" title="&lt;TABLE&gt;" alt="" coords="525,107,643,159"/>
 <area shape="rect" id="c14424" href="./DenyDefault.html" title="org.universAAL.ri.gateway.operations.DenyDefault" alt="" coords="677,121,771,146"/>
 <area shape="rect" id="node5" href="./DenyDefault.html" title="&lt;TABLE&gt;" alt="" coords="667,109,781,157"/>

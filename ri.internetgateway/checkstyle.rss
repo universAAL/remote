@@ -28,7 +28,7 @@ under the License.
       <title>File: 29,
              Errors: 610,
              Warnings: 143,
-             Infos: 661
+             Infos: 306
       </title>
             <link>http://remote/ri.internetgateway//checkstyle.html</link>
       <description>
@@ -49,7 +49,7 @@ under the License.
                   <a href="http://remote/ri.internetgateway//checkstyle.html#org.universAAL.ri.wsdlToolkit.parser.MitsosParser.java">org/universAAL/ri/wsdlToolkit/parser/MitsosParser.java</a>
                 </td>
                 <td>
-                  140
+                  37
                 </td>
                 <td>
                   33
@@ -63,7 +63,7 @@ under the License.
                   <a href="http://remote/ri.internetgateway//checkstyle.html#org.universAAL.ri.wsdlToolkit.ioApi.WSOperationInput.java">org/universAAL/ri/wsdlToolkit/ioApi/WSOperationInput.java</a>
                 </td>
                 <td>
-                  8
+                  1
                 </td>
                 <td>
                   0
@@ -77,7 +77,7 @@ under the License.
                   <a href="http://remote/ri.internetgateway//checkstyle.html#org.universAAL.ri.wsdlToolkit.invocation.Axis2InvocationResultHandler.java">org/universAAL/ri/wsdlToolkit/invocation/Axis2InvocationResultHandler.java</a>
                 </td>
                 <td>
-                  9
+                  2
                 </td>
                 <td>
                   0
@@ -91,7 +91,7 @@ under the License.
                   <a href="http://remote/ri.internetgateway//checkstyle.html#org.universAAL.ri.wsdlToolkit.invocation.Axis2InvocationResultHandler_RpcEncoded.java">org/universAAL/ri/wsdlToolkit/invocation/Axis2InvocationResultHandler_RpcEncoded.java</a>
                 </td>
                 <td>
-                  9
+                  2
                 </td>
                 <td>
                   6
@@ -105,7 +105,7 @@ under the License.
                   <a href="http://remote/ri.internetgateway//checkstyle.html#org.universAAL.ri.wsdlToolkit.ioApi.ComplexObject.java">org/universAAL/ri/wsdlToolkit/ioApi/ComplexObject.java</a>
                 </td>
                 <td>
-                  13
+                  6
                 </td>
                 <td>
                   5
@@ -119,7 +119,7 @@ under the License.
                   <a href="http://remote/ri.internetgateway//checkstyle.html#org.universAAL.ri.wsdlToolkit.invocation.Axis2_RpcEncodedMessageBuilder.java">org/universAAL/ri/wsdlToolkit/invocation/Axis2_RpcEncodedMessageBuilder.java</a>
                 </td>
                 <td>
-                  8
+                  0
                 </td>
                 <td>
                   3
@@ -133,7 +133,7 @@ under the License.
                   <a href="http://remote/ri.internetgateway//checkstyle.html#org.universAAL.ri.wsdlToolkit.axis2Parser.SimpleTypesParser.java">org/universAAL/ri/wsdlToolkit/axis2Parser/SimpleTypesParser.java</a>
                 </td>
                 <td>
-                  21
+                  13
                 </td>
                 <td>
                   1
@@ -147,7 +147,7 @@ under the License.
                   <a href="http://remote/ri.internetgateway//checkstyle.html#org.universAAL.ri.internetgateway.Activator.java">org/universAAL/ri/internetgateway/Activator.java</a>
                 </td>
                 <td>
-                  7
+                  0
                 </td>
                 <td>
                   1
@@ -161,7 +161,7 @@ under the License.
                   <a href="http://remote/ri.internetgateway//checkstyle.html#org.universAAL.ri.wsdlToolkit.parser.WSDL_XSD_SchemaToolkit.java">org/universAAL/ri/wsdlToolkit/parser/WSDL_XSD_SchemaToolkit.java</a>
                 </td>
                 <td>
-                  15
+                  8
                 </td>
                 <td>
                   16
@@ -175,7 +175,7 @@ under the License.
                   <a href="http://remote/ri.internetgateway//checkstyle.html#org.universAAL.ri.wsdlToolkit.parser.Axis1ParserWrapper.java">org/universAAL/ri/wsdlToolkit/parser/Axis1ParserWrapper.java</a>
                 </td>
                 <td>
-                  64
+                  54
                 </td>
                 <td>
                   11
@@ -189,7 +189,7 @@ under the License.
                   <a href="http://remote/ri.internetgateway//checkstyle.html#org.universAAL.ri.restToolkit.RestClient.java">org/universAAL/ri/restToolkit/RestClient.java</a>
                 </td>
                 <td>
-                  9
+                  4
                 </td>
                 <td>
                   0
@@ -203,7 +203,7 @@ under the License.
                   <a href="http://remote/ri.internetgateway//checkstyle.html#org.universAAL.ri.wsdlToolkit.invocation.InvocationResult.java">org/universAAL/ri/wsdlToolkit/invocation/InvocationResult.java</a>
                 </td>
                 <td>
-                  7
+                  0
                 </td>
                 <td>
                   0
@@ -217,7 +217,7 @@ under the License.
                   <a href="http://remote/ri.internetgateway//checkstyle.html#org.universAAL.ri.wsdlToolkit.axis2Parser.ComplexTypesParser.java">org/universAAL/ri/wsdlToolkit/axis2Parser/ComplexTypesParser.java</a>
                 </td>
                 <td>
-                  81
+                  74
                 </td>
                 <td>
                   12
@@ -231,7 +231,7 @@ under the License.
                   <a href="http://remote/ri.internetgateway//checkstyle.html#org.universAAL.ri.wsdlToolkit.ioApi.WSOperation.java">org/universAAL/ri/wsdlToolkit/ioApi/WSOperation.java</a>
                 </td>
                 <td>
-                  7
+                  0
                 </td>
                 <td>
                   0
@@ -245,7 +245,7 @@ under the License.
                   <a href="http://remote/ri.internetgateway//checkstyle.html#org.universAAL.ri.wsdlToolkit.axis2Parser.AdditionalTypesParser.java">org/universAAL/ri/wsdlToolkit/axis2Parser/AdditionalTypesParser.java</a>
                 </td>
                 <td>
-                  43
+                  33
                 </td>
                 <td>
                   12
@@ -259,7 +259,7 @@ under the License.
                   <a href="http://remote/ri.internetgateway//checkstyle.html#org.universAAL.ri.internetgateway.InternetGateway.java">org/universAAL/ri/internetgateway/InternetGateway.java</a>
                 </td>
                 <td>
-                  9
+                  4
                 </td>
                 <td>
                   0
@@ -273,7 +273,7 @@ under the License.
                   <a href="http://remote/ri.internetgateway//checkstyle.html#org.universAAL.ri.restToolkit.ClientHttpRequest.java">org/universAAL/ri/restToolkit/ClientHttpRequest.java</a>
                 </td>
                 <td>
-                  33
+                  2
                 </td>
                 <td>
                   1
@@ -287,7 +287,7 @@ under the License.
                   <a href="http://remote/ri.internetgateway//checkstyle.html#org.universAAL.ri.wsdlToolkit.axis2Parser.ParsingUtils.java">org/universAAL/ri/wsdlToolkit/axis2Parser/ParsingUtils.java</a>
                 </td>
                 <td>
-                  26
+                  6
                 </td>
                 <td>
                   6
@@ -301,7 +301,7 @@ under the License.
                   <a href="http://remote/ri.internetgateway//checkstyle.html#org.universAAL.ri.wsdlToolkit.invocation.Axis2InvocationResultHandler_RPC.java">org/universAAL/ri/wsdlToolkit/invocation/Axis2InvocationResultHandler_RPC.java</a>
                 </td>
                 <td>
-                  10
+                  3
                 </td>
                 <td>
                   1
@@ -315,7 +315,7 @@ under the License.
                   <a href="http://remote/ri.internetgateway//checkstyle.html#org.universAAL.ri.wsdlToolkit.parser.WSDLParser.java">org/universAAL/ri/wsdlToolkit/parser/WSDLParser.java</a>
                 </td>
                 <td>
-                  20
+                  8
                 </td>
                 <td>
                   3
@@ -329,7 +329,7 @@ under the License.
                   <a href="http://remote/ri.internetgateway//checkstyle.html#org.universAAL.ri.wsdlToolkit.invocation.Axis1WebServiceInvoker.java">org/universAAL/ri/wsdlToolkit/invocation/Axis1WebServiceInvoker.java</a>
                 </td>
                 <td>
-                  7
+                  0
                 </td>
                 <td>
                   1
@@ -343,7 +343,7 @@ under the License.
                   <a href="http://remote/ri.internetgateway//checkstyle.html#org.universAAL.ri.wsdlToolkit.ioApi.WSOperationOutput.java">org/universAAL/ri/wsdlToolkit/ioApi/WSOperationOutput.java</a>
                 </td>
                 <td>
-                  7
+                  0
                 </td>
                 <td>
                   0
@@ -357,7 +357,7 @@ under the License.
                   <a href="http://remote/ri.internetgateway//checkstyle.html#org.universAAL.ri.wsdlToolkit.parser.LoggingOutputStream.java">org/universAAL/ri/wsdlToolkit/parser/LoggingOutputStream.java</a>
                 </td>
                 <td>
-                  8
+                  1
                 </td>
                 <td>
                   0
@@ -371,7 +371,7 @@ under the License.
                   <a href="http://remote/ri.internetgateway//checkstyle.html#org.universAAL.ri.wsdlToolkit.parser.StdOutErrLevel.java">org/universAAL/ri/wsdlToolkit/parser/StdOutErrLevel.java</a>
                 </td>
                 <td>
-                  6
+                  0
                 </td>
                 <td>
                   2
@@ -385,7 +385,7 @@ under the License.
                   <a href="http://remote/ri.internetgateway//checkstyle.html#org.universAAL.ri.wsdlToolkit.invocation.Axis2WebServiceInvoker.java">org/universAAL/ri/wsdlToolkit/invocation/Axis2WebServiceInvoker.java</a>
                 </td>
                 <td>
-                  8
+                  0
                 </td>
                 <td>
                   1
@@ -399,7 +399,7 @@ under the License.
                   <a href="http://remote/ri.internetgateway//checkstyle.html#org.universAAL.ri.wsdlToolkit.parser.DocumentStyleWSDLParser.java">org/universAAL/ri/wsdlToolkit/parser/DocumentStyleWSDLParser.java</a>
                 </td>
                 <td>
-                  53
+                  36
                 </td>
                 <td>
                   18
@@ -413,7 +413,7 @@ under the License.
                   <a href="http://remote/ri.internetgateway//checkstyle.html#org.universAAL.ri.wsdlToolkit.ioApi.ParsedWSDLDefinition.java">org/universAAL/ri/wsdlToolkit/ioApi/ParsedWSDLDefinition.java</a>
                 </td>
                 <td>
-                  7
+                  0
                 </td>
                 <td>
                   2
@@ -427,7 +427,7 @@ under the License.
                   <a href="http://remote/ri.internetgateway//checkstyle.html#org.universAAL.ri.wsdlToolkit.axis2Parser.Axis2ParserWrapper.java">org/universAAL/ri/wsdlToolkit/axis2Parser/Axis2ParserWrapper.java</a>
                 </td>
                 <td>
-                  18
+                  11
                 </td>
                 <td>
                   7
@@ -441,7 +441,7 @@ under the License.
                   <a href="http://remote/ri.internetgateway//checkstyle.html#org.universAAL.ri.wsdlToolkit.ioApi.NativeObject.java">org/universAAL/ri/wsdlToolkit/ioApi/NativeObject.java</a>
                 </td>
                 <td>
-                  8
+                  1
                 </td>
                 <td>
                   1

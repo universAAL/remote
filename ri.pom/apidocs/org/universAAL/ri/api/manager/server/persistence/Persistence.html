@@ -119,12 +119,12 @@ var activeTableTab = "activeTableTab";
 <div class="block">Database interface for persisting the calls from clients. This allows clients
  not having to re-send their subscriptions or registers when the server goes
  down.
- 
+
  The persistence operates only at the level of the requests by the clients,
  not the actual nodes and wrappers in MW. These will go up and down together
  with the manager bundle. It is better to see this as a persistence for when
  the bundle is down, rather than the whole server.
- 
+
  Only information about registration, context subscribers and service callees
  is persisted for the remote nodes. Context events and service calls are not
  persisted since they are "consumed" as they come.</div>

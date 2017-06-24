@@ -28,7 +28,7 @@ under the License.
       <title>File: 2,
              Errors: 17,
              Warnings: 3,
-             Infos: 12
+             Infos: 0
       </title>
             <link>/checkstyle.html</link>
       <description>
@@ -49,7 +49,7 @@ under the License.
                   <a href="/checkstyle.html#org.universAAL.ri.soap.cxf.server.ServiceImpl.java">org/universAAL/ri/soap/cxf/server/ServiceImpl.java</a>
                 </td>
                 <td>
-                  5
+                  0
                 </td>
                 <td>
                   1
@@ -63,7 +63,7 @@ under the License.
                   <a href="/checkstyle.html#org.universAAL.ri.soap.cxf.server.osgi.Activator.java">org/universAAL/ri/soap/cxf/server/osgi/Activator.java</a>
                 </td>
                 <td>
-                  7
+                  0
                 </td>
                 <td>
                   2

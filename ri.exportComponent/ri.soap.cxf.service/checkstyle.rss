@@ -28,7 +28,7 @@ under the License.
       <title>File: 2,
              Errors: 6,
              Warnings: 2,
-             Infos: 11
+             Infos: 0
       </title>
             <link>http://remote/ri.exportComponent/ri.soap.cxf.service//checkstyle.html</link>
       <description>
@@ -49,7 +49,7 @@ under the License.
                   <a href="http://remote/ri.exportComponent/ri.soap.cxf.service//checkstyle.html#org.universAAL.ri.soap.cxf.service.osgi.Activator.java">org/universAAL/ri/soap/cxf/service/osgi/Activator.java</a>
                 </td>
                 <td>
-                  6
+                  0
                 </td>
                 <td>
                   1
@@ -63,7 +63,7 @@ under the License.
                   <a href="http://remote/ri.exportComponent/ri.soap.cxf.service//checkstyle.html#org.universAAL.ri.soap.cxf.service.ServiceInterface.java">org/universAAL/ri/soap/cxf/service/ServiceInterface.java</a>
                 </td>
                 <td>
-                  5
+                  0
                 </td>
                 <td>
                   1

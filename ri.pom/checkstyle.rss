@@ -27,7 +27,7 @@ under the License.
     <item>
       <title>File: 119,
              Errors: 1927,
-             Warnings: 304,
+             Warnings: 303,
              Infos: 428
       </title>
             <link>http://remote/ri.pom//checkstyle.html</link>
@@ -486,7 +486,7 @@ under the License.
                   1
                 </td>
                 <td>
-                  2
+                  1
                 </td>
                 <td>
                   2

@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE coverage SYSTEM "http://cobertura.sourceforge.net/xml/coverage-04.dtd">
 
-<coverage line-rate="0.0" branch-rate="0.0" lines-covered="0" lines-valid="2107" branches-covered="0" branches-valid="716" complexity="2.202797202797203" version="2.1.1" timestamp="1498295495521">
+<coverage line-rate="0.0" branch-rate="0.0" lines-covered="0" lines-valid="2107" branches-covered="0" branches-valid="716" complexity="2.202797202797203" version="2.1.1" timestamp="1498353527365">
 	<sources>
 		<source>--source</source>
 		<source>/home/travis/build/universAAL/remote/ri.gateway.multitenant/src/main/java</source>
@@ -4381,21 +4381,6 @@
 								<line number="166" hits="0" branch="false"/>
 							</lines>
 						</method>
-						<method name="getAALSpaceIdFromSession" signature="(Ljava/util/UUID;)Ljava/lang/String;" line-rate="0.0" branch-rate="0.0" complexity="0">
-							<lines>
-								<line number="327" hits="0" branch="false"/>
-								<line number="328" hits="0" branch="false"/>
-								<line number="329" hits="0" branch="true" condition-coverage="0% (0/2)">
-									<conditions>
-										<condition number="0" type="jump" coverage="0%"/>
-									</conditions>
-								</line>
-								<line number="330" hits="0" branch="false"/>
-								<line number="331" hits="0" branch="false"/>
-								<line number="333" hits="0" branch="false"/>
-								<line number="334" hits="0" branch="false"/>
-							</lines>
-						</method>
 						<method name="getInputStream" signature="(Ljava/util/UUID;)Ljava/io/InputStream;" line-rate="0.0" branch-rate="0.0" complexity="0">
 							<lines>
 								<line number="254" hits="0" branch="false"/>
@@ -4455,7 +4440,7 @@
 								<line number="115" hits="0" branch="false"/>
 							</lines>
 						</method>
-						<method name="getSessionFromAALScopeId" signature="(Ljava/lang/String;)[Ljava/util/UUID;" line-rate="0.0" branch-rate="0.0" complexity="0">
+						<method name="getSessionFromScopeId" signature="(Ljava/lang/String;)[Ljava/util/UUID;" line-rate="0.0" branch-rate="0.0" complexity="0">
 							<lines>
 								<line number="130" hits="0" branch="false"/>
 								<line number="131" hits="0" branch="false"/>
@@ -4479,6 +4464,21 @@
 								<line number="277" hits="0" branch="false"/>
 								<line number="278" hits="0" branch="false"/>
 								<line number="279" hits="0" branch="false"/>
+							</lines>
+						</method>
+						<method name="getSpaceIdFromSession" signature="(Ljava/util/UUID;)Ljava/lang/String;" line-rate="0.0" branch-rate="0.0" complexity="0">
+							<lines>
+								<line number="327" hits="0" branch="false"/>
+								<line number="328" hits="0" branch="false"/>
+								<line number="329" hits="0" branch="true" condition-coverage="0% (0/2)">
+									<conditions>
+										<condition number="0" type="jump" coverage="0%"/>
+									</conditions>
+								</line>
+								<line number="330" hits="0" branch="false"/>
+								<line number="331" hits="0" branch="false"/>
+								<line number="333" hits="0" branch="false"/>
+								<line number="334" hits="0" branch="false"/>
 							</lines>
 						</method>
 						<method name="isActive" signature="(Ljava/util/UUID;)Z" line-rate="0.0" branch-rate="0.0" complexity="0">
@@ -6019,7 +6019,7 @@
 					<lines>
 					</lines>
 				</class>
-				<class name="org.universAAL.ri.gateway.log.LoggerFactory$UAALLogger" filename="org/universAAL/ri/gateway/log/LoggerFactory.java" line-rate="0.0" branch-rate="1.0" complexity="1.7142857142857142">
+				<class name="org.universAAL.ri.gateway.log.LoggerFactory$MyLogger" filename="org/universAAL/ri/gateway/log/LoggerFactory.java" line-rate="0.0" branch-rate="1.0" complexity="1.7142857142857142">
 					<methods>
 						<method name="&lt;init&gt;" signature="(Lorg/universAAL/ri/gateway/log/LoggerFactory;Lorg/universAAL/middleware/container/ModuleContext;Ljava/lang/Class;)V" line-rate="0.0" branch-rate="1.0" complexity="0">
 							<lines>
@@ -6036,7 +6036,7 @@
 								<line number="43" hits="0" branch="false"/>
 							</lines>
 						</method>
-						<method name="access$000" signature="(Lorg/universAAL/ri/gateway/log/LoggerFactory$UAALLogger;Lorg/universAAL/middleware/container/ModuleContext;)V" line-rate="1.0" branch-rate="1.0" complexity="0">
+						<method name="access$000" signature="(Lorg/universAAL/ri/gateway/log/LoggerFactory$MyLogger;Lorg/universAAL/middleware/container/ModuleContext;)V" line-rate="1.0" branch-rate="1.0" complexity="0">
 							<lines>
 							</lines>
 						</method>
@@ -7090,11 +7090,6 @@
 								<line number="61" hits="0" branch="false"/>
 							</lines>
 						</method>
-						<method name="getAALSpaceId" signature="()Ljava/lang/String;" line-rate="0.0" branch-rate="1.0" complexity="0">
-							<lines>
-								<line number="72" hits="0" branch="false"/>
-							</lines>
-						</method>
 						<method name="getDescription" signature="()Ljava/lang/String;" line-rate="0.0" branch-rate="1.0" complexity="0">
 							<lines>
 								<line number="94" hits="0" branch="false"/>
@@ -7108,6 +7103,11 @@
 						<method name="getScopeId" signature="()Ljava/lang/String;" line-rate="0.0" branch-rate="1.0" complexity="0">
 							<lines>
 								<line number="90" hits="0" branch="false"/>
+							</lines>
+						</method>
+						<method name="getSpaceId" signature="()Ljava/lang/String;" line-rate="0.0" branch-rate="1.0" complexity="0">
+							<lines>
+								<line number="72" hits="0" branch="false"/>
 							</lines>
 						</method>
 						<method name="getType" signature="()I" line-rate="0.0" branch-rate="1.0" complexity="0">
@@ -7160,11 +7160,6 @@
 								<line number="50" hits="0" branch="false"/>
 							</lines>
 						</method>
-						<method name="getAALSpaceId" signature="()Ljava/lang/String;" line-rate="0.0" branch-rate="1.0" complexity="0">
-							<lines>
-								<line number="61" hits="0" branch="false"/>
-							</lines>
-						</method>
 						<method name="getPeerId" signature="()Ljava/lang/String;" line-rate="0.0" branch-rate="1.0" complexity="0">
 							<lines>
 								<line number="65" hits="0" branch="false"/>
@@ -7178,6 +7173,11 @@
 						<method name="getSessionId" signature="()Ljava/util/UUID;" line-rate="0.0" branch-rate="1.0" complexity="0">
 							<lines>
 								<line number="73" hits="0" branch="false"/>
+							</lines>
+						</method>
+						<method name="getSpaceId" signature="()Ljava/lang/String;" line-rate="0.0" branch-rate="1.0" complexity="0">
+							<lines>
+								<line number="61" hits="0" branch="false"/>
 							</lines>
 						</method>
 						<method name="getType" signature="()I" line-rate="0.0" branch-rate="1.0" complexity="0">
@@ -7230,11 +7230,6 @@
 								<line number="50" hits="0" branch="false"/>
 							</lines>
 						</method>
-						<method name="getAALSpaceId" signature="()Ljava/lang/String;" line-rate="0.0" branch-rate="1.0" complexity="0">
-							<lines>
-								<line number="61" hits="0" branch="false"/>
-							</lines>
-						</method>
 						<method name="getPeerId" signature="()Ljava/lang/String;" line-rate="0.0" branch-rate="1.0" complexity="0">
 							<lines>
 								<line number="65" hits="0" branch="false"/>
@@ -7248,6 +7243,11 @@
 						<method name="getSessionId" signature="()Ljava/util/UUID;" line-rate="0.0" branch-rate="1.0" complexity="0">
 							<lines>
 								<line number="73" hits="0" branch="false"/>
+							</lines>
+						</method>
+						<method name="getSpaceId" signature="()Ljava/lang/String;" line-rate="0.0" branch-rate="1.0" complexity="0">
+							<lines>
+								<line number="61" hits="0" branch="false"/>
 							</lines>
 						</method>
 						<method name="getType" signature="()I" line-rate="0.0" branch-rate="1.0" complexity="0">
@@ -7300,11 +7300,6 @@
 								<line number="50" hits="0" branch="false"/>
 							</lines>
 						</method>
-						<method name="getAALSpaceId" signature="()Ljava/lang/String;" line-rate="0.0" branch-rate="1.0" complexity="0">
-							<lines>
-								<line number="61" hits="0" branch="false"/>
-							</lines>
-						</method>
 						<method name="getPeerId" signature="()Ljava/lang/String;" line-rate="0.0" branch-rate="1.0" complexity="0">
 							<lines>
 								<line number="65" hits="0" branch="false"/>
@@ -7318,6 +7313,11 @@
 						<method name="getSessionId" signature="()Ljava/util/UUID;" line-rate="0.0" branch-rate="1.0" complexity="0">
 							<lines>
 								<line number="73" hits="0" branch="false"/>
+							</lines>
+						</method>
+						<method name="getSpaceId" signature="()Ljava/lang/String;" line-rate="0.0" branch-rate="1.0" complexity="0">
+							<lines>
+								<line number="61" hits="0" branch="false"/>
 							</lines>
 						</method>
 						<method name="getType" signature="()I" line-rate="0.0" branch-rate="1.0" complexity="0">

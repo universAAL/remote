@@ -19,15 +19,15 @@ under the License.
 -->
 <rss version="0.91">
   <channel>
-    <title>universAAL Remote Interoperability AALSpace Gateway - Checkstyle report</title>
+    <title>universAAL Remote Interoperability Space Gateway - Checkstyle report</title>
     <link>http://remote/ri.gateway.multitenant/</link>
-    <description>universAAL Remote Interoperability AALSpace Gateway - Checkstyle report</description>
+    <description>universAAL Remote Interoperability Space Gateway - Checkstyle report</description>
     <language>en-us</language>
     <copyright>&#169;2017 universAAL Consortium</copyright>
     <item>
       <title>File: 58,
              Errors: 778,
-             Warnings: 50,
+             Warnings: 49,
              Infos: 33
       </title>
             <link>http://remote/ri.gateway.multitenant//checkstyle.html</link>
@@ -556,7 +556,7 @@ under the License.
                   1
                 </td>
                 <td>
-                  2
+                  1
                 </td>
                 <td>
                   2

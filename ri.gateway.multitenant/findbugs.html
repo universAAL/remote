@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <title>universAAL Remote Interoperability AALSpace Gateway &#x2013; FindBugs Bug Detector Report</title>
+    <title>universAAL Remote Interoperability Space Gateway &#x2013; FindBugs Bug Detector Report</title>
     <style type="text/css" media="all">
       @import url("./css/maven-base.css");
       @import url("./css/maven-theme.css");
@@ -16,7 +16,7 @@
   <body class="composite">
     <div id="banner">
                     <div id="bannerLeft">
-                universAAL Remote Interoperability AALSpace Gateway
+                universAAL Remote Interoperability Space Gateway
                 </div>
                     <div class="clear">
         <hr/>
@@ -28,7 +28,7 @@
         <span id="publishDate">Last Published: 2017</span>
                   &nbsp;| <span id="projectVersion">Version: 3.4.1-SNAPSHOT</span>
                       </div>
-            <div class="xright">                    <a href="./" title="universAAL Remote Interoperability AALSpace Gateway">universAAL Remote Interoperability AALSpace Gateway</a>
+            <div class="xright">                    <a href="./" title="universAAL Remote Interoperability Space Gateway">universAAL Remote Interoperability Space Gateway</a>
             
       </div>
       <div class="clear">
@@ -140,7 +140,7 @@
 <td><a href="#org.universAAL.ri.gateway.configuration.UpdatedPropertiesFile">org.universAAL.ri.gateway.configuration.UpdatedPropertiesFile</a></td>
 <td>1</td></tr>
 <tr class="b">
-<td><a href="#org.universAAL.ri.gateway.log.LoggerFactory$UAALLogger">org.universAAL.ri.gateway.log.LoggerFactory$UAALLogger</a></td>
+<td><a href="#org.universAAL.ri.gateway.log.LoggerFactory$MyLogger">org.universAAL.ri.gateway.log.LoggerFactory$MyLogger</a></td>
 <td>1</td></tr>
 <tr class="a">
 <td><a href="#org.universAAL.ri.gateway.osgi.GatewayCommand">org.universAAL.ri.gateway.osgi.GatewayCommand</a></td>
@@ -278,7 +278,7 @@
 <th>Line</th>
 <th>Priority</th></tr>
 <tr class="b">
-<td>org.universAAL.ri.gateway.communicator.service.impl.SessionManager.getSessionFromAALScopeId(String) makes inefficient use of keySet iterator instead of entrySet iterator</td>
+<td>org.universAAL.ri.gateway.communicator.service.impl.SessionManager.getSessionFromScopeId(String) makes inefficient use of keySet iterator instead of entrySet iterator</td>
 <td>PERFORMANCE</td>
 <td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#WMI_WRONG_MAP_ITERATOR">WMI_WRONG_MAP_ITERATOR</a></td>
 <td>134</td>
@@ -393,9 +393,9 @@
 <td>EXPERIMENTAL</td>
 <td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#OBL_UNSATISFIED_OBLIGATION_EXCEPTION_EDGE">OBL_UNSATISFIED_OBLIGATION_EXCEPTION_EDGE</a></td>
 <td>129</td>
-<td>Medium</td></tr></table></div><a name="org.universAAL.ri.gateway.log.LoggerFactoryUAALLogger"></a>
+<td>Medium</td></tr></table></div><a name="org.universAAL.ri.gateway.log.LoggerFactoryMyLogger"></a>
 <div class="section">
-<h3><a name="org.universAAL.ri.gateway.log.LoggerFactoryUAALLogger"></a>org.universAAL.ri.gateway.log.LoggerFactory$UAALLogger</h3>
+<h3><a name="org.universAAL.ri.gateway.log.LoggerFactoryMyLogger"></a>org.universAAL.ri.gateway.log.LoggerFactory$MyLogger</h3>
 <table border="0" class="bodyTable">
 <tr class="a">
 <th>Bug</th>
@@ -404,7 +404,7 @@
 <th>Line</th>
 <th>Priority</th></tr>
 <tr class="b">
-<td>Should org.universAAL.ri.gateway.log.LoggerFactory$UAALLogger be a _static_ inner class?</td>
+<td>Should org.universAAL.ri.gateway.log.LoggerFactory$MyLogger be a _static_ inner class?</td>
 <td>PERFORMANCE</td>
 <td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#SIC_INNER_SHOULD_BE_STATIC">SIC_INNER_SHOULD_BE_STATIC</a></td>
 <td>43</td>

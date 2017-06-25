@@ -116,7 +116,7 @@ public class Subscribers {
 				if (sub.getPattern() != null) {
 					ContextEventPattern cep = (ContextEventPattern) Activator.getParser().deserialize(sub.getPattern());
 					if (cep != null) {
-						tenant.addContextSubscriber(new SubscriberWrapper(Activator.getUaalContext(),
+						tenant.addContextSubscriber(new SubscriberWrapper(Activator.getContext(),
 								new ContextEventPattern[] { cep }, sub, id));
 						Activator.getPersistence().storeSubscriber(id, sub);
 						return Response.created(new URI("uaal/spaces/" + id + "/context/subscribers/" + sub.getId()))

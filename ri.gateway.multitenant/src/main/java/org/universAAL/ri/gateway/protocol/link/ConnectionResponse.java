@@ -39,26 +39,26 @@ public class ConnectionResponse extends LinkMessage implements Serializable {
 	 */
 	private static final long serialVersionUID = -1872676178834761810L;
 	private String peerId;
-	private String aalSpaceId;
+	private String spaceId;
 	private UUID sessionId;
 
 	public ConnectionResponse(final LinkMessage request, final String peer, final String space, final UUID session) {
 		super(request);
 		this.peerId = peer;
-		this.aalSpaceId = space;
+		this.spaceId = space;
 		this.sessionId = session;
 	}
 
 	@Override
 	public String toString() {
 		return "ConnectionResponse [" + (peerId != null ? "peerId =" + peerId + ", " : "")
-				+ (aalSpaceId != null ? "aalSpaceId =" + aalSpaceId + ", " : "")
-				+ (aalSpaceId != null ? "scopeId=" + aalSpaceId + ", " : "")
+				+ (spaceId != null ? "spaceId =" + spaceId + ", " : "")
+				+ (spaceId != null ? "scopeId=" + spaceId + ", " : "")
 				+ (sessionId != null ? "sessionId=" + sessionId + " " : "") + "]";
 	}
 
-	public String getAALSpaceId() {
-		return aalSpaceId;
+	public String getSpaceId() {
+		return spaceId;
 	}
 
 	public String getPeerId() {
@@ -66,7 +66,7 @@ public class ConnectionResponse extends LinkMessage implements Serializable {
 	}
 
 	public String getScopeId() {
-		return aalSpaceId;
+		return spaceId;
 	}
 
 	public UUID getSessionId() {

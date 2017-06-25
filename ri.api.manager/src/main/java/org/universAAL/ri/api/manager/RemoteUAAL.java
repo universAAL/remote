@@ -138,7 +138,7 @@ public class RemoteUAAL extends UAAL {
 	 * Basic constructor. Use this one instead of the UAAL one.
 	 *
 	 * @param context
-	 *            The uAAL context
+	 *            The universAAL context
 	 * @param node
 	 *            The client remote node unique identifier
 	 * @param remote

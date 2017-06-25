@@ -24,7 +24,7 @@ import org.universAAL.middleware.tracker.IBusMemberRegistry;
 import org.universAAL.ontology.location.LocationOntology;
 import org.universAAL.ontology.sysinfo.SysinfoOntology;
 import org.universAAL.ontology.sysinfo.SystemInfo;
-import org.universAAL.ri.gateway.DummyAALSPaceManager;
+import org.universAAL.ri.gateway.DummySpaceManager;
 import org.universAAL.ri.gateway.DummyBusRegistry;
 import org.universAAL.ri.gateway.DummyTenantManager;
 import org.universAAL.ri.gateway.Gateway;
@@ -40,7 +40,7 @@ public class TurtleFileSecurityDefinitionTest {
 		mc.getContainer().shareObject(mc, new TurtleSerializer(),
 				new Object[] { MessageContentSerializer.class.getName() });
 
-		mc.getContainer().shareObject(mc, new DummyAALSPaceManager(), new Object[] { SpaceManager.class.getName() });
+		mc.getContainer().shareObject(mc, new DummySpaceManager(), new Object[] { SpaceManager.class.getName() });
 
 		mc.getContainer().shareObject(mc, new DummyTenantManager(), new Object[] { TenantManager.class.getName() });
 

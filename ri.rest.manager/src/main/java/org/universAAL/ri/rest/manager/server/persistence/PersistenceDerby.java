@@ -386,7 +386,7 @@ public class PersistenceDerby implements Persistence {
 				if (id != null && subid != null && serial != null) {
 					ContextEventPattern cep = (ContextEventPattern) Activator.getParser().deserialize(serial);
 					UaalWrapper.getInstance().getTenant(id).addContextSubscriber(
-							new SubscriberWrapper(Activator.getUaalContext(), new ContextEventPattern[] { cep },
+							new SubscriberWrapper(Activator.getContext(), new ContextEventPattern[] { cep },
 									new Subscriber(id, subid, callback, serial), id));
 				}
 			}
@@ -400,7 +400,7 @@ public class PersistenceDerby implements Persistence {
 				if (id != null && subid != null && serial != null) {
 					ServiceProfile sp = (ServiceProfile) Activator.getParser().deserialize(serial);
 					UaalWrapper.getInstance().getTenant(id)
-							.addServiceCallee(new CalleeWrapper(Activator.getUaalContext(), new ServiceProfile[] { sp },
+							.addServiceCallee(new CalleeWrapper(Activator.getContext(), new ServiceProfile[] { sp },
 									new Callee(id, subid, callback, serial), id));
 				}
 			}
@@ -411,7 +411,7 @@ public class PersistenceDerby implements Persistence {
 				String subid = resultSet.getString("subid");
 				if (id != null && subid != null) {
 					UaalWrapper.getInstance().getTenant(id)
-							.addServiceCaller(new CallerWrapper(Activator.getUaalContext(), new Caller(id, subid)));
+							.addServiceCaller(new CallerWrapper(Activator.getContext(), new Caller(id, subid)));
 				}
 			}
 
@@ -423,7 +423,7 @@ public class PersistenceDerby implements Persistence {
 				if (id != null && subid != null && serial != null) {
 					ContextProvider cp = (ContextProvider) Activator.getParser().deserialize(serial);
 					UaalWrapper.getInstance().getTenant(id).addContextPublisher(
-							new PublisherWrapper(Activator.getUaalContext(), cp, new Publisher(id, subid, serial)));
+							new PublisherWrapper(Activator.getContext(), cp, new Publisher(id, subid, serial)));
 				}
 			}
 

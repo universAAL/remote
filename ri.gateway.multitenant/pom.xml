@@ -11,7 +11,7 @@
   <artifactId>ri.gateway.multitenant</artifactId>
   <version>3.4.1-SNAPSHOT</version>
   <packaging>bundle</packaging>
-  <name>universAAL Remote Interoperability AALSpace Gateway</name>
+  <name>universAAL Remote Interoperability Space Gateway</name>
   <description>Module for inter-AALSpace communication with multitenant capabilities.</description>
   <properties>
     <separatedGroupIds>org.universAAL.middleware</separatedGroupIds>

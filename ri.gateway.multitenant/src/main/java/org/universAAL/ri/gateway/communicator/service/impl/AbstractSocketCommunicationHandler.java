@@ -91,7 +91,7 @@ public abstract class AbstractSocketCommunicationHandler implements Communicatio
 			UUID[] sessions = refSM.getSessionIds();
 
 			for (int i = 0; i < sessions.length; i++) {
-				String spaceId = refSM.getAALSpaceIdFromSession(sessions[i]);
+				String spaceId = refSM.getSpaceIdFromSession(sessions[i]);
 				if (Arrays.binarySearch(scopes, spaceId) >= 0) {
 					targetLinks.add(sessions[i]);
 				}

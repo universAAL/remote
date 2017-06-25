@@ -109,24 +109,24 @@ public class SessionManager {
 		return SessionManager.manager;
 	}
 
-	public UUID getSession(final String peerId, final String aalSpaceId, final String scopeId) {
+	public UUID getSession(final String peerId, final String spaceId, final String scopeId) {
 		synchronized (sessions) {
-			return sessions.get(new SessionKey(peerId, aalSpaceId, scopeId));
+			return sessions.get(new SessionKey(peerId, spaceId, scopeId));
 		}
 	}
 
-	private UUID createSession(final String peerId, final String aalSpaceId, final String scopeId) {
-		return createSession(peerId, aalSpaceId, scopeId, "AAL Space with Id:" + aalSpaceId);
+	private UUID createSession(final String peerId, final String spaceId, final String scopeId) {
+		return createSession(peerId, spaceId, scopeId, "Space with Id:" + spaceId);
 	}
 
 	/**
 	 *
 	 * @param scopeId
-	 *            the AAL Space Id to use for the research
+	 *            the universAAL Space Id to use for the research
 	 * @return an array of UUID for all the session matching the given Scope Id
 	 * @since 3.3.0
 	 */
-	public UUID[] getSessionFromAALScopeId(final String scopeId) {
+	public UUID[] getSessionFromScopeId(final String scopeId) {
 		Set<SessionKey> keys = sessions.keySet();
 		ArrayList<UUID> aux = new ArrayList<UUID>();
 		for (SessionKey key : keys) {
@@ -137,12 +137,12 @@ public class SessionManager {
 		return aux.toArray(new UUID[] {});
 	}
 
-	public UUID createSession(final String peerId, final String aalSpaceId, final String scopeId,
+	public UUID createSession(final String peerId, final String spaceId, final String scopeId,
 			final String description) {
 		if (description == null) {
-			createSession(peerId, aalSpaceId, scopeId);
+			createSession(peerId, spaceId, scopeId);
 		}
-		final SessionKey key = new SessionKey(peerId, aalSpaceId, scopeId);
+		final SessionKey key = new SessionKey(peerId, spaceId, scopeId);
 
 		final UUID uuid = UUID.randomUUID();
 		synchronized (sessions) {
@@ -279,12 +279,12 @@ public class SessionManager {
 		}
 	}
 
-	public boolean isDuplicatedSession(final UUID sessionId, final String peerId, final String aalSpaceId,
+	public boolean isDuplicatedSession(final UUID sessionId, final String peerId, final String spaceId,
 			final String scopeId) {
 		final SessionKey stored = uuids.get(sessionId);
 		if (stored == null)
 			return false;
-		final SessionKey key = new SessionKey(peerId, aalSpaceId, scopeId);
+		final SessionKey key = new SessionKey(peerId, spaceId, scopeId);
 		if (key.equals(stored) == false)
 			return false;
 		synchronized (sessions) {
@@ -294,11 +294,11 @@ public class SessionManager {
 		return false;
 	}
 
-	public void storeSession(final UUID sessionId, final String peerId, final String aalSpaceId, final String scopeId) {
-		final SessionKey key = new SessionKey(peerId, aalSpaceId, scopeId);
+	public void storeSession(final UUID sessionId, final String peerId, final String spaceId, final String scopeId) {
+		final SessionKey key = new SessionKey(peerId, spaceId, scopeId);
 
 		final UUID oldUUID = sessions.get(key);
-		if (isDuplicatedSession(sessionId, peerId, aalSpaceId, scopeId)) {
+		if (isDuplicatedSession(sessionId, peerId, spaceId, scopeId)) {
 			throw new IllegalStateException("Session " + key + " already exists with the same UUID = " + oldUUID);
 		}
 		synchronized (sessions) {
@@ -323,7 +323,7 @@ public class SessionManager {
 		}
 	}
 
-	public String getAALSpaceIdFromSession(final UUID session) {
+	public String getSpaceIdFromSession(final UUID session) {
 		final SessionKey key = uuids.get(session);
 		synchronized (sessions) {
 			if (key == null) {

@@ -43,7 +43,7 @@ import org.universAAL.ri.rest.manager.wrappers.UaalWrapper;
 
 public class Activator implements BundleActivator {
 	private static BundleContext osgiContext = null;
-	private static ModuleContext uaalContext = null;
+	private static ModuleContext mContext = null;
 	private static Persistence persistence;
 
 	private SerializerListener serializerListener;
@@ -60,7 +60,7 @@ public class Activator implements BundleActivator {
 
 	public void start(BundleContext bcontext) throws Exception {
 		Activator.osgiContext = bcontext;
-		Activator.uaalContext = OSGiContainer.THE_CONTAINER.registerModule(new Object[] { bcontext });
+		Activator.mContext = OSGiContainer.THE_CONTAINER.registerModule(new Object[] { bcontext });
 
 		// Find tenant manager
 		tenantListener = new TenantListener();
@@ -71,7 +71,7 @@ public class Activator implements BundleActivator {
 			tenantListener.serviceChanged(new ServiceEvent(ServiceEvent.REGISTERED, tenantRefs[i]));
 		}
 
-		// Find uAAL serializer
+		// Find universAAL serializer
 		serializerListener = new SerializerListener();
 		String filter2 = "(objectclass=" + MessageContentSerializerEx.class.getName() + ")";
 		osgiContext.addServiceListener(serializerListener, filter2);
@@ -84,7 +84,7 @@ public class Activator implements BundleActivator {
 		try {
 			persistence = (Persistence) Class.forName(Configuration.getDBClass()).getConstructor(new Class[] {})
 					.newInstance(new Object[] {});
-			persistence.init(uaalContext);
+			persistence.init(mContext);
 			persistence.restore();
 		} catch (RuntimeException ex) {
 			ex.printStackTrace();
@@ -154,8 +154,8 @@ public class Activator implements BundleActivator {
 		return tenantMngr;
 	}
 
-	public static ModuleContext getUaalContext() {
-		return uaalContext;
+	public static ModuleContext getContext() {
+		return mContext;
 	}
 
 	public static Persistence getPersistence() {
@@ -171,7 +171,7 @@ public class Activator implements BundleActivator {
 	 *            The messge to log
 	 */
 	public static void logD(String method, String msg) {
-		LogUtils.logDebug(uaalContext, Activator.class, method, msg);
+		LogUtils.logDebug(mContext, Activator.class, method, msg);
 	}
 
 	/**
@@ -185,7 +185,7 @@ public class Activator implements BundleActivator {
 	 */
 	public static void logI(String method, String msg) {
 		if (logDebug) {
-			LogUtils.logInfo(uaalContext, Activator.class, method, msg);
+			LogUtils.logInfo(mContext, Activator.class, method, msg);
 		}
 	}
 
@@ -198,7 +198,7 @@ public class Activator implements BundleActivator {
 	 *            The messge to log
 	 */
 	public static void logW(String method, String msg) {
-		LogUtils.logWarn(uaalContext, Activator.class, method, msg);
+		LogUtils.logWarn(mContext, Activator.class, method, msg);
 	}
 
 	/**
@@ -210,7 +210,7 @@ public class Activator implements BundleActivator {
 	 *            The messge to log
 	 */
 	public static void logE(String method, String msg) {
-		LogUtils.logError(uaalContext, Activator.class, method, msg);
+		LogUtils.logError(mContext, Activator.class, method, msg);
 	}
 
 }

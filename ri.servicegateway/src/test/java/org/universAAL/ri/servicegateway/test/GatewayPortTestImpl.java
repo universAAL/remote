@@ -89,7 +89,7 @@ public class GatewayPortTestImpl extends GatewayPort {
 		User userURI = loggedUsers.get(userAndPass[0]);
 		// END AUTHENTICATION BLOCK, this block can be replaced by below
 		// hardcoded line/user for e.g. testing purposes
-		// String userURI = Constants.uAAL_MIDDLEWARE_LOCAL_ID_PREFIX
+		// String userURI = Constants.MIDDLEWARE_LOCAL_ID_PREFIX
 		// + "remoteUser";
 		LogUtils.logInfo(Activator.getModuleContext(), this.getClass(), "doPost",
 				new Object[] { "Received HTTP request from user: " + userURI }, null);

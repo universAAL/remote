@@ -41,7 +41,7 @@ public class ConnectionRequest extends LinkMessage implements Serializable {
 	 *
 	 */
 	private final String peerId;
-	private final String aalSpaceId;
+	private final String spaceId;
 	private final String description;
 
 	/**
@@ -49,27 +49,27 @@ public class ConnectionRequest extends LinkMessage implements Serializable {
 	 * @param peer
 	 *            The Id of the peer that runs the Gateway
 	 * @param space
-	 *            The Id of the AAL Space where the peer is connected to
+	 *            The Id of the Space where the peer is connected to
 	 * @param description
 	 *            A friendly name description of the connection
 	 */
 	public ConnectionRequest(final String peer, final String space, final String description) {
 		super();
 		this.peerId = peer;
-		this.aalSpaceId = space;
+		this.spaceId = space;
 		this.description = description;
 	}
 
 	@Override
 	public String toString() {
 		return "ConnectionRequest [" + (peerId != null ? "peerId =" + peerId + ", " : "")
-				+ (aalSpaceId != null ? "scopeId =" + aalSpaceId + ", " : "")
-				+ (aalSpaceId != null ? "scopeId=" + aalSpaceId + ", " : "")
+				+ (spaceId != null ? "scopeId =" + spaceId + ", " : "")
+				+ (spaceId != null ? "scopeId=" + spaceId + ", " : "")
 				+ (description != null ? "description=" + description + " " : "") + "]";
 	}
 
-	public String getAALSpaceId() {
-		return aalSpaceId;
+	public String getSpaceId() {
+		return spaceId;
 	}
 
 	public String getPeerId() {
@@ -87,7 +87,7 @@ public class ConnectionRequest extends LinkMessage implements Serializable {
 	 *
 	 */
 	public String getScopeId() {
-		return aalSpaceId;
+		return spaceId;
 	}
 
 	public String getDescription() {

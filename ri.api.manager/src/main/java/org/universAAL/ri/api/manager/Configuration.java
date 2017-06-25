@@ -28,7 +28,7 @@ import org.universAAL.middleware.container.ModuleContext;
 
 /**
  * Helper class to centralized access to configuration parameters, which should
- * help when porting to uAAL Config Manager.
+ * help when porting to universAAL Config Manager.
  *
  * @author alfiva
  *

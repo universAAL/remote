@@ -72,29 +72,29 @@ public class GatewayCommand extends OsgiCommandSupport {
 		Collection<Session> list = gw.getSessions();
 		if (!list.isEmpty()) {
 			System.out.println("List of active sessions:");
-			System.out.printf("%3s - %20s - %20s - %20s - %10s\n", "n#", "name", "session id", "AAL Space", "Status");
+			System.out.printf("%3s - %20s - %20s - %20s - %10s\n", "n#", "name", "session id", "Space    ", "Status");
 			System.out.println("-----------------------------------------------------------------------");
 			int n = 1;
 			for (Session session : list) {
 				String name = null;
 				boolean isActive = session.isActive();
 				final String scope = session.getScope();
-				UUID[] infos = sm.getSessionFromAALScopeId(scope);
-				String AALSpace = null;
+				UUID[] infos = sm.getSessionFromScopeId(scope);
+				String space = null;
 				if (infos.length > 1) {
 					name = "Broken Session Manager -> Too many UUID linked to a single Scope";
 				} else {
-					AALSpace = sm.getAALSpaceIdFromSession(infos[0]);
+					space = sm.getSpaceIdFromSession(infos[0]);
 				}
-				if (scope != null && AALSpace != null) {
+				if (scope != null && space != null) {
 					name = scope;
 				} else if (scope == null) {
 					name = "Broken Session Manager -> Invalid Scope";
-				} else if (scope != null && AALSpace == null) {
+				} else if (scope != null && space == null) {
 					name = scope;
-					AALSpace = "<LeftOver Session>";
+					space = "<LeftOver Session>";
 				}
-				System.out.printf("%03d - %20s - %20s - %20s - %10s\n", n++, name, gw.getName(session), AALSpace,
+				System.out.printf("%03d - %20s - %20s - %20s - %10s\n", n++, name, gw.getName(session), space,
 						isActive);
 			}
 		}

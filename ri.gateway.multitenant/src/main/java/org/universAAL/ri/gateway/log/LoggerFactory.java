@@ -40,14 +40,14 @@ import org.universAAL.middleware.container.utils.LogUtils;
  */
 public class LoggerFactory {
 
-	private class UAALLogger implements Logger {
+	private class MyLogger implements Logger {
 
 		final Class<?> claz;
 		ModuleContext mc;
 		final String[] oneMessage = new String[1];
 		final Object LOCK_VAR_MC = new Object();
 
-		private UAALLogger(final ModuleContext mc, final Class<?> logName) {
+		private MyLogger(final ModuleContext mc, final Class<?> logName) {
 			this.mc = mc;
 			this.claz = logName;
 		}
@@ -91,7 +91,7 @@ public class LoggerFactory {
 		}
 	}
 
-	final private Map<String, UAALLogger> loggers = new HashMap<String, UAALLogger>(128);
+	final private Map<String, MyLogger> loggers = new HashMap<String, MyLogger>(128);
 	private final ModuleContext mc;
 
 	private static Map<String, LoggerFactory> factories = null;
@@ -148,22 +148,22 @@ public class LoggerFactory {
 
 	private void setModuleContext(final ModuleContext mc) {
 		synchronized (loggers) {
-			final Collection<UAALLogger> activeLoggers = loggers.values();
-			for (final UAALLogger logger : activeLoggers) {
+			final Collection<MyLogger> activeLoggers = loggers.values();
+			for (final MyLogger logger : activeLoggers) {
 				logger.setModuleContext(mc);
 			}
 		}
 	}
 
 	public Logger getLogger(final Class<?> clazz) {
-		UAALLogger log = null;
+		MyLogger log = null;
 		final String logName = clazz.getName();
 		synchronized (loggers) {
 			log = loggers.get(logName);
 			if (log != null) {
 				return log;
 			}
-			log = new UAALLogger(mc, clazz);
+			log = new MyLogger(mc, clazz);
 			loggers.put(logName, log);
 		}
 		return log;

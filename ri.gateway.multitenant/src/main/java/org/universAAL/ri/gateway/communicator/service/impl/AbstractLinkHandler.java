@@ -161,9 +161,9 @@ public abstract class AbstractLinkHandler implements Runnable {
 		final String spaceId = spaceManager.getSpaceDescriptor().getSpaceCard().getSpaceID();
 		final String peerId = spaceManager.getMyPeerCard().getPeerID();
 
-		if (spaceId.equals(refSM.getAALSpaceIdFromSession(currentSession)) == false) {
+		if (spaceId.equals(refSM.getSpaceIdFromSession(currentSession)) == false) {
 			throw new IllegalStateException(
-					"We joined a different AAL Space, during the automatic reconnection of the Gateway,");
+					"We joined a different Space, during the automatic reconnection of the Gateway,");
 		}
 
 		if (peerId.equals(refSM.getPeerIdFromSession(currentSession)) == false) {
@@ -242,9 +242,9 @@ public abstract class AbstractLinkHandler implements Runnable {
 			 * recovering an old one, in that case we don't have to store the
 			 * session
 			 */
-			if (refSM.isDuplicatedSession(response.getSessionId(), response.getPeerId(), response.getAALSpaceId(),
+			if (refSM.isDuplicatedSession(response.getSessionId(), response.getPeerId(), response.getSpaceId(),
 					response.getScopeId()) == false) {
-				refSM.storeSession(response.getSessionId(), response.getPeerId(), response.getAALSpaceId(),
+				refSM.storeSession(response.getSessionId(), response.getPeerId(), response.getSpaceId(),
 						response.getScopeId());
 			}
 			/*

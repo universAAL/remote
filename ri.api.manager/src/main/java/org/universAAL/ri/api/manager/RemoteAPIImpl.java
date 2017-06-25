@@ -47,11 +47,11 @@ public class RemoteAPIImpl implements RemoteAPI {
 	/**
 	 * The registry of remote nodes that have registered (through the REGISTER
 	 * method) into the server. Each of these nodes, identified by a unique
-	 * token, have an associated UAAL instance.
+	 * token, have an associated universAAL instance.
 	 */
 	private static Hashtable<String, RemoteUAAL> nodes = new Hashtable<String, RemoteUAAL>();
 	/**
-	 * The uAAL context.
+	 * The universAAL context.
 	 */
 	private ModuleContext context;
 
@@ -59,7 +59,7 @@ public class RemoteAPIImpl implements RemoteAPI {
 	 * Basic constructor.
 	 *
 	 * @param ctxt
-	 *            The uAAL context
+	 *            The universAAL context
 	 */
 	public RemoteAPIImpl(ModuleContext ctxt) {
 		this.context = ctxt;

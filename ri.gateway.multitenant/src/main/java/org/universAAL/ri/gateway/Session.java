@@ -150,8 +150,8 @@ public class Session implements MessageSender, MessageReceiver, OperationChainMa
 	 *
 	 * @param scope
 	 *            the {@link String} representing the scope of this Session. At
-	 *            the moment the Scope is represented by the AALSpaceId of the
-	 *            AALSpace that we are connected to
+	 *            the moment the Scope is represented by the SpaceId of the
+	 *            Space that we are connected to
 	 */
 	public void setScope(final String scope) {
 		validateRemoteScope(scope);
@@ -161,7 +161,7 @@ public class Session implements MessageSender, MessageReceiver, OperationChainMa
 	/**
 	 *
 	 * @return the {@link String} representing the scope of this Session. At the
-	 *         moment the Scope is represented by the AALSpaceId of the AALSpace
+	 *         moment the Scope is represented by the SpaceId of the Space
 	 *         that we are connected to
 	 */
 	public String getScope() {

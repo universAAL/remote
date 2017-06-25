@@ -192,12 +192,12 @@ public class ServerSocketCommunicationHandler extends AbstractSocketCommunicatio
 				throw new IllegalArgumentException("Receieved unexpected message " + link.getType());
 			} else if (link.getType() == LinkMessageType.CONNECTION_REQUEST.ordinal()) {
 				final ConnectionRequest request = (ConnectionRequest) link;
-				UUID session = sessionManger.getSession(request.getPeerId(), request.getAALSpaceId(),
+				UUID session = sessionManger.getSession(request.getPeerId(), request.getSpaceId(),
 						request.getScopeId());
 				if (session == null) {
-					session = sessionManger.createSession(request.getPeerId(), request.getAALSpaceId(),
+					session = sessionManger.createSession(request.getPeerId(), request.getSpaceId(),
 							request.getScopeId(), request.getDescription());
-					log.debug("CREATED SESSION with " + session + " pointing at <" + request.getAALSpaceId() + ","
+					log.debug("CREATED SESSION with " + session + " pointing at <" + request.getSpaceId() + ","
 							+ request.getPeerId() + ">");
 				} else {
 					try {
@@ -210,14 +210,14 @@ public class ServerSocketCommunicationHandler extends AbstractSocketCommunicatio
 					}
 					log.warning(
 							"SESSION CLASH: the client may be restarted without persistance before the session was broken and deleted. We just create a new session");
-					session = sessionManger.createSession(request.getPeerId(), request.getAALSpaceId(),
+					session = sessionManger.createSession(request.getPeerId(), request.getSpaceId(),
 							request.getScopeId(), request.getDescription());
 				}
 				sessionManger.setLink(session, in, out);
 				// TODO Check if it can registers
 				// tenatManager.getTenant(request.getScopeId());
 				final String source = spaceManager.getMyPeerCard().getPeerID();
-				final ConnectionResponse response = new ConnectionResponse(link, source, request.getAALSpaceId(),
+				final ConnectionResponse response = new ConnectionResponse(link, source, request.getSpaceId(),
 						session);
 				try {
 					CommunicationHelper.cypherAndSend(response, out, cipher);
@@ -233,7 +233,7 @@ public class ServerSocketCommunicationHandler extends AbstractSocketCommunicatio
 				 */
 				final Gateway gw = Gateway.getInstance();
 				mySession = new Session(config, gw.getPool(), server);
-				final String scope = SessionManager.getInstance().getAALSpaceIdFromSession(session);
+				final String scope = SessionManager.getInstance().getSpaceIdFromSession(session);
 				mySession.setScope(scope);
 				mySession.addSessionEventListener(gw);
 				mySession.setStatus(SessionEvent.SessionStatus.CONNECTED);
@@ -245,7 +245,7 @@ public class ServerSocketCommunicationHandler extends AbstractSocketCommunicatio
 
 				final DisconnectionRequest request = (DisconnectionRequest) link;
 				// request.getPeerId()
-				final UUID session = sessionManger.getSession(request.getPeerId(), request.getAALSpaceId(),
+				final UUID session = sessionManger.getSession(request.getPeerId(), request.getSpaceId(),
 						request.getScopeId());
 				if (session == null) {
 					log.warning("Received a Disconnect Request ma no matching session");
@@ -264,20 +264,20 @@ public class ServerSocketCommunicationHandler extends AbstractSocketCommunicatio
 			} else if (link.getType() == LinkMessageType.RECONNECTION_REQUEST.ordinal()) {
 				final ReconnectionRequest request = (ReconnectionRequest) link;
 				// request.getPeerId()
-				UUID session = sessionManger.getSession(request.getPeerId(), request.getAALSpaceId(),
+				UUID session = sessionManger.getSession(request.getPeerId(), request.getSpaceId(),
 						request.getScopeId());
 				if (session == null || request.getSessionId().equals(session) == false) {
 					// TODO someone is trying to reconnect but we don't have the
 					// link active so we create a new session
 					// XXX we should set the session description properly
-					session = sessionManger.createSession(request.getPeerId(), request.getAALSpaceId(),
+					session = sessionManger.createSession(request.getPeerId(), request.getSpaceId(),
 							request.getScopeId(), null);
 				}
 				sessionManger.setLink(session, in, out);
 				// TODO Check if it can registers
 				// tenatManager.getTenant(request.getScopeId());
 				final String source = spaceManager.getMyPeerCard().getPeerID();
-				final ConnectionResponse response = new ConnectionResponse(link, source, request.getAALSpaceId(),
+				final ConnectionResponse response = new ConnectionResponse(link, source, request.getSpaceId(),
 						session);
 				try {
 					CommunicationHelper.cypherAndSend(response, out, cipher);

@@ -55,9 +55,9 @@ public class Activator implements BundleActivator {
 	 */
 	private BundleContext osgiContext;
 	/**
-	 * uAAL Context
+	 * universAAL Context
 	 */
-	private static ModuleContext uaalContext;
+	private static ModuleContext mcontext;
 	/**
 	 * Identifies if configured to use hardcoded servlet registration with own
 	 * authenticator as opposed to using a web container.
@@ -73,7 +73,7 @@ public class Activator implements BundleActivator {
 	 */
 	private static RemoteAPIImpl remoteAPI;
 	/**
-	 * Singleton instance of uAAL serializer
+	 * Singleton instance of universAAL serializer
 	 */
 	private static MessageContentSerializerEx parser;
 	/**
@@ -102,7 +102,7 @@ public class Activator implements BundleActivator {
 	 */
 	private HttpListener httpListener;
 	/**
-	 * OSGi service listener for uAAL serializer
+	 * OSGi service listener for universAAL serializer
 	 */
 	private SerializerListener serializerListener;
 	/**
@@ -121,9 +121,9 @@ public class Activator implements BundleActivator {
 	 */
 	public void start(BundleContext bcontext) throws Exception {
 		osgiContext = bcontext;
-		uaalContext = OSGiContainer.THE_CONTAINER.registerModule(new Object[] { bcontext });
+		mcontext = OSGiContainer.THE_CONTAINER.registerModule(new Object[] { bcontext });
 
-		// Find uAAL serializer
+		// Find universAAL serializer
 		serializerListener = new SerializerListener();
 		String filter = "(objectclass=" + MessageContentSerializerEx.class.getName() + ")";
 		osgiContext.addServiceListener(serializerListener, filter);
@@ -138,7 +138,7 @@ public class Activator implements BundleActivator {
 
 		// Instance the API impl before DB is ready (it wont be called yet) then
 		// the servlet, then the DB
-		remoteAPI = new RemoteAPIImpl(uaalContext);
+		remoteAPI = new RemoteAPIImpl(mcontext);
 		remoteServlet = new RemoteServlet(remoteAPI);
 		threadsPool = Executors.newFixedThreadPool(100);// TODO check what
 														// amount is best
@@ -148,7 +148,7 @@ public class Activator implements BundleActivator {
 		try {
 			persistence = (Persistence) Class.forName(Configuration.getDBClass()).getConstructor(new Class[] {})
 					.newInstance(new Object[] {});
-			persistence.init(remoteAPI, uaalContext);
+			persistence.init(remoteAPI, mcontext);
 			persistence.restore();
 		} catch (RuntimeException ex) {
 			ex.printStackTrace();
@@ -158,7 +158,7 @@ public class Activator implements BundleActivator {
 					+ " parameter could not be used. Make sure it is a " + "class that implements "
 					+ "org.universAAL.context.che.database.Backend or "
 					+ "remove that configuration parameter to use the " + "default engine.";
-			LogUtils.logError(uaalContext, this.getClass(), "start", new Object[] { cause }, null);
+			LogUtils.logError(mcontext, this.getClass(), "start", new Object[] { cause }, null);
 		}
 
 		// For CXF
@@ -170,7 +170,7 @@ public class Activator implements BundleActivator {
 		// "http://localhost:9000/remote");
 		//// props.put("org.apache.cxf.rs.address", "/remote");
 		// registration = osgiContext.registerService(RemoteAPI.class.getName(),
-		// new RemoteAPIImpl(uaalContext), props);
+		// new RemoteAPIImpl(mcontext), props);
 
 		// Custom servlet with own authenticator. If disabled the servlet and
 		// its authentication will have to be setup by Pax Web (I couldnt make
@@ -225,15 +225,15 @@ public class Activator implements BundleActivator {
 		try {
 			http.registerServlet(URL, remoteServlet, null, auth);
 		} catch (ServletException e) {
-			LogUtils.logError(uaalContext, this.getClass(), "register",
+			LogUtils.logError(mcontext, this.getClass(), "register",
 					new Object[] { "Exception while registering Servlet." }, e);
 			return false;
 		} catch (NamespaceException e) {
-			LogUtils.logError(uaalContext, this.getClass(), "register",
+			LogUtils.logError(mcontext, this.getClass(), "register",
 					new Object[] { "Servlet Namespace exception; URL is already in use." }, e);
 			return false;
 		}
-		LogUtils.logInfo(uaalContext, this.getClass(), "register", new Object[] { "Servlet started." }, null);
+		LogUtils.logInfo(mcontext, this.getClass(), "register", new Object[] { "Servlet started." }, null);
 		return true;
 	}
 
@@ -248,11 +248,11 @@ public class Activator implements BundleActivator {
 		try {
 			http.unregister(URL);
 		} catch (IllegalArgumentException e) {
-			LogUtils.logError(uaalContext, this.getClass(), "unregister",
+			LogUtils.logError(mcontext, this.getClass(), "unregister",
 					new Object[] { "Servlet cannot be unregistered: illegal argument." }, e);
 			return false;
 		}
-		LogUtils.logInfo(uaalContext, this.getClass(), "unregister", new Object[] { "Servlet stopped." }, null);
+		LogUtils.logInfo(mcontext, this.getClass(), "unregister", new Object[] { "Servlet stopped." }, null);
 		return true;
 	}
 
@@ -279,7 +279,7 @@ public class Activator implements BundleActivator {
 	}
 
 	/**
-	 * Listener for reacting to the presence of uAAL Serializers
+	 * Listener for reacting to the presence of universAAL Serializers
 	 *
 	 * @author alfiva
 	 *
@@ -310,7 +310,7 @@ public class Activator implements BundleActivator {
 	 *            The messge to log
 	 */
 	public static void logD(String method, String msg) {
-		LogUtils.logDebug(uaalContext, Activator.class, method, msg);
+		LogUtils.logDebug(mcontext, Activator.class, method, msg);
 	}
 
 	/**
@@ -322,7 +322,7 @@ public class Activator implements BundleActivator {
 	 *            The messge to log
 	 */
 	public static void logI(String method, String msg) {
-		LogUtils.logInfo(uaalContext, Activator.class, method, msg);
+		LogUtils.logInfo(mcontext, Activator.class, method, msg);
 	}
 
 	/**
@@ -334,7 +334,7 @@ public class Activator implements BundleActivator {
 	 *            The messge to log
 	 */
 	public static void logW(String method, String msg) {
-		LogUtils.logWarn(uaalContext, Activator.class, method, msg);
+		LogUtils.logWarn(mcontext, Activator.class, method, msg);
 	}
 
 	/**
@@ -346,7 +346,7 @@ public class Activator implements BundleActivator {
 	 *            The messge to log
 	 */
 	public static void logE(String method, String msg) {
-		LogUtils.logError(uaalContext, Activator.class, method, msg);
+		LogUtils.logError(mcontext, Activator.class, method, msg);
 	}
 
 	/**
@@ -368,9 +368,9 @@ public class Activator implements BundleActivator {
 	}
 
 	/**
-	 * Get the instance of the uAAL serializer
+	 * Get the instance of the universAAL serializer
 	 *
-	 * @return the uAAL serializer
+	 * @return the universAAL serializer
 	 */
 	public static MessageContentSerializerEx getParser() {
 		return parser;

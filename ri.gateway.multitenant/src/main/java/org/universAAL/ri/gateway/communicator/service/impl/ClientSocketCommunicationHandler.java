@@ -173,7 +173,7 @@ public class ClientSocketCommunicationHandler extends AbstractSocketCommunicatio
 					cleanUpSession();
 					return false;
 				} else {
-					session.setScope(SessionManager.getInstance().getAALSpaceIdFromSession(currentSession));
+					session.setScope(SessionManager.getInstance().getSpaceIdFromSession(currentSession));
 					session.setStatus(SessionEvent.SessionStatus.CONNECTED);
 					log.debug("Session created with sessionId " + currentSession);
 				}
@@ -184,7 +184,7 @@ public class ClientSocketCommunicationHandler extends AbstractSocketCommunicatio
 					cleanUpSession();
 					return false;
 				} else {
-					session.setScope(SessionManager.getInstance().getAALSpaceIdFromSession(currentSession));
+					session.setScope(SessionManager.getInstance().getSpaceIdFromSession(currentSession));
 					session.setStatus(SessionEvent.SessionStatus.CONNECTED);
 					log.debug("Session with sessionId " + currentSession + " re-established");
 				}
@@ -192,7 +192,7 @@ public class ClientSocketCommunicationHandler extends AbstractSocketCommunicatio
 			log.debug("SESSION (RE)ESTABILISHED with " + currentSession);
 			// session.setScope(currentSession.toString());
 			// session.setScope(SessionManager.getInstance()
-			// .getAALSpaceIdFromSession(currentSession));
+			// .getSpaceIdFromSession(currentSession));
 			return true;
 		}
 
@@ -246,13 +246,13 @@ public class ClientSocketCommunicationHandler extends AbstractSocketCommunicatio
 			} else if (link.getType() == LinkMessageType.DISCONNECTION_REQUEST.ordinal()) {
 				final DisconnectionRequest request = (DisconnectionRequest) link;
 				// request.getPeerId()
-				final UUID session = sessionManger.getSession(request.getPeerId(), request.getAALSpaceId(),
+				final UUID session = sessionManger.getSession(request.getPeerId(), request.getSpaceId(),
 						request.getScopeId());
 				if (session == null) {
 					// TODO Log someone is trying to disconnect from an invalid
 					// session
 					ClientSocketCommunicationHandler.log.warning("Trying to close a-non existing session with <"
-							+ request.getAALSpaceId() + "," + request.getPeerId() + ">, we just ignore it");
+							+ request.getSpaceId() + "," + request.getPeerId() + ">, we just ignore it");
 					return true;
 				}
 				this.session.setStatus(SessionEvent.SessionStatus.CLOSED);

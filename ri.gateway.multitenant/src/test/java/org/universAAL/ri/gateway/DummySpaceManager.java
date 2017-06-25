@@ -32,7 +32,7 @@ import org.universAAL.middleware.managers.api.MatchingResult;
  * @author amedrano
  *
  */
-public class DummyAALSPaceManager implements SpaceManager {
+public class DummySpaceManager implements SpaceManager {
 
 	/** {@inheritDoc} */
 	public void loadConfigurations(Dictionary configurations) {

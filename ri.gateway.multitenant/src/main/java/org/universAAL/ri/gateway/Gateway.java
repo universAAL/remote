@@ -45,7 +45,7 @@ import org.universAAL.utilities.ioc.dependencies.impl.PassiveDependencyProxy;
 import org.universAAL.utilities.ioc.dependencies.impl.WaitingDependencyProxy;
 
 /**
- * Main Class for the AALSpace Gateway. It is in charge of managing
+ * Main Class for the Space Gateway. It is in charge of managing
  * {@link Session Sessions}, and boot them from the configuration folder.
  *
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>

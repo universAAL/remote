@@ -39,26 +39,26 @@ public class DisconnectionRequest extends LinkMessage implements Serializable {
 	 */
 	private static final long serialVersionUID = -7160538663305545199L;
 	private String peerId;
-	private String aalSpaceId;
+	private String spaceId;
 	private UUID sessionId;
 
 	public DisconnectionRequest(final String peer, final String space, final UUID session) {
 		super();
 		this.peerId = peer;
-		this.aalSpaceId = space;
+		this.spaceId = space;
 		this.sessionId = session;
 	}
 
 	@Override
 	public String toString() {
 		return "DisconnectionRequest [" + (peerId != null ? "peerId =" + peerId + ", " : "")
-				+ (aalSpaceId != null ? "aalSpaceId =" + aalSpaceId + ", " : "")
-				+ (aalSpaceId != null ? "scopeId=" + aalSpaceId + ", " : "")
+				+ (spaceId != null ? "spaceId =" + spaceId + ", " : "")
+				+ (spaceId != null ? "scopeId=" + spaceId + ", " : "")
 				+ (sessionId != null ? "sessionId=" + sessionId + " " : "") + "]";
 	}
 
-	public String getAALSpaceId() {
-		return aalSpaceId;
+	public String getSpaceId() {
+		return spaceId;
 	}
 
 	public String getPeerId() {
@@ -66,7 +66,7 @@ public class DisconnectionRequest extends LinkMessage implements Serializable {
 	}
 
 	public String getScopeId() {
-		return aalSpaceId;
+		return spaceId;
 	}
 
 	public UUID getSessionId() {

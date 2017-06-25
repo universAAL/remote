@@ -14,7 +14,7 @@
  * limitations under the License.
  ******************************************************************************/
 /**
- * Main package for AALSpace Gateway. It contains the fundamental classes of the ASG.
+ * Main package for Space Gateway. It contains the fundamental classes of the ASG.
  * @author amedrano
  *
  */

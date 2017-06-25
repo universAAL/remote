@@ -1,4 +1,4 @@
-package org.unversAAL.ri.servicegateway;
+package org.universAAL.ri.servicegateway;
 
 import java.io.IOException;
 import java.net.MalformedURLException;

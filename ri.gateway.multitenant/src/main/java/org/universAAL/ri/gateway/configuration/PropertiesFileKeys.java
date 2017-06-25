@@ -31,14 +31,14 @@ package org.universAAL.ri.gateway.configuration;
  */
 public interface PropertiesFileKeys {
 	/**
-	 * System property used for specifying remote AAL Space Gateways addresses
+	 * System property used for specifying remote Space Gateways addresses
 	 * that is running in Server Mode and that we should connect to
 	 *
 	 */
 	String REMOTE_HOST = "remote-gateway-host";
 
 	/**
-	 * System property used for specifying the socket port of the AAL Space
+	 * System property used for specifying the socket port of the Space
 	 * Gateway to connec to, in case that it is running in Server-Mode it is the
 	 * socket to listen to.
 	 */

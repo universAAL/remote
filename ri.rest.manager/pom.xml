@@ -6,11 +6,11 @@
 	<parent>
 		<groupId>org.universAAL.remote</groupId>
 		<artifactId>ri.pom</artifactId>
-		<version>3.4.1-SNAPSHOT</version>
+		<version>3.4.2-SNAPSHOT</version>
 		<relativePath>../ri.pom</relativePath>
 	</parent>
 	<artifactId>ri.rest.manager</artifactId>
-	<version>3.4.1-SNAPSHOT</version>
+	<version>3.4.2-SNAPSHOT</version>
 	<name>universAAL Remote Interoperability REST-API Manager</name>
 	<description>Module for deploying a RESTful API to access uAAL core features</description>
 	<packaging>bundle</packaging>

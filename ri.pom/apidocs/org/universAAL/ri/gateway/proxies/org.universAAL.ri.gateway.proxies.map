@@ -1,12 +1,12 @@
 <map id="G" name="G">
-<area shape="rect" id="c2650" href="./ProxyBusMemberFactory.html" title="org.universAAL.ri.gateway.proxies.ProxyBusMemberFactory" alt="" coords="15,19,185,45"/>
+<area shape="rect" id="c3239" href="./ProxyBusMemberFactory.html" title="org.universAAL.ri.gateway.proxies.ProxyBusMemberFactory" alt="" coords="15,19,185,45"/>
 <area shape="rect" id="node1" href="./ProxyBusMemberFactory.html" title="&lt;TABLE&gt;" alt="" coords="5,8,195,56"/>
-<area shape="rect" id="c2651" href="./ReferencesManager.html" title="org.universAAL.ri.gateway.proxies.ReferencesManager" alt="" coords="229,19,366,45"/>
+<area shape="rect" id="c3240" href="./ReferencesManager.html" title="org.universAAL.ri.gateway.proxies.ReferencesManager" alt="" coords="229,19,366,45"/>
 <area shape="rect" id="node2" href="./ReferencesManager.html" title="&lt;TABLE&gt;" alt="" coords="219,8,376,56"/>
-<area shape="rect" id="c2652" href="./ProxyPool.html" title="org.universAAL.ri.gateway.proxies.ProxyPool" alt="" coords="410,19,491,45"/>
+<area shape="rect" id="c3241" href="./ProxyPool.html" title="org.universAAL.ri.gateway.proxies.ProxyPool" alt="" coords="410,19,491,45"/>
 <area shape="rect" id="node3" href="./ProxyPool.html" title="&lt;TABLE&gt;" alt="" coords="400,8,501,56"/>
-<area shape="rect" id="c2653" href="./BusMemberReference.html" title="org.universAAL.ri.gateway.proxies.BusMemberReference" alt="" coords="535,19,686,45"/>
+<area shape="rect" id="c3242" href="./BusMemberReference.html" title="org.universAAL.ri.gateway.proxies.BusMemberReference" alt="" coords="535,19,686,45"/>
 <area shape="rect" id="node4" href="./BusMemberReference.html" title="&lt;TABLE&gt;" alt="" coords="525,8,696,56"/>
-<area shape="rect" id="c2654" href="./ProxyBusMember.html" title="org.universAAL.ri.gateway.proxies.ProxyBusMember" alt="" coords="731,11,856,53"/>
+<area shape="rect" id="c3243" href="./ProxyBusMember.html" title="org.universAAL.ri.gateway.proxies.ProxyBusMember" alt="" coords="731,11,856,53"/>
 <area shape="rect" id="node5" href="./ProxyBusMember.html" title="&lt;TABLE&gt;" alt="" coords="720,6,867,58"/>
 </map>

@@ -25,10 +25,10 @@ under the License.
     <language>en-us</language>
     <copyright>&#169;2017 universAAL Consortium</copyright>
     <item>
-      <title>File: 119,
-             Errors: 1927,
-             Warnings: 303,
-             Infos: 428
+      <title>File: 148,
+             Errors: 2547,
+             Warnings: 361,
+             Infos: 488
       </title>
             <link>http://remote/ri.pom//checkstyle.html</link>
       <description>
@@ -84,6 +84,20 @@ under the License.
                 </td>
                 <td>
                   10
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://remote/ri.pom//checkstyle.html#org.universAAL.ri.rest.manager.resources.Callee.java">org/universAAL/ri/rest/manager/resources/Callee.java</a>
+                </td>
+                <td>
+                  3
+                </td>
+                <td>
+                  1
+                </td>
+                <td>
+                  31
                 </td>
               </tr>
                           <tr>
@@ -186,6 +200,20 @@ under the License.
               </tr>
                           <tr>
                 <td>
+                  <a href="http://remote/ri.pom//checkstyle.html#org.universAAL.ri.rest.manager.resources.Context.java">org/universAAL/ri/rest/manager/resources/Context.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  24
+                </td>
+              </tr>
+                          <tr>
+                <td>
                   <a href="http://remote/ri.pom//checkstyle.html#org.universAAL.ri.gateway.configuration.UpdatedPropertiesFile.java">org/universAAL/ri/gateway/configuration/UpdatedPropertiesFile.java</a>
                 </td>
                 <td>
@@ -210,6 +238,20 @@ under the License.
                 </td>
                 <td>
                   6
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://remote/ri.pom//checkstyle.html#org.universAAL.ri.rest.manager.resources.Spaces.java">org/universAAL/ri/rest/manager/resources/Spaces.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  14
                 </td>
               </tr>
                           <tr>
@@ -326,6 +368,34 @@ under the License.
               </tr>
                           <tr>
                 <td>
+                  <a href="http://remote/ri.pom//checkstyle.html#org.universAAL.ri.rest.manager.resources.Subscribers.java">org/universAAL/ri/rest/manager/resources/Subscribers.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  18
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://remote/ri.pom//checkstyle.html#org.universAAL.ri.rest.manager.resources.Caller.java">org/universAAL/ri/rest/manager/resources/Caller.java</a>
+                </td>
+                <td>
+                  3
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  21
+                </td>
+              </tr>
+                          <tr>
+                <td>
                   <a href="http://remote/ri.pom//checkstyle.html#org.universAAL.ri.gateway.SessionEventListener.java">org/universAAL/ri/gateway/SessionEventListener.java</a>
                 </td>
                 <td>
@@ -340,6 +410,20 @@ under the License.
               </tr>
                           <tr>
                 <td>
+                  <a href="http://remote/ri.pom//checkstyle.html#org.universAAL.ri.rest.manager.wrappers.PublisherWrapper.java">org/universAAL/ri/rest/manager/wrappers/PublisherWrapper.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  8
+                </td>
+              </tr>
+                          <tr>
+                <td>
                   <a href="http://remote/ri.pom//checkstyle.html#org.universAAL.ri.api.manager.server.Authenticator.java">org/universAAL/ri/api/manager/server/Authenticator.java</a>
                 </td>
                 <td>
@@ -350,6 +434,20 @@ under the License.
                 </td>
                 <td>
                   10
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://remote/ri.pom//checkstyle.html#org.universAAL.ri.rest.manager.push.PushGCM.java">org/universAAL/ri/rest/manager/push/PushGCM.java</a>
+                </td>
+                <td>
+                  2
+                </td>
+                <td>
+                  2
+                </td>
+                <td>
+                  8
                 </td>
               </tr>
                           <tr>
@@ -476,6 +574,20 @@ under the License.
                 </td>
                 <td>
                   22
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://remote/ri.pom//checkstyle.html#org.universAAL.ri.rest.manager.Activator.java">org/universAAL/ri/rest/manager/Activator.java</a>
+                </td>
+                <td>
+                  2
+                </td>
+                <td>
+                  1
+                </td>
+                <td>
+                  28
                 </td>
               </tr>
                           <tr>
@@ -732,6 +844,20 @@ under the License.
               </tr>
                           <tr>
                 <td>
+                  <a href="http://remote/ri.pom//checkstyle.html#org.universAAL.ri.rest.manager.resources.Space.java">org/universAAL/ri/rest/manager/resources/Space.java</a>
+                </td>
+                <td>
+                  3
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  38
+                </td>
+              </tr>
+                          <tr>
+                <td>
                   <a href="http://remote/ri.pom//checkstyle.html#org.universAAL.ri.api.manager.server.Base64.java">org/universAAL/ri/api/manager/server/Base64.java</a>
                 </td>
                 <td>
@@ -914,6 +1040,20 @@ under the License.
               </tr>
                           <tr>
                 <td>
+                  <a href="http://remote/ri.pom//checkstyle.html#org.universAAL.ri.rest.manager.resources.Subscriber.java">org/universAAL/ri/rest/manager/resources/Subscriber.java</a>
+                </td>
+                <td>
+                  3
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  29
+                </td>
+              </tr>
+                          <tr>
+                <td>
                   <a href="http://remote/ri.pom//checkstyle.html#org.universAAL.ri.keepalive.sender.Activator.java">org/universAAL/ri/keepalive/sender/Activator.java</a>
                 </td>
                 <td>
@@ -952,6 +1092,20 @@ under the License.
                 </td>
                 <td>
                   12
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://remote/ri.pom//checkstyle.html#org.universAAL.ri.rest.manager.server.Authenticator.java">org/universAAL/ri/rest/manager/server/Authenticator.java</a>
+                </td>
+                <td>
+                  1
+                </td>
+                <td>
+                  1
+                </td>
+                <td>
+                  7
                 </td>
               </tr>
                           <tr>
@@ -1026,6 +1180,20 @@ under the License.
               </tr>
                           <tr>
                 <td>
+                  <a href="http://remote/ri.pom//checkstyle.html#org.universAAL.ri.rest.manager.resources.Uaal.java">org/universAAL/ri/rest/manager/resources/Uaal.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  16
+                </td>
+              </tr>
+                          <tr>
+                <td>
                   <a href="http://remote/ri.pom//checkstyle.html#org.universAAL.ri.wsdlToolkit.axis2Parser.ComplexTypesParser.java">org/universAAL/ri/wsdlToolkit/axis2Parser/ComplexTypesParser.java</a>
                 </td>
                 <td>
@@ -1096,6 +1264,20 @@ under the License.
               </tr>
                           <tr>
                 <td>
+                  <a href="http://remote/ri.pom//checkstyle.html#org.universAAL.ri.rest.manager.wrappers.SubscriberWrapper.java">org/universAAL/ri/rest/manager/wrappers/SubscriberWrapper.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  10
+                </td>
+              </tr>
+                          <tr>
+                <td>
                   <a href="http://remote/ri.pom//checkstyle.html#org.universAAL.ri.internetgateway.InternetGateway.java">org/universAAL/ri/internetgateway/InternetGateway.java</a>
                 </td>
                 <td>
@@ -1106,6 +1288,34 @@ under the License.
                 </td>
                 <td>
                   6
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://remote/ri.pom//checkstyle.html#org.universAAL.ri.rest.manager.server.persistence.Persistence.java">org/universAAL/ri/rest/manager/server/persistence/Persistence.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  1
+                </td>
+                <td>
+                  12
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://remote/ri.pom//checkstyle.html#org.universAAL.ri.rest.manager.server.persistence.PersistenceDerby.java">org/universAAL/ri/rest/manager/server/persistence/PersistenceDerby.java</a>
+                </td>
+                <td>
+                  15
+                </td>
+                <td>
+                  1
+                </td>
+                <td>
+                  44
                 </td>
               </tr>
                           <tr>
@@ -1222,6 +1432,20 @@ under the License.
               </tr>
                           <tr>
                 <td>
+                  <a href="http://remote/ri.pom//checkstyle.html#org.universAAL.ri.rest.manager.push.PushREST.java">org/universAAL/ri/rest/manager/push/PushREST.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  4
+                </td>
+              </tr>
+                          <tr>
+                <td>
                   <a href="http://remote/ri.pom//checkstyle.html#org.universAAL.ri.gateway.configuration.ConfigurationFile.java">org/universAAL/ri/gateway/configuration/ConfigurationFile.java</a>
                 </td>
                 <td>
@@ -1292,6 +1516,20 @@ under the License.
               </tr>
                           <tr>
                 <td>
+                  <a href="http://remote/ri.pom//checkstyle.html#org.universAAL.ri.rest.manager.resources.Publisher.java">org/universAAL/ri/rest/manager/resources/Publisher.java</a>
+                </td>
+                <td>
+                  3
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  26
+                </td>
+              </tr>
+                          <tr>
+                <td>
                   <a href="http://remote/ri.pom//checkstyle.html#org.universAAL.ri.api.manager.Configuration.java">org/universAAL/ri/api/manager/Configuration.java</a>
                 </td>
                 <td>
@@ -1320,6 +1558,48 @@ under the License.
               </tr>
                           <tr>
                 <td>
+                  <a href="http://remote/ri.pom//checkstyle.html#org.universAAL.ri.rest.manager.wrappers.CalleeWrapper.java">org/universAAL/ri/rest/manager/wrappers/CalleeWrapper.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  1
+                </td>
+                <td>
+                  15
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://remote/ri.pom//checkstyle.html#org.universAAL.ri.rest.manager.resources.Service.java">org/universAAL/ri/rest/manager/resources/Service.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  24
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://remote/ri.pom//checkstyle.html#org.universAAL.ri.rest.manager.wrappers.SpaceWrapper.java">org/universAAL/ri/rest/manager/wrappers/SpaceWrapper.java</a>
+                </td>
+                <td>
+                  1
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  53
+                </td>
+              </tr>
+                          <tr>
+                <td>
                   <a href="http://remote/ri.pom//checkstyle.html#org.universAAL.ri.wsdlToolkit.ioApi.ComplexObject.java">org/universAAL/ri/wsdlToolkit/ioApi/ComplexObject.java</a>
                 </td>
                 <td>
@@ -1334,6 +1614,34 @@ under the License.
               </tr>
                           <tr>
                 <td>
+                  <a href="http://remote/ri.pom//checkstyle.html#org.universAAL.ri.rest.manager.resources.Callers.java">org/universAAL/ri/rest/manager/resources/Callers.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  18
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://remote/ri.pom//checkstyle.html#org.universAAL.ri.rest.manager.push.PushManager.java">org/universAAL/ri/rest/manager/push/PushManager.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  7
+                </td>
+              </tr>
+                          <tr>
+                <td>
                   <a href="http://remote/ri.pom//checkstyle.html#org.universAAL.ri.soap.cxf.service.osgi.Activator.java">org/universAAL/ri/soap/cxf/service/osgi/Activator.java</a>
                 </td>
                 <td>
@@ -1344,6 +1652,20 @@ under the License.
                 </td>
                 <td>
                   4
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://remote/ri.pom//checkstyle.html#org.universAAL.ri.rest.manager.push.PushException.java">org/universAAL/ri/rest/manager/push/PushException.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  1
+                </td>
+                <td>
+                  3
                 </td>
               </tr>
                           <tr>
@@ -1404,6 +1726,20 @@ under the License.
               </tr>
                           <tr>
                 <td>
+                  <a href="http://remote/ri.pom//checkstyle.html#org.universAAL.ri.rest.manager.wrappers.UaalWrapper.java">org/universAAL/ri/rest/manager/wrappers/UaalWrapper.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  16
+                </td>
+              </tr>
+                          <tr>
+                <td>
                   <a href="http://remote/ri.pom//checkstyle.html#org.universAAL.ri.api.manager.exceptions.PushException.java">org/universAAL/ri/api/manager/exceptions/PushException.java</a>
                 </td>
                 <td>
@@ -1418,6 +1754,20 @@ under the License.
               </tr>
                           <tr>
                 <td>
+                  <a href="http://remote/ri.pom//checkstyle.html#org.universAAL.ri.rest.manager.resources.Publishers.java">org/universAAL/ri/rest/manager/resources/Publishers.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  18
+                </td>
+              </tr>
+                          <tr>
+                <td>
                   <a href="http://remote/ri.pom//checkstyle.html#org.universAAL.ri.gateway.communicator.service.impl.ClientSocketCommunicationHandler.java">org/universAAL/ri/gateway/communicator/service/impl/ClientSocketCommunicationHandler.java</a>
                 </td>
                 <td>
@@ -1428,6 +1778,20 @@ under the License.
                 </td>
                 <td>
                   23
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://remote/ri.pom//checkstyle.html#org.universAAL.ri.rest.manager.resources.Callees.java">org/universAAL/ri/rest/manager/resources/Callees.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  18
                 </td>
               </tr>
                           <tr>
@@ -1558,6 +1922,20 @@ under the License.
               </tr>
                           <tr>
                 <td>
+                  <a href="http://remote/ri.pom//checkstyle.html#org.universAAL.ri.rest.manager.server.Base64.java">org/universAAL/ri/rest/manager/server/Base64.java</a>
+                </td>
+                <td>
+                  23
+                </td>
+                <td>
+                  48
+                </td>
+                <td>
+                  79
+                </td>
+              </tr>
+                          <tr>
+                <td>
                   <a href="http://remote/ri.pom//checkstyle.html#org.universAAL.ri.keepalive.receiver.Checker.java">org/universAAL/ri/keepalive/receiver/Checker.java</a>
                 </td>
                 <td>
@@ -1586,6 +1964,20 @@ under the License.
               </tr>
                           <tr>
                 <td>
+                  <a href="http://remote/ri.pom//checkstyle.html#org.universAAL.ri.rest.manager.wrappers.CallerWrapper.java">org/universAAL/ri/rest/manager/wrappers/CallerWrapper.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  9
+                </td>
+              </tr>
+                          <tr>
+                <td>
                   <a href="http://remote/ri.pom//checkstyle.html#org.universAAL.ri.gateway.communicator.service.impl.ServerSocketCommunicationHandler.java">org/universAAL/ri/gateway/communicator/service/impl/ServerSocketCommunicationHandler.java</a>
                 </td>
                 <td>
@@ -1596,6 +1988,20 @@ under the License.
                 </td>
                 <td>
                   21
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://remote/ri.pom//checkstyle.html#org.universAAL.ri.rest.manager.server.Configuration.java">org/universAAL/ri/rest/manager/server/Configuration.java</a>
+                </td>
+                <td>
+                  1
+                </td>
+                <td>
+                  1
+                </td>
+                <td>
+                  22
                 </td>
               </tr>
                           <tr>

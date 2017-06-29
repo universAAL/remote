@@ -1,10 +1,10 @@
 <map id="G" name="G">
-<area shape="rect" id="c19547" href="./Session.html" title="org.universAAL.ri.gateway.Session" alt="" coords="250,118,318,143"/>
+<area shape="rect" id="c27003" href="./Session.html" title="org.universAAL.ri.gateway.Session" alt="" coords="250,118,318,143"/>
 <area shape="rect" id="node1" href="./Session.html" title="&lt;TABLE&gt;" alt="" coords="240,107,328,155"/>
-<area shape="rect" id="c19574" href="./operations/OperationChainManager.html" title="org.universAAL.ri.gateway.operations.OperationChainManager" alt="" coords="15,11,177,53"/>
+<area shape="rect" id="c27030" href="./operations/OperationChainManager.html" title="org.universAAL.ri.gateway.operations.OperationChainManager" alt="" coords="15,11,177,53"/>
 <area shape="rect" id="node2" href="./operations/OperationChainManager.html" title="&lt;TABLE&gt;" alt="" coords="5,6,187,58"/>
-<area shape="rect" id="c19581" href="./protocol/MessageReceiver.html" title="org.universAAL.ri.gateway.protocol.MessageReceiver" alt="" coords="221,11,347,53"/>
+<area shape="rect" id="c27037" href="./protocol/MessageReceiver.html" title="org.universAAL.ri.gateway.protocol.MessageReceiver" alt="" coords="221,11,347,53"/>
 <area shape="rect" id="node3" href="./protocol/MessageReceiver.html" title="&lt;TABLE&gt;" alt="" coords="211,6,357,58"/>
-<area shape="rect" id="c19582" href="./protocol/MessageSender.html" title="org.universAAL.ri.gateway.protocol.MessageSender" alt="" coords="392,11,507,53"/>
+<area shape="rect" id="c27038" href="./protocol/MessageSender.html" title="org.universAAL.ri.gateway.protocol.MessageSender" alt="" coords="392,11,507,53"/>
 <area shape="rect" id="node4" href="./protocol/MessageSender.html" title="&lt;TABLE&gt;" alt="" coords="381,6,517,58"/>
 </map>

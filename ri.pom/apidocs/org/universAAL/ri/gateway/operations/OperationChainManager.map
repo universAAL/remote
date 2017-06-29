@@ -1,16 +1,16 @@
 <map id="G" name="G">
-<area shape="rect" id="c14403" href="../Session.html" title="org.universAAL.ri.gateway.Session" alt="" coords="15,121,83,146"/>
+<area shape="rect" id="c19852" href="../Session.html" title="org.universAAL.ri.gateway.Session" alt="" coords="15,121,83,146"/>
 <area shape="rect" id="node1" href="../Session.html" title="&lt;TABLE&gt;" alt="" coords="5,109,93,157"/>
-<area shape="rect" id="c14415" href="../configuration/TurtleFileSecurityDefinition.html" title="org.universAAL.ri.gateway.configuration.TurtleFileSecurityDefinition" alt="" coords="127,121,305,146"/>
+<area shape="rect" id="c19864" href="../configuration/TurtleFileSecurityDefinition.html" title="org.universAAL.ri.gateway.configuration.TurtleFileSecurityDefinition" alt="" coords="127,121,305,146"/>
 <area shape="rect" id="node2" href="../configuration/TurtleFileSecurityDefinition.html" title="&lt;TABLE&gt;" alt="" coords="117,109,315,157"/>
-<area shape="rect" id="c14419" href="../configuration/NoSecurityDefinition.html" title="org.universAAL.ri.gateway.configuration.NoSecurityDefinition" alt="" coords="349,121,491,146"/>
+<area shape="rect" id="c19868" href="../configuration/NoSecurityDefinition.html" title="org.universAAL.ri.gateway.configuration.NoSecurityDefinition" alt="" coords="349,121,491,146"/>
 <area shape="rect" id="node3" href="../configuration/NoSecurityDefinition.html" title="&lt;TABLE&gt;" alt="" coords="339,109,501,157"/>
-<area shape="rect" id="c14420" href="../configuration/Configuration.html" title="org.universAAL.ri.gateway.configuration.Configuration" alt="" coords="535,113,633,154"/>
+<area shape="rect" id="c19869" href="../configuration/Configuration.html" title="org.universAAL.ri.gateway.configuration.Configuration" alt="" coords="535,113,633,154"/>
 <area shape="rect" id="node4" href="../configuration/Configuration.html" title="&lt;TABLE&gt;" alt="" coords="525,107,643,159"/>
-<area shape="rect" id="c14424" href="./DenyDefault.html" title="org.universAAL.ri.gateway.operations.DenyDefault" alt="" coords="677,121,771,146"/>
+<area shape="rect" id="c19873" href="./DenyDefault.html" title="org.universAAL.ri.gateway.operations.DenyDefault" alt="" coords="677,121,771,146"/>
 <area shape="rect" id="node5" href="./DenyDefault.html" title="&lt;TABLE&gt;" alt="" coords="667,109,781,157"/>
-<area shape="rect" id="c14425" href="./AllowDefault.html" title="org.universAAL.ri.gateway.operations.AllowDefault" alt="" coords="815,121,910,146"/>
+<area shape="rect" id="c19874" href="./AllowDefault.html" title="org.universAAL.ri.gateway.operations.AllowDefault" alt="" coords="815,121,910,146"/>
 <area shape="rect" id="node6" href="./AllowDefault.html" title="&lt;TABLE&gt;" alt="" coords="805,109,920,157"/>
-<area shape="rect" id="c14430" href="./OperationChainManager.html" title="org.universAAL.ri.gateway.operations.OperationChainManager" alt="" coords="421,11,582,53"/>
+<area shape="rect" id="c19879" href="./OperationChainManager.html" title="org.universAAL.ri.gateway.operations.OperationChainManager" alt="" coords="421,11,582,53"/>
 <area shape="rect" id="node7" href="./OperationChainManager.html" title="&lt;TABLE&gt;" alt="" coords="411,6,592,58"/>
 </map>

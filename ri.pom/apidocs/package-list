@@ -21,6 +21,12 @@ org.universAAL.ri.gateway.utils
 org.universAAL.ri.internetgateway
 org.universAAL.ri.keepalive.receiver
 org.universAAL.ri.keepalive.sender
+org.universAAL.ri.rest.manager
+org.universAAL.ri.rest.manager.push
+org.universAAL.ri.rest.manager.resources
+org.universAAL.ri.rest.manager.server
+org.universAAL.ri.rest.manager.server.persistence
+org.universAAL.ri.rest.manager.wrappers
 org.universAAL.ri.restToolkit
 org.universAAL.ri.servicegateway
 org.universAAL.ri.servicegateway.impl

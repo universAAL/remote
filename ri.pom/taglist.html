@@ -26,7 +26,7 @@
           
                 <div class="xleft">
         <span id="publishDate">Last Published: 2017</span>
-                  &nbsp;| <span id="projectVersion">Version: 3.4.1-SNAPSHOT</span>
+                  &nbsp;| <span id="projectVersion">Version: 3.4.2-SNAPSHOT</span>
                       </div>
             <div class="xright">                    <a href="./" title="universAAL Remote Interoperability Suite">universAAL Remote Interoperability Suite</a>
             
@@ -66,6 +66,9 @@
             </li>
                   <li class="none">
                           <a href="../ri.api.manager.mysql/index.html" title="universAAL Remote Interoperability Remote-API MySQL Add-on">universAAL Remote Interoperability Remote-API MySQL Add-on</a>
+            </li>
+                  <li class="none">
+                          <a href="../ri.rest.manager/index.html" title="universAAL Remote Interoperability REST-API Manager">universAAL Remote Interoperability REST-API Manager</a>
             </li>
                   <li class="none">
                           <a href="../ri.keepalive.receiver/index.html" title="universAAL Remote Interoperability Keep-alive Receiver">universAAL Remote Interoperability Keep-alive Receiver</a>
@@ -127,12 +130,12 @@
 <th>Tag strings used by tag class</th></tr>
 <tr class="b">
 <td><a href="#tag_class_1">Todo Work</a></td>
-<td>78</td>
+<td>87</td>
 <td>todo, FIXME, XXX</td></tr></table>
 <p>Each tag is detailed below:</p>
 <div class="section">
 <h3><a name="Todo_Work"></a><a name="tag_class_1">Todo Work</a></h3>
-<p><b>Number of occurrences found in the code: 78</b></p>
+<p><b>Number of occurrences found in the code: 87</b></p>
 <table border="0" class="bodyTable">
 <tr class="a">
 <th>org.universAAL.ri.api.manager.Activator</th>
@@ -423,27 +426,66 @@
 <td>Set right URI, but now it doesnt matter because what is used in receiver is tenant id.</td>
 <td>33</td></tr>
 <tr class="a">
+<th>org.universAAL.ri.rest.manager.push.PushGCM</th>
+<th>Line</th></tr>
+<tr class="b">
+<td>!!!!!!!!!!!! Activator.getRemoteAPI().register(nodeid, canon); //This just updates the remoteid Activator.getPersistence().storeRegister(nodeid, canon, null);</td>
+<td>188</td></tr>
+<tr class="a">
+<td>!!!!!!!!!!!! Activator.getRemoteAPI().register(nodeid, REG_ID_OUTDATED); //This just updates the remoteid Activator.getPersistence().storeRegister(nodeid, REG_ID_OUTDATED, null);</td>
+<td>200</td></tr>
+<tr class="b">
+<th>org.universAAL.ri.rest.manager.resources.Subscriber</th>
+<th>Line</th></tr>
+<tr class="a">
+<td>@XMLElement(nillable=true) for not showing in .../subscribers ?</td>
+<td>67</td></tr>
+<tr class="b">
+<th>org.universAAL.ri.rest.manager.server.Authenticator</th>
+<th>Line</th></tr>
+<tr class="a">
+<td>--No comment--</td>
+<td>50</td></tr>
+<tr class="b">
+<td>Evaluate if it is worth it to have an in-memory user-pass list to ease the pressure on the DB, if that means implementing additional managing features to keep it sync with the DB.</td>
+<td>83</td></tr>
+<tr class="a">
+<td>Rough authorization strategy. Only allow access to space if you created it. List&lt;PathSegment&gt; s = JAXRSUtils.getPathSegments(p, false); if(s.size()&gt;2){ // /uaal and /uaal/spaces for everyone TODO ?? PathSegment segment = s.get(2); String space=segment.toString(); return Activator.getPersistence().checkUserSpace(username, space)); }</td>
+<td>106</td></tr>
+<tr class="b">
+<td>Use native mechanisms for authorization</td>
+<td>114</td></tr>
+<tr class="a">
+<th>org.universAAL.ri.rest.manager.server.persistence.PersistenceDerby</th>
+<th>Line</th></tr>
+<tr class="b">
+<td>Remove in cascade? Rsult is the same, but maybe faster?</td>
+<td>326</td></tr>
+<tr class="a">
+<td>Remove in cascade? Rsult is the same, but maybe faster?</td>
+<td>568</td></tr>
+<tr class="b">
 <th>org.universAAL.ri.servicegateway.osgi.GatewayPortTracker</th>
 <th>Line</th></tr>
-<tr class="b">
+<tr class="a">
 <td>Auto-generated catch block</td>
 <td>151</td></tr>
-<tr class="a">
+<tr class="b">
 <td>Auto-generated catch block</td>
 <td>154</td></tr>
-<tr class="b">
+<tr class="a">
 <td>Auto-generated catch block</td>
 <td>183</td></tr>
-<tr class="a">
+<tr class="b">
 <td>Auto-generated catch block</td>
 <td>186</td></tr>
-<tr class="b">
+<tr class="a">
 <td>Auto-generated catch block</td>
 <td>189</td></tr>
-<tr class="a">
+<tr class="b">
 <th>org.universAAL.ri.wsdlToolkit.axis2Parser.AdditionalTypesParser</th>
 <th>Line</th></tr>
-<tr class="b">
+<tr class="a">
 <td>Analyze this attribute theDefinition.getContainingErrors().add(&quot;ERROR - WARNING @ line ~663!!!... mpike edw... check ti ginetai edw...&quot;); System.out.println(&quot;ERROR - WARNING @ line ~663!!!&quot;);</td>
 <td>2370</td></tr></table></div></div>
       </div>

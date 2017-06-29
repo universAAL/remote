@@ -1,0 +1,14 @@
+<map id="G" name="G">
+<area shape="rect" id="c6462" href="./UaalWrapper.html" title="org.universAAL.ri.rest.manager.wrappers.UaalWrapper" alt="" coords="15,17,113,42"/>
+<area shape="rect" id="node1" href="./UaalWrapper.html" title="&lt;TABLE&gt;" alt="" coords="5,5,123,53"/>
+<area shape="rect" id="c6463" href="./CallerWrapper.html" title="org.universAAL.ri.rest.manager.wrappers.CallerWrapper" alt="" coords="157,17,261,42"/>
+<area shape="rect" id="node2" href="./CallerWrapper.html" title="&lt;TABLE&gt;" alt="" coords="147,5,272,53"/>
+<area shape="rect" id="c6464" href="./SubscriberWrapper.html" title="org.universAAL.ri.rest.manager.wrappers.SubscriberWrapper" alt="" coords="306,17,438,42"/>
+<area shape="rect" id="node3" href="./SubscriberWrapper.html" title="&lt;TABLE&gt;" alt="" coords="296,5,448,53"/>
+<area shape="rect" id="c6465" href="./PublisherWrapper.html" title="org.universAAL.ri.rest.manager.wrappers.PublisherWrapper" alt="" coords="482,17,606,42"/>
+<area shape="rect" id="node4" href="./PublisherWrapper.html" title="&lt;TABLE&gt;" alt="" coords="472,5,616,53"/>
+<area shape="rect" id="c6466" href="./SpaceWrapper.html" title="org.universAAL.ri.rest.manager.wrappers.SpaceWrapper" alt="" coords="651,17,757,42"/>
+<area shape="rect" id="node5" href="./SpaceWrapper.html" title="&lt;TABLE&gt;" alt="" coords="640,5,768,53"/>
+<area shape="rect" id="c6467" href="./CalleeWrapper.html" title="org.universAAL.ri.rest.manager.wrappers.CalleeWrapper" alt="" coords="803,17,909,42"/>
+<area shape="rect" id="node6" href="./CalleeWrapper.html" title="&lt;TABLE&gt;" alt="" coords="792,5,920,53"/>
+</map>

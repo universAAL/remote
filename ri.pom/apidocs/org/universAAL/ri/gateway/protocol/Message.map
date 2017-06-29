@@ -1,14 +1,14 @@
 <map id="G" name="G">
-<area shape="rect" id="c13081" href="./ErrorMessage.html" title="org.universAAL.ri.gateway.protocol.ErrorMessage" alt="" coords="16,214,117,239"/>
+<area shape="rect" id="c18220" href="./ErrorMessage.html" title="org.universAAL.ri.gateway.protocol.ErrorMessage" alt="" coords="16,214,117,239"/>
 <area shape="rect" id="node1" href="./ErrorMessage.html" title="&lt;TABLE&gt;" alt="" coords="5,203,128,251"/>
-<area shape="rect" id="c13082" href="./LinkMessage.html" title="org.universAAL.ri.gateway.protocol.LinkMessage" alt="" coords="162,214,259,239"/>
+<area shape="rect" id="c18221" href="./LinkMessage.html" title="org.universAAL.ri.gateway.protocol.LinkMessage" alt="" coords="162,214,259,239"/>
 <area shape="rect" id="node2" href="./LinkMessage.html" title="&lt;TABLE&gt;" alt="" coords="152,203,269,251"/>
-<area shape="rect" id="c13084" href="./WrappedBusMessage.html" title="org.universAAL.ri.gateway.protocol.WrappedBusMessage" alt="" coords="304,214,453,239"/>
+<area shape="rect" id="c18223" href="./WrappedBusMessage.html" title="org.universAAL.ri.gateway.protocol.WrappedBusMessage" alt="" coords="304,214,453,239"/>
 <area shape="rect" id="node3" href="./WrappedBusMessage.html" title="&lt;TABLE&gt;" alt="" coords="293,203,464,251"/>
-<area shape="rect" id="c13087" href="./Message.html" title="org.universAAL.ri.gateway.protocol.Message" alt="" coords="258,118,331,143"/>
+<area shape="rect" id="c18226" href="./Message.html" title="org.universAAL.ri.gateway.protocol.Message" alt="" coords="258,118,331,143"/>
 <area shape="rect" id="node4" href="./Message.html" title="&lt;TABLE&gt;" alt="" coords="248,107,341,155"/>
-<area shape="rect" id="c13088" href="./ImportMessage.html" title="org.universAAL.ri.gateway.protocol.ImportMessage" alt="" coords="498,214,609,239"/>
+<area shape="rect" id="c18227" href="./ImportMessage.html" title="org.universAAL.ri.gateway.protocol.ImportMessage" alt="" coords="498,214,609,239"/>
 <area shape="rect" id="node5" href="./ImportMessage.html" title="&lt;TABLE&gt;" alt="" coords="488,203,619,251"/>
-<area shape="rect" id="c13144" href="http://java.sun.com/j2se/1.4.2/docs/api/java/io/Serializable.html" title="java.io.Serializable" alt="" coords="251,11,339,53"/>
+<area shape="rect" id="c18314" href="http://java.sun.com/j2se/1.4.2/docs/api/java/io/Serializable.html" title="java.io.Serializable" alt="" coords="251,11,339,53"/>
 <area shape="rect" id="node9" href="http://java.sun.com/j2se/1.4.2/docs/api/java/io/Serializable.html" title="&lt;TABLE&gt;" alt="" coords="240,6,349,58"/>
 </map>

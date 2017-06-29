@@ -1,8 +1,8 @@
 <map id="G" name="G">
-<area shape="rect" id="c4029" href="./APIImplException.html" title="org.universAAL.ri.api.manager.exceptions.APIImplException" alt="" coords="16,113,141,138"/>
+<area shape="rect" id="c4928" href="./APIImplException.html" title="org.universAAL.ri.api.manager.exceptions.APIImplException" alt="" coords="16,113,141,138"/>
 <area shape="rect" id="node1" href="./APIImplException.html" title="&lt;TABLE&gt;" alt="" coords="5,101,152,149"/>
-<area shape="rect" id="c4030" href="./RAPIException.html" title="org.universAAL.ri.api.manager.exceptions.RAPIException" alt="" coords="105,17,215,42"/>
+<area shape="rect" id="c4929" href="./RAPIException.html" title="org.universAAL.ri.api.manager.exceptions.RAPIException" alt="" coords="105,17,215,42"/>
 <area shape="rect" id="node2" href="./RAPIException.html" title="&lt;TABLE&gt;" alt="" coords="95,5,225,53"/>
-<area shape="rect" id="c4031" href="./PushException.html" title="org.universAAL.ri.api.manager.exceptions.PushException" alt="" coords="187,113,296,138"/>
+<area shape="rect" id="c4930" href="./PushException.html" title="org.universAAL.ri.api.manager.exceptions.PushException" alt="" coords="187,113,296,138"/>
 <area shape="rect" id="node3" href="./PushException.html" title="&lt;TABLE&gt;" alt="" coords="176,101,307,149"/>
 </map>

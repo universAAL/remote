@@ -1,10 +1,10 @@
 <map id="G" name="G">
-<area shape="rect" id="c2511" href="./ReconnectionRequest.html" title="org.universAAL.ri.gateway.protocol.link.ReconnectionRequest" alt="" coords="16,17,165,42"/>
+<area shape="rect" id="c3069" href="./ReconnectionRequest.html" title="org.universAAL.ri.gateway.protocol.link.ReconnectionRequest" alt="" coords="16,17,165,42"/>
 <area shape="rect" id="node1" href="./ReconnectionRequest.html" title="&lt;TABLE&gt;" alt="" coords="5,5,176,53"/>
-<area shape="rect" id="c2512" href="./DisconnectionRequest.html" title="org.universAAL.ri.gateway.protocol.link.DisconnectionRequest" alt="" coords="210,17,363,42"/>
+<area shape="rect" id="c3070" href="./DisconnectionRequest.html" title="org.universAAL.ri.gateway.protocol.link.DisconnectionRequest" alt="" coords="210,17,363,42"/>
 <area shape="rect" id="node2" href="./DisconnectionRequest.html" title="&lt;TABLE&gt;" alt="" coords="200,5,373,53"/>
-<area shape="rect" id="c2513" href="./ConnectionRequest.html" title="org.universAAL.ri.gateway.protocol.link.ConnectionRequest" alt="" coords="408,17,544,42"/>
+<area shape="rect" id="c3071" href="./ConnectionRequest.html" title="org.universAAL.ri.gateway.protocol.link.ConnectionRequest" alt="" coords="408,17,544,42"/>
 <area shape="rect" id="node3" href="./ConnectionRequest.html" title="&lt;TABLE&gt;" alt="" coords="397,5,555,53"/>
-<area shape="rect" id="c2514" href="./ConnectionResponse.html" title="org.universAAL.ri.gateway.protocol.link.ConnectionResponse" alt="" coords="589,17,734,42"/>
+<area shape="rect" id="c3072" href="./ConnectionResponse.html" title="org.universAAL.ri.gateway.protocol.link.ConnectionResponse" alt="" coords="589,17,734,42"/>
 <area shape="rect" id="node4" href="./ConnectionResponse.html" title="&lt;TABLE&gt;" alt="" coords="579,5,744,53"/>
 </map>

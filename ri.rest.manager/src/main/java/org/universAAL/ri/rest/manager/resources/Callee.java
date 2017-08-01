@@ -145,7 +145,7 @@ public class Callee {
 	@Consumes(Activator.TYPES_TXT)
 	public Response executeCalleeResponse(@PathParam("id") String id, @PathParam("subid") String subid,
 			@QueryParam("o") String origin, String sresp) {
-		Activator.logI("Callee.executeCalleeResponse", "DELETE host:port/uaal/spaces/X/service/callees/Y");
+		Activator.logI("Callee.executeCalleeResponse", "POST host:port/uaal/spaces/X/service/callees/Y");
 		SpaceWrapper tenant = UaalWrapper.getInstance().getTenant(id);
 		if (tenant != null) {
 			CalleeWrapper ceewrap = tenant.getServiceCallee(subid);

@@ -48,7 +48,7 @@
     </dependency>
     <dependency>
       <groupId>org.universAAL.support</groupId>
-      <artifactId>uAAL.utils</artifactId>
+      <artifactId>utilities.api</artifactId>
     </dependency>
     <dependency>
       <groupId>javax.servlet</groupId>

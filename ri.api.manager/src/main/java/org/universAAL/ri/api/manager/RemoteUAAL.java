@@ -31,9 +31,9 @@ import org.universAAL.middleware.service.CallStatus;
 import org.universAAL.middleware.service.ServiceCall;
 import org.universAAL.middleware.service.ServiceResponse;
 import org.universAAL.middleware.service.owls.profile.ServiceProfile;
-import org.universAAL.support.utils.ICListener;
-import org.universAAL.support.utils.ISListener;
-import org.universAAL.support.utils.UAAL;
+import org.universAAL.utilities.api.ICListener;
+import org.universAAL.utilities.api.ISListener;
+import org.universAAL.utilities.api.UAAL;
 import org.universAAL.ri.api.manager.push.PushManager;
 
 /**

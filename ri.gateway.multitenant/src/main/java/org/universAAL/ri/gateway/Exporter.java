@@ -62,7 +62,7 @@ public class Exporter implements IBusMemberRegistryListener {
 	 * Track all busMembers that register to the buses to their actual
 	 * registration parameters.
 	 */
-	private final Map<String, Resource[]> tracked;
+	private final Map tracked;
 
 	/**
 	 * Pool of Proxies.
@@ -88,7 +88,7 @@ public class Exporter implements IBusMemberRegistryListener {
 	 */
 	public Exporter(final ProxyPool pool) {
 		this.pool = pool;
-		tracked = new ConcurrentHashMap<String, Resource[]>();
+		tracked = new NullConcurrentHashMap();
 		exported = new ConcurrentHashMap<String, ProxyBusMember>();
 		executor = Executors.newSingleThreadExecutor();
 	}
@@ -147,7 +147,7 @@ public class Exporter implements IBusMemberRegistryListener {
 				return;
 			}
 
-			final Resource[] params = tracked.get(busMemberId);
+			final Resource[] params = ((NullConcurrentHashMap)tracked).getNullable(busMemberId);
 			// check exportOperationChain of the session
 			if (session.getExportOperationChain().check(params).equals(OperationChain.OperationResult.ALLOW)) {
 				// export
@@ -246,7 +246,7 @@ public class Exporter implements IBusMemberRegistryListener {
 				return;
 			}
 			// check the new parameters are allowed to be exported
-			if (s.getExportOperationChain().check(tracked.get(busMemberID))
+			if (s.getExportOperationChain().check(((NullConcurrentHashMap)tracked).getNullable(busMemberID))
 					.equals(OperationChain.OperationResult.ALLOW)) {
 				Message resp = null;
 				try {
@@ -318,7 +318,7 @@ public class Exporter implements IBusMemberRegistryListener {
 								+ "informing remote about parameter change.");
 				// update proxy registrations
 				up.update(pbm);
-				// up.newParameters(tracked.get(busMemberID)));
+				// up.newParameters(tracked.getNullable(busMemberID)));
 				final Collection<BusMemberReference> refs = pbm.getRemoteProxiesReferences();
 				// Send refresh message per channel.
 				for (final BusMemberReference bmr : refs) {
@@ -389,8 +389,8 @@ public class Exporter implements IBusMemberRegistryListener {
 	 * @param session
 	 */
 	public void activatedSession(final Session session) {
-		for (final String bmId : tracked.keySet()) {
-			executor.execute(new ExportTask(bmId, session));
+		for (final Object bmId : tracked.keySet()) {
+			executor.execute(new ExportTask((String) bmId, session));
 		}
 	}
 
@@ -430,7 +430,7 @@ public class Exporter implements IBusMemberRegistryListener {
 						"Bus member already added, ignoring: " + member.getURI());
 				return;
 			}
-			tracked.put(member.getURI(), null);
+			((NullConcurrentHashMap)tracked).putNullable(member.getURI(), null);
 			Resource[] initParams = ProxyBusMemberFactory.initialParameters(member);
 			if (initParams != null) {
 				regParamsAdded(member.getURI(), initParams);
@@ -467,13 +467,13 @@ public class Exporter implements IBusMemberRegistryListener {
 	/** {@inheritDoc} */
 	public void regParamsAdded(final String busMemberID, final Resource[] params) {
 
-		final Resource[] currentParams = tracked.get(busMemberID);
+		final Resource[] currentParams = ((NullConcurrentHashMap)tracked).getNullable(busMemberID);
 
 		boolean isContained = tracked.containsKey(busMemberID);
 
 		if (isContained && currentParams == null) {
 			// a virgin bus member has registered, ie a newBusMember!
-			tracked.put(busMemberID, params);
+		    ((NullConcurrentHashMap)tracked).putNullable(busMemberID, params);
 			// check all sessions
 			final Collection<Session> allSessions = Gateway.getInstance().getSessions();
 			for (final Session s : allSessions) {
@@ -483,7 +483,7 @@ public class Exporter implements IBusMemberRegistryListener {
 				}
 			}
 		} else if (isContained && currentParams != null) {
-			tracked.put(busMemberID, new ArraySet.Union<Resource>().combine(currentParams, params, new Resource[] {}));
+		    ((NullConcurrentHashMap)tracked).putNullable(busMemberID, new ArraySet.Union<Resource>().combine(currentParams, params, new Resource[] {}));
 			executor.execute(new RefreshTask(busMemberID, new RegistrationParametersAdder(params)));
 		} else {
 			// else -> a notification from a non exportable bus member ->
@@ -499,8 +499,8 @@ public class Exporter implements IBusMemberRegistryListener {
 		 * TODO check if new params of the BusMember is [], Then ???
 		 */
 
-		tracked.put(busMemberID,
-				new ArraySet.Union<Resource>().combine(tracked.get(busMemberID), params, new Resource[] {}));
+	    ((NullConcurrentHashMap)tracked).putNullable(busMemberID,
+				new ArraySet.Union<Resource>().combine(((NullConcurrentHashMap)tracked).getNullable(busMemberID), params, new Resource[] {}));
 		executor.execute(new RefreshTask(busMemberID, new RegistrationParametersRemover(params)));
 	}
 
@@ -533,9 +533,9 @@ public class Exporter implements IBusMemberRegistryListener {
 		// Graceful termination of pending tasks
 		// specially waiting for session closure tasks
 		try {
-			while (!executor.awaitTermination(10, TimeUnit.SECONDS)) {
+			if (!executor.awaitTermination(45, TimeUnit.SECONDS)) {
 				LogUtils.logInfo(Gateway.getInstance().context, getClass(), "stop",
-						"Timeout waiting for session end operations, waiting some more.");
+						"Timeout waiting for session end operations, stopping anyway.");
 			}
 		} catch (InterruptedException e) {
 			stop();
@@ -561,5 +561,28 @@ public class Exporter implements IBusMemberRegistryListener {
 	 */
 	public boolean isTracked(String bmURI) {
 		return tracked.containsKey(bmURI);
+	}
+	
+	/**
+	 * Helper class that wraps ConcurrentHashMap allowing for null values. Null
+	 * values are internally converted to/from a token constant. Use getNullable
+	 * and putNullable instead of the original get and put. It was done this
+	 * way because get and put are used internally and should not be overridden.
+	 * 
+	 * @author alfiva
+	 */
+	@SuppressWarnings("serial")
+	public static class NullConcurrentHashMap
+	extends ConcurrentHashMap<String, Resource[]> {
+	    public static final Resource[] NULL_RESOURCE = new Resource[] {};
+
+	    public Resource[] getNullable(Object key) {
+		Resource[] retVal = get(key);
+		return (retVal!=null && retVal.equals(NULL_RESOURCE)) ? null : retVal;
+	    }
+
+	    public Resource[] putNullable(String key, Resource[] value) {
+		return put(key, value != null ? value : NULL_RESOURCE);
+	    }
 	}
 }

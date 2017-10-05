@@ -142,10 +142,10 @@ public class Space {
 	}
 
 	@DELETE // DEL localhost:9000/uaal/spaces/123
-	public Response deleteSpaceResource() {
+	public Response deleteSpaceResource(@PathParam("id") String id) {
 		Activator.logI("Space.deleteSpaceResource", "DELETE host:port/uaal/spaces/X ");
 		if (Activator.getTenantMngr() != null) {
-			Activator.getTenantMngr().unregisterTenant(this.id);
+			Activator.getTenantMngr().unregisterTenant(id);
 		}
 		UaalWrapper.getInstance().removeTenant(id);
 		Activator.getPersistence().removeSpace(id);

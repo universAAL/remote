@@ -21,6 +21,7 @@ package org.universAAL.ri.gateway;
 
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.TimeoutException;
 
 import org.universAAL.middleware.container.utils.LogUtils;
@@ -48,20 +49,22 @@ import org.universAAL.ri.gateway.utils.CallSynchronizer;
 /**
  * Representation of a one to one link between 2 ASGs. It is in charge of
  * connecting the communication layer with the Importer and proxies.
- *
+ * 
  * @author amedrano
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @version $LastChangedRevision$ ($LastChangedDate$)
- *
+ * 
  */
-public class Session implements MessageSender, MessageReceiver, OperationChainManager {
+public class Session implements MessageSender, MessageReceiver,
+		OperationChainManager {
 
 	public class SessionStatusEvent implements SessionEvent {
 		private final Session session;
 		private final SessionEvent.SessionStatus old;
 		private final SessionEvent.SessionStatus current;
 
-		public SessionStatusEvent(final Session session, final SessionEvent.SessionStatus old,
+		public SessionStatusEvent(final Session session,
+				final SessionEvent.SessionStatus old,
 				final SessionEvent.SessionStatus current) {
 			this.session = session;
 			this.old = old;
@@ -82,11 +85,13 @@ public class Session implements MessageSender, MessageReceiver, OperationChainMa
 
 		@Override
 		public String toString() {
-			return this.getClass().getSimpleName() + "[" + session + ": status from " + old + " to " + current + "]";
+			return this.getClass().getSimpleName() + "[" + session
+					+ ": status from " + old + " to " + current + "]";
 		}
 	}
 
-	private class MessageSynchronizer extends CallSynchronizer<Short, Message, Message> {
+	private class MessageSynchronizer extends
+			CallSynchronizer<Short, Message, Message> {
 
 		/** {@ inheritDoc} */
 		@Override
@@ -96,8 +101,46 @@ public class Session implements MessageSender, MessageReceiver, OperationChainMa
 
 	}
 
-	public static final Logger log = LoggerFactory.createLoggerFactory(Gateway.getInstance().context)
-			.getLogger(Session.class);
+	private class MessageQueueTask implements Runnable {
+
+		boolean active = true;
+
+		long retryWait = 5000;
+
+		/** {@inheritDoc} */
+		public void run() {
+			while (active) {
+				if (messagequeue.size() == 0) {
+					try {
+						messagequeue.wait();
+					} catch (InterruptedException e) {
+					}
+				}
+				Message m = messagequeue.peek();
+				boolean sent = false;
+				try {
+					sent = comunication.sendMessage(m, remoteScope);
+				} catch (final Exception e) {
+					log.error(
+							"Failed to send message due to internal exception, aborting",
+							e);
+					sent = true;
+				}
+				if (sent) {
+					messagequeue.poll();
+				} else {
+					try {
+						Thread.sleep(retryWait);
+					} catch (InterruptedException e) {
+					}
+				}
+			}
+		}
+
+	}
+
+	public static final Logger log = LoggerFactory.createLoggerFactory(
+			Gateway.getInstance().context).getLogger(Session.class);
 
 	private Importer importer;
 	private ProxyPool pool;
@@ -106,6 +149,8 @@ public class Session implements MessageSender, MessageReceiver, OperationChainMa
 	private AbstractSocketCommunicationHandler comunication;
 	private final Cipher cipher;
 	private CallSynchronizer<Short, Message, Message> synchronizer = new MessageSynchronizer();
+	private ConcurrentLinkedQueue<Message> messagequeue = new ConcurrentLinkedQueue<Message>();
+	private Thread messagequeuetask;
 
 	private SessionEvent.SessionStatus state;
 	private final HashSet<SessionEventListener> listeners = new HashSet<SessionEventListener>();
@@ -114,9 +159,13 @@ public class Session implements MessageSender, MessageReceiver, OperationChainMa
 		this.config = config;
 		this.cipher = config.getCipher();
 		this.state = SessionEvent.SessionStatus.OPENING;
+		this.messagequeuetask = new Thread(new MessageQueueTask(), "Session_"
+				+ config.toString() + "_MessageQueueTask");
+		this.messagequeuetask.start();
 	}
 
-	public Session(final Configuration config, final ProxyPool proxyPool, final ServerSocketCommunicationHandler com) {
+	public Session(final Configuration config, final ProxyPool proxyPool,
+			final ServerSocketCommunicationHandler com) {
 		this(config);
 		this.pool = proxyPool;
 		this.importer = new Importer(this, this.pool);
@@ -134,20 +183,21 @@ public class Session implements MessageSender, MessageReceiver, OperationChainMa
 		this.importer = new Importer(this, this.pool);
 
 		if (config.getConnectionMode() != ConnectionMode.CLIENT) {
-			throw new UnsupportedOperationException("Single session supports only the " + ConnectionMode.CLIENT);
+			throw new UnsupportedOperationException(
+					"Single session supports only the " + ConnectionMode.CLIENT);
 		}
 		comunication = new ClientSocketCommunicationHandler(config, this, this);
 		try {
 			comunication.start();
 		} catch (final Exception e) {
-			LogUtils.logError(Gateway.getInstance().context, getClass(), "Constructor",
-					new String[] { "Unexpected Exceotion" }, e);
+			LogUtils.logError(Gateway.getInstance().context, getClass(),
+					"Constructor", new String[] { "Unexpected Exceotion" }, e);
 			throw new RuntimeException(e);
 		}
 	}
 
 	/**
-	 *
+	 * 
 	 * @param scope
 	 *            the {@link String} representing the scope of this Session. At
 	 *            the moment the Scope is represented by the SpaceId of the
@@ -159,10 +209,10 @@ public class Session implements MessageSender, MessageReceiver, OperationChainMa
 	}
 
 	/**
-	 *
+	 * 
 	 * @return the {@link String} representing the scope of this Session. At the
-	 *         moment the Scope is represented by the SpaceId of the Space
-	 *         that we are connected to
+	 *         moment the Scope is represented by the SpaceId of the Space that
+	 *         we are connected to
 	 */
 	public String getScope() {
 		return remoteScope;
@@ -174,11 +224,10 @@ public class Session implements MessageSender, MessageReceiver, OperationChainMa
 
 	public void send(final Message message) {
 		validateRemoteScope(remoteScope);
-		try {
-			comunication.sendMessage(message, remoteScope);
-		} catch (final Exception e) {
-			throw new RuntimeException("Failed to send message due to internal exception", e);
-		}
+		messagequeue.offer(message);
+		// TODO have a max queue length to not overflow when disconnected for
+		// long time
+		messagequeue.notify();
 	}
 
 	private void validateRemoteScope(final String scope) {
@@ -258,13 +307,15 @@ public class Session implements MessageSender, MessageReceiver, OperationChainMa
 			importer.handleImportMessage((ImportMessage) msg);
 		} else if (msg instanceof WrappedBusMessage) {
 			final WrappedBusMessage wbm = (WrappedBusMessage) msg;
-			final ProxyBusMember pbm = pool.get(wbm.getRemoteProxyRegistrationId());
+			final ProxyBusMember pbm = pool.get(wbm
+					.getRemoteProxyRegistrationId());
 			if (pbm != null) {
 				pbm.handleMessage(this, wbm);
 			}
 		} else if (msg instanceof ErrorMessage) {
 			final ErrorMessage em = (ErrorMessage) msg;
-			LogUtils.logError(Gateway.getInstance().context, getClass(), "handleMessage",
+			LogUtils.logError(Gateway.getInstance().context, getClass(),
+					"handleMessage",
 					"Received Error Message: " + em.getDescription());
 		}
 	}
@@ -276,17 +327,21 @@ public class Session implements MessageSender, MessageReceiver, OperationChainMa
 	public void stop() {
 		synchronizer.purge();
 		if (config.getConnectionMode() == ConnectionMode.SERVER) {
-			LogUtils.logInfo(Gateway.getInstance().context, getClass(), "stop",
+			LogUtils.logInfo(
+					Gateway.getInstance().context,
+					getClass(),
+					"stop",
 					"Nothing todo when stopping Session created by the Server, clean up will be performed when closing the server");
 		} else {
-			LogUtils.logInfo(Gateway.getInstance().context, getClass(), "stop", "Closing client session");
+			LogUtils.logInfo(Gateway.getInstance().context, getClass(), "stop",
+					"Closing client session");
 			comunication.stop();
 		}
 	}
 
 	/**
 	 * Add a listener even it has not been already added
-	 *
+	 * 
 	 * @param listener
 	 *            the listener to add
 	 * @return true if the listener has been registered
@@ -302,12 +357,13 @@ public class Session implements MessageSender, MessageReceiver, OperationChainMa
 	/**
 	 * Remove a listener from the listeners if and only if the listener has
 	 * already been added
-	 *
+	 * 
 	 * @param listener
 	 *            the listener to remove
 	 * @return true if the listener has been removed
 	 */
-	public boolean removeSessionEventListener(final SessionEventListener listener) {
+	public boolean removeSessionEventListener(
+			final SessionEventListener listener) {
 		final boolean flag = this.listeners.remove(listener);
 		if (flag) {
 			log.debug("Removed SessionEventListener " + listener.getName());
@@ -326,12 +382,15 @@ public class Session implements MessageSender, MessageReceiver, OperationChainMa
 	}
 
 	private void notifySessionEventListeners(final SessionStatusEvent e) {
-		final SessionEventListener[] notifyList = listeners.toArray(new SessionEventListener[] {});
+		final SessionEventListener[] notifyList = listeners
+				.toArray(new SessionEventListener[] {});
 		for (int i = 0; i < notifyList.length; i++) {
 			try {
 				notifyList[i].statusChange(e);
 			} catch (final Throwable ex) {
-				log.error("Failed to notify with success " + notifyList[i].getName(), ex);
+				log.error(
+						"Failed to notify with success "
+								+ notifyList[i].getName(), ex);
 			}
 		}
 	}
@@ -351,7 +410,7 @@ public class Session implements MessageSender, MessageReceiver, OperationChainMa
 	 * To be called when the session is to be closed. <br>
 	 * Removes all associations in all proxies with the session, and closes
 	 * those left orphan.
-	 *
+	 * 
 	 * @param session
 	 */
 	public void removeImports() {

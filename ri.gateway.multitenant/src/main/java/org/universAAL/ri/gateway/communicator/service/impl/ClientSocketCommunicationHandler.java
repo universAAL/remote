@@ -56,17 +56,19 @@ import org.universAAL.ri.gateway.protocol.link.DisconnectionRequest;
  * {@link Configuration.RoutingMode#FORWARD}, and so far for supporting also the
  * {@link Configuration.RoutingMode#ROUTER} the client should be aware of all
  * the peers to join in advance, which is a very limited case
- *
- *
+ * 
+ * 
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @version $LastChangedRevision$ ($LastChangedDate: 2014-07-23 11:24:23 +0200
  *          (Wed, 23 Jul 2014) $)
- *
+ * 
  */
-public class ClientSocketCommunicationHandler extends AbstractSocketCommunicationHandler {
+public class ClientSocketCommunicationHandler extends
+		AbstractSocketCommunicationHandler {
 
-	public static final Logger log = LoggerFactory.createLoggerFactory(Gateway.getInstance().context)
-			.getLogger(ClientSocketCommunicationHandler.class);
+	public static final Logger log = LoggerFactory.createLoggerFactory(
+			Gateway.getInstance().context).getLogger(
+			ClientSocketCommunicationHandler.class);
 
 	private static final int NUM_THREADS = 1;
 
@@ -88,21 +90,24 @@ public class ClientSocketCommunicationHandler extends AbstractSocketCommunicatio
 
 	private final Session creator;
 
-	public ClientSocketCommunicationHandler(final Configuration config, final MessageReceiver communicator,
-			final Session s) {
+	public ClientSocketCommunicationHandler(final Configuration config,
+			final MessageReceiver communicator, final Session s) {
 		super(s.getCipher());
 		this.config = config;
 		this.communicator = communicator;
 
 		this.creator = s;
 
-		this.executor = Executors.newFixedThreadPool(ClientSocketCommunicationHandler.NUM_THREADS);
+		this.executor = Executors
+				.newFixedThreadPool(ClientSocketCommunicationHandler.NUM_THREADS);
 		log.debug("Created client mode gateway comunication");
 	}
 
 	public void start() throws IOException {
-		final String serverConfig = config.getConnectionHost() + ":" + config.getConnectionPort();
-		log.info("Starting Client Gateway by connecting to Gateway Server at " + serverConfig);
+		final String serverConfig = config.getConnectionHost() + ":"
+				+ config.getConnectionPort();
+		log.info("Starting Client Gateway by connecting to Gateway Server at "
+				+ serverConfig);
 		serverThread = new Thread(new Runnable() {
 			public void run() {
 				Thread.currentThread().setName("GW :: Client");
@@ -113,32 +118,38 @@ public class ClientSocketCommunicationHandler extends AbstractSocketCommunicatio
 					}
 					final Socket socket;
 					try {
-						final InetAddress addr = InetAddress.getByName(config.getConnectionHost());
+						final InetAddress addr = InetAddress.getByName(config
+								.getConnectionHost());
 						socket = new Socket(addr, config.getConnectionPort());
 						creator.setStatus(SessionEvent.SessionStatus.CONNECTING);
 					} catch (ConnectException ce) {
-						final String msg = "Server appears to be down: \"" + ce.getMessage() + "\" retrying in "
+						final String msg = "Server appears to be down: \""
+								+ ce.getMessage() + "\" retrying in "
 								+ RECONNECT_WAITING_TIME + "ms";
 						log.info(msg);
 						continue;
 					} catch (final Exception ex) {
-						final String msg = "Failed to estabilished a link between client and server broken due to exception we retry in a bit";
+						final String msg = "Failed to estabilish a link between client and server broken due to exception we retry in a bit";
 						log.info(msg);
 						log.debug(msg, ex);
 						continue;
 					}
 					try {
-						log.debug("Client mode gateway connected to " + serverConfig);
+						log.debug("Client mode gateway connected to "
+								+ serverConfig);
 						synchronized (LOCK_VAR_LINK_HANDLER) {
-							currentLinkHandler = new LinkHandler(socket, communicator, creator);
+							currentLinkHandler = new LinkHandler(socket,
+									communicator, creator);
 						}
 						currentLinkHandler.run();
 						creator.setStatus(SessionEvent.SessionStatus.CONNECTING);
 						log.debug("Link is down, so we are goging to try again in "
-								+ ClientSocketCommunicationHandler.RECONNECT_WAITING_TIME + " ms");
+								+ ClientSocketCommunicationHandler.RECONNECT_WAITING_TIME
+								+ " ms");
 					} catch (final Exception e) {
 						creator.setStatus(SessionEvent.SessionStatus.CONNECTING);
-						log.error("Link between client and server broken due to exception we will try to restore it",
+						log.error(
+								"Link between client and server broken due to exception we will try to restore it",
 								e);
 					}
 
@@ -151,14 +162,15 @@ public class ClientSocketCommunicationHandler extends AbstractSocketCommunicatio
 	/**
 	 * This thread initializes the connection of the server gateway and managed
 	 * the messages
-	 *
-	 *
+	 * 
+	 * 
 	 */
 	private class LinkHandler extends AbstractLinkHandler {
 
 		private final Session session;
 
-		public LinkHandler(final Socket socket, final MessageReceiver communicator, final Session s) {
+		public LinkHandler(final Socket socket,
+				final MessageReceiver communicator, final Session s) {
 			super(socket, communicator, cipher);
 			session = s;
 		}
@@ -173,9 +185,11 @@ public class ClientSocketCommunicationHandler extends AbstractSocketCommunicatio
 					cleanUpSession();
 					return false;
 				} else {
-					session.setScope(SessionManager.getInstance().getSpaceIdFromSession(currentSession));
+					session.setScope(SessionManager.getInstance()
+							.getSpaceIdFromSession(currentSession));
 					session.setStatus(SessionEvent.SessionStatus.CONNECTED);
-					log.debug("Session created with sessionId " + currentSession);
+					log.debug("Session created with sessionId "
+							+ currentSession);
 				}
 			} else {
 				log.debug("SESSION was BROKEN by a link failure, trying to RESTORE it");
@@ -184,9 +198,11 @@ public class ClientSocketCommunicationHandler extends AbstractSocketCommunicatio
 					cleanUpSession();
 					return false;
 				} else {
-					session.setScope(SessionManager.getInstance().getSpaceIdFromSession(currentSession));
+					session.setScope(SessionManager.getInstance()
+							.getSpaceIdFromSession(currentSession));
 					session.setStatus(SessionEvent.SessionStatus.CONNECTED);
-					log.debug("Session with sessionId " + currentSession + " re-established");
+					log.debug("Session with sessionId " + currentSession
+							+ " re-established");
 				}
 			}
 			log.debug("SESSION (RE)ESTABILISHED with " + currentSession);
@@ -232,7 +248,8 @@ public class ClientSocketCommunicationHandler extends AbstractSocketCommunicatio
 
 		@Override
 		protected boolean handleSessionProtocol(final Message msg) {
-			final SpaceManager spaceManager = Gateway.getInstance().spaceManager.getObject();
+			final SpaceManager spaceManager = Gateway.getInstance().spaceManager
+					.getObject();
 			final SessionManager sessionManger = SessionManager.getInstance();
 			LinkMessage link = null;
 			if (msg instanceof LinkMessage) {
@@ -240,19 +257,28 @@ public class ClientSocketCommunicationHandler extends AbstractSocketCommunicatio
 			}
 			if (link == null) {
 				return false;
-			} else if (link.getType() == LinkMessageType.RECONNECTION_REQUEST.ordinal()
-					|| link.getType() == LinkMessageType.CONNECTION_REQUEST.ordinal()) {
-				throw new IllegalArgumentException("Receieved unexpected message " + link.getType());
-			} else if (link.getType() == LinkMessageType.DISCONNECTION_REQUEST.ordinal()) {
+			} else if (link.getType() == LinkMessageType.RECONNECTION_REQUEST
+					.ordinal()
+					|| link.getType() == LinkMessageType.CONNECTION_REQUEST
+							.ordinal()) {
+				throw new IllegalArgumentException(
+						"Receieved unexpected message " + link.getType());
+			} else if (link.getType() == LinkMessageType.DISCONNECTION_REQUEST
+					.ordinal()) {
 				final DisconnectionRequest request = (DisconnectionRequest) link;
 				// request.getPeerId()
-				final UUID session = sessionManger.getSession(request.getPeerId(), request.getSpaceId(),
+				final UUID session = sessionManger.getSession(
+						request.getPeerId(), request.getSpaceId(),
 						request.getScopeId());
 				if (session == null) {
 					// TODO Log someone is trying to disconnect from an invalid
 					// session
-					ClientSocketCommunicationHandler.log.warning("Trying to close a-non existing session with <"
-							+ request.getSpaceId() + "," + request.getPeerId() + ">, we just ignore it");
+					ClientSocketCommunicationHandler.log
+							.warning("Trying to close a-non existing session with <"
+									+ request.getSpaceId()
+									+ ","
+									+ request.getPeerId()
+									+ ">, we just ignore it");
 					return true;
 				}
 				this.session.setStatus(SessionEvent.SessionStatus.CLOSED);

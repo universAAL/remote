@@ -26,7 +26,7 @@ import java.util.Properties;
 
 /**
  * @author amedrano
- *
+ * 
  */
 public abstract class UpdatedPropertiesFile extends Properties {
 
@@ -38,7 +38,7 @@ public abstract class UpdatedPropertiesFile extends Properties {
 	/**
 	 * The properties file.
 	 */
-	private File propertiesFile;
+	protected File propertiesFile;
 
 	/**
 	 * The last version loaded of Properties file.
@@ -47,7 +47,7 @@ public abstract class UpdatedPropertiesFile extends Properties {
 
 	/**
 	 * Get the comments for the Property file.
-	 *
+	 * 
 	 * @return
 	 */
 	public abstract String getComments();
@@ -55,14 +55,14 @@ public abstract class UpdatedPropertiesFile extends Properties {
 	/**
 	 * to be implemented to add the default values at the start if there is no
 	 * file.
-	 *
+	 * 
 	 * @param defaults
 	 */
 	protected abstract void addDefaults(Properties defaults);
 
 	/**
 	 * Create a {@link Properties} that is linked and updated with the propfile
-	 *
+	 * 
 	 * @param propFile
 	 *            the properties file
 	 */
@@ -73,7 +73,7 @@ public abstract class UpdatedPropertiesFile extends Properties {
 	/**
 	 * load configuration properties from a file, setting the default for those
 	 * which are not defined.
-	 *
+	 * 
 	 * @throws IOException
 	 * @see HTMLUserGenerator#properties
 	 */
@@ -104,11 +104,12 @@ public abstract class UpdatedPropertiesFile extends Properties {
 
 	/**
 	 * Checks for updates the properties file, and updates the properties.
-	 *
+	 * 
 	 * @return true if the properties have been updated.
 	 */
 	protected boolean checkPropertiesVersion() {
-		if (propertiesFile != null && (propertiesVersion != propertiesFile.lastModified())) {
+		if (propertiesFile != null
+				&& (propertiesVersion != propertiesFile.lastModified())) {
 			;
 			try {
 				loadProperties();
@@ -121,11 +122,12 @@ public abstract class UpdatedPropertiesFile extends Properties {
 
 	/**
 	 * Save the current properties in the file.
-	 *
+	 * 
 	 * @throws IOException
 	 */
 	protected void storeProperties() throws IOException {
-		if (propertiesFile.getParentFile().exists() || propertiesFile.getParentFile().mkdirs()) {
+		if (propertiesFile.getParentFile().exists()
+				|| propertiesFile.getParentFile().mkdirs()) {
 			FileOutputStream fos = new FileOutputStream(propertiesFile);
 			super.store(fos, getComments());
 			fos.close();
@@ -134,7 +136,7 @@ public abstract class UpdatedPropertiesFile extends Properties {
 
 	/**
 	 * Access to the property file.
-	 *
+	 * 
 	 * @param string
 	 *            Key of property to access
 	 * @return String Value of the property
@@ -147,7 +149,7 @@ public abstract class UpdatedPropertiesFile extends Properties {
 
 	/**
 	 * Access to the property file.
-	 *
+	 * 
 	 * @param key
 	 *            Key of property to access
 	 * @param defaultValue
@@ -162,7 +164,7 @@ public abstract class UpdatedPropertiesFile extends Properties {
 
 	/**
 	 * Update the property file.
-	 *
+	 * 
 	 * @param key
 	 *            Key of property to access
 	 * @param newValue

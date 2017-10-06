@@ -30,9 +30,10 @@ import org.universAAL.ri.gateway.operations.ParameterCheckOpertaionChain;
 
 /**
  * @author amedrano
- *
+ * 
  */
-public class ConfigurationFile extends UpdatedPropertiesFile implements Configuration, PropertiesFileKeys {
+public class ConfigurationFile extends UpdatedPropertiesFile implements
+		Configuration, PropertiesFileKeys {
 
 	private static final String CLIENT = "CLIENT";
 	private static final String SERVER = "SERVER";
@@ -55,22 +56,35 @@ public class ConfigurationFile extends UpdatedPropertiesFile implements Configur
 				String secFile = getProperty(SECURITY_DEFINITION);
 				if (secFile != null) {
 					if (secFile.toUpperCase().equals(NONE)) {
-						LogUtils.logDebug(Gateway.getInstance().context, getClass(), "getChainManager",
-								new String[] { "Security definition disabled" }, null);
+						LogUtils.logDebug(
+								Gateway.getInstance().context,
+								getClass(),
+								"getChainManager",
+								new String[] { "Security definition disabled" },
+								null);
 						chainMNG = new NoSecurityDefinition();
 					} else {
-						LogUtils.logDebug(Gateway.getInstance().context, getClass(), "getChainManager",
-								new String[] { "Loading Security definition from", secFile }, null);
-						chainMNG = new TurtleFileSecurityDefinition(new URL(secFile));
+						LogUtils.logDebug(Gateway.getInstance().context,
+								getClass(), "getChainManager", new String[] {
+										"Loading Security definition from",
+										secFile }, null);
+						chainMNG = new TurtleFileSecurityDefinition(new URL(
+								secFile));
 					}
 				} else {
-					LogUtils.logDebug(Gateway.getInstance().context, getClass(), "getChainManager",
-							new String[] { "Security definition not set, default to DenyAll" }, null);
+					LogUtils.logDebug(
+							Gateway.getInstance().context,
+							getClass(),
+							"getChainManager",
+							new String[] { "Security definition not set, default to DenyAll" },
+							null);
 					chainMNG = new DenyDefault();
 				}
 			} catch (Exception e) {
-				LogUtils.logError(Gateway.getInstance().context, getClass(), "getChainManager",
-						new String[] { "unable to load file", "default to DenyAll" }, e);
+				LogUtils.logError(Gateway.getInstance().context, getClass(),
+						"getChainManager", new String[] {
+								"unable to load file", "default to DenyAll" },
+						e);
 				chainMNG = new DenyDefault();
 			}
 		}
@@ -139,6 +153,12 @@ public class ConfigurationFile extends UpdatedPropertiesFile implements Configur
 			cipher = new Blowfish(getProperty(HASH_KEY));
 		}
 		return cipher;
+	}
+
+	/** {@inheritDoc} */
+	@Override
+	public synchronized String toString() {
+		return propertiesFile.getName();
 	}
 
 }

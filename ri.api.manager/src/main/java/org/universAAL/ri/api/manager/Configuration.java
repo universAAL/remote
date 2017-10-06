@@ -111,6 +111,9 @@ public class Configuration {
 	 *         RemoteAPI.REMOTE_UNKNOWN if anything else
 	 */
 	public static int determineEndpoint(String remote) {
+		if (remote==null || remote.isEmpty() || remote.equals("null")){
+			return RemoteAPI.REMOTE_UNKNOWN;
+		}
 		try {
 			URL attempt = new URL(remote);
 			if (attempt.getProtocol().toLowerCase().startsWith("http")) {

@@ -25,6 +25,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.TimeoutException;
 
 import org.universAAL.middleware.container.utils.LogUtils;
+import org.universAAL.ri.gateway.SessionEvent.SessionStatus;
 import org.universAAL.ri.gateway.communication.cipher.Cipher;
 import org.universAAL.ri.gateway.communicator.service.impl.AbstractSocketCommunicationHandler;
 import org.universAAL.ri.gateway.communicator.service.impl.ClientSocketCommunicationHandler;
@@ -115,40 +116,56 @@ public class Session implements MessageSender, MessageReceiver,
 
 	}
 
-	private class MessageQueueTask implements Runnable {
-
-		boolean active = true;
-
-		long retryWait = 5000;
+	private class MessageQueueTask implements Runnable, SessionEventListener {
 
 		/** {@inheritDoc} */
 		public void run() {
-			while (active) {
+			Session.this.addSessionEventListener(this);
+			while (state != SessionStatus.CLOSED) {
 				if (messagequeue.size() == 0) {
-					try {
-						messagequeue.wait();
-					} catch (InterruptedException e) {
+					synchronized (messagequeue) {
+						try {
+							messagequeue.wait();
+						} catch (InterruptedException e) {
+						}
 					}
 				}
-				Message m = messagequeue.peek();
-				boolean sent = false;
-				try {
-					sent = comunication.sendMessage(m, remoteScope);
-				} catch (final Exception e) {
-					log.error(
-							"Failed to send message due to internal exception, aborting",
-							e);
-					sent = true;
-				}
-				if (sent) {
-					messagequeue.poll();
-				} else {
+				if (isActive()) {
+					Message m = messagequeue.peek();
+					boolean sent = false;
 					try {
-						Thread.sleep(retryWait);
-					} catch (InterruptedException e) {
+						sent = comunication.sendMessage(m, remoteScope);
+					} catch (final Exception e) {
+						log.error(
+								"Failed to send message due to internal exception, not trying again.",
+								e);
+						sent = true;
+					}
+					if (sent) {
+						messagequeue.poll();
+					}
+				} else {
+					synchronized (messagequeue) {
+						try {
+							messagequeue.wait();
+						} catch (InterruptedException e) {
+						}
 					}
 				}
 			}
+		}
+
+		/** {@inheritDoc} */
+		public void statusChange(SessionEvent se) {
+			if (se.getCurrentStatus() == SessionStatus.CONNECTED) {
+				messagequeue.notifyAll();
+			}
+
+		}
+
+		/** {@inheritDoc} */
+		public String getName() {
+			return "Session Message Queue";
 		}
 
 	}

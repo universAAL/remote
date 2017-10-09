@@ -21,17 +21,17 @@ import org.universAAL.ri.gateway.operations.OperationChainManager;
 
 /**
  * Interface for configurating a Session.
- *
+ * 
  * @author amedrano
- *
+ * 
  */
 public interface Configuration extends OperationChainManager {
 
 	/**
 	 * Definition of the Connection mode.
-	 *
+	 * 
 	 * @author amedrano
-	 *
+	 * 
 	 */
 	public enum ConnectionMode {
 		SERVER, CLIENT
@@ -40,7 +40,7 @@ public interface Configuration extends OperationChainManager {
 	/**
 	 * Get the Connection mode intended for the {@link Session} represented by
 	 * this configuration.
-	 *
+	 * 
 	 * @return the Connection mode.
 	 */
 	ConnectionMode getConnectionMode();
@@ -51,7 +51,7 @@ public interface Configuration extends OperationChainManager {
 	 * server. <br>
 	 * For {@link ConnectionMode#SERVER servers} this is the interface they have
 	 * to listen to (default should be 0.0.0.0, i.e: all).
-	 *
+	 * 
 	 * @return the Hostname.
 	 */
 	String getConnectionHost();
@@ -62,15 +62,31 @@ public interface Configuration extends OperationChainManager {
 	 * server is set up at. <br>
 	 * for {@link ConnectionMode#SERVER servers} this is the port which they
 	 * have to listen to.
-	 *
+	 * 
 	 * @return the port.
 	 */
 	int getConnectionPort();
 
 	/**
 	 * Get the encryption cipher to be used for the communication link.
-	 *
+	 * 
 	 * @return the {@link Cipher} implementation configured for this link.
 	 */
 	Cipher getCipher();
+
+	/**
+	 * Get the configured maximum time for timeouts.
+	 * 
+	 * @return The configured maximum time in miliseconds to wait before
+	 *         timeouts, negative indicates for ever.
+	 */
+	long getTimeout();
+
+	/**
+	 * Get the configuration that states that the gateway should cache messages
+	 * before actual connection.
+	 * 
+	 * @return true IFF the messages should be cached before connection
+	 */
+	boolean getCacheBeforeConnect();
 }

@@ -44,9 +44,9 @@ import org.universAAL.ri.gateway.utils.ArraySet;
  * synchronized, it is able to get the calls meant for the remote
  * {@link ServiceCallee} and send them to the remote proxy which, in time, makes
  * sure a response from the actual {@link ServiceCallee} is transmitted back.
- *
+ * 
  * @author amedrano
- *
+ * 
  */
 public class ProxySCallee extends ServiceCallee implements ProxyBusMember {
 
@@ -58,7 +58,8 @@ public class ProxySCallee extends ServiceCallee implements ProxyBusMember {
 	 * @param context
 	 * @param realizedServices
 	 */
-	public ProxySCallee(final ModuleContext context, final ServiceProfile[] realizedServices) {
+	public ProxySCallee(final ModuleContext context,
+			final ServiceProfile[] realizedServices) {
 		super(context, realizedServices);
 		refsMngr = new ReferencesManager();
 	}
@@ -73,7 +74,8 @@ public class ProxySCallee extends ServiceCallee implements ProxyBusMember {
 	/** {@inheritDoc} */
 	@Override
 	public ServiceResponse handleCall(final ServiceCall call) {
-		final Collection<BusMemberReference> refs = refsMngr.getRemoteProxiesReferences();
+		final Collection<BusMemberReference> refs = refsMngr
+				.getRemoteProxiesReferences();
 		final List<ServiceResponse> responses = new ArrayList<ServiceResponse>();
 		for (final BusMemberReference bmr : refs) {
 			try {
@@ -82,18 +84,20 @@ public class ProxySCallee extends ServiceCallee implements ProxyBusMember {
 					// in case the destination scope is incompatible ignore.
 					continue;
 				}
-				if (s.getOutgoingMessageOperationChain().check(call).equals(OperationChain.OperationResult.ALLOW)) {
+				if (s.getOutgoingMessageOperationChain().check(call)
+						.equals(OperationChain.OperationResult.ALLOW)) {
 					// it is allowed to go there
 					final ServiceCall copy = (ServiceCall) call.copy(false);
 					copy.clearScopes();
 					copy.setOriginScope(null);
 					Message resp = null;
 					try {
-						resp = s.sendRequest(new WrappedBusMessage(bmr.getBusMemberid(), copy));
+						resp = bmr.sendRequest(copy);
 					} catch (TimeoutException e) {
 						// TODO sure you want to report directly a timeout, and
 						// not reattempt?
-						final ServiceResponse sr = new ServiceResponse(CallStatus.responseTimedOut);
+						final ServiceResponse sr = new ServiceResponse(
+								CallStatus.responseTimedOut);
 						// Resolve multitenancy
 						sr.clearScopes();
 						sr.addScope(s.getScope());
@@ -104,7 +108,8 @@ public class ProxySCallee extends ServiceCallee implements ProxyBusMember {
 					}
 					// sends a scope-clear call to remote proxy.
 					if (resp != null && resp instanceof WrappedBusMessage) {
-						final ServiceResponse sr = (ServiceResponse) ((WrappedBusMessage) resp).getMessage();
+						final ServiceResponse sr = (ServiceResponse) ((WrappedBusMessage) resp)
+								.getMessage();
 						// Resolve multitenancy
 						sr.clearScopes();
 						sr.addScope(s.getScope());
@@ -114,19 +119,26 @@ public class ProxySCallee extends ServiceCallee implements ProxyBusMember {
 						responses.add(sr);
 					} else if (resp instanceof ErrorMessage) {
 						final ErrorMessage em = (ErrorMessage) resp;
-						LogUtils.logError(owner, getClass(), "handleCall",
-								"Received Error Message: " + em.getDescription());
+						LogUtils.logError(
+								owner,
+								getClass(),
+								"handleCall",
+								"Received Error Message: "
+										+ em.getDescription());
 					} else {
-						LogUtils.logError(owner, getClass(), "handleCall", "unexpected Response.");
+						LogUtils.logError(owner, getClass(), "handleCall",
+								"unexpected Response.");
 					}
 				} else {
 					// it is not allowed, inform caller.
-					final ServiceResponse sr = new ServiceResponse(CallStatus.denied);
+					final ServiceResponse sr = new ServiceResponse(
+							CallStatus.denied);
 					sr.addScope(s.getScope());
 					responses.add(sr);
 				}
 			} catch (final Exception e) {
-				LogUtils.logError(owner, getClass(), "handleCall", new String[] { "Unexpected exception" }, e);
+				LogUtils.logError(owner, getClass(), "handleCall",
+						new String[] { "Unexpected exception" }, e);
 			}
 		}
 		// merge all responses
@@ -152,7 +164,8 @@ public class ProxySCallee extends ServiceCallee implements ProxyBusMember {
 	}
 
 	/** {@inheritDoc} */
-	public void removeRemoteProxyReference(final BusMemberReference remoteReference) {
+	public void removeRemoteProxyReference(
+			final BusMemberReference remoteReference) {
 		refsMngr.removeRemoteProxyReference(remoteReference);
 	}
 
@@ -171,27 +184,32 @@ public class ProxySCallee extends ServiceCallee implements ProxyBusMember {
 		return currentRegParam;
 	}
 
-	public void handleMessage(final Session session, final WrappedBusMessage busMessage) {
+	public void handleMessage(final Session session,
+			final WrappedBusMessage busMessage) {
 		// no BusMessage sent from remote proxy.
 
 	}
 
 	/** {@inheritDoc} */
 	public boolean isCompatible(final Resource[] registrationParameters) {
-		return registrationParameters.length > 0 && registrationParameters[0] instanceof ServiceProfile
-				&& new ArraySet.Equal<Resource>().equal(registrationParameters, currentRegParam);
+		return registrationParameters.length > 0
+				&& registrationParameters[0] instanceof ServiceProfile
+				&& new ArraySet.Equal<Resource>().equal(registrationParameters,
+						currentRegParam);
 	}
 
 	/** {@inheritDoc} */
 	public void addSubscriptionParameters(final Resource[] newParams) {
-		currentRegParam = new ArraySet.Union<Resource>().combine(currentRegParam, newParams, new Resource[] {});
+		currentRegParam = new ArraySet.Union<Resource>().combine(
+				currentRegParam, newParams, new Resource[] {});
 		addNewServiceProfiles((ServiceProfile[]) newParams);
 
 	}
 
 	/** {@inheritDoc} */
 	public void removeSubscriptionParameters(final Resource[] newParams) {
-		currentRegParam = new ArraySet.Difference<Resource>().combine(currentRegParam, newParams, new Resource[] {});
+		currentRegParam = new ArraySet.Difference<Resource>().combine(
+				currentRegParam, newParams, new Resource[] {});
 		removeMatchingProfiles((ServiceProfile[]) newParams);
 	}
 

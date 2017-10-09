@@ -16,15 +16,22 @@
 package org.universAAL.ri.gateway.proxies;
 
 import java.io.Serializable;
+import java.util.concurrent.TimeoutException;
 
 import org.universAAL.middleware.bus.member.BusMember;
+import org.universAAL.middleware.context.ContextEvent;
+import org.universAAL.middleware.rdf.ScopedResource;
+import org.universAAL.middleware.service.ServiceRequest;
+import org.universAAL.middleware.ui.UIRequest;
 import org.universAAL.ri.gateway.Session;
+import org.universAAL.ri.gateway.protocol.Message;
+import org.universAAL.ri.gateway.protocol.WrappedBusMessage;
 
 /**
  * An identifier of a concrete {@link BusMember} across all Scopes.
- *
+ * 
  * @author amedrano
- *
+ * 
  */
 public class BusMemberReference implements Serializable {
 
@@ -36,16 +43,16 @@ public class BusMemberReference implements Serializable {
 	/**
 	 * {@link Session} to use in order to reach the {@link BusMember}
 	 */
-	private final Session sender;
+	protected final Session sender;
 
 	/**
 	 * The {@link BusMember} id at the remote side identified.
 	 */
-	private final String busMemberid;
+	protected String busMemberid;
 
 	/**
 	 * Constructor for a {@link BusMember} identifier.
-	 *
+	 * 
 	 * @param session
 	 * @param busMemberid
 	 */
@@ -59,8 +66,18 @@ public class BusMemberReference implements Serializable {
 	}
 
 	/**
+	 * To be used only by subclasses.
+	 * 
+	 * @param session
+	 */
+	protected BusMemberReference(final Session session) {
+		this.sender = session;
+		this.busMemberid = null;
+	}
+
+	/**
 	 * Get the {@link Session} to reach the {@link BusMember}.
-	 *
+	 * 
 	 * @return the MessageSender.
 	 */
 	public Session getChannel() {
@@ -69,7 +86,7 @@ public class BusMemberReference implements Serializable {
 
 	/**
 	 * Get the {@link BusMember} id within its scope.
-	 *
+	 * 
 	 * @return the id.
 	 */
 	public String getBusMemberid() {
@@ -79,8 +96,28 @@ public class BusMemberReference implements Serializable {
 	/** {@inheritDoc} */
 	@Override
 	public boolean equals(final Object obj) {
-		return obj instanceof BusMemberReference && ((BusMemberReference) obj).sender.equals(sender)
+		return obj instanceof BusMemberReference
+				&& ((BusMemberReference) obj).sender.equals(sender)
 				&& ((BusMemberReference) obj).busMemberid.equals(busMemberid);
 	}
 
+	/**
+	 * To be used by {@link ProxyBusMember}s.
+	 * 
+	 * @param message
+	 *            The {@link ContextEvent} to be sent
+	 */
+	public void send(ScopedResource message) {
+		sender.send(new WrappedBusMessage(busMemberid, message));
+	}
+
+	/**
+	 * To be used by {@link ProxyBusMember}s.
+	 * 
+	 * @param message
+	 *            The {@link ServiceRequest} or {@link UIRequest} to be sent.
+	 */
+	public Message sendRequest(ScopedResource message) throws TimeoutException {
+		return sender.sendRequest(new WrappedBusMessage(busMemberid, message));
+	}
 }

@@ -93,6 +93,20 @@ public class Session implements MessageSender, MessageReceiver,
 	private class MessageSynchronizer extends
 			CallSynchronizer<Short, Message, Message> {
 
+		/**
+		 * @param timeout
+		 */
+		public MessageSynchronizer(long timeout) {
+			super(timeout);
+		}
+
+		/**
+		 * 
+		 */
+		public MessageSynchronizer() {
+			super();
+		}
+
 		/** {@ inheritDoc} */
 		@Override
 		protected void operate(Short callerID, Message input) {
@@ -148,7 +162,7 @@ public class Session implements MessageSender, MessageReceiver,
 	private String remoteScope;
 	private AbstractSocketCommunicationHandler comunication;
 	private final Cipher cipher;
-	private CallSynchronizer<Short, Message, Message> synchronizer = new MessageSynchronizer();
+	private CallSynchronizer<Short, Message, Message> synchronizer;
 	private ConcurrentLinkedQueue<Message> messagequeue = new ConcurrentLinkedQueue<Message>();
 	private Thread messagequeuetask;
 
@@ -162,6 +176,12 @@ public class Session implements MessageSender, MessageReceiver,
 		this.messagequeuetask = new Thread(new MessageQueueTask(), "Session_"
 				+ config.toString() + "_MessageQueueTask");
 		this.messagequeuetask.start();
+		long timeout = getTimeout();
+		if (timeout >= 0) {
+			this.synchronizer = new MessageSynchronizer(timeout);
+		} else {
+			this.synchronizer = new MessageSynchronizer();
+		}
 	}
 
 	public Session(final Configuration config, final ProxyPool proxyPool,
@@ -419,6 +439,25 @@ public class Session implements MessageSender, MessageReceiver,
 			p.removeRemoteProxyReferences(this);
 			pool.removeProxyIfOrphan(p);
 		}
+	}
+
+	/**
+	 * Gets timeout configuration for session.
+	 * 
+	 * @return negative infinite timeout, timeout in milisec IOC
+	 */
+	public long getTimeout() {
+		return config.getTimeout();
+	}
+
+	/**
+	 * Get the configuration that states that the gateway should cache messages
+	 * before actual connection.
+	 * 
+	 * @return true IFF the messages should be cached before connection
+	 */
+	public boolean getCacheBeforeConnect() {
+		return config.getCacheBeforeConnect();
 	}
 
 }

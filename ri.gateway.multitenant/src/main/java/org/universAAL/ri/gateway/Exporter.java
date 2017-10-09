@@ -36,6 +36,7 @@ import org.universAAL.ri.gateway.operations.OperationChain;
 import org.universAAL.ri.gateway.protocol.ImportMessage;
 import org.universAAL.ri.gateway.protocol.Message;
 import org.universAAL.ri.gateway.proxies.BusMemberReference;
+import org.universAAL.ri.gateway.proxies.BusMemberReferenceTemporal;
 import org.universAAL.ri.gateway.proxies.ProxyBusMember;
 import org.universAAL.ri.gateway.proxies.ProxyBusMemberFactory;
 import org.universAAL.ri.gateway.proxies.ProxyPool;
@@ -52,7 +53,7 @@ import org.universAAL.ri.gateway.utils.ArraySet;
  * When a new session is created, it has to be notified to the exporter to send
  * the new session all the issued import requests. <br>
  * There should only be one {@link Exporter} per ASG.
- *
+ * 
  * @author amedrano
  * @TODO adapt to new tracker interface
  */
@@ -82,7 +83,7 @@ public class Exporter implements IBusMemberRegistryListener {
 
 	/**
 	 * Main Constructor.
-	 *
+	 * 
 	 * @param pool
 	 *            the pool of proxies to use.
 	 */
@@ -102,11 +103,13 @@ public class Exporter implements IBusMemberRegistryListener {
 			if (remaining_attempts <= 0) {
 				// if attempts over limit
 				executor.execute(this);
-				LogUtils.logInfo(Gateway.getInstance().context, getClass(), "reattempt", "queing for reattempt: " + this
-						+ " , " + Integer.toString(remaining_attempts) + " attempts remaining.");
+				LogUtils.logInfo(Gateway.getInstance().context, getClass(),
+						"reattempt", "queing for reattempt: " + this + " , "
+								+ Integer.toString(remaining_attempts)
+								+ " attempts remaining.");
 			} else {
-				LogUtils.logError(Gateway.getInstance().context, getClass(), "reattempt",
-						"exceeded reattempt limit: " + this);
+				LogUtils.logError(Gateway.getInstance().context, getClass(),
+						"reattempt", "exceeded reattempt limit: " + this);
 			}
 			Thread.currentThread().interrupt();
 			return;
@@ -118,10 +121,10 @@ public class Exporter implements IBusMemberRegistryListener {
 	 * so, sends the import request message, and waits for response, if the
 	 * import is accepted, then the proxy will be associated to the remote proxy
 	 * in the response. <br>
-	 *
+	 * 
 	 * Initiates Import-request protocol: <br>
 	 * <img src="doc-files/Import-ImportRequest.png">
-	 *
+	 * 
 	 * @param busMemberId
 	 *            the id of the busMember to attempt export.
 	 * @param session
@@ -131,6 +134,7 @@ public class Exporter implements IBusMemberRegistryListener {
 
 		private String busMemberId;
 		private Session session;
+		private BusMemberReferenceTemporal bmrt = null;
 
 		ExportTask(final String busMemberId, final Session session) {
 			this.busMemberId = busMemberId;
@@ -141,22 +145,27 @@ public class Exporter implements IBusMemberRegistryListener {
 		}
 
 		public void run() {
-			if (!session.isActive()) {
-				LogUtils.logInfo(Gateway.getInstance().context, getClass(), "run",
-						"Session is no longer active, cannot export: " + session.getScope() + ", " + busMemberId);
+			if (!session.isActive() && !session.getCacheBeforeConnect()) {
+				LogUtils.logInfo(Gateway.getInstance().context, getClass(),
+						"run", "Session is no longer active, cannot export: "
+								+ session.getScope() + ", " + busMemberId);
 				return;
 			}
 
-			final Resource[] params = ((NullConcurrentHashMap)tracked).getNullable(busMemberId);
+			final Resource[] params = ((NullConcurrentHashMap) tracked)
+					.getNullable(busMemberId);
 			// check exportOperationChain of the session
-			if (session.getExportOperationChain().check(params).equals(OperationChain.OperationResult.ALLOW)) {
+			if (session.getExportOperationChain().check(params)
+					.equals(OperationChain.OperationResult.ALLOW)) {
 				// export
 				// get or create
 				ProxyBusMember exportProxy = pool.searchCompatible(params);
 				if (exportProxy == null) {
-					exportProxy = ProxyBusMemberFactory.createExport(params, busMemberId);
+					exportProxy = ProxyBusMemberFactory.createExport(params,
+							busMemberId);
 					if (exportProxy == null) {
-						LogUtils.logWarn(Gateway.getInstance().context, getClass(), "run",
+						LogUtils.logWarn(Gateway.getInstance().context,
+								getClass(), "run",
 								"could not find nor create a export proxy with the given parameters for "
 										+ busMemberId);
 						reattempt();
@@ -164,13 +173,20 @@ public class Exporter implements IBusMemberRegistryListener {
 					}
 				}
 
-				LogUtils.logDebug(Gateway.getInstance().context, getClass(), "run",
-						"Requesting import " + busMemberId + " in " + session.getScope());
+				if (session.getCacheBeforeConnect() && bmrt != null) {
+					bmrt = new BusMemberReferenceTemporal(session);
+					exportProxy.addRemoteProxyReference(bmrt);
+				}
+
+				LogUtils.logDebug(Gateway.getInstance().context, getClass(),
+						"run", "Requesting import " + busMemberId + " in "
+								+ session.getScope());
 
 				// send ImportRequest, and wait for response
 				Message resp = null;
 				try {
-					resp = session.sendRequest(ImportMessage.importRequest(exportProxy.getBusMemberId(), params));
+					resp = session.sendRequest(ImportMessage.importRequest(
+							exportProxy.getBusMemberId(), params));
 				} catch (TimeoutException e) {
 					exportProxy.close();
 					reattempt();
@@ -179,28 +195,55 @@ public class Exporter implements IBusMemberRegistryListener {
 				// annotate export map
 				exported.put(busMemberId, exportProxy);
 
-				if (resp != null && resp instanceof ImportMessage && ((ImportMessage) resp).isAccepted()) {
+				if (resp != null && resp instanceof ImportMessage
+						&& ((ImportMessage) resp).isAccepted()) {
 					// if response is positive associate
-					exportProxy.addRemoteProxyReference(
-							new BusMemberReference(session, ((ImportMessage) resp).getBusMemberId()));
-					LogUtils.logDebug(Gateway.getInstance().context, getClass(), "run",
-							"Exported " + busMemberId + " to " + session.getScope());
+					String rbmid = ((ImportMessage) resp).getBusMemberId();
+					exportProxy.addRemoteProxyReference(new BusMemberReference(
+							session, rbmid));
+					LogUtils.logDebug(Gateway.getInstance().context,
+							getClass(), "run", "Exported " + busMemberId
+									+ " to " + session.getScope());
+					if (bmrt != null) {
+						bmrt.flush(rbmid);
+					}
 				}
-
+				if (bmrt != null) {
+					exportProxy.removeRemoteProxyReference(bmrt);
+					bmrt = null;
+				}
 				if (!exportProxy.getRemoteProxiesReferences().isEmpty()) {
 					// add to pool if it has associated remote proxies
 					pool.add(exportProxy);
 				} else {
 					// either the remote reject it, or something went wrong
-					LogUtils.logDebug(Gateway.getInstance().context, getClass(), "run",
-							"Discarding created proxy: " + exportProxy.getBusMemberId());
+					LogUtils.logDebug(Gateway.getInstance().context,
+							getClass(), "run", "Discarding created proxy: "
+									+ exportProxy.getBusMemberId());
 					exportProxy.close();
 				}
 			} else {
-				LogUtils.logInfo(Gateway.getInstance().context, getClass(), "run",
-						"Bus member can not be exported due to security constrains: " + busMemberId);
+				LogUtils.logInfo(Gateway.getInstance().context, getClass(),
+						"run",
+						"Bus member can not be exported due to security constrains: "
+								+ busMemberId);
 			}
 		}
+
+		/** {@inheritDoc} */
+		@Override
+		protected void finalize() throws Throwable {
+			super.finalize();
+			if (bmrt != null) {
+				final Resource[] params = ((NullConcurrentHashMap) tracked)
+						.getNullable(busMemberId);
+				ProxyBusMember exportProxy = pool.searchCompatible(params);
+				if (exportProxy != null) {
+					exportProxy.removeRemoteProxyReference(bmrt);
+				}
+			}
+		}
+
 	}
 
 	/**
@@ -213,9 +256,9 @@ public class Exporter implements IBusMemberRegistryListener {
 	 * are allowed and accepted by remote, then local {@link ProxyBusMember} is
 	 * updated (via remove then add BMR). Finally the task checks if the
 	 * {@link ProxyBusMember} is still connected, and recycles ioc.
-	 *
+	 * 
 	 * @author amedrano
-	 *
+	 * 
 	 */
 	private class RefresSubTask extends ExporterTask implements Runnable {
 
@@ -229,7 +272,8 @@ public class Exporter implements IBusMemberRegistryListener {
 		 * @param pbm
 		 * @param bmr
 		 */
-		public RefresSubTask(String busMemberID, ProxyBusMember pbm, BusMemberReference bmr, Updater up) {
+		public RefresSubTask(String busMemberID, ProxyBusMember pbm,
+				BusMemberReference bmr, Updater up) {
 			super();
 			this.busMemberID = busMemberID;
 			this.pbm = pbm;
@@ -241,21 +285,29 @@ public class Exporter implements IBusMemberRegistryListener {
 		public void run() {
 			final Session s = bmr.getChannel();
 			if (!s.isActive()) {
-				LogUtils.logInfo(Gateway.getInstance().context, getClass(), "run",
-						"Session no longer active, aborting refresh: " + s.getScope() + ", " + busMemberID);
+				// FIXME if there are pending Export tasks (because the
+				// connection wasn't established yet) then these need to be
+				// replaced with new ones
+				LogUtils.logInfo(Gateway.getInstance().context, getClass(),
+						"run", "Session no longer active, aborting refresh: "
+								+ s.getScope() + ", " + busMemberID);
 				return;
 			}
 			// check the new parameters are allowed to be exported
-			if (s.getExportOperationChain().check(((NullConcurrentHashMap)tracked).getNullable(busMemberID))
+			if (s.getExportOperationChain()
+					.check(((NullConcurrentHashMap) tracked)
+							.getNullable(busMemberID))
 					.equals(OperationChain.OperationResult.ALLOW)) {
 				Message resp = null;
 				try {
-					resp = s.sendRequest(up.createExportMessage(pbm.getBusMemberId()));
+					resp = s.sendRequest(up.createExportMessage(pbm
+							.getBusMemberId()));
 				} catch (TimeoutException e) {
 					reattempt();
 					return;
 				}
-				if (resp != null && resp instanceof ImportMessage && ((ImportMessage) resp).isAccepted()) {
+				if (resp != null && resp instanceof ImportMessage
+						&& ((ImportMessage) resp).isAccepted()) {
 					// toBeAdded.add(new BusMemberReference(s,
 					// ((ImportMessage) resp).getBusMemberId()));
 					pbm.removeRemoteProxyReference(bmr);
@@ -265,13 +317,20 @@ public class Exporter implements IBusMemberRegistryListener {
 					// went wrong
 					pbm.removeRemoteProxyReference(bmr);
 					s.send(ImportMessage.importRemove(busMemberID));
-					LogUtils.logWarn(Gateway.getInstance().context, getClass(), "run", "The new parameters of proxy: "
-							+ pbm.getBusMemberId() + " could not be updated remotely for scope: " + s.getScope());
+					LogUtils.logWarn(
+							Gateway.getInstance().context,
+							getClass(),
+							"run",
+							"The new parameters of proxy: "
+									+ pbm.getBusMemberId()
+									+ " could not be updated remotely for scope: "
+									+ s.getScope());
 				}
 			} else {
 				// new parameters are not allowed, remove
 				pbm.removeRemoteProxyReference(bmr);
-				LogUtils.logWarn(Gateway.getInstance().context, getClass(), "refresh",
+				LogUtils.logWarn(Gateway.getInstance().context, getClass(),
+						"refresh",
 						"new parameters are not allowed locally, sending remove.");
 				// and send remove message
 				s.send(ImportMessage.importRemove(busMemberID));
@@ -279,8 +338,10 @@ public class Exporter implements IBusMemberRegistryListener {
 			// Check the pbm is still connected
 			if (pbm.getRemoteProxiesReferences().isEmpty()) {
 				// if not recycle
-				LogUtils.logDebug(Gateway.getInstance().context, getClass(), "refresh",
-						"Proxy has no references after refresh, deleting proxy: " + pbm.getBusMemberId());
+				LogUtils.logDebug(Gateway.getInstance().context, getClass(),
+						"refresh",
+						"Proxy has no references after refresh, deleting proxy: "
+								+ pbm.getBusMemberId());
 				pool.removeProxyWithSend(pbm); // XXX it doesn't really matter
 				// there are any remotes to send
 				// the message to
@@ -292,11 +353,11 @@ public class Exporter implements IBusMemberRegistryListener {
 
 	/**
 	 * Executed when registration parameters change for an exported proxy.<br>
-	 *
+	 * 
 	 * Initiates Import-refresh protocol: <br>
 	 * <img src="doc-files/Import-ImportRefresh.png"> <br>
 	 * Where refresh is either add or remove registration parameters.
-	 *
+	 * 
 	 */
 	private class RefreshTask implements Runnable {
 
@@ -312,18 +373,23 @@ public class Exporter implements IBusMemberRegistryListener {
 			// locate exported proxy representative
 			final ProxyBusMember pbm = exported.get(busMemberID);
 			if (pbm != null) {
-				LogUtils.logDebug(Gateway.getInstance().context, getClass(), "refresh",
+				LogUtils.logDebug(
+						Gateway.getInstance().context,
+						getClass(),
+						"refresh",
 						"Local BusMember for proxy has changed parameters,"
 								+ " updating proxy (or creating new if shared), "
 								+ "informing remote about parameter change.");
 				// update proxy registrations
 				up.update(pbm);
 				// up.newParameters(tracked.getNullable(busMemberID)));
-				final Collection<BusMemberReference> refs = pbm.getRemoteProxiesReferences();
+				final Collection<BusMemberReference> refs = pbm
+						.getRemoteProxiesReferences();
 				// Send refresh message per channel.
 				for (final BusMemberReference bmr : refs) {
 					// add new task per BMR
-					executor.execute(new RefresSubTask(busMemberID, pbm, bmr, up));
+					executor.execute(new RefresSubTask(busMemberID, pbm, bmr,
+							up));
 				}
 			} else {
 				/*
@@ -332,7 +398,8 @@ public class Exporter implements IBusMemberRegistryListener {
 				 * once more updated and export may be possible: attempt export
 				 */
 				// check all sessions
-				final Collection<Session> allSessions = Gateway.getInstance().getSessions();
+				final Collection<Session> allSessions = Gateway.getInstance()
+						.getSessions();
 				for (final Session s : allSessions) {
 					if (s.isActive()) {
 						// for each session attempt exporting
@@ -357,15 +424,18 @@ public class Exporter implements IBusMemberRegistryListener {
 		}
 
 		public void run() {
-			final Collection<Entry<String, ProxyBusMember>> ex = exported.entrySet();
+			final Collection<Entry<String, ProxyBusMember>> ex = exported
+					.entrySet();
 			Set<String> tbr = new HashSet<String>();
 			for (final Entry<String, ProxyBusMember> entry : ex) {
 				final ProxyBusMember pbm = entry.getValue();
-				Collection<BusMemberReference> refs = pbm.getRemoteProxiesReferences();
+				Collection<BusMemberReference> refs = pbm
+						.getRemoteProxiesReferences();
 				for (BusMemberReference bmr : refs) {
 					if (bmr.getChannel().equals(session) && session.isActive()) {
 						// Send remove message to remote
-						session.send(ImportMessage.importRemove(bmr.getBusMemberid()));
+						session.send(ImportMessage.importRemove(bmr
+								.getBusMemberid()));
 					}
 				}
 				pbm.removeRemoteProxyReferences(session);
@@ -385,7 +455,7 @@ public class Exporter implements IBusMemberRegistryListener {
 	 * To be called when a new {@link Session} is become active. Checks all the
 	 * possible {@link BusMember}s to be exported and checks for each if it
 	 * should be exported in the new session.
-	 *
+	 * 
 	 * @param session
 	 */
 	public void activatedSession(final Session session) {
@@ -400,7 +470,7 @@ public class Exporter implements IBusMemberRegistryListener {
 	 * required. <br>
 	 * Does not send remove-requests to peers, {@link Importer} in peers will be
 	 * {@link Importer#reset() reseted} as soon as the connection is lost.
-	 *
+	 * 
 	 * @param session
 	 */
 	public void stopedSession(final Session session) {
@@ -410,13 +480,14 @@ public class Exporter implements IBusMemberRegistryListener {
 	/**
 	 * Checks the {@link BusMember} to see if it can be exported, i.e: it is the
 	 * correct type of BusMember. No specific security checks are done.
-	 *
+	 * 
 	 * @param member
 	 * @return
 	 */
 	private boolean isExportable(final BusMember member) {
 		// XXX in future add general security checks.
-		return !(member instanceof ProxyBusMember) && ProxyBusMemberFactory.isForExport(member);
+		return !(member instanceof ProxyBusMember)
+				&& ProxyBusMemberFactory.isForExport(member);
 		// and they are not imported proxies!
 	}
 
@@ -426,12 +497,18 @@ public class Exporter implements IBusMemberRegistryListener {
 			// TODO check for errors: is this really the first time the
 			// busMember is added?
 			if (tracked.containsKey(member.getURI())) {
-				LogUtils.logInfo(Gateway.getInstance().context, getClass(), "busMemberAdded",
-						"Bus member already added, ignoring: " + member.getURI());
+				LogUtils.logInfo(
+						Gateway.getInstance().context,
+						getClass(),
+						"busMemberAdded",
+						"Bus member already added, ignoring: "
+								+ member.getURI());
 				return;
 			}
-			((NullConcurrentHashMap)tracked).putNullable(member.getURI(), null);
-			Resource[] initParams = ProxyBusMemberFactory.initialParameters(member);
+			((NullConcurrentHashMap) tracked)
+					.putNullable(member.getURI(), null);
+			Resource[] initParams = ProxyBusMemberFactory
+					.initialParameters(member);
 			if (initParams != null) {
 				regParamsAdded(member.getURI(), initParams);
 			}
@@ -440,7 +517,7 @@ public class Exporter implements IBusMemberRegistryListener {
 
 	/**
 	 * Invoked when an existing BusMember is unregistered from the bus.<br>
-	 *
+	 * 
 	 * Initiates Import-remove protocol: <br>
 	 * <img src="doc-files/Import-ImportRemove.png">
 	 */
@@ -457,7 +534,8 @@ public class Exporter implements IBusMemberRegistryListener {
 			// if there are no left bus members that use this export proxy
 			if (!exported.values().contains(pbm)) {
 				// then remove proxy.
-				LogUtils.logDebug(Gateway.getInstance().context, getClass(), "busMemberRemoved",
+				LogUtils.logDebug(Gateway.getInstance().context, getClass(),
+						"busMemberRemoved",
 						"All local BusMember for proxy have been un registered, removing proxy");
 				pool.removeProxyWithSend(pbm);
 			}
@@ -467,15 +545,17 @@ public class Exporter implements IBusMemberRegistryListener {
 	/** {@inheritDoc} */
 	public void regParamsAdded(final String busMemberID, final Resource[] params) {
 
-		final Resource[] currentParams = ((NullConcurrentHashMap)tracked).getNullable(busMemberID);
+		final Resource[] currentParams = ((NullConcurrentHashMap) tracked)
+				.getNullable(busMemberID);
 
 		boolean isContained = tracked.containsKey(busMemberID);
 
 		if (isContained && currentParams == null) {
 			// a virgin bus member has registered, ie a newBusMember!
-		    ((NullConcurrentHashMap)tracked).putNullable(busMemberID, params);
+			((NullConcurrentHashMap) tracked).putNullable(busMemberID, params);
 			// check all sessions
-			final Collection<Session> allSessions = Gateway.getInstance().getSessions();
+			final Collection<Session> allSessions = Gateway.getInstance()
+					.getSessions();
 			for (final Session s : allSessions) {
 				if (s.isActive()) {
 					// for each session attempt exporting
@@ -483,36 +563,46 @@ public class Exporter implements IBusMemberRegistryListener {
 				}
 			}
 		} else if (isContained && currentParams != null) {
-		    ((NullConcurrentHashMap)tracked).putNullable(busMemberID, new ArraySet.Union<Resource>().combine(currentParams, params, new Resource[] {}));
-			executor.execute(new RefreshTask(busMemberID, new RegistrationParametersAdder(params)));
+			((NullConcurrentHashMap) tracked).putNullable(busMemberID,
+					new ArraySet.Union<Resource>().combine(currentParams,
+							params, new Resource[] {}));
+			executor.execute(new RefreshTask(busMemberID,
+					new RegistrationParametersAdder(params)));
 		} else {
 			// else -> a notification from a non exportable bus member ->
 			// ignore.
-			LogUtils.logDebug(Gateway.getInstance().context, getClass(), "regParamsAdded",
-					"Local non-exportable BusMember: " + busMemberID + " has changed parameters.");
+			LogUtils.logDebug(Gateway.getInstance().context, getClass(),
+					"regParamsAdded", "Local non-exportable BusMember: "
+							+ busMemberID + " has changed parameters.");
 		}
 	}
 
 	/** {@inheritDoc} */
-	public void regParamsRemoved(final String busMemberID, final Resource[] params) {
+	public void regParamsRemoved(final String busMemberID,
+			final Resource[] params) {
 		/*
 		 * TODO check if new params of the BusMember is [], Then ???
 		 */
 
-	    ((NullConcurrentHashMap)tracked).putNullable(busMemberID,
-				new ArraySet.Union<Resource>().combine(((NullConcurrentHashMap)tracked).getNullable(busMemberID), params, new Resource[] {}));
-		executor.execute(new RefreshTask(busMemberID, new RegistrationParametersRemover(params)));
+		((NullConcurrentHashMap) tracked).putNullable(busMemberID,
+				new ArraySet.Union<Resource>().combine(
+						((NullConcurrentHashMap) tracked)
+								.getNullable(busMemberID), params,
+						new Resource[] {}));
+		executor.execute(new RefreshTask(busMemberID,
+				new RegistrationParametersRemover(params)));
 	}
 
 	/**
 	 * Called to check (and handle) if the remote {@link Importer} is sending a
 	 * remove request.
-	 *
+	 * 
 	 * @param busMemberId
 	 * @param session
 	 * @return
 	 */
-	public boolean isRemoveExport(final String busMemberId, final Session session) {
+	public boolean isRemoveExport(final String busMemberId,
+			final Session session) {
 		final ProxyBusMember member = exported.get(busMemberId);
 		if (member != null) {
 			member.removeRemoteProxyReferences(session);
@@ -525,7 +615,7 @@ public class Exporter implements IBusMemberRegistryListener {
 	}
 
 	/**
-	 *
+	 * 
 	 * Stop all operations.
 	 */
 
@@ -534,7 +624,8 @@ public class Exporter implements IBusMemberRegistryListener {
 		// specially waiting for session closure tasks
 		try {
 			if (!executor.awaitTermination(45, TimeUnit.SECONDS)) {
-				LogUtils.logInfo(Gateway.getInstance().context, getClass(), "stop",
+				LogUtils.logInfo(Gateway.getInstance().context, getClass(),
+						"stop",
 						"Timeout waiting for session end operations, stopping anyway.");
 			}
 		} catch (InterruptedException e) {
@@ -553,7 +644,7 @@ public class Exporter implements IBusMemberRegistryListener {
 	/**
 	 * Check whether the URI corresponds to a local {@link BusMember} (excluding
 	 * {@link ProxyBusMember}s).
-	 *
+	 * 
 	 * @param bmURI
 	 *            the String containing the URI of the BusMember to check.
 	 * @return true iif there is a local {@link BusMember} that corresponds to
@@ -562,27 +653,28 @@ public class Exporter implements IBusMemberRegistryListener {
 	public boolean isTracked(String bmURI) {
 		return tracked.containsKey(bmURI);
 	}
-	
+
 	/**
 	 * Helper class that wraps ConcurrentHashMap allowing for null values. Null
 	 * values are internally converted to/from a token constant. Use getNullable
-	 * and putNullable instead of the original get and put. It was done this
-	 * way because get and put are used internally and should not be overridden.
+	 * and putNullable instead of the original get and put. It was done this way
+	 * because get and put are used internally and should not be overridden.
 	 * 
 	 * @author alfiva
 	 */
 	@SuppressWarnings("serial")
-	public static class NullConcurrentHashMap
-	extends ConcurrentHashMap<String, Resource[]> {
-	    public static final Resource[] NULL_RESOURCE = new Resource[] {};
+	public static class NullConcurrentHashMap extends
+			ConcurrentHashMap<String, Resource[]> {
+		public static final Resource[] NULL_RESOURCE = new Resource[] {};
 
-	    public Resource[] getNullable(Object key) {
-		Resource[] retVal = get(key);
-		return (retVal!=null && retVal.equals(NULL_RESOURCE)) ? null : retVal;
-	    }
+		public Resource[] getNullable(Object key) {
+			Resource[] retVal = get(key);
+			return (retVal != null && retVal.equals(NULL_RESOURCE)) ? null
+					: retVal;
+		}
 
-	    public Resource[] putNullable(String key, Resource[] value) {
-		return put(key, value != null ? value : NULL_RESOURCE);
-	    }
+		public Resource[] putNullable(String key, Resource[] value) {
+			return put(key, value != null ? value : NULL_RESOURCE);
+		}
 	}
 }

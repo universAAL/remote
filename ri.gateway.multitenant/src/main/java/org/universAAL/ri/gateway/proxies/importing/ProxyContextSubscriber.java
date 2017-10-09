@@ -23,7 +23,6 @@ import org.universAAL.middleware.context.ContextEvent;
 import org.universAAL.middleware.context.ContextEventPattern;
 import org.universAAL.middleware.context.ContextSubscriber;
 import org.universAAL.middleware.rdf.Resource;
-import org.universAAL.middleware.rdf.ScopedResource;
 import org.universAAL.ri.gateway.Session;
 import org.universAAL.ri.gateway.operations.OperationChain;
 import org.universAAL.ri.gateway.protocol.WrappedBusMessage;
@@ -36,11 +35,12 @@ import org.universAAL.ri.gateway.utils.ArraySet;
  * Receives the events the remote {@link BusMember} is interested in, and sends
  * the {@link ContextEvent}s to its representative so it can deliver it to the
  * remote {@link BusMember}.
- *
+ * 
  * @author amedrano
- *
+ * 
  */
-public class ProxyContextSubscriber extends ContextSubscriber implements ProxyBusMember {
+public class ProxyContextSubscriber extends ContextSubscriber implements
+		ProxyBusMember {
 
 	private final ReferencesManager refsMngr;
 
@@ -68,7 +68,8 @@ public class ProxyContextSubscriber extends ContextSubscriber implements ProxyBu
 	}
 
 	/** {@inheritDoc} */
-	public void removeRemoteProxyReference(final BusMemberReference remoteReference) {
+	public void removeRemoteProxyReference(
+			final BusMemberReference remoteReference) {
 		refsMngr.removeRemoteProxyReference(remoteReference);
 	}
 
@@ -88,27 +89,32 @@ public class ProxyContextSubscriber extends ContextSubscriber implements ProxyBu
 	}
 
 	/** {@inheritDoc} */
-	public void handleMessage(final Session session, final WrappedBusMessage busMessage) {
+	public void handleMessage(final Session session,
+			final WrappedBusMessage busMessage) {
 		// ignored, no message should be received!
 
 	}
 
 	/** {@inheritDoc} */
 	public boolean isCompatible(final Resource[] registrationParameters) {
-		return registrationParameters.length > 0 && registrationParameters[0] instanceof ContextEventPattern
-				&& new ArraySet.Equal<Resource>().equal(registrationParameters, currentRegParam);
+		return registrationParameters.length > 0
+				&& registrationParameters[0] instanceof ContextEventPattern
+				&& new ArraySet.Equal<Resource>().equal(registrationParameters,
+						currentRegParam);
 	}
 
 	/** {@inheritDoc} */
 	public void addSubscriptionParameters(final Resource[] newParams) {
-		currentRegParam = new ArraySet.Union<Resource>().combine(currentRegParam, newParams, new Resource[] {});
+		currentRegParam = new ArraySet.Union<Resource>().combine(
+				currentRegParam, newParams, new Resource[] {});
 		addNewRegParams((ContextEventPattern[]) newParams);
 
 	}
 
 	/** {@inheritDoc} */
 	public void removeSubscriptionParameters(final Resource[] newParams) {
-		currentRegParam = new ArraySet.Difference<Resource>().combine(currentRegParam, newParams, new Resource[] {});
+		currentRegParam = new ArraySet.Difference<Resource>().combine(
+				currentRegParam, newParams, new Resource[] {});
 		removeMatchingRegParams((ContextEventPattern[]) newParams);
 	}
 
@@ -122,17 +128,19 @@ public class ProxyContextSubscriber extends ContextSubscriber implements ProxyBu
 	/** {@inheritDoc} */
 	@Override
 	public void handleContextEvent(final ContextEvent event) {
-		final Collection<BusMemberReference> refs = refsMngr.getRemoteProxiesReferences();
+		final Collection<BusMemberReference> refs = refsMngr
+				.getRemoteProxiesReferences();
 		for (final BusMemberReference bmr : refs) {
 			final Session s = bmr.getChannel();
 			if (event.isSerializableTo(s.getScope())
-					&& s.getOutgoingMessageOperationChain().check(event).equals(OperationChain.OperationResult.ALLOW)) {
+					&& s.getOutgoingMessageOperationChain().check(event)
+							.equals(OperationChain.OperationResult.ALLOW)) {
 				// the event may be sent there
 				// and it is allowed to go there
 				final ContextEvent copy = (ContextEvent) event.copy(false);
 				copy.clearScopes();
 				copy.setOriginScope(null);
-				s.send(new WrappedBusMessage(bmr.getBusMemberid(), copy));
+				bmr.send(copy);
 				// sends a scope clear event to remote proxy.
 			}
 		}

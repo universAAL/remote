@@ -25,22 +25,22 @@ package org.universAAL.ri.gateway.configuration;
 
 /**
  * Keys for the properties file.
- *
+ * 
  * @author amedrano
- *
+ * 
  */
 public interface PropertiesFileKeys {
 	/**
-	 * System property used for specifying remote Space Gateways addresses
-	 * that is running in Server Mode and that we should connect to
-	 *
+	 * System property used for specifying remote Space Gateways addresses that
+	 * is running in Server Mode and that we should connect to
+	 * 
 	 */
 	String REMOTE_HOST = "remote-gateway-host";
 
 	/**
-	 * System property used for specifying the socket port of the Space
-	 * Gateway to connec to, in case that it is running in Server-Mode it is the
-	 * socket to listen to.
+	 * System property used for specifying the socket port of the Space Gateway
+	 * to connec to, in case that it is running in Server-Mode it is the socket
+	 * to listen to.
 	 */
 	String SOCKET_PORT = "socket-port";
 
@@ -52,9 +52,21 @@ public interface PropertiesFileKeys {
 
 	/**
 	 * System property that defines the turtle file that defines which imports,
-	 * exports, and messages are allowed or denyed.
+	 * exports, and messages are allowed or denied.
 	 */
 	String SECURITY_DEFINITION = "security-definition-file";
+
+	/**
+	 * System property defining the time in milliseconds for which the gateway
+	 * should wait.
+	 */
+	String TIMEOUT = "timeout";
+
+	/**
+	 * System property indicating if the gateway should cache messages before
+	 * the connection is actually established. "true" or "false".
+	 */
+	String PRE_CONN_CACHE = "pre-connection-cache";
 
 	/**
 	 * The Key for encryption.

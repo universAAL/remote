@@ -100,6 +100,8 @@ public class ConfigurationFile extends UpdatedPropertiesFile implements
 	protected void addDefaults(final Properties defaults) {
 		// defaults.put(ROUTING_MODE, ROUTER);
 		defaults.put(CONNECTION_MODE, CLIENT);
+		defaults.put(TIMEOUT, 5000);
+		defaults.put(PRE_CONN_CACHE, "false");
 	}
 
 	/** {@inheritDoc} */
@@ -159,6 +161,16 @@ public class ConfigurationFile extends UpdatedPropertiesFile implements
 	@Override
 	public synchronized String toString() {
 		return propertiesFile.getName();
+	}
+
+	/** {@inheritDoc} */
+	public long getTimeout() {
+		return Long.parseLong(getProperty(TIMEOUT));
+	}
+
+	/** {@inheritDoc} */
+	public boolean getCacheBeforeConnect() {
+		return Boolean.parseBoolean(getProperty(PRE_CONN_CACHE));
 	}
 
 }

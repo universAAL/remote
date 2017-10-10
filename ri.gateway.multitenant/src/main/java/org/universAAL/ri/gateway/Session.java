@@ -186,6 +186,8 @@ public class Session implements MessageSender, MessageReceiver,
 	private SessionEvent.SessionStatus state;
 	private final HashSet<SessionEventListener> listeners = new HashSet<SessionEventListener>();
 
+	private SessionStatusEvent lastSesionStatusEvent;
+
 	private Session(final Configuration config) {
 		this.config = config;
 		this.cipher = config.getCipher();
@@ -383,10 +385,14 @@ public class Session implements MessageSender, MessageReceiver,
 	 *            the listener to add
 	 * @return true if the listener has been registered
 	 */
-	public boolean addSessionEventListener(final SessionEventListener listener) {
+	public synchronized boolean addSessionEventListener(
+			final SessionEventListener listener) {
 		final boolean flag = this.listeners.add(listener);
 		if (flag) {
 			log.debug("Adding SessionEventListener " + listener.getName());
+			if (lastSesionStatusEvent != null) {
+				listener.statusChange(lastSesionStatusEvent);
+			}
 		}
 		return flag;
 	}
@@ -399,7 +405,7 @@ public class Session implements MessageSender, MessageReceiver,
 	 *            the listener to remove
 	 * @return true if the listener has been removed
 	 */
-	public boolean removeSessionEventListener(
+	public synchronized boolean removeSessionEventListener(
 			final SessionEventListener listener) {
 		final boolean flag = this.listeners.remove(listener);
 		if (flag) {
@@ -408,14 +414,14 @@ public class Session implements MessageSender, MessageReceiver,
 		return flag;
 	}
 
-	public void setStatus(final SessionEvent.SessionStatus status) {
+	public synchronized void setStatus(final SessionEvent.SessionStatus status) {
 		if (state == status) {
 			return;
 		}
-		final SessionStatusEvent e = new SessionStatusEvent(this, state, status);
-		log.debug("Generated the new event " + e);
+		lastSesionStatusEvent = new SessionStatusEvent(this, state, status);
+		log.debug("Generated the new event " + lastSesionStatusEvent);
 		state = status;
-		notifySessionEventListeners(e);
+		notifySessionEventListeners(lastSesionStatusEvent);
 	}
 
 	private void notifySessionEventListeners(final SessionStatusEvent e) {

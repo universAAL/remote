@@ -45,12 +45,12 @@ import org.universAAL.utilities.ioc.dependencies.impl.PassiveDependencyProxy;
 import org.universAAL.utilities.ioc.dependencies.impl.WaitingDependencyProxy;
 
 /**
- * Main Class for the Space Gateway. It is in charge of managing
- * {@link Session Sessions}, and boot them from the configuration folder.
- *
+ * Main Class for the Space Gateway. It is in charge of managing {@link Session
+ * Sessions}, and boot them from the configuration folder.
+ * 
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author amedrano
- *
+ * 
  */
 public class Gateway implements ModuleActivator, SessionEventListener {
 
@@ -120,13 +120,15 @@ public class Gateway implements ModuleActivator, SessionEventListener {
 		spaceManager = new PassiveDependencyProxy<SpaceManager>(context,
 				new Object[] { SpaceManager.class.getName() });
 
-		serializer = new PassiveDependencyProxy<MessageContentSerializer>(context,
+		serializer = new PassiveDependencyProxy<MessageContentSerializer>(
+				context,
 				new Object[] { MessageContentSerializer.class.getName() });
 
 		tenantManager = new PassiveDependencyProxy<TenantManager>(context,
 				new Object[] { TenantManager.class.getName() });
 
-		busTracker = new PassiveDependencyProxy<IBusMemberRegistry>(context, IBusMemberRegistry.busRegistryShareParams);
+		busTracker = new PassiveDependencyProxy<IBusMemberRegistry>(context,
+				IBusMemberRegistry.busRegistryShareParams);
 
 		busTracker.getObject().addListener(exporter, true);
 
@@ -150,7 +152,8 @@ public class Gateway implements ModuleActivator, SessionEventListener {
 						public void run() {
 							// create a new session for each properties file
 							final Configuration fc = new ConfigurationFile(p);
-							if (fc.getConnectionMode().equals(ConnectionMode.CLIENT)) {
+							if (fc.getConnectionMode().equals(
+									ConnectionMode.CLIENT)) {
 								final Session s = new Session(fc, proxypool);
 								s.addSessionEventListener(Gateway.getInstance());// self
 								newSession(p.getAbsolutePath(), s);
@@ -160,10 +163,12 @@ public class Gateway implements ModuleActivator, SessionEventListener {
 							}
 						}
 					};
-					new Thread(task, "initialisation of " + props[i].getAbsolutePath()).start();
+					new Thread(task, "initialisation of "
+							+ props[i].getAbsolutePath()).start();
 				} catch (final Exception e) {
 					LogUtils.logError(context, getClass(), "start",
-							new String[] { "unable to start instance from : " + props[i].getAbsolutePath() }, e);
+							new String[] { "unable to start instance from : "
+									+ props[i].getAbsolutePath() }, e);
 				}
 			}
 			/*
@@ -245,14 +250,29 @@ public class Gateway implements ModuleActivator, SessionEventListener {
 
 	/** {@ inheritDoc} */
 	public void statusChange(final SessionEvent se) {
-		if (se.getCurrentStatus() == SessionStatus.CONNECTED) {
-			// session is activated, check if there is anything to export.
-			exporter.activatedSession(se.getSession());
-		} else if (se.getOldStatus() == SessionStatus.CONNECTED) {
-			// it has disconnected have to purge proxies without deleting the
-			// session
-			exporter.stopedSession(se.getSession());
-			se.getSession().removeImports();
+
+		if (!se.getSession().getCacheBeforeConnect()) {
+			if (se.getCurrentStatus() == SessionStatus.CONNECTED) {
+				// session is activated, check if there is anything to export.
+				exporter.activatedSession(se.getSession());
+			} else if (se.getOldStatus() == SessionStatus.CONNECTED) {
+				// disconnected, then purge proxies
+				// without deleting the session
+				exporter.stopedSession(se.getSession());
+				se.getSession().removeImports();
+			}
+		} else {
+			// For sessions with Connection cache
+			if (se.getOldStatus() == SessionStatus.OPENING
+					&& se.getCurrentStatus() == SessionStatus.CONNECTING) {
+				// first time connection.
+				exporter.activatedSession(se.getSession());
+			} else if (se.getOldStatus() == SessionStatus.CONNECTED) {
+				// disconnected, then purge Import proxies only.
+				// exports will continue to try to send messages and they will
+				// be kept until next connection.
+				se.getSession().removeImports();
+			}
 		}
 	}
 

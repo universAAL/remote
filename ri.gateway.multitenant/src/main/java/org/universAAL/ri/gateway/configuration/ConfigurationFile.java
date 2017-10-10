@@ -100,8 +100,11 @@ public class ConfigurationFile extends UpdatedPropertiesFile implements
 	protected void addDefaults(final Properties defaults) {
 		// defaults.put(ROUTING_MODE, ROUTER);
 		defaults.put(CONNECTION_MODE, CLIENT);
-		defaults.put(TIMEOUT, 5000);
+		defaults.put(TIMEOUT, "5000");
 		defaults.put(PRE_CONN_CACHE, "false");
+		defaults.put(EXPORT_ATTEMPTS, "3");
+		defaults.put(SERVER_THREADS, "1");
+		defaults.put(QUEUES, "-1");
 	}
 
 	/** {@inheritDoc} */
@@ -171,6 +174,21 @@ public class ConfigurationFile extends UpdatedPropertiesFile implements
 	/** {@inheritDoc} */
 	public boolean getCacheBeforeConnect() {
 		return Boolean.parseBoolean(getProperty(PRE_CONN_CACHE));
+	}
+
+	/** {@inheritDoc} */
+	public long getMaxQueueSize() {
+		return Long.parseLong(getProperty(QUEUES));
+	}
+
+	/** {@inheritDoc} */
+	public int getMaxExportAttempts() {
+		return Integer.parseInt(getProperty(EXPORT_ATTEMPTS));
+	}
+
+	/** {@inheritDoc} */
+	public int getServerThreads() {
+		return Integer.parseInt(getProperty(SERVER_THREADS));
 	}
 
 }

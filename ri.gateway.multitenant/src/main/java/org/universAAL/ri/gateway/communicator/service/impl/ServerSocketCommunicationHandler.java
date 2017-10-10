@@ -68,8 +68,6 @@ public class ServerSocketCommunicationHandler extends
 			Gateway.getInstance().context).getLogger(
 			ServerSocketCommunicationHandler.class);
 
-	private static final int NUM_THREADS = 1;
-
 	// private Executor executor;
 	private ServerSocket server;
 	private Thread serverThread;
@@ -84,12 +82,16 @@ public class ServerSocketCommunicationHandler extends
 		super(config.getCipher());
 		this.config = config;
 
-		this.executor = Executors.newCachedThreadPool();
-		this.myself = this;
 		/*
-		 * //TODO Define a maximum number of threads
+		 * Define a maximum number of threads
 		 */
-		// this.executor = Executors.newFixedThreadPool(NUM_THREADS);
+		int threads = config.getServerThreads();
+		if (threads > 0) {
+			this.executor = Executors.newFixedThreadPool(threads);
+		} else {
+			this.executor = Executors.newCachedThreadPool();
+		}
+		this.myself = this;
 		log.info("Created " + ServerSocketCommunicationHandler.class.getName());
 	}
 

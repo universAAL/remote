@@ -69,6 +69,22 @@ public interface PropertiesFileKeys {
 	String PRE_CONN_CACHE = "pre-connection-cache";
 
 	/**
+	 * System property indicating the maximum size of message queues
+	 */
+	String QUEUES = "cache-max-size";
+
+	/**
+	 * System property indicating the maximum number of export attempts.
+	 */
+	String EXPORT_ATTEMPTS = "export-attempts";
+
+	/**
+	 * System property indicating the number of threads to be used for server
+	 * mode.
+	 */
+	String SERVER_THREADS = "server-threads";
+
+	/**
 	 * The Key for encryption.
 	 */
 	String HASH_KEY = "hash-key";

@@ -100,7 +100,7 @@ public class Exporter implements IBusMemberRegistryListener {
 
 		protected void reattempt() {
 			remaining_attempts--;
-			if (remaining_attempts <= 0) {
+			if (remaining_attempts == 0) {
 				// if attempts over limit
 				executor.execute(this);
 				LogUtils.logInfo(Gateway.getInstance().context, getClass(),
@@ -139,9 +139,9 @@ public class Exporter implements IBusMemberRegistryListener {
 		ExportTask(final String busMemberId, final Session session) {
 			this.busMemberId = busMemberId;
 			this.session = session;
-			// TODO configure reAttempts from session config
-			// this.remaining_attempts =
-			// this.session.getConfiguration().getAttempts();
+			// configure reAttempts from session config
+			this.remaining_attempts = session.getConfiguration()
+					.getMaxExportAttempts();
 		}
 
 		public void run() {

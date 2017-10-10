@@ -89,4 +89,25 @@ public interface Configuration extends OperationChainManager {
 	 * @return true IFF the messages should be cached before connection
 	 */
 	boolean getCacheBeforeConnect();
+
+	/**
+	 * Get the max message queue size. Configuration to optimize memory usage.
+	 * 
+	 * @return
+	 */
+	long getMaxQueueSize();
+
+	/**
+	 * Get the max Export Attempts.
+	 * 
+	 * @return
+	 */
+	int getMaxExportAttempts();
+
+	/**
+	 * Get the configuration of threads for the server.
+	 * 
+	 * @return
+	 */
+	int getServerThreads();
 }

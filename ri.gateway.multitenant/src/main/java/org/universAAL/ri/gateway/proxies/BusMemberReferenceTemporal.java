@@ -22,6 +22,7 @@ import java.util.concurrent.TimeoutException;
 import org.universAAL.middleware.rdf.ScopedResource;
 import org.universAAL.ri.gateway.Session;
 import org.universAAL.ri.gateway.protocol.Message;
+import org.universAAL.ri.gateway.utils.BufferedQueue;
 
 /**
  * @author amedrano
@@ -43,18 +44,17 @@ public class BusMemberReferenceTemporal extends BusMemberReference {
 	 */
 	public BusMemberReferenceTemporal(Session session) {
 		super(session);
-		mq = new ConcurrentLinkedQueue<ScopedResource>();
+		long qs = session.getConfiguration().getMaxQueueSize();
+		if (qs > 0) {
+			mq = new BufferedQueue<ScopedResource>(qs);
+		} else {
+			mq = new ConcurrentLinkedQueue<ScopedResource>();
+		}
 	}
 
 	/** {@inheritDoc} */
 	@Override
 	public void send(ScopedResource message) {
-		// check queue size
-		// if (sender.getMaxQueueSize() > 0
-		// && mq.size() >= sender.getMaxQueueSize()) {
-		// // queue overflowing, remove first
-		// mq.remove();
-		// }
 		// add to message buffer and wait to flush.
 		mq.add(message);
 	}

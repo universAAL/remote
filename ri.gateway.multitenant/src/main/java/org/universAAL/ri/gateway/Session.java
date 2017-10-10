@@ -21,6 +21,7 @@ package org.universAAL.ri.gateway;
 
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.TimeoutException;
 
@@ -45,6 +46,7 @@ import org.universAAL.ri.gateway.protocol.MessageSender;
 import org.universAAL.ri.gateway.protocol.WrappedBusMessage;
 import org.universAAL.ri.gateway.proxies.ProxyBusMember;
 import org.universAAL.ri.gateway.proxies.ProxyPool;
+import org.universAAL.ri.gateway.utils.BufferedQueue;
 import org.universAAL.ri.gateway.utils.CallSynchronizer;
 
 /**
@@ -180,7 +182,7 @@ public class Session implements MessageSender, MessageReceiver,
 	private AbstractSocketCommunicationHandler comunication;
 	private final Cipher cipher;
 	private CallSynchronizer<Short, Message, Message> synchronizer;
-	private ConcurrentLinkedQueue<Message> messagequeue = new ConcurrentLinkedQueue<Message>();
+	private final Queue<Message> messagequeue;
 	private Thread messagequeuetask;
 
 	private SessionEvent.SessionStatus state;
@@ -200,6 +202,13 @@ public class Session implements MessageSender, MessageReceiver,
 			this.synchronizer = new MessageSynchronizer(timeout);
 		} else {
 			this.synchronizer = new MessageSynchronizer();
+		}
+
+		long qs = this.config.getMaxQueueSize();
+		if (qs > 0) {
+			messagequeue = new BufferedQueue<Message>(qs);
+		} else {
+			messagequeue = new ConcurrentLinkedQueue<Message>();
 		}
 	}
 
@@ -263,9 +272,13 @@ public class Session implements MessageSender, MessageReceiver,
 
 	public void send(final Message message) {
 		validateRemoteScope(remoteScope);
-		messagequeue.offer(message);
-		// TODO have a max queue length to not overflow when disconnected for
-		// long time
+		// have a max queue length to not overflow when disconnected for long
+		// time
+		if (!messagequeue.offer(message)) {
+			messagequeue.poll();
+			messagequeue.offer(message);
+		}
+		;
 		messagequeue.notify();
 	}
 

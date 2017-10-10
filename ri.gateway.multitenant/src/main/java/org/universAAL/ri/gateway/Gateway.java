@@ -274,7 +274,11 @@ public class Gateway implements ModuleActivator, SessionEventListener {
 				se.getSession().removeImports();
 			}
 		}
-	}
+		if (se.getCurrentStatus() == SessionStatus.CLOSED) {
+			// the connection is closed, either because of remote request, or
+			// local shutdown. Ensure all resources for the session are purged
+			endSession(se.getSession());
+		}
 
 	/** {@ inheritDoc} */
 	public String getName() {

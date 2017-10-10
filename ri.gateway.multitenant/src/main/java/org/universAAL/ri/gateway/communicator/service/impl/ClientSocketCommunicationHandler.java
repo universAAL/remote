@@ -306,6 +306,7 @@ public class ClientSocketCommunicationHandler extends
 			if (currentLinkHandler != null) {
 				currentLinkHandler.stop();
 				currentLinkHandler.disconnect();
+				currentLinkHandler = null;
 				creator.setStatus(SessionEvent.SessionStatus.CLOSED);
 			}
 		}

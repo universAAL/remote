@@ -1,11 +1,8 @@
 package org.universAAL.ri.gateway.communicator.service.impl;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.fail;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.net.Inet6Address;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
@@ -14,61 +11,36 @@ import java.net.Socket;
 import java.net.SocketException;
 import java.util.Enumeration;
 
+import org.bouncycastle.crypto.CryptoException;
 import org.junit.Test;
-import org.universAAL.ri.gateway.communication.cipher.Blowfish;
-import org.universAAL.ri.gateway.communicator.service.CommunicationHelper;
+import org.universAAL.ri.gateway.communication.cipher.ClearTextCipher;
+import org.universAAL.ri.gateway.communication.cipher.SocketCipher;
 import org.universAAL.ri.gateway.protocol.ErrorMessage;
 import org.universAAL.ri.gateway.protocol.Message;
 
 /**
  * This class test marshalling and unmarshalling of message, to avoid that
  * changes in the code breaks the communication level
- *
+ * 
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @version $LastChangedRevision$ ($LastChangedDate: 2015-01-05 18:58:58 +0100
  *          (Mon, 05 Jan 2015) $)
- *
+ * 
  */
 public class SerializerTest {
+	final int TCP_TEST_PORT = 7777;
 
-	@Test
-	public void testSendMessageToStream() {
+	private InetAddress getNonLoopbackInterface() {
+		InetAddress using = null;
 
-		ErrorMessage wrap = new ErrorMessage("Hello World Sending!");
-		Blowfish cipher = new Blowfish("A radom key");
-		ByteArrayOutputStream output = new ByteArrayOutputStream();
-		try {
-			CommunicationHelper.cypherAndSend(wrap, output, cipher);
-			output.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-			fail("Failed due to exception");
-		}
-		ByteArrayInputStream input = new ByteArrayInputStream(output.toByteArray());
-		Message readBack = null;
-		try {
-			readBack = CommunicationHelper.readAndDecypher(input, cipher);
-		} catch (Exception e) {
-			e.printStackTrace();
-			fail("Failed due to exception");
-		}
-		assertEquals("Checking message type", wrap.getClass(), readBack.getClass());
-		assertEquals("Checking message content", wrap.getDescription(), ((ErrorMessage) readBack).getDescription());
-	}
-
-	@Test
-	public void testSendingMessage() {
-		final int TCP_TEST_PORT = 7777;
-		final int TOTALE_MESSAGE_SENT = 250;
-		final double MAXIMUM_WAITING_TIME = 500.0;
 		Enumeration<NetworkInterface> ifs = null;
 		try {
 			ifs = NetworkInterface.getNetworkInterfaces();
 		} catch (SocketException e) {
-			System.out.println("Unable to test actual communication because we couldn't find any network interfaces");
-			return;
+			System.out
+					.println("Unable to test actual communication because we couldn't find any network interfaces");
+			return null;
 		}
-		InetAddress using = null;
 		while (ifs.hasMoreElements()) {
 			NetworkInterface netIf = (NetworkInterface) ifs.nextElement();
 			Enumeration<InetAddress> addresses = netIf.getInetAddresses();
@@ -87,62 +59,143 @@ public class SerializerTest {
 				break;
 		}
 		if (using == null) {
-			System.out.println(
-					"Unable to test actual communication because we couldn't find any no-loopback IPv4 address bound to the interface");
-			return;
+			System.out
+					.println("Unable to test actual communication because we couldn't find any no-loopback IPv4 address bound to the interface");
+			return null;
 		}
-		final InetAddress selected = using;
 		System.out.println(using);
-		final ErrorMessage expected = new ErrorMessage("Hello World Sending!");
-		final Blowfish cipher = new Blowfish("A radom key");
-		Thread serverThread = new Thread(new Runnable() {
-
-			public void run() {
-				ServerSocket server;
-				try {
-					server = new ServerSocket(TCP_TEST_PORT, 1, selected);
-					Socket serverPart = server.accept();
-					for (int i = 0; i < TOTALE_MESSAGE_SENT; i++) {
-						Message readBack = null;
-						try {
-							readBack = CommunicationHelper.readAndDecypher(serverPart.getInputStream(), cipher);
-						} catch (Exception e) {
-							e.printStackTrace();
-							fail("Failed due to exception");
-						}
-						assertEquals("Checking message type", expected.getClass(), readBack.getClass());
-						assertEquals("Checking message content", expected.getDescription(),
-								((ErrorMessage) readBack).getDescription());
-					}
-				} catch (Exception e) {
-					e.printStackTrace();
-					fail("Failed due to exception");
-				}
-
-			}
-		});
-		serverThread.start();
-		try {
-			Thread.sleep(2500);
-		} catch (InterruptedException ex) {
-		}
-		try {
-			Socket client = new Socket(selected, TCP_TEST_PORT);
-			for (int i = 0; i < TOTALE_MESSAGE_SENT; i++) {
-				CommunicationHelper.cypherAndSend(expected, client.getOutputStream(), cipher);
-				double waiting = Math.random() * MAXIMUM_WAITING_TIME;
-				Thread.sleep((long) waiting);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			fail("Failed due to exception");
-		}
-		try {
-			serverThread.join(10000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		assertFalse("Expected everythign stopped as expected", serverThread.isAlive());
+		return using;
 	}
+
+	private class PingServer implements Runnable {
+		final double MAXIMUM_WAITING_TIME = 500.0;
+
+		private SocketCipher cipher;
+		private boolean stop = true;
+
+		/**
+		 * 
+		 */
+		public PingServer(SocketCipher cipher) {
+			this.cipher = cipher;
+		}
+
+		/** {@inheritDoc} */
+		public void run() {
+			ServerSocket server;
+			SocketCipher c = null;
+			try {
+				server = cipher.createServerSocket(TCP_TEST_PORT, 1,
+						getNonLoopbackInterface());
+				// TODO notify readiness to receive.
+				Socket serverPart = server.accept();
+				stop = false;
+				notifyAll();
+				c = cipher.acceptedSocket(serverPart);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				return;
+			}
+			while (!stop) {
+				try {
+					Message m = c.readMessage();
+					c.sendMessage(m);
+				} catch (CryptoException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+
+		/**
+		 * @return
+		 */
+		public boolean isReady() {
+			return !stop;
+		}
+	}
+
+	private void testPing(SocketCipher scipher, SocketCipher ccipher)
+			throws Exception {
+		// setup server
+		PingServer ps = new PingServer(scipher);
+		Thread serverThread = new Thread(ps);
+		serverThread.start();
+
+		// synchornize with server
+		while (!ps.isReady()) {
+			try {
+				synchronized (ps) {
+					ps.wait();
+				}
+			} catch (InterruptedException e) {
+			}
+		}
+
+		// connect client
+		Socket sc = ccipher.createClientSocket(getNonLoopbackInterface(),
+				TCP_TEST_PORT);
+		for (int i = 0; i < 250; i++) {
+			Message m = new ErrorMessage("testMessage: " + Integer.toString(i));
+			ccipher.sendMessage(m);
+			Message rm = ccipher.readMessage();
+			assertEquals("Sent Message and received Message are not the same",
+					((ErrorMessage) m).getDescription(),
+					((ErrorMessage) rm).getDescription());
+		}
+		ps.stop = true;
+	}
+
+	private void testSequence(SocketCipher scipher, SocketCipher ccipher)
+			throws Exception {
+		// setup server
+		PingServer ps = new PingServer(scipher);
+		Thread serverThread = new Thread(ps);
+		serverThread.start();
+
+		// synchornize with server
+		while (!ps.isReady()) {
+			try {
+				ps.wait();
+			} catch (InterruptedException e) {
+			}
+		}
+
+		// connect client
+		Socket sc = ccipher.createClientSocket(getNonLoopbackInterface(),
+				TCP_TEST_PORT);
+		int nsm = 100 + (int) (Math.random() * ((250 - 100) + 1));
+		for (int i = 0; i < nsm; i++) {
+			Message m = new ErrorMessage("testMessage: " + Integer.toString(i));
+			ccipher.sendMessage(m);
+		}
+		int nrm = 0;
+		while (ccipher.readMessage() != null) {
+			nrm++;
+		}
+		assertEquals("Number of Sent and received messages is not equal", nsm,
+				nrm);
+		ps.stop = true;
+	}
+
+	@Test
+	public void testSimple() throws Exception {
+		SocketCipher sc = new ClearTextCipher();
+		SocketCipher cc = new ClearTextCipher();
+		testPing(sc, cc);
+		testSequence(sc, cc);
+	}
+
+	// @Test
+	// public void testSSL() throws Exception {
+	// SocketCipher sc = new SSLCipher();
+	// SocketCipher cc = new SSLCipher();
+	// testPing(sc, cc);
+	// testSequence(sc, cc);
+	// }
 
 }

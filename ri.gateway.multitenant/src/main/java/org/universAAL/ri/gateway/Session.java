@@ -27,7 +27,7 @@ import java.util.concurrent.TimeoutException;
 
 import org.universAAL.middleware.container.utils.LogUtils;
 import org.universAAL.ri.gateway.SessionEvent.SessionStatus;
-import org.universAAL.ri.gateway.communication.cipher.Cipher;
+import org.universAAL.ri.gateway.communication.cipher.SocketCipher;
 import org.universAAL.ri.gateway.communicator.service.impl.AbstractSocketCommunicationHandler;
 import org.universAAL.ri.gateway.communicator.service.impl.ClientSocketCommunicationHandler;
 import org.universAAL.ri.gateway.communicator.service.impl.ServerSocketCommunicationHandler;
@@ -180,7 +180,7 @@ public class Session implements MessageSender, MessageReceiver,
 	private final Configuration config;
 	private String remoteScope;
 	private AbstractSocketCommunicationHandler comunication;
-	private final Cipher cipher;
+	private final SocketCipher cipher;
 	private CallSynchronizer<Short, Message, Message> synchronizer;
 	private final Queue<Message> messagequeue;
 	private Thread messagequeuetask;
@@ -372,7 +372,7 @@ public class Session implements MessageSender, MessageReceiver,
 		}
 	}
 
-	public Cipher getCipher() {
+	public SocketCipher getCipher() {
 		return cipher;
 	}
 

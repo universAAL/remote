@@ -33,9 +33,8 @@ import java.util.List;
 import java.util.UUID;
 
 import org.universAAL.ri.gateway.Gateway;
-import org.universAAL.ri.gateway.communication.cipher.Cipher;
+import org.universAAL.ri.gateway.communication.cipher.SocketCipher;
 import org.universAAL.ri.gateway.communicator.service.CommunicationHandler;
-import org.universAAL.ri.gateway.communicator.service.CommunicationHelper;
 import org.universAAL.ri.gateway.log.Logger;
 import org.universAAL.ri.gateway.log.LoggerFactory;
 import org.universAAL.ri.gateway.protocol.Message;
@@ -54,16 +53,16 @@ public abstract class AbstractSocketCommunicationHandler implements
 	public static final Logger log = LoggerFactory.createLoggerFactory(
 			Gateway.getInstance().context).getLogger(
 			AbstractSocketCommunicationHandler.class);
-	protected Cipher cipher;
+	protected SocketCipher cipher;
 
-	public AbstractSocketCommunicationHandler(final Cipher cipher) {
+	public AbstractSocketCommunicationHandler(final SocketCipher cipher) {
 		this.cipher = cipher;
 	}
 
-	protected Message readMessage(final InputStream in) throws Exception {
+	protected Message readMessage() throws Exception {
 		AbstractSocketCommunicationHandler.log
 				.debug("Reading a message on the link");
-		final Message msg = CommunicationHelper.readAndDecypher(in, cipher);
+		final Message msg = cipher.readMessage();
 		AbstractSocketCommunicationHandler.log.debug("Read message " + msg
 				+ " going to handle it");
 		return msg;
@@ -108,7 +107,7 @@ public abstract class AbstractSocketCommunicationHandler implements
 			}
 
 			try {
-				CommunicationHelper.cypherAndSend(msg, out, cipher);
+				cipher.sendMessage(msg);
 			} catch (final EOFException e) {
 				log.debug("Connection closed");
 				return false;

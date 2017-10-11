@@ -19,19 +19,16 @@
  ******************************************************************************/
 package org.universAAL.ri.gateway.protocol;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
 /**
  * Main Message class. All Messages interchanged between ASGs should be
  * subclasses of this class.
- *
+ * 
  * @author amedrano
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @version $LastChangedRevision$ ($LastChangedDate$)
- *
+ * 
  */
 public abstract class Message implements Serializable {
 
@@ -67,7 +64,7 @@ public abstract class Message implements Serializable {
 
 	/**
 	 * Constructor for a {@link Message} in response to another.
-	 *
+	 * 
 	 * @param respondTo
 	 *            message to which to respond to.
 	 */
@@ -86,19 +83,5 @@ public abstract class Message implements Serializable {
 
 	public boolean isResponse() {
 		return inResponseTo != -1;
-	}
-
-	public byte[] getBytes() {
-		try {
-			ByteArrayOutputStream output = new ByteArrayOutputStream();
-			ObjectOutputStream objOut;
-			objOut = new ObjectOutputStream(output);
-			objOut.writeObject(this);
-			objOut.flush();
-			objOut.close();
-			return output.toByteArray();
-		} catch (IOException e) {
-			throw new RuntimeException("Unable to generates bytes", e);
-		}
 	}
 }

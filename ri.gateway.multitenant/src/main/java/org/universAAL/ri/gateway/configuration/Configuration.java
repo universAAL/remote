@@ -16,7 +16,7 @@
 package org.universAAL.ri.gateway.configuration;
 
 import org.universAAL.ri.gateway.Session;
-import org.universAAL.ri.gateway.communication.cipher.Cipher;
+import org.universAAL.ri.gateway.communication.cipher.SocketCipher;
 import org.universAAL.ri.gateway.operations.OperationChainManager;
 
 /**
@@ -70,9 +70,9 @@ public interface Configuration extends OperationChainManager {
 	/**
 	 * Get the encryption cipher to be used for the communication link.
 	 * 
-	 * @return the {@link Cipher} implementation configured for this link.
+	 * @return the {@link SocketCipher} implementation configured for this link.
 	 */
-	Cipher getCipher();
+	SocketCipher getCipher();
 
 	/**
 	 * Get the configured maximum time for timeouts.

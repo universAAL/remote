@@ -23,6 +23,8 @@
  ******************************************************************************/
 package org.universAAL.ri.gateway.configuration;
 
+import org.universAAL.ri.gateway.communication.cipher.SocketCipher;
+
 /**
  * Keys for the properties file.
  * 
@@ -57,6 +59,13 @@ public interface PropertiesFileKeys {
 	String SECURITY_DEFINITION = "security-definition-file";
 
 	/**
+	 * System property indicating the {@link SocketCipher} that should be loaded
+	 * to manage channel encryption. Each {@link SocketCipher} should have its
+	 * own configuration entries.
+	 */
+	String CHIPER_CLASS = "cipher.class";
+
+	/**
 	 * System property defining the time in milliseconds for which the gateway
 	 * should wait.
 	 */
@@ -84,8 +93,4 @@ public interface PropertiesFileKeys {
 	 */
 	String SERVER_THREADS = "server-threads";
 
-	/**
-	 * The Key for encryption.
-	 */
-	String HASH_KEY = "hash-key";
 }

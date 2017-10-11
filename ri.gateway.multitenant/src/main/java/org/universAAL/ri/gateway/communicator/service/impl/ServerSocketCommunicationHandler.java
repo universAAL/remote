@@ -26,9 +26,7 @@ package org.universAAL.ri.gateway.communicator.service.impl;
 
 import java.io.EOFException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.InetAddress;
-import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -42,7 +40,7 @@ import org.universAAL.ri.gateway.Gateway;
 import org.universAAL.ri.gateway.ProxyMessageReceiver;
 import org.universAAL.ri.gateway.Session;
 import org.universAAL.ri.gateway.SessionEvent;
-import org.universAAL.ri.gateway.communicator.service.CommunicationHelper;
+import org.universAAL.ri.gateway.communication.cipher.SocketCipher;
 import org.universAAL.ri.gateway.configuration.Configuration;
 import org.universAAL.ri.gateway.log.Logger;
 import org.universAAL.ri.gateway.log.LoggerFactory;
@@ -103,8 +101,7 @@ public class ServerSocketCommunicationHandler extends
 
 		final InetAddress addr = InetAddress.getByName(config
 				.getConnectionHost());
-		server = new ServerSocket();
-		server.bind(new InetSocketAddress(addr, config.getConnectionPort()));
+		server = cipher.createServerSocket(config.getConnectionPort(), 0, addr);
 		serverThread = new Thread(new Runnable() {
 
 			public void run() {
@@ -116,7 +113,8 @@ public class ServerSocketCommunicationHandler extends
 						log.debug("Got new incoming connection");
 						final ProxyMessageReceiver proxy = new ProxyMessageReceiver();
 						final LinkHandler handler = new LinkHandler(myself,
-								socket, handlers, proxy);
+								socket, handlers, proxy, cipher
+										.acceptedSocket(socket));
 						handlers.add(handler);
 						executor.execute(handler);
 					} catch (final IOException e) {
@@ -146,7 +144,7 @@ public class ServerSocketCommunicationHandler extends
 
 		public LinkHandler(final ServerSocketCommunicationHandler server,
 				final Socket socket, final List<LinkHandler> handlers,
-				final MessageReceiver proxy) {
+				final MessageReceiver proxy, final SocketCipher cipher) {
 			super(socket, proxy, cipher);
 			this.handlerList = handlers;
 			this.server = server;
@@ -162,7 +160,7 @@ public class ServerSocketCommunicationHandler extends
 			if (socket != null && !socket.isClosed()) {
 				Message msg;
 				try {
-					msg = getNextMessage(in);
+					msg = cipher.readMessage();
 				} catch (final Exception e) {
 					if (e instanceof EOFException) {
 						log.info("Failed to read message of the stream beacuse it was closed from the other side");
@@ -239,7 +237,7 @@ public class ServerSocketCommunicationHandler extends
 				final ConnectionResponse response = new ConnectionResponse(
 						link, source, request.getSpaceId(), session);
 				try {
-					CommunicationHelper.cypherAndSend(response, out, cipher);
+					cipher.sendMessage(response);
 				} catch (final Exception e) {
 					e.printStackTrace();
 					// TODO Close the session
@@ -305,7 +303,7 @@ public class ServerSocketCommunicationHandler extends
 				final ConnectionResponse response = new ConnectionResponse(
 						link, source, request.getSpaceId(), session);
 				try {
-					CommunicationHelper.cypherAndSend(response, out, cipher);
+					cipher.sendMessage(response);
 				} catch (final Exception e) {
 					e.printStackTrace();
 					// TODO Close the session
@@ -324,11 +322,6 @@ public class ServerSocketCommunicationHandler extends
 
 		private String getName() {
 			return name;
-		}
-
-		@Override
-		protected Message getNextMessage(final InputStream in) throws Exception {
-			return readMessage(in);
 		}
 
 		@Override

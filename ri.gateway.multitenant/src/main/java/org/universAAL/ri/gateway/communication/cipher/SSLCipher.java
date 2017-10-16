@@ -21,6 +21,7 @@ import java.io.ObjectOutputStream;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.security.KeyStore;
 import java.util.Properties;
 
 import javax.net.ssl.SSLServerSocket;
@@ -39,17 +40,34 @@ public class SSLCipher implements SocketCipher {
 
 	private ObjectOutputStream os;
 	private ObjectInputStream is;
+	
+	public static final String KEYSTORE = "javax.net.ssl.keyStore";
+	public static final String KEYSTORE_PASS = "javax.net.ssl.keyStorePassword";
+	public static final String TRUSTSTORE = "javax.net.ssl.trustStore";
+	public static final String TRUSTSTORE_PASS = "javax.net.ssl.trustStorePassword";
 
 	/**
 	 * 
 	 */
 	public SSLCipher() {
-		// TODO Auto-generated constructor stub
 	}
 
+	private void configureIfNotSet(String key, Properties props){
+		String value = props.getProperty(key);
+		if (!System.getProperties().containsKey(key)
+				&& value != null 
+				&& !value.isEmpty()){
+			System.setProperty(key, value);
+		}
+	}
+	
 	/** {@inheritDoc} */
 	public boolean setup(Properties props) {
-		// no config required
+		// config if not in system properties
+		configureIfNotSet(KEYSTORE, props);
+		configureIfNotSet(KEYSTORE_PASS, props);
+		configureIfNotSet(TRUSTSTORE, props);
+		configureIfNotSet(TRUSTSTORE_PASS, props);
 		return true;
 	}
 
@@ -58,7 +76,6 @@ public class SSLCipher implements SocketCipher {
 			InetAddress ifAddress) throws IOException {
 		SSLServerSocket ssocket = (SSLServerSocket) SSLServerSocketFactory
 				.getDefault().createServerSocket(port, backlog, ifAddress);
-		// TODO Configure SSL
 		return ssocket;
 	}
 

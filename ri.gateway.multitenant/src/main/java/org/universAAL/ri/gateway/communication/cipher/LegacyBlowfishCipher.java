@@ -17,6 +17,7 @@ package org.universAAL.ri.gateway.communication.cipher;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.EOFException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
@@ -192,6 +193,9 @@ public class LegacyBlowfishCipher implements SocketCipher {
 			read = is.read(intAsArray, idx, intAsArray.length - idx);
 			if (read >= 0) {
 				idx += read;
+			}
+			if (read == -1) {
+				throw new EOFException("Stream End Of File");
 			}
 		} while (idx < 4);
 		ByteBuffer buffer = ByteBuffer.wrap(intAsArray);

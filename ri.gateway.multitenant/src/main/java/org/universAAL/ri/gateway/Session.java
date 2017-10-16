@@ -160,7 +160,9 @@ public class Session implements MessageSender, MessageReceiver,
 		/** {@inheritDoc} */
 		public void statusChange(SessionEvent se) {
 			if (se.getCurrentStatus() == SessionStatus.CONNECTED) {
-				messagequeue.notifyAll();
+				synchronized (messagequeue) {
+					messagequeue.notifyAll();
+				}
 			}
 
 		}
@@ -279,7 +281,9 @@ public class Session implements MessageSender, MessageReceiver,
 			messagequeue.offer(message);
 		}
 		;
-		messagequeue.notify();
+		synchronized (messagequeue) {
+			messagequeue.notify();
+		}
 	}
 
 	private void validateRemoteScope(final String scope) {

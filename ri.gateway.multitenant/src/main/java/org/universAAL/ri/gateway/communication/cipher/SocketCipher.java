@@ -101,15 +101,17 @@ public interface SocketCipher {
 	 * @return
 	 * @throws CryptoException
 	 * @throws EOFException
+	 *             This means the underlying socket is closed.
 	 */
 	public boolean sendMessage(Message m) throws CryptoException, IOException;
 
 	/**
-	 * Read the next message in the socket
+	 * Read the next message in the socket.
 	 * 
 	 * @return
 	 * @throws CryptoException
 	 * @throws EOFException
+	 *             This means the underlying socket is closed.
 	 */
 	public Message readMessage() throws CryptoException, IOException;
 

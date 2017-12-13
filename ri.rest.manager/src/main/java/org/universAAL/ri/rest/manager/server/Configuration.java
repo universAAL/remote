@@ -95,6 +95,10 @@ public class Configuration {
 	 * Configuration suffix for host and port
 	 */
 	private static final String CONF_HOSTPORT = "serv.host";
+	/**
+	 * Configuration suffix for allowing new users to sign up
+	 */
+	private static final String CONF_ALLOWNEW = "allownewusers";
 
 	/**
 	 * Get the Server Application Google Cloud Messaging Key. There is a
@@ -210,5 +214,9 @@ public class Configuration {
 
 	public static String getHostPort() {
 		return System.getProperty(pkgNameDot + CONF_HOSTPORT, "http://localhost:9000/");
+	}
+	
+	public static boolean getAllowNewUsers() {
+		return System.getProperty(pkgNameDot + CONF_ALLOWNEW, "true").equals("true");
 	}
 }

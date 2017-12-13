@@ -93,12 +93,14 @@ public class Authenticator implements ContainerRequestFilter {
 				// This user does not have the same PWD it registered.
 				return false;
 			}
-		} else {
-			// user not in DB
+		} else if (Configuration.getAllowNewUsers()) {
+			// user not in DB but we can create it
 			Activator.getPersistence().storeUserPWD(username, password);
 			users.put(username, password);
 			return true;
-			// New users are always welcome
+		} else {
+			// user not in DB and we cannot create users
+			return false;
 		}
 	}
 

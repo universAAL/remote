@@ -47,12 +47,7 @@ public class Authenticator implements ContainerRequestFilter {
 	/**
 	 * In memory list of user-pwd pairs, to avoid constant use of the DB
 	 */
-	private static Hashtable<String, String> users = new Hashtable<String, String>(); // TODO
-																						// Clean
-																						// from
-																						// time
-																						// to
-																						// time?
+	private static Hashtable<String, String> users = new Hashtable<String, String>(); // TODO Clean often?
 
 	public void filter(ContainerRequestContext context) {
 		Message m = JAXRSUtils.getCurrentMessage();
@@ -60,7 +55,10 @@ public class Authenticator implements ContainerRequestFilter {
 		if (policy != null) {
 			String username = policy.getUserName();
 			String password = policy.getPassword();
-			if (isAuthenticated(username, password) && isAuthorized(username, context.getUriInfo().getPath())) {
+			if (username!=null && password!=null 
+				&& !username.isEmpty() && !password.isEmpty() 
+				&& isAuthenticated(username, password) 
+				&& isAuthorized(username, context.getUriInfo().getPath())) {
 				// initialize org.apache.cxf.security.SecurityContext with
 				// Principals representing the user and its roles (if
 				// available).

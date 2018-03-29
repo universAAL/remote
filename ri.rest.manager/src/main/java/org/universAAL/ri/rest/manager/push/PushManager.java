@@ -87,6 +87,9 @@ public class PushManager {
 	 *         RemoteAPI.REMOTE_UNKNOWN if anything else
 	 */
 	public static int determineEndpoint(String remote) {
+		if (remote==null || remote.isEmpty() || remote.equals("null")){
+			return REMOTE_UNKNOWN;
+		}
 		try {
 			URL attempt = new URL(remote);
 			if (attempt.getProtocol().toLowerCase().startsWith("http")) {

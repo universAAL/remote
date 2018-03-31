@@ -21,7 +21,6 @@ import java.io.ObjectOutputStream;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.security.KeyStore;
 import java.util.Properties;
 
 import javax.net.ssl.SSLServerSocket;
@@ -30,6 +29,8 @@ import javax.net.ssl.SSLSocket;
 import javax.net.ssl.SSLSocketFactory;
 
 import org.bouncycastle.crypto.CryptoException;
+import org.universAAL.middleware.container.utils.LogUtils;
+import org.universAAL.ri.gateway.Gateway;
 import org.universAAL.ri.gateway.protocol.Message;
 
 /**
@@ -40,7 +41,7 @@ public class SSLCipher implements SocketCipher {
 
 	private ObjectOutputStream os;
 	private ObjectInputStream is;
-	
+
 	public static final String KEYSTORE = "javax.net.ssl.keyStore";
 	public static final String KEYSTORE_PASS = "javax.net.ssl.keyStorePassword";
 	public static final String TRUSTSTORE = "javax.net.ssl.trustStore";
@@ -52,15 +53,14 @@ public class SSLCipher implements SocketCipher {
 	public SSLCipher() {
 	}
 
-	private void configureIfNotSet(String key, Properties props){
+	private void configureIfNotSet(String key, Properties props) {
 		String value = props.getProperty(key);
-		if (!System.getProperties().containsKey(key)
-				&& value != null 
-				&& !value.isEmpty()){
+		if (!System.getProperties().containsKey(key) && value != null
+				&& !value.isEmpty()) {
 			System.setProperty(key, value);
 		}
 	}
-	
+
 	/** {@inheritDoc} */
 	public boolean setup(Properties props) {
 		// config if not in system properties
@@ -88,7 +88,9 @@ public class SSLCipher implements SocketCipher {
 			newCipher.is = new ObjectInputStream(sock.getInputStream());
 			return newCipher;
 		} catch (IOException e) {
-			e.printStackTrace();
+			LogUtils.logError(Gateway.getInstance().context, getClass(),
+					"acceptedSocket", new String[] { "unexpected Exception" },
+					e);
 		}
 		return null;
 	}
@@ -100,7 +102,7 @@ public class SSLCipher implements SocketCipher {
 				.createSocket(host, port);
 		os = new ObjectOutputStream(socket.getOutputStream());
 		is = new ObjectInputStream(socket.getInputStream());
-		// TODO configure SSL
+		// The configuration of SSL is gathered from system variables
 		return socket;
 	}
 
@@ -120,7 +122,8 @@ public class SSLCipher implements SocketCipher {
 		try {
 			return (Message) is.readObject();
 		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
+			LogUtils.logError(Gateway.getInstance().context, getClass(),
+					"readMessage", new String[] { "unexpected Exception" }, e);
 			return null;
 		}
 	}

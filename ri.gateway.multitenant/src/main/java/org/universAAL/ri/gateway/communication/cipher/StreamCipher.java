@@ -32,6 +32,8 @@ import javax.net.ServerSocketFactory;
 import javax.net.SocketFactory;
 
 import org.bouncycastle.crypto.CryptoException;
+import org.universAAL.middleware.container.utils.LogUtils;
+import org.universAAL.ri.gateway.Gateway;
 import org.universAAL.ri.gateway.protocol.Message;
 
 /**
@@ -65,7 +67,8 @@ public class StreamCipher implements SocketCipher {
 			decipher = Cipher.getInstance(props.getProperty(CIPHER_ALGORITHM));
 			decipher.init(Cipher.DECRYPT_MODE, key);
 		} catch (Exception e) {
-			e.printStackTrace();
+			LogUtils.logError(Gateway.getInstance().context, getClass(),
+					"setup", new String[] { "unexpected Exception" }, e);
 			return false;
 		}
 		return true;
@@ -95,7 +98,9 @@ public class StreamCipher implements SocketCipher {
 			newCipher.is = new ObjectInputStream(cis);
 			return newCipher;
 		} catch (Exception e) {
-			e.printStackTrace();
+			LogUtils.logError(Gateway.getInstance().context, getClass(),
+					"acceptedSocket", new String[] { "unexpected Exception" },
+					e);
 			return null;
 		}
 	}
@@ -129,7 +134,8 @@ public class StreamCipher implements SocketCipher {
 		try {
 			return (Message) is.readObject();
 		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
+			LogUtils.logError(Gateway.getInstance().context, getClass(),
+					"readMessage", new String[] { "unexpected Exception" }, e);
 			return null;
 		}
 	}

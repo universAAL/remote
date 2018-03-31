@@ -27,6 +27,8 @@ import javax.net.ServerSocketFactory;
 import javax.net.SocketFactory;
 
 import org.bouncycastle.crypto.CryptoException;
+import org.universAAL.middleware.container.utils.LogUtils;
+import org.universAAL.ri.gateway.Gateway;
 import org.universAAL.ri.gateway.protocol.Message;
 
 /**
@@ -70,7 +72,9 @@ public class ClearTextCipher implements SocketCipher {
 			newCipher.is = new ObjectInputStream(sock.getInputStream());
 			return newCipher;
 		} catch (IOException e) {
-			e.printStackTrace();
+			LogUtils.logError(Gateway.getInstance().context, getClass(),
+					"acceptedSocket", new String[] { "unexpected Exception" },
+					e);
 		}
 		return null;
 	}
@@ -100,7 +104,8 @@ public class ClearTextCipher implements SocketCipher {
 		try {
 			return (Message) is.readObject();
 		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
+			LogUtils.logError(Gateway.getInstance().context, getClass(),
+					"readMessage", new String[] { "unexpected Exception" }, e);
 			return null;
 		}
 	}

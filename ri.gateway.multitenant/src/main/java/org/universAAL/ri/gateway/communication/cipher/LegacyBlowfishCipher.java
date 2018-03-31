@@ -37,6 +37,8 @@ import org.bouncycastle.crypto.engines.BlowfishEngine;
 import org.bouncycastle.crypto.modes.CBCBlockCipher;
 import org.bouncycastle.crypto.paddings.PaddedBufferedBlockCipher;
 import org.bouncycastle.crypto.params.KeyParameter;
+import org.universAAL.middleware.container.utils.LogUtils;
+import org.universAAL.ri.gateway.Gateway;
 import org.universAAL.ri.gateway.protocol.Message;
 
 /**
@@ -87,7 +89,9 @@ public class LegacyBlowfishCipher implements SocketCipher {
 			newCipher.is = socket.getInputStream();
 			return newCipher;
 		} catch (IOException e) {
-			e.printStackTrace();
+			LogUtils.logError(Gateway.getInstance().context, getClass(),
+					"acceptedSocket", new String[] { "unexpected Exception" },
+					e);
 		}
 		return null;
 	}
@@ -216,7 +220,8 @@ public class LegacyBlowfishCipher implements SocketCipher {
 		try {
 			msg = (Message) ois.readObject();
 		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
+			LogUtils.logError(Gateway.getInstance().context, getClass(),
+					"readMessage", new String[] { "unexpected Exception" }, e);
 			msg = null;
 		}
 

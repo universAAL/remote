@@ -2,6 +2,7 @@ package org.universAAL.ri.gateway.communicator.service.impl;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.io.IOException;
 import java.net.BindException;
@@ -97,7 +98,7 @@ public class SerializerTest {
 							+ " Trying to reset to: "
 							+ Integer.toString(++TCP_TEST_PORT));
 				} catch (IOException e1) {
-					e1.printStackTrace();
+					fail(e1.getMessage());
 					return;
 				}
 			}
@@ -112,7 +113,6 @@ public class SerializerTest {
 					serverPart = server.accept();
 					c = cipher.acceptedSocket(serverPart);
 				} catch (IOException e) {
-					e.printStackTrace();
 					continue;
 				}
 				while (!serverPart.isClosed()) {
@@ -120,7 +120,6 @@ public class SerializerTest {
 						Message m = c.readMessage();
 						c.sendMessage(m);
 					} catch (Exception e) {
-						e.printStackTrace();
 						break;
 					}
 				}
@@ -128,7 +127,6 @@ public class SerializerTest {
 			try {
 				server.close();
 			} catch (IOException e) {
-				e.printStackTrace();
 			}
 			synchronized (this) {
 				notifyAll();
@@ -182,7 +180,8 @@ public class SerializerTest {
 		for (int i = 0; i < 250; i++) {
 			ErrorMessage m = new ErrorMessage("testPingMessage: "
 					+ Integer.toString(i));
-			ccipher.sendMessage(m);
+			assertTrue(ccipher.sendMessage(m));
+			Thread.sleep(10);
 			Message rm = ccipher.readMessage();
 			assertEquals("Sent Message and received Message are not the same",
 					((ErrorMessage) m).getDescription(),
@@ -202,16 +201,20 @@ public class SerializerTest {
 					+ Integer.toString(i));
 			ccipher.sendMessage(m);
 		}
+		Thread.sleep(10);
 		int nrm = 0;
-		while (nrm != nsm && ccipher.readMessage() != null) {
-			nrm++;
+		try {
+			while (nrm < nsm && ccipher.readMessage() != null) {
+				nrm++;
+			}
+		} catch (Exception e) {
 		}
 		sc.close();
 		assertEquals("Number of Sent and received messages is not equal", nsm,
 				nrm);
 	}
 
-	@Test(timeout = 4000)
+	@Test(timeout = 60000)
 	public void test1Simple() throws Exception {
 
 		SocketCipher sc = new ClearTextCipher();
@@ -222,7 +225,7 @@ public class SerializerTest {
 		tearDownServer();
 	}
 
-	@Test(timeout = 4000)
+	@Test(timeout = 60000)
 	public void test2Legacy() throws Exception {
 		Properties p = new Properties();
 		p.put(LegacyBlowfishCipher.HASH_KEY, "some_Pa$$W0rd");

@@ -26,7 +26,6 @@ package org.universAAL.ri.gateway.communicator.service.impl;
 
 import java.io.EOFException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.ConnectException;
 import java.net.InetAddress;
 import java.net.Socket;
@@ -120,7 +119,8 @@ public class ClientSocketCommunicationHandler extends
 					try {
 						final InetAddress addr = InetAddress.getByName(config
 								.getConnectionHost());
-						socket = new Socket(addr, config.getConnectionPort());
+						socket = cipher.createClientSocket(addr,
+								config.getConnectionPort());
 						creator.setStatus(SessionEvent.SessionStatus.CONNECTING);
 					} catch (ConnectException ce) {
 						final String msg = "Server appears to be down: \""
@@ -171,7 +171,8 @@ public class ClientSocketCommunicationHandler extends
 
 		public LinkHandler(final Socket socket,
 				final MessageReceiver communicator, final Session s) {
-			super(socket, communicator, cipher);
+			super(socket, communicator,
+					ClientSocketCommunicationHandler.this.cipher);
 			session = s;
 		}
 
@@ -217,7 +218,7 @@ public class ClientSocketCommunicationHandler extends
 			if (socket != null && !socket.isClosed()) {
 				Message msg;
 				try {
-					msg = getNextMessage(in);
+					msg = cipher.readMessage();
 				} catch (final Exception e) {
 					if (e instanceof EOFException) {
 						log.info("Failed to read message of the stream beacuse it was closed from the other side");
@@ -239,11 +240,6 @@ public class ClientSocketCommunicationHandler extends
 		@Override
 		protected boolean afterRun() {
 			return true;
-		}
-
-		@Override
-		protected Message getNextMessage(final InputStream in) throws Exception {
-			return readMessage(in);
 		}
 
 		@Override

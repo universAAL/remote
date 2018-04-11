@@ -279,6 +279,7 @@ public class Gateway implements ModuleActivator, SessionEventListener {
 			// local shutdown. Ensure all resources for the session are purged
 			endSession(se.getSession());
 		}
+	}
 
 	/** {@ inheritDoc} */
 	public String getName() {

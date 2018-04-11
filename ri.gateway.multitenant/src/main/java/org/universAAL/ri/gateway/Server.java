@@ -19,7 +19,7 @@
  ******************************************************************************/
 package org.universAAL.ri.gateway;
 
-import org.universAAL.ri.gateway.communication.cipher.Cipher;
+import org.universAAL.ri.gateway.communication.cipher.SocketCipher;
 import org.universAAL.ri.gateway.communicator.service.impl.ServerSocketCommunicationHandler;
 import org.universAAL.ri.gateway.configuration.Configuration;
 
@@ -32,7 +32,7 @@ import org.universAAL.ri.gateway.configuration.Configuration;
 public class Server {
 
 	private final ServerSocketCommunicationHandler server;
-	private final Cipher cipher;
+	private final SocketCipher cipher;
 	private final Configuration config;
 	private boolean running = false;
 

@@ -1,18 +1,18 @@
 /*
 	Copyright 2015 ITACA-SABIEN, http://www.tsb.upv.es
-	Instituto Tecnologico de Aplicaciones de Comunicacion
-	Avanzadas - Grupo Tecnologias para la Salud y el
+	Instituto Tecnologico de Aplicaciones de Comunicacion 
+	Avanzadas - Grupo Tecnologias para la Salud y el 
 	Bienestar (SABIEN)
-
-	See the NOTICE file distributed with this work for additional
+	
+	See the NOTICE file distributed with this work for additional 
 	information regarding copyright ownership
-
+	
 	Licensed under the Apache License, Version 2.0 (the "License");
 	you may not use this file except in compliance with the License.
 	You may obtain a copy of the License at
-
+	
 	  http://www.apache.org/licenses/LICENSE-2.0
-
+	
 	Unless required by applicable law or agreed to in writing, software
 	distributed under the License is distributed on an "AS IS" BASIS,
 	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -68,26 +68,32 @@ public class CalleeWrapper extends ServiceCallee {
 		Activator.logI("CalleeWrapper.handleCall",
 				"Received Service Call " + origin + " for tenant " + tenant + ". Sending to callback");
 		try {
+		    if (call.isSerializableTo(tenant)) { // MULTITENANT
 			ServiceResponse srlock = new ServiceResponse(CallStatus.responseTimedOut);
 			pendingCalls.put(origin, srlock);
 
 			String callback = resource.getCallback();
 			if (callback == null || callback.isEmpty()) {
-				// Use generic callback of the tenant
-				SpaceWrapper t = UaalWrapper.getInstance().getTenant(tenant);
-				if (t != null) {
-					callback = t.getResource().getCallback();
-					if (callback == null) {
-						return new ServiceResponse(CallStatus.noMatchingServiceFound);
-					}
+			    // Use generic callback of the tenant
+			    SpaceWrapper t = UaalWrapper.getInstance().getTenant(tenant);
+			    if (t != null) {
+				callback = t.getResource().getCallback();
+				if (callback == null) {
+				    return new ServiceResponse(CallStatus.noMatchingServiceFound);
 				}
+			    }
 			}
 
 			synchronized (srlock) {
-				PushManager.pushServiceCall(callback, resource.getId(), call, origin);
-				srlock.wait(30000);
-				return pendingCalls.remove(origin);
+			    PushManager.pushServiceCall(callback, resource.getId(), call, origin);
+			    srlock.wait(30000);
+			    return pendingCalls.remove(origin);
 			}
+		    }else{
+			Activator.logW("CalleeWrapper.handleCall", 
+				"Scope does not allow sending to tenant "+tenant);
+			return new ServiceResponse(CallStatus.denied);
+		    }
 		} catch (Exception e) {
 			Activator.logW("CalleeWrapper.handleCall",
 					"Exception " + e.toString() + " while waiting or handling the call " + origin

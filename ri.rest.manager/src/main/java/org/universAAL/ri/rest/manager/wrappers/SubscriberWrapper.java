@@ -1,18 +1,18 @@
 /*
 	Copyright 2015 ITACA-SABIEN, http://www.tsb.upv.es
-	Instituto Tecnologico de Aplicaciones de Comunicacion
-	Avanzadas - Grupo Tecnologias para la Salud y el
+	Instituto Tecnologico de Aplicaciones de Comunicacion 
+	Avanzadas - Grupo Tecnologias para la Salud y el 
 	Bienestar (SABIEN)
-
-	See the NOTICE file distributed with this work for additional
+	
+	See the NOTICE file distributed with this work for additional 
 	information regarding copyright ownership
-
+	
 	Licensed under the Apache License, Version 2.0 (the "License");
 	you may not use this file except in compliance with the License.
 	You may obtain a copy of the License at
-
+	
 	  http://www.apache.org/licenses/LICENSE-2.0
-
+	
 	Unless required by applicable law or agreed to in writing, software
 	distributed under the License is distributed on an "AS IS" BASIS,
 	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -60,21 +60,26 @@ public class SubscriberWrapper extends ContextSubscriber {
 		Activator.logI("SubscriberWrapper.handleContextEvent",
 				"Received Context Event " + event.getURI() + " for tenant " + tenant + ". Sending to callback");
 		try {
+		    if (event.isSerializableTo(tenant)) { // MULTITENANT
 			String callback = resource.getCallback();
 			if (callback == null || callback.isEmpty()) {
-				// Use generic callback of the tenant
-				SpaceWrapper t = UaalWrapper.getInstance().getTenant(tenant);
-				if (t != null) {
-					callback = t.getResource().getCallback();
-					if (callback == null) {
-						return;
-					}
+			    // Use generic callback of the tenant
+			    SpaceWrapper t = UaalWrapper.getInstance().getTenant(tenant);
+			    if (t != null) {
+				callback = t.getResource().getCallback();
+				if (callback == null) {
+				    return;
 				}
+			    }
 			}
 			PushManager.pushContextEvent(callback, resource.getId(), event);
+		    }else{
+			Activator.logW("SubscriberWrapper.handleContextEvent", 
+				"Scope does not allow sending to tenant "+tenant);
+		    }
 		} catch (PushException e) {
-			Activator.logE("SubscriberWrapper.handleContextEvent", e.toString());
-			e.printStackTrace();
+		    Activator.logE("SubscriberWrapper.handleContextEvent", e.toString());
+		    e.printStackTrace();
 		}
 	}
 

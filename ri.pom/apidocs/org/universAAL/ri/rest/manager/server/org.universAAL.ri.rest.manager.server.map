@@ -1,12 +1,12 @@
 <map id="G" name="G">
-<area shape="rect" id="c6123" href="./Base64.html" title="org.universAAL.ri.rest.manager.server.Base64" alt="" coords="15,17,81,42"/>
+<area shape="rect" id="node1_0" href="./Base64.html" title="org.universAAL.ri.rest.manager.server.Base64" alt="" coords="15,16,81,43"/>
 <area shape="rect" id="node1" href="./Base64.html" title="&lt;TABLE&gt;" alt="" coords="5,5,91,53"/>
-<area shape="rect" id="c6124" href="./Base64.InputStream.html" title="org.universAAL.ri.rest.manager.server.Base64.InputStream" alt="" coords="125,17,217,42"/>
-<area shape="rect" id="node2" href="./Base64.InputStream.html" title="&lt;TABLE&gt;" alt="" coords="115,5,227,53"/>
-<area shape="rect" id="c6125" href="./Base64.OutputStream.html" title="org.universAAL.ri.rest.manager.server.Base64.OutputStream" alt="" coords="261,17,363,42"/>
-<area shape="rect" id="node3" href="./Base64.OutputStream.html" title="&lt;TABLE&gt;" alt="" coords="251,5,373,53"/>
-<area shape="rect" id="c6126" href="./Configuration.html" title="org.universAAL.ri.rest.manager.server.Configuration" alt="" coords="407,17,505,42"/>
-<area shape="rect" id="node4" href="./Configuration.html" title="&lt;TABLE&gt;" alt="" coords="397,5,515,53"/>
-<area shape="rect" id="c6127" href="./Authenticator.html" title="org.universAAL.ri.rest.manager.server.Authenticator" alt="" coords="549,17,646,42"/>
-<area shape="rect" id="node5" href="./Authenticator.html" title="&lt;TABLE&gt;" alt="" coords="539,5,656,53"/>
+<area shape="rect" id="node2_1" href="./Base64.InputStream.html" title="org.universAAL.ri.rest.manager.server.Base64.InputStream" alt="" coords="126,16,218,43"/>
+<area shape="rect" id="node2" href="./Base64.InputStream.html" title="&lt;TABLE&gt;" alt="" coords="115,5,229,53"/>
+<area shape="rect" id="node3_2" href="./Base64.OutputStream.html" title="org.universAAL.ri.rest.manager.server.Base64.OutputStream" alt="" coords="264,16,365,43"/>
+<area shape="rect" id="node3" href="./Base64.OutputStream.html" title="&lt;TABLE&gt;" alt="" coords="253,5,376,53"/>
+<area shape="rect" id="node4_3" href="./Configuration.html" title="org.universAAL.ri.rest.manager.server.Configuration" alt="" coords="411,16,509,43"/>
+<area shape="rect" id="node4" href="./Configuration.html" title="&lt;TABLE&gt;" alt="" coords="401,5,519,53"/>
+<area shape="rect" id="node5_4" href="./Authenticator.html" title="org.universAAL.ri.rest.manager.server.Authenticator" alt="" coords="554,16,651,43"/>
+<area shape="rect" id="node5" href="./Authenticator.html" title="&lt;TABLE&gt;" alt="" coords="543,5,662,53"/>
 </map>

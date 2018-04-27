@@ -10,47 +10,47 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.universAAL.ri.gateway.protocol.ErrorMessage
-	c18220 [label=<<table title="org.universAAL.ri.gateway.protocol.ErrorMessage" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ErrorMessage.html">
+	c19118 [label=<<table title="org.universAAL.ri.gateway.protocol.ErrorMessage" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ErrorMessage.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> ErrorMessage </td></tr>
 		</table></td></tr>
 		</table>>, URL="./ErrorMessage.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// org.universAAL.ri.gateway.protocol.LinkMessage
-	c18221 [label=<<table title="org.universAAL.ri.gateway.protocol.LinkMessage" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./LinkMessage.html">
+	c19119 [label=<<table title="org.universAAL.ri.gateway.protocol.LinkMessage" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./LinkMessage.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="Helvetica-Oblique"> LinkMessage </font></td></tr>
 		</table></td></tr>
 		</table>>, URL="./LinkMessage.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// org.universAAL.ri.gateway.protocol.WrappedBusMessage
-	c18223 [label=<<table title="org.universAAL.ri.gateway.protocol.WrappedBusMessage" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./WrappedBusMessage.html">
+	c19121 [label=<<table title="org.universAAL.ri.gateway.protocol.WrappedBusMessage" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./WrappedBusMessage.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> WrappedBusMessage </td></tr>
 		</table></td></tr>
 		</table>>, URL="./WrappedBusMessage.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// org.universAAL.ri.gateway.protocol.Message
-	c18226 [label=<<table title="org.universAAL.ri.gateway.protocol.Message" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./Message.html">
+	c19124 [label=<<table title="org.universAAL.ri.gateway.protocol.Message" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./Message.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="Helvetica-Oblique"> Message </font></td></tr>
 		</table></td></tr>
 		</table>>, URL="./Message.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// org.universAAL.ri.gateway.protocol.ImportMessage
-	c18227 [label=<<table title="org.universAAL.ri.gateway.protocol.ImportMessage" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ImportMessage.html">
+	c19125 [label=<<table title="org.universAAL.ri.gateway.protocol.ImportMessage" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ImportMessage.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> ImportMessage </td></tr>
 		</table></td></tr>
 		</table>>, URL="./ImportMessage.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	//org.universAAL.ri.gateway.protocol.ErrorMessage extends org.universAAL.ri.gateway.protocol.Message
-	c18226:p -> c18220:p [dir=back,arrowtail=empty];
+	c19124:p -> c19118:p [dir=back,arrowtail=empty];
 	//org.universAAL.ri.gateway.protocol.LinkMessage extends org.universAAL.ri.gateway.protocol.Message
-	c18226:p -> c18221:p [dir=back,arrowtail=empty];
+	c19124:p -> c19119:p [dir=back,arrowtail=empty];
 	//org.universAAL.ri.gateway.protocol.WrappedBusMessage extends org.universAAL.ri.gateway.protocol.Message
-	c18226:p -> c18223:p [dir=back,arrowtail=empty];
+	c19124:p -> c19121:p [dir=back,arrowtail=empty];
 	//org.universAAL.ri.gateway.protocol.Message implements java.io.Serializable
-	c18314:p -> c18226:p [dir=back,arrowtail=empty,style=dashed];
+	c19214:p -> c19124:p [dir=back,arrowtail=empty,style=dashed];
 	//org.universAAL.ri.gateway.protocol.ImportMessage extends org.universAAL.ri.gateway.protocol.Message
-	c18226:p -> c18227:p [dir=back,arrowtail=empty];
+	c19124:p -> c19125:p [dir=back,arrowtail=empty];
 	// java.io.Serializable
-	c18314 [label=<<table title="java.io.Serializable" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/java/io/Serializable.html">
+	c19214 [label=<<table title="java.io.Serializable" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/java/io/Serializable.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> Serializable </td></tr>

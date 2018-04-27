@@ -1,6 +1,4 @@
 <map id="G" name="G">
-<area shape="rect" id="c1872" href="./CommunicationHelper.html" title="org.universAAL.ri.gateway.communicator.service.CommunicationHelper" alt="" coords="16,19,165,45"/>
-<area shape="rect" id="node1" href="./CommunicationHelper.html" title="&lt;TABLE&gt;" alt="" coords="5,8,176,56"/>
-<area shape="rect" id="c1873" href="./CommunicationHandler.html" title="org.universAAL.ri.gateway.communicator.service.CommunicationHandler" alt="" coords="211,11,368,53"/>
-<area shape="rect" id="node2" href="./CommunicationHandler.html" title="&lt;TABLE&gt;" alt="" coords="200,6,379,58"/>
+<area shape="rect" id="node1_0" href="./CommunicationHandler.html" title="org.universAAL.ri.gateway.communicator.service.CommunicationHandler" alt="" coords="16,11,173,55"/>
+<area shape="rect" id="node1" href="./CommunicationHandler.html" title="&lt;TABLE&gt;" alt="" coords="5,6,184,61"/>
 </map>

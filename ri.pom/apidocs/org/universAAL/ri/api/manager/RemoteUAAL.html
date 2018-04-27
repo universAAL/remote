@@ -95,10 +95,10 @@ var activeTableTab = "activeTableTab";
 <div class="subTitle">org.universAAL.ri.api.manager</div>
 <h2 title="Class RemoteUAAL" class="title">Class RemoteUAAL</h2>
 <map id="G" name="G">
-<area shape="rect" id="c25241" href="./RemoteUAAL.html" title="org.universAAL.ri.api.manager.RemoteUAAL" alt="" coords="16,113,117,138"/>
+<area shape="rect" id="node1_0" href="./RemoteUAAL.html" title="org.universAAL.ri.api.manager.RemoteUAAL" alt="" coords="16,112,117,139"/>
 <area shape="rect" id="node1" href="./RemoteUAAL.html" title="&lt;TABLE&gt;" alt="" coords="5,101,128,149"/>
-<area shape="rect" id="c25297" href="http://java.sun.com/j2se/1.4.2/docs/api/org/universAAL/support/utils/UAAL.html" title="org.universAAL.support.utils.UAAL" alt="" coords="39,17,95,42"/>
-<area shape="rect" id="node2" href="http://java.sun.com/j2se/1.4.2/docs/api/org/universAAL/support/utils/UAAL.html" title="&lt;TABLE&gt;" alt="" coords="28,5,105,53"/>
+<area shape="rect" id="node2_1" href="http://java.sun.com/j2se/1.4.2/docs/api/org/universAAL/utilities/api/UAAL.html" title="org.universAAL.utilities.api.UAAL" alt="" coords="39,16,95,43"/>
+<area shape="rect" id="node2" href="http://java.sun.com/j2se/1.4.2/docs/api/org/universAAL/utilities/api/UAAL.html" title="&lt;TABLE&gt;" alt="" coords="28,5,105,53"/>
 </map>
 <!-- UML diagram added by UMLGraph version R5_6-24-gf6e263 (http://www.umlgraph.org/) -->
 <div align="center"><img src="RemoteUAAL.png" alt="Package class diagram package RemoteUAAL" usemap="#G" border=0/></div>
@@ -108,7 +108,7 @@ var activeTableTab = "activeTableTab";
 <li><a href="http://docs.oracle.com/javase/1.5.0/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">java.lang.Object</a></li>
 <li>
 <ul class="inheritance">
-<li>org.universAAL.support.utils.UAAL</li>
+<li>org.universAAL.utilities.api.UAAL</li>
 <li>
 <ul class="inheritance">
 <li>org.universAAL.ri.api.manager.RemoteUAAL</li>
@@ -123,7 +123,7 @@ var activeTableTab = "activeTableTab";
 <hr>
 <br>
 <pre>public class <span class="typeNameLabel">RemoteUAAL</span>
-extends org.universAAL.support.utils.UAAL</pre>
+extends org.universAAL.utilities.api.UAAL</pre>
 <div class="block">Extension of the Utility API UAAL helper class that adds a few small tweaks
  to acomodate remote node information.</div>
 <dl>
@@ -198,14 +198,14 @@ extends org.universAAL.support.utils.UAAL</pre>
 <th class="colLast" scope="col">Method and Description</th>
 </tr>
 <tr id="i0" class="altColor">
-<td class="colFirst"><code>org.universAAL.support.utils.ICListener</code></td>
+<td class="colFirst"><code>org.universAAL.utilities.api.ICListener</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../org/universAAL/ri/api/manager/RemoteUAAL.html#createCListener-java.lang.String-">createCListener</a></span>(<a href="http://docs.oracle.com/javase/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;uri)</code>
 <div class="block">Use this method to create a Listener to be used in the sendC() method of
  the Utility API, instead of creating it ex profeso.</div>
 </td>
 </tr>
 <tr id="i1" class="rowColor">
-<td class="colFirst"><code>org.universAAL.support.utils.ISListener</code></td>
+<td class="colFirst"><code>org.universAAL.utilities.api.ISListener</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../org/universAAL/ri/api/manager/RemoteUAAL.html#createSListener-java.lang.String-">createSListener</a></span>(<a href="http://docs.oracle.com/javase/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;uri)</code>
 <div class="block">Use this method to create a Listener to be used in the callS() method of
  the Utility API, instead of creating it ex profeso.</div>
@@ -245,8 +245,8 @@ extends org.universAAL.support.utils.UAAL</pre>
 </tr>
 <tr id="i8" class="altColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../org/universAAL/ri/api/manager/RemoteUAAL.html#provideS-org.universAAL.middleware.service.owls.profile.ServiceProfile:A-org.universAAL.support.utils.ISListener-">provideS</a></span>(org.universAAL.middleware.service.owls.profile.ServiceProfile[]&nbsp;p,
-        org.universAAL.support.utils.ISListener&nbsp;l)</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../org/universAAL/ri/api/manager/RemoteUAAL.html#provideS-org.universAAL.middleware.service.owls.profile.ServiceProfile:A-org.universAAL.utilities.api.ISListener-">provideS</a></span>(org.universAAL.middleware.service.owls.profile.ServiceProfile[]&nbsp;p,
+        org.universAAL.utilities.api.ISListener&nbsp;l)</code>&nbsp;</td>
 </tr>
 <tr id="i9" class="rowColor">
 <td class="colFirst"><code>void</code></td>
@@ -257,8 +257,8 @@ extends org.universAAL.support.utils.UAAL</pre>
 </tr>
 <tr id="i10" class="altColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../org/universAAL/ri/api/manager/RemoteUAAL.html#subscribeC-org.universAAL.middleware.context.ContextEventPattern:A-org.universAAL.support.utils.ICListener-">subscribeC</a></span>(org.universAAL.middleware.context.ContextEventPattern[]&nbsp;p,
-          org.universAAL.support.utils.ICListener&nbsp;l)</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../org/universAAL/ri/api/manager/RemoteUAAL.html#subscribeC-org.universAAL.middleware.context.ContextEventPattern:A-org.universAAL.utilities.api.ICListener-">subscribeC</a></span>(org.universAAL.middleware.context.ContextEventPattern[]&nbsp;p,
+          org.universAAL.utilities.api.ICListener&nbsp;l)</code>&nbsp;</td>
 </tr>
 <tr id="i11" class="rowColor">
 <td class="colFirst"><code>void</code></td>
@@ -266,10 +266,10 @@ extends org.universAAL.support.utils.UAAL</pre>
 </tr>
 </table>
 <ul class="blockList">
-<li class="blockList"><a name="methods.inherited.from.class.org.universAAL.support.utils.UAAL">
+<li class="blockList"><a name="methods.inherited.from.class.org.universAAL.utilities.api.UAAL">
 <!--   -->
 </a>
-<h3>Methods inherited from class&nbsp;org.universAAL.support.utils.UAAL</h3>
+<h3>Methods inherited from class&nbsp;org.universAAL.utilities.api.UAAL</h3>
 <code>callS, requestUI, sendC</code></li>
 </ul>
 <ul class="blockList">
@@ -349,17 +349,17 @@ extends org.universAAL.support.utils.UAAL</pre>
 </dl>
 </li>
 </ul>
-<a name="subscribeC-org.universAAL.middleware.context.ContextEventPattern:A-org.universAAL.support.utils.ICListener-">
+<a name="subscribeC-org.universAAL.middleware.context.ContextEventPattern:A-org.universAAL.utilities.api.ICListener-">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>subscribeC</h4>
 <pre>public&nbsp;void&nbsp;subscribeC(org.universAAL.middleware.context.ContextEventPattern[]&nbsp;p,
-                       org.universAAL.support.utils.ICListener&nbsp;l)</pre>
+                       org.universAAL.utilities.api.ICListener&nbsp;l)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
-<dd><code>subscribeC</code>&nbsp;in class&nbsp;<code>org.universAAL.support.utils.UAAL</code></dd>
+<dd><code>subscribeC</code>&nbsp;in class&nbsp;<code>org.universAAL.utilities.api.UAAL</code></dd>
 </dl>
 </li>
 </ul>
@@ -372,17 +372,17 @@ extends org.universAAL.support.utils.UAAL</pre>
 <pre>public&nbsp;boolean&nbsp;isPatternAdded(<a href="http://docs.oracle.com/javase/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;uri)</pre>
 </li>
 </ul>
-<a name="provideS-org.universAAL.middleware.service.owls.profile.ServiceProfile:A-org.universAAL.support.utils.ISListener-">
+<a name="provideS-org.universAAL.middleware.service.owls.profile.ServiceProfile:A-org.universAAL.utilities.api.ISListener-">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>provideS</h4>
 <pre>public&nbsp;void&nbsp;provideS(org.universAAL.middleware.service.owls.profile.ServiceProfile[]&nbsp;p,
-                     org.universAAL.support.utils.ISListener&nbsp;l)</pre>
+                     org.universAAL.utilities.api.ISListener&nbsp;l)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
-<dd><code>provideS</code>&nbsp;in class&nbsp;<code>org.universAAL.support.utils.UAAL</code></dd>
+<dd><code>provideS</code>&nbsp;in class&nbsp;<code>org.universAAL.utilities.api.UAAL</code></dd>
 </dl>
 </li>
 </ul>
@@ -404,7 +404,7 @@ extends org.universAAL.support.utils.UAAL</pre>
 <pre>public&nbsp;void&nbsp;terminate()</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
-<dd><code>terminate</code>&nbsp;in class&nbsp;<code>org.universAAL.support.utils.UAAL</code></dd>
+<dd><code>terminate</code>&nbsp;in class&nbsp;<code>org.universAAL.utilities.api.UAAL</code></dd>
 </dl>
 </li>
 </ul>
@@ -458,7 +458,7 @@ extends org.universAAL.support.utils.UAAL</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>createCListener</h4>
-<pre>public&nbsp;org.universAAL.support.utils.ICListener&nbsp;createCListener(<a href="http://docs.oracle.com/javase/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;uri)</pre>
+<pre>public&nbsp;org.universAAL.utilities.api.ICListener&nbsp;createCListener(<a href="http://docs.oracle.com/javase/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;uri)</pre>
 <div class="block">Use this method to create a Listener to be used in the sendC() method of
  the Utility API, instead of creating it ex profeso.</div>
 <dl>
@@ -476,7 +476,7 @@ extends org.universAAL.support.utils.UAAL</pre>
 <ul class="blockListLast">
 <li class="blockList">
 <h4>createSListener</h4>
-<pre>public&nbsp;org.universAAL.support.utils.ISListener&nbsp;createSListener(<a href="http://docs.oracle.com/javase/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;uri)</pre>
+<pre>public&nbsp;org.universAAL.utilities.api.ISListener&nbsp;createSListener(<a href="http://docs.oracle.com/javase/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;uri)</pre>
 <div class="block">Use this method to create a Listener to be used in the callS() method of
  the Utility API, instead of creating it ex profeso.</div>
 <dl>
@@ -556,6 +556,6 @@ extends org.universAAL.support.utils.UAAL</pre>
 <!--   -->
 </a></div>
 <!-- ======== END OF BOTTOM NAVBAR ======= -->
-<p class="legalCopy"><small>Copyright &#169; 2017 <a href="http://www.universAAL.org/">universAAL Consortium</a>. All rights reserved.</small></p>
+<p class="legalCopy"><small>Copyright &#169; 2018 <a href="http://www.universAAL.org/">universAAL Consortium</a>. All rights reserved.</small></p>
 </body>
 </html>

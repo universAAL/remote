@@ -1,16 +1,16 @@
 <map id="G" name="G">
-<area shape="rect" id="c1011" href="./Axis2InvocationResultHandler_RPC.html" title="org.universAAL.ri.wsdlToolkit.invocation.Axis2InvocationResultHandler_RPC" alt="" coords="15,17,249,42"/>
+<area shape="rect" id="node1_0" href="./Axis2InvocationResultHandler_RPC.html" title="org.universAAL.ri.wsdlToolkit.invocation.Axis2InvocationResultHandler_RPC" alt="" coords="15,16,249,43"/>
 <area shape="rect" id="node1" href="./Axis2InvocationResultHandler_RPC.html" title="&lt;TABLE&gt;" alt="" coords="5,5,259,53"/>
-<area shape="rect" id="c1012" href="./Axis2WebServiceInvoker.html" title="org.universAAL.ri.wsdlToolkit.invocation.Axis2WebServiceInvoker" alt="" coords="293,17,461,42"/>
-<area shape="rect" id="node2" href="./Axis2WebServiceInvoker.html" title="&lt;TABLE&gt;" alt="" coords="283,5,472,53"/>
-<area shape="rect" id="c1013" href="./Axis2_RpcEncodedMessageBuilder.html" title="org.universAAL.ri.wsdlToolkit.invocation.Axis2_RpcEncodedMessageBuilder" alt="" coords="507,17,736,42"/>
-<area shape="rect" id="node3" href="./Axis2_RpcEncodedMessageBuilder.html" title="&lt;TABLE&gt;" alt="" coords="496,5,747,53"/>
-<area shape="rect" id="c1014" href="./Axis2InvocationResultHandler.html" title="org.universAAL.ri.wsdlToolkit.invocation.Axis2InvocationResultHandler" alt="" coords="781,17,979,42"/>
-<area shape="rect" id="node4" href="./Axis2InvocationResultHandler.html" title="&lt;TABLE&gt;" alt="" coords="771,5,989,53"/>
-<area shape="rect" id="c1015" href="./Axis2InvocationResultHandler_RpcEncoded.html" title="org.universAAL.ri.wsdlToolkit.invocation.Axis2InvocationResultHandler_RpcEncoded" alt="" coords="1023,17,1302,42"/>
-<area shape="rect" id="node5" href="./Axis2InvocationResultHandler_RpcEncoded.html" title="&lt;TABLE&gt;" alt="" coords="1013,5,1312,53"/>
-<area shape="rect" id="c1016" href="./InvocationResult.html" title="org.universAAL.ri.wsdlToolkit.invocation.InvocationResult" alt="" coords="1346,17,1465,42"/>
-<area shape="rect" id="node6" href="./InvocationResult.html" title="&lt;TABLE&gt;" alt="" coords="1336,5,1475,53"/>
-<area shape="rect" id="c1017" href="./Axis1WebServiceInvoker.html" title="org.universAAL.ri.wsdlToolkit.invocation.Axis1WebServiceInvoker" alt="" coords="1509,17,1677,42"/>
-<area shape="rect" id="node7" href="./Axis1WebServiceInvoker.html" title="&lt;TABLE&gt;" alt="" coords="1499,5,1688,53"/>
+<area shape="rect" id="node2_1" href="./Axis2WebServiceInvoker.html" title="org.universAAL.ri.wsdlToolkit.invocation.Axis2WebServiceInvoker" alt="" coords="295,16,463,43"/>
+<area shape="rect" id="node2" href="./Axis2WebServiceInvoker.html" title="&lt;TABLE&gt;" alt="" coords="284,5,473,53"/>
+<area shape="rect" id="node3_2" href="./Axis2_RpcEncodedMessageBuilder.html" title="org.universAAL.ri.wsdlToolkit.invocation.Axis2_RpcEncodedMessageBuilder" alt="" coords="508,16,737,43"/>
+<area shape="rect" id="node3" href="./Axis2_RpcEncodedMessageBuilder.html" title="&lt;TABLE&gt;" alt="" coords="497,5,748,53"/>
+<area shape="rect" id="node4_3" href="./Axis2InvocationResultHandler.html" title="org.universAAL.ri.wsdlToolkit.invocation.Axis2InvocationResultHandler" alt="" coords="783,16,980,43"/>
+<area shape="rect" id="node4" href="./Axis2InvocationResultHandler.html" title="&lt;TABLE&gt;" alt="" coords="772,5,991,53"/>
+<area shape="rect" id="node5_4" href="./Axis2InvocationResultHandler_RpcEncoded.html" title="org.universAAL.ri.wsdlToolkit.invocation.Axis2InvocationResultHandler_RpcEncoded" alt="" coords="1026,16,1305,43"/>
+<area shape="rect" id="node5" href="./Axis2InvocationResultHandler_RpcEncoded.html" title="&lt;TABLE&gt;" alt="" coords="1015,5,1315,53"/>
+<area shape="rect" id="node6_5" href="./InvocationResult.html" title="org.universAAL.ri.wsdlToolkit.invocation.InvocationResult" alt="" coords="1350,16,1469,43"/>
+<area shape="rect" id="node6" href="./InvocationResult.html" title="&lt;TABLE&gt;" alt="" coords="1339,5,1479,53"/>
+<area shape="rect" id="node7_6" href="./Axis1WebServiceInvoker.html" title="org.universAAL.ri.wsdlToolkit.invocation.Axis1WebServiceInvoker" alt="" coords="1515,16,1683,43"/>
+<area shape="rect" id="node7" href="./Axis1WebServiceInvoker.html" title="&lt;TABLE&gt;" alt="" coords="1504,5,1693,53"/>
 </map>

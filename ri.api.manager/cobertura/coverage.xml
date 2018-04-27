@@ -1,13 +1,13 @@
 <?xml version="1.0"?>
 <!DOCTYPE coverage SYSTEM "http://cobertura.sourceforge.net/xml/coverage-04.dtd">
 
-<coverage line-rate="0.0" branch-rate="0.0" lines-covered="0" lines-valid="1523" branches-covered="0" branches-valid="534" complexity="3.7579617834394905" version="2.1.1" timestamp="1501592689006">
+<coverage line-rate="0.0" branch-rate="0.0" lines-covered="0" lines-valid="1524" branches-covered="0" branches-valid="540" complexity="3.78343949044586" version="2.1.1" timestamp="1524872321560">
 	<sources>
 		<source>--source</source>
 		<source>/home/travis/build/universAAL/remote/ri.api.manager/src/main/java</source>
 	</sources>
 	<packages>
-		<package name="org.universAAL.ri.api.manager" line-rate="0.0" branch-rate="0.0" complexity="2.3333333333333335">
+		<package name="org.universAAL.ri.api.manager" line-rate="0.0" branch-rate="0.0" complexity="2.391304347826087">
 			<classes>
 				<class name="org.universAAL.ri.api.manager.Activator" filename="org/universAAL/ri/api/manager/Activator.java" line-rate="0.0" branch-rate="0.0" complexity="2.5">
 					<methods>
@@ -18,9 +18,8 @@
 								<line number="86" hits="0" branch="false"/>
 							</lines>
 						</method>
-						<method name="&lt;init&gt;" signature="()V" line-rate="0.0" branch-rate="1.0" complexity="0">
+						<method name="&lt;init&gt;" signature="()V" line-rate="1.0" branch-rate="1.0" complexity="0">
 							<lines>
-								<line number="287" hits="0" branch="false"/>
 							</lines>
 						</method>
 						<method name="access$200" signature="(Lorg/universAAL/ri/api/manager/Activator;)Lorg/osgi/framework/BundleContext;" line-rate="1.0" branch-rate="1.0" complexity="0">
@@ -282,7 +281,6 @@
 						<line number="254" hits="0" branch="false"/>
 						<line number="255" hits="0" branch="false"/>
 						<line number="256" hits="0" branch="false"/>
-						<line number="287" hits="0" branch="false"/>
 						<line number="313" hits="0" branch="false"/>
 						<line number="314" hits="0" branch="false"/>
 						<line number="325" hits="0" branch="false"/>
@@ -385,7 +383,7 @@
 						<line number="301" hits="0" branch="false"/>
 					</lines>
 				</class>
-				<class name="org.universAAL.ri.api.manager.Configuration" filename="org/universAAL/ri/api/manager/Configuration.java" line-rate="0.0" branch-rate="0.0" complexity="1.25">
+				<class name="org.universAAL.ri.api.manager.Configuration" filename="org/universAAL/ri/api/manager/Configuration.java" line-rate="0.0" branch-rate="0.0" complexity="1.5">
 					<methods>
 						<method name="&lt;init&gt;" signature="()V" line-rate="0.0" branch-rate="1.0" complexity="0">
 							<lines>
@@ -394,121 +392,137 @@
 						</method>
 						<method name="determineEndpoint" signature="(Ljava/lang/String;)I" line-rate="0.0" branch-rate="0.0" complexity="0">
 							<lines>
+								<line number="114" hits="0" branch="true" condition-coverage="0% (0/6)">
+									<conditions>
+										<condition number="0" type="jump" coverage="0%"/>
+										<condition number="1" type="jump" coverage="0%"/>
+										<condition number="2" type="jump" coverage="0%"/>
+									</conditions>
+								</line>
 								<line number="115" hits="0" branch="false"/>
-								<line number="116" hits="0" branch="true" condition-coverage="0% (0/2)">
+								<line number="118" hits="0" branch="false"/>
+								<line number="119" hits="0" branch="true" condition-coverage="0% (0/2)">
 									<conditions>
 										<condition number="0" type="jump" coverage="0%"/>
 									</conditions>
 								</line>
-								<line number="117" hits="0" branch="false"/>
 								<line number="120" hits="0" branch="false"/>
-								<line number="122" hits="0" branch="false"/>
-								<line number="124" hits="0" branch="false"/>
+								<line number="123" hits="0" branch="false"/>
+								<line number="125" hits="0" branch="false"/>
+								<line number="127" hits="0" branch="false"/>
 							</lines>
 						</method>
 						<method name="getContext" signature="()Ljava/lang/String;" line-rate="0.0" branch-rate="1.0" complexity="0">
 							<lines>
-								<line number="196" hits="0" branch="false"/>
+								<line number="199" hits="0" branch="false"/>
 							</lines>
 						</method>
 						<method name="getDBClass" signature="()Ljava/lang/String;" line-rate="0.0" branch-rate="1.0" complexity="0">
 							<lines>
-								<line number="243" hits="0" branch="false"/>
+								<line number="246" hits="0" branch="false"/>
 							</lines>
 						</method>
 						<method name="getDBKey" signature="()Ljava/lang/String;" line-rate="0.0" branch-rate="1.0" complexity="0">
 							<lines>
-								<line number="231" hits="0" branch="false"/>
+								<line number="234" hits="0" branch="false"/>
 							</lines>
 						</method>
 						<method name="getDBPass" signature="()Ljava/lang/String;" line-rate="0.0" branch-rate="1.0" complexity="0">
 							<lines>
-								<line number="239" hits="0" branch="false"/>
+								<line number="242" hits="0" branch="false"/>
 							</lines>
 						</method>
 						<method name="getDBPath" signature="(Lorg/universAAL/middleware/container/ModuleContext;)Ljava/lang/String;" line-rate="0.0" branch-rate="1.0" complexity="0">
 							<lines>
-								<line number="175" hits="0" branch="false"/>
+								<line number="178" hits="0" branch="false"/>
 							</lines>
 						</method>
 						<method name="getDBUser" signature="()Ljava/lang/String;" line-rate="0.0" branch-rate="1.0" complexity="0">
 							<lines>
-								<line number="235" hits="0" branch="false"/>
+								<line number="238" hits="0" branch="false"/>
 							</lines>
 						</method>
 						<method name="getGCMCrypt" signature="()Ljava/lang/String;" line-rate="0.0" branch-rate="1.0" complexity="0">
 							<lines>
-								<line number="155" hits="0" branch="false"/>
+								<line number="158" hits="0" branch="false"/>
 							</lines>
 						</method>
 						<method name="getGCMDry" signature="()Z" line-rate="0.0" branch-rate="1.0" complexity="0">
 							<lines>
-								<line number="145" hits="0" branch="false"/>
+								<line number="148" hits="0" branch="false"/>
 							</lines>
 						</method>
 						<method name="getGCMKey" signature="()Ljava/lang/String;" line-rate="0.0" branch-rate="1.0" complexity="0">
 							<lines>
-								<line number="135" hits="0" branch="false"/>
+								<line number="138" hits="0" branch="false"/>
 							</lines>
 						</method>
 						<method name="getGETenabled" signature="()Z" line-rate="0.0" branch-rate="1.0" complexity="0">
 							<lines>
-								<line number="219" hits="0" branch="false"/>
+								<line number="222" hits="0" branch="false"/>
 							</lines>
 						</method>
 						<method name="getHardcoded" signature="()Z" line-rate="0.0" branch-rate="1.0" complexity="0">
 							<lines>
-								<line number="209" hits="0" branch="false"/>
+								<line number="212" hits="0" branch="false"/>
 							</lines>
 						</method>
 						<method name="getLogDebug" signature="()Z" line-rate="0.0" branch-rate="1.0" complexity="0">
 							<lines>
-								<line number="165" hits="0" branch="false"/>
+								<line number="168" hits="0" branch="false"/>
 							</lines>
 						</method>
 						<method name="getRemovalTime" signature="()Ljava/lang/Long;" line-rate="0.0" branch-rate="1.0" complexity="0">
 							<lines>
-								<line number="186" hits="0" branch="false"/>
+								<line number="189" hits="0" branch="false"/>
 							</lines>
 						</method>
 						<method name="getServerPWD" signature="()Ljava/lang/String;" line-rate="0.0" branch-rate="1.0" complexity="0">
 							<lines>
-								<line number="227" hits="0" branch="false"/>
+								<line number="230" hits="0" branch="false"/>
 							</lines>
 						</method>
 						<method name="getServerUSR" signature="()Ljava/lang/String;" line-rate="0.0" branch-rate="1.0" complexity="0">
 							<lines>
-								<line number="223" hits="0" branch="false"/>
+								<line number="226" hits="0" branch="false"/>
 							</lines>
 						</method>
 					</methods>
 					<lines>
 						<line number="36" hits="0" branch="false"/>
+						<line number="114" hits="0" branch="true" condition-coverage="0% (0/6)">
+							<conditions>
+								<condition number="0" type="jump" coverage="0%"/>
+								<condition number="1" type="jump" coverage="0%"/>
+								<condition number="2" type="jump" coverage="0%"/>
+							</conditions>
+						</line>
 						<line number="115" hits="0" branch="false"/>
-						<line number="116" hits="0" branch="true" condition-coverage="0% (0/2)">
+						<line number="118" hits="0" branch="false"/>
+						<line number="119" hits="0" branch="true" condition-coverage="0% (0/2)">
 							<conditions>
 								<condition number="0" type="jump" coverage="0%"/>
 							</conditions>
 						</line>
-						<line number="117" hits="0" branch="false"/>
 						<line number="120" hits="0" branch="false"/>
-						<line number="122" hits="0" branch="false"/>
-						<line number="124" hits="0" branch="false"/>
-						<line number="135" hits="0" branch="false"/>
-						<line number="145" hits="0" branch="false"/>
-						<line number="155" hits="0" branch="false"/>
-						<line number="165" hits="0" branch="false"/>
-						<line number="175" hits="0" branch="false"/>
-						<line number="186" hits="0" branch="false"/>
-						<line number="196" hits="0" branch="false"/>
-						<line number="209" hits="0" branch="false"/>
-						<line number="219" hits="0" branch="false"/>
-						<line number="223" hits="0" branch="false"/>
-						<line number="227" hits="0" branch="false"/>
-						<line number="231" hits="0" branch="false"/>
-						<line number="235" hits="0" branch="false"/>
-						<line number="239" hits="0" branch="false"/>
-						<line number="243" hits="0" branch="false"/>
+						<line number="123" hits="0" branch="false"/>
+						<line number="125" hits="0" branch="false"/>
+						<line number="127" hits="0" branch="false"/>
+						<line number="138" hits="0" branch="false"/>
+						<line number="148" hits="0" branch="false"/>
+						<line number="158" hits="0" branch="false"/>
+						<line number="168" hits="0" branch="false"/>
+						<line number="178" hits="0" branch="false"/>
+						<line number="189" hits="0" branch="false"/>
+						<line number="199" hits="0" branch="false"/>
+						<line number="212" hits="0" branch="false"/>
+						<line number="222" hits="0" branch="false"/>
+						<line number="226" hits="0" branch="false"/>
+						<line number="230" hits="0" branch="false"/>
+						<line number="234" hits="0" branch="false"/>
+						<line number="238" hits="0" branch="false"/>
+						<line number="242" hits="0" branch="false"/>
+						<line number="246" hits="0" branch="false"/>
 					</lines>
 				</class>
 				<class name="org.universAAL.ri.api.manager.RemoteAPI" filename="org/universAAL/ri/api/manager/RemoteAPI.java" line-rate="1.0" branch-rate="1.0" complexity="1.0">
@@ -1123,12 +1137,12 @@
 								<line number="46" hits="0" branch="false"/>
 							</lines>
 						</method>
-						<method name="createCListener" signature="(Ljava/lang/String;)Lorg/universAAL/support/utils/ICListener;" line-rate="0.0" branch-rate="1.0" complexity="0">
+						<method name="createCListener" signature="(Ljava/lang/String;)Lorg/universAAL/utilities/api/ICListener;" line-rate="0.0" branch-rate="1.0" complexity="0">
 							<lines>
 								<line number="198" hits="0" branch="false"/>
 							</lines>
 						</method>
-						<method name="createSListener" signature="(Ljava/lang/String;)Lorg/universAAL/support/utils/ISListener;" line-rate="0.0" branch-rate="1.0" complexity="0">
+						<method name="createSListener" signature="(Ljava/lang/String;)Lorg/universAAL/utilities/api/ISListener;" line-rate="0.0" branch-rate="1.0" complexity="0">
 							<lines>
 								<line number="211" hits="0" branch="false"/>
 							</lines>
@@ -1163,7 +1177,7 @@
 								<line number="125" hits="0" branch="false"/>
 							</lines>
 						</method>
-						<method name="provideS" signature="([Lorg/universAAL/middleware/service/owls/profile/ServiceProfile;Lorg/universAAL/support/utils/ISListener;)V" line-rate="0.0" branch-rate="0.0" complexity="0">
+						<method name="provideS" signature="([Lorg/universAAL/middleware/service/owls/profile/ServiceProfile;Lorg/universAAL/utilities/api/ISListener;)V" line-rate="0.0" branch-rate="0.0" complexity="0">
 							<lines>
 								<line number="115" hits="0" branch="true" condition-coverage="0% (0/2)">
 									<conditions>
@@ -1187,7 +1201,7 @@
 								<line number="185" hits="0" branch="false"/>
 							</lines>
 						</method>
-						<method name="subscribeC" signature="([Lorg/universAAL/middleware/context/ContextEventPattern;Lorg/universAAL/support/utils/ICListener;)V" line-rate="0.0" branch-rate="0.0" complexity="0">
+						<method name="subscribeC" signature="([Lorg/universAAL/middleware/context/ContextEventPattern;Lorg/universAAL/utilities/api/ICListener;)V" line-rate="0.0" branch-rate="0.0" complexity="0">
 							<lines>
 								<line number="99" hits="0" branch="true" condition-coverage="0% (0/2)">
 									<conditions>

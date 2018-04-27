@@ -286,7 +286,7 @@
 <ul class="blockList">
 <li class="blockList">
 <table class="constantsSummary" border="0" cellpadding="3" cellspacing="0" summary="Constant Field Values table, listing constant fields, and values">
-<caption><span>org.universAAL.ri.gateway.communicator.service.<a href="org/universAAL/ri/gateway/communicator/service/CommunicationHandler.html" title="interface in org.universAAL.ri.gateway.communicator.service">CommunicationHandler</a></span><span class="tabEnd">&nbsp;</span></caption>
+<caption><span>org.universAAL.ri.gateway.communication.cipher.<a href="org/universAAL/ri/gateway/communication/cipher/LegacyBlowfishCipher.html" title="class in org.universAAL.ri.gateway.communication.cipher">LegacyBlowfishCipher</a></span><span class="tabEnd">&nbsp;</span></caption>
 <tr>
 <th class="colFirst" scope="col">Modifier and Type</th>
 <th scope="col">Constant Field</th>
@@ -294,11 +294,51 @@
 </tr>
 <tbody>
 <tr class="altColor">
-<td class="colFirst"><a name="org.universAAL.ri.gateway.communicator.service.CommunicationHandler.BROADCAST_SESSION">
+<td class="colFirst"><a name="org.universAAL.ri.gateway.communication.cipher.LegacyBlowfishCipher.HASH_KEY">
 <!--   -->
 </a><code>public&nbsp;static&nbsp;final&nbsp;<a href="http://docs.oracle.com/javase/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
-<td><code><a href="org/universAAL/ri/gateway/communicator/service/CommunicationHandler.html#BROADCAST_SESSION">BROADCAST_SESSION</a></code></td>
-<td class="colLast"><code>"#BROADCAST"</code></td>
+<td><code><a href="org/universAAL/ri/gateway/communication/cipher/LegacyBlowfishCipher.html#HASH_KEY">HASH_KEY</a></code></td>
+<td class="colLast"><code>"hash-key"</code></td>
+</tr>
+</tbody>
+</table>
+</li>
+<li class="blockList">
+<table class="constantsSummary" border="0" cellpadding="3" cellspacing="0" summary="Constant Field Values table, listing constant fields, and values">
+<caption><span>org.universAAL.ri.gateway.communication.cipher.<a href="org/universAAL/ri/gateway/communication/cipher/SSLCipher.html" title="class in org.universAAL.ri.gateway.communication.cipher">SSLCipher</a></span><span class="tabEnd">&nbsp;</span></caption>
+<tr>
+<th class="colFirst" scope="col">Modifier and Type</th>
+<th scope="col">Constant Field</th>
+<th class="colLast" scope="col">Value</th>
+</tr>
+<tbody>
+<tr class="altColor">
+<td class="colFirst"><a name="org.universAAL.ri.gateway.communication.cipher.SSLCipher.KEYSTORE">
+<!--   -->
+</a><code>public&nbsp;static&nbsp;final&nbsp;<a href="http://docs.oracle.com/javase/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
+<td><code><a href="org/universAAL/ri/gateway/communication/cipher/SSLCipher.html#KEYSTORE">KEYSTORE</a></code></td>
+<td class="colLast"><code>"javax.net.ssl.keyStore"</code></td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><a name="org.universAAL.ri.gateway.communication.cipher.SSLCipher.KEYSTORE_PASS">
+<!--   -->
+</a><code>public&nbsp;static&nbsp;final&nbsp;<a href="http://docs.oracle.com/javase/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
+<td><code><a href="org/universAAL/ri/gateway/communication/cipher/SSLCipher.html#KEYSTORE_PASS">KEYSTORE_PASS</a></code></td>
+<td class="colLast"><code>"javax.net.ssl.keyStorePassword"</code></td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><a name="org.universAAL.ri.gateway.communication.cipher.SSLCipher.TRUSTSTORE">
+<!--   -->
+</a><code>public&nbsp;static&nbsp;final&nbsp;<a href="http://docs.oracle.com/javase/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
+<td><code><a href="org/universAAL/ri/gateway/communication/cipher/SSLCipher.html#TRUSTSTORE">TRUSTSTORE</a></code></td>
+<td class="colLast"><code>"javax.net.ssl.trustStore"</code></td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><a name="org.universAAL.ri.gateway.communication.cipher.SSLCipher.TRUSTSTORE_PASS">
+<!--   -->
+</a><code>public&nbsp;static&nbsp;final&nbsp;<a href="http://docs.oracle.com/javase/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
+<td><code><a href="org/universAAL/ri/gateway/communication/cipher/SSLCipher.html#TRUSTSTORE_PASS">TRUSTSTORE_PASS</a></code></td>
+<td class="colLast"><code>"javax.net.ssl.trustStorePassword"</code></td>
 </tr>
 </tbody>
 </table>
@@ -336,32 +376,60 @@
 </tr>
 <tbody>
 <tr class="altColor">
+<td class="colFirst"><a name="org.universAAL.ri.gateway.configuration.PropertiesFileKeys.CHIPER_CLASS">
+<!--   -->
+</a><code>public&nbsp;static&nbsp;final&nbsp;<a href="http://docs.oracle.com/javase/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
+<td><code><a href="org/universAAL/ri/gateway/configuration/PropertiesFileKeys.html#CHIPER_CLASS">CHIPER_CLASS</a></code></td>
+<td class="colLast"><code>"cipher.class"</code></td>
+</tr>
+<tr class="rowColor">
 <td class="colFirst"><a name="org.universAAL.ri.gateway.configuration.PropertiesFileKeys.CONNECTION_MODE">
 <!--   -->
 </a><code>public&nbsp;static&nbsp;final&nbsp;<a href="http://docs.oracle.com/javase/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
 <td><code><a href="org/universAAL/ri/gateway/configuration/PropertiesFileKeys.html#CONNECTION_MODE">CONNECTION_MODE</a></code></td>
 <td class="colLast"><code>"connection-mode"</code></td>
 </tr>
-<tr class="rowColor">
-<td class="colFirst"><a name="org.universAAL.ri.gateway.configuration.PropertiesFileKeys.HASH_KEY">
+<tr class="altColor">
+<td class="colFirst"><a name="org.universAAL.ri.gateway.configuration.PropertiesFileKeys.EXPORT_ATTEMPTS">
 <!--   -->
 </a><code>public&nbsp;static&nbsp;final&nbsp;<a href="http://docs.oracle.com/javase/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
-<td><code><a href="org/universAAL/ri/gateway/configuration/PropertiesFileKeys.html#HASH_KEY">HASH_KEY</a></code></td>
-<td class="colLast"><code>"hash-key"</code></td>
+<td><code><a href="org/universAAL/ri/gateway/configuration/PropertiesFileKeys.html#EXPORT_ATTEMPTS">EXPORT_ATTEMPTS</a></code></td>
+<td class="colLast"><code>"export-attempts"</code></td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><a name="org.universAAL.ri.gateway.configuration.PropertiesFileKeys.PRE_CONN_CACHE">
+<!--   -->
+</a><code>public&nbsp;static&nbsp;final&nbsp;<a href="http://docs.oracle.com/javase/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
+<td><code><a href="org/universAAL/ri/gateway/configuration/PropertiesFileKeys.html#PRE_CONN_CACHE">PRE_CONN_CACHE</a></code></td>
+<td class="colLast"><code>"pre-connection-cache"</code></td>
 </tr>
 <tr class="altColor">
+<td class="colFirst"><a name="org.universAAL.ri.gateway.configuration.PropertiesFileKeys.QUEUES">
+<!--   -->
+</a><code>public&nbsp;static&nbsp;final&nbsp;<a href="http://docs.oracle.com/javase/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
+<td><code><a href="org/universAAL/ri/gateway/configuration/PropertiesFileKeys.html#QUEUES">QUEUES</a></code></td>
+<td class="colLast"><code>"cache-max-size"</code></td>
+</tr>
+<tr class="rowColor">
 <td class="colFirst"><a name="org.universAAL.ri.gateway.configuration.PropertiesFileKeys.REMOTE_HOST">
 <!--   -->
 </a><code>public&nbsp;static&nbsp;final&nbsp;<a href="http://docs.oracle.com/javase/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
 <td><code><a href="org/universAAL/ri/gateway/configuration/PropertiesFileKeys.html#REMOTE_HOST">REMOTE_HOST</a></code></td>
 <td class="colLast"><code>"remote-gateway-host"</code></td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><a name="org.universAAL.ri.gateway.configuration.PropertiesFileKeys.SECURITY_DEFINITION">
 <!--   -->
 </a><code>public&nbsp;static&nbsp;final&nbsp;<a href="http://docs.oracle.com/javase/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
 <td><code><a href="org/universAAL/ri/gateway/configuration/PropertiesFileKeys.html#SECURITY_DEFINITION">SECURITY_DEFINITION</a></code></td>
 <td class="colLast"><code>"security-definition-file"</code></td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><a name="org.universAAL.ri.gateway.configuration.PropertiesFileKeys.SERVER_THREADS">
+<!--   -->
+</a><code>public&nbsp;static&nbsp;final&nbsp;<a href="http://docs.oracle.com/javase/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
+<td><code><a href="org/universAAL/ri/gateway/configuration/PropertiesFileKeys.html#SERVER_THREADS">SERVER_THREADS</a></code></td>
+<td class="colLast"><code>"server-threads"</code></td>
 </tr>
 <tr class="altColor">
 <td class="colFirst"><a name="org.universAAL.ri.gateway.configuration.PropertiesFileKeys.SOCKET_PORT">
@@ -369,6 +437,13 @@
 </a><code>public&nbsp;static&nbsp;final&nbsp;<a href="http://docs.oracle.com/javase/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
 <td><code><a href="org/universAAL/ri/gateway/configuration/PropertiesFileKeys.html#SOCKET_PORT">SOCKET_PORT</a></code></td>
 <td class="colLast"><code>"socket-port"</code></td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><a name="org.universAAL.ri.gateway.configuration.PropertiesFileKeys.TIMEOUT">
+<!--   -->
+</a><code>public&nbsp;static&nbsp;final&nbsp;<a href="http://docs.oracle.com/javase/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
+<td><code><a href="org/universAAL/ri/gateway/configuration/PropertiesFileKeys.html#TIMEOUT">TIMEOUT</a></code></td>
+<td class="colLast"><code>"timeout"</code></td>
 </tr>
 </tbody>
 </table>
@@ -728,6 +803,6 @@
 <!--   -->
 </a></div>
 <!-- ======== END OF BOTTOM NAVBAR ======= -->
-<p class="legalCopy"><small>Copyright &#169; 2017 <a href="http://www.universAAL.org/">universAAL Consortium</a>. All rights reserved.</small></p>
+<p class="legalCopy"><small>Copyright &#169; 2018 <a href="http://www.universAAL.org/">universAAL Consortium</a>. All rights reserved.</small></p>
 </body>
 </html>

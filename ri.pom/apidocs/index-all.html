@@ -69,7 +69,7 @@
 <!--   -->
 </a></div>
 <!-- ========= END OF TOP NAVBAR ========= -->
-<div class="contentContainer"><a href="#I:A">A</a>&nbsp;<a href="#I:B">B</a>&nbsp;<a href="#I:C">C</a>&nbsp;<a href="#I:D">D</a>&nbsp;<a href="#I:E">E</a>&nbsp;<a href="#I:F">F</a>&nbsp;<a href="#I:G">G</a>&nbsp;<a href="#I:H">H</a>&nbsp;<a href="#I:I">I</a>&nbsp;<a href="#I:K">K</a>&nbsp;<a href="#I:L">L</a>&nbsp;<a href="#I:M">M</a>&nbsp;<a href="#I:N">N</a>&nbsp;<a href="#I:O">O</a>&nbsp;<a href="#I:P">P</a>&nbsp;<a href="#I:R">R</a>&nbsp;<a href="#I:S">S</a>&nbsp;<a href="#I:T">T</a>&nbsp;<a href="#I:U">U</a>&nbsp;<a href="#I:V">V</a>&nbsp;<a href="#I:W">W</a>&nbsp;<a name="I:A">
+<div class="contentContainer"><a href="#I:A">A</a>&nbsp;<a href="#I:B">B</a>&nbsp;<a href="#I:C">C</a>&nbsp;<a href="#I:D">D</a>&nbsp;<a href="#I:E">E</a>&nbsp;<a href="#I:F">F</a>&nbsp;<a href="#I:G">G</a>&nbsp;<a href="#I:H">H</a>&nbsp;<a href="#I:I">I</a>&nbsp;<a href="#I:K">K</a>&nbsp;<a href="#I:L">L</a>&nbsp;<a href="#I:M">M</a>&nbsp;<a href="#I:N">N</a>&nbsp;<a href="#I:O">O</a>&nbsp;<a href="#I:P">P</a>&nbsp;<a href="#I:Q">Q</a>&nbsp;<a href="#I:R">R</a>&nbsp;<a href="#I:S">S</a>&nbsp;<a href="#I:T">T</a>&nbsp;<a href="#I:U">U</a>&nbsp;<a href="#I:V">V</a>&nbsp;<a href="#I:W">W</a>&nbsp;<a name="I:A">
 <!--   -->
 </a>
 <h2 class="title">A</h2>
@@ -83,7 +83,7 @@
 <div class="block">This class implements an generic link handler that has to be refined
  depending on the actual role of the peer in the link</div>
 </dd>
-<dt><span class="memberNameLink"><a href="org/universAAL/ri/gateway/communicator/service/impl/AbstractLinkHandler.html#AbstractLinkHandler-java.net.Socket-org.universAAL.ri.gateway.protocol.MessageReceiver-org.universAAL.ri.gateway.communication.cipher.Cipher-">AbstractLinkHandler(Socket, MessageReceiver, Cipher)</a></span> - Constructor for class org.universAAL.ri.gateway.communicator.service.impl.<a href="org/universAAL/ri/gateway/communicator/service/impl/AbstractLinkHandler.html" title="class in org.universAAL.ri.gateway.communicator.service.impl">AbstractLinkHandler</a></dt>
+<dt><span class="memberNameLink"><a href="org/universAAL/ri/gateway/communicator/service/impl/AbstractLinkHandler.html#AbstractLinkHandler-java.net.Socket-org.universAAL.ri.gateway.protocol.MessageReceiver-org.universAAL.ri.gateway.communication.cipher.SocketCipher-">AbstractLinkHandler(Socket, MessageReceiver, SocketCipher)</a></span> - Constructor for class org.universAAL.ri.gateway.communicator.service.impl.<a href="org/universAAL/ri/gateway/communicator/service/impl/AbstractLinkHandler.html" title="class in org.universAAL.ri.gateway.communicator.service.impl">AbstractLinkHandler</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="org/universAAL/ri/gateway/communicator/service/impl/AbstractLinkHandler.LinkHandlerStatus.html" title="enum in org.universAAL.ri.gateway.communicator.service.impl"><span class="typeNameLink">AbstractLinkHandler.LinkHandlerStatus</span></a> - Enum in <a href="org/universAAL/ri/gateway/communicator/service/impl/package-summary.html">org.universAAL.ri.gateway.communicator.service.impl</a></dt>
 <dd>&nbsp;</dd>
@@ -91,8 +91,28 @@
 <dd>
 <div class="block">This class implements an abstract gateway based on TCP connection</div>
 </dd>
-<dt><span class="memberNameLink"><a href="org/universAAL/ri/gateway/communicator/service/impl/AbstractSocketCommunicationHandler.html#AbstractSocketCommunicationHandler-org.universAAL.ri.gateway.communication.cipher.Cipher-">AbstractSocketCommunicationHandler(Cipher)</a></span> - Constructor for class org.universAAL.ri.gateway.communicator.service.impl.<a href="org/universAAL/ri/gateway/communicator/service/impl/AbstractSocketCommunicationHandler.html" title="class in org.universAAL.ri.gateway.communicator.service.impl">AbstractSocketCommunicationHandler</a></dt>
+<dt><span class="memberNameLink"><a href="org/universAAL/ri/gateway/communicator/service/impl/AbstractSocketCommunicationHandler.html#AbstractSocketCommunicationHandler-org.universAAL.ri.gateway.communication.cipher.SocketCipher-">AbstractSocketCommunicationHandler(SocketCipher)</a></span> - Constructor for class org.universAAL.ri.gateway.communicator.service.impl.<a href="org/universAAL/ri/gateway/communicator/service/impl/AbstractSocketCommunicationHandler.html" title="class in org.universAAL.ri.gateway.communicator.service.impl">AbstractSocketCommunicationHandler</a></dt>
 <dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="org/universAAL/ri/gateway/communication/cipher/ClearTextCipher.html#acceptedSocket-java.net.Socket-">acceptedSocket(Socket)</a></span> - Method in class org.universAAL.ri.gateway.communication.cipher.<a href="org/universAAL/ri/gateway/communication/cipher/ClearTextCipher.html" title="class in org.universAAL.ri.gateway.communication.cipher">ClearTextCipher</a></dt>
+<dd>
+<div class="block">Used to set the socket, specially to add the accepted socket.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="org/universAAL/ri/gateway/communication/cipher/LegacyBlowfishCipher.html#acceptedSocket-java.net.Socket-">acceptedSocket(Socket)</a></span> - Method in class org.universAAL.ri.gateway.communication.cipher.<a href="org/universAAL/ri/gateway/communication/cipher/LegacyBlowfishCipher.html" title="class in org.universAAL.ri.gateway.communication.cipher">LegacyBlowfishCipher</a></dt>
+<dd>
+<div class="block">Used to set the socket, specially to add the accepted socket.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="org/universAAL/ri/gateway/communication/cipher/SocketCipher.html#acceptedSocket-java.net.Socket-">acceptedSocket(Socket)</a></span> - Method in interface org.universAAL.ri.gateway.communication.cipher.<a href="org/universAAL/ri/gateway/communication/cipher/SocketCipher.html" title="interface in org.universAAL.ri.gateway.communication.cipher">SocketCipher</a></dt>
+<dd>
+<div class="block">Used to set the socket, specially to add the accepted socket.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="org/universAAL/ri/gateway/communication/cipher/SSLCipher.html#acceptedSocket-java.net.Socket-">acceptedSocket(Socket)</a></span> - Method in class org.universAAL.ri.gateway.communication.cipher.<a href="org/universAAL/ri/gateway/communication/cipher/SSLCipher.html" title="class in org.universAAL.ri.gateway.communication.cipher">SSLCipher</a></dt>
+<dd>
+<div class="block">Used to set the socket, specially to add the accepted socket.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="org/universAAL/ri/gateway/communication/cipher/StreamCipher.html#acceptedSocket-java.net.Socket-">acceptedSocket(Socket)</a></span> - Method in class org.universAAL.ri.gateway.communication.cipher.<a href="org/universAAL/ri/gateway/communication/cipher/StreamCipher.html" title="class in org.universAAL.ri.gateway.communication.cipher">StreamCipher</a></dt>
+<dd>
+<div class="block">Used to set the socket, specially to add the accepted socket.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="org/universAAL/ri/gateway/Exporter.html#activatedSession-org.universAAL.ri.gateway.Session-">activatedSession(Session)</a></span> - Method in class org.universAAL.ri.gateway.<a href="org/universAAL/ri/gateway/Exporter.html" title="class in org.universAAL.ri.gateway">Exporter</a></dt>
 <dd>
 <div class="block">To be called when a new <a href="org/universAAL/ri/gateway/Session.html" title="class in org.universAAL.ri.gateway"><code>Session</code></a> is become active.</div>
@@ -139,6 +159,7 @@
 <dd>
 <div class="block">Adds <a href="org/universAAL/ri/gateway/proxies/ProxyBusMember.html" title="interface in org.universAAL.ri.gateway.proxies"><code>ProxyBusMember</code></a> to the pool.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="org/universAAL/ri/gateway/utils/BufferedQueue.html#add-A-">add(A)</a></span> - Method in class org.universAAL.ri.gateway.utils.<a href="org/universAAL/ri/gateway/utils/BufferedQueue.html" title="class in org.universAAL.ri.gateway.utils">BufferedQueue</a></dt>
 <dt><span class="memberNameLink"><a href="org/universAAL/ri/rest/manager/resources/Callees.html#addCalleeResource-java.lang.String-org.universAAL.ri.rest.manager.resources.Callee-">addCalleeResource(String, Callee)</a></span> - Method in class org.universAAL.ri.rest.manager.resources.<a href="org/universAAL/ri/rest/manager/resources/Callees.html" title="class in org.universAAL.ri.rest.manager.resources">Callees</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/universAAL/ri/rest/manager/resources/Callers.html#addCallerResource-java.lang.String-org.universAAL.ri.rest.manager.resources.Caller-">addCallerResource(String, Caller)</a></span> - Method in class org.universAAL.ri.rest.manager.resources.<a href="org/universAAL/ri/rest/manager/resources/Callers.html" title="class in org.universAAL.ri.rest.manager.resources">Callers</a></dt>
@@ -375,21 +396,16 @@
 <div class="block">The method is invoked before the main loop during which theh
  <a href="org/universAAL/ri/gateway/communicator/service/impl/AbstractLinkHandler.html#loopRun--"><code>AbstractLinkHandler.loopRun()</code></a> is executed</div>
 </dd>
-<dt><a href="org/universAAL/ri/gateway/communication/cipher/Blowfish.html" title="class in org.universAAL.ri.gateway.communication.cipher"><span class="typeNameLink">Blowfish</span></a> - Class in <a href="org/universAAL/ri/gateway/communication/cipher/package-summary.html">org.universAAL.ri.gateway.communication.cipher</a></dt>
-<dd>
-<div class="block">A BlowFish Cipher wrapper, using a symmetrical key encryption.</div>
-</dd>
-<dt><span class="memberNameLink"><a href="org/universAAL/ri/gateway/communication/cipher/Blowfish.html#Blowfish-java.lang.String-">Blowfish(String)</a></span> - Constructor for class org.universAAL.ri.gateway.communication.cipher.<a href="org/universAAL/ri/gateway/communication/cipher/Blowfish.html" title="class in org.universAAL.ri.gateway.communication.cipher">Blowfish</a></dt>
+<dt><a href="org/universAAL/ri/gateway/utils/BufferedQueue.html" title="class in org.universAAL.ri.gateway.utils"><span class="typeNameLink">BufferedQueue</span></a>&lt;<a href="org/universAAL/ri/gateway/utils/BufferedQueue.html" title="type parameter in BufferedQueue">A</a>&gt; - Class in <a href="org/universAAL/ri/gateway/utils/package-summary.html">org.universAAL.ri.gateway.utils</a></dt>
 <dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="org/universAAL/ri/gateway/communicator/service/CommunicationHandler.html#BROADCAST_SESSION">BROADCAST_SESSION</a></span> - Static variable in interface org.universAAL.ri.gateway.communicator.service.<a href="org/universAAL/ri/gateway/communicator/service/CommunicationHandler.html" title="interface in org.universAAL.ri.gateway.communicator.service">CommunicationHandler</a></dt>
-<dd>
-<div class="block"><span class="deprecatedLabel">Deprecated.</span>
-<div class="block"><span class="deprecationComment">Broadcasting is now perfomed by the high level part of the
-             Gateway by inspecting the message</span></div>
-</div>
-</dd>
+<dt><span class="memberNameLink"><a href="org/universAAL/ri/gateway/utils/BufferedQueue.html#BufferedQueue-long-">BufferedQueue(long)</a></span> - Constructor for class org.universAAL.ri.gateway.utils.<a href="org/universAAL/ri/gateway/utils/BufferedQueue.html" title="class in org.universAAL.ri.gateway.utils">BufferedQueue</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/universAAL/ri/gateway/Exporter.html#busMemberAdded-org.universAAL.middleware.bus.member.BusMember-org.universAAL.middleware.tracker.IBusMemberRegistry.BusType-">busMemberAdded(BusMember, IBusMemberRegistry.BusType)</a></span> - Method in class org.universAAL.ri.gateway.<a href="org/universAAL/ri/gateway/Exporter.html" title="class in org.universAAL.ri.gateway">Exporter</a></dt>
 <dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="org/universAAL/ri/gateway/proxies/BusMemberReference.html#busMemberid">busMemberid</a></span> - Variable in class org.universAAL.ri.gateway.proxies.<a href="org/universAAL/ri/gateway/proxies/BusMemberReference.html" title="class in org.universAAL.ri.gateway.proxies">BusMemberReference</a></dt>
+<dd>
+<div class="block">The <code>BusMember</code> id at the remote side identified.</div>
+</dd>
 <dt><a href="org/universAAL/ri/gateway/proxies/BusMemberReference.html" title="class in org.universAAL.ri.gateway.proxies"><span class="typeNameLink">BusMemberReference</span></a> - Class in <a href="org/universAAL/ri/gateway/proxies/package-summary.html">org.universAAL.ri.gateway.proxies</a></dt>
 <dd>
 <div class="block">An identifier of a concrete <code>BusMember</code> across all Scopes.</div>
@@ -398,10 +414,18 @@
 <dd>
 <div class="block">Constructor for a <code>BusMember</code> identifier.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="org/universAAL/ri/gateway/proxies/BusMemberReference.html#BusMemberReference-org.universAAL.ri.gateway.Session-">BusMemberReference(Session)</a></span> - Constructor for class org.universAAL.ri.gateway.proxies.<a href="org/universAAL/ri/gateway/proxies/BusMemberReference.html" title="class in org.universAAL.ri.gateway.proxies">BusMemberReference</a></dt>
+<dd>
+<div class="block">To be used only by subclasses.</div>
+</dd>
+<dt><a href="org/universAAL/ri/gateway/proxies/BusMemberReferenceTemporal.html" title="class in org.universAAL.ri.gateway.proxies"><span class="typeNameLink">BusMemberReferenceTemporal</span></a> - Class in <a href="org/universAAL/ri/gateway/proxies/package-summary.html">org.universAAL.ri.gateway.proxies</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="org/universAAL/ri/gateway/proxies/BusMemberReferenceTemporal.html#BusMemberReferenceTemporal-org.universAAL.ri.gateway.Session-">BusMemberReferenceTemporal(Session)</a></span> - Constructor for class org.universAAL.ri.gateway.proxies.<a href="org/universAAL/ri/gateway/proxies/BusMemberReferenceTemporal.html" title="class in org.universAAL.ri.gateway.proxies">BusMemberReferenceTemporal</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/universAAL/ri/gateway/Exporter.html#busMemberRemoved-org.universAAL.middleware.bus.member.BusMember-org.universAAL.middleware.tracker.IBusMemberRegistry.BusType-">busMemberRemoved(BusMember, IBusMemberRegistry.BusType)</a></span> - Method in class org.universAAL.ri.gateway.<a href="org/universAAL/ri/gateway/Exporter.html" title="class in org.universAAL.ri.gateway">Exporter</a></dt>
 <dd>
 <div class="block">Invoked when an existing BusMember is unregistered from the bus.<br>
-
+ 
  Initiates Import-remove protocol: <br>
  <img src="doc-files/Import-ImportRemove.png"></div>
 </dd>
@@ -529,13 +553,20 @@
 </dd>
 <dt><span class="memberNameLink"><a href="org/universAAL/ri/rest/manager/server/persistence/PersistenceDerby.html#checkUserPWD-java.lang.String-java.lang.String-">checkUserPWD(String, String)</a></span> - Method in class org.universAAL.ri.rest.manager.server.persistence.<a href="org/universAAL/ri/rest/manager/server/persistence/PersistenceDerby.html" title="class in org.universAAL.ri.rest.manager.server.persistence">PersistenceDerby</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="org/universAAL/ri/gateway/communication/cipher/Cipher.html" title="interface in org.universAAL.ri.gateway.communication.cipher"><span class="typeNameLink">Cipher</span></a> - Interface in <a href="org/universAAL/ri/gateway/communication/cipher/package-summary.html">org.universAAL.ri.gateway.communication.cipher</a></dt>
+<dt><span class="memberNameLink"><a href="org/universAAL/ri/gateway/configuration/PropertiesFileKeys.html#CHIPER_CLASS">CHIPER_CLASS</a></span> - Static variable in interface org.universAAL.ri.gateway.configuration.<a href="org/universAAL/ri/gateway/configuration/PropertiesFileKeys.html" title="interface in org.universAAL.ri.gateway.configuration">PropertiesFileKeys</a></dt>
 <dd>
-<div class="block">Interface used for Serializer to marshall and unmarshall messages.</div>
+<div class="block">System property indicating the <a href="org/universAAL/ri/gateway/communication/cipher/SocketCipher.html" title="interface in org.universAAL.ri.gateway.communication.cipher"><code>SocketCipher</code></a> that should be loaded
+ to manage channel encryption.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="org/universAAL/ri/gateway/communicator/service/impl/AbstractLinkHandler.html#cipher">cipher</a></span> - Variable in class org.universAAL.ri.gateway.communicator.service.impl.<a href="org/universAAL/ri/gateway/communicator/service/impl/AbstractLinkHandler.html" title="class in org.universAAL.ri.gateway.communicator.service.impl">AbstractLinkHandler</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/universAAL/ri/gateway/communicator/service/impl/AbstractSocketCommunicationHandler.html#cipher">cipher</a></span> - Variable in class org.universAAL.ri.gateway.communicator.service.impl.<a href="org/universAAL/ri/gateway/communicator/service/impl/AbstractSocketCommunicationHandler.html" title="class in org.universAAL.ri.gateway.communicator.service.impl">AbstractSocketCommunicationHandler</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/universAAL/ri/gateway/communicator/service/impl/AbstractLinkHandler.html#cleanUpSession--">cleanUpSession()</a></span> - Method in class org.universAAL.ri.gateway.communicator.service.impl.<a href="org/universAAL/ri/gateway/communicator/service/impl/AbstractLinkHandler.html" title="class in org.universAAL.ri.gateway.communicator.service.impl">AbstractLinkHandler</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="org/universAAL/ri/gateway/communication/cipher/ClearTextCipher.html" title="class in org.universAAL.ri.gateway.communication.cipher"><span class="typeNameLink">ClearTextCipher</span></a> - Class in <a href="org/universAAL/ri/gateway/communication/cipher/package-summary.html">org.universAAL.ri.gateway.communication.cipher</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="org/universAAL/ri/gateway/communication/cipher/ClearTextCipher.html#ClearTextCipher--">ClearTextCipher()</a></span> - Constructor for class org.universAAL.ri.gateway.communication.cipher.<a href="org/universAAL/ri/gateway/communication/cipher/ClearTextCipher.html" title="class in org.universAAL.ri.gateway.communication.cipher">ClearTextCipher</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="org/universAAL/ri/restToolkit/ClientHttpRequest.html" title="class in org.universAAL.ri.restToolkit"><span class="typeNameLink">ClientHttpRequest</span></a> - Class in <a href="org/universAAL/ri/restToolkit/package-summary.html">org.universAAL.ri.restToolkit</a></dt>
 <dd>
@@ -636,10 +667,6 @@
 <dd>&nbsp;</dd>
 <dt><a href="org/universAAL/ri/gateway/communicator/service/CommunicationHandler.html" title="interface in org.universAAL.ri.gateway.communicator.service"><span class="typeNameLink">CommunicationHandler</span></a> - Interface in <a href="org/universAAL/ri/gateway/communicator/service/package-summary.html">org.universAAL.ri.gateway.communicator.service</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="org/universAAL/ri/gateway/communicator/service/CommunicationHelper.html" title="class in org.universAAL.ri.gateway.communicator.service"><span class="typeNameLink">CommunicationHelper</span></a> - Class in <a href="org/universAAL/ri/gateway/communicator/service/package-summary.html">org.universAAL.ri.gateway.communicator.service</a></dt>
-<dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="org/universAAL/ri/gateway/communicator/service/CommunicationHelper.html#CommunicationHelper--">CommunicationHelper()</a></span> - Constructor for class org.universAAL.ri.gateway.communicator.service.<a href="org/universAAL/ri/gateway/communicator/service/CommunicationHelper.html" title="class in org.universAAL.ri.gateway.communicator.service">CommunicationHelper</a></dt>
-<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/universAAL/ri/gateway/communicator/service/impl/AbstractLinkHandler.html#communicator">communicator</a></span> - Variable in class org.universAAL.ri.gateway.communicator.service.impl.<a href="org/universAAL/ri/gateway/communicator/service/impl/AbstractLinkHandler.html" title="class in org.universAAL.ri.gateway.communicator.service.impl">AbstractLinkHandler</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="org/universAAL/ri/wsdlToolkit/ioApi/ComplexObject.html" title="class in org.universAAL.ri.wsdlToolkit.ioApi"><span class="typeNameLink">ComplexObject</span></a> - Class in <a href="org/universAAL/ri/wsdlToolkit/ioApi/package-summary.html">org.universAAL.ri.wsdlToolkit.ioApi</a></dt>
@@ -715,6 +742,26 @@
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/universAAL/ri/keepalive/sender/Activator.html#cpublisher">cpublisher</a></span> - Static variable in class org.universAAL.ri.keepalive.sender.<a href="org/universAAL/ri/keepalive/sender/Activator.html" title="class in org.universAAL.ri.keepalive.sender">Activator</a></dt>
 <dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="org/universAAL/ri/gateway/communication/cipher/ClearTextCipher.html#createClientSocket-java.net.InetAddress-int-">createClientSocket(InetAddress, int)</a></span> - Method in class org.universAAL.ri.gateway.communication.cipher.<a href="org/universAAL/ri/gateway/communication/cipher/ClearTextCipher.html" title="class in org.universAAL.ri.gateway.communication.cipher">ClearTextCipher</a></dt>
+<dd>
+<div class="block">Create and connect a <a href="http://docs.oracle.com/javase/1.5.0/docs/api/java/net/Socket.html?is-external=true" title="class or interface in java.net"><code>Socket</code></a>.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="org/universAAL/ri/gateway/communication/cipher/LegacyBlowfishCipher.html#createClientSocket-java.net.InetAddress-int-">createClientSocket(InetAddress, int)</a></span> - Method in class org.universAAL.ri.gateway.communication.cipher.<a href="org/universAAL/ri/gateway/communication/cipher/LegacyBlowfishCipher.html" title="class in org.universAAL.ri.gateway.communication.cipher">LegacyBlowfishCipher</a></dt>
+<dd>
+<div class="block">Create and connect a <a href="http://docs.oracle.com/javase/1.5.0/docs/api/java/net/Socket.html?is-external=true" title="class or interface in java.net"><code>Socket</code></a>.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="org/universAAL/ri/gateway/communication/cipher/SocketCipher.html#createClientSocket-java.net.InetAddress-int-">createClientSocket(InetAddress, int)</a></span> - Method in interface org.universAAL.ri.gateway.communication.cipher.<a href="org/universAAL/ri/gateway/communication/cipher/SocketCipher.html" title="interface in org.universAAL.ri.gateway.communication.cipher">SocketCipher</a></dt>
+<dd>
+<div class="block">Create and connect a <a href="http://docs.oracle.com/javase/1.5.0/docs/api/java/net/Socket.html?is-external=true" title="class or interface in java.net"><code>Socket</code></a>.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="org/universAAL/ri/gateway/communication/cipher/SSLCipher.html#createClientSocket-java.net.InetAddress-int-">createClientSocket(InetAddress, int)</a></span> - Method in class org.universAAL.ri.gateway.communication.cipher.<a href="org/universAAL/ri/gateway/communication/cipher/SSLCipher.html" title="class in org.universAAL.ri.gateway.communication.cipher">SSLCipher</a></dt>
+<dd>
+<div class="block">Create and connect a <a href="http://docs.oracle.com/javase/1.5.0/docs/api/java/net/Socket.html?is-external=true" title="class or interface in java.net"><code>Socket</code></a>.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="org/universAAL/ri/gateway/communication/cipher/StreamCipher.html#createClientSocket-java.net.InetAddress-int-">createClientSocket(InetAddress, int)</a></span> - Method in class org.universAAL.ri.gateway.communication.cipher.<a href="org/universAAL/ri/gateway/communication/cipher/StreamCipher.html" title="class in org.universAAL.ri.gateway.communication.cipher">StreamCipher</a></dt>
+<dd>
+<div class="block">Create and connect a <a href="http://docs.oracle.com/javase/1.5.0/docs/api/java/net/Socket.html?is-external=true" title="class or interface in java.net"><code>Socket</code></a>.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="org/universAAL/ri/api/manager/RemoteUAAL.html#createCListener-java.lang.String-">createCListener(String)</a></span> - Method in class org.universAAL.ri.api.manager.<a href="org/universAAL/ri/api/manager/RemoteUAAL.html" title="class in org.universAAL.ri.api.manager">RemoteUAAL</a></dt>
 <dd>
 <div class="block">Use this method to create a Listener to be used in the sendC() method of
@@ -736,6 +783,26 @@
 </dd>
 <dt><span class="memberNameLink"><a href="org/universAAL/ri/gateway/log/LoggerFactory.html#createLoggerFactory-org.universAAL.middleware.container.ModuleContext-">createLoggerFactory(ModuleContext)</a></span> - Static method in class org.universAAL.ri.gateway.log.<a href="org/universAAL/ri/gateway/log/LoggerFactory.html" title="class in org.universAAL.ri.gateway.log">LoggerFactory</a></dt>
 <dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="org/universAAL/ri/gateway/communication/cipher/ClearTextCipher.html#createServerSocket-int-int-java.net.InetAddress-">createServerSocket(int, int, InetAddress)</a></span> - Method in class org.universAAL.ri.gateway.communication.cipher.<a href="org/universAAL/ri/gateway/communication/cipher/ClearTextCipher.html" title="class in org.universAAL.ri.gateway.communication.cipher">ClearTextCipher</a></dt>
+<dd>
+<div class="block">Create a <a href="http://docs.oracle.com/javase/1.5.0/docs/api/java/net/ServerSocket.html?is-external=true" title="class or interface in java.net"><code>ServerSocket</code></a>.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="org/universAAL/ri/gateway/communication/cipher/LegacyBlowfishCipher.html#createServerSocket-int-int-java.net.InetAddress-">createServerSocket(int, int, InetAddress)</a></span> - Method in class org.universAAL.ri.gateway.communication.cipher.<a href="org/universAAL/ri/gateway/communication/cipher/LegacyBlowfishCipher.html" title="class in org.universAAL.ri.gateway.communication.cipher">LegacyBlowfishCipher</a></dt>
+<dd>
+<div class="block">Create a <a href="http://docs.oracle.com/javase/1.5.0/docs/api/java/net/ServerSocket.html?is-external=true" title="class or interface in java.net"><code>ServerSocket</code></a>.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="org/universAAL/ri/gateway/communication/cipher/SocketCipher.html#createServerSocket-int-int-java.net.InetAddress-">createServerSocket(int, int, InetAddress)</a></span> - Method in interface org.universAAL.ri.gateway.communication.cipher.<a href="org/universAAL/ri/gateway/communication/cipher/SocketCipher.html" title="interface in org.universAAL.ri.gateway.communication.cipher">SocketCipher</a></dt>
+<dd>
+<div class="block">Create a <a href="http://docs.oracle.com/javase/1.5.0/docs/api/java/net/ServerSocket.html?is-external=true" title="class or interface in java.net"><code>ServerSocket</code></a>.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="org/universAAL/ri/gateway/communication/cipher/SSLCipher.html#createServerSocket-int-int-java.net.InetAddress-">createServerSocket(int, int, InetAddress)</a></span> - Method in class org.universAAL.ri.gateway.communication.cipher.<a href="org/universAAL/ri/gateway/communication/cipher/SSLCipher.html" title="class in org.universAAL.ri.gateway.communication.cipher">SSLCipher</a></dt>
+<dd>
+<div class="block">Create a <a href="http://docs.oracle.com/javase/1.5.0/docs/api/java/net/ServerSocket.html?is-external=true" title="class or interface in java.net"><code>ServerSocket</code></a>.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="org/universAAL/ri/gateway/communication/cipher/StreamCipher.html#createServerSocket-int-int-java.net.InetAddress-">createServerSocket(int, int, InetAddress)</a></span> - Method in class org.universAAL.ri.gateway.communication.cipher.<a href="org/universAAL/ri/gateway/communication/cipher/StreamCipher.html" title="class in org.universAAL.ri.gateway.communication.cipher">StreamCipher</a></dt>
+<dd>
+<div class="block">Create a <a href="http://docs.oracle.com/javase/1.5.0/docs/api/java/net/ServerSocket.html?is-external=true" title="class or interface in java.net"><code>ServerSocket</code></a>.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="org/universAAL/ri/gateway/communicator/service/impl/SessionManager.html#createSession-java.lang.String-java.lang.String-java.lang.String-java.lang.String-">createSession(String, String, String, String)</a></span> - Method in class org.universAAL.ri.gateway.communicator.service.impl.<a href="org/universAAL/ri/gateway/communicator/service/impl/SessionManager.html" title="class in org.universAAL.ri.gateway.communicator.service.impl">SessionManager</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/universAAL/ri/api/manager/RemoteUAAL.html#createSListener-java.lang.String-">createSListener(String)</a></span> - Method in class org.universAAL.ri.api.manager.<a href="org/universAAL/ri/api/manager/RemoteUAAL.html" title="class in org.universAAL.ri.api.manager">RemoteUAAL</a></dt>
@@ -761,11 +828,6 @@
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/universAAL/ri/gateway/communicator/service/impl/AbstractLinkHandler.html#currentSession">currentSession</a></span> - Variable in class org.universAAL.ri.gateway.communicator.service.impl.<a href="org/universAAL/ri/gateway/communicator/service/impl/AbstractLinkHandler.html" title="class in org.universAAL.ri.gateway.communicator.service.impl">AbstractLinkHandler</a></dt>
 <dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="org/universAAL/ri/gateway/communicator/service/CommunicationHelper.html#cypherAndSend-org.universAAL.ri.gateway.protocol.Message-java.io.OutputStream-org.universAAL.ri.gateway.communication.cipher.Cipher-">cypherAndSend(Message, OutputStream, Cipher)</a></span> - Static method in class org.universAAL.ri.gateway.communicator.service.<a href="org/universAAL/ri/gateway/communicator/service/CommunicationHelper.html" title="class in org.universAAL.ri.gateway.communicator.service">CommunicationHelper</a></dt>
-<dd>
-<div class="block">This method encrypt and send the given data by adding at the begging of
- the encrypted data the length of the data that will be sent</div>
-</dd>
 </dl>
 <a name="I:D">
 <!--   -->
@@ -895,17 +957,13 @@
 <div class="block">decrypt the first parameter string with the shared key received as the
  second parameter</div>
 </dd>
-<dt><span class="memberNameLink"><a href="org/universAAL/ri/gateway/communication/cipher/Blowfish.html#decrypt-byte:A-">decrypt(byte[])</a></span> - Method in class org.universAAL.ri.gateway.communication.cipher.<a href="org/universAAL/ri/gateway/communication/cipher/Blowfish.html" title="class in org.universAAL.ri.gateway.communication.cipher">Blowfish</a></dt>
-<dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="org/universAAL/ri/gateway/communication/cipher/Cipher.html#decrypt-byte:A-">decrypt(byte[])</a></span> - Method in interface org.universAAL.ri.gateway.communication.cipher.<a href="org/universAAL/ri/gateway/communication/cipher/Cipher.html" title="interface in org.universAAL.ri.gateway.communication.cipher">Cipher</a></dt>
-<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/universAAL/ri/rest/manager/resources/Callee.html#deleteCalleeResource-java.lang.String-java.lang.String-">deleteCalleeResource(String, String)</a></span> - Method in class org.universAAL.ri.rest.manager.resources.<a href="org/universAAL/ri/rest/manager/resources/Callee.html" title="class in org.universAAL.ri.rest.manager.resources">Callee</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/universAAL/ri/rest/manager/resources/Caller.html#deleteCallerResource-java.lang.String-java.lang.String-">deleteCallerResource(String, String)</a></span> - Method in class org.universAAL.ri.rest.manager.resources.<a href="org/universAAL/ri/rest/manager/resources/Caller.html" title="class in org.universAAL.ri.rest.manager.resources">Caller</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/universAAL/ri/rest/manager/resources/Publisher.html#deletePublisherResource-java.lang.String-java.lang.String-">deletePublisherResource(String, String)</a></span> - Method in class org.universAAL.ri.rest.manager.resources.<a href="org/universAAL/ri/rest/manager/resources/Publisher.html" title="class in org.universAAL.ri.rest.manager.resources">Publisher</a></dt>
 <dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="org/universAAL/ri/rest/manager/resources/Space.html#deleteSpaceResource--">deleteSpaceResource()</a></span> - Method in class org.universAAL.ri.rest.manager.resources.<a href="org/universAAL/ri/rest/manager/resources/Space.html" title="class in org.universAAL.ri.rest.manager.resources">Space</a></dt>
+<dt><span class="memberNameLink"><a href="org/universAAL/ri/rest/manager/resources/Space.html#deleteSpaceResource-java.lang.String-">deleteSpaceResource(String)</a></span> - Method in class org.universAAL.ri.rest.manager.resources.<a href="org/universAAL/ri/rest/manager/resources/Space.html" title="class in org.universAAL.ri.rest.manager.resources">Space</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/universAAL/ri/rest/manager/resources/Subscriber.html#deleteSubscriberResource-java.lang.String-java.lang.String-">deleteSubscriberResource(String, String)</a></span> - Method in class org.universAAL.ri.rest.manager.resources.<a href="org/universAAL/ri/rest/manager/resources/Subscriber.html" title="class in org.universAAL.ri.rest.manager.resources">Subscriber</a></dt>
 <dd>&nbsp;</dd>
@@ -1097,10 +1155,6 @@
 <div class="block">encrypt the first parameter string with the shared key received as the
  second parameter</div>
 </dd>
-<dt><span class="memberNameLink"><a href="org/universAAL/ri/gateway/communication/cipher/Blowfish.html#encrypt-byte:A-">encrypt(byte[])</a></span> - Method in class org.universAAL.ri.gateway.communication.cipher.<a href="org/universAAL/ri/gateway/communication/cipher/Blowfish.html" title="class in org.universAAL.ri.gateway.communication.cipher">Blowfish</a></dt>
-<dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="org/universAAL/ri/gateway/communication/cipher/Cipher.html#encrypt-byte:A-">encrypt(byte[])</a></span> - Method in interface org.universAAL.ri.gateway.communication.cipher.<a href="org/universAAL/ri/gateway/communication/cipher/Cipher.html" title="interface in org.universAAL.ri.gateway.communication.cipher">Cipher</a></dt>
-<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/universAAL/ri/gateway/Gateway.html#endServer-org.universAAL.ri.gateway.Server-">endServer(Server)</a></span> - Method in class org.universAAL.ri.gateway.<a href="org/universAAL/ri/gateway/Gateway.html" title="class in org.universAAL.ri.gateway">Gateway</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/universAAL/ri/gateway/Gateway.html#endSession-org.universAAL.ri.gateway.Session-">endSession(Session)</a></span> - Method in class org.universAAL.ri.gateway.<a href="org/universAAL/ri/gateway/Gateway.html" title="class in org.universAAL.ri.gateway">Gateway</a></dt>
@@ -1134,6 +1188,10 @@
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/universAAL/ri/rest/manager/resources/Publisher.html#executePublisherPublish-java.lang.String-java.lang.String-java.lang.String-">executePublisherPublish(String, String, String)</a></span> - Method in class org.universAAL.ri.rest.manager.resources.<a href="org/universAAL/ri/rest/manager/resources/Publisher.html" title="class in org.universAAL.ri.rest.manager.resources">Publisher</a></dt>
 <dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="org/universAAL/ri/gateway/configuration/PropertiesFileKeys.html#EXPORT_ATTEMPTS">EXPORT_ATTEMPTS</a></span> - Static variable in interface org.universAAL.ri.gateway.configuration.<a href="org/universAAL/ri/gateway/configuration/PropertiesFileKeys.html" title="interface in org.universAAL.ri.gateway.configuration">PropertiesFileKeys</a></dt>
+<dd>
+<div class="block">System property indicating the maximum number of export attempts.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="org/universAAL/ri/gateway/configuration/TurtleFileSecurityDefinition.html#EXPORT_MATCH">EXPORT_MATCH</a></span> - Static variable in class org.universAAL.ri.gateway.configuration.<a href="org/universAAL/ri/gateway/configuration/TurtleFileSecurityDefinition.html" title="class in org.universAAL.ri.gateway.configuration">TurtleFileSecurityDefinition</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/universAAL/ri/gateway/configuration/TurtleFileSecurityDefinition.html#EXPORT_POLICY">EXPORT_POLICY</a></span> - Static variable in class org.universAAL.ri.gateway.configuration.<a href="org/universAAL/ri/gateway/configuration/TurtleFileSecurityDefinition.html" title="class in org.universAAL.ri.gateway.configuration">TurtleFileSecurityDefinition</a></dt>
@@ -1148,6 +1206,10 @@
 <dt><span class="memberNameLink"><a href="org/universAAL/ri/gateway/Exporter.html#Exporter-org.universAAL.ri.gateway.proxies.ProxyPool-">Exporter(ProxyPool)</a></span> - Constructor for class org.universAAL.ri.gateway.<a href="org/universAAL/ri/gateway/Exporter.html" title="class in org.universAAL.ri.gateway">Exporter</a></dt>
 <dd>
 <div class="block">Main Constructor.</div>
+</dd>
+<dt><a href="org/universAAL/ri/gateway/Exporter.NullConcurrentHashMap.html" title="class in org.universAAL.ri.gateway"><span class="typeNameLink">Exporter.NullConcurrentHashMap</span></a> - Class in <a href="org/universAAL/ri/gateway/package-summary.html">org.universAAL.ri.gateway</a></dt>
+<dd>
+<div class="block">Helper class that wraps ConcurrentHashMap allowing for null values.</div>
 </dd>
 </dl>
 <a name="I:F">
@@ -1171,6 +1233,10 @@
 <dd>
 <div class="block">Delimiter in a HTTP response to indicate the serialized ontological
  result in turtle starts in the next line</div>
+</dd>
+<dt><span class="memberNameLink"><a href="org/universAAL/ri/gateway/proxies/BusMemberReferenceTemporal.html#flush-java.lang.String-">flush(String)</a></span> - Method in class org.universAAL.ri.gateway.proxies.<a href="org/universAAL/ri/gateway/proxies/BusMemberReferenceTemporal.html" title="class in org.universAAL.ri.gateway.proxies">BusMemberReferenceTemporal</a></dt>
+<dd>
+<div class="block">Send all pending events / requests, now that we know the busmemberID.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="org/universAAL/ri/api/manager/server/Base64.OutputStream.html#flushBase64--">flushBase64()</a></span> - Method in class org.universAAL.ri.api.manager.server.<a href="org/universAAL/ri/api/manager/server/Base64.OutputStream.html" title="class in org.universAAL.ri.api.manager.server">Base64.OutputStream</a></dt>
 <dd>
@@ -1260,8 +1326,21 @@
 <dd>
 <div class="block">Get the busmemberId.</div>
 </dd>
-<dt><span class="memberNameLink"><a href="org/universAAL/ri/gateway/protocol/Message.html#getBytes--">getBytes()</a></span> - Method in class org.universAAL.ri.gateway.protocol.<a href="org/universAAL/ri/gateway/protocol/Message.html" title="class in org.universAAL.ri.gateway.protocol">Message</a></dt>
-<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="org/universAAL/ri/gateway/configuration/Configuration.html#getCacheBeforeConnect--">getCacheBeforeConnect()</a></span> - Method in interface org.universAAL.ri.gateway.configuration.<a href="org/universAAL/ri/gateway/configuration/Configuration.html" title="interface in org.universAAL.ri.gateway.configuration">Configuration</a></dt>
+<dd>
+<div class="block">Get the configuration that states that the gateway should cache messages
+ before actual connection.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="org/universAAL/ri/gateway/configuration/ConfigurationFile.html#getCacheBeforeConnect--">getCacheBeforeConnect()</a></span> - Method in class org.universAAL.ri.gateway.configuration.<a href="org/universAAL/ri/gateway/configuration/ConfigurationFile.html" title="class in org.universAAL.ri.gateway.configuration">ConfigurationFile</a></dt>
+<dd>
+<div class="block">Get the configuration that states that the gateway should cache messages
+ before actual connection.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="org/universAAL/ri/gateway/Session.html#getCacheBeforeConnect--">getCacheBeforeConnect()</a></span> - Method in class org.universAAL.ri.gateway.<a href="org/universAAL/ri/gateway/Session.html" title="class in org.universAAL.ri.gateway">Session</a></dt>
+<dd>
+<div class="block">Get the configuration that states that the gateway should cache messages
+ before actual connection.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="org/universAAL/ri/rest/manager/resources/Callee.html#getCallback--">getCallback()</a></span> - Method in class org.universAAL.ri.rest.manager.resources.<a href="org/universAAL/ri/rest/manager/resources/Callee.html" title="class in org.universAAL.ri.rest.manager.resources">Callee</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/universAAL/ri/rest/manager/resources/Space.html#getCallback--">getCallback()</a></span> - Method in class org.universAAL.ri.rest.manager.resources.<a href="org/universAAL/ri/rest/manager/resources/Space.html" title="class in org.universAAL.ri.rest.manager.resources">Space</a></dt>
@@ -1419,8 +1498,6 @@
 <dd>
 <div class="block">Returns documentation of a web service</div>
 </dd>
-<dt><span class="memberNameLink"><a href="org/universAAL/ri/gateway/configuration/ConfigurationFile.html#getEncryptionKey--">getEncryptionKey()</a></span> - Method in class org.universAAL.ri.gateway.configuration.<a href="org/universAAL/ri/gateway/configuration/ConfigurationFile.html" title="class in org.universAAL.ri.gateway.configuration">ConfigurationFile</a></dt>
-<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/universAAL/ri/gateway/protocol/ErrorMessage.html#getErroneousMessage--">getErroneousMessage()</a></span> - Method in class org.universAAL.ri.gateway.protocol.<a href="org/universAAL/ri/gateway/protocol/ErrorMessage.html" title="class in org.universAAL.ri.gateway.protocol">ErrorMessage</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/universAAL/ri/gateway/Gateway.html#getExporter--">getExporter()</a></span> - Method in class org.universAAL.ri.gateway.<a href="org/universAAL/ri/gateway/Gateway.html" title="class in org.universAAL.ri.gateway">Gateway</a></dt>
@@ -1634,6 +1711,22 @@
 </dd>
 <dt><span class="memberNameLink"><a href="org/universAAL/ri/gateway/log/LoggerFactory.html#getLogger-java.lang.Class-">getLogger(Class&lt;?&gt;)</a></span> - Method in class org.universAAL.ri.gateway.log.<a href="org/universAAL/ri/gateway/log/LoggerFactory.html" title="class in org.universAAL.ri.gateway.log">LoggerFactory</a></dt>
 <dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="org/universAAL/ri/gateway/configuration/Configuration.html#getMaxExportAttempts--">getMaxExportAttempts()</a></span> - Method in interface org.universAAL.ri.gateway.configuration.<a href="org/universAAL/ri/gateway/configuration/Configuration.html" title="interface in org.universAAL.ri.gateway.configuration">Configuration</a></dt>
+<dd>
+<div class="block">Get the max Export Attempts.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="org/universAAL/ri/gateway/configuration/ConfigurationFile.html#getMaxExportAttempts--">getMaxExportAttempts()</a></span> - Method in class org.universAAL.ri.gateway.configuration.<a href="org/universAAL/ri/gateway/configuration/ConfigurationFile.html" title="class in org.universAAL.ri.gateway.configuration">ConfigurationFile</a></dt>
+<dd>
+<div class="block">Get the max Export Attempts.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="org/universAAL/ri/gateway/configuration/Configuration.html#getMaxQueueSize--">getMaxQueueSize()</a></span> - Method in interface org.universAAL.ri.gateway.configuration.<a href="org/universAAL/ri/gateway/configuration/Configuration.html" title="interface in org.universAAL.ri.gateway.configuration">Configuration</a></dt>
+<dd>
+<div class="block">Get the max message queue size.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="org/universAAL/ri/gateway/configuration/ConfigurationFile.html#getMaxQueueSize--">getMaxQueueSize()</a></span> - Method in class org.universAAL.ri.gateway.configuration.<a href="org/universAAL/ri/gateway/configuration/ConfigurationFile.html" title="class in org.universAAL.ri.gateway.configuration">ConfigurationFile</a></dt>
+<dd>
+<div class="block">Get the max message queue size.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="org/universAAL/ri/gateway/protocol/WrappedBusMessage.html#getMessage--">getMessage()</a></span> - Method in class org.universAAL.ri.gateway.protocol.<a href="org/universAAL/ri/gateway/protocol/WrappedBusMessage.html" title="class in org.universAAL.ri.gateway.protocol">WrappedBusMessage</a></dt>
 <dd>
 <div class="block">Un-marshal the Content into a BusMessage.</div>
@@ -1653,11 +1746,11 @@
 <dt><span class="memberNameLink"><a href="org/universAAL/ri/gateway/Gateway.html#getName--">getName()</a></span> - Method in class org.universAAL.ri.gateway.<a href="org/universAAL/ri/gateway/Gateway.html" title="class in org.universAAL.ri.gateway">Gateway</a></dt>
 <dt><span class="memberNameLink"><a href="org/universAAL/ri/gateway/SessionEventListener.html#getName--">getName()</a></span> - Method in interface org.universAAL.ri.gateway.<a href="org/universAAL/ri/gateway/SessionEventListener.html" title="interface in org.universAAL.ri.gateway">SessionEventListener</a></dt>
 <dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="org/universAAL/ri/gateway/communicator/service/impl/AbstractLinkHandler.html#getNextMessage-java.io.InputStream-">getNextMessage(InputStream)</a></span> - Method in class org.universAAL.ri.gateway.communicator.service.impl.<a href="org/universAAL/ri/gateway/communicator/service/impl/AbstractLinkHandler.html" title="class in org.universAAL.ri.gateway.communicator.service.impl">AbstractLinkHandler</a></dt>
-<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/universAAL/ri/wsdlToolkit/parser/WSDL_XSD_SchemaToolkit.html#getNodeOfType-java.lang.String-javax.wsdl.extensions.schema.Schema-java.lang.String-">getNodeOfType(String, Schema, String)</a></span> - Static method in class org.universAAL.ri.wsdlToolkit.parser.<a href="org/universAAL/ri/wsdlToolkit/parser/WSDL_XSD_SchemaToolkit.html" title="class in org.universAAL.ri.wsdlToolkit.parser">WSDL_XSD_SchemaToolkit</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/universAAL/ri/wsdlToolkit/parser/WSDL_XSD_SchemaToolkit.html#getNodeOfType_ITERATIVE-java.lang.String-javax.wsdl.extensions.schema.Schema-java.lang.String-javax.wsdl.extensions.schema.Schema-">getNodeOfType_ITERATIVE(String, Schema, String, Schema)</a></span> - Static method in class org.universAAL.ri.wsdlToolkit.parser.<a href="org/universAAL/ri/wsdlToolkit/parser/WSDL_XSD_SchemaToolkit.html" title="class in org.universAAL.ri.wsdlToolkit.parser">WSDL_XSD_SchemaToolkit</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="org/universAAL/ri/gateway/Exporter.NullConcurrentHashMap.html#getNullable-java.lang.Object-">getNullable(Object)</a></span> - Method in class org.universAAL.ri.gateway.<a href="org/universAAL/ri/gateway/Exporter.NullConcurrentHashMap.html" title="class in org.universAAL.ri.gateway">Exporter.NullConcurrentHashMap</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/universAAL/ri/wsdlToolkit/ioApi/ComplexObject.html#getObjectName--">getObjectName()</a></span> - Method in class org.universAAL.ri.wsdlToolkit.ioApi.<a href="org/universAAL/ri/wsdlToolkit/ioApi/ComplexObject.html" title="class in org.universAAL.ri.wsdlToolkit.ioApi">ComplexObject</a></dt>
 <dd>&nbsp;</dd>
@@ -1882,6 +1975,14 @@
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/universAAL/ri/gateway/Gateway.html#getServers--">getServers()</a></span> - Method in class org.universAAL.ri.gateway.<a href="org/universAAL/ri/gateway/Gateway.html" title="class in org.universAAL.ri.gateway">Gateway</a></dt>
 <dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="org/universAAL/ri/gateway/configuration/Configuration.html#getServerThreads--">getServerThreads()</a></span> - Method in interface org.universAAL.ri.gateway.configuration.<a href="org/universAAL/ri/gateway/configuration/Configuration.html" title="interface in org.universAAL.ri.gateway.configuration">Configuration</a></dt>
+<dd>
+<div class="block">Get the configuration of threads for the server.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="org/universAAL/ri/gateway/configuration/ConfigurationFile.html#getServerThreads--">getServerThreads()</a></span> - Method in class org.universAAL.ri.gateway.configuration.<a href="org/universAAL/ri/gateway/configuration/ConfigurationFile.html" title="class in org.universAAL.ri.gateway.configuration">ConfigurationFile</a></dt>
+<dd>
+<div class="block">Get the configuration of threads for the server.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="org/universAAL/ri/api/manager/Configuration.html#getServerUSR--">getServerUSR()</a></span> - Static method in class org.universAAL.ri.api.manager.<a href="org/universAAL/ri/api/manager/Configuration.html" title="class in org.universAAL.ri.api.manager">Configuration</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/universAAL/ri/rest/manager/server/Configuration.html#getServerUSR--">getServerUSR()</a></span> - Static method in class org.universAAL.ri.rest.manager.server.<a href="org/universAAL/ri/rest/manager/server/Configuration.html" title="class in org.universAAL.ri.rest.manager.server">Configuration</a></dt>
@@ -1996,6 +2097,18 @@
 <dd>
 <div class="block">Get an instance of ExecutorService that provides access to a Fixed size
  Thread Pool</div>
+</dd>
+<dt><span class="memberNameLink"><a href="org/universAAL/ri/gateway/configuration/Configuration.html#getTimeout--">getTimeout()</a></span> - Method in interface org.universAAL.ri.gateway.configuration.<a href="org/universAAL/ri/gateway/configuration/Configuration.html" title="interface in org.universAAL.ri.gateway.configuration">Configuration</a></dt>
+<dd>
+<div class="block">Get the configured maximum time for timeouts.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="org/universAAL/ri/gateway/configuration/ConfigurationFile.html#getTimeout--">getTimeout()</a></span> - Method in class org.universAAL.ri.gateway.configuration.<a href="org/universAAL/ri/gateway/configuration/ConfigurationFile.html" title="class in org.universAAL.ri.gateway.configuration">ConfigurationFile</a></dt>
+<dd>
+<div class="block">Get the configured maximum time for timeouts.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="org/universAAL/ri/gateway/Session.html#getTimeout--">getTimeout()</a></span> - Method in class org.universAAL.ri.gateway.<a href="org/universAAL/ri/gateway/Session.html" title="class in org.universAAL.ri.gateway">Session</a></dt>
+<dd>
+<div class="block">Gets timeout configuration for session.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="org/universAAL/ri/soap/cxf/server/ServiceImpl.html#getTurtleServiceReq-java.lang.String-">getTurtleServiceReq(String)</a></span> - Method in class org.universAAL.ri.soap.cxf.server.<a href="org/universAAL/ri/soap/cxf/server/ServiceImpl.html" title="class in org.universAAL.ri.soap.cxf.server">ServiceImpl</a></dt>
 <dd>&nbsp;</dd>
@@ -2132,7 +2245,7 @@
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/universAAL/ri/gateway/communicator/service/impl/AbstractLinkHandler.html#handleSessionProtocol-org.universAAL.ri.gateway.protocol.Message-">handleSessionProtocol(Message)</a></span> - Method in class org.universAAL.ri.gateway.communicator.service.impl.<a href="org/universAAL/ri/gateway/communicator/service/impl/AbstractLinkHandler.html" title="class in org.universAAL.ri.gateway.communicator.service.impl">AbstractLinkHandler</a></dt>
 <dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="org/universAAL/ri/gateway/configuration/PropertiesFileKeys.html#HASH_KEY">HASH_KEY</a></span> - Static variable in interface org.universAAL.ri.gateway.configuration.<a href="org/universAAL/ri/gateway/configuration/PropertiesFileKeys.html" title="interface in org.universAAL.ri.gateway.configuration">PropertiesFileKeys</a></dt>
+<dt><span class="memberNameLink"><a href="org/universAAL/ri/gateway/communication/cipher/LegacyBlowfishCipher.html#HASH_KEY">HASH_KEY</a></span> - Static variable in class org.universAAL.ri.gateway.communication.cipher.<a href="org/universAAL/ri/gateway/communication/cipher/LegacyBlowfishCipher.html" title="class in org.universAAL.ri.gateway.communication.cipher">LegacyBlowfishCipher</a></dt>
 <dd>
 <div class="block">The Key for encryption.</div>
 </dd>
@@ -2391,12 +2504,20 @@
 <dd>
 <div class="block">Parameter in the HTTP request (optional) for the version of the client</div>
 </dd>
+<dt><span class="memberNameLink"><a href="org/universAAL/ri/gateway/communication/cipher/SSLCipher.html#KEYSTORE">KEYSTORE</a></span> - Static variable in class org.universAAL.ri.gateway.communication.cipher.<a href="org/universAAL/ri/gateway/communication/cipher/SSLCipher.html" title="class in org.universAAL.ri.gateway.communication.cipher">SSLCipher</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="org/universAAL/ri/gateway/communication/cipher/SSLCipher.html#KEYSTORE_PASS">KEYSTORE_PASS</a></span> - Static variable in class org.universAAL.ri.gateway.communication.cipher.<a href="org/universAAL/ri/gateway/communication/cipher/SSLCipher.html" title="class in org.universAAL.ri.gateway.communication.cipher">SSLCipher</a></dt>
+<dd>&nbsp;</dd>
 </dl>
 <a name="I:L">
 <!--   -->
 </a>
 <h2 class="title">L</h2>
 <dl>
+<dt><a href="org/universAAL/ri/gateway/communication/cipher/LegacyBlowfishCipher.html" title="class in org.universAAL.ri.gateway.communication.cipher"><span class="typeNameLink">LegacyBlowfishCipher</span></a> - Class in <a href="org/universAAL/ri/gateway/communication/cipher/package-summary.html">org.universAAL.ri.gateway.communication.cipher</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="org/universAAL/ri/gateway/communication/cipher/LegacyBlowfishCipher.html#LegacyBlowfishCipher--">LegacyBlowfishCipher()</a></span> - Constructor for class org.universAAL.ri.gateway.communication.cipher.<a href="org/universAAL/ri/gateway/communication/cipher/LegacyBlowfishCipher.html" title="class in org.universAAL.ri.gateway.communication.cipher">LegacyBlowfishCipher</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="org/universAAL/ri/gateway/protocol/LinkMessage.html" title="class in org.universAAL.ri.gateway.protocol"><span class="typeNameLink">LinkMessage</span></a> - Class in <a href="org/universAAL/ri/gateway/protocol/package-summary.html">org.universAAL.ri.gateway.protocol</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/universAAL/ri/gateway/protocol/LinkMessage.html#LinkMessage--">LinkMessage()</a></span> - Constructor for class org.universAAL.ri.gateway.protocol.<a href="org/universAAL/ri/gateway/protocol/LinkMessage.html" title="class in org.universAAL.ri.gateway.protocol">LinkMessage</a></dt>
@@ -2590,12 +2711,17 @@
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/universAAL/ri/gateway/configuration/NoSecurityDefinition.html#NoSecurityDefinition--">NoSecurityDefinition()</a></span> - Constructor for class org.universAAL.ri.gateway.configuration.<a href="org/universAAL/ri/gateway/configuration/NoSecurityDefinition.html" title="class in org.universAAL.ri.gateway.configuration">NoSecurityDefinition</a></dt>
 <dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="org/universAAL/ri/gateway/Exporter.NullConcurrentHashMap.html#NULL_RESOURCE">NULL_RESOURCE</a></span> - Static variable in class org.universAAL.ri.gateway.<a href="org/universAAL/ri/gateway/Exporter.NullConcurrentHashMap.html" title="class in org.universAAL.ri.gateway">Exporter.NullConcurrentHashMap</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="org/universAAL/ri/gateway/Exporter.NullConcurrentHashMap.html#NullConcurrentHashMap--">NullConcurrentHashMap()</a></span> - Constructor for class org.universAAL.ri.gateway.<a href="org/universAAL/ri/gateway/Exporter.NullConcurrentHashMap.html" title="class in org.universAAL.ri.gateway">Exporter.NullConcurrentHashMap</a></dt>
+<dd>&nbsp;</dd>
 </dl>
 <a name="I:O">
 <!--   -->
 </a>
 <h2 class="title">O</h2>
 <dl>
+<dt><span class="memberNameLink"><a href="org/universAAL/ri/gateway/utils/BufferedQueue.html#offer-A-">offer(A)</a></span> - Method in class org.universAAL.ri.gateway.utils.<a href="org/universAAL/ri/gateway/utils/BufferedQueue.html" title="class in org.universAAL.ri.gateway.utils">BufferedQueue</a></dt>
 <dt><span class="memberNameLink"><a href="org/universAAL/ri/gateway/utils/CallSynchronizer.html#operate-ID-INPUT-">operate(ID, INPUT)</a></span> - Method in class org.universAAL.ri.gateway.utils.<a href="org/universAAL/ri/gateway/utils/CallSynchronizer.html" title="class in org.universAAL.ri.gateway.utils">CallSynchronizer</a></dt>
 <dd>
 <div class="block">This method operates the call, it performs the adequate operations to
@@ -3005,8 +3131,17 @@
 </dd>
 <dt><span class="memberNameLink"><a href="org/universAAL/ri/restToolkit/RestClient.html#postRequest-java.lang.String-java.util.HashMap-">postRequest(String, HashMap&lt;String, String&gt;)</a></span> - Static method in class org.universAAL.ri.restToolkit.<a href="org/universAAL/ri/restToolkit/RestClient.html" title="class in org.universAAL.ri.restToolkit">RestClient</a></dt>
 <dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="org/universAAL/ri/gateway/configuration/PropertiesFileKeys.html#PRE_CONN_CACHE">PRE_CONN_CACHE</a></span> - Static variable in interface org.universAAL.ri.gateway.configuration.<a href="org/universAAL/ri/gateway/configuration/PropertiesFileKeys.html" title="interface in org.universAAL.ri.gateway.configuration">PropertiesFileKeys</a></dt>
+<dd>
+<div class="block">System property indicating if the gateway should cache messages before
+ the connection is actually established.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="org/universAAL/ri/rest/manager/wrappers/CalleeWrapper.html#PROP_ORIGIN_CALL">PROP_ORIGIN_CALL</a></span> - Static variable in class org.universAAL.ri.rest.manager.wrappers.<a href="org/universAAL/ri/rest/manager/wrappers/CalleeWrapper.html" title="class in org.universAAL.ri.rest.manager.wrappers">CalleeWrapper</a></dt>
 <dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="org/universAAL/ri/gateway/configuration/UpdatedPropertiesFile.html#propertiesFile">propertiesFile</a></span> - Variable in class org.universAAL.ri.gateway.configuration.<a href="org/universAAL/ri/gateway/configuration/UpdatedPropertiesFile.html" title="class in org.universAAL.ri.gateway.configuration">UpdatedPropertiesFile</a></dt>
+<dd>
+<div class="block">The properties file.</div>
+</dd>
 <dt><a href="org/universAAL/ri/gateway/configuration/PropertiesFileKeys.html" title="interface in org.universAAL.ri.gateway.configuration"><span class="typeNameLink">PropertiesFileKeys</span></a> - Interface in <a href="org/universAAL/ri/gateway/configuration/package-summary.html">org.universAAL.ri.gateway.configuration</a></dt>
 <dd>
 <div class="block">Keys for the properties file.</div>
@@ -3017,7 +3152,7 @@
 </dd>
 <dt><span class="memberNameLink"><a href="org/universAAL/ri/api/manager/RemoteAPIImpl.html#provideS-java.lang.String-java.lang.String-">provideS(String, String)</a></span> - Method in class org.universAAL.ri.api.manager.<a href="org/universAAL/ri/api/manager/RemoteAPIImpl.html" title="class in org.universAAL.ri.api.manager">RemoteAPIImpl</a></dt>
 <dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="org/universAAL/ri/api/manager/RemoteUAAL.html#provideS-org.universAAL.middleware.service.owls.profile.ServiceProfile:A-org.universAAL.support.utils.ISListener-">provideS(ServiceProfile[], ISListener)</a></span> - Method in class org.universAAL.ri.api.manager.<a href="org/universAAL/ri/api/manager/RemoteUAAL.html" title="class in org.universAAL.ri.api.manager">RemoteUAAL</a></dt>
+<dt><span class="memberNameLink"><a href="org/universAAL/ri/api/manager/RemoteUAAL.html#provideS-org.universAAL.middleware.service.owls.profile.ServiceProfile:A-org.universAAL.utilities.api.ISListener-">provideS(ServiceProfile[], ISListener)</a></span> - Method in class org.universAAL.ri.api.manager.<a href="org/universAAL/ri/api/manager/RemoteUAAL.html" title="class in org.universAAL.ri.api.manager">RemoteUAAL</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="org/universAAL/ri/gateway/proxies/ProxyBusMember.html" title="interface in org.universAAL.ri.gateway.proxies"><span class="typeNameLink">ProxyBusMember</span></a> - Interface in <a href="org/universAAL/ri/gateway/proxies/package-summary.html">org.universAAL.ri.gateway.proxies</a></dt>
 <dd>
@@ -3166,10 +3301,22 @@
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/universAAL/ri/rest/manager/resources/Caller.html#putCallerResource-java.lang.String-java.lang.String-org.universAAL.ri.rest.manager.resources.Caller-">putCallerResource(String, String, Caller)</a></span> - Method in class org.universAAL.ri.rest.manager.resources.<a href="org/universAAL/ri/rest/manager/resources/Caller.html" title="class in org.universAAL.ri.rest.manager.resources">Caller</a></dt>
 <dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="org/universAAL/ri/gateway/Exporter.NullConcurrentHashMap.html#putNullable-java.lang.String-org.universAAL.middleware.rdf.Resource:A-">putNullable(String, Resource[])</a></span> - Method in class org.universAAL.ri.gateway.<a href="org/universAAL/ri/gateway/Exporter.NullConcurrentHashMap.html" title="class in org.universAAL.ri.gateway">Exporter.NullConcurrentHashMap</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/universAAL/ri/rest/manager/resources/Publisher.html#putPublisherResource-java.lang.String-java.lang.String-org.universAAL.ri.rest.manager.resources.Publisher-">putPublisherResource(String, String, Publisher)</a></span> - Method in class org.universAAL.ri.rest.manager.resources.<a href="org/universAAL/ri/rest/manager/resources/Publisher.html" title="class in org.universAAL.ri.rest.manager.resources">Publisher</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/universAAL/ri/rest/manager/resources/Space.html#putSpaceResource-java.lang.String-org.universAAL.ri.rest.manager.resources.Space-">putSpaceResource(String, Space)</a></span> - Method in class org.universAAL.ri.rest.manager.resources.<a href="org/universAAL/ri/rest/manager/resources/Space.html" title="class in org.universAAL.ri.rest.manager.resources">Space</a></dt>
 <dd>&nbsp;</dd>
+</dl>
+<a name="I:Q">
+<!--   -->
+</a>
+<h2 class="title">Q</h2>
+<dl>
+<dt><span class="memberNameLink"><a href="org/universAAL/ri/gateway/configuration/PropertiesFileKeys.html#QUEUES">QUEUES</a></span> - Static variable in interface org.universAAL.ri.gateway.configuration.<a href="org/universAAL/ri/gateway/configuration/PropertiesFileKeys.html" title="interface in org.universAAL.ri.gateway.configuration">PropertiesFileKeys</a></dt>
+<dd>
+<div class="block">System property indicating the maximum size of message queues</div>
+</dd>
 </dl>
 <a name="I:R">
 <!--   -->
@@ -3212,11 +3359,27 @@
 <div class="block">Calls <a href="org/universAAL/ri/servicegateway/impl/Base64.InputStream.html#read--"><code>Base64.InputStream.read()</code></a> repeatedly until the end of stream is reached
  or <var>len</var> bytes are read.</div>
 </dd>
-<dt><span class="memberNameLink"><a href="org/universAAL/ri/gateway/communicator/service/CommunicationHelper.html#readAndDecypher-java.io.InputStream-org.universAAL.ri.gateway.communication.cipher.Cipher-">readAndDecypher(InputStream, Cipher)</a></span> - Static method in class org.universAAL.ri.gateway.communicator.service.<a href="org/universAAL/ri/gateway/communicator/service/CommunicationHelper.html" title="class in org.universAAL.ri.gateway.communicator.service">CommunicationHelper</a></dt>
+<dt><span class="memberNameLink"><a href="org/universAAL/ri/gateway/communication/cipher/ClearTextCipher.html#readMessage--">readMessage()</a></span> - Method in class org.universAAL.ri.gateway.communication.cipher.<a href="org/universAAL/ri/gateway/communication/cipher/ClearTextCipher.html" title="class in org.universAAL.ri.gateway.communication.cipher">ClearTextCipher</a></dt>
+<dd>
+<div class="block">Read the next message in the socket.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="org/universAAL/ri/gateway/communication/cipher/LegacyBlowfishCipher.html#readMessage--">readMessage()</a></span> - Method in class org.universAAL.ri.gateway.communication.cipher.<a href="org/universAAL/ri/gateway/communication/cipher/LegacyBlowfishCipher.html" title="class in org.universAAL.ri.gateway.communication.cipher">LegacyBlowfishCipher</a></dt>
 <dd>
 <div class="block">Read data from a stream and decrypt it and convert to a <a href="org/universAAL/ri/gateway/protocol/Message.html" title="class in org.universAAL.ri.gateway.protocol"><code>Message</code></a>.</div>
 </dd>
-<dt><span class="memberNameLink"><a href="org/universAAL/ri/gateway/communicator/service/impl/AbstractSocketCommunicationHandler.html#readMessage-java.io.InputStream-">readMessage(InputStream)</a></span> - Method in class org.universAAL.ri.gateway.communicator.service.impl.<a href="org/universAAL/ri/gateway/communicator/service/impl/AbstractSocketCommunicationHandler.html" title="class in org.universAAL.ri.gateway.communicator.service.impl">AbstractSocketCommunicationHandler</a></dt>
+<dt><span class="memberNameLink"><a href="org/universAAL/ri/gateway/communication/cipher/SocketCipher.html#readMessage--">readMessage()</a></span> - Method in interface org.universAAL.ri.gateway.communication.cipher.<a href="org/universAAL/ri/gateway/communication/cipher/SocketCipher.html" title="interface in org.universAAL.ri.gateway.communication.cipher">SocketCipher</a></dt>
+<dd>
+<div class="block">Read the next message in the socket.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="org/universAAL/ri/gateway/communication/cipher/SSLCipher.html#readMessage--">readMessage()</a></span> - Method in class org.universAAL.ri.gateway.communication.cipher.<a href="org/universAAL/ri/gateway/communication/cipher/SSLCipher.html" title="class in org.universAAL.ri.gateway.communication.cipher">SSLCipher</a></dt>
+<dd>
+<div class="block">Read the next message in the socket.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="org/universAAL/ri/gateway/communication/cipher/StreamCipher.html#readMessage--">readMessage()</a></span> - Method in class org.universAAL.ri.gateway.communication.cipher.<a href="org/universAAL/ri/gateway/communication/cipher/StreamCipher.html" title="class in org.universAAL.ri.gateway.communication.cipher">StreamCipher</a></dt>
+<dd>
+<div class="block">Read the next message in the socket.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="org/universAAL/ri/gateway/communicator/service/impl/AbstractSocketCommunicationHandler.html#readMessage--">readMessage()</a></span> - Method in class org.universAAL.ri.gateway.communicator.service.impl.<a href="org/universAAL/ri/gateway/communicator/service/impl/AbstractSocketCommunicationHandler.html" title="class in org.universAAL.ri.gateway.communicator.service.impl">AbstractSocketCommunicationHandler</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/universAAL/ri/wsdlToolkit/parser/StdOutErrLevel.html#readResolve--">readResolve()</a></span> - Method in class org.universAAL.ri.wsdlToolkit.parser.<a href="org/universAAL/ri/wsdlToolkit/parser/StdOutErrLevel.html" title="class in org.universAAL.ri.wsdlToolkit.parser">StdOutErrLevel</a></dt>
 <dd>
@@ -3282,8 +3445,8 @@
 </dd>
 <dt><span class="memberNameLink"><a href="org/universAAL/ri/gateway/configuration/PropertiesFileKeys.html#REMOTE_HOST">REMOTE_HOST</a></span> - Static variable in interface org.universAAL.ri.gateway.configuration.<a href="org/universAAL/ri/gateway/configuration/PropertiesFileKeys.html" title="interface in org.universAAL.ri.gateway.configuration">PropertiesFileKeys</a></dt>
 <dd>
-<div class="block">System property used for specifying remote Space Gateways addresses
- that is running in Server Mode and that we should connect to</div>
+<div class="block">System property used for specifying remote Space Gateways addresses that
+ is running in Server Mode and that we should connect to</div>
 </dd>
 <dt><span class="memberNameLink"><a href="org/universAAL/ri/api/manager/RemoteAPI.html#REMOTE_POST">REMOTE_POST</a></span> - Static variable in interface org.universAAL.ri.api.manager.<a href="org/universAAL/ri/api/manager/RemoteAPI.html" title="interface in org.universAAL.ri.api.manager">RemoteAPI</a></dt>
 <dd>
@@ -3546,12 +3709,20 @@
 <dt><span class="memberNameLink"><a href="org/universAAL/ri/gateway/configuration/PropertiesFileKeys.html#SECURITY_DEFINITION">SECURITY_DEFINITION</a></span> - Static variable in interface org.universAAL.ri.gateway.configuration.<a href="org/universAAL/ri/gateway/configuration/PropertiesFileKeys.html" title="interface in org.universAAL.ri.gateway.configuration">PropertiesFileKeys</a></dt>
 <dd>
 <div class="block">System property that defines the turtle file that defines which imports,
- exports, and messages are allowed or denyed.</div>
+ exports, and messages are allowed or denied.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="org/universAAL/ri/gateway/protocol/MessageSender.html#send-org.universAAL.ri.gateway.protocol.Message-">send(Message)</a></span> - Method in interface org.universAAL.ri.gateway.protocol.<a href="org/universAAL/ri/gateway/protocol/MessageSender.html" title="interface in org.universAAL.ri.gateway.protocol">MessageSender</a></dt>
 <dd>
 <div class="block">Send Asynchronously a <a href="org/universAAL/ri/gateway/protocol/Message.html" title="class in org.universAAL.ri.gateway.protocol"><code>Message</code></a> independent of which level it is,
  to a remote ASG.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="org/universAAL/ri/gateway/proxies/BusMemberReference.html#send-org.universAAL.middleware.rdf.ScopedResource-">send(ScopedResource)</a></span> - Method in class org.universAAL.ri.gateway.proxies.<a href="org/universAAL/ri/gateway/proxies/BusMemberReference.html" title="class in org.universAAL.ri.gateway.proxies">BusMemberReference</a></dt>
+<dd>
+<div class="block">To be used by <a href="org/universAAL/ri/gateway/proxies/ProxyBusMember.html" title="interface in org.universAAL.ri.gateway.proxies"><code>ProxyBusMember</code></a>s.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="org/universAAL/ri/gateway/proxies/BusMemberReferenceTemporal.html#send-org.universAAL.middleware.rdf.ScopedResource-">send(ScopedResource)</a></span> - Method in class org.universAAL.ri.gateway.proxies.<a href="org/universAAL/ri/gateway/proxies/BusMemberReferenceTemporal.html" title="class in org.universAAL.ri.gateway.proxies">BusMemberReferenceTemporal</a></dt>
+<dd>
+<div class="block">To be used by <a href="org/universAAL/ri/gateway/proxies/ProxyBusMember.html" title="interface in org.universAAL.ri.gateway.proxies"><code>ProxyBusMember</code></a>s.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="org/universAAL/ri/gateway/Session.html#send-org.universAAL.ri.gateway.protocol.Message-">send(Message)</a></span> - Method in class org.universAAL.ri.gateway.<a href="org/universAAL/ri/gateway/Session.html" title="class in org.universAAL.ri.gateway">Session</a></dt>
 <dd>&nbsp;</dd>
@@ -3578,6 +3749,10 @@
 </dd>
 <dt><span class="memberNameLink"><a href="org/universAAL/ri/api/manager/RemoteAPIImpl.html#sendC-java.lang.String-java.lang.String-">sendC(String, String)</a></span> - Method in class org.universAAL.ri.api.manager.<a href="org/universAAL/ri/api/manager/RemoteAPIImpl.html" title="class in org.universAAL.ri.api.manager">RemoteAPIImpl</a></dt>
 <dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="org/universAAL/ri/gateway/proxies/BusMemberReference.html#sender">sender</a></span> - Variable in class org.universAAL.ri.gateway.proxies.<a href="org/universAAL/ri/gateway/proxies/BusMemberReference.html" title="class in org.universAAL.ri.gateway.proxies">BusMemberReference</a></dt>
+<dd>
+<div class="block"><a href="org/universAAL/ri/gateway/Session.html" title="class in org.universAAL.ri.gateway"><code>Session</code></a> to use in order to reach the <code>BusMember</code></div>
+</dd>
 <dt><a href="org/universAAL/ri/keepalive/sender/Sender.html" title="class in org.universAAL.ri.keepalive.sender"><span class="typeNameLink">Sender</span></a> - Class in <a href="org/universAAL/ri/keepalive/sender/package-summary.html">org.universAAL.ri.keepalive.sender</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/universAAL/ri/keepalive/sender/Sender.html#Sender--">Sender()</a></span> - Constructor for class org.universAAL.ri.keepalive.sender.<a href="org/universAAL/ri/keepalive/sender/Sender.html" title="class in org.universAAL.ri.keepalive.sender">Sender</a></dt>
@@ -3588,25 +3763,44 @@
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/universAAL/ri/keepalive/receiver/SendMail.html#SendMail--">SendMail()</a></span> - Constructor for class org.universAAL.ri.keepalive.receiver.<a href="org/universAAL/ri/keepalive/receiver/SendMail.html" title="class in org.universAAL.ri.keepalive.receiver">SendMail</a></dt>
 <dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="org/universAAL/ri/gateway/communication/cipher/ClearTextCipher.html#sendMessage-org.universAAL.ri.gateway.protocol.Message-">sendMessage(Message)</a></span> - Method in class org.universAAL.ri.gateway.communication.cipher.<a href="org/universAAL/ri/gateway/communication/cipher/ClearTextCipher.html" title="class in org.universAAL.ri.gateway.communication.cipher">ClearTextCipher</a></dt>
+<dd>
+<div class="block">Marshalls, ciphers and sends the message.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="org/universAAL/ri/gateway/communication/cipher/LegacyBlowfishCipher.html#sendMessage-org.universAAL.ri.gateway.protocol.Message-">sendMessage(Message)</a></span> - Method in class org.universAAL.ri.gateway.communication.cipher.<a href="org/universAAL/ri/gateway/communication/cipher/LegacyBlowfishCipher.html" title="class in org.universAAL.ri.gateway.communication.cipher">LegacyBlowfishCipher</a></dt>
+<dd>
+<div class="block">This method encrypt and send the given data by adding at the begging of
+ the encrypted data the length of the data that will be sent</div>
+</dd>
+<dt><span class="memberNameLink"><a href="org/universAAL/ri/gateway/communication/cipher/SocketCipher.html#sendMessage-org.universAAL.ri.gateway.protocol.Message-">sendMessage(Message)</a></span> - Method in interface org.universAAL.ri.gateway.communication.cipher.<a href="org/universAAL/ri/gateway/communication/cipher/SocketCipher.html" title="interface in org.universAAL.ri.gateway.communication.cipher">SocketCipher</a></dt>
+<dd>
+<div class="block">Marshalls, ciphers and sends the message.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="org/universAAL/ri/gateway/communication/cipher/SSLCipher.html#sendMessage-org.universAAL.ri.gateway.protocol.Message-">sendMessage(Message)</a></span> - Method in class org.universAAL.ri.gateway.communication.cipher.<a href="org/universAAL/ri/gateway/communication/cipher/SSLCipher.html" title="class in org.universAAL.ri.gateway.communication.cipher">SSLCipher</a></dt>
+<dd>
+<div class="block">Marshalls, ciphers and sends the message.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="org/universAAL/ri/gateway/communication/cipher/StreamCipher.html#sendMessage-org.universAAL.ri.gateway.protocol.Message-">sendMessage(Message)</a></span> - Method in class org.universAAL.ri.gateway.communication.cipher.<a href="org/universAAL/ri/gateway/communication/cipher/StreamCipher.html" title="class in org.universAAL.ri.gateway.communication.cipher">StreamCipher</a></dt>
+<dd>
+<div class="block">Marshalls, ciphers and sends the message.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="org/universAAL/ri/gateway/communicator/service/CommunicationHandler.html#sendMessage-org.universAAL.ri.gateway.protocol.Message-java.lang.String-">sendMessage(Message, String)</a></span> - Method in interface org.universAAL.ri.gateway.communicator.service.<a href="org/universAAL/ri/gateway/communicator/service/CommunicationHandler.html" title="interface in org.universAAL.ri.gateway.communicator.service">CommunicationHandler</a></dt>
 <dd>
 <div class="block">Send the given message to a specific scope</div>
 </dd>
-<dt><span class="memberNameLink"><a href="org/universAAL/ri/gateway/communicator/service/CommunicationHandler.html#sendMessage-org.universAAL.ri.gateway.protocol.Message-java.lang.String:A-">sendMessage(Message, String[])</a></span> - Method in interface org.universAAL.ri.gateway.communicator.service.<a href="org/universAAL/ri/gateway/communicator/service/CommunicationHandler.html" title="interface in org.universAAL.ri.gateway.communicator.service">CommunicationHandler</a></dt>
-<dd>
-<div class="block"><span class="deprecatedLabel">Deprecated.</span>
-<div class="block"><span class="deprecationComment"><a href="org/universAAL/ri/gateway/communicator/service/CommunicationHandler.html#sendMessage-org.universAAL.ri.gateway.protocol.Message-java.lang.String-"><code>CommunicationHandler.sendMessage(Message, String)</code></a> should be used because
-             the Gateway will perform security check for simulating
-             multi-casting or broad-casting when needed</span></div>
-</div>
-</dd>
 <dt><span class="memberNameLink"><a href="org/universAAL/ri/gateway/communicator/service/impl/AbstractSocketCommunicationHandler.html#sendMessage-org.universAAL.ri.gateway.protocol.Message-java.lang.String-">sendMessage(Message, String)</a></span> - Method in class org.universAAL.ri.gateway.communicator.service.impl.<a href="org/universAAL/ri/gateway/communicator/service/impl/AbstractSocketCommunicationHandler.html" title="class in org.universAAL.ri.gateway.communicator.service.impl">AbstractSocketCommunicationHandler</a></dt>
-<dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="org/universAAL/ri/gateway/communicator/service/impl/AbstractSocketCommunicationHandler.html#sendMessage-org.universAAL.ri.gateway.protocol.Message-java.lang.String:A-">sendMessage(Message, String[])</a></span> - Method in class org.universAAL.ri.gateway.communicator.service.impl.<a href="org/universAAL/ri/gateway/communicator/service/impl/AbstractSocketCommunicationHandler.html" title="class in org.universAAL.ri.gateway.communicator.service.impl">AbstractSocketCommunicationHandler</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/universAAL/ri/gateway/protocol/MessageSender.html#sendRequest-org.universAAL.ri.gateway.protocol.Message-">sendRequest(Message)</a></span> - Method in interface org.universAAL.ri.gateway.protocol.<a href="org/universAAL/ri/gateway/protocol/MessageSender.html" title="interface in org.universAAL.ri.gateway.protocol">MessageSender</a></dt>
 <dd>
 <div class="block">Send a request Synchronously to which a response is expected.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="org/universAAL/ri/gateway/proxies/BusMemberReference.html#sendRequest-org.universAAL.middleware.rdf.ScopedResource-">sendRequest(ScopedResource)</a></span> - Method in class org.universAAL.ri.gateway.proxies.<a href="org/universAAL/ri/gateway/proxies/BusMemberReference.html" title="class in org.universAAL.ri.gateway.proxies">BusMemberReference</a></dt>
+<dd>
+<div class="block">To be used by <a href="org/universAAL/ri/gateway/proxies/ProxyBusMember.html" title="interface in org.universAAL.ri.gateway.proxies"><code>ProxyBusMember</code></a>s.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="org/universAAL/ri/gateway/proxies/BusMemberReferenceTemporal.html#sendRequest-org.universAAL.middleware.rdf.ScopedResource-">sendRequest(ScopedResource)</a></span> - Method in class org.universAAL.ri.gateway.proxies.<a href="org/universAAL/ri/gateway/proxies/BusMemberReferenceTemporal.html" title="class in org.universAAL.ri.gateway.proxies">BusMemberReferenceTemporal</a></dt>
+<dd>
+<div class="block">To be used by <a href="org/universAAL/ri/gateway/proxies/ProxyBusMember.html" title="interface in org.universAAL.ri.gateway.proxies"><code>ProxyBusMember</code></a>s.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="org/universAAL/ri/gateway/Session.html#sendRequest-org.universAAL.ri.gateway.protocol.Message-">sendRequest(Message)</a></span> - Method in class org.universAAL.ri.gateway.<a href="org/universAAL/ri/gateway/Session.html" title="class in org.universAAL.ri.gateway">Session</a></dt>
 <dd>&nbsp;</dd>
@@ -3616,6 +3810,11 @@
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/universAAL/ri/gateway/Server.html#Server-org.universAAL.ri.gateway.configuration.Configuration-">Server(Configuration)</a></span> - Constructor for class org.universAAL.ri.gateway.<a href="org/universAAL/ri/gateway/Server.html" title="class in org.universAAL.ri.gateway">Server</a></dt>
 <dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="org/universAAL/ri/gateway/configuration/PropertiesFileKeys.html#SERVER_THREADS">SERVER_THREADS</a></span> - Static variable in interface org.universAAL.ri.gateway.configuration.<a href="org/universAAL/ri/gateway/configuration/PropertiesFileKeys.html" title="interface in org.universAAL.ri.gateway.configuration">PropertiesFileKeys</a></dt>
+<dd>
+<div class="block">System property indicating the number of threads to be used for server
+ mode.</div>
+</dd>
 <dt><a href="org/universAAL/ri/gateway/communicator/service/impl/ServerSocketCommunicationHandler.html" title="class in org.universAAL.ri.gateway.communicator.service.impl"><span class="typeNameLink">ServerSocketCommunicationHandler</span></a> - Class in <a href="org/universAAL/ri/gateway/communicator/service/impl/package-summary.html">org.universAAL.ri.gateway.communicator.service.impl</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/universAAL/ri/gateway/communicator/service/impl/ServerSocketCommunicationHandler.html#ServerSocketCommunicationHandler-org.universAAL.ri.gateway.configuration.Configuration-">ServerSocketCommunicationHandler(Configuration)</a></span> - Constructor for class org.universAAL.ri.gateway.communicator.service.impl.<a href="org/universAAL/ri/gateway/communicator/service/impl/ServerSocketCommunicationHandler.html" title="class in org.universAAL.ri.gateway.communicator.service.impl">ServerSocketCommunicationHandler</a></dt>
@@ -3884,6 +4083,26 @@
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/universAAL/ri/wsdlToolkit/ioApi/ParsedWSDLDefinition.html#setTargetNamespaceURI-java.lang.String-">setTargetNamespaceURI(String)</a></span> - Method in class org.universAAL.ri.wsdlToolkit.ioApi.<a href="org/universAAL/ri/wsdlToolkit/ioApi/ParsedWSDLDefinition.html" title="class in org.universAAL.ri.wsdlToolkit.ioApi">ParsedWSDLDefinition</a></dt>
 <dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="org/universAAL/ri/gateway/communication/cipher/ClearTextCipher.html#setup-java.util.Properties-">setup(Properties)</a></span> - Method in class org.universAAL.ri.gateway.communication.cipher.<a href="org/universAAL/ri/gateway/communication/cipher/ClearTextCipher.html" title="class in org.universAAL.ri.gateway.communication.cipher">ClearTextCipher</a></dt>
+<dd>
+<div class="block">Set up the Cipher with the properties.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="org/universAAL/ri/gateway/communication/cipher/LegacyBlowfishCipher.html#setup-java.util.Properties-">setup(Properties)</a></span> - Method in class org.universAAL.ri.gateway.communication.cipher.<a href="org/universAAL/ri/gateway/communication/cipher/LegacyBlowfishCipher.html" title="class in org.universAAL.ri.gateway.communication.cipher">LegacyBlowfishCipher</a></dt>
+<dd>
+<div class="block">Set up the Cipher with the properties.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="org/universAAL/ri/gateway/communication/cipher/SocketCipher.html#setup-java.util.Properties-">setup(Properties)</a></span> - Method in interface org.universAAL.ri.gateway.communication.cipher.<a href="org/universAAL/ri/gateway/communication/cipher/SocketCipher.html" title="interface in org.universAAL.ri.gateway.communication.cipher">SocketCipher</a></dt>
+<dd>
+<div class="block">Set up the Cipher with the properties.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="org/universAAL/ri/gateway/communication/cipher/SSLCipher.html#setup-java.util.Properties-">setup(Properties)</a></span> - Method in class org.universAAL.ri.gateway.communication.cipher.<a href="org/universAAL/ri/gateway/communication/cipher/SSLCipher.html" title="class in org.universAAL.ri.gateway.communication.cipher">SSLCipher</a></dt>
+<dd>
+<div class="block">Set up the Cipher with the properties.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="org/universAAL/ri/gateway/communication/cipher/StreamCipher.html#setup-java.util.Properties-">setup(Properties)</a></span> - Method in class org.universAAL.ri.gateway.communication.cipher.<a href="org/universAAL/ri/gateway/communication/cipher/StreamCipher.html" title="class in org.universAAL.ri.gateway.communication.cipher">StreamCipher</a></dt>
+<dd>
+<div class="block">Set up the Cipher with the properties.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="org/universAAL/ri/wsdlToolkit/ioApi/ParsedWSDLDefinition.html#setWebServiceName-javax.xml.namespace.QName-">setWebServiceName(QName)</a></span> - Method in class org.universAAL.ri.wsdlToolkit.ioApi.<a href="org/universAAL/ri/wsdlToolkit/ioApi/ParsedWSDLDefinition.html" title="class in org.universAAL.ri.wsdlToolkit.ioApi">ParsedWSDLDefinition</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/universAAL/ri/wsdlToolkit/ioApi/ParsedWSDLDefinition.html#setWsdlOperations-java.util.Vector-">setWsdlOperations(Vector)</a></span> - Method in class org.universAAL.ri.wsdlToolkit.ioApi.<a href="org/universAAL/ri/wsdlToolkit/ioApi/ParsedWSDLDefinition.html" title="class in org.universAAL.ri.wsdlToolkit.ioApi">ParsedWSDLDefinition</a></dt>
@@ -3904,9 +4123,13 @@
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/universAAL/ri/gateway/configuration/PropertiesFileKeys.html#SOCKET_PORT">SOCKET_PORT</a></span> - Static variable in interface org.universAAL.ri.gateway.configuration.<a href="org/universAAL/ri/gateway/configuration/PropertiesFileKeys.html" title="interface in org.universAAL.ri.gateway.configuration">PropertiesFileKeys</a></dt>
 <dd>
-<div class="block">System property used for specifying the socket port of the Space
- Gateway to connec to, in case that it is running in Server-Mode it is the
- socket to listen to.</div>
+<div class="block">System property used for specifying the socket port of the Space Gateway
+ to connec to, in case that it is running in Server-Mode it is the socket
+ to listen to.</div>
+</dd>
+<dt><a href="org/universAAL/ri/gateway/communication/cipher/SocketCipher.html" title="interface in org.universAAL.ri.gateway.communication.cipher"><span class="typeNameLink">SocketCipher</span></a> - Interface in <a href="org/universAAL/ri/gateway/communication/cipher/package-summary.html">org.universAAL.ri.gateway.communication.cipher</a></dt>
+<dd>
+<div class="block">Interface used for Serializer to marshall and unmarshall messages.</div>
 </dd>
 <dt><a href="org/universAAL/ri/rest/manager/resources/Space.html" title="class in org.universAAL.ri.rest.manager.resources"><span class="typeNameLink">Space</span></a> - Class in <a href="org/universAAL/ri/rest/manager/resources/package-summary.html">org.universAAL.ri.rest.manager.resources</a></dt>
 <dd>&nbsp;</dd>
@@ -3925,6 +4148,10 @@
 <dt><span class="memberNameLink"><a href="org/universAAL/ri/rest/manager/wrappers/SpaceWrapper.html#SpaceWrapper-org.universAAL.ri.rest.manager.resources.Space-">SpaceWrapper(Space)</a></span> - Constructor for class org.universAAL.ri.rest.manager.wrappers.<a href="org/universAAL/ri/rest/manager/wrappers/SpaceWrapper.html" title="class in org.universAAL.ri.rest.manager.wrappers">SpaceWrapper</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/universAAL/ri/soap/cxf/server/ServiceImpl.html#sr">sr</a></span> - Static variable in class org.universAAL.ri.soap.cxf.server.<a href="org/universAAL/ri/soap/cxf/server/ServiceImpl.html" title="class in org.universAAL.ri.soap.cxf.server">ServiceImpl</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="org/universAAL/ri/gateway/communication/cipher/SSLCipher.html" title="class in org.universAAL.ri.gateway.communication.cipher"><span class="typeNameLink">SSLCipher</span></a> - Class in <a href="org/universAAL/ri/gateway/communication/cipher/package-summary.html">org.universAAL.ri.gateway.communication.cipher</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="org/universAAL/ri/gateway/communication/cipher/SSLCipher.html#SSLCipher--">SSLCipher()</a></span> - Constructor for class org.universAAL.ri.gateway.communication.cipher.<a href="org/universAAL/ri/gateway/communication/cipher/SSLCipher.html" title="class in org.universAAL.ri.gateway.communication.cipher">SSLCipher</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/universAAL/ri/api/manager/Activator.html#start-org.osgi.framework.BundleContext-">start(BundleContext)</a></span> - Method in class org.universAAL.ri.api.manager.<a href="org/universAAL/ri/api/manager/Activator.html" title="class in org.universAAL.ri.api.manager">Activator</a></dt>
 <dd>&nbsp;</dd>
@@ -4073,13 +4300,17 @@
 </dd>
 <dt><span class="memberNameLink"><a href="org/universAAL/ri/rest/manager/server/persistence/PersistenceDerby.html#storeUserPWD-java.lang.String-java.lang.String-">storeUserPWD(String, String)</a></span> - Method in class org.universAAL.ri.rest.manager.server.persistence.<a href="org/universAAL/ri/rest/manager/server/persistence/PersistenceDerby.html" title="class in org.universAAL.ri.rest.manager.server.persistence">PersistenceDerby</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="org/universAAL/ri/gateway/communication/cipher/StreamCipher.html" title="class in org.universAAL.ri.gateway.communication.cipher"><span class="typeNameLink">StreamCipher</span></a> - Class in <a href="org/universAAL/ri/gateway/communication/cipher/package-summary.html">org.universAAL.ri.gateway.communication.cipher</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="org/universAAL/ri/gateway/communication/cipher/StreamCipher.html#StreamCipher--">StreamCipher()</a></span> - Constructor for class org.universAAL.ri.gateway.communication.cipher.<a href="org/universAAL/ri/gateway/communication/cipher/StreamCipher.html" title="class in org.universAAL.ri.gateway.communication.cipher">StreamCipher</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/universAAL/ri/api/manager/RemoteAPI.html#subscribeC-java.lang.String-java.lang.String-">subscribeC(String, String)</a></span> - Method in interface org.universAAL.ri.api.manager.<a href="org/universAAL/ri/api/manager/RemoteAPI.html" title="interface in org.universAAL.ri.api.manager">RemoteAPI</a></dt>
 <dd>
 <div class="block">Subscribes for Context Events.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="org/universAAL/ri/api/manager/RemoteAPIImpl.html#subscribeC-java.lang.String-java.lang.String-">subscribeC(String, String)</a></span> - Method in class org.universAAL.ri.api.manager.<a href="org/universAAL/ri/api/manager/RemoteAPIImpl.html" title="class in org.universAAL.ri.api.manager">RemoteAPIImpl</a></dt>
 <dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="org/universAAL/ri/api/manager/RemoteUAAL.html#subscribeC-org.universAAL.middleware.context.ContextEventPattern:A-org.universAAL.support.utils.ICListener-">subscribeC(ContextEventPattern[], ICListener)</a></span> - Method in class org.universAAL.ri.api.manager.<a href="org/universAAL/ri/api/manager/RemoteUAAL.html" title="class in org.universAAL.ri.api.manager">RemoteUAAL</a></dt>
+<dt><span class="memberNameLink"><a href="org/universAAL/ri/api/manager/RemoteUAAL.html#subscribeC-org.universAAL.middleware.context.ContextEventPattern:A-org.universAAL.utilities.api.ICListener-">subscribeC(ContextEventPattern[], ICListener)</a></span> - Method in class org.universAAL.ri.api.manager.<a href="org/universAAL/ri/api/manager/RemoteUAAL.html" title="class in org.universAAL.ri.api.manager">RemoteUAAL</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="org/universAAL/ri/rest/manager/resources/Subscriber.html" title="class in org.universAAL.ri.rest.manager.resources"><span class="typeNameLink">Subscriber</span></a> - Class in <a href="org/universAAL/ri/rest/manager/resources/package-summary.html">org.universAAL.ri.rest.manager.resources</a></dt>
 <dd>&nbsp;</dd>
@@ -4123,6 +4354,12 @@
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/universAAL/ri/wsdlToolkit/parser/MitsosParser.html#theWSDLDefinition">theWSDLDefinition</a></span> - Static variable in class org.universAAL.ri.wsdlToolkit.parser.<a href="org/universAAL/ri/wsdlToolkit/parser/MitsosParser.html" title="class in org.universAAL.ri.wsdlToolkit.parser">MitsosParser</a></dt>
 <dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="org/universAAL/ri/gateway/configuration/PropertiesFileKeys.html#TIMEOUT">TIMEOUT</a></span> - Static variable in interface org.universAAL.ri.gateway.configuration.<a href="org/universAAL/ri/gateway/configuration/PropertiesFileKeys.html" title="interface in org.universAAL.ri.gateway.configuration">PropertiesFileKeys</a></dt>
+<dd>
+<div class="block">System property defining the time in milliseconds for which the gateway
+ should wait.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="org/universAAL/ri/gateway/configuration/ConfigurationFile.html#toString--">toString()</a></span> - Method in class org.universAAL.ri.gateway.configuration.<a href="org/universAAL/ri/gateway/configuration/ConfigurationFile.html" title="class in org.universAAL.ri.gateway.configuration">ConfigurationFile</a></dt>
 <dt><span class="memberNameLink"><a href="org/universAAL/ri/gateway/protocol/link/ConnectionRequest.html#toString--">toString()</a></span> - Method in class org.universAAL.ri.gateway.protocol.link.<a href="org/universAAL/ri/gateway/protocol/link/ConnectionRequest.html" title="class in org.universAAL.ri.gateway.protocol.link">ConnectionRequest</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/universAAL/ri/gateway/protocol/link/ConnectionResponse.html#toString--">toString()</a></span> - Method in class org.universAAL.ri.gateway.protocol.link.<a href="org/universAAL/ri/gateway/protocol/link/ConnectionResponse.html" title="class in org.universAAL.ri.gateway.protocol.link">ConnectionResponse</a></dt>
@@ -4138,6 +4375,10 @@
 <dt><span class="memberNameLink"><a href="org/universAAL/ri/wsdlToolkit/ioApi/ComplexObject.html#toString--">toString()</a></span> - Method in class org.universAAL.ri.wsdlToolkit.ioApi.<a href="org/universAAL/ri/wsdlToolkit/ioApi/ComplexObject.html" title="class in org.universAAL.ri.wsdlToolkit.ioApi">ComplexObject</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/universAAL/ri/wsdlToolkit/ioApi/NativeObject.html#toString--">toString()</a></span> - Method in class org.universAAL.ri.wsdlToolkit.ioApi.<a href="org/universAAL/ri/wsdlToolkit/ioApi/NativeObject.html" title="class in org.universAAL.ri.wsdlToolkit.ioApi">NativeObject</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="org/universAAL/ri/gateway/communication/cipher/SSLCipher.html#TRUSTSTORE">TRUSTSTORE</a></span> - Static variable in class org.universAAL.ri.gateway.communication.cipher.<a href="org/universAAL/ri/gateway/communication/cipher/SSLCipher.html" title="class in org.universAAL.ri.gateway.communication.cipher">SSLCipher</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="org/universAAL/ri/gateway/communication/cipher/SSLCipher.html#TRUSTSTORE_PASS">TRUSTSTORE_PASS</a></span> - Static variable in class org.universAAL.ri.gateway.communication.cipher.<a href="org/universAAL/ri/gateway/communication/cipher/SSLCipher.html" title="class in org.universAAL.ri.gateway.communication.cipher">SSLCipher</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/universAAL/ri/wsdlToolkit/axis2Parser/ParsingUtils.html#tryToFindAndParseAttributeForSpecificObject-org.universAAL.ri.wsdlToolkit.ioApi.ParsedWSDLDefinition-org.apache.axis2.description.AxisService-javax.xml.namespace.QName-">tryToFindAndParseAttributeForSpecificObject(ParsedWSDLDefinition, AxisService, QName)</a></span> - Static method in class org.universAAL.ri.wsdlToolkit.axis2Parser.<a href="org/universAAL/ri/wsdlToolkit/axis2Parser/ParsingUtils.html" title="class in org.universAAL.ri.wsdlToolkit.axis2Parser">ParsingUtils</a></dt>
 <dd>&nbsp;</dd>
@@ -4391,7 +4632,7 @@ the order they are declared.</div>
 <dt><span class="memberNameLink"><a href="org/universAAL/ri/wsdlToolkit/ioApi/WSOperationOutput.html#WSOperationOutput--">WSOperationOutput()</a></span> - Constructor for class org.universAAL.ri.wsdlToolkit.ioApi.<a href="org/universAAL/ri/wsdlToolkit/ioApi/WSOperationOutput.html" title="class in org.universAAL.ri.wsdlToolkit.ioApi">WSOperationOutput</a></dt>
 <dd>&nbsp;</dd>
 </dl>
-<a href="#I:A">A</a>&nbsp;<a href="#I:B">B</a>&nbsp;<a href="#I:C">C</a>&nbsp;<a href="#I:D">D</a>&nbsp;<a href="#I:E">E</a>&nbsp;<a href="#I:F">F</a>&nbsp;<a href="#I:G">G</a>&nbsp;<a href="#I:H">H</a>&nbsp;<a href="#I:I">I</a>&nbsp;<a href="#I:K">K</a>&nbsp;<a href="#I:L">L</a>&nbsp;<a href="#I:M">M</a>&nbsp;<a href="#I:N">N</a>&nbsp;<a href="#I:O">O</a>&nbsp;<a href="#I:P">P</a>&nbsp;<a href="#I:R">R</a>&nbsp;<a href="#I:S">S</a>&nbsp;<a href="#I:T">T</a>&nbsp;<a href="#I:U">U</a>&nbsp;<a href="#I:V">V</a>&nbsp;<a href="#I:W">W</a>&nbsp;</div>
+<a href="#I:A">A</a>&nbsp;<a href="#I:B">B</a>&nbsp;<a href="#I:C">C</a>&nbsp;<a href="#I:D">D</a>&nbsp;<a href="#I:E">E</a>&nbsp;<a href="#I:F">F</a>&nbsp;<a href="#I:G">G</a>&nbsp;<a href="#I:H">H</a>&nbsp;<a href="#I:I">I</a>&nbsp;<a href="#I:K">K</a>&nbsp;<a href="#I:L">L</a>&nbsp;<a href="#I:M">M</a>&nbsp;<a href="#I:N">N</a>&nbsp;<a href="#I:O">O</a>&nbsp;<a href="#I:P">P</a>&nbsp;<a href="#I:Q">Q</a>&nbsp;<a href="#I:R">R</a>&nbsp;<a href="#I:S">S</a>&nbsp;<a href="#I:T">T</a>&nbsp;<a href="#I:U">U</a>&nbsp;<a href="#I:V">V</a>&nbsp;<a href="#I:W">W</a>&nbsp;</div>
 <!-- ======= START OF BOTTOM NAVBAR ====== -->
 <div class="bottomNav"><a name="navbar.bottom">
 <!--   -->
@@ -4439,6 +4680,6 @@ the order they are declared.</div>
 <!--   -->
 </a></div>
 <!-- ======== END OF BOTTOM NAVBAR ======= -->
-<p class="legalCopy"><small>Copyright &#169; 2017 <a href="http://www.universAAL.org/">universAAL Consortium</a>. All rights reserved.</small></p>
+<p class="legalCopy"><small>Copyright &#169; 2018 <a href="http://www.universAAL.org/">universAAL Consortium</a>. All rights reserved.</small></p>
 </body>
 </html>

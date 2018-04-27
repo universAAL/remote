@@ -1,14 +1,14 @@
 <map id="G" name="G">
-<area shape="rect" id="c1356" href="./MitsosParser.html" title="org.universAAL.ri.wsdlToolkit.parser.MitsosParser" alt="" coords="15,17,113,42"/>
+<area shape="rect" id="node1_0" href="./MitsosParser.html" title="org.universAAL.ri.wsdlToolkit.parser.MitsosParser" alt="" coords="15,16,113,43"/>
 <area shape="rect" id="node1" href="./MitsosParser.html" title="&lt;TABLE&gt;" alt="" coords="5,5,123,53"/>
-<area shape="rect" id="c1357" href="./WSDL_XSD_SchemaToolkit.html" title="org.universAAL.ri.wsdlToolkit.parser.WSDL_XSD_SchemaToolkit" alt="" coords="157,17,347,42"/>
+<area shape="rect" id="node2_1" href="./WSDL_XSD_SchemaToolkit.html" title="org.universAAL.ri.wsdlToolkit.parser.WSDL_XSD_SchemaToolkit" alt="" coords="157,16,347,43"/>
 <area shape="rect" id="node2" href="./WSDL_XSD_SchemaToolkit.html" title="&lt;TABLE&gt;" alt="" coords="147,5,357,53"/>
-<area shape="rect" id="c1358" href="./Axis1ParserWrapper.html" title="org.universAAL.ri.wsdlToolkit.parser.Axis1ParserWrapper" alt="" coords="392,17,533,42"/>
+<area shape="rect" id="node3_2" href="./Axis1ParserWrapper.html" title="org.universAAL.ri.wsdlToolkit.parser.Axis1ParserWrapper" alt="" coords="392,16,533,43"/>
 <area shape="rect" id="node3" href="./Axis1ParserWrapper.html" title="&lt;TABLE&gt;" alt="" coords="381,5,544,53"/>
-<area shape="rect" id="c1359" href="./WSDLParser.html" title="org.universAAL.ri.wsdlToolkit.parser.WSDLParser" alt="" coords="578,17,675,42"/>
-<area shape="rect" id="node4" href="./WSDLParser.html" title="&lt;TABLE&gt;" alt="" coords="568,5,685,53"/>
-<area shape="rect" id="c1360" href="./DocumentStyleWSDLParser.html" title="org.universAAL.ri.wsdlToolkit.parser.DocumentStyleWSDLParser" alt="" coords="719,17,907,42"/>
-<area shape="rect" id="node5" href="./DocumentStyleWSDLParser.html" title="&lt;TABLE&gt;" alt="" coords="709,5,917,53"/>
-<area shape="rect" id="c1361" href="./StdOutErrLevel.html" title="org.universAAL.ri.wsdlToolkit.parser.StdOutErrLevel" alt="" coords="952,17,1061,42"/>
-<area shape="rect" id="node6" href="./StdOutErrLevel.html" title="&lt;TABLE&gt;" alt="" coords="941,5,1072,53"/>
+<area shape="rect" id="node4_3" href="./WSDLParser.html" title="org.universAAL.ri.wsdlToolkit.parser.WSDLParser" alt="" coords="579,16,677,43"/>
+<area shape="rect" id="node4" href="./WSDLParser.html" title="&lt;TABLE&gt;" alt="" coords="569,5,687,53"/>
+<area shape="rect" id="node5_4" href="./DocumentStyleWSDLParser.html" title="org.universAAL.ri.wsdlToolkit.parser.DocumentStyleWSDLParser" alt="" coords="722,16,910,43"/>
+<area shape="rect" id="node5" href="./DocumentStyleWSDLParser.html" title="&lt;TABLE&gt;" alt="" coords="711,5,921,53"/>
+<area shape="rect" id="node6_5" href="./StdOutErrLevel.html" title="org.universAAL.ri.wsdlToolkit.parser.StdOutErrLevel" alt="" coords="956,16,1065,43"/>
+<area shape="rect" id="node6" href="./StdOutErrLevel.html" title="&lt;TABLE&gt;" alt="" coords="945,5,1076,53"/>
 </map>

@@ -1,6 +1,6 @@
 <map id="G" name="G">
-<area shape="rect" id="c2726" href="./GatewayCommand.html" title="org.universAAL.ri.gateway.osgi.GatewayCommand" alt="" coords="16,17,149,42"/>
-<area shape="rect" id="node1" href="./GatewayCommand.html" title="&lt;TABLE&gt;" alt="" coords="5,5,160,53"/>
-<area shape="rect" id="c2727" href="./OSGIActivator.html" title="org.universAAL.ri.gateway.osgi.OSGIActivator" alt="" coords="194,17,299,42"/>
-<area shape="rect" id="node2" href="./OSGIActivator.html" title="&lt;TABLE&gt;" alt="" coords="184,5,309,53"/>
+<area shape="rect" id="node1_0" href="./GatewayCommand.html" title="org.universAAL.ri.gateway.osgi.GatewayCommand" alt="" coords="15,16,148,43"/>
+<area shape="rect" id="node1" href="./GatewayCommand.html" title="&lt;TABLE&gt;" alt="" coords="4,5,159,53"/>
+<area shape="rect" id="node2_1" href="./OSGIActivator.html" title="org.universAAL.ri.gateway.osgi.OSGIActivator" alt="" coords="194,16,299,43"/>
+<area shape="rect" id="node2" href="./OSGIActivator.html" title="&lt;TABLE&gt;" alt="" coords="183,5,310,53"/>
 </map>

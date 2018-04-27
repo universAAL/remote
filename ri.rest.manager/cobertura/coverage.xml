@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE coverage SYSTEM "http://cobertura.sourceforge.net/xml/coverage-04.dtd">
 
-<coverage line-rate="0.0" branch-rate="0.0" lines-covered="0" lines-valid="1871" branches-covered="0" branches-valid="544" complexity="2.6482758620689655" version="2.1.1" timestamp="1501592697805">
+<coverage line-rate="0.0" branch-rate="0.0" lines-covered="0" lines-valid="1878" branches-covered="0" branches-valid="554" complexity="2.6724137931034484" version="2.1.1" timestamp="1524872346935">
 	<sources>
 		<source>--source</source>
 		<source>/home/travis/build/universAAL/remote/ri.rest.manager/src/main/java</source>
@@ -22,7 +22,6 @@
 						<method name="&lt;init&gt;" signature="()V" line-rate="0.0" branch-rate="1.0" complexity="0">
 							<lines>
 								<line number="53" hits="0" branch="false"/>
-								<line number="133" hits="0" branch="false"/>
 							</lines>
 						</method>
 						<method name="access$202" signature="(Lorg/universAAL/middleware/managers/api/TenantManager;)Lorg/universAAL/middleware/managers/api/TenantManager;" line-rate="1.0" branch-rate="1.0" complexity="0">
@@ -211,7 +210,6 @@
 						<line number="112" hits="0" branch="false"/>
 						<line number="114" hits="0" branch="false"/>
 						<line number="115" hits="0" branch="false"/>
-						<line number="133" hits="0" branch="false"/>
 						<line number="150" hits="0" branch="false"/>
 						<line number="154" hits="0" branch="false"/>
 						<line number="158" hits="0" branch="false"/>
@@ -319,7 +317,7 @@
 				</class>
 			</classes>
 		</package>
-		<package name="org.universAAL.ri.rest.manager.push" line-rate="0.0" branch-rate="0.0" complexity="5.0">
+		<package name="org.universAAL.ri.rest.manager.push" line-rate="0.0" branch-rate="0.0" complexity="5.4">
 			<classes>
 				<class name="org.universAAL.ri.rest.manager.push.PushException" filename="org/universAAL/ri/rest/manager/push/PushException.java" line-rate="0.0" branch-rate="1.0" complexity="1.0">
 					<methods>
@@ -645,7 +643,7 @@
 						<line number="216" hits="0" branch="false"/>
 					</lines>
 				</class>
-				<class name="org.universAAL.ri.rest.manager.push.PushManager" filename="org/universAAL/ri/rest/manager/push/PushManager.java" line-rate="0.0" branch-rate="0.0" complexity="4.333333333333333">
+				<class name="org.universAAL.ri.rest.manager.push.PushManager" filename="org/universAAL/ri/rest/manager/push/PushManager.java" line-rate="0.0" branch-rate="0.0" complexity="5.666666666666667">
 					<methods>
 						<method name="&lt;init&gt;" signature="()V" line-rate="0.0" branch-rate="1.0" complexity="0">
 							<lines>
@@ -654,16 +652,24 @@
 						</method>
 						<method name="determineEndpoint" signature="(Ljava/lang/String;)I" line-rate="0.0" branch-rate="0.0" complexity="0">
 							<lines>
+								<line number="90" hits="0" branch="true" condition-coverage="0% (0/6)">
+									<conditions>
+										<condition number="0" type="jump" coverage="0%"/>
+										<condition number="1" type="jump" coverage="0%"/>
+										<condition number="2" type="jump" coverage="0%"/>
+									</conditions>
+								</line>
 								<line number="91" hits="0" branch="false"/>
-								<line number="92" hits="0" branch="true" condition-coverage="0% (0/2)">
+								<line number="94" hits="0" branch="false"/>
+								<line number="95" hits="0" branch="true" condition-coverage="0% (0/2)">
 									<conditions>
 										<condition number="0" type="jump" coverage="0%"/>
 									</conditions>
 								</line>
-								<line number="93" hits="0" branch="false"/>
 								<line number="96" hits="0" branch="false"/>
-								<line number="98" hits="0" branch="false"/>
-								<line number="100" hits="0" branch="false"/>
+								<line number="99" hits="0" branch="false"/>
+								<line number="101" hits="0" branch="false"/>
+								<line number="103" hits="0" branch="false"/>
 							</lines>
 						</method>
 						<method name="pushContextEvent" signature="(Ljava/lang/String;Ljava/lang/String;Lorg/universAAL/middleware/context/ContextEvent;)V" line-rate="0.0" branch-rate="0.0" complexity="0">
@@ -721,16 +727,24 @@
 						<line number="72" hits="0" branch="false"/>
 						<line number="74" hits="0" branch="false"/>
 						<line number="76" hits="0" branch="false"/>
+						<line number="90" hits="0" branch="true" condition-coverage="0% (0/6)">
+							<conditions>
+								<condition number="0" type="jump" coverage="0%"/>
+								<condition number="1" type="jump" coverage="0%"/>
+								<condition number="2" type="jump" coverage="0%"/>
+							</conditions>
+						</line>
 						<line number="91" hits="0" branch="false"/>
-						<line number="92" hits="0" branch="true" condition-coverage="0% (0/2)">
+						<line number="94" hits="0" branch="false"/>
+						<line number="95" hits="0" branch="true" condition-coverage="0% (0/2)">
 							<conditions>
 								<condition number="0" type="jump" coverage="0%"/>
 							</conditions>
 						</line>
-						<line number="93" hits="0" branch="false"/>
 						<line number="96" hits="0" branch="false"/>
-						<line number="98" hits="0" branch="false"/>
-						<line number="100" hits="0" branch="false"/>
+						<line number="99" hits="0" branch="false"/>
+						<line number="101" hits="0" branch="false"/>
+						<line number="103" hits="0" branch="false"/>
 					</lines>
 				</class>
 				<class name="org.universAAL.ri.rest.manager.push.PushREST" filename="org/universAAL/ri/rest/manager/push/PushREST.java" line-rate="0.0" branch-rate="0.0" complexity="4.0">
@@ -2354,7 +2368,7 @@
 								<line number="124" hits="0" branch="false"/>
 							</lines>
 						</method>
-						<method name="deleteSpaceResource" signature="()Ljavax/ws/rs/core/Response;" line-rate="0.0" branch-rate="0.0" complexity="0">
+						<method name="deleteSpaceResource" signature="(Ljava/lang/String;)Ljavax/ws/rs/core/Response;" line-rate="0.0" branch-rate="0.0" complexity="0">
 							<lines>
 								<line number="146" hits="0" branch="false"/>
 								<line number="147" hits="0" branch="true" condition-coverage="0% (0/2)">
@@ -6349,9 +6363,9 @@
 				</class>
 			</classes>
 		</package>
-		<package name="org.universAAL.ri.rest.manager.wrappers" line-rate="0.0" branch-rate="0.0" complexity="1.8823529411764706">
+		<package name="org.universAAL.ri.rest.manager.wrappers" line-rate="0.0" branch-rate="0.0" complexity="1.9411764705882353">
 			<classes>
-				<class name="org.universAAL.ri.rest.manager.wrappers.CalleeWrapper" filename="org/universAAL/ri/rest/manager/wrappers/CalleeWrapper.java" line-rate="0.0" branch-rate="0.0" complexity="2.5">
+				<class name="org.universAAL.ri.rest.manager.wrappers.CalleeWrapper" filename="org/universAAL/ri/rest/manager/wrappers/CalleeWrapper.java" line-rate="0.0" branch-rate="0.0" complexity="2.8333333333333335">
 					<methods>
 						<method name="&lt;clinit&gt;" signature="()V" line-rate="0.0" branch-rate="1.0" complexity="0">
 							<lines>
@@ -6381,59 +6395,66 @@
 							<lines>
 								<line number="67" hits="0" branch="false"/>
 								<line number="68" hits="0" branch="false"/>
-								<line number="71" hits="0" branch="false"/>
+								<line number="71" hits="0" branch="true" condition-coverage="0% (0/2)">
+									<conditions>
+										<condition number="0" type="jump" coverage="0%"/>
+									</conditions>
+								</line>
 								<line number="72" hits="0" branch="false"/>
-								<line number="74" hits="0" branch="false"/>
-								<line number="75" hits="0" branch="true" condition-coverage="0% (0/4)">
+								<line number="73" hits="0" branch="false"/>
+								<line number="75" hits="0" branch="false"/>
+								<line number="76" hits="0" branch="true" condition-coverage="0% (0/4)">
 									<conditions>
 										<condition number="0" type="jump" coverage="0%"/>
 										<condition number="1" type="jump" coverage="0%"/>
 									</conditions>
 								</line>
-								<line number="77" hits="0" branch="false"/>
-								<line number="78" hits="0" branch="true" condition-coverage="0% (0/2)">
+								<line number="78" hits="0" branch="false"/>
+								<line number="79" hits="0" branch="true" condition-coverage="0% (0/2)">
 									<conditions>
 										<condition number="0" type="jump" coverage="0%"/>
 									</conditions>
 								</line>
-								<line number="79" hits="0" branch="false"/>
-								<line number="80" hits="0" branch="true" condition-coverage="0% (0/2)">
+								<line number="80" hits="0" branch="false"/>
+								<line number="81" hits="0" branch="true" condition-coverage="0% (0/2)">
 									<conditions>
 										<condition number="0" type="jump" coverage="0%"/>
 									</conditions>
 								</line>
-								<line number="81" hits="0" branch="false"/>
-								<line number="86" hits="0" branch="false"/>
+								<line number="82" hits="0" branch="false"/>
 								<line number="87" hits="0" branch="false"/>
 								<line number="88" hits="0" branch="false"/>
 								<line number="89" hits="0" branch="false"/>
 								<line number="90" hits="0" branch="false"/>
 								<line number="91" hits="0" branch="false"/>
-								<line number="92" hits="0" branch="false"/>
 								<line number="93" hits="0" branch="false"/>
 								<line number="95" hits="0" branch="false"/>
-								<line number="96" hits="0" branch="false"/>
 								<line number="97" hits="0" branch="false"/>
+								<line number="98" hits="0" branch="false"/>
+								<line number="99" hits="0" branch="false"/>
+								<line number="101" hits="0" branch="false"/>
+								<line number="102" hits="0" branch="false"/>
+								<line number="103" hits="0" branch="false"/>
 							</lines>
 						</method>
 						<method name="handleResponse" signature="(Lorg/universAAL/middleware/service/ServiceResponse;Ljava/lang/String;)V" line-rate="0.0" branch-rate="0.0" complexity="0">
 							<lines>
-								<line number="102" hits="0" branch="true" condition-coverage="0% (0/2)">
+								<line number="108" hits="0" branch="true" condition-coverage="0% (0/2)">
 									<conditions>
 										<condition number="0" type="jump" coverage="0%"/>
 									</conditions>
 								</line>
-								<line number="103" hits="0" branch="false"/>
-								<line number="104" hits="0" branch="true" condition-coverage="0% (0/2)">
+								<line number="109" hits="0" branch="false"/>
+								<line number="110" hits="0" branch="true" condition-coverage="0% (0/2)">
 									<conditions>
 										<condition number="0" type="jump" coverage="0%"/>
 									</conditions>
 								</line>
-								<line number="105" hits="0" branch="false"/>
-								<line number="106" hits="0" branch="false"/>
-								<line number="107" hits="0" branch="false"/>
-								<line number="108" hits="0" branch="false"/>
-								<line number="110" hits="0" branch="false"/>
+								<line number="111" hits="0" branch="false"/>
+								<line number="112" hits="0" branch="false"/>
+								<line number="113" hits="0" branch="false"/>
+								<line number="114" hits="0" branch="false"/>
+								<line number="116" hits="0" branch="false"/>
 							</lines>
 						</method>
 						<method name="setResource" signature="(Lorg/universAAL/ri/rest/manager/resources/Callee;)V" line-rate="0.0" branch-rate="1.0" complexity="0">
@@ -6456,55 +6477,62 @@
 						<line number="63" hits="0" branch="false"/>
 						<line number="67" hits="0" branch="false"/>
 						<line number="68" hits="0" branch="false"/>
-						<line number="71" hits="0" branch="false"/>
+						<line number="71" hits="0" branch="true" condition-coverage="0% (0/2)">
+							<conditions>
+								<condition number="0" type="jump" coverage="0%"/>
+							</conditions>
+						</line>
 						<line number="72" hits="0" branch="false"/>
-						<line number="74" hits="0" branch="false"/>
-						<line number="75" hits="0" branch="true" condition-coverage="0% (0/4)">
+						<line number="73" hits="0" branch="false"/>
+						<line number="75" hits="0" branch="false"/>
+						<line number="76" hits="0" branch="true" condition-coverage="0% (0/4)">
 							<conditions>
 								<condition number="0" type="jump" coverage="0%"/>
 								<condition number="1" type="jump" coverage="0%"/>
 							</conditions>
 						</line>
-						<line number="77" hits="0" branch="false"/>
-						<line number="78" hits="0" branch="true" condition-coverage="0% (0/2)">
+						<line number="78" hits="0" branch="false"/>
+						<line number="79" hits="0" branch="true" condition-coverage="0% (0/2)">
 							<conditions>
 								<condition number="0" type="jump" coverage="0%"/>
 							</conditions>
 						</line>
-						<line number="79" hits="0" branch="false"/>
-						<line number="80" hits="0" branch="true" condition-coverage="0% (0/2)">
+						<line number="80" hits="0" branch="false"/>
+						<line number="81" hits="0" branch="true" condition-coverage="0% (0/2)">
 							<conditions>
 								<condition number="0" type="jump" coverage="0%"/>
 							</conditions>
 						</line>
-						<line number="81" hits="0" branch="false"/>
-						<line number="86" hits="0" branch="false"/>
+						<line number="82" hits="0" branch="false"/>
 						<line number="87" hits="0" branch="false"/>
 						<line number="88" hits="0" branch="false"/>
 						<line number="89" hits="0" branch="false"/>
 						<line number="90" hits="0" branch="false"/>
 						<line number="91" hits="0" branch="false"/>
-						<line number="92" hits="0" branch="false"/>
 						<line number="93" hits="0" branch="false"/>
 						<line number="95" hits="0" branch="false"/>
-						<line number="96" hits="0" branch="false"/>
 						<line number="97" hits="0" branch="false"/>
-						<line number="102" hits="0" branch="true" condition-coverage="0% (0/2)">
-							<conditions>
-								<condition number="0" type="jump" coverage="0%"/>
-							</conditions>
-						</line>
+						<line number="98" hits="0" branch="false"/>
+						<line number="99" hits="0" branch="false"/>
+						<line number="101" hits="0" branch="false"/>
+						<line number="102" hits="0" branch="false"/>
 						<line number="103" hits="0" branch="false"/>
-						<line number="104" hits="0" branch="true" condition-coverage="0% (0/2)">
+						<line number="108" hits="0" branch="true" condition-coverage="0% (0/2)">
 							<conditions>
 								<condition number="0" type="jump" coverage="0%"/>
 							</conditions>
 						</line>
-						<line number="105" hits="0" branch="false"/>
-						<line number="106" hits="0" branch="false"/>
-						<line number="107" hits="0" branch="false"/>
-						<line number="108" hits="0" branch="false"/>
-						<line number="110" hits="0" branch="false"/>
+						<line number="109" hits="0" branch="false"/>
+						<line number="110" hits="0" branch="true" condition-coverage="0% (0/2)">
+							<conditions>
+								<condition number="0" type="jump" coverage="0%"/>
+							</conditions>
+						</line>
+						<line number="111" hits="0" branch="false"/>
+						<line number="112" hits="0" branch="false"/>
+						<line number="113" hits="0" branch="false"/>
+						<line number="114" hits="0" branch="false"/>
+						<line number="116" hits="0" branch="false"/>
 					</lines>
 				</class>
 				<class name="org.universAAL.ri.rest.manager.wrappers.CallerWrapper" filename="org/universAAL/ri/rest/manager/wrappers/CallerWrapper.java" line-rate="0.0" branch-rate="1.0" complexity="1.0">
@@ -6971,7 +6999,7 @@
 						<line number="208" hits="0" branch="false"/>
 					</lines>
 				</class>
-				<class name="org.universAAL.ri.rest.manager.wrappers.SubscriberWrapper" filename="org/universAAL/ri/rest/manager/wrappers/SubscriberWrapper.java" line-rate="0.0" branch-rate="0.0" complexity="2.2">
+				<class name="org.universAAL.ri.rest.manager.wrappers.SubscriberWrapper" filename="org/universAAL/ri/rest/manager/wrappers/SubscriberWrapper.java" line-rate="0.0" branch-rate="0.0" complexity="2.4">
 					<methods>
 						<method name="&lt;init&gt;" signature="(Lorg/universAAL/middleware/container/ModuleContext;[Lorg/universAAL/middleware/context/ContextEventPattern;Lorg/universAAL/ri/rest/manager/resources/Subscriber;Ljava/lang/String;)V" line-rate="0.0" branch-rate="1.0" complexity="0">
 							<lines>
@@ -6996,32 +7024,39 @@
 							<lines>
 								<line number="60" hits="0" branch="false"/>
 								<line number="61" hits="0" branch="false"/>
-								<line number="63" hits="0" branch="false"/>
-								<line number="64" hits="0" branch="true" condition-coverage="0% (0/4)">
+								<line number="63" hits="0" branch="true" condition-coverage="0% (0/2)">
+									<conditions>
+										<condition number="0" type="jump" coverage="0%"/>
+									</conditions>
+								</line>
+								<line number="64" hits="0" branch="false"/>
+								<line number="65" hits="0" branch="true" condition-coverage="0% (0/4)">
 									<conditions>
 										<condition number="0" type="jump" coverage="0%"/>
 										<condition number="1" type="jump" coverage="0%"/>
 									</conditions>
 								</line>
-								<line number="66" hits="0" branch="false"/>
-								<line number="67" hits="0" branch="true" condition-coverage="0% (0/2)">
+								<line number="67" hits="0" branch="false"/>
+								<line number="68" hits="0" branch="true" condition-coverage="0% (0/2)">
 									<conditions>
 										<condition number="0" type="jump" coverage="0%"/>
 									</conditions>
 								</line>
-								<line number="68" hits="0" branch="false"/>
-								<line number="69" hits="0" branch="true" condition-coverage="0% (0/2)">
+								<line number="69" hits="0" branch="false"/>
+								<line number="70" hits="0" branch="true" condition-coverage="0% (0/2)">
 									<conditions>
 										<condition number="0" type="jump" coverage="0%"/>
 									</conditions>
 								</line>
-								<line number="70" hits="0" branch="false"/>
-								<line number="74" hits="0" branch="false"/>
+								<line number="71" hits="0" branch="false"/>
 								<line number="75" hits="0" branch="false"/>
 								<line number="76" hits="0" branch="false"/>
 								<line number="77" hits="0" branch="false"/>
-								<line number="78" hits="0" branch="false"/>
-								<line number="79" hits="0" branch="false"/>
+								<line number="80" hits="0" branch="false"/>
+								<line number="81" hits="0" branch="false"/>
+								<line number="82" hits="0" branch="false"/>
+								<line number="83" hits="0" branch="false"/>
+								<line number="84" hits="0" branch="false"/>
 							</lines>
 						</method>
 						<method name="setResource" signature="(Lorg/universAAL/ri/rest/manager/resources/Subscriber;)V" line-rate="0.0" branch-rate="1.0" complexity="0">
@@ -7043,32 +7078,39 @@
 						<line number="56" hits="0" branch="false"/>
 						<line number="60" hits="0" branch="false"/>
 						<line number="61" hits="0" branch="false"/>
-						<line number="63" hits="0" branch="false"/>
-						<line number="64" hits="0" branch="true" condition-coverage="0% (0/4)">
+						<line number="63" hits="0" branch="true" condition-coverage="0% (0/2)">
+							<conditions>
+								<condition number="0" type="jump" coverage="0%"/>
+							</conditions>
+						</line>
+						<line number="64" hits="0" branch="false"/>
+						<line number="65" hits="0" branch="true" condition-coverage="0% (0/4)">
 							<conditions>
 								<condition number="0" type="jump" coverage="0%"/>
 								<condition number="1" type="jump" coverage="0%"/>
 							</conditions>
 						</line>
-						<line number="66" hits="0" branch="false"/>
-						<line number="67" hits="0" branch="true" condition-coverage="0% (0/2)">
+						<line number="67" hits="0" branch="false"/>
+						<line number="68" hits="0" branch="true" condition-coverage="0% (0/2)">
 							<conditions>
 								<condition number="0" type="jump" coverage="0%"/>
 							</conditions>
 						</line>
-						<line number="68" hits="0" branch="false"/>
-						<line number="69" hits="0" branch="true" condition-coverage="0% (0/2)">
+						<line number="69" hits="0" branch="false"/>
+						<line number="70" hits="0" branch="true" condition-coverage="0% (0/2)">
 							<conditions>
 								<condition number="0" type="jump" coverage="0%"/>
 							</conditions>
 						</line>
-						<line number="70" hits="0" branch="false"/>
-						<line number="74" hits="0" branch="false"/>
+						<line number="71" hits="0" branch="false"/>
 						<line number="75" hits="0" branch="false"/>
 						<line number="76" hits="0" branch="false"/>
 						<line number="77" hits="0" branch="false"/>
-						<line number="78" hits="0" branch="false"/>
-						<line number="79" hits="0" branch="false"/>
+						<line number="80" hits="0" branch="false"/>
+						<line number="81" hits="0" branch="false"/>
+						<line number="82" hits="0" branch="false"/>
+						<line number="83" hits="0" branch="false"/>
+						<line number="84" hits="0" branch="false"/>
 					</lines>
 				</class>
 				<class name="org.universAAL.ri.rest.manager.wrappers.UaalWrapper" filename="org/universAAL/ri/rest/manager/wrappers/UaalWrapper.java" line-rate="0.0" branch-rate="0.0" complexity="1.8571428571428572">

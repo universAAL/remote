@@ -10,15 +10,15 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.universAAL.ri.rest.manager.wrappers.SubscriberWrapper
-	c29110 [label=<<table title="org.universAAL.ri.rest.manager.wrappers.SubscriberWrapper" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./SubscriberWrapper.html">
+	c30848 [label=<<table title="org.universAAL.ri.rest.manager.wrappers.SubscriberWrapper" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./SubscriberWrapper.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> SubscriberWrapper </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SubscriberWrapper.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	//org.universAAL.ri.rest.manager.wrappers.SubscriberWrapper extends org.universAAL.middleware.context.ContextSubscriber
-	c29120:p -> c29110:p [dir=back,arrowtail=empty];
+	c30858:p -> c30848:p [dir=back,arrowtail=empty];
 	// org.universAAL.middleware.context.ContextSubscriber
-	c29120 [label=<<table title="org.universAAL.middleware.context.ContextSubscriber" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/org/universAAL/middleware/context/ContextSubscriber.html">
+	c30858 [label=<<table title="org.universAAL.middleware.context.ContextSubscriber" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/org/universAAL/middleware/context/ContextSubscriber.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="Helvetica-Oblique"> ContextSubscriber </font></td></tr>
 		</table></td></tr>

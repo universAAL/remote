@@ -10,50 +10,50 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.universAAL.ri.gateway.protocol.LinkMessage
-	c17557 [label=<<table title="org.universAAL.ri.gateway.protocol.LinkMessage" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./LinkMessage.html">
+	c18435 [label=<<table title="org.universAAL.ri.gateway.protocol.LinkMessage" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./LinkMessage.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="Helvetica-Oblique"> LinkMessage </font></td></tr>
 		</table></td></tr>
 		</table>>, URL="./LinkMessage.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// org.universAAL.ri.gateway.protocol.Message
-	c17562 [label=<<table title="org.universAAL.ri.gateway.protocol.Message" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Message.html">
+	c18440 [label=<<table title="org.universAAL.ri.gateway.protocol.Message" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Message.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="Helvetica-Oblique"> Message </font></td></tr>
 		</table></td></tr>
 		</table>>, URL="./Message.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// org.universAAL.ri.gateway.protocol.link.ReconnectionRequest
-	c17565 [label=<<table title="org.universAAL.ri.gateway.protocol.link.ReconnectionRequest" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./link/ReconnectionRequest.html">
+	c18443 [label=<<table title="org.universAAL.ri.gateway.protocol.link.ReconnectionRequest" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./link/ReconnectionRequest.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> ReconnectionRequest </td></tr>
 		</table></td></tr>
 		</table>>, URL="./link/ReconnectionRequest.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// org.universAAL.ri.gateway.protocol.link.DisconnectionRequest
-	c17566 [label=<<table title="org.universAAL.ri.gateway.protocol.link.DisconnectionRequest" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./link/DisconnectionRequest.html">
+	c18444 [label=<<table title="org.universAAL.ri.gateway.protocol.link.DisconnectionRequest" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./link/DisconnectionRequest.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> DisconnectionRequest </td></tr>
 		</table></td></tr>
 		</table>>, URL="./link/DisconnectionRequest.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// org.universAAL.ri.gateway.protocol.link.ConnectionRequest
-	c17567 [label=<<table title="org.universAAL.ri.gateway.protocol.link.ConnectionRequest" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./link/ConnectionRequest.html">
+	c18445 [label=<<table title="org.universAAL.ri.gateway.protocol.link.ConnectionRequest" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./link/ConnectionRequest.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> ConnectionRequest </td></tr>
 		</table></td></tr>
 		</table>>, URL="./link/ConnectionRequest.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// org.universAAL.ri.gateway.protocol.link.ConnectionResponse
-	c17568 [label=<<table title="org.universAAL.ri.gateway.protocol.link.ConnectionResponse" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./link/ConnectionResponse.html">
+	c18446 [label=<<table title="org.universAAL.ri.gateway.protocol.link.ConnectionResponse" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./link/ConnectionResponse.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> ConnectionResponse </td></tr>
 		</table></td></tr>
 		</table>>, URL="./link/ConnectionResponse.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	//org.universAAL.ri.gateway.protocol.LinkMessage extends org.universAAL.ri.gateway.protocol.Message
-	c17562:p -> c17557:p [dir=back,arrowtail=empty];
+	c18440:p -> c18435:p [dir=back,arrowtail=empty];
 	//org.universAAL.ri.gateway.protocol.link.ReconnectionRequest extends org.universAAL.ri.gateway.protocol.LinkMessage
-	c17557:p -> c17565:p [dir=back,arrowtail=empty];
+	c18435:p -> c18443:p [dir=back,arrowtail=empty];
 	//org.universAAL.ri.gateway.protocol.link.DisconnectionRequest extends org.universAAL.ri.gateway.protocol.LinkMessage
-	c17557:p -> c17566:p [dir=back,arrowtail=empty];
+	c18435:p -> c18444:p [dir=back,arrowtail=empty];
 	//org.universAAL.ri.gateway.protocol.link.ConnectionRequest extends org.universAAL.ri.gateway.protocol.LinkMessage
-	c17557:p -> c17567:p [dir=back,arrowtail=empty];
+	c18435:p -> c18445:p [dir=back,arrowtail=empty];
 	//org.universAAL.ri.gateway.protocol.link.ConnectionResponse extends org.universAAL.ri.gateway.protocol.LinkMessage
-	c17557:p -> c17568:p [dir=back,arrowtail=empty];
+	c18435:p -> c18446:p [dir=back,arrowtail=empty];
 }
 

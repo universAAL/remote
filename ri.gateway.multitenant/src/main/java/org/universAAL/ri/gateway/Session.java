@@ -135,15 +135,18 @@ public class Session implements MessageSender, MessageReceiver,
 				if (isActive()) {
 					Message m = messagequeue.peek();
 					boolean sent = false;
-					try {
-						sent = comunication.sendMessage(m, remoteScope);
-					} catch (final Exception e) {
-						log.error(
-								"Failed to send message due to internal exception, not trying again.",
-								e);
+					if (m != null) {
+						try {
+							sent = comunication.sendMessage(m, remoteScope);
+						} catch (final Exception e) {
+							log.error("Failed to send message due to internal exception, not trying again.", e);
+							sent = true;
+						}
+					} else {
+						log.warning("Detected null message in queue, Ignoring.");
 						sent = true;
 					}
-					if (sent) {
+					if (sent ) {
 						messagequeue.poll();
 					}
 				} else {

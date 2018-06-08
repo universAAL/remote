@@ -74,9 +74,7 @@ public class ConfigurationFileTest {
 
 		Set<Entry<Object, Object>> dfaultEntries = defaults.entrySet();
 		for (Entry<Object, Object> e : dfaultEntries) {
-			System.out.println(e.getKey()+" -> " + e.getValue());
 			String actualValue = cf.getProperty((String)e.getKey());
-			System.out.println(actualValue);
 			assertTrue( actualValue != null && !actualValue.isEmpty());
 			if (checkValues) {
 				assertEquals(e.getValue(), actualValue);

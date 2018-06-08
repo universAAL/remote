@@ -26,7 +26,7 @@ import java.util.Properties;
 
 /**
  * @author amedrano
- * 
+ *
  */
 public abstract class UpdatedPropertiesFile extends Properties {
 
@@ -47,7 +47,7 @@ public abstract class UpdatedPropertiesFile extends Properties {
 
 	/**
 	 * Get the comments for the Property file.
-	 * 
+	 *
 	 * @return
 	 */
 	public abstract String getComments();
@@ -55,14 +55,14 @@ public abstract class UpdatedPropertiesFile extends Properties {
 	/**
 	 * to be implemented to add the default values at the start if there is no
 	 * file.
-	 * 
+	 *
 	 * @param defaults
 	 */
 	protected abstract void addDefaults(Properties defaults);
 
 	/**
 	 * Create a {@link Properties} that is linked and updated with the propfile
-	 * 
+	 *
 	 * @param propFile
 	 *            the properties file
 	 */
@@ -73,11 +73,13 @@ public abstract class UpdatedPropertiesFile extends Properties {
 	/**
 	 * load configuration properties from a file, setting the default for those
 	 * which are not defined.
-	 * 
+	 *
 	 * @throws IOException
 	 * @see HTMLUserGenerator#properties
 	 */
 	public void loadProperties() throws IOException {
+		// first load defaults
+		addDefaults(this);
 
 		/*
 		 * Try to load from file, if not create file from defaults.
@@ -90,7 +92,6 @@ public abstract class UpdatedPropertiesFile extends Properties {
 				propertiesVersion = propertiesFile.lastModified();
 				fis.close();
 			} catch (FileNotFoundException e) {
-				addDefaults(this);
 				storeProperties();
 				propertiesVersion = propertiesFile.lastModified();
 			} finally {
@@ -104,13 +105,13 @@ public abstract class UpdatedPropertiesFile extends Properties {
 
 	/**
 	 * Checks for updates the properties file, and updates the properties.
-	 * 
+	 *
 	 * @return true if the properties have been updated.
 	 */
 	protected boolean checkPropertiesVersion() {
 		if (propertiesFile != null
-				&& (propertiesVersion != propertiesFile.lastModified())) {
-			;
+				&& ((!propertiesFile.exists())
+						|| propertiesVersion != propertiesFile.lastModified())) {
 			try {
 				loadProperties();
 				return true;
@@ -122,7 +123,7 @@ public abstract class UpdatedPropertiesFile extends Properties {
 
 	/**
 	 * Save the current properties in the file.
-	 * 
+	 *
 	 * @throws IOException
 	 */
 	protected void storeProperties() throws IOException {
@@ -136,7 +137,7 @@ public abstract class UpdatedPropertiesFile extends Properties {
 
 	/**
 	 * Access to the property file.
-	 * 
+	 *
 	 * @param string
 	 *            Key of property to access
 	 * @return String Value of the property
@@ -149,7 +150,7 @@ public abstract class UpdatedPropertiesFile extends Properties {
 
 	/**
 	 * Access to the property file.
-	 * 
+	 *
 	 * @param key
 	 *            Key of property to access
 	 * @param defaultValue
@@ -164,7 +165,7 @@ public abstract class UpdatedPropertiesFile extends Properties {
 
 	/**
 	 * Update the property file.
-	 * 
+	 *
 	 * @param key
 	 *            Key of property to access
 	 * @param newValue

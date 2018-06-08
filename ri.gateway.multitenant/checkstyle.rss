@@ -27,8 +27,8 @@ under the License.
     <item>
       <title>File: 62,
              Errors: 853,
-             Warnings: 51,
-             Infos: 158
+             Warnings: 50,
+             Infos: 148
       </title>
             <link>http://remote/ri.gateway.multitenant//checkstyle.html</link>
       <description>
@@ -203,10 +203,10 @@ under the License.
                   <a href="http://remote/ri.gateway.multitenant//checkstyle.html#org.universAAL.ri.gateway.configuration.UpdatedPropertiesFile.java">org/universAAL/ri/gateway/configuration/UpdatedPropertiesFile.java</a>
                 </td>
                 <td>
-                  10
+                  0
                 </td>
                 <td>
-                  1
+                  0
                 </td>
                 <td>
                   12

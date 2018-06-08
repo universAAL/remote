@@ -52,11 +52,11 @@ import org.universAAL.ri.gateway.utils.CallSynchronizer;
 /**
  * Representation of a one to one link between 2 ASGs. It is in charge of
  * connecting the communication layer with the Importer and proxies.
- * 
+ *
  * @author amedrano
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @version $LastChangedRevision$ ($LastChangedDate$)
- * 
+ *
  */
 public class Session implements MessageSender, MessageReceiver,
 		OperationChainManager {
@@ -104,7 +104,7 @@ public class Session implements MessageSender, MessageReceiver,
 		}
 
 		/**
-		 * 
+		 *
 		 */
 		public MessageSynchronizer() {
 			super();
@@ -196,9 +196,6 @@ public class Session implements MessageSender, MessageReceiver,
 		this.config = config;
 		this.cipher = config.getCipher();
 		this.state = SessionEvent.SessionStatus.OPENING;
-		this.messagequeuetask = new Thread(new MessageQueueTask(), "Session_"
-				+ config.toString() + "_MessageQueueTask");
-		this.messagequeuetask.start();
 		long timeout = getTimeout();
 		if (timeout >= 0) {
 			this.synchronizer = new MessageSynchronizer(timeout);
@@ -212,6 +209,9 @@ public class Session implements MessageSender, MessageReceiver,
 		} else {
 			messagequeue = new ConcurrentLinkedQueue<Message>();
 		}
+		this.messagequeuetask = new Thread(new MessageQueueTask(), "Session_"
+				+ config.toString() + "_MessageQueueTask");
+		this.messagequeuetask.start();
 	}
 
 	public Session(final Configuration config, final ProxyPool proxyPool,
@@ -247,7 +247,7 @@ public class Session implements MessageSender, MessageReceiver,
 	}
 
 	/**
-	 * 
+	 *
 	 * @param scope
 	 *            the {@link String} representing the scope of this Session. At
 	 *            the moment the Scope is represented by the SpaceId of the
@@ -259,7 +259,7 @@ public class Session implements MessageSender, MessageReceiver,
 	}
 
 	/**
-	 * 
+	 *
 	 * @return the {@link String} representing the scope of this Session. At the
 	 *         moment the Scope is represented by the SpaceId of the Space that
 	 *         we are connected to
@@ -397,7 +397,7 @@ public class Session implements MessageSender, MessageReceiver,
 
 	/**
 	 * Add a listener even it has not been already added
-	 * 
+	 *
 	 * @param listener
 	 *            the listener to add
 	 * @return true if the listener has been registered
@@ -417,7 +417,7 @@ public class Session implements MessageSender, MessageReceiver,
 	/**
 	 * Remove a listener from the listeners if and only if the listener has
 	 * already been added
-	 * 
+	 *
 	 * @param listener
 	 *            the listener to remove
 	 * @return true if the listener has been removed
@@ -470,7 +470,7 @@ public class Session implements MessageSender, MessageReceiver,
 	 * To be called when the session is to be closed. <br>
 	 * Removes all associations in all proxies with the session, and closes
 	 * those left orphan.
-	 * 
+	 *
 	 * @param session
 	 */
 	public void removeImports() {
@@ -483,7 +483,7 @@ public class Session implements MessageSender, MessageReceiver,
 
 	/**
 	 * Gets timeout configuration for session.
-	 * 
+	 *
 	 * @return negative infinite timeout, timeout in milisec IOC
 	 */
 	public long getTimeout() {
@@ -493,7 +493,7 @@ public class Session implements MessageSender, MessageReceiver,
 	/**
 	 * Get the configuration that states that the gateway should cache messages
 	 * before actual connection.
-	 * 
+	 *
 	 * @return true IFF the messages should be cached before connection
 	 */
 	public boolean getCacheBeforeConnect() {

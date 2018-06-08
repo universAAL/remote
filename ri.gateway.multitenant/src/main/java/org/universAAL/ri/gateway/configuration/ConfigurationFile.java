@@ -29,7 +29,7 @@ import org.universAAL.ri.gateway.operations.ParameterCheckOpertaionChain;
 
 /**
  * @author amedrano
- * 
+ *
  */
 public class ConfigurationFile extends UpdatedPropertiesFile implements
 		Configuration, PropertiesFileKeys {
@@ -151,7 +151,7 @@ public class ConfigurationFile extends UpdatedPropertiesFile implements
 		// types of cipher
 		if (cipher == null) {
 			try {
-				Class<?> c = Class.forName(CHIPER_CLASS);
+				Class<?> c = Class.forName(getProperty(CHIPER_CLASS));
 				cipher = (SocketCipher) c.getConstructor().newInstance();
 				cipher.setup(this);
 			} catch (Exception e) {

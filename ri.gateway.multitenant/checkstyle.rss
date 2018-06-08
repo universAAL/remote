@@ -28,7 +28,7 @@ under the License.
       <title>File: 62,
              Errors: 853,
              Warnings: 50,
-             Infos: 137
+             Infos: 138
       </title>
             <link>http://remote/ri.gateway.multitenant//checkstyle.html</link>
       <description>
@@ -49,7 +49,7 @@ under the License.
                   <a href="http://remote/ri.gateway.multitenant//checkstyle.html#org.universAAL.ri.gateway.Session.java">org/universAAL/ri/gateway/Session.java</a>
                 </td>
                 <td>
-                  1
+                  2
                 </td>
                 <td>
                   2

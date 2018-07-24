@@ -128,7 +128,7 @@ public class Gateway implements ModuleActivator, SessionEventListener {
 				new Object[] { TenantManager.class.getName() });
 
 		busTracker = new PassiveDependencyProxy<IBusMemberRegistry>(context,
-				IBusMemberRegistry.busRegistryShareParams);
+				new Object[] { IBusMemberRegistry.class.getName() });
 
 		busTracker.getObject().addListener(exporter, true);
 

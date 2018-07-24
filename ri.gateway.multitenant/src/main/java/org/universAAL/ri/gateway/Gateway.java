@@ -120,13 +120,15 @@ public class Gateway implements ModuleActivator, SessionEventListener {
 		spaceManager = new PassiveDependencyProxy<AALSpaceManager>(context,
 				new Object[] { AALSpaceManager.class.getName() });
 
-		serializer = new PassiveDependencyProxy<MessageContentSerializer>(context,
+		serializer = new PassiveDependencyProxy<MessageContentSerializer>(
+				context,
 				new Object[] { MessageContentSerializer.class.getName() });
 
 		tenantManager = new PassiveDependencyProxy<TenantManager>(context,
 				new Object[] { TenantManager.class.getName() });
 
-		busTracker = new PassiveDependencyProxy<IBusMemberRegistry>(context, IBusMemberRegistry.busRegistryShareParams);
+		busTracker = new PassiveDependencyProxy<IBusMemberRegistry>(context,
+				new Object[] { IBusMemberRegistry.class.getName() });
 
 		busTracker.getObject().addListener(exporter, true);
 
@@ -150,7 +152,8 @@ public class Gateway implements ModuleActivator, SessionEventListener {
 						public void run() {
 							// create a new session for each properties file
 							final Configuration fc = new ConfigurationFile(p);
-							if (fc.getConnectionMode().equals(ConnectionMode.CLIENT)) {
+							if (fc.getConnectionMode().equals(
+									ConnectionMode.CLIENT)) {
 								final Session s = new Session(fc, proxypool);
 								s.addSessionEventListener(Gateway.getInstance());// self
 								newSession(p.getAbsolutePath(), s);
@@ -160,10 +163,12 @@ public class Gateway implements ModuleActivator, SessionEventListener {
 							}
 						}
 					};
-					new Thread(task, "initialisation of " + props[i].getAbsolutePath()).start();
+					new Thread(task, "initialisation of "
+							+ props[i].getAbsolutePath()).start();
 				} catch (final Exception e) {
 					LogUtils.logError(context, getClass(), "start",
-							new String[] { "unable to start instance from : " + props[i].getAbsolutePath() }, e);
+							new String[] { "unable to start instance from : "
+									+ props[i].getAbsolutePath() }, e);
 				}
 			}
 			/*

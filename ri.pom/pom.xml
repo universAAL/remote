@@ -22,6 +22,7 @@
     <module>../ri.api.manager</module>
     <module>../ri.api.manager.mysql</module>
     <module>../ri.rest.manager</module>
+    <module>../ri.rest.manager.che</module>
     <module>../ri.keepalive.receiver</module>
     <module>../ri.keepalive.sender</module>
     <module>ri.karaf.feature</module>

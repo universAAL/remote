@@ -14,6 +14,9 @@
 	<name>universAAL Remote Interoperability REST-API Manager</name>
 	<description>Module for deploying a RESTful API to access uAAL core features</description>
 	<packaging>bundle</packaging>
+	  <properties>
+	<maven.test.skip>true</maven.test.skip>
+</properties>
 	<dependencies>
 		<dependency>
 			<groupId>org.universAAL.support</groupId>
@@ -92,4 +95,22 @@
 			</plugin>
 		</plugins>
 	</build>
+	<profiles>
+    <profile>
+      <id>uAAL-Runtime</id>
+      <dependencies>
+        <dependency>
+          <groupId>org.universAAL.ontology</groupId>
+          <artifactId>ont.device</artifactId>
+          <scope>provided</scope>
+        </dependency>
+        <dependency>
+          <groupId>org.apache.cxf</groupId>
+          <artifactId>cxf-rt-transports-http-jetty</artifactId>
+          <version>3.0.2</version>
+          <scope>provided</scope>
+        </dependency>
+      </dependencies>
+    </profile>
+  </profiles>
 </project>

@@ -49,7 +49,7 @@ public interface Persistence {
 
 	public void init(ModuleContext context);
 
-	public void storeSpace(Space s, String v);
+	public void storeSpace(Space s, String v, String owner);
 
 	public void removeSpace(String id);
 
@@ -108,5 +108,16 @@ public interface Persistence {
 	 * @return true if there is already a user-password pair persisted.
 	 */
 	public boolean checkUser(String user);
+	
+	/**
+	 * Check if a user created a space and is authorized to access it.
+	 *
+	 * @param user
+	 *            to check
+	 * @param space
+	 *            to access
+	 * @return true if the user created the space and can access it.
+	 */
+	public boolean checkUserSpace(String user, String space);
 
 }

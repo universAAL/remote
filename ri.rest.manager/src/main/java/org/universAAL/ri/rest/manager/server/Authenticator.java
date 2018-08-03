@@ -22,20 +22,20 @@
 package org.universAAL.ri.rest.manager.server;
 
 import java.util.Hashtable;
-//import java.util.List;
+import java.util.List;
 
-//import javax.security.auth.Subject;
+import javax.security.auth.Subject;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerRequestFilter;
-//import javax.ws.rs.core.PathSegment;
+import javax.ws.rs.core.PathSegment;
 import javax.ws.rs.core.Response;
 
-//import org.apache.cxf.common.security.SimplePrincipal;
+import org.apache.cxf.common.security.SimplePrincipal;
 import org.apache.cxf.configuration.security.AuthorizationPolicy;
-//import org.apache.cxf.interceptor.security.DefaultSecurityContext;
+import org.apache.cxf.interceptor.security.DefaultSecurityContext;
 import org.apache.cxf.jaxrs.utils.JAXRSUtils;
 import org.apache.cxf.message.Message;
-//import org.apache.cxf.security.SecurityContext;
+import org.apache.cxf.security.SecurityContext;
 import org.universAAL.ri.rest.manager.Activator;
 
 public class Authenticator implements ContainerRequestFilter {
@@ -47,12 +47,8 @@ public class Authenticator implements ContainerRequestFilter {
 	/**
 	 * In memory list of user-pwd pairs, to avoid constant use of the DB
 	 */
-	private static Hashtable<String, String> users = new Hashtable<String, String>(); // TODO
-																						// Clean
-																						// from
-																						// time
-																						// to
-																						// time?
+	private static Hashtable<String, String> users = new Hashtable<String, String>();
+	// TODO Clean from time to time?
 
 	public void filter(ContainerRequestContext context) {
 		Message m = JAXRSUtils.getCurrentMessage();
@@ -62,10 +58,9 @@ public class Authenticator implements ContainerRequestFilter {
 			String password = policy.getPassword();
 			if (isAuthenticated(username, password) && isAuthorized(username, context.getUriInfo().getPath())) {
 				// initialize org.apache.cxf.security.SecurityContext with
-				// Principals representing the user and its roles (if
-				// available).
-				// m.put(SecurityContext.class, new DefaultSecurityContext(new
-				// SimplePrincipal(username), new Subject()));
+				// Principals representing the user and its roles (if available).
+				 m.put(SecurityContext.class, new DefaultSecurityContext(new
+				 SimplePrincipal(username), new Subject()));
 				// let request continue
 				return;
 			}
@@ -102,17 +97,16 @@ public class Authenticator implements ContainerRequestFilter {
 		}
 	}
 
-	private boolean isAuthorized(String username, String p) {
-		// TODO Rough authorization strategy. Only allow access to space if you
-		// created it.
-		// List<PathSegment> s = JAXRSUtils.getPathSegments(p, false);
-		// if(s.size()>2){ // /uaal and /uaal/spaces for everyone TODO ??
-		// PathSegment segment = s.get(2);
-		// String space=segment.toString();
-		// return Activator.getPersistence().checkUserSpace(username, space));
-		// }
-		// TODO Use native mechanisms for authorization
-		return true;
+    private boolean isAuthorized(String username, String p) {
+	// Rough authorization strategy. Only allow access to space if you created it.
+	List<PathSegment> s = JAXRSUtils.getPathSegments(p, false);
+	if (s.size() > 2) { // /uaal and /uaal/spaces for everyone TODO ??
+	    PathSegment segment = s.get(2);
+	    String space = segment.toString();
+	    return Activator.getPersistence().checkUserSpace(username, space);
 	}
+	// Looks like native mechanisms for authorization only work with Roles, not specific users
+	return true;
+    }
 
 }

@@ -34,8 +34,9 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Link;
 import javax.ws.rs.core.Link.JaxbAdapter;
 import javax.ws.rs.core.Response.Status;
+import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.core.Response;
-//import javax.ws.rs.core.SecurityContext;
+import javax.ws.rs.core.SecurityContext;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
@@ -154,7 +155,7 @@ public class Space {
 
 	@PUT // PUT localhost:9000/uaal/spaces/123 <Body: Space>
 	@Consumes(Activator.TYPES)
-	public Response putSpaceResource(@PathParam("id") String id, Space space) throws URISyntaxException {
+	public Response putSpaceResource(@PathParam("id") String id, Space space, @javax.ws.rs.core.Context SecurityContext security) throws URISyntaxException {
 		Activator.logI("Space.putSpaceResource", "PUT host:port/uaal/spaces/X ");
 		if (id.equals(space.id)) {// Do not allow changes to id
 			SpaceWrapper original = UaalWrapper.getInstance().getTenant(id);
@@ -167,7 +168,8 @@ public class Space {
 				// Reuse the original to keep the wrappers it already has
 				original.setResource(space);
 				if (UaalWrapper.getInstance().updateTenant(original)) {
-					Activator.getPersistence().storeSpace(space, (String) null);
+				    String user=security.getUserPrincipal().getName();
+					Activator.getPersistence().storeSpace(space, (String) null, user);
 					return Response.created(new URI("uaal/spaces/" + space.getId())).build();
 				} else {
 					return Response.notModified().build();

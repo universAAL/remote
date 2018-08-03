@@ -34,6 +34,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Link;
 import javax.ws.rs.core.Link.JaxbAdapter;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.SecurityContext;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -99,7 +100,7 @@ public class Spaces {
 
 	@POST // POST localhost:9000/uaal/spaces <Body: Space>
 	@Consumes(Activator.TYPES)
-	public Response addSpaceResource(Space space) throws URISyntaxException {
+	public Response addSpaceResource(Space space, @javax.ws.rs.core.Context SecurityContext security) throws URISyntaxException {
 		Activator.logI("Spaces.addSpaceResource", "POST host:port/uaal/spaces ");
 		// The space generated from the POST body does not contain any "link"
 		// elements, but I wouldnt have allowed it anyway
@@ -107,12 +108,18 @@ public class Spaces {
 		space.setSelf(Link.fromPath("/uaal/spaces/" + space.getId()).rel("self").build());
 		space.setContext(Link.fromPath("/uaal/spaces/" + space.getId() + "/context").rel("context").build());
 		space.setService(Link.fromPath("/uaal/spaces/" + space.getId() + "/service").rel("service").build());
-		UaalWrapper.getInstance().addTenant(new SpaceWrapper(space));
-		if (Activator.getTenantMngr() != null) {
+		if(UaalWrapper.getInstance().getTenant(space.getId())!=null){
+		    // Say it is OK but do nothing, dont create if exists, for security reasons
+		    return Response.ok().build(); 
+		}else{
+		    UaalWrapper.getInstance().addTenant(new SpaceWrapper(space));
+		    if (Activator.getTenantMngr() != null) {
 			Activator.getTenantMngr().registerTenant(space.getId(), "SpaceWrapper created through REST interface");
-		}
-		Activator.getPersistence().storeSpace(space, (String) null);
-		return Response.created(new URI("uaal/spaces/" + space.getId())).build();
+		    }
+		    String user=security.getUserPrincipal().getName();
+		    Activator.getPersistence().storeSpace(space, (String) null, user);
+		    return Response.created(new URI("uaal/spaces/" + space.getId())).build();
+		}	
 	}
 
 	@Path("/{id}") // GET localhost:9000/uaal/spaces/123 (Redirects to Space

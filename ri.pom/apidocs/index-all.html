@@ -215,7 +215,7 @@
 <dd>
 <div class="block">Add a listener even it has not been already added</div>
 </dd>
-<dt><span class="memberNameLink"><a href="org/universAAL/ri/rest/manager/resources/Spaces.html#addSpaceResource-org.universAAL.ri.rest.manager.resources.Space-">addSpaceResource(Space)</a></span> - Method in class org.universAAL.ri.rest.manager.resources.<a href="org/universAAL/ri/rest/manager/resources/Spaces.html" title="class in org.universAAL.ri.rest.manager.resources">Spaces</a></dt>
+<dt><span class="memberNameLink"><a href="org/universAAL/ri/rest/manager/resources/Spaces.html#addSpaceResource-org.universAAL.ri.rest.manager.resources.Space-javax.ws.rs.core.SecurityContext-">addSpaceResource(Space, SecurityContext)</a></span> - Method in class org.universAAL.ri.rest.manager.resources.<a href="org/universAAL/ri/rest/manager/resources/Spaces.html" title="class in org.universAAL.ri.rest.manager.resources">Spaces</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/universAAL/ri/rest/manager/resources/Subscribers.html#addSubscriberResource-java.lang.String-org.universAAL.ri.rest.manager.resources.Subscriber-">addSubscriberResource(String, Subscriber)</a></span> - Method in class org.universAAL.ri.rest.manager.resources.<a href="org/universAAL/ri/rest/manager/resources/Subscribers.html" title="class in org.universAAL.ri.rest.manager.resources">Subscribers</a></dt>
 <dd>&nbsp;</dd>
@@ -552,6 +552,12 @@
  pair.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="org/universAAL/ri/rest/manager/server/persistence/PersistenceDerby.html#checkUserPWD-java.lang.String-java.lang.String-">checkUserPWD(String, String)</a></span> - Method in class org.universAAL.ri.rest.manager.server.persistence.<a href="org/universAAL/ri/rest/manager/server/persistence/PersistenceDerby.html" title="class in org.universAAL.ri.rest.manager.server.persistence">PersistenceDerby</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="org/universAAL/ri/rest/manager/server/persistence/Persistence.html#checkUserSpace-java.lang.String-java.lang.String-">checkUserSpace(String, String)</a></span> - Method in interface org.universAAL.ri.rest.manager.server.persistence.<a href="org/universAAL/ri/rest/manager/server/persistence/Persistence.html" title="interface in org.universAAL.ri.rest.manager.server.persistence">Persistence</a></dt>
+<dd>
+<div class="block">Check if a user created a space and is authorized to access it.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="org/universAAL/ri/rest/manager/server/persistence/PersistenceDerby.html#checkUserSpace-java.lang.String-java.lang.String-">checkUserSpace(String, String)</a></span> - Method in class org.universAAL.ri.rest.manager.server.persistence.<a href="org/universAAL/ri/rest/manager/server/persistence/PersistenceDerby.html" title="class in org.universAAL.ri.rest.manager.server.persistence">PersistenceDerby</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/universAAL/ri/gateway/configuration/PropertiesFileKeys.html#CHIPER_CLASS">CHIPER_CLASS</a></span> - Static variable in interface org.universAAL.ri.gateway.configuration.<a href="org/universAAL/ri/gateway/configuration/PropertiesFileKeys.html" title="interface in org.universAAL.ri.gateway.configuration">PropertiesFileKeys</a></dt>
 <dd>
@@ -3305,7 +3311,7 @@
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/universAAL/ri/rest/manager/resources/Publisher.html#putPublisherResource-java.lang.String-java.lang.String-org.universAAL.ri.rest.manager.resources.Publisher-">putPublisherResource(String, String, Publisher)</a></span> - Method in class org.universAAL.ri.rest.manager.resources.<a href="org/universAAL/ri/rest/manager/resources/Publisher.html" title="class in org.universAAL.ri.rest.manager.resources">Publisher</a></dt>
 <dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="org/universAAL/ri/rest/manager/resources/Space.html#putSpaceResource-java.lang.String-org.universAAL.ri.rest.manager.resources.Space-">putSpaceResource(String, Space)</a></span> - Method in class org.universAAL.ri.rest.manager.resources.<a href="org/universAAL/ri/rest/manager/resources/Space.html" title="class in org.universAAL.ri.rest.manager.resources">Space</a></dt>
+<dt><span class="memberNameLink"><a href="org/universAAL/ri/rest/manager/resources/Space.html#putSpaceResource-java.lang.String-org.universAAL.ri.rest.manager.resources.Space-javax.ws.rs.core.SecurityContext-">putSpaceResource(String, Space, SecurityContext)</a></span> - Method in class org.universAAL.ri.rest.manager.resources.<a href="org/universAAL/ri/rest/manager/resources/Space.html" title="class in org.universAAL.ri.rest.manager.resources">Space</a></dt>
 <dd>&nbsp;</dd>
 </dl>
 <a name="I:Q">
@@ -4270,9 +4276,9 @@
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/universAAL/ri/gateway/communicator/service/impl/SessionManager.html#storeSession-java.util.UUID-java.lang.String-java.lang.String-java.lang.String-">storeSession(UUID, String, String, String)</a></span> - Method in class org.universAAL.ri.gateway.communicator.service.impl.<a href="org/universAAL/ri/gateway/communicator/service/impl/SessionManager.html" title="class in org.universAAL.ri.gateway.communicator.service.impl">SessionManager</a></dt>
 <dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="org/universAAL/ri/rest/manager/server/persistence/Persistence.html#storeSpace-org.universAAL.ri.rest.manager.resources.Space-java.lang.String-">storeSpace(Space, String)</a></span> - Method in interface org.universAAL.ri.rest.manager.server.persistence.<a href="org/universAAL/ri/rest/manager/server/persistence/Persistence.html" title="interface in org.universAAL.ri.rest.manager.server.persistence">Persistence</a></dt>
+<dt><span class="memberNameLink"><a href="org/universAAL/ri/rest/manager/server/persistence/Persistence.html#storeSpace-org.universAAL.ri.rest.manager.resources.Space-java.lang.String-java.lang.String-">storeSpace(Space, String, String)</a></span> - Method in interface org.universAAL.ri.rest.manager.server.persistence.<a href="org/universAAL/ri/rest/manager/server/persistence/Persistence.html" title="interface in org.universAAL.ri.rest.manager.server.persistence">Persistence</a></dt>
 <dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="org/universAAL/ri/rest/manager/server/persistence/PersistenceDerby.html#storeSpace-org.universAAL.ri.rest.manager.resources.Space-java.lang.String-">storeSpace(Space, String)</a></span> - Method in class org.universAAL.ri.rest.manager.server.persistence.<a href="org/universAAL/ri/rest/manager/server/persistence/PersistenceDerby.html" title="class in org.universAAL.ri.rest.manager.server.persistence">PersistenceDerby</a></dt>
+<dt><span class="memberNameLink"><a href="org/universAAL/ri/rest/manager/server/persistence/PersistenceDerby.html#storeSpace-org.universAAL.ri.rest.manager.resources.Space-java.lang.String-java.lang.String-">storeSpace(Space, String, String)</a></span> - Method in class org.universAAL.ri.rest.manager.server.persistence.<a href="org/universAAL/ri/rest/manager/server/persistence/PersistenceDerby.html" title="class in org.universAAL.ri.rest.manager.server.persistence">PersistenceDerby</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/universAAL/ri/api/manager/server/persistence/Persistence.html#storeSubscriber-java.lang.String-java.lang.String-">storeSubscriber(String, String)</a></span> - Method in interface org.universAAL.ri.api.manager.server.persistence.<a href="org/universAAL/ri/api/manager/server/persistence/Persistence.html" title="interface in org.universAAL.ri.api.manager.server.persistence">Persistence</a></dt>
 <dd>

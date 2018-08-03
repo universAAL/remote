@@ -94,7 +94,7 @@
 <th>Missing Classes</th></tr>
 <tr class="b">
 <td>34</td>
-<td>33</td>
+<td>35</td>
 <td>0</td>
 <td>0</td></tr></table></div>
 <div class="section">
@@ -129,7 +129,7 @@
 <td>1</td></tr>
 <tr class="b">
 <td><a href="#org.universAAL.ri.rest.manager.server.persistence.PersistenceDerby">org.universAAL.ri.rest.manager.server.persistence.PersistenceDerby</a></td>
-<td>19</td></tr>
+<td>21</td></tr>
 <tr class="a">
 <td><a href="#org.universAAL.ri.rest.manager.wrappers.CalleeWrapper">org.universAAL.ri.rest.manager.wrappers.CalleeWrapper</a></td>
 <td>1</td></tr></table></div><a name="org.universAAL.ri.rest.manager.Activator"></a>
@@ -212,7 +212,7 @@
 <td>Unread field: org.universAAL.ri.rest.manager.resources.Spaces.self</td>
 <td>PERFORMANCE</td>
 <td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#URF_UNREAD_FIELD">URF_UNREAD_FIELD</a></td>
-<td>54</td>
+<td>55</td>
 <td>Medium</td></tr></table></div><a name="org.universAAL.ri.rest.manager.server.Base64"></a>
 <div class="section">
 <h3><a name="org.universAAL.ri.rest.manager.server.Base64"></a>org.universAAL.ri.rest.manager.server.Base64</h3>
@@ -296,13 +296,13 @@
 <td>org.universAAL.ri.rest.manager.server.persistence.PersistenceDerby.checkIdExists(String, String) may fail to clean up java.sql.ResultSet</td>
 <td>EXPERIMENTAL</td>
 <td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#OBL_UNSATISFIED_OBLIGATION">OBL_UNSATISFIED_OBLIGATION</a></td>
-<td>608</td>
+<td>648</td>
 <td>Medium</td></tr>
 <tr class="a">
 <td>org.universAAL.ri.rest.manager.server.persistence.PersistenceDerby.checkSubIdExists(String, String, String) may fail to clean up java.sql.ResultSet</td>
 <td>EXPERIMENTAL</td>
 <td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#OBL_UNSATISFIED_OBLIGATION">OBL_UNSATISFIED_OBLIGATION</a></td>
-<td>643</td>
+<td>683</td>
 <td>Medium</td></tr>
 <tr class="b">
 <td>org.universAAL.ri.rest.manager.server.persistence.PersistenceDerby.checkUserPWD(String, String) may fail to clean up java.sql.ResultSet</td>
@@ -311,94 +311,106 @@
 <td>466</td>
 <td>Medium</td></tr>
 <tr class="a">
+<td>org.universAAL.ri.rest.manager.server.persistence.PersistenceDerby.checkUserSpace(String, String) may fail to clean up java.sql.ResultSet</td>
+<td>EXPERIMENTAL</td>
+<td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#OBL_UNSATISFIED_OBLIGATION">OBL_UNSATISFIED_OBLIGATION</a></td>
+<td>510</td>
+<td>Medium</td></tr>
+<tr class="b">
 <td>org.universAAL.ri.rest.manager.server.persistence.PersistenceDerby.restore() may fail to clean up java.sql.ResultSet</td>
 <td>EXPERIMENTAL</td>
 <td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#OBL_UNSATISFIED_OBLIGATION">OBL_UNSATISFIED_OBLIGATION</a></td>
-<td>369</td>
+<td>370</td>
 <td>Medium</td></tr>
-<tr class="b">
+<tr class="a">
 <td>org.universAAL.ri.rest.manager.server.persistence.PersistenceDerby.checkIdExists(String, String) passes a nonconstant String to an execute or addBatch method on an SQL statement</td>
 <td>SECURITY</td>
 <td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#SQL_NONCONSTANT_STRING_PASSED_TO_EXECUTE">SQL_NONCONSTANT_STRING_PASSED_TO_EXECUTE</a></td>
-<td>608</td>
+<td>648</td>
 <td>High</td></tr>
-<tr class="a">
+<tr class="b">
 <td>org.universAAL.ri.rest.manager.server.persistence.PersistenceDerby.checkSubIdExists(String, String, String) passes a nonconstant String to an execute or addBatch method on an SQL statement</td>
 <td>SECURITY</td>
 <td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#SQL_NONCONSTANT_STRING_PASSED_TO_EXECUTE">SQL_NONCONSTANT_STRING_PASSED_TO_EXECUTE</a></td>
-<td>643</td>
+<td>683</td>
 <td>High</td></tr>
-<tr class="b">
+<tr class="a">
 <td>org.universAAL.ri.rest.manager.server.persistence.PersistenceDerby.checkUserPWD(String, String) passes a nonconstant String to an execute or addBatch method on an SQL statement</td>
 <td>SECURITY</td>
 <td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#SQL_NONCONSTANT_STRING_PASSED_TO_EXECUTE">SQL_NONCONSTANT_STRING_PASSED_TO_EXECUTE</a></td>
 <td>466</td>
 <td>High</td></tr>
+<tr class="b">
+<td>org.universAAL.ri.rest.manager.server.persistence.PersistenceDerby.checkUserSpace(String, String) passes a nonconstant String to an execute or addBatch method on an SQL statement</td>
+<td>SECURITY</td>
+<td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#SQL_NONCONSTANT_STRING_PASSED_TO_EXECUTE">SQL_NONCONSTANT_STRING_PASSED_TO_EXECUTE</a></td>
+<td>510</td>
+<td>High</td></tr>
 <tr class="a">
 <td>org.universAAL.ri.rest.manager.server.persistence.PersistenceDerby.removeCallee(String, String) passes a nonconstant String to an execute or addBatch method on an SQL statement</td>
 <td>SECURITY</td>
 <td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#SQL_NONCONSTANT_STRING_PASSED_TO_EXECUTE">SQL_NONCONSTANT_STRING_PASSED_TO_EXECUTE</a></td>
-<td>276</td>
+<td>277</td>
 <td>High</td></tr>
 <tr class="b">
 <td>org.universAAL.ri.rest.manager.server.persistence.PersistenceDerby.removeCaller(String, String) passes a nonconstant String to an execute or addBatch method on an SQL statement</td>
 <td>SECURITY</td>
 <td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#SQL_NONCONSTANT_STRING_PASSED_TO_EXECUTE">SQL_NONCONSTANT_STRING_PASSED_TO_EXECUTE</a></td>
-<td>256</td>
+<td>257</td>
 <td>High</td></tr>
 <tr class="a">
 <td>org.universAAL.ri.rest.manager.server.persistence.PersistenceDerby.removeOlderThan(Long) passes a nonconstant String to an execute or addBatch method on an SQL statement</td>
 <td>SECURITY</td>
 <td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#SQL_NONCONSTANT_STRING_PASSED_TO_EXECUTE">SQL_NONCONSTANT_STRING_PASSED_TO_EXECUTE</a></td>
-<td>540</td>
+<td>580</td>
 <td>High</td></tr>
 <tr class="b">
 <td>org.universAAL.ri.rest.manager.server.persistence.PersistenceDerby.removePublisher(String, String) passes a nonconstant String to an execute or addBatch method on an SQL statement</td>
 <td>SECURITY</td>
 <td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#SQL_NONCONSTANT_STRING_PASSED_TO_EXECUTE">SQL_NONCONSTANT_STRING_PASSED_TO_EXECUTE</a></td>
-<td>236</td>
+<td>237</td>
 <td>High</td></tr>
 <tr class="a">
 <td>org.universAAL.ri.rest.manager.server.persistence.PersistenceDerby.removeSpace(String) passes a nonconstant String to an execute or addBatch method on an SQL statement</td>
 <td>SECURITY</td>
 <td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#SQL_NONCONSTANT_STRING_PASSED_TO_EXECUTE">SQL_NONCONSTANT_STRING_PASSED_TO_EXECUTE</a></td>
-<td>298</td>
+<td>299</td>
 <td>High</td></tr>
 <tr class="b">
 <td>org.universAAL.ri.rest.manager.server.persistence.PersistenceDerby.removeSubscriber(String, String) passes a nonconstant String to an execute or addBatch method on an SQL statement</td>
 <td>SECURITY</td>
 <td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#SQL_NONCONSTANT_STRING_PASSED_TO_EXECUTE">SQL_NONCONSTANT_STRING_PASSED_TO_EXECUTE</a></td>
-<td>216</td>
+<td>217</td>
 <td>High</td></tr>
 <tr class="a">
 <td>org.universAAL.ri.rest.manager.server.persistence.PersistenceDerby.storeCallee(String, Callee) passes a nonconstant String to an execute or addBatch method on an SQL statement</td>
 <td>SECURITY</td>
 <td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#SQL_NONCONSTANT_STRING_PASSED_TO_EXECUTE">SQL_NONCONSTANT_STRING_PASSED_TO_EXECUTE</a></td>
-<td>270</td>
+<td>271</td>
 <td>High</td></tr>
 <tr class="b">
 <td>org.universAAL.ri.rest.manager.server.persistence.PersistenceDerby.storeCaller(String, Caller) passes a nonconstant String to an execute or addBatch method on an SQL statement</td>
 <td>SECURITY</td>
 <td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#SQL_NONCONSTANT_STRING_PASSED_TO_EXECUTE">SQL_NONCONSTANT_STRING_PASSED_TO_EXECUTE</a></td>
-<td>250</td>
+<td>251</td>
 <td>High</td></tr>
 <tr class="a">
 <td>org.universAAL.ri.rest.manager.server.persistence.PersistenceDerby.storePublisher(String, Publisher) passes a nonconstant String to an execute or addBatch method on an SQL statement</td>
 <td>SECURITY</td>
 <td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#SQL_NONCONSTANT_STRING_PASSED_TO_EXECUTE">SQL_NONCONSTANT_STRING_PASSED_TO_EXECUTE</a></td>
-<td>230</td>
+<td>231</td>
 <td>High</td></tr>
 <tr class="b">
-<td>org.universAAL.ri.rest.manager.server.persistence.PersistenceDerby.storeSpace(Space, String) passes a nonconstant String to an execute or addBatch method on an SQL statement</td>
+<td>org.universAAL.ri.rest.manager.server.persistence.PersistenceDerby.storeSpace(Space, String, String) passes a nonconstant String to an execute or addBatch method on an SQL statement</td>
 <td>SECURITY</td>
 <td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#SQL_NONCONSTANT_STRING_PASSED_TO_EXECUTE">SQL_NONCONSTANT_STRING_PASSED_TO_EXECUTE</a></td>
-<td>197</td>
+<td>198</td>
 <td>High</td></tr>
 <tr class="a">
 <td>org.universAAL.ri.rest.manager.server.persistence.PersistenceDerby.storeSubscriber(String, Subscriber) passes a nonconstant String to an execute or addBatch method on an SQL statement</td>
 <td>SECURITY</td>
 <td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#SQL_NONCONSTANT_STRING_PASSED_TO_EXECUTE">SQL_NONCONSTANT_STRING_PASSED_TO_EXECUTE</a></td>
-<td>210</td>
+<td>211</td>
 <td>High</td></tr>
 <tr class="b">
 <td>org.universAAL.ri.rest.manager.server.persistence.PersistenceDerby.storeUserPWD(String, String) passes a nonconstant String to an execute or addBatch method on an SQL statement</td>

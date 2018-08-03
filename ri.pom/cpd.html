@@ -8528,7 +8528,7 @@
 <tr class="b">
 <td>org/universAAL/ri/rest/manager/server/persistence/PersistenceDerby.java</td>
 <td>universAAL Remote Interoperability REST-API Manager</td>
-<td>326</td></tr>
+<td>327</td></tr>
 <tr class="a"><td colspan='3'>
 <div>
 <pre>				stmt.executeUpdate(deleteREGISTERS);// TODO Remove in cascade?
@@ -9857,7 +9857,7 @@
 <tr class="a">
 <td>org/universAAL/ri/rest/manager/server/persistence/PersistenceDerby.java</td>
 <td>universAAL Remote Interoperability REST-API Manager</td>
-<td>663</td></tr>
+<td>703</td></tr>
 <tr class="b"><td colspan='3'>
 <div>
 <pre>	}
@@ -10732,49 +10732,6 @@
 
 		} catch (Exception e) {
 			Activator.logE(&quot;PersistenceDerby.removeRegister&quot;, &quot;Error removing from the database&quot;);</pre></div></td></tr></table>
-<table border="0" class="bodyTable">
-<tr class="b">
-<th>File</th>
-<th>Project</th>
-<th>Line</th></tr>
-<tr class="a">
-<td>org/universAAL/ri/api/manager/server/persistence/PersistenceDerby.java</td>
-<td>universAAL Remote Interoperability Remote-API Manager</td>
-<td>487</td></tr>
-<tr class="b">
-<td>org/universAAL/ri/rest/manager/server/persistence/PersistenceDerby.java</td>
-<td>universAAL Remote Interoperability REST-API Manager</td>
-<td>464</td></tr>
-<tr class="a"><td colspan='3'>
-<div>
-<pre>			String selectPWDS = &quot;Select pwd from &quot; + PWDDBNAME + &quot;.pwds WHERE id='&quot; + id + &quot;'&quot;;
-
-			ResultSet resultSet = stmt.executeQuery(selectPWDS);
-			while (resultSet.next()) {
-				String storedpwd = resultSet.getString(1);
-				if (storedpwd.equals(pwd)) {
-					result = true;
-				}
-			}
-
-		} catch (Exception e) {
-			Activator.logE(&quot;PersistenceDerby.checkUserPWD&quot;, &quot;Error restoring from the database&quot;);
-			e.printStackTrace();
-		} finally {
-			try {// javadoc: resultSet auto closed if stmt is closed
-				if (stmt != null) {
-					stmt.close();
-				}
-				if (conn != null) {
-					conn.close();
-				}
-			} catch (SQLException e) {
-				Activator.logE(&quot;PersistenceDerby.checkUserPWD&quot;, &quot;Error restoring from the database&quot;);
-				e.printStackTrace();
-			}
-		}
-		return result;
-	}</pre></div></td></tr></table>
 <table border="0" class="bodyTable">
 <tr class="b">
 <th>File</th>
@@ -13242,7 +13199,7 @@
 <tr class="a">
 <td>org/universAAL/ri/rest/manager/server/persistence/PersistenceDerby.java</td>
 <td>universAAL Remote Interoperability REST-API Manager</td>
-<td>568</td></tr>
+<td>608</td></tr>
 <tr class="b"><td colspan='3'>
 <div>
 <pre>				stmt.executeUpdate(deleteREGISTERS);// TODO Remove in cascade?

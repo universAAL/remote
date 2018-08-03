@@ -18,7 +18,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10,"i10":10,"i11":10,"i12":10,"i13":10,"i14":10,"i15":10};
+var methods = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10,"i10":10,"i11":10,"i12":10,"i13":10,"i14":10,"i15":10,"i16":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -172,73 +172,81 @@ implements <a href="../../../../../../../org/universAAL/ri/rest/manager/server/p
 </td>
 </tr>
 <tr id="i2" class="altColor">
+<td class="colFirst"><code>boolean</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../../org/universAAL/ri/rest/manager/server/persistence/PersistenceDerby.html#checkUserSpace-java.lang.String-java.lang.String-">checkUserSpace</a></span>(<a href="http://docs.oracle.com/javase/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;user,
+              <a href="http://docs.oracle.com/javase/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;space)</code>
+<div class="block">Check if a user created a space and is authorized to access it.</div>
+</td>
+</tr>
+<tr id="i3" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../../org/universAAL/ri/rest/manager/server/persistence/PersistenceDerby.html#init-org.universAAL.middleware.container.ModuleContext-">init</a></span>(org.universAAL.middleware.container.ModuleContext&nbsp;context)</code>&nbsp;</td>
 </tr>
-<tr id="i3" class="rowColor">
+<tr id="i4" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../../org/universAAL/ri/rest/manager/server/persistence/PersistenceDerby.html#removeCallee-java.lang.String-java.lang.String-">removeCallee</a></span>(<a href="http://docs.oracle.com/javase/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;space,
             <a href="http://docs.oracle.com/javase/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;subid)</code>&nbsp;</td>
 </tr>
-<tr id="i4" class="altColor">
+<tr id="i5" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../../org/universAAL/ri/rest/manager/server/persistence/PersistenceDerby.html#removeCaller-java.lang.String-java.lang.String-">removeCaller</a></span>(<a href="http://docs.oracle.com/javase/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;space,
             <a href="http://docs.oracle.com/javase/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;subid)</code>&nbsp;</td>
 </tr>
-<tr id="i5" class="rowColor">
+<tr id="i6" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../../org/universAAL/ri/rest/manager/server/persistence/PersistenceDerby.html#removeOlderThan-java.lang.Long-">removeOlderThan</a></span>(<a href="http://docs.oracle.com/javase/1.5.0/docs/api/java/lang/Long.html?is-external=true" title="class or interface in java.lang">Long</a>&nbsp;millis)</code>
 <div class="block">Maintenance method that removes all stored data from all tables that was
  introduced more than @param millis ago.</div>
 </td>
 </tr>
-<tr id="i6" class="altColor">
+<tr id="i7" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../../org/universAAL/ri/rest/manager/server/persistence/PersistenceDerby.html#removePublisher-java.lang.String-java.lang.String-">removePublisher</a></span>(<a href="http://docs.oracle.com/javase/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;space,
                <a href="http://docs.oracle.com/javase/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;subid)</code>&nbsp;</td>
 </tr>
-<tr id="i7" class="rowColor">
+<tr id="i8" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../../org/universAAL/ri/rest/manager/server/persistence/PersistenceDerby.html#removeSpace-java.lang.String-">removeSpace</a></span>(<a href="http://docs.oracle.com/javase/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;s)</code>&nbsp;</td>
 </tr>
-<tr id="i8" class="altColor">
+<tr id="i9" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../../org/universAAL/ri/rest/manager/server/persistence/PersistenceDerby.html#removeSubscriber-java.lang.String-java.lang.String-">removeSubscriber</a></span>(<a href="http://docs.oracle.com/javase/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;space,
                 <a href="http://docs.oracle.com/javase/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;subid)</code>&nbsp;</td>
 </tr>
-<tr id="i9" class="rowColor">
+<tr id="i10" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../../org/universAAL/ri/rest/manager/server/persistence/PersistenceDerby.html#restore--">restore</a></span>()</code>
 <div class="block">Restore in the MW all the persisted information (registration,
  subscribers and callees)</div>
 </td>
 </tr>
-<tr id="i10" class="altColor">
+<tr id="i11" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../../org/universAAL/ri/rest/manager/server/persistence/PersistenceDerby.html#storeCallee-java.lang.String-org.universAAL.ri.rest.manager.resources.Callee-">storeCallee</a></span>(<a href="http://docs.oracle.com/javase/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;space,
            <a href="../../../../../../../org/universAAL/ri/rest/manager/resources/Callee.html" title="class in org.universAAL.ri.rest.manager.resources">Callee</a>&nbsp;c)</code>&nbsp;</td>
 </tr>
-<tr id="i11" class="rowColor">
+<tr id="i12" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../../org/universAAL/ri/rest/manager/server/persistence/PersistenceDerby.html#storeCaller-java.lang.String-org.universAAL.ri.rest.manager.resources.Caller-">storeCaller</a></span>(<a href="http://docs.oracle.com/javase/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;space,
            <a href="../../../../../../../org/universAAL/ri/rest/manager/resources/Caller.html" title="class in org.universAAL.ri.rest.manager.resources">Caller</a>&nbsp;c)</code>&nbsp;</td>
 </tr>
-<tr id="i12" class="altColor">
+<tr id="i13" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../../org/universAAL/ri/rest/manager/server/persistence/PersistenceDerby.html#storePublisher-java.lang.String-org.universAAL.ri.rest.manager.resources.Publisher-">storePublisher</a></span>(<a href="http://docs.oracle.com/javase/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;space,
               <a href="../../../../../../../org/universAAL/ri/rest/manager/resources/Publisher.html" title="class in org.universAAL.ri.rest.manager.resources">Publisher</a>&nbsp;p)</code>&nbsp;</td>
 </tr>
-<tr id="i13" class="rowColor">
-<td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../../org/universAAL/ri/rest/manager/server/persistence/PersistenceDerby.html#storeSpace-org.universAAL.ri.rest.manager.resources.Space-java.lang.String-">storeSpace</a></span>(<a href="../../../../../../../org/universAAL/ri/rest/manager/resources/Space.html" title="class in org.universAAL.ri.rest.manager.resources">Space</a>&nbsp;s,
-          <a href="http://docs.oracle.com/javase/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;v)</code>&nbsp;</td>
-</tr>
 <tr id="i14" class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../../org/universAAL/ri/rest/manager/server/persistence/PersistenceDerby.html#storeSpace-org.universAAL.ri.rest.manager.resources.Space-java.lang.String-java.lang.String-">storeSpace</a></span>(<a href="../../../../../../../org/universAAL/ri/rest/manager/resources/Space.html" title="class in org.universAAL.ri.rest.manager.resources">Space</a>&nbsp;s,
+          <a href="http://docs.oracle.com/javase/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;v,
+          <a href="http://docs.oracle.com/javase/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;user)</code>&nbsp;</td>
+</tr>
+<tr id="i15" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../../org/universAAL/ri/rest/manager/server/persistence/PersistenceDerby.html#storeSubscriber-java.lang.String-org.universAAL.ri.rest.manager.resources.Subscriber-">storeSubscriber</a></span>(<a href="http://docs.oracle.com/javase/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;space,
                <a href="../../../../../../../org/universAAL/ri/rest/manager/resources/Subscriber.html" title="class in org.universAAL.ri.rest.manager.resources">Subscriber</a>&nbsp;s)</code>&nbsp;</td>
 </tr>
-<tr id="i15" class="rowColor">
+<tr id="i16" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../../org/universAAL/ri/rest/manager/server/persistence/PersistenceDerby.html#storeUserPWD-java.lang.String-java.lang.String-">storeUserPWD</a></span>(<a href="http://docs.oracle.com/javase/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;id,
             <a href="http://docs.oracle.com/javase/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;pwd)</code>
@@ -297,17 +305,18 @@ implements <a href="../../../../../../../org/universAAL/ri/rest/manager/server/p
 </dl>
 </li>
 </ul>
-<a name="storeSpace-org.universAAL.ri.rest.manager.resources.Space-java.lang.String-">
+<a name="storeSpace-org.universAAL.ri.rest.manager.resources.Space-java.lang.String-java.lang.String-">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>storeSpace</h4>
 <pre>public&nbsp;void&nbsp;storeSpace(<a href="../../../../../../../org/universAAL/ri/rest/manager/resources/Space.html" title="class in org.universAAL.ri.rest.manager.resources">Space</a>&nbsp;s,
-                       <a href="http://docs.oracle.com/javase/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;v)</pre>
+                       <a href="http://docs.oracle.com/javase/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;v,
+                       <a href="http://docs.oracle.com/javase/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;user)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="../../../../../../../org/universAAL/ri/rest/manager/server/persistence/Persistence.html#storeSpace-org.universAAL.ri.rest.manager.resources.Space-java.lang.String-">storeSpace</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../../../../org/universAAL/ri/rest/manager/server/persistence/Persistence.html" title="interface in org.universAAL.ri.rest.manager.server.persistence">Persistence</a></code></dd>
+<dd><code><a href="../../../../../../../org/universAAL/ri/rest/manager/server/persistence/Persistence.html#storeSpace-org.universAAL.ri.rest.manager.resources.Space-java.lang.String-java.lang.String-">storeSpace</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../../../../org/universAAL/ri/rest/manager/server/persistence/Persistence.html" title="interface in org.universAAL.ri.rest.manager.server.persistence">Persistence</a></code></dd>
 </dl>
 </li>
 </ul>
@@ -512,6 +521,27 @@ implements <a href="../../../../../../../org/universAAL/ri/rest/manager/server/p
 <dd><code>id</code> - to check</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>true if there is already a user-password pair persisted.</dd>
+</dl>
+</li>
+</ul>
+<a name="checkUserSpace-java.lang.String-java.lang.String-">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>checkUserSpace</h4>
+<pre>public&nbsp;boolean&nbsp;checkUserSpace(<a href="http://docs.oracle.com/javase/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;user,
+                              <a href="http://docs.oracle.com/javase/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;space)</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../../../../org/universAAL/ri/rest/manager/server/persistence/Persistence.html#checkUserSpace-java.lang.String-java.lang.String-">Persistence</a></code></span></div>
+<div class="block">Check if a user created a space and is authorized to access it.</div>
+<dl>
+<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
+<dd><code><a href="../../../../../../../org/universAAL/ri/rest/manager/server/persistence/Persistence.html#checkUserSpace-java.lang.String-java.lang.String-">checkUserSpace</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../../../../org/universAAL/ri/rest/manager/server/persistence/Persistence.html" title="interface in org.universAAL.ri.rest.manager.server.persistence">Persistence</a></code></dd>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>user</code> - to check</dd>
+<dd><code>space</code> - to access</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>true if the user created the space and can access it.</dd>
 </dl>
 </li>
 </ul>

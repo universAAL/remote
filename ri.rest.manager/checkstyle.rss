@@ -26,9 +26,9 @@ under the License.
     <copyright>&#169;2018 universAAL Consortium</copyright>
     <item>
       <title>File: 29,
-             Errors: 620,
-             Warnings: 58,
-             Infos: 91
+             Errors: 622,
+             Warnings: 57,
+             Infos: 117
       </title>
             <link>http://remote/ri.rest.manager//checkstyle.html</link>
       <description>
@@ -273,7 +273,7 @@ under the License.
                   <a href="http://remote/ri.rest.manager//checkstyle.html#org.universAAL.ri.rest.manager.resources.Spaces.java">org/universAAL/ri/rest/manager/resources/Spaces.java</a>
                 </td>
                 <td>
-                  0
+                  13
                 </td>
                 <td>
                   0
@@ -301,7 +301,7 @@ under the License.
                   <a href="http://remote/ri.rest.manager//checkstyle.html#org.universAAL.ri.rest.manager.server.persistence.Persistence.java">org/universAAL/ri/rest/manager/server/persistence/Persistence.java</a>
                 </td>
                 <td>
-                  0
+                  1
                 </td>
                 <td>
                   1
@@ -315,13 +315,13 @@ under the License.
                   <a href="http://remote/ri.rest.manager//checkstyle.html#org.universAAL.ri.rest.manager.server.persistence.PersistenceDerby.java">org/universAAL/ri/rest/manager/server/persistence/PersistenceDerby.java</a>
                 </td>
                 <td>
-                  15
+                  23
                 </td>
                 <td>
-                  1
+                  0
                 </td>
                 <td>
-                  44
+                  46
                 </td>
               </tr>
                           <tr>
@@ -413,7 +413,7 @@ under the License.
                   <a href="http://remote/ri.rest.manager//checkstyle.html#org.universAAL.ri.rest.manager.resources.Space.java">org/universAAL/ri/rest/manager/resources/Space.java</a>
                 </td>
                 <td>
-                  3
+                  7
                 </td>
                 <td>
                   0

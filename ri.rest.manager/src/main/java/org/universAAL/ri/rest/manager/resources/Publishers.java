@@ -115,6 +115,9 @@ public class Publishers {
 			if (Activator.getParser() != null) {
 				if (pub.getProviderinfo() != null) {
 					ContextProvider cp = (ContextProvider) Activator.getParser().deserialize(pub.getProviderinfo());
+					if(tenant.getContextPublisher(pub.getId())!=null){ //Already exists 409
+					    return Response.status(Status.CONFLICT).build();
+					}
 					if (cp != null) {
 						tenant.addContextPublisher(new PublisherWrapper(Activator.getContext(), cp, pub));
 						Activator.getPersistence().storePublisher(id, pub);

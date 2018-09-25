@@ -132,9 +132,11 @@ public class Subscriber {
 		Activator.logI("Subscriber.deleteSubscriberResource", "DELETE host:port/uaal/spaces/X/context/subscribers/Y");
 		SpaceWrapper tenant = UaalWrapper.getInstance().getTenant(id);
 		if (tenant != null) {
-			tenant.removeContextSubscriber(subid);
+			if(!tenant.removeContextSubscriber(subid)){ // Not removed because does not exist
+			    return Response.status(Status.NOT_FOUND).build();
+			}
 			Activator.getPersistence().removeSubscriber(id, subid);
-			return Response.ok().build();// .nocontent?
+			return Response.ok().build();
 		}
 		return Response.status(Status.NOT_FOUND).build();
 	}
@@ -146,45 +148,43 @@ public class Subscriber {
 		Activator.logI("Subscriber.putCalleeResource", "PUT host:port/uaal/spaces/X/context/subscribers/Y");
 		// The sub generated from the PUT body does not contain any "link"
 		// elements, but I wouldnt have allowed it anyway
-		if (subid.equals(sub.id)) {// Do not allow changes to id
-			SpaceWrapper tenant = UaalWrapper.getInstance().getTenant(id);
-			if (tenant != null) {
-				if (Activator.getParser() != null) {
-					if (sub.getPattern() != null) {
-						ContextEventPattern cep = (ContextEventPattern) Activator.getParser()
-								.deserialize(sub.getPattern());
-						if (cep != null) { // Just check that they are OK
-							SubscriberWrapper original = tenant.getContextSubscriber(subid);
-							if (original != null) {// Can only change existing
-													// ones
-								sub.setSelf(Link.fromPath("/uaal/spaces/" + id + "/service/callees/" + sub.getId())
-										.rel("self").build());
-								original.setResource(sub);
-								if (tenant.updateContextSubscriber(original)) {
-									Activator.getPersistence().storeSubscriber(id, sub);
-									return Response
-											.created(new URI("uaal/spaces/" + id + "/service/callees/" + sub.getId()))
-											.build();
-								} else {
-									return Response.notModified().build();
-								}
+		SpaceWrapper tenant = UaalWrapper.getInstance().getTenant(id);
+		if (tenant != null) {
+			if (Activator.getParser() != null) {
+				if (sub.getPattern() != null) {
+					ContextEventPattern cep = (ContextEventPattern) Activator.getParser()
+							.deserialize(sub.getPattern());
+					if (cep != null) { // Just check that they are OK
+						SubscriberWrapper original = tenant.getContextSubscriber(subid);
+						if (original != null) {// Can only change existing ones
+							if (!subid.equals(sub.id)) {// Do not allow changes to id
+							    return Response.notModified().build();
+							}
+							sub.setSelf(Link.fromPath("/uaal/spaces/" + id + "/service/callees/" + sub.getId())
+									.rel("self").build());
+							original.setResource(sub);
+							if (tenant.updateContextSubscriber(original)) {
+								Activator.getPersistence().storeSubscriber(id, sub);
+								return Response
+										.created(new URI("uaal/spaces/" + id + "/service/callees/" + sub.getId()))
+										.build();
 							} else {
-								return Response.status(Status.NOT_FOUND).build();
+								return Response.notModified().build();
 							}
 						} else {
-							return Response.status(Status.BAD_REQUEST).build();
+							return Response.status(Status.NOT_FOUND).build();
 						}
 					} else {
 						return Response.status(Status.BAD_REQUEST).build();
 					}
 				} else {
-					return Response.serverError().build();
+					return Response.status(Status.BAD_REQUEST).build();
 				}
 			} else {
-				return Response.status(Status.NOT_FOUND).build();
+				return Response.serverError().build();
 			}
 		} else {
-			return Response.notModified().build();
+			return Response.status(Status.NOT_FOUND).build();
 		}
 	}
 

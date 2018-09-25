@@ -109,7 +109,9 @@ public class Caller {
 		Activator.logI("Caller.deleteCallerResource", "DELETE host:port/uaal/spaces/X/service/callers/Y");
 		SpaceWrapper tenant = UaalWrapper.getInstance().getTenant(id);
 		if (tenant != null) {
-			tenant.removeServiceCaller(subid);
+			if(!tenant.removeServiceCaller(subid)){ // Not removed because does not exist
+			    return Response.status(Status.NOT_FOUND).build();
+			}
 			Activator.getPersistence().removeCaller(id, subid);
 			return Response.ok().build();// .nocontent?
 		}
@@ -147,33 +149,32 @@ public class Caller {
 		Activator.logI("Caller.putCallerResource", "PUT host:port/uaal/spaces/X/service/callers/Y");
 		// The cer generated from the PUT body does not contain any "link"
 		// elements, but I wouldnt have allowed it anyway
-		if (subid.equals(cer.id)) {// Do not allow changes to id
-			SpaceWrapper tenant = UaalWrapper.getInstance().getTenant(id);
-			if (tenant != null) {
-				if (Activator.getParser() != null) {
-					CallerWrapper original = tenant.getServiceCaller(subid);
-					if (original != null) {// Can only change existing ones
-						cer.setSelf(Link.fromPath("/uaal/spaces/" + id + "/service/callees/" + cer.getId()).rel("self")
-								.build());
-						original.setResource(cer);
-						if (tenant.updateServiceCaller(original)) {
-							Activator.getPersistence().storeCaller(id, cer);
-							return Response.created(new URI("uaal/spaces/" + id + "/service/callees/" + cer.getId()))
-									.build();
-						} else {
-							return Response.notModified().build();
-						}
+		SpaceWrapper tenant = UaalWrapper.getInstance().getTenant(id);
+		if (tenant != null) {
+			if (Activator.getParser() != null) {
+				CallerWrapper original = tenant.getServiceCaller(subid);
+				if (original != null) {// Can only change existing ones
+					if (!subid.equals(cer.id)) {// Do not allow changes to id
+					    return Response.notModified().build();
+					}
+					cer.setSelf(Link.fromPath("/uaal/spaces/" + id + "/service/callees/" + cer.getId()).rel("self")
+							.build());
+					original.setResource(cer);
+					if (tenant.updateServiceCaller(original)) {
+						Activator.getPersistence().storeCaller(id, cer);
+						return Response.created(new URI("uaal/spaces/" + id + "/service/callees/" + cer.getId()))
+								.build();
 					} else {
-						return Response.status(Status.NOT_FOUND).build();
+						return Response.notModified().build();
 					}
 				} else {
-					return Response.serverError().build();
+					return Response.status(Status.NOT_FOUND).build();
 				}
 			} else {
-				return Response.status(Status.NOT_FOUND).build();
+				return Response.serverError().build();
 			}
 		} else {
-			return Response.notModified().build();
+			return Response.status(Status.NOT_FOUND).build();
 		}
 	}
 

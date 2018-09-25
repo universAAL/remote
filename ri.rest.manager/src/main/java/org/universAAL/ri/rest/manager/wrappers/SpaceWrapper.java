@@ -96,31 +96,43 @@ public class SpaceWrapper {
 		callers.put(w.getResource().getId(), w);
 	}
 
-	public void removeContextPublisher(String id) {
+	public boolean removeContextPublisher(String id) {
 		PublisherWrapper w = publishers.remove(id);
 		if (w != null) {
 			w.close();
+			return true;
+		} else {
+		    return false;
 		}
 	}
 
-	public void removeContextSubscriber(String id) {
+	public boolean removeContextSubscriber(String id) {
 		SubscriberWrapper w = subscribers.remove(id);
 		if (w != null) {
 			w.close();
+			return true;
+		} else {
+		    return false;
 		}
 	}
 
-	public void removeServiceCallee(String id) {
+	public boolean removeServiceCallee(String id) {
 		CalleeWrapper w = callees.remove(id);
 		if (w != null) {
 			w.close();
+			return true;
+		} else {
+		    return false;
 		}
 	}
 
-	public void removeServiceCaller(String id) {
+	public boolean removeServiceCaller(String id) {
 		CallerWrapper w = callers.remove(id);
 		if (w != null) {
 			w.close();
+			return true;
+		} else {
+		    return false;
 		}
 	}
 

@@ -121,7 +121,9 @@ public class Publisher {
 		Activator.logI("Publisher.deletePublisherResource", "DELETE host:port/uaal/spaces/X/context/publishers/Y");
 		SpaceWrapper tenant = UaalWrapper.getInstance().getTenant(id);
 		if (tenant != null) {
-			tenant.removeContextPublisher(subid);
+			if(!tenant.removeContextPublisher(subid)){ // Not removed because does not exist
+			    return Response.status(Status.NOT_FOUND).build();
+			}
 			Activator.getPersistence().removePublisher(id, subid);
 			return Response.ok().build();// .nocontent?
 		}
@@ -159,44 +161,42 @@ public class Publisher {
 		Activator.logI("Publisher.putPublisherResource", "PUT host:port/uaal/spaces/X/context/publishers/Y");
 		// The pub generated from the PUT body does not contain any "link"
 		// elements, but I wouldnt have allowed it anyway
-		if (subid.equals(pub.id)) {// Do not allow changes to id
-			SpaceWrapper tenant = UaalWrapper.getInstance().getTenant(id);
-			if (tenant != null) {
-				if (Activator.getParser() != null) {
-					if (pub.getProviderinfo() != null) {
-						ContextProvider cp = (ContextProvider) Activator.getParser().deserialize(pub.getProviderinfo());
-						if (cp != null) { // Just check that it is OK
-							PublisherWrapper original = tenant.getContextPublisher(subid);
-							if (original != null) {// Can only change existing
-													// ones
-								pub.setSelf(Link.fromPath("/uaal/spaces/" + id + "/service/callees/" + pub.getId())
-										.rel("self").build());
-								original.setResource(pub);
-								if (tenant.updateContextPublisher(original)) {
-									Activator.getPersistence().storePublisher(id, pub);
-									return Response
-											.created(new URI("uaal/spaces/" + id + "/service/callees/" + pub.getId()))
-											.build();
-								} else {
-									return Response.notModified().build();
-								}
+		SpaceWrapper tenant = UaalWrapper.getInstance().getTenant(id);
+		if (tenant != null) {
+			if (Activator.getParser() != null) {
+				if (pub.getProviderinfo() != null) {
+					ContextProvider cp = (ContextProvider) Activator.getParser().deserialize(pub.getProviderinfo());
+					if (cp != null) { // Just check that it is OK
+						PublisherWrapper original = tenant.getContextPublisher(subid);
+						if (original != null) {// Can only change existing ones
+							if (!subid.equals(pub.id)) {// Do not allow changes to id
+							    return Response.notModified().build();
+							}
+							pub.setSelf(Link.fromPath("/uaal/spaces/" + id + "/service/callees/" + pub.getId())
+									.rel("self").build());
+							original.setResource(pub);
+							if (tenant.updateContextPublisher(original)) {
+								Activator.getPersistence().storePublisher(id, pub);
+								return Response
+										.created(new URI("uaal/spaces/" + id + "/service/callees/" + pub.getId()))
+										.build();
 							} else {
-								return Response.status(Status.NOT_FOUND).build();
+								return Response.notModified().build();
 							}
 						} else {
-							return Response.status(Status.BAD_REQUEST).build();
+							return Response.status(Status.NOT_FOUND).build();
 						}
 					} else {
 						return Response.status(Status.BAD_REQUEST).build();
 					}
 				} else {
-					return Response.serverError().build();
+					return Response.status(Status.BAD_REQUEST).build();
 				}
 			} else {
-				return Response.status(Status.NOT_FOUND).build();
+				return Response.serverError().build();
 			}
 		} else {
-			return Response.notModified().build();
+			return Response.status(Status.NOT_FOUND).build();
 		}
 	}
 

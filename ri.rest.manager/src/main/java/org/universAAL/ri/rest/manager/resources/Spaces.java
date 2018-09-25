@@ -109,7 +109,7 @@ public class Spaces {
 		space.setContext(Link.fromPath("/uaal/spaces/" + space.getId() + "/context").rel("context").build());
 		space.setService(Link.fromPath("/uaal/spaces/" + space.getId() + "/service").rel("service").build());
 		if(UaalWrapper.getInstance().getTenant(space.getId())!=null){
-		    // Say it is OK but do nothing, dont create if exists, for security reasons
+		    // Already exists. Say it is OK but do nothing, not 409, for security reasons
 		    return Response.ok().build(); 
 		}else{
 		    UaalWrapper.getInstance().addTenant(new SpaceWrapper(space));

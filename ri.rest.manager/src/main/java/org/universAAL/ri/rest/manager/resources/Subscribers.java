@@ -116,6 +116,9 @@ public class Subscribers {
 				if (sub.getPattern() != null) {
 					ContextEventPattern cep = (ContextEventPattern) Activator.getParser().deserialize(sub.getPattern());
 					if (cep != null) {
+						if(tenant.getContextSubscriber(sub.getId())!=null){ //Already exists 409
+						    return Response.status(Status.CONFLICT).build();
+						}
 						tenant.addContextSubscriber(new SubscriberWrapper(Activator.getContext(),
 								new ContextEventPattern[] { cep }, sub, id));
 						Activator.getPersistence().storeSubscriber(id, sub);

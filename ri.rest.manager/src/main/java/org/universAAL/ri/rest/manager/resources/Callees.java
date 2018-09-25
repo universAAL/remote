@@ -116,6 +116,9 @@ public class Callees {
 				if (cee.getProfile() != null) {
 					ServiceProfile sp = (ServiceProfile) Activator.getParser().deserialize(cee.getProfile());
 					if (sp != null) {
+						if(tenant.getServiceCallee(cee.getId())!=null){ //Already exists 409
+						    return Response.status(Status.CONFLICT).build();
+						}
 						tenant.addServiceCallee(
 								new CalleeWrapper(Activator.getContext(), new ServiceProfile[] { sp }, cee, id));
 						Activator.getPersistence().storeCallee(id, cee);

@@ -111,6 +111,9 @@ public class Callers {
 		cer.setSelf(Link.fromPath("/uaal/spaces/" + id + "/service/callers/" + cer.getId()).rel("self").build());
 		SpaceWrapper tenant = UaalWrapper.getInstance().getTenant(id);
 		if (tenant != null) {
+			if(tenant.getServiceCaller(cer.getId())!=null){ //Already exists 409
+			    return Response.status(Status.CONFLICT).build();
+			}
 			tenant.addServiceCaller(new CallerWrapper(Activator.getContext(), cer));
 			Activator.getPersistence().storeCaller(id, cer);
 			return Response.created(new URI("uaal/spaces/" + id + "/service/callers/" + cer.getId())).build();

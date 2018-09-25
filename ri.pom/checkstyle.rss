@@ -28,7 +28,7 @@ under the License.
       <title>File: 152,
              Errors: 2626,
              Warnings: 361,
-             Infos: 653
+             Infos: 687
       </title>
             <link>http://remote/ri.pom//checkstyle.html</link>
       <description>
@@ -91,7 +91,7 @@ under the License.
                   <a href="http://remote/ri.pom//checkstyle.html#org.universAAL.ri.rest.manager.resources.Callee.java">org/universAAL/ri/rest/manager/resources/Callee.java</a>
                 </td>
                 <td>
-                  3
+                  5
                 </td>
                 <td>
                   1
@@ -357,7 +357,7 @@ under the License.
                   <a href="http://remote/ri.pom//checkstyle.html#org.universAAL.ri.rest.manager.resources.Subscribers.java">org/universAAL/ri/rest/manager/resources/Subscribers.java</a>
                 </td>
                 <td>
-                  0
+                  4
                 </td>
                 <td>
                   0
@@ -371,7 +371,7 @@ under the License.
                   <a href="http://remote/ri.pom//checkstyle.html#org.universAAL.ri.rest.manager.resources.Caller.java">org/universAAL/ri/rest/manager/resources/Caller.java</a>
                 </td>
                 <td>
-                  3
+                  5
                 </td>
                 <td>
                   0
@@ -861,7 +861,7 @@ under the License.
                   <a href="http://remote/ri.pom//checkstyle.html#org.universAAL.ri.rest.manager.resources.Space.java">org/universAAL/ri/rest/manager/resources/Space.java</a>
                 </td>
                 <td>
-                  7
+                  18
                 </td>
                 <td>
                   0
@@ -1057,7 +1057,7 @@ under the License.
                   <a href="http://remote/ri.pom//checkstyle.html#org.universAAL.ri.rest.manager.resources.Subscriber.java">org/universAAL/ri/rest/manager/resources/Subscriber.java</a>
                 </td>
                 <td>
-                  3
+                  4
                 </td>
                 <td>
                   0
@@ -1561,7 +1561,7 @@ under the License.
                   <a href="http://remote/ri.pom//checkstyle.html#org.universAAL.ri.rest.manager.resources.Publisher.java">org/universAAL/ri/rest/manager/resources/Publisher.java</a>
                 </td>
                 <td>
-                  3
+                  5
                 </td>
                 <td>
                   0
@@ -1659,7 +1659,7 @@ under the License.
                   <a href="http://remote/ri.pom//checkstyle.html#org.universAAL.ri.rest.manager.resources.Callers.java">org/universAAL/ri/rest/manager/resources/Callers.java</a>
                 </td>
                 <td>
-                  0
+                  4
                 </td>
                 <td>
                   0
@@ -1799,7 +1799,7 @@ under the License.
                   <a href="http://remote/ri.pom//checkstyle.html#org.universAAL.ri.rest.manager.resources.Publishers.java">org/universAAL/ri/rest/manager/resources/Publishers.java</a>
                 </td>
                 <td>
-                  0
+                  4
                 </td>
                 <td>
                   0
@@ -1827,7 +1827,7 @@ under the License.
                   <a href="http://remote/ri.pom//checkstyle.html#org.universAAL.ri.rest.manager.resources.Callees.java">org/universAAL/ri/rest/manager/resources/Callees.java</a>
                 </td>
                 <td>
-                  0
+                  4
                 </td>
                 <td>
                   0

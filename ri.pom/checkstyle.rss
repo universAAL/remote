@@ -25,10 +25,10 @@ under the License.
     <language>en-us</language>
     <copyright>&#169;2018 universAAL Consortium</copyright>
     <item>
-      <title>File: 152,
-             Errors: 2626,
+      <title>File: 153,
+             Errors: 2636,
              Warnings: 361,
-             Infos: 687
+             Infos: 720
       </title>
             <link>http://remote/ri.pom//checkstyle.html</link>
       <description>
@@ -1012,6 +1012,20 @@ under the License.
               </tr>
                           <tr>
                 <td>
+                  <a href="http://remote/ri.pom//checkstyle.html#org.universAAL.ri.rest.manager.resources.EventBundle.java">org/universAAL/ri/rest/manager/resources/EventBundle.java</a>
+                </td>
+                <td>
+                  8
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  8
+                </td>
+              </tr>
+                          <tr>
+                <td>
                   <a href="http://remote/ri.pom//checkstyle.html#org.universAAL.ri.wsdlToolkit.axis2Parser.SimpleTypesParser.java">org/universAAL/ri/wsdlToolkit/axis2Parser/SimpleTypesParser.java</a>
                 </td>
                 <td>
@@ -1561,13 +1575,13 @@ under the License.
                   <a href="http://remote/ri.pom//checkstyle.html#org.universAAL.ri.rest.manager.resources.Publisher.java">org/universAAL/ri/rest/manager/resources/Publisher.java</a>
                 </td>
                 <td>
-                  5
+                  30
                 </td>
                 <td>
                   0
                 </td>
                 <td>
-                  26
+                  28
                 </td>
               </tr>
                           <tr>

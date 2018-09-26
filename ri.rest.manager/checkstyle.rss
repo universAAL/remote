@@ -25,10 +25,10 @@ under the License.
     <language>en-us</language>
     <copyright>&#169;2018 universAAL Consortium</copyright>
     <item>
-      <title>File: 29,
-             Errors: 622,
+      <title>File: 30,
+             Errors: 632,
              Warnings: 57,
-             Infos: 151
+             Infos: 184
       </title>
             <link>http://remote/ri.rest.manager//checkstyle.html</link>
       <description>
@@ -49,13 +49,13 @@ under the License.
                   <a href="http://remote/ri.rest.manager//checkstyle.html#org.universAAL.ri.rest.manager.resources.Publisher.java">org/universAAL/ri/rest/manager/resources/Publisher.java</a>
                 </td>
                 <td>
-                  5
+                  30
                 </td>
                 <td>
                   0
                 </td>
                 <td>
-                  26
+                  28
                 </td>
               </tr>
                           <tr>
@@ -140,6 +140,20 @@ under the License.
                 </td>
                 <td>
                   31
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://remote/ri.rest.manager//checkstyle.html#org.universAAL.ri.rest.manager.resources.EventBundle.java">org/universAAL/ri/rest/manager/resources/EventBundle.java</a>
+                </td>
+                <td>
+                  8
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  8
                 </td>
               </tr>
                           <tr>

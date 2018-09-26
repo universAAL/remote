@@ -10,27 +10,27 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.universAAL.ri.api.manager.server.persistence.PersistenceMySQL
-	c21570 [label=<<table title="org.universAAL.ri.api.manager.server.persistence.PersistenceMySQL" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./PersistenceMySQL.html">
+	c21867 [label=<<table title="org.universAAL.ri.api.manager.server.persistence.PersistenceMySQL" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./PersistenceMySQL.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> PersistenceMySQL </td></tr>
 		</table></td></tr>
 		</table>>, URL="./PersistenceMySQL.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// org.universAAL.ri.api.manager.server.persistence.Persistence
-	c21571 [label=<<table title="org.universAAL.ri.api.manager.server.persistence.Persistence" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./Persistence.html">
+	c21868 [label=<<table title="org.universAAL.ri.api.manager.server.persistence.Persistence" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./Persistence.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> Persistence </td></tr>
 		</table></td></tr>
 		</table>>, URL="./Persistence.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// org.universAAL.ri.api.manager.server.persistence.PersistenceDerby
-	c21572 [label=<<table title="org.universAAL.ri.api.manager.server.persistence.PersistenceDerby" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./PersistenceDerby.html">
+	c21869 [label=<<table title="org.universAAL.ri.api.manager.server.persistence.PersistenceDerby" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./PersistenceDerby.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> PersistenceDerby </td></tr>
 		</table></td></tr>
 		</table>>, URL="./PersistenceDerby.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	//org.universAAL.ri.api.manager.server.persistence.PersistenceMySQL implements org.universAAL.ri.api.manager.server.persistence.Persistence
-	c21571:p -> c21570:p [dir=back,arrowtail=empty,style=dashed];
+	c21868:p -> c21867:p [dir=back,arrowtail=empty,style=dashed];
 	//org.universAAL.ri.api.manager.server.persistence.PersistenceDerby implements org.universAAL.ri.api.manager.server.persistence.Persistence
-	c21571:p -> c21572:p [dir=back,arrowtail=empty,style=dashed];
+	c21868:p -> c21869:p [dir=back,arrowtail=empty,style=dashed];
 }
 

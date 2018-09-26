@@ -153,6 +153,43 @@ public class Publisher {
 			return Response.status(Status.NOT_FOUND).build();
 		}
 	}
+	
+	@POST
+	@Consumes(Activator.TYPES)
+	public Response executePublisherPublishMany(@PathParam("id") String id, @PathParam("subid") String subid,
+			EventBundle bundle) {
+		Activator.logI("Publisher.executePublisherPublishMany", "POST host:port/uaal/spaces/X/context/publishers/Y");
+		SpaceWrapper tenant = UaalWrapper.getInstance().getTenant(id);
+		if (tenant != null) {
+			PublisherWrapper pubwrap = tenant.getContextPublisher(subid);
+			if (pubwrap != null) {
+			    if(bundle!=null && bundle.getEvent()!=null){
+				String[] events = bundle.getEvent();
+				int sent=0;
+				for(String event:events){
+        				ContextEvent ev = (ContextEvent) Activator.getParser().deserialize(event);
+        				if (ev != null) {
+        					pubwrap.publish(ev);
+        					sent++;
+        				}
+				}
+				if(sent==events.length){ // Sent all events OK
+				    return Response.ok().build();
+				}else if(sent==0){  // Could not send any event
+				    return Response.status(Status.BAD_REQUEST).build();
+				}else{ // Sent only some events OK
+				    return Response.status(Status.ACCEPTED).build();
+				}
+			    } else {
+				return Response.status(Status.BAD_REQUEST).build();
+			    }
+			} else {
+				return Response.status(Status.NOT_FOUND).build();
+			}
+		} else {
+			return Response.status(Status.NOT_FOUND).build();
+		}
+	}
 
 	@PUT
 	@Consumes(Activator.TYPES)

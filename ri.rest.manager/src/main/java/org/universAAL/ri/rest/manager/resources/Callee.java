@@ -134,11 +134,9 @@ public class Callee {
 		Activator.logI("Callee.deleteCalleeResource", "DELETE host:port/uaal/spaces/X/service/callees/Y");
 		SpaceWrapper tenant = UaalWrapper.getInstance().getTenant(id);
 		if (tenant != null) {
-			if(!tenant.removeServiceCallee(subid)){ // Not removed because does not exist
-			    return Response.status(Status.NOT_FOUND).build();
-			}
+			tenant.removeServiceCallee(subid);
 			Activator.getPersistence().removeCallee(id, subid);
-			return Response.ok().build();// .nocontent?
+			return Response.status(Status.NO_CONTENT).build();
 		}
 		return Response.status(Status.NOT_FOUND).build();
 	}
@@ -172,21 +170,20 @@ public class Callee {
 	public Response putCalleeResource(@PathParam("id") String id, @PathParam("subid") String subid, Callee cee)
 			throws URISyntaxException {
 		Activator.logI("Callee.putCalleeResource", "PUT host:port/uaal/spaces/X/service/callees/Y");
-		// The cee generated from the PUT body does not contain any "link"
-		// elements, but I wouldnt have allowed it anyway
 		SpaceWrapper tenant = UaalWrapper.getInstance().getTenant(id);
 		if (tenant != null) {
 			if (Activator.getParser() != null) {
 				if (cee.getProfile() != null) {
 					ServiceProfile sp = (ServiceProfile) Activator.getParser().deserialize(cee.getProfile());
 					if (sp != null) { // Just check that they are OK
+						if (!subid.equals(cee.id)) {// Do not allow id different than URI
+							return Response.notModified().build();
+						}
+						// The cee generated from the PUT body does not contain any "link"
+						// elements, but I wouldnt have allowed it anyway
+						cee.setSelf(Link.fromPath("/uaal/spaces/" + id + "/service/callees/" + cee.getId()).rel("self").build());
 						CalleeWrapper original = tenant.getServiceCallee(subid);
-						if (original != null) {// Can only change existing ones
-							if (!subid.equals(cee.id)) {// Do not allow changes to id
-								return Response.notModified().build();
-							}
-							cee.setSelf(Link.fromPath("/uaal/spaces/" + id + "/service/callees/" + cee.getId())
-									.rel("self").build());
+						if (original != null) {// Already exists > modify
 							original.setResource(cee);
 							if (tenant.updateServiceCallee(original)) {
 								Activator.getPersistence().storeCallee(id, cee);
@@ -196,8 +193,12 @@ public class Callee {
 							} else {
 								return Response.notModified().build();
 							}
-						} else {
-							return Response.status(Status.NOT_FOUND).build();
+						} else { // New one > create like in POST
+						    tenant.addServiceCallee(
+							    new CalleeWrapper(Activator.getContext(), new ServiceProfile[] { sp }, cee, id));
+						    Activator.getPersistence().storeCallee(id, cee);
+						    return Response.created(new URI("uaal/spaces/" + id + "/service/callees/" + cee.getId()))
+							    .build();
 						}
 					} else {
 						return Response.status(Status.BAD_REQUEST).build();

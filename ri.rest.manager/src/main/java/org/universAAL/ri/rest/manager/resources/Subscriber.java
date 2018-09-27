@@ -132,11 +132,9 @@ public class Subscriber {
 		Activator.logI("Subscriber.deleteSubscriberResource", "DELETE host:port/uaal/spaces/X/context/subscribers/Y");
 		SpaceWrapper tenant = UaalWrapper.getInstance().getTenant(id);
 		if (tenant != null) {
-			if(!tenant.removeContextSubscriber(subid)){ // Not removed because does not exist
-			    return Response.status(Status.NOT_FOUND).build();
-			}
+			tenant.removeContextSubscriber(subid);
 			Activator.getPersistence().removeSubscriber(id, subid);
-			return Response.ok().build();
+			return Response.status(Status.NO_CONTENT).build();
 		}
 		return Response.status(Status.NOT_FOUND).build();
 	}
@@ -146,8 +144,6 @@ public class Subscriber {
 	public Response putCalleeResource(@PathParam("id") String id, @PathParam("subid") String subid, Subscriber sub)
 			throws URISyntaxException {
 		Activator.logI("Subscriber.putCalleeResource", "PUT host:port/uaal/spaces/X/context/subscribers/Y");
-		// The sub generated from the PUT body does not contain any "link"
-		// elements, but I wouldnt have allowed it anyway
 		SpaceWrapper tenant = UaalWrapper.getInstance().getTenant(id);
 		if (tenant != null) {
 			if (Activator.getParser() != null) {
@@ -155,13 +151,14 @@ public class Subscriber {
 					ContextEventPattern cep = (ContextEventPattern) Activator.getParser()
 							.deserialize(sub.getPattern());
 					if (cep != null) { // Just check that they are OK
+						if (!subid.equals(sub.id)) {// Do not allow changes to id
+						    return Response.notModified().build();
+						}
+						// The sub generated from the PUT body does not contain any "link"
+						// elements, but I wouldnt have allowed it anyway
+						sub.setSelf(Link.fromPath("/uaal/spaces/" + id + "/service/callees/" + sub.getId()).rel("self").build());
 						SubscriberWrapper original = tenant.getContextSubscriber(subid);
-						if (original != null) {// Can only change existing ones
-							if (!subid.equals(sub.id)) {// Do not allow changes to id
-							    return Response.notModified().build();
-							}
-							sub.setSelf(Link.fromPath("/uaal/spaces/" + id + "/service/callees/" + sub.getId())
-									.rel("self").build());
+						if (original != null) {// Already exists > change
 							original.setResource(sub);
 							if (tenant.updateContextSubscriber(original)) {
 								Activator.getPersistence().storeSubscriber(id, sub);
@@ -171,8 +168,12 @@ public class Subscriber {
 							} else {
 								return Response.notModified().build();
 							}
-						} else {
-							return Response.status(Status.NOT_FOUND).build();
+						} else { // New one > create like in POST
+						    tenant.addContextSubscriber(new SubscriberWrapper(Activator.getContext(),
+							    new ContextEventPattern[] { cep }, sub, id));
+						    Activator.getPersistence().storeSubscriber(id, sub);
+						    return Response.created(new URI("uaal/spaces/" + id + "/context/subscribers/" + sub.getId()))
+							    .build();
 						}
 					} else {
 						return Response.status(Status.BAD_REQUEST).build();

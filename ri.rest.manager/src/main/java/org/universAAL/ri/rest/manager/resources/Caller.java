@@ -109,11 +109,9 @@ public class Caller {
 		Activator.logI("Caller.deleteCallerResource", "DELETE host:port/uaal/spaces/X/service/callers/Y");
 		SpaceWrapper tenant = UaalWrapper.getInstance().getTenant(id);
 		if (tenant != null) {
-			if(!tenant.removeServiceCaller(subid)){ // Not removed because does not exist
-			    return Response.status(Status.NOT_FOUND).build();
-			}
+			tenant.removeServiceCaller(subid);
 			Activator.getPersistence().removeCaller(id, subid);
-			return Response.ok().build();// .nocontent?
+			return Response.status(Status.NO_CONTENT).build();
 		}
 		return Response.status(Status.NOT_FOUND).build();
 	}
@@ -147,18 +145,17 @@ public class Caller {
 	public Response putCallerResource(@PathParam("id") String id, @PathParam("subid") String subid, Caller cer)
 			throws URISyntaxException {
 		Activator.logI("Caller.putCallerResource", "PUT host:port/uaal/spaces/X/service/callers/Y");
-		// The cer generated from the PUT body does not contain any "link"
-		// elements, but I wouldnt have allowed it anyway
 		SpaceWrapper tenant = UaalWrapper.getInstance().getTenant(id);
 		if (tenant != null) {
 			if (Activator.getParser() != null) {
+				if (!subid.equals(cer.id)) {// Do not allow id different than URI
+				    return Response.notModified().build();
+				}
+				// The cer generated from the PUT body does not contain any "link"
+				// elements, but I wouldnt have allowed it anyway
+				cer.setSelf(Link.fromPath("/uaal/spaces/" + id + "/service/callees/" + cer.getId()).rel("self").build());
 				CallerWrapper original = tenant.getServiceCaller(subid);
-				if (original != null) {// Can only change existing ones
-					if (!subid.equals(cer.id)) {// Do not allow changes to id
-					    return Response.notModified().build();
-					}
-					cer.setSelf(Link.fromPath("/uaal/spaces/" + id + "/service/callees/" + cer.getId()).rel("self")
-							.build());
+				if (original != null) {// Already exists > change
 					original.setResource(cer);
 					if (tenant.updateServiceCaller(original)) {
 						Activator.getPersistence().storeCaller(id, cer);
@@ -167,8 +164,10 @@ public class Caller {
 					} else {
 						return Response.notModified().build();
 					}
-				} else {
-					return Response.status(Status.NOT_FOUND).build();
+				} else { // New one > create like in POST
+				    tenant.addServiceCaller(new CallerWrapper(Activator.getContext(), cer));
+				    Activator.getPersistence().storeCaller(id, cer);
+				    return Response.created(new URI("uaal/spaces/" + id + "/service/callers/" + cer.getId())).build();
 				}
 			} else {
 				return Response.serverError().build();

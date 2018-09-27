@@ -121,11 +121,9 @@ public class Publisher {
 		Activator.logI("Publisher.deletePublisherResource", "DELETE host:port/uaal/spaces/X/context/publishers/Y");
 		SpaceWrapper tenant = UaalWrapper.getInstance().getTenant(id);
 		if (tenant != null) {
-			if(!tenant.removeContextPublisher(subid)){ // Not removed because does not exist
-			    return Response.status(Status.NOT_FOUND).build();
-			}
+			tenant.removeContextPublisher(subid);
 			Activator.getPersistence().removePublisher(id, subid);
-			return Response.ok().build();// .nocontent?
+			return Response.status(Status.NO_CONTENT).build();
 		}
 		return Response.status(Status.NOT_FOUND).build();
 	}
@@ -196,21 +194,21 @@ public class Publisher {
 	public Response putPublisherResource(@PathParam("id") String id, @PathParam("subid") String subid, Publisher pub)
 			throws URISyntaxException {
 		Activator.logI("Publisher.putPublisherResource", "PUT host:port/uaal/spaces/X/context/publishers/Y");
-		// The pub generated from the PUT body does not contain any "link"
-		// elements, but I wouldnt have allowed it anyway
 		SpaceWrapper tenant = UaalWrapper.getInstance().getTenant(id);
 		if (tenant != null) {
 			if (Activator.getParser() != null) {
 				if (pub.getProviderinfo() != null) {
 					ContextProvider cp = (ContextProvider) Activator.getParser().deserialize(pub.getProviderinfo());
 					if (cp != null) { // Just check that it is OK
+					    if (!subid.equals(pub.id)) {// Do not allow id different than URI
+						return Response.notModified().build();
+					    }
+						// The pub generated from the PUT body does not contain any "link"
+						// elements, but I wouldnt have allowed it anyway
+						pub.setSelf(Link.fromPath("/uaal/spaces/" + id + "/service/callees/" + pub.getId()).rel("self").build());
 						PublisherWrapper original = tenant.getContextPublisher(subid);
-						if (original != null) {// Can only change existing ones
-							if (!subid.equals(pub.id)) {// Do not allow changes to id
-							    return Response.notModified().build();
-							}
-							pub.setSelf(Link.fromPath("/uaal/spaces/" + id + "/service/callees/" + pub.getId())
-									.rel("self").build());
+						if (original != null) {// Already exists > change
+							
 							original.setResource(pub);
 							if (tenant.updateContextPublisher(original)) {
 								Activator.getPersistence().storePublisher(id, pub);
@@ -220,8 +218,11 @@ public class Publisher {
 							} else {
 								return Response.notModified().build();
 							}
-						} else {
-							return Response.status(Status.NOT_FOUND).build();
+						} else { // New one > create like in POST
+						    tenant.addContextPublisher(new PublisherWrapper(Activator.getContext(), cp, pub));
+						    Activator.getPersistence().storePublisher(id, pub);
+						    return Response.created(new URI("uaal/spaces/" + id + "/context/publishers/" + pub.getId()))
+							    .build();
 						}
 					} else {
 						return Response.status(Status.BAD_REQUEST).build();

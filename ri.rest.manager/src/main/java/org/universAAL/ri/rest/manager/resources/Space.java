@@ -129,10 +129,7 @@ public class Space {
 	@GET // GET localhost:9000/uaal/spaces/123 (Redirected from Spaces class)
 	@Produces(Activator.TYPES)
 	public Space getSpaceResource(
-			@PathParam("id") String id/*
-										 * , @javax.ws.rs.core.Context
-										 * SecurityContext ctxt
-										 */) {
+			@PathParam("id") String id/* , @javax.ws.rs.core.Context SecurityContext ctxt */) {
 		Activator.logI("Space.getSpaceResource", "GET host:port/uaal/spaces/X ");
 		SpaceWrapper tenant = UaalWrapper.getInstance().getTenant(id);
 		if (tenant != null) {
@@ -145,19 +142,12 @@ public class Space {
 	@DELETE // DEL localhost:9000/uaal/spaces/123
 	public Response deleteSpaceResource(@PathParam("id") String id) {
 		Activator.logI("Space.deleteSpaceResource", "DELETE host:port/uaal/spaces/X ");
-		Response res;
-		// If not found, send 404, but try to remove anyway...
-		if(UaalWrapper.getInstance().getTenant(id)!=null){
-		    res=Response.ok().build();
-		}else{
-		    res=Response.status(Status.NOT_FOUND).build();
-		}
 		if (Activator.getTenantMngr() != null) {
 			Activator.getTenantMngr().unregisterTenant(id);
 		}
 		UaalWrapper.getInstance().removeTenant(id);
 		Activator.getPersistence().removeSpace(id);
-		return res;
+		return Response.status(Status.NOT_FOUND).build();
 	}
 
 	@PUT // PUT localhost:9000/uaal/spaces/123 <Body: Space>
@@ -181,7 +171,7 @@ public class Space {
 				} else {
 					return Response.notModified().build();
 				}
-			} else {
+			} else { // PUT should allow creating a resource on a new URI, but for security reasons we don't allow it in Space
 				return Response.status(Status.NOT_FOUND).build();
 			}
 		} else {

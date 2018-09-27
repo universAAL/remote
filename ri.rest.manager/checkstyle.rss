@@ -28,7 +28,7 @@ under the License.
       <title>File: 30,
              Errors: 632,
              Warnings: 57,
-             Infos: 184
+             Infos: 168
       </title>
             <link>http://remote/ri.rest.manager//checkstyle.html</link>
       <description>
@@ -49,7 +49,7 @@ under the License.
                   <a href="http://remote/ri.rest.manager//checkstyle.html#org.universAAL.ri.rest.manager.resources.Publisher.java">org/universAAL/ri/rest/manager/resources/Publisher.java</a>
                 </td>
                 <td>
-                  30
+                  29
                 </td>
                 <td>
                   0
@@ -133,7 +133,7 @@ under the License.
                   <a href="http://remote/ri.rest.manager//checkstyle.html#org.universAAL.ri.rest.manager.resources.Callee.java">org/universAAL/ri/rest/manager/resources/Callee.java</a>
                 </td>
                 <td>
-                  5
+                  3
                 </td>
                 <td>
                   1
@@ -399,7 +399,7 @@ under the License.
                   <a href="http://remote/ri.rest.manager//checkstyle.html#org.universAAL.ri.rest.manager.resources.Caller.java">org/universAAL/ri/rest/manager/resources/Caller.java</a>
                 </td>
                 <td>
-                  5
+                  3
                 </td>
                 <td>
                   0
@@ -427,7 +427,7 @@ under the License.
                   <a href="http://remote/ri.rest.manager//checkstyle.html#org.universAAL.ri.rest.manager.resources.Space.java">org/universAAL/ri/rest/manager/resources/Space.java</a>
                 </td>
                 <td>
-                  18
+                  7
                 </td>
                 <td>
                   0

@@ -106,6 +106,7 @@ public class Subscribers {
 	@Consumes(Activator.TYPES)
 	public Response addSubscriberResource(@PathParam("id") String id, Subscriber sub) throws URISyntaxException {
 		Activator.logI("Subscribers.addSubscriberResource", "POST host:port/uaal/spaces/X/context/subscribers");
+		if(sub.getId().isEmpty()) return Response.status(Status.BAD_REQUEST).build();
 		// The sub generated from the POST body does not contain any "link"
 		// elements, but I wouldnt have allowed it anyway
 		// Set the links manually, like in the sub constructor

@@ -105,6 +105,7 @@ public class Callers {
 	@Consumes(Activator.TYPES)
 	public Response addCallerResource(@PathParam("id") String id, Caller cer) throws URISyntaxException {
 		Activator.logI("Callers.addCallerResource", "POST host:port/uaal/spaces/X/service/callers");
+		if(cer.getId().isEmpty()) return Response.status(Status.BAD_REQUEST).build();
 		// The cer generated from the POST body does not contain any "link"
 		// elements, but I wouldnt have allowed it anyway
 		// Set the links manually, like in the cer constructor

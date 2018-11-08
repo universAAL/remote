@@ -106,6 +106,7 @@ public class Publishers {
 	@Consumes(Activator.TYPES)
 	public Response addPublisherResource(@PathParam("id") String id, Publisher pub) throws URISyntaxException {
 		Activator.logI("Publishers.addPublisherResource", "POST host:port/uaal/spaces/X/context/publishers");
+		if(pub.getId().isEmpty()) return Response.status(Status.BAD_REQUEST).build();
 		// The pub generated from the POST body does not contain any "link"
 		// elements, but I wouldnt have allowed it anyway
 		// Set the links manually, like in the pub constructor

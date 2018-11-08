@@ -33,6 +33,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Link;
 import javax.ws.rs.core.Link.JaxbAdapter;
+import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -102,6 +103,7 @@ public class Spaces {
 	@Consumes(Activator.TYPES)
 	public Response addSpaceResource(Space space, @javax.ws.rs.core.Context SecurityContext security) throws URISyntaxException {
 		Activator.logI("Spaces.addSpaceResource", "POST host:port/uaal/spaces ");
+		if(space.getId().isEmpty()) return Response.status(Status.BAD_REQUEST).build(); //TODO use validators everywhere?
 		// The space generated from the POST body does not contain any "link"
 		// elements, but I wouldnt have allowed it anyway
 		// Set the links manually, like in the space constructor

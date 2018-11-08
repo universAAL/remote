@@ -106,6 +106,7 @@ public class Callees {
 	@Consumes(Activator.TYPES)
 	public Response addCalleeResource(@PathParam("id") String id, Callee cee) throws URISyntaxException {
 		Activator.logI("Callees.addCalleeResource", "POST host:port/uaal/spaces/X/service/callees");
+		if(cee.getId().isEmpty()) return Response.status(Status.BAD_REQUEST).build();
 		// The cee generated from the POST body does not contain any "link"
 		// elements, but I wouldnt have allowed it anyway
 		// Set the links manually, like in the cee constructor

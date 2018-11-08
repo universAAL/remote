@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE coverage SYSTEM "http://cobertura.sourceforge.net/xml/coverage-04.dtd">
 
-<coverage line-rate="0.013189042948934731" branch-rate="0.006889763779527559" lines-covered="234" lines-valid="17742" branches-covered="56" branches-valid="8128" complexity="4.817977528089887" version="2.1.1" timestamp="1538051405093">
+<coverage line-rate="0.013183841343174263" branch-rate="0.0068762278978389" lines-covered="234" lines-valid="17749" branches-covered="56" branches-valid="8144" complexity="4.828464419475655" version="2.1.1" timestamp="1541680575249">
 	<sources>
 		<source>/home/travis/build/universAAL/remote/ri.api.manager.mysql/src/main/java</source>
 		<source>/home/travis/build/universAAL/remote/ri.exportComponent/ri.soap.cxf.service/src/main/java</source>
@@ -9562,13 +9562,13 @@
 						</method>
 						<method name="readMessage" signature="()Lorg/universAAL/ri/gateway/protocol/Message;" line-rate="0.3333333333333333" branch-rate="0.5" complexity="0">
 							<lines>
-								<line number="102" hits="730" branch="true" condition-coverage="50% (1/2)">
+								<line number="102" hits="690" branch="true" condition-coverage="50% (1/2)">
 									<conditions>
 										<condition number="0" type="jump" coverage="50%"/>
 									</conditions>
 								</line>
 								<line number="103" hits="0" branch="false"/>
-								<line number="105" hits="730" branch="false"/>
+								<line number="105" hits="690" branch="false"/>
 								<line number="106" hits="0" branch="false"/>
 								<line number="107" hits="0" branch="false"/>
 								<line number="109" hits="0" branch="false"/>
@@ -9576,14 +9576,14 @@
 						</method>
 						<method name="sendMessage" signature="(Lorg/universAAL/ri/gateway/protocol/Message;)Z" line-rate="0.75" branch-rate="0.5" complexity="0">
 							<lines>
-								<line number="93" hits="728" branch="true" condition-coverage="50% (1/2)">
+								<line number="93" hits="688" branch="true" condition-coverage="50% (1/2)">
 									<conditions>
 										<condition number="0" type="jump" coverage="50%"/>
 									</conditions>
 								</line>
 								<line number="94" hits="0" branch="false"/>
-								<line number="95" hits="728" branch="false"/>
-								<line number="96" hits="728" branch="false"/>
+								<line number="95" hits="688" branch="false"/>
+								<line number="96" hits="688" branch="false"/>
 							</lines>
 						</method>
 						<method name="setup" signature="(Ljava/util/Properties;)Z" line-rate="0.0" branch-rate="1.0" complexity="0">
@@ -9609,21 +9609,21 @@
 						<line number="86" hits="2" branch="false"/>
 						<line number="87" hits="2" branch="false"/>
 						<line number="88" hits="2" branch="false"/>
-						<line number="93" hits="728" branch="true" condition-coverage="50% (1/2)">
+						<line number="93" hits="688" branch="true" condition-coverage="50% (1/2)">
 							<conditions>
 								<condition number="0" type="jump" coverage="50%"/>
 							</conditions>
 						</line>
 						<line number="94" hits="0" branch="false"/>
-						<line number="95" hits="728" branch="false"/>
-						<line number="96" hits="728" branch="false"/>
-						<line number="102" hits="730" branch="true" condition-coverage="50% (1/2)">
+						<line number="95" hits="688" branch="false"/>
+						<line number="96" hits="688" branch="false"/>
+						<line number="102" hits="690" branch="true" condition-coverage="50% (1/2)">
 							<conditions>
 								<condition number="0" type="jump" coverage="50%"/>
 							</conditions>
 						</line>
 						<line number="103" hits="0" branch="false"/>
-						<line number="105" hits="730" branch="false"/>
+						<line number="105" hits="690" branch="false"/>
 						<line number="106" hits="0" branch="false"/>
 						<line number="107" hits="0" branch="false"/>
 						<line number="109" hits="0" branch="false"/>
@@ -9657,7 +9657,7 @@
 								<line number="110" hits="1564" branch="false"/>
 								<line number="111" hits="1564" branch="false"/>
 								<line number="112" hits="1564" branch="false"/>
-								<line number="114" hits="1563" branch="true" condition-coverage="100% (2/2)">
+								<line number="114" hits="1564" branch="true" condition-coverage="100% (2/2)">
 									<conditions>
 										<condition number="0" type="jump" coverage="100%"/>
 									</conditions>
@@ -9751,7 +9751,7 @@
 								<line number="216" hits="782" branch="false"/>
 								<line number="217" hits="782" branch="false"/>
 								<line number="218" hits="782" branch="false"/>
-								<line number="221" hits="782" branch="false"/>
+								<line number="221" hits="781" branch="false"/>
 								<line number="222" hits="0" branch="false"/>
 								<line number="223" hits="0" branch="false"/>
 								<line number="225" hits="0" branch="false"/>
@@ -9822,7 +9822,7 @@
 						<line number="110" hits="1564" branch="false"/>
 						<line number="111" hits="1564" branch="false"/>
 						<line number="112" hits="1564" branch="false"/>
-						<line number="114" hits="1563" branch="true" condition-coverage="100% (2/2)">
+						<line number="114" hits="1564" branch="true" condition-coverage="100% (2/2)">
 							<conditions>
 								<condition number="0" type="jump" coverage="100%"/>
 							</conditions>
@@ -9907,7 +9907,7 @@
 						<line number="216" hits="782" branch="false"/>
 						<line number="217" hits="782" branch="false"/>
 						<line number="218" hits="782" branch="false"/>
-						<line number="221" hits="782" branch="false"/>
+						<line number="221" hits="781" branch="false"/>
 						<line number="222" hits="0" branch="false"/>
 						<line number="223" hits="0" branch="false"/>
 						<line number="225" hits="0" branch="false"/>
@@ -14327,9 +14327,9 @@
 					<methods>
 						<method name="&lt;init&gt;" signature="(Ljava/lang/String;)V" line-rate="1.0" branch-rate="1.0" complexity="0">
 							<lines>
-								<line number="59" hits="755" branch="false"/>
-								<line number="60" hits="755" branch="false"/>
-								<line number="61" hits="755" branch="false"/>
+								<line number="59" hits="735" branch="false"/>
+								<line number="60" hits="735" branch="false"/>
+								<line number="61" hits="735" branch="false"/>
 							</lines>
 						</method>
 						<method name="&lt;init&gt;" signature="(Ljava/lang/String;Lorg/universAAL/ri/gateway/protocol/Message;)V" line-rate="0.0" branch-rate="1.0" complexity="0">
@@ -14356,9 +14356,9 @@
 						<line number="49" hits="0" branch="false"/>
 						<line number="50" hits="0" branch="false"/>
 						<line number="51" hits="0" branch="false"/>
-						<line number="59" hits="755" branch="false"/>
-						<line number="60" hits="755" branch="false"/>
-						<line number="61" hits="755" branch="false"/>
+						<line number="59" hits="735" branch="false"/>
+						<line number="60" hits="735" branch="false"/>
+						<line number="61" hits="735" branch="false"/>
 						<line number="67" hits="1000" branch="false"/>
 						<line number="74" hits="0" branch="false"/>
 					</lines>
@@ -14686,11 +14686,11 @@
 						</method>
 						<method name="&lt;init&gt;" signature="()V" line-rate="1.0" branch-rate="1.0" complexity="0">
 							<lines>
-								<line number="59" hits="755" branch="false"/>
-								<line number="60" hits="755" branch="false"/>
-								<line number="61" hits="755" branch="false"/>
-								<line number="62" hits="755" branch="false"/>
-								<line number="63" hits="755" branch="false"/>
+								<line number="59" hits="735" branch="false"/>
+								<line number="60" hits="735" branch="false"/>
+								<line number="61" hits="735" branch="false"/>
+								<line number="62" hits="735" branch="false"/>
+								<line number="63" hits="735" branch="false"/>
 							</lines>
 						</method>
 						<method name="&lt;init&gt;" signature="(Lorg/universAAL/ri/gateway/protocol/Message;)V" line-rate="0.0" branch-rate="1.0" complexity="0">
@@ -14722,11 +14722,11 @@
 					</methods>
 					<lines>
 						<line number="44" hits="1" branch="false"/>
-						<line number="59" hits="755" branch="false"/>
-						<line number="60" hits="755" branch="false"/>
-						<line number="61" hits="755" branch="false"/>
-						<line number="62" hits="755" branch="false"/>
-						<line number="63" hits="755" branch="false"/>
+						<line number="59" hits="735" branch="false"/>
+						<line number="60" hits="735" branch="false"/>
+						<line number="61" hits="735" branch="false"/>
+						<line number="62" hits="735" branch="false"/>
+						<line number="63" hits="735" branch="false"/>
 						<line number="72" hits="0" branch="false"/>
 						<line number="73" hits="0" branch="false"/>
 						<line number="74" hits="0" branch="false"/>
@@ -18707,7 +18707,7 @@
 				</class>
 			</classes>
 		</package>
-		<package name="org.universAAL.ri.rest.manager.resources" line-rate="0.0" branch-rate="0.0" complexity="2.1449275362318843">
+		<package name="org.universAAL.ri.rest.manager.resources" line-rate="0.0" branch-rate="0.0" complexity="2.217391304347826">
 			<classes>
 				<class name="org.universAAL.ri.rest.manager.resources.Callee" filename="org/universAAL/ri/rest/manager/resources/Callee.java" line-rate="0.0" branch-rate="0.0" complexity="2.7857142857142856">
 					<methods>
@@ -19023,7 +19023,7 @@
 						<line number="213" hits="0" branch="false"/>
 					</lines>
 				</class>
-				<class name="org.universAAL.ri.rest.manager.resources.Callees" filename="org/universAAL/ri/rest/manager/resources/Callees.java" line-rate="0.0" branch-rate="0.0" complexity="2.5">
+				<class name="org.universAAL.ri.rest.manager.resources.Callees" filename="org/universAAL/ri/rest/manager/resources/Callees.java" line-rate="0.0" branch-rate="0.0" complexity="2.75">
 					<methods>
 						<method name="&lt;init&gt;" signature="()V" line-rate="0.0" branch-rate="1.0" complexity="0">
 							<lines>
@@ -19034,13 +19034,13 @@
 						<method name="addCalleeResource" signature="(Ljava/lang/String;Lorg/universAAL/ri/rest/manager/resources/Callee;)Ljavax/ws/rs/core/Response;" line-rate="0.0" branch-rate="0.0" complexity="0">
 							<lines>
 								<line number="108" hits="0" branch="false"/>
-								<line number="112" hits="0" branch="false"/>
-								<line number="113" hits="0" branch="false"/>
-								<line number="114" hits="0" branch="true" condition-coverage="0% (0/2)">
+								<line number="109" hits="0" branch="true" condition-coverage="0% (0/2)">
 									<conditions>
 										<condition number="0" type="jump" coverage="0%"/>
 									</conditions>
 								</line>
+								<line number="113" hits="0" branch="false"/>
+								<line number="114" hits="0" branch="false"/>
 								<line number="115" hits="0" branch="true" condition-coverage="0% (0/2)">
 									<conditions>
 										<condition number="0" type="jump" coverage="0%"/>
@@ -19051,33 +19051,38 @@
 										<condition number="0" type="jump" coverage="0%"/>
 									</conditions>
 								</line>
-								<line number="117" hits="0" branch="false"/>
-								<line number="118" hits="0" branch="true" condition-coverage="0% (0/2)">
+								<line number="117" hits="0" branch="true" condition-coverage="0% (0/2)">
 									<conditions>
 										<condition number="0" type="jump" coverage="0%"/>
 									</conditions>
 								</line>
+								<line number="118" hits="0" branch="false"/>
 								<line number="119" hits="0" branch="true" condition-coverage="0% (0/2)">
 									<conditions>
 										<condition number="0" type="jump" coverage="0%"/>
 									</conditions>
 								</line>
-								<line number="120" hits="0" branch="false"/>
-								<line number="122" hits="0" branch="false"/>
+								<line number="120" hits="0" branch="true" condition-coverage="0% (0/2)">
+									<conditions>
+										<condition number="0" type="jump" coverage="0%"/>
+									</conditions>
+								</line>
+								<line number="121" hits="0" branch="false"/>
 								<line number="123" hits="0" branch="false"/>
 								<line number="124" hits="0" branch="false"/>
 								<line number="125" hits="0" branch="false"/>
 								<line number="126" hits="0" branch="false"/>
-								<line number="128" hits="0" branch="false"/>
-								<line number="131" hits="0" branch="false"/>
-								<line number="134" hits="0" branch="false"/>
-								<line number="137" hits="0" branch="false"/>
+								<line number="127" hits="0" branch="false"/>
+								<line number="129" hits="0" branch="false"/>
+								<line number="132" hits="0" branch="false"/>
+								<line number="135" hits="0" branch="false"/>
+								<line number="138" hits="0" branch="false"/>
 							</lines>
 						</method>
 						<method name="getCalleeResourceLocator" signature="()Lorg/universAAL/ri/rest/manager/resources/Callee;" line-rate="0.0" branch-rate="1.0" complexity="0">
 							<lines>
-								<line number="144" hits="0" branch="false"/>
 								<line number="145" hits="0" branch="false"/>
+								<line number="146" hits="0" branch="false"/>
 							</lines>
 						</method>
 						<method name="getCallees" signature="()Ljava/util/ArrayList;" line-rate="0.0" branch-rate="1.0" complexity="0">
@@ -19155,13 +19160,13 @@
 						<line number="101" hits="0" branch="false"/>
 						<line number="102" hits="0" branch="false"/>
 						<line number="108" hits="0" branch="false"/>
-						<line number="112" hits="0" branch="false"/>
-						<line number="113" hits="0" branch="false"/>
-						<line number="114" hits="0" branch="true" condition-coverage="0% (0/2)">
+						<line number="109" hits="0" branch="true" condition-coverage="0% (0/2)">
 							<conditions>
 								<condition number="0" type="jump" coverage="0%"/>
 							</conditions>
 						</line>
+						<line number="113" hits="0" branch="false"/>
+						<line number="114" hits="0" branch="false"/>
 						<line number="115" hits="0" branch="true" condition-coverage="0% (0/2)">
 							<conditions>
 								<condition number="0" type="jump" coverage="0%"/>
@@ -19172,29 +19177,34 @@
 								<condition number="0" type="jump" coverage="0%"/>
 							</conditions>
 						</line>
-						<line number="117" hits="0" branch="false"/>
-						<line number="118" hits="0" branch="true" condition-coverage="0% (0/2)">
+						<line number="117" hits="0" branch="true" condition-coverage="0% (0/2)">
 							<conditions>
 								<condition number="0" type="jump" coverage="0%"/>
 							</conditions>
 						</line>
+						<line number="118" hits="0" branch="false"/>
 						<line number="119" hits="0" branch="true" condition-coverage="0% (0/2)">
 							<conditions>
 								<condition number="0" type="jump" coverage="0%"/>
 							</conditions>
 						</line>
-						<line number="120" hits="0" branch="false"/>
-						<line number="122" hits="0" branch="false"/>
+						<line number="120" hits="0" branch="true" condition-coverage="0% (0/2)">
+							<conditions>
+								<condition number="0" type="jump" coverage="0%"/>
+							</conditions>
+						</line>
+						<line number="121" hits="0" branch="false"/>
 						<line number="123" hits="0" branch="false"/>
 						<line number="124" hits="0" branch="false"/>
 						<line number="125" hits="0" branch="false"/>
 						<line number="126" hits="0" branch="false"/>
-						<line number="128" hits="0" branch="false"/>
-						<line number="131" hits="0" branch="false"/>
-						<line number="134" hits="0" branch="false"/>
-						<line number="137" hits="0" branch="false"/>
-						<line number="144" hits="0" branch="false"/>
+						<line number="127" hits="0" branch="false"/>
+						<line number="129" hits="0" branch="false"/>
+						<line number="132" hits="0" branch="false"/>
+						<line number="135" hits="0" branch="false"/>
+						<line number="138" hits="0" branch="false"/>
 						<line number="145" hits="0" branch="false"/>
+						<line number="146" hits="0" branch="false"/>
 					</lines>
 				</class>
 				<class name="org.universAAL.ri.rest.manager.resources.Caller" filename="org/universAAL/ri/rest/manager/resources/Caller.java" line-rate="0.0" branch-rate="0.0" complexity="3.1">
@@ -19447,7 +19457,7 @@
 						<line number="176" hits="0" branch="false"/>
 					</lines>
 				</class>
-				<class name="org.universAAL.ri.rest.manager.resources.Callers" filename="org/universAAL/ri/rest/manager/resources/Callers.java" line-rate="0.0" branch-rate="0.0" complexity="1.75">
+				<class name="org.universAAL.ri.rest.manager.resources.Callers" filename="org/universAAL/ri/rest/manager/resources/Callers.java" line-rate="0.0" branch-rate="0.0" complexity="2.0">
 					<methods>
 						<method name="&lt;init&gt;" signature="()V" line-rate="0.0" branch-rate="1.0" complexity="0">
 							<lines>
@@ -19458,29 +19468,34 @@
 						<method name="addCallerResource" signature="(Ljava/lang/String;Lorg/universAAL/ri/rest/manager/resources/Caller;)Ljavax/ws/rs/core/Response;" line-rate="0.0" branch-rate="0.0" complexity="0">
 							<lines>
 								<line number="107" hits="0" branch="false"/>
-								<line number="111" hits="0" branch="false"/>
-								<line number="112" hits="0" branch="false"/>
-								<line number="113" hits="0" branch="true" condition-coverage="0% (0/2)">
+								<line number="108" hits="0" branch="true" condition-coverage="0% (0/2)">
 									<conditions>
 										<condition number="0" type="jump" coverage="0%"/>
 									</conditions>
 								</line>
+								<line number="112" hits="0" branch="false"/>
+								<line number="113" hits="0" branch="false"/>
 								<line number="114" hits="0" branch="true" condition-coverage="0% (0/2)">
 									<conditions>
 										<condition number="0" type="jump" coverage="0%"/>
 									</conditions>
 								</line>
-								<line number="115" hits="0" branch="false"/>
-								<line number="117" hits="0" branch="false"/>
+								<line number="115" hits="0" branch="true" condition-coverage="0% (0/2)">
+									<conditions>
+										<condition number="0" type="jump" coverage="0%"/>
+									</conditions>
+								</line>
+								<line number="116" hits="0" branch="false"/>
 								<line number="118" hits="0" branch="false"/>
 								<line number="119" hits="0" branch="false"/>
-								<line number="121" hits="0" branch="false"/>
+								<line number="120" hits="0" branch="false"/>
+								<line number="122" hits="0" branch="false"/>
 							</lines>
 						</method>
 						<method name="getCallerResourceLocator" signature="()Lorg/universAAL/ri/rest/manager/resources/Caller;" line-rate="0.0" branch-rate="1.0" complexity="0">
 							<lines>
-								<line number="128" hits="0" branch="false"/>
 								<line number="129" hits="0" branch="false"/>
+								<line number="130" hits="0" branch="false"/>
 							</lines>
 						</method>
 						<method name="getCallers" signature="()Ljava/util/ArrayList;" line-rate="0.0" branch-rate="1.0" complexity="0">
@@ -19558,25 +19573,30 @@
 						<line number="100" hits="0" branch="false"/>
 						<line number="101" hits="0" branch="false"/>
 						<line number="107" hits="0" branch="false"/>
-						<line number="111" hits="0" branch="false"/>
-						<line number="112" hits="0" branch="false"/>
-						<line number="113" hits="0" branch="true" condition-coverage="0% (0/2)">
+						<line number="108" hits="0" branch="true" condition-coverage="0% (0/2)">
 							<conditions>
 								<condition number="0" type="jump" coverage="0%"/>
 							</conditions>
 						</line>
+						<line number="112" hits="0" branch="false"/>
+						<line number="113" hits="0" branch="false"/>
 						<line number="114" hits="0" branch="true" condition-coverage="0% (0/2)">
 							<conditions>
 								<condition number="0" type="jump" coverage="0%"/>
 							</conditions>
 						</line>
-						<line number="115" hits="0" branch="false"/>
-						<line number="117" hits="0" branch="false"/>
+						<line number="115" hits="0" branch="true" condition-coverage="0% (0/2)">
+							<conditions>
+								<condition number="0" type="jump" coverage="0%"/>
+							</conditions>
+						</line>
+						<line number="116" hits="0" branch="false"/>
 						<line number="118" hits="0" branch="false"/>
 						<line number="119" hits="0" branch="false"/>
-						<line number="121" hits="0" branch="false"/>
-						<line number="128" hits="0" branch="false"/>
+						<line number="120" hits="0" branch="false"/>
+						<line number="122" hits="0" branch="false"/>
 						<line number="129" hits="0" branch="false"/>
+						<line number="130" hits="0" branch="false"/>
 					</lines>
 				</class>
 				<class name="org.universAAL.ri.rest.manager.resources.Context" filename="org/universAAL/ri/rest/manager/resources/Context.java" line-rate="0.0" branch-rate="1.0" complexity="1.0">
@@ -20111,7 +20131,7 @@
 						<line number="237" hits="0" branch="false"/>
 					</lines>
 				</class>
-				<class name="org.universAAL.ri.rest.manager.resources.Publishers" filename="org/universAAL/ri/rest/manager/resources/Publishers.java" line-rate="0.0" branch-rate="0.0" complexity="2.5">
+				<class name="org.universAAL.ri.rest.manager.resources.Publishers" filename="org/universAAL/ri/rest/manager/resources/Publishers.java" line-rate="0.0" branch-rate="0.0" complexity="2.75">
 					<methods>
 						<method name="&lt;init&gt;" signature="()V" line-rate="0.0" branch-rate="1.0" complexity="0">
 							<lines>
@@ -20122,13 +20142,13 @@
 						<method name="addPublisherResource" signature="(Ljava/lang/String;Lorg/universAAL/ri/rest/manager/resources/Publisher;)Ljavax/ws/rs/core/Response;" line-rate="0.0" branch-rate="0.0" complexity="0">
 							<lines>
 								<line number="108" hits="0" branch="false"/>
-								<line number="112" hits="0" branch="false"/>
-								<line number="113" hits="0" branch="false"/>
-								<line number="114" hits="0" branch="true" condition-coverage="0% (0/2)">
+								<line number="109" hits="0" branch="true" condition-coverage="0% (0/2)">
 									<conditions>
 										<condition number="0" type="jump" coverage="0%"/>
 									</conditions>
 								</line>
+								<line number="113" hits="0" branch="false"/>
+								<line number="114" hits="0" branch="false"/>
 								<line number="115" hits="0" branch="true" condition-coverage="0% (0/2)">
 									<conditions>
 										<condition number="0" type="jump" coverage="0%"/>
@@ -20139,32 +20159,37 @@
 										<condition number="0" type="jump" coverage="0%"/>
 									</conditions>
 								</line>
-								<line number="117" hits="0" branch="false"/>
-								<line number="118" hits="0" branch="true" condition-coverage="0% (0/2)">
+								<line number="117" hits="0" branch="true" condition-coverage="0% (0/2)">
 									<conditions>
 										<condition number="0" type="jump" coverage="0%"/>
 									</conditions>
 								</line>
-								<line number="119" hits="0" branch="false"/>
-								<line number="121" hits="0" branch="true" condition-coverage="0% (0/2)">
+								<line number="118" hits="0" branch="false"/>
+								<line number="119" hits="0" branch="true" condition-coverage="0% (0/2)">
 									<conditions>
 										<condition number="0" type="jump" coverage="0%"/>
 									</conditions>
 								</line>
-								<line number="122" hits="0" branch="false"/>
+								<line number="120" hits="0" branch="false"/>
+								<line number="122" hits="0" branch="true" condition-coverage="0% (0/2)">
+									<conditions>
+										<condition number="0" type="jump" coverage="0%"/>
+									</conditions>
+								</line>
 								<line number="123" hits="0" branch="false"/>
 								<line number="124" hits="0" branch="false"/>
 								<line number="125" hits="0" branch="false"/>
-								<line number="127" hits="0" branch="false"/>
-								<line number="130" hits="0" branch="false"/>
-								<line number="133" hits="0" branch="false"/>
-								<line number="136" hits="0" branch="false"/>
+								<line number="126" hits="0" branch="false"/>
+								<line number="128" hits="0" branch="false"/>
+								<line number="131" hits="0" branch="false"/>
+								<line number="134" hits="0" branch="false"/>
+								<line number="137" hits="0" branch="false"/>
 							</lines>
 						</method>
 						<method name="getPublisherResourceLocator" signature="()Lorg/universAAL/ri/rest/manager/resources/Publisher;" line-rate="0.0" branch-rate="1.0" complexity="0">
 							<lines>
-								<line number="144" hits="0" branch="false"/>
 								<line number="145" hits="0" branch="false"/>
+								<line number="146" hits="0" branch="false"/>
 							</lines>
 						</method>
 						<method name="getPublishers" signature="()Ljava/util/ArrayList;" line-rate="0.0" branch-rate="1.0" complexity="0">
@@ -20242,13 +20267,13 @@
 						<line number="101" hits="0" branch="false"/>
 						<line number="102" hits="0" branch="false"/>
 						<line number="108" hits="0" branch="false"/>
-						<line number="112" hits="0" branch="false"/>
-						<line number="113" hits="0" branch="false"/>
-						<line number="114" hits="0" branch="true" condition-coverage="0% (0/2)">
+						<line number="109" hits="0" branch="true" condition-coverage="0% (0/2)">
 							<conditions>
 								<condition number="0" type="jump" coverage="0%"/>
 							</conditions>
 						</line>
+						<line number="113" hits="0" branch="false"/>
+						<line number="114" hits="0" branch="false"/>
 						<line number="115" hits="0" branch="true" condition-coverage="0% (0/2)">
 							<conditions>
 								<condition number="0" type="jump" coverage="0%"/>
@@ -20259,28 +20284,33 @@
 								<condition number="0" type="jump" coverage="0%"/>
 							</conditions>
 						</line>
-						<line number="117" hits="0" branch="false"/>
-						<line number="118" hits="0" branch="true" condition-coverage="0% (0/2)">
+						<line number="117" hits="0" branch="true" condition-coverage="0% (0/2)">
 							<conditions>
 								<condition number="0" type="jump" coverage="0%"/>
 							</conditions>
 						</line>
-						<line number="119" hits="0" branch="false"/>
-						<line number="121" hits="0" branch="true" condition-coverage="0% (0/2)">
+						<line number="118" hits="0" branch="false"/>
+						<line number="119" hits="0" branch="true" condition-coverage="0% (0/2)">
 							<conditions>
 								<condition number="0" type="jump" coverage="0%"/>
 							</conditions>
 						</line>
-						<line number="122" hits="0" branch="false"/>
+						<line number="120" hits="0" branch="false"/>
+						<line number="122" hits="0" branch="true" condition-coverage="0% (0/2)">
+							<conditions>
+								<condition number="0" type="jump" coverage="0%"/>
+							</conditions>
+						</line>
 						<line number="123" hits="0" branch="false"/>
 						<line number="124" hits="0" branch="false"/>
 						<line number="125" hits="0" branch="false"/>
-						<line number="127" hits="0" branch="false"/>
-						<line number="130" hits="0" branch="false"/>
-						<line number="133" hits="0" branch="false"/>
-						<line number="136" hits="0" branch="false"/>
-						<line number="144" hits="0" branch="false"/>
+						<line number="126" hits="0" branch="false"/>
+						<line number="128" hits="0" branch="false"/>
+						<line number="131" hits="0" branch="false"/>
+						<line number="134" hits="0" branch="false"/>
+						<line number="137" hits="0" branch="false"/>
 						<line number="145" hits="0" branch="false"/>
+						<line number="146" hits="0" branch="false"/>
 					</lines>
 				</class>
 				<class name="org.universAAL.ri.rest.manager.resources.Service" filename="org/universAAL/ri/rest/manager/resources/Service.java" line-rate="0.0" branch-rate="1.0" complexity="1.0">
@@ -20599,116 +20629,126 @@
 						<line number="195" hits="0" branch="false"/>
 					</lines>
 				</class>
-				<class name="org.universAAL.ri.rest.manager.resources.Spaces" filename="org/universAAL/ri/rest/manager/resources/Spaces.java" line-rate="0.0" branch-rate="0.0" complexity="1.6666666666666667">
+				<class name="org.universAAL.ri.rest.manager.resources.Spaces" filename="org/universAAL/ri/rest/manager/resources/Spaces.java" line-rate="0.0" branch-rate="0.0" complexity="2.0">
 					<methods>
 						<method name="&lt;init&gt;" signature="()V" line-rate="0.0" branch-rate="1.0" complexity="0">
 							<lines>
-								<line number="53" hits="0" branch="false"/>
-								<line number="55" hits="0" branch="false"/>
-								<line number="72" hits="0" branch="false"/>
-								<line number="74" hits="0" branch="false"/>
+								<line number="54" hits="0" branch="false"/>
+								<line number="56" hits="0" branch="false"/>
+								<line number="73" hits="0" branch="false"/>
+								<line number="75" hits="0" branch="false"/>
 							</lines>
 						</method>
 						<method name="addSpaceResource" signature="(Lorg/universAAL/ri/rest/manager/resources/Space;Ljavax/ws/rs/core/SecurityContext;)Ljavax/ws/rs/core/Response;" line-rate="0.0" branch-rate="0.0" complexity="0">
 							<lines>
-								<line number="104" hits="0" branch="false"/>
-								<line number="108" hits="0" branch="false"/>
-								<line number="109" hits="0" branch="false"/>
+								<line number="105" hits="0" branch="false"/>
+								<line number="106" hits="0" branch="true" condition-coverage="0% (0/2)">
+									<conditions>
+										<condition number="0" type="jump" coverage="0%"/>
+									</conditions>
+								</line>
 								<line number="110" hits="0" branch="false"/>
-								<line number="111" hits="0" branch="true" condition-coverage="0% (0/2)">
+								<line number="111" hits="0" branch="false"/>
+								<line number="112" hits="0" branch="false"/>
+								<line number="113" hits="0" branch="true" condition-coverage="0% (0/2)">
 									<conditions>
 										<condition number="0" type="jump" coverage="0%"/>
 									</conditions>
 								</line>
-								<line number="113" hits="0" branch="false"/>
 								<line number="115" hits="0" branch="false"/>
-								<line number="116" hits="0" branch="true" condition-coverage="0% (0/2)">
+								<line number="117" hits="0" branch="false"/>
+								<line number="118" hits="0" branch="true" condition-coverage="0% (0/2)">
 									<conditions>
 										<condition number="0" type="jump" coverage="0%"/>
 									</conditions>
 								</line>
-								<line number="117" hits="0" branch="false"/>
 								<line number="119" hits="0" branch="false"/>
-								<line number="120" hits="0" branch="false"/>
 								<line number="121" hits="0" branch="false"/>
+								<line number="122" hits="0" branch="false"/>
+								<line number="123" hits="0" branch="false"/>
 							</lines>
 						</method>
 						<method name="getSpaceResourceLocator" signature="()Lorg/universAAL/ri/rest/manager/resources/Space;" line-rate="0.0" branch-rate="1.0" complexity="0">
 							<lines>
-								<line number="129" hits="0" branch="false"/>
-								<line number="130" hits="0" branch="false"/>
+								<line number="131" hits="0" branch="false"/>
+								<line number="132" hits="0" branch="false"/>
 							</lines>
 						</method>
 						<method name="getSpaces" signature="()Ljava/util/ArrayList;" line-rate="0.0" branch-rate="1.0" complexity="0">
 							<lines>
-								<line number="65" hits="0" branch="false"/>
+								<line number="66" hits="0" branch="false"/>
 							</lines>
 						</method>
 						<method name="getSpacesResource" signature="()Lorg/universAAL/ri/rest/manager/resources/Spaces;" line-rate="0.0" branch-rate="0.0" complexity="0">
 							<lines>
-								<line number="81" hits="0" branch="false"/>
 								<line number="82" hits="0" branch="false"/>
 								<line number="83" hits="0" branch="false"/>
-								<line number="85" hits="0" branch="false"/>
-								<line number="86" hits="0" branch="true" condition-coverage="0% (0/2)">
+								<line number="84" hits="0" branch="false"/>
+								<line number="86" hits="0" branch="false"/>
+								<line number="87" hits="0" branch="true" condition-coverage="0% (0/2)">
 									<conditions>
 										<condition number="0" type="jump" coverage="0%"/>
 									</conditions>
 								</line>
-								<line number="87" hits="0" branch="false"/>
-								<line number="97" hits="0" branch="false"/>
+								<line number="88" hits="0" branch="false"/>
 								<line number="98" hits="0" branch="false"/>
+								<line number="99" hits="0" branch="false"/>
 							</lines>
 						</method>
 						<method name="setSpaces" signature="(Ljava/util/ArrayList;)V" line-rate="0.0" branch-rate="1.0" complexity="0">
 							<lines>
-								<line number="69" hits="0" branch="false"/>
 								<line number="70" hits="0" branch="false"/>
+								<line number="71" hits="0" branch="false"/>
 							</lines>
 						</method>
 					</methods>
 					<lines>
-						<line number="53" hits="0" branch="false"/>
-						<line number="55" hits="0" branch="false"/>
-						<line number="65" hits="0" branch="false"/>
-						<line number="69" hits="0" branch="false"/>
+						<line number="54" hits="0" branch="false"/>
+						<line number="56" hits="0" branch="false"/>
+						<line number="66" hits="0" branch="false"/>
 						<line number="70" hits="0" branch="false"/>
-						<line number="72" hits="0" branch="false"/>
-						<line number="74" hits="0" branch="false"/>
-						<line number="81" hits="0" branch="false"/>
+						<line number="71" hits="0" branch="false"/>
+						<line number="73" hits="0" branch="false"/>
+						<line number="75" hits="0" branch="false"/>
 						<line number="82" hits="0" branch="false"/>
 						<line number="83" hits="0" branch="false"/>
-						<line number="85" hits="0" branch="false"/>
-						<line number="86" hits="0" branch="true" condition-coverage="0% (0/2)">
+						<line number="84" hits="0" branch="false"/>
+						<line number="86" hits="0" branch="false"/>
+						<line number="87" hits="0" branch="true" condition-coverage="0% (0/2)">
 							<conditions>
 								<condition number="0" type="jump" coverage="0%"/>
 							</conditions>
 						</line>
-						<line number="87" hits="0" branch="false"/>
-						<line number="97" hits="0" branch="false"/>
+						<line number="88" hits="0" branch="false"/>
 						<line number="98" hits="0" branch="false"/>
-						<line number="104" hits="0" branch="false"/>
-						<line number="108" hits="0" branch="false"/>
-						<line number="109" hits="0" branch="false"/>
+						<line number="99" hits="0" branch="false"/>
+						<line number="105" hits="0" branch="false"/>
+						<line number="106" hits="0" branch="true" condition-coverage="0% (0/2)">
+							<conditions>
+								<condition number="0" type="jump" coverage="0%"/>
+							</conditions>
+						</line>
 						<line number="110" hits="0" branch="false"/>
-						<line number="111" hits="0" branch="true" condition-coverage="0% (0/2)">
+						<line number="111" hits="0" branch="false"/>
+						<line number="112" hits="0" branch="false"/>
+						<line number="113" hits="0" branch="true" condition-coverage="0% (0/2)">
 							<conditions>
 								<condition number="0" type="jump" coverage="0%"/>
 							</conditions>
 						</line>
-						<line number="113" hits="0" branch="false"/>
 						<line number="115" hits="0" branch="false"/>
-						<line number="116" hits="0" branch="true" condition-coverage="0% (0/2)">
+						<line number="117" hits="0" branch="false"/>
+						<line number="118" hits="0" branch="true" condition-coverage="0% (0/2)">
 							<conditions>
 								<condition number="0" type="jump" coverage="0%"/>
 							</conditions>
 						</line>
-						<line number="117" hits="0" branch="false"/>
 						<line number="119" hits="0" branch="false"/>
-						<line number="120" hits="0" branch="false"/>
 						<line number="121" hits="0" branch="false"/>
-						<line number="129" hits="0" branch="false"/>
-						<line number="130" hits="0" branch="false"/>
+						<line number="122" hits="0" branch="false"/>
+						<line number="123" hits="0" branch="false"/>
+						<line number="131" hits="0" branch="false"/>
+						<line number="132" hits="0" branch="false"/>
 					</lines>
 				</class>
 				<class name="org.universAAL.ri.rest.manager.resources.Subscriber" filename="org/universAAL/ri/rest/manager/resources/Subscriber.java" line-rate="0.0" branch-rate="0.0" complexity="2.4615384615384617">
@@ -20973,7 +21013,7 @@
 						<line number="188" hits="0" branch="false"/>
 					</lines>
 				</class>
-				<class name="org.universAAL.ri.rest.manager.resources.Subscribers" filename="org/universAAL/ri/rest/manager/resources/Subscribers.java" line-rate="0.0" branch-rate="0.0" complexity="2.5">
+				<class name="org.universAAL.ri.rest.manager.resources.Subscribers" filename="org/universAAL/ri/rest/manager/resources/Subscribers.java" line-rate="0.0" branch-rate="0.0" complexity="2.75">
 					<methods>
 						<method name="&lt;init&gt;" signature="()V" line-rate="0.0" branch-rate="1.0" complexity="0">
 							<lines>
@@ -20984,13 +21024,13 @@
 						<method name="addSubscriberResource" signature="(Ljava/lang/String;Lorg/universAAL/ri/rest/manager/resources/Subscriber;)Ljavax/ws/rs/core/Response;" line-rate="0.0" branch-rate="0.0" complexity="0">
 							<lines>
 								<line number="108" hits="0" branch="false"/>
-								<line number="112" hits="0" branch="false"/>
-								<line number="113" hits="0" branch="false"/>
-								<line number="114" hits="0" branch="true" condition-coverage="0% (0/2)">
+								<line number="109" hits="0" branch="true" condition-coverage="0% (0/2)">
 									<conditions>
 										<condition number="0" type="jump" coverage="0%"/>
 									</conditions>
 								</line>
+								<line number="113" hits="0" branch="false"/>
+								<line number="114" hits="0" branch="false"/>
 								<line number="115" hits="0" branch="true" condition-coverage="0% (0/2)">
 									<conditions>
 										<condition number="0" type="jump" coverage="0%"/>
@@ -21001,26 +21041,31 @@
 										<condition number="0" type="jump" coverage="0%"/>
 									</conditions>
 								</line>
-								<line number="117" hits="0" branch="false"/>
-								<line number="118" hits="0" branch="true" condition-coverage="0% (0/2)">
+								<line number="117" hits="0" branch="true" condition-coverage="0% (0/2)">
 									<conditions>
 										<condition number="0" type="jump" coverage="0%"/>
 									</conditions>
 								</line>
+								<line number="118" hits="0" branch="false"/>
 								<line number="119" hits="0" branch="true" condition-coverage="0% (0/2)">
 									<conditions>
 										<condition number="0" type="jump" coverage="0%"/>
 									</conditions>
 								</line>
-								<line number="120" hits="0" branch="false"/>
-								<line number="122" hits="0" branch="false"/>
-								<line number="124" hits="0" branch="false"/>
+								<line number="120" hits="0" branch="true" condition-coverage="0% (0/2)">
+									<conditions>
+										<condition number="0" type="jump" coverage="0%"/>
+									</conditions>
+								</line>
+								<line number="121" hits="0" branch="false"/>
+								<line number="123" hits="0" branch="false"/>
 								<line number="125" hits="0" branch="false"/>
 								<line number="126" hits="0" branch="false"/>
-								<line number="128" hits="0" branch="false"/>
-								<line number="131" hits="0" branch="false"/>
-								<line number="134" hits="0" branch="false"/>
-								<line number="137" hits="0" branch="false"/>
+								<line number="127" hits="0" branch="false"/>
+								<line number="129" hits="0" branch="false"/>
+								<line number="132" hits="0" branch="false"/>
+								<line number="135" hits="0" branch="false"/>
+								<line number="138" hits="0" branch="false"/>
 							</lines>
 						</method>
 						<method name="getSelf" signature="()Ljavax/ws/rs/core/Link;" line-rate="0.0" branch-rate="1.0" complexity="0">
@@ -21030,8 +21075,8 @@
 						</method>
 						<method name="getSubscriberResourceLocator" signature="()Lorg/universAAL/ri/rest/manager/resources/Subscriber;" line-rate="0.0" branch-rate="1.0" complexity="0">
 							<lines>
-								<line number="145" hits="0" branch="false"/>
-								<line number="147" hits="0" branch="false"/>
+								<line number="146" hits="0" branch="false"/>
+								<line number="148" hits="0" branch="false"/>
 							</lines>
 						</method>
 						<method name="getSubscribers" signature="()Ljava/util/ArrayList;" line-rate="0.0" branch-rate="1.0" complexity="0">
@@ -21104,13 +21149,13 @@
 						<line number="101" hits="0" branch="false"/>
 						<line number="102" hits="0" branch="false"/>
 						<line number="108" hits="0" branch="false"/>
-						<line number="112" hits="0" branch="false"/>
-						<line number="113" hits="0" branch="false"/>
-						<line number="114" hits="0" branch="true" condition-coverage="0% (0/2)">
+						<line number="109" hits="0" branch="true" condition-coverage="0% (0/2)">
 							<conditions>
 								<condition number="0" type="jump" coverage="0%"/>
 							</conditions>
 						</line>
+						<line number="113" hits="0" branch="false"/>
+						<line number="114" hits="0" branch="false"/>
 						<line number="115" hits="0" branch="true" condition-coverage="0% (0/2)">
 							<conditions>
 								<condition number="0" type="jump" coverage="0%"/>
@@ -21121,28 +21166,33 @@
 								<condition number="0" type="jump" coverage="0%"/>
 							</conditions>
 						</line>
-						<line number="117" hits="0" branch="false"/>
-						<line number="118" hits="0" branch="true" condition-coverage="0% (0/2)">
+						<line number="117" hits="0" branch="true" condition-coverage="0% (0/2)">
 							<conditions>
 								<condition number="0" type="jump" coverage="0%"/>
 							</conditions>
 						</line>
+						<line number="118" hits="0" branch="false"/>
 						<line number="119" hits="0" branch="true" condition-coverage="0% (0/2)">
 							<conditions>
 								<condition number="0" type="jump" coverage="0%"/>
 							</conditions>
 						</line>
-						<line number="120" hits="0" branch="false"/>
-						<line number="122" hits="0" branch="false"/>
-						<line number="124" hits="0" branch="false"/>
+						<line number="120" hits="0" branch="true" condition-coverage="0% (0/2)">
+							<conditions>
+								<condition number="0" type="jump" coverage="0%"/>
+							</conditions>
+						</line>
+						<line number="121" hits="0" branch="false"/>
+						<line number="123" hits="0" branch="false"/>
 						<line number="125" hits="0" branch="false"/>
 						<line number="126" hits="0" branch="false"/>
-						<line number="128" hits="0" branch="false"/>
-						<line number="131" hits="0" branch="false"/>
-						<line number="134" hits="0" branch="false"/>
-						<line number="137" hits="0" branch="false"/>
-						<line number="145" hits="0" branch="false"/>
-						<line number="147" hits="0" branch="false"/>
+						<line number="127" hits="0" branch="false"/>
+						<line number="129" hits="0" branch="false"/>
+						<line number="132" hits="0" branch="false"/>
+						<line number="135" hits="0" branch="false"/>
+						<line number="138" hits="0" branch="false"/>
+						<line number="146" hits="0" branch="false"/>
+						<line number="148" hits="0" branch="false"/>
 					</lines>
 				</class>
 				<class name="org.universAAL.ri.rest.manager.resources.Uaal" filename="org/universAAL/ri/rest/manager/resources/Uaal.java" line-rate="0.0" branch-rate="1.0" complexity="1.0">
@@ -21213,9 +21263,9 @@
 				</class>
 			</classes>
 		</package>
-		<package name="org.universAAL.ri.rest.manager.server" line-rate="0.0" branch-rate="0.0" complexity="3.94">
+		<package name="org.universAAL.ri.rest.manager.server" line-rate="0.0" branch-rate="0.0" complexity="4.02">
 			<classes>
-				<class name="org.universAAL.ri.rest.manager.server.Authenticator" filename="org/universAAL/ri/rest/manager/server/Authenticator.java" line-rate="0.0" branch-rate="0.0" complexity="4.333333333333333">
+				<class name="org.universAAL.ri.rest.manager.server.Authenticator" filename="org/universAAL/ri/rest/manager/server/Authenticator.java" line-rate="0.0" branch-rate="0.0" complexity="5.666666666666667">
 					<methods>
 						<method name="&lt;clinit&gt;" signature="()V" line-rate="0.0" branch-rate="1.0" complexity="0">
 							<lines>
@@ -21281,8 +21331,16 @@
 								</line>
 								<line number="104" hits="0" branch="false"/>
 								<line number="105" hits="0" branch="false"/>
-								<line number="106" hits="0" branch="false"/>
+								<line number="106" hits="0" branch="true" condition-coverage="0% (0/6)">
+									<conditions>
+										<condition number="0" type="jump" coverage="0%"/>
+										<condition number="1" type="jump" coverage="0%"/>
+										<condition number="2" type="jump" coverage="0%"/>
+									</conditions>
+								</line>
+								<line number="107" hits="0" branch="false"/>
 								<line number="109" hits="0" branch="false"/>
+								<line number="112" hits="0" branch="false"/>
 							</lines>
 						</method>
 					</methods>
@@ -21333,8 +21391,16 @@
 						</line>
 						<line number="104" hits="0" branch="false"/>
 						<line number="105" hits="0" branch="false"/>
-						<line number="106" hits="0" branch="false"/>
+						<line number="106" hits="0" branch="true" condition-coverage="0% (0/6)">
+							<conditions>
+								<condition number="0" type="jump" coverage="0%"/>
+								<condition number="1" type="jump" coverage="0%"/>
+								<condition number="2" type="jump" coverage="0%"/>
+							</conditions>
+						</line>
+						<line number="107" hits="0" branch="false"/>
 						<line number="109" hits="0" branch="false"/>
+						<line number="112" hits="0" branch="false"/>
 					</lines>
 				</class>
 				<class name="org.universAAL.ri.rest.manager.server.Base64" filename="org/universAAL/ri/rest/manager/server/Base64.java" line-rate="0.0" branch-rate="0.0" complexity="4.914285714285715">

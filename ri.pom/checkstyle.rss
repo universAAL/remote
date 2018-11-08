@@ -28,7 +28,7 @@ under the License.
       <title>File: 153,
              Errors: 2636,
              Warnings: 361,
-             Infos: 704
+             Infos: 714
       </title>
             <link>http://remote/ri.pom//checkstyle.html</link>
       <description>
@@ -245,7 +245,7 @@ under the License.
                   <a href="http://remote/ri.pom//checkstyle.html#org.universAAL.ri.rest.manager.resources.Spaces.java">org/universAAL/ri/rest/manager/resources/Spaces.java</a>
                 </td>
                 <td>
-                  13
+                  15
                 </td>
                 <td>
                   0
@@ -357,7 +357,7 @@ under the License.
                   <a href="http://remote/ri.pom//checkstyle.html#org.universAAL.ri.rest.manager.resources.Subscribers.java">org/universAAL/ri/rest/manager/resources/Subscribers.java</a>
                 </td>
                 <td>
-                  4
+                  5
                 </td>
                 <td>
                   0
@@ -1127,7 +1127,7 @@ under the License.
                   <a href="http://remote/ri.pom//checkstyle.html#org.universAAL.ri.rest.manager.server.Authenticator.java">org/universAAL/ri/rest/manager/server/Authenticator.java</a>
                 </td>
                 <td>
-                  1
+                  5
                 </td>
                 <td>
                   1
@@ -1673,7 +1673,7 @@ under the License.
                   <a href="http://remote/ri.pom//checkstyle.html#org.universAAL.ri.rest.manager.resources.Callers.java">org/universAAL/ri/rest/manager/resources/Callers.java</a>
                 </td>
                 <td>
-                  4
+                  5
                 </td>
                 <td>
                   0
@@ -1813,7 +1813,7 @@ under the License.
                   <a href="http://remote/ri.pom//checkstyle.html#org.universAAL.ri.rest.manager.resources.Publishers.java">org/universAAL/ri/rest/manager/resources/Publishers.java</a>
                 </td>
                 <td>
-                  4
+                  5
                 </td>
                 <td>
                   0
@@ -1841,7 +1841,7 @@ under the License.
                   <a href="http://remote/ri.pom//checkstyle.html#org.universAAL.ri.rest.manager.resources.Callees.java">org/universAAL/ri/rest/manager/resources/Callees.java</a>
                 </td>
                 <td>
-                  4
+                  5
                 </td>
                 <td>
                   0

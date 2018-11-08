@@ -103,6 +103,9 @@ public class Authenticator implements ContainerRequestFilter {
 	if (s.size() > 2) { // /uaal and /uaal/spaces for everyone TODO ??
 	    PathSegment segment = s.get(2);
 	    String space = segment.toString();
+	    if(s.size()==3 && p.endsWith("/") && space.isEmpty()){
+		return true; // /uaal/spaces/ This counts as size 3 with last segment empty
+	    }
 	    return Activator.getPersistence().checkUserSpace(username, space);
 	}
 	// Looks like native mechanisms for authorization only work with Roles, not specific users

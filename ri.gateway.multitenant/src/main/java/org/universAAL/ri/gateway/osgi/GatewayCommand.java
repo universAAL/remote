@@ -23,8 +23,8 @@ package org.universAAL.ri.gateway.osgi;
 import java.util.Collection;
 import java.util.UUID;
 
-import org.apache.felix.gogo.commands.Command;
-import org.apache.karaf.shell.console.OsgiCommandSupport;
+//import org.apache.felix.gogo.commands.Command;
+//import org.apache.karaf.shell.console.OsgiCommandSupport;
 import org.universAAL.ri.gateway.Gateway;
 import org.universAAL.ri.gateway.Server;
 import org.universAAL.ri.gateway.Session;
@@ -40,8 +40,8 @@ import org.universAAL.ri.gateway.communicator.service.impl.SessionManager;
  *          (mié, 17 sep 2014) $ )
  *
  */
-@Command(scope = "universAAL", name = "gateway", description = "Commands for inspecting the status of the Gateway components")
-public class GatewayCommand extends OsgiCommandSupport {
+//@Command(scope = "universAAL", name = "gateway", description = "Commands for inspecting the status of the Gateway components")
+public class GatewayCommand /*extends OsgiCommandSupport*/ {
 
 	/*
 	 * private enum Subcommands { CONFIG, }
@@ -51,7 +51,7 @@ public class GatewayCommand extends OsgiCommandSupport {
 	 * EnumSet<Subcommands> config = EnumSet.of(Subcommands.CONFIG);
 	 */
 
-	@Override
+//	@Override
 	protected Object doExecute() throws Exception {
 		final SessionManager sm = SessionManager.getInstance();
 		final Gateway gw = Gateway.getInstance();

@@ -147,7 +147,7 @@ public class Space {
 		}
 		UaalWrapper.getInstance().removeTenant(id);
 		Activator.getPersistence().removeSpace(id);
-		return Response.status(Status.NOT_FOUND).build();
+		return Response.status(Status.NO_CONTENT).build();
 	}
 
 	@PUT // PUT localhost:9000/uaal/spaces/123 <Body: Space>

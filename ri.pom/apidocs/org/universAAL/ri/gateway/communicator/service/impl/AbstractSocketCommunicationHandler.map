@@ -1,10 +1,10 @@
 <map id="G" name="G">
-<area shape="rect" id="node1_0" href="../CommunicationHandler.html" title="org.universAAL.ri.gateway.communicator.service.CommunicationHandler" alt="" coords="193,11,351,55"/>
-<area shape="rect" id="node1" href="../CommunicationHandler.html" title="&lt;TABLE&gt;" alt="" coords="183,6,361,61"/>
-<area shape="rect" id="node4_1" href="./AbstractSocketCommunicationHandler.html" title="org.universAAL.ri.gateway.communicator.service.impl.AbstractSocketCommunicationHandler" alt="" coords="149,120,395,147"/>
-<area shape="rect" id="node4" href="./AbstractSocketCommunicationHandler.html" title="&lt;TABLE&gt;" alt="" coords="138,109,406,157"/>
-<area shape="rect" id="node2_2" href="./ClientSocketCommunicationHandler.html" title="org.universAAL.ri.gateway.communicator.service.impl.ClientSocketCommunicationHandler" alt="" coords="16,216,248,243"/>
-<area shape="rect" id="node2" href="./ClientSocketCommunicationHandler.html" title="&lt;TABLE&gt;" alt="" coords="5,205,259,253"/>
-<area shape="rect" id="node3_3" href="./ServerSocketCommunicationHandler.html" title="org.universAAL.ri.gateway.communicator.service.impl.ServerSocketCommunicationHandler" alt="" coords="294,216,530,243"/>
-<area shape="rect" id="node3" href="./ServerSocketCommunicationHandler.html" title="&lt;TABLE&gt;" alt="" coords="283,205,541,253"/>
+<area shape="rect" id="node1_0" href="./ServerSocketCommunicationHandler.html" title="org.universAAL.ri.gateway.communicator.service.impl.ServerSocketCommunicationHandler" alt="" coords="15,216,251,243"/>
+<area shape="rect" id="node1" href="./ServerSocketCommunicationHandler.html" title="&lt;TABLE&gt;" alt="" coords="5,205,262,253"/>
+<area shape="rect" id="node2_1" href="./ClientSocketCommunicationHandler.html" title="org.universAAL.ri.gateway.communicator.service.impl.ClientSocketCommunicationHandler" alt="" coords="297,216,529,243"/>
+<area shape="rect" id="node2" href="./ClientSocketCommunicationHandler.html" title="&lt;TABLE&gt;" alt="" coords="287,205,540,253"/>
+<area shape="rect" id="node3_2" href="./AbstractSocketCommunicationHandler.html" title="org.universAAL.ri.gateway.communicator.service.impl.AbstractSocketCommunicationHandler" alt="" coords="150,120,397,147"/>
+<area shape="rect" id="node3" href="./AbstractSocketCommunicationHandler.html" title="&lt;TABLE&gt;" alt="" coords="139,109,407,157"/>
+<area shape="rect" id="node4_3" href="../CommunicationHandler.html" title="org.universAAL.ri.gateway.communicator.service.CommunicationHandler" alt="" coords="195,11,352,55"/>
+<area shape="rect" id="node4" href="../CommunicationHandler.html" title="&lt;TABLE&gt;" alt="" coords="184,6,363,61"/>
 </map>

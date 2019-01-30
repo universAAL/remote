@@ -9,20 +9,20 @@ digraph G {
 	node [fontname="Helvetica",fontsize=10,shape=plaintext];
 	nodesep=0.25;
 	ranksep=0.5;
+	// org.universAAL.ri.gateway.operations.OperationChainManager
+	c20407 [label=<<table title="org.universAAL.ri.gateway.operations.OperationChainManager" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../operations/OperationChainManager.html">
+		<tr><td><table border="0" cellspacing="0" cellpadding="1">
+<tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
+<tr><td align="center" balign="center"> OperationChainManager </td></tr>
+		</table></td></tr>
+		</table>>, URL="../operations/OperationChainManager.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// org.universAAL.ri.gateway.configuration.NoSecurityDefinition
 	c20420 [label=<<table title="org.universAAL.ri.gateway.configuration.NoSecurityDefinition" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./NoSecurityDefinition.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> NoSecurityDefinition </td></tr>
 		</table></td></tr>
 		</table>>, URL="./NoSecurityDefinition.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
-	// org.universAAL.ri.gateway.operations.OperationChainManager
-	c20431 [label=<<table title="org.universAAL.ri.gateway.operations.OperationChainManager" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../operations/OperationChainManager.html">
-		<tr><td><table border="0" cellspacing="0" cellpadding="1">
-<tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
-<tr><td align="center" balign="center"> OperationChainManager </td></tr>
-		</table></td></tr>
-		</table>>, URL="../operations/OperationChainManager.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	//org.universAAL.ri.gateway.configuration.NoSecurityDefinition implements org.universAAL.ri.gateway.operations.OperationChainManager
-	c20431:p -> c20420:p [dir=back,arrowtail=empty,style=dashed];
+	c20407:p -> c20420:p [dir=back,arrowtail=empty,style=dashed];
 }
 

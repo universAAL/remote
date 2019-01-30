@@ -10,26 +10,26 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.universAAL.ri.api.manager.exceptions.APIImplException
-	c5107 [label=<<table title="org.universAAL.ri.api.manager.exceptions.APIImplException" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./APIImplException.html">
+	c5635 [label=<<table title="org.universAAL.ri.api.manager.exceptions.APIImplException" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./APIImplException.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> APIImplException </td></tr>
 		</table></td></tr>
 		</table>>, URL="./APIImplException.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// org.universAAL.ri.api.manager.exceptions.RAPIException
-	c5108 [label=<<table title="org.universAAL.ri.api.manager.exceptions.RAPIException" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RAPIException.html">
+	c5636 [label=<<table title="org.universAAL.ri.api.manager.exceptions.RAPIException" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RAPIException.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="Helvetica-Oblique"> RAPIException </font></td></tr>
 		</table></td></tr>
 		</table>>, URL="./RAPIException.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// org.universAAL.ri.api.manager.exceptions.PushException
-	c5109 [label=<<table title="org.universAAL.ri.api.manager.exceptions.PushException" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./PushException.html">
+	c5637 [label=<<table title="org.universAAL.ri.api.manager.exceptions.PushException" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./PushException.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> PushException </td></tr>
 		</table></td></tr>
 		</table>>, URL="./PushException.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	//org.universAAL.ri.api.manager.exceptions.APIImplException extends org.universAAL.ri.api.manager.exceptions.RAPIException
-	c5108:p -> c5107:p [dir=back,arrowtail=empty];
+	c5636:p -> c5635:p [dir=back,arrowtail=empty];
 	//org.universAAL.ri.api.manager.exceptions.PushException extends org.universAAL.ri.api.manager.exceptions.RAPIException
-	c5108:p -> c5109:p [dir=back,arrowtail=empty];
+	c5636:p -> c5637:p [dir=back,arrowtail=empty];
 }
 

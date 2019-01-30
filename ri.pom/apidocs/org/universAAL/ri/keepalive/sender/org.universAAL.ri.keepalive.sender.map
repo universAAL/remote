@@ -1,6 +1,6 @@
 <map id="G" name="G">
-<area shape="rect" id="node1_0" href="./Sender.html" title="org.universAAL.ri.keepalive.sender.Sender" alt="" coords="15,16,76,43"/>
-<area shape="rect" id="node1" href="./Sender.html" title="&lt;TABLE&gt;" alt="" coords="4,5,87,53"/>
-<area shape="rect" id="node2_1" href="./Activator.html" title="org.universAAL.ri.keepalive.sender.Activator" alt="" coords="122,16,195,43"/>
-<area shape="rect" id="node2" href="./Activator.html" title="&lt;TABLE&gt;" alt="" coords="111,5,206,53"/>
+<area shape="rect" id="node1_0" href="./Activator.html" title="org.universAAL.ri.keepalive.sender.Activator" alt="" coords="15,16,89,43"/>
+<area shape="rect" id="node1" href="./Activator.html" title="&lt;TABLE&gt;" alt="" coords="5,5,99,53"/>
+<area shape="rect" id="node2_1" href="./Sender.html" title="org.universAAL.ri.keepalive.sender.Sender" alt="" coords="135,16,196,43"/>
+<area shape="rect" id="node2" href="./Sender.html" title="&lt;TABLE&gt;" alt="" coords="124,5,207,53"/>
 </map>

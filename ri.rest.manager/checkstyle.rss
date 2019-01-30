@@ -23,7 +23,7 @@ under the License.
     <link>http://remote/ri.rest.manager/</link>
     <description>universAAL Remote Interoperability REST-API Manager - Checkstyle report</description>
     <language>en-us</language>
-    <copyright>&#169;2018 universAAL Consortium</copyright>
+    <copyright>&#169;2019 universAAL Consortium</copyright>
     <item>
       <title>File: 30,
              Errors: 632,
@@ -122,7 +122,7 @@ under the License.
                   3
                 </td>
                 <td>
-                  0
+                  1
                 </td>
                 <td>
                   7
@@ -192,7 +192,7 @@ under the License.
                   0
                 </td>
                 <td>
-                  1
+                  0
                 </td>
                 <td>
                   3
@@ -318,7 +318,7 @@ under the License.
                   1
                 </td>
                 <td>
-                  1
+                  0
                 </td>
                 <td>
                   12
@@ -332,7 +332,7 @@ under the License.
                   23
                 </td>
                 <td>
-                  0
+                  1
                 </td>
                 <td>
                   46
@@ -438,20 +438,6 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="http://remote/ri.rest.manager//checkstyle.html#org.universAAL.ri.rest.manager.push.PushGCM.java">org/universAAL/ri/rest/manager/push/PushGCM.java</a>
-                </td>
-                <td>
-                  2
-                </td>
-                <td>
-                  2
-                </td>
-                <td>
-                  8
-                </td>
-              </tr>
-                          <tr>
-                <td>
                   <a href="http://remote/ri.rest.manager//checkstyle.html#org.universAAL.ri.rest.manager.push.PushREST.java">org/universAAL/ri/rest/manager/push/PushREST.java</a>
                 </td>
                 <td>
@@ -462,6 +448,20 @@ under the License.
                 </td>
                 <td>
                   4
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://remote/ri.rest.manager//checkstyle.html#org.universAAL.ri.rest.manager.push.PushGCM.java">org/universAAL/ri/rest/manager/push/PushGCM.java</a>
+                </td>
+                <td>
+                  2
+                </td>
+                <td>
+                  2
+                </td>
+                <td>
+                  8
                 </td>
               </tr>
                       </tbody>

@@ -9,86 +9,86 @@ digraph G {
 	node [fontname="Helvetica",fontsize=10,shape=plaintext];
 	nodesep=0.25;
 	ranksep=0.5;
-	// org.universAAL.ri.rest.manager.resources.Spaces
-	c6159 [label=<<table title="org.universAAL.ri.rest.manager.resources.Spaces" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Spaces.html">
-		<tr><td><table border="0" cellspacing="0" cellpadding="1">
-<tr><td align="center" balign="center"> Spaces </td></tr>
-		</table></td></tr>
-		</table>>, URL="./Spaces.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
-	// org.universAAL.ri.rest.manager.resources.Uaal
-	c6160 [label=<<table title="org.universAAL.ri.rest.manager.resources.Uaal" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Uaal.html">
-		<tr><td><table border="0" cellspacing="0" cellpadding="1">
-<tr><td align="center" balign="center"> Uaal </td></tr>
-		</table></td></tr>
-		</table>>, URL="./Uaal.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
-	// org.universAAL.ri.rest.manager.resources.EventBundle
-	c6161 [label=<<table title="org.universAAL.ri.rest.manager.resources.EventBundle" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./EventBundle.html">
-		<tr><td><table border="0" cellspacing="0" cellpadding="1">
-<tr><td align="center" balign="center"> EventBundle </td></tr>
-		</table></td></tr>
-		</table>>, URL="./EventBundle.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
-	// org.universAAL.ri.rest.manager.resources.Callee
-	c6162 [label=<<table title="org.universAAL.ri.rest.manager.resources.Callee" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Callee.html">
-		<tr><td><table border="0" cellspacing="0" cellpadding="1">
-<tr><td align="center" balign="center"> Callee </td></tr>
-		</table></td></tr>
-		</table>>, URL="./Callee.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
-	// org.universAAL.ri.rest.manager.resources.Caller
-	c6163 [label=<<table title="org.universAAL.ri.rest.manager.resources.Caller" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Caller.html">
-		<tr><td><table border="0" cellspacing="0" cellpadding="1">
-<tr><td align="center" balign="center"> Caller </td></tr>
-		</table></td></tr>
-		</table>>, URL="./Caller.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
-	// org.universAAL.ri.rest.manager.resources.Subscriber
-	c6164 [label=<<table title="org.universAAL.ri.rest.manager.resources.Subscriber" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Subscriber.html">
-		<tr><td><table border="0" cellspacing="0" cellpadding="1">
-<tr><td align="center" balign="center"> Subscriber </td></tr>
-		</table></td></tr>
-		</table>>, URL="./Subscriber.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
-	// org.universAAL.ri.rest.manager.resources.Publisher
-	c6165 [label=<<table title="org.universAAL.ri.rest.manager.resources.Publisher" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Publisher.html">
-		<tr><td><table border="0" cellspacing="0" cellpadding="1">
-<tr><td align="center" balign="center"> Publisher </td></tr>
-		</table></td></tr>
-		</table>>, URL="./Publisher.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// org.universAAL.ri.rest.manager.resources.Callees
-	c6166 [label=<<table title="org.universAAL.ri.rest.manager.resources.Callees" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Callees.html">
+	c6510 [label=<<table title="org.universAAL.ri.rest.manager.resources.Callees" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Callees.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> Callees </td></tr>
 		</table></td></tr>
 		</table>>, URL="./Callees.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
-	// org.universAAL.ri.rest.manager.resources.Callers
-	c6167 [label=<<table title="org.universAAL.ri.rest.manager.resources.Callers" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Callers.html">
+	// org.universAAL.ri.rest.manager.resources.EventBundle
+	c6511 [label=<<table title="org.universAAL.ri.rest.manager.resources.EventBundle" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./EventBundle.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
-<tr><td align="center" balign="center"> Callers </td></tr>
+<tr><td align="center" balign="center"> EventBundle </td></tr>
 		</table></td></tr>
-		</table>>, URL="./Callers.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
-	// org.universAAL.ri.rest.manager.resources.Subscribers
-	c6168 [label=<<table title="org.universAAL.ri.rest.manager.resources.Subscribers" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Subscribers.html">
-		<tr><td><table border="0" cellspacing="0" cellpadding="1">
-<tr><td align="center" balign="center"> Subscribers </td></tr>
-		</table></td></tr>
-		</table>>, URL="./Subscribers.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
+		</table>>, URL="./EventBundle.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// org.universAAL.ri.rest.manager.resources.Publishers
-	c6169 [label=<<table title="org.universAAL.ri.rest.manager.resources.Publishers" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Publishers.html">
+	c6512 [label=<<table title="org.universAAL.ri.rest.manager.resources.Publishers" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Publishers.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> Publishers </td></tr>
 		</table></td></tr>
 		</table>>, URL="./Publishers.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
+	// org.universAAL.ri.rest.manager.resources.Caller
+	c6513 [label=<<table title="org.universAAL.ri.rest.manager.resources.Caller" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Caller.html">
+		<tr><td><table border="0" cellspacing="0" cellpadding="1">
+<tr><td align="center" balign="center"> Caller </td></tr>
+		</table></td></tr>
+		</table>>, URL="./Caller.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
+	// org.universAAL.ri.rest.manager.resources.Spaces
+	c6514 [label=<<table title="org.universAAL.ri.rest.manager.resources.Spaces" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Spaces.html">
+		<tr><td><table border="0" cellspacing="0" cellpadding="1">
+<tr><td align="center" balign="center"> Spaces </td></tr>
+		</table></td></tr>
+		</table>>, URL="./Spaces.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
+	// org.universAAL.ri.rest.manager.resources.Subscribers
+	c6515 [label=<<table title="org.universAAL.ri.rest.manager.resources.Subscribers" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Subscribers.html">
+		<tr><td><table border="0" cellspacing="0" cellpadding="1">
+<tr><td align="center" balign="center"> Subscribers </td></tr>
+		</table></td></tr>
+		</table>>, URL="./Subscribers.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
+	// org.universAAL.ri.rest.manager.resources.Callers
+	c6516 [label=<<table title="org.universAAL.ri.rest.manager.resources.Callers" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Callers.html">
+		<tr><td><table border="0" cellspacing="0" cellpadding="1">
+<tr><td align="center" balign="center"> Callers </td></tr>
+		</table></td></tr>
+		</table>>, URL="./Callers.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
+	// org.universAAL.ri.rest.manager.resources.Callee
+	c6517 [label=<<table title="org.universAAL.ri.rest.manager.resources.Callee" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Callee.html">
+		<tr><td><table border="0" cellspacing="0" cellpadding="1">
+<tr><td align="center" balign="center"> Callee </td></tr>
+		</table></td></tr>
+		</table>>, URL="./Callee.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
+	// org.universAAL.ri.rest.manager.resources.Uaal
+	c6518 [label=<<table title="org.universAAL.ri.rest.manager.resources.Uaal" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Uaal.html">
+		<tr><td><table border="0" cellspacing="0" cellpadding="1">
+<tr><td align="center" balign="center"> Uaal </td></tr>
+		</table></td></tr>
+		</table>>, URL="./Uaal.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// org.universAAL.ri.rest.manager.resources.Service
-	c6170 [label=<<table title="org.universAAL.ri.rest.manager.resources.Service" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Service.html">
+	c6519 [label=<<table title="org.universAAL.ri.rest.manager.resources.Service" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Service.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> Service </td></tr>
 		</table></td></tr>
 		</table>>, URL="./Service.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
+	// org.universAAL.ri.rest.manager.resources.Subscriber
+	c6520 [label=<<table title="org.universAAL.ri.rest.manager.resources.Subscriber" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Subscriber.html">
+		<tr><td><table border="0" cellspacing="0" cellpadding="1">
+<tr><td align="center" balign="center"> Subscriber </td></tr>
+		</table></td></tr>
+		</table>>, URL="./Subscriber.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// org.universAAL.ri.rest.manager.resources.Context
-	c6171 [label=<<table title="org.universAAL.ri.rest.manager.resources.Context" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Context.html">
+	c6521 [label=<<table title="org.universAAL.ri.rest.manager.resources.Context" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Context.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> Context </td></tr>
 		</table></td></tr>
 		</table>>, URL="./Context.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
+	// org.universAAL.ri.rest.manager.resources.Publisher
+	c6522 [label=<<table title="org.universAAL.ri.rest.manager.resources.Publisher" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Publisher.html">
+		<tr><td><table border="0" cellspacing="0" cellpadding="1">
+<tr><td align="center" balign="center"> Publisher </td></tr>
+		</table></td></tr>
+		</table>>, URL="./Publisher.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// org.universAAL.ri.rest.manager.resources.Space
-	c6172 [label=<<table title="org.universAAL.ri.rest.manager.resources.Space" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Space.html">
+	c6523 [label=<<table title="org.universAAL.ri.rest.manager.resources.Space" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Space.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> Space </td></tr>
 		</table></td></tr>

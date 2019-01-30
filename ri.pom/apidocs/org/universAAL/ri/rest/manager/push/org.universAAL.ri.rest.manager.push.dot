@@ -9,26 +9,26 @@ digraph G {
 	node [fontname="Helvetica",fontsize=10,shape=plaintext];
 	nodesep=0.25;
 	ranksep=0.5;
-	// org.universAAL.ri.rest.manager.push.PushGCM
-	c5983 [label=<<table title="org.universAAL.ri.rest.manager.push.PushGCM" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./PushGCM.html">
-		<tr><td><table border="0" cellspacing="0" cellpadding="1">
-<tr><td align="center" balign="center"> PushGCM </td></tr>
-		</table></td></tr>
-		</table>>, URL="./PushGCM.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// org.universAAL.ri.rest.manager.push.PushManager
-	c5984 [label=<<table title="org.universAAL.ri.rest.manager.push.PushManager" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./PushManager.html">
+	c6334 [label=<<table title="org.universAAL.ri.rest.manager.push.PushManager" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./PushManager.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> PushManager </td></tr>
 		</table></td></tr>
 		</table>>, URL="./PushManager.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// org.universAAL.ri.rest.manager.push.PushREST
-	c5985 [label=<<table title="org.universAAL.ri.rest.manager.push.PushREST" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./PushREST.html">
+	c6335 [label=<<table title="org.universAAL.ri.rest.manager.push.PushREST" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./PushREST.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> PushREST </td></tr>
 		</table></td></tr>
 		</table>>, URL="./PushREST.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
+	// org.universAAL.ri.rest.manager.push.PushGCM
+	c6336 [label=<<table title="org.universAAL.ri.rest.manager.push.PushGCM" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./PushGCM.html">
+		<tr><td><table border="0" cellspacing="0" cellpadding="1">
+<tr><td align="center" balign="center"> PushGCM </td></tr>
+		</table></td></tr>
+		</table>>, URL="./PushGCM.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// org.universAAL.ri.rest.manager.push.PushException
-	c5986 [label=<<table title="org.universAAL.ri.rest.manager.push.PushException" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./PushException.html">
+	c6337 [label=<<table title="org.universAAL.ri.rest.manager.push.PushException" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./PushException.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> PushException </td></tr>
 		</table></td></tr>

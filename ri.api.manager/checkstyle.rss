@@ -23,7 +23,7 @@ under the License.
     <link>http://remote/ri.api.manager/</link>
     <description>universAAL Remote Interoperability Remote-API Manager - Checkstyle report</description>
     <language>en-us</language>
-    <copyright>&#169;2018 universAAL Consortium</copyright>
+    <copyright>&#169;2019 universAAL Consortium</copyright>
     <item>
       <title>File: 17,
              Errors: 306,
@@ -46,20 +46,6 @@ under the License.
           <tbody>
                           <tr>
                 <td>
-                  <a href="http://remote/ri.api.manager//checkstyle.html#org.universAAL.ri.api.manager.Configuration.java">org/universAAL/ri/api/manager/Configuration.java</a>
-                </td>
-                <td>
-                  4
-                </td>
-                <td>
-                  1
-                </td>
-                <td>
-                  25
-                </td>
-              </tr>
-                          <tr>
-                <td>
                   <a href="http://remote/ri.api.manager//checkstyle.html#org.universAAL.ri.api.manager.exceptions.RAPIException.java">org/universAAL/ri/api/manager/exceptions/RAPIException.java</a>
                 </td>
                 <td>
@@ -70,6 +56,20 @@ under the License.
                 </td>
                 <td>
                   3
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://remote/ri.api.manager//checkstyle.html#org.universAAL.ri.api.manager.Configuration.java">org/universAAL/ri/api/manager/Configuration.java</a>
+                </td>
+                <td>
+                  4
+                </td>
+                <td>
+                  1
+                </td>
+                <td>
+                  25
                 </td>
               </tr>
                           <tr>
@@ -186,20 +186,6 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="http://remote/ri.api.manager//checkstyle.html#org.universAAL.ri.api.manager.RemoteAPI.java">org/universAAL/ri/api/manager/RemoteAPI.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  18
-                </td>
-              </tr>
-                          <tr>
-                <td>
                   <a href="http://remote/ri.api.manager//checkstyle.html#org.universAAL.ri.api.manager.server.Authenticator.java">org/universAAL/ri/api/manager/server/Authenticator.java</a>
                 </td>
                 <td>
@@ -224,6 +210,20 @@ under the License.
                 </td>
                 <td>
                   5
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://remote/ri.api.manager//checkstyle.html#org.universAAL.ri.api.manager.RemoteAPI.java">org/universAAL/ri/api/manager/RemoteAPI.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  18
                 </td>
               </tr>
                           <tr>

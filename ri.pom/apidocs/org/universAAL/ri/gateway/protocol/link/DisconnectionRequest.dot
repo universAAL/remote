@@ -10,21 +10,21 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.universAAL.ri.gateway.protocol.LinkMessage
-	c15947 [label=<<table title="org.universAAL.ri.gateway.protocol.LinkMessage" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../LinkMessage.html">
+	c15958 [label=<<table title="org.universAAL.ri.gateway.protocol.LinkMessage" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../LinkMessage.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="Helvetica-Oblique"> LinkMessage </font></td></tr>
 		</table></td></tr>
 		</table>>, URL="../LinkMessage.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// org.universAAL.ri.gateway.protocol.link.DisconnectionRequest
-	c15956 [label=<<table title="org.universAAL.ri.gateway.protocol.link.DisconnectionRequest" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./DisconnectionRequest.html">
+	c15964 [label=<<table title="org.universAAL.ri.gateway.protocol.link.DisconnectionRequest" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./DisconnectionRequest.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> DisconnectionRequest </td></tr>
 		</table></td></tr>
 		</table>>, URL="./DisconnectionRequest.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	//org.universAAL.ri.gateway.protocol.link.DisconnectionRequest extends org.universAAL.ri.gateway.protocol.LinkMessage
-	c15947:p -> c15956:p [dir=back,arrowtail=empty];
+	c15958:p -> c15964:p [dir=back,arrowtail=empty];
 	//org.universAAL.ri.gateway.protocol.link.DisconnectionRequest implements java.io.Serializable
-	c16043:p -> c15956:p [dir=back,arrowtail=empty,style=dashed];
+	c16043:p -> c15964:p [dir=back,arrowtail=empty,style=dashed];
 	// java.io.Serializable
 	c16043 [label=<<table title="java.io.Serializable" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/java/io/Serializable.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">

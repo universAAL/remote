@@ -10,7 +10,7 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.universAAL.ri.rest.manager.resources.EventBundle
-	c16529 [label=<<table title="org.universAAL.ri.rest.manager.resources.EventBundle" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./EventBundle.html">
+	c16535 [label=<<table title="org.universAAL.ri.rest.manager.resources.EventBundle" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./EventBundle.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> EventBundle </td></tr>
 		</table></td></tr>

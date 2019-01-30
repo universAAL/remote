@@ -10,13 +10,13 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.universAAL.ri.rest.manager.wrappers.PublisherWrapper
-	c24140 [label=<<table title="org.universAAL.ri.rest.manager.wrappers.PublisherWrapper" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./PublisherWrapper.html">
+	c24142 [label=<<table title="org.universAAL.ri.rest.manager.wrappers.PublisherWrapper" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./PublisherWrapper.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> PublisherWrapper </td></tr>
 		</table></td></tr>
 		</table>>, URL="./PublisherWrapper.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	//org.universAAL.ri.rest.manager.wrappers.PublisherWrapper extends org.universAAL.middleware.context.ContextPublisher
-	c24149:p -> c24140:p [dir=back,arrowtail=empty];
+	c24149:p -> c24142:p [dir=back,arrowtail=empty];
 	// org.universAAL.middleware.context.ContextPublisher
 	c24149 [label=<<table title="org.universAAL.middleware.context.ContextPublisher" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/org/universAAL/middleware/context/ContextPublisher.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">

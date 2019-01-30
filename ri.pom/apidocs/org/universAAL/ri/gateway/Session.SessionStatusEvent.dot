@@ -10,7 +10,7 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.universAAL.ri.gateway.Session.SessionStatusEvent
-	c28843 [label=<<table title="org.universAAL.ri.gateway.Session.SessionStatusEvent" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./Session.SessionStatusEvent.html">
+	c28837 [label=<<table title="org.universAAL.ri.gateway.Session.SessionStatusEvent" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./Session.SessionStatusEvent.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> SessionStatusEvent </td></tr>
 		</table></td></tr>
@@ -23,6 +23,6 @@ digraph G {
 		</table></td></tr>
 		</table>>, URL="./SessionEvent.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	//org.universAAL.ri.gateway.Session.SessionStatusEvent implements org.universAAL.ri.gateway.SessionEvent
-	c28844:p -> c28843:p [dir=back,arrowtail=empty,style=dashed];
+	c28844:p -> c28837:p [dir=back,arrowtail=empty,style=dashed];
 }
 

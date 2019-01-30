@@ -1,14 +1,14 @@
 <map id="G" name="G">
-<area shape="rect" id="node1_0" href="./ClientSocketCommunicationHandler.html" title="org.universAAL.ri.gateway.communicator.service.impl.ClientSocketCommunicationHandler" alt="" coords="16,120,248,147"/>
-<area shape="rect" id="node1" href="./ClientSocketCommunicationHandler.html" title="&lt;TABLE&gt;" alt="" coords="5,109,259,157"/>
-<area shape="rect" id="node2_1" href="./SessionManager.html" title="org.universAAL.ri.gateway.communicator.service.impl.SessionManager" alt="" coords="441,20,559,47"/>
-<area shape="rect" id="node2" href="./SessionManager.html" title="&lt;TABLE&gt;" alt="" coords="431,9,569,57"/>
-<area shape="rect" id="node3_2" href="./AbstractLinkHandler.html" title="org.universAAL.ri.gateway.communicator.service.impl.AbstractLinkHandler" alt="" coords="604,20,743,47"/>
-<area shape="rect" id="node3" href="./AbstractLinkHandler.html" title="&lt;TABLE&gt;" alt="" coords="593,9,753,57"/>
-<area shape="rect" id="node4_3" href="./AbstractLinkHandler.LinkHandlerStatus.html" title="org.universAAL.ri.gateway.communicator.service.impl.AbstractLinkHandler.LinkHandlerStatus" alt="" coords="788,11,916,55"/>
-<area shape="rect" id="node4" href="./AbstractLinkHandler.LinkHandlerStatus.html" title="&lt;TABLE&gt;" alt="" coords="777,6,927,61"/>
-<area shape="rect" id="node5_4" href="./ServerSocketCommunicationHandler.html" title="org.universAAL.ri.gateway.communicator.service.impl.ServerSocketCommunicationHandler" alt="" coords="294,120,530,147"/>
-<area shape="rect" id="node5" href="./ServerSocketCommunicationHandler.html" title="&lt;TABLE&gt;" alt="" coords="283,109,541,157"/>
-<area shape="rect" id="node6_5" href="./AbstractSocketCommunicationHandler.html" title="org.universAAL.ri.gateway.communicator.service.impl.AbstractSocketCommunicationHandler" alt="" coords="149,20,395,47"/>
-<area shape="rect" id="node6" href="./AbstractSocketCommunicationHandler.html" title="&lt;TABLE&gt;" alt="" coords="138,9,406,57"/>
+<area shape="rect" id="node1_0" href="./SessionManager.html" title="org.universAAL.ri.gateway.communicator.service.impl.SessionManager" alt="" coords="16,20,133,47"/>
+<area shape="rect" id="node1" href="./SessionManager.html" title="&lt;TABLE&gt;" alt="" coords="5,9,144,57"/>
+<area shape="rect" id="node2_1" href="./ServerSocketCommunicationHandler.html" title="org.universAAL.ri.gateway.communicator.service.impl.ServerSocketCommunicationHandler" alt="" coords="45,120,281,147"/>
+<area shape="rect" id="node2" href="./ServerSocketCommunicationHandler.html" title="&lt;TABLE&gt;" alt="" coords="34,109,291,157"/>
+<area shape="rect" id="node3_2" href="./ClientSocketCommunicationHandler.html" title="org.universAAL.ri.gateway.communicator.service.impl.ClientSocketCommunicationHandler" alt="" coords="327,120,559,147"/>
+<area shape="rect" id="node3" href="./ClientSocketCommunicationHandler.html" title="&lt;TABLE&gt;" alt="" coords="316,109,569,157"/>
+<area shape="rect" id="node4_3" href="./AbstractLinkHandler.html" title="org.universAAL.ri.gateway.communicator.service.impl.AbstractLinkHandler" alt="" coords="472,20,611,47"/>
+<area shape="rect" id="node4" href="./AbstractLinkHandler.html" title="&lt;TABLE&gt;" alt="" coords="461,9,621,57"/>
+<area shape="rect" id="node5_4" href="./AbstractLinkHandler.LinkHandlerStatus.html" title="org.universAAL.ri.gateway.communicator.service.impl.AbstractLinkHandler.LinkHandlerStatus" alt="" coords="656,11,784,55"/>
+<area shape="rect" id="node5" href="./AbstractLinkHandler.LinkHandlerStatus.html" title="&lt;TABLE&gt;" alt="" coords="645,6,795,61"/>
+<area shape="rect" id="node6_5" href="./AbstractSocketCommunicationHandler.html" title="org.universAAL.ri.gateway.communicator.service.impl.AbstractSocketCommunicationHandler" alt="" coords="179,20,426,47"/>
+<area shape="rect" id="node6" href="./AbstractSocketCommunicationHandler.html" title="&lt;TABLE&gt;" alt="" coords="169,9,437,57"/>
 </map>

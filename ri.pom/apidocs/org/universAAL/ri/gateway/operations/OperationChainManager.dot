@@ -10,13 +10,32 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.universAAL.ri.gateway.Session
-	c21089 [label=<<table title="org.universAAL.ri.gateway.Session" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../Session.html">
+	c21083 [label=<<table title="org.universAAL.ri.gateway.Session" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../Session.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> Session </td></tr>
 		</table></td></tr>
 		</table>>, URL="../Session.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
+	// org.universAAL.ri.gateway.operations.AllowDefault
+	c21094 [label=<<table title="org.universAAL.ri.gateway.operations.AllowDefault" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./AllowDefault.html">
+		<tr><td><table border="0" cellspacing="0" cellpadding="1">
+<tr><td align="center" balign="center"> AllowDefault </td></tr>
+		</table></td></tr>
+		</table>>, URL="./AllowDefault.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
+	// org.universAAL.ri.gateway.operations.DenyDefault
+	c21095 [label=<<table title="org.universAAL.ri.gateway.operations.DenyDefault" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./DenyDefault.html">
+		<tr><td><table border="0" cellspacing="0" cellpadding="1">
+<tr><td align="center" balign="center"> DenyDefault </td></tr>
+		</table></td></tr>
+		</table>>, URL="./DenyDefault.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
+	// org.universAAL.ri.gateway.operations.OperationChainManager
+	c21096 [label=<<table title="org.universAAL.ri.gateway.operations.OperationChainManager" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./OperationChainManager.html">
+		<tr><td><table border="0" cellspacing="0" cellpadding="1">
+<tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
+<tr><td align="center" balign="center"> OperationChainManager </td></tr>
+		</table></td></tr>
+		</table>>, URL="./OperationChainManager.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// org.universAAL.ri.gateway.configuration.TurtleFileSecurityDefinition
-	c21105 [label=<<table title="org.universAAL.ri.gateway.configuration.TurtleFileSecurityDefinition" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../configuration/TurtleFileSecurityDefinition.html">
+	c21107 [label=<<table title="org.universAAL.ri.gateway.configuration.TurtleFileSecurityDefinition" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../configuration/TurtleFileSecurityDefinition.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> TurtleFileSecurityDefinition </td></tr>
 		</table></td></tr>
@@ -28,42 +47,23 @@ digraph G {
 		</table></td></tr>
 		</table>>, URL="../configuration/NoSecurityDefinition.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// org.universAAL.ri.gateway.configuration.Configuration
-	c21110 [label=<<table title="org.universAAL.ri.gateway.configuration.Configuration" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../configuration/Configuration.html">
+	c21111 [label=<<table title="org.universAAL.ri.gateway.configuration.Configuration" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../configuration/Configuration.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> Configuration </td></tr>
 		</table></td></tr>
 		</table>>, URL="../configuration/Configuration.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
-	// org.universAAL.ri.gateway.operations.DenyDefault
-	c21114 [label=<<table title="org.universAAL.ri.gateway.operations.DenyDefault" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./DenyDefault.html">
-		<tr><td><table border="0" cellspacing="0" cellpadding="1">
-<tr><td align="center" balign="center"> DenyDefault </td></tr>
-		</table></td></tr>
-		</table>>, URL="./DenyDefault.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
-	// org.universAAL.ri.gateway.operations.AllowDefault
-	c21115 [label=<<table title="org.universAAL.ri.gateway.operations.AllowDefault" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./AllowDefault.html">
-		<tr><td><table border="0" cellspacing="0" cellpadding="1">
-<tr><td align="center" balign="center"> AllowDefault </td></tr>
-		</table></td></tr>
-		</table>>, URL="./AllowDefault.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
-	// org.universAAL.ri.gateway.operations.OperationChainManager
-	c21120 [label=<<table title="org.universAAL.ri.gateway.operations.OperationChainManager" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./OperationChainManager.html">
-		<tr><td><table border="0" cellspacing="0" cellpadding="1">
-<tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
-<tr><td align="center" balign="center"> OperationChainManager </td></tr>
-		</table></td></tr>
-		</table>>, URL="./OperationChainManager.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	//org.universAAL.ri.gateway.Session implements org.universAAL.ri.gateway.operations.OperationChainManager
-	c21120:p -> c21089:p [dir=back,arrowtail=empty,style=dashed];
-	//org.universAAL.ri.gateway.configuration.TurtleFileSecurityDefinition implements org.universAAL.ri.gateway.operations.OperationChainManager
-	c21120:p -> c21105:p [dir=back,arrowtail=empty,style=dashed];
-	//org.universAAL.ri.gateway.configuration.NoSecurityDefinition implements org.universAAL.ri.gateway.operations.OperationChainManager
-	c21120:p -> c21109:p [dir=back,arrowtail=empty,style=dashed];
-	//org.universAAL.ri.gateway.configuration.Configuration implements org.universAAL.ri.gateway.operations.OperationChainManager
-	c21120:p -> c21110:p [dir=back,arrowtail=empty,style=dashed];
-	//org.universAAL.ri.gateway.operations.DenyDefault implements org.universAAL.ri.gateway.operations.OperationChainManager
-	c21120:p -> c21114:p [dir=back,arrowtail=empty,style=dashed];
+	c21096:p -> c21083:p [dir=back,arrowtail=empty,style=dashed];
 	//org.universAAL.ri.gateway.operations.AllowDefault implements org.universAAL.ri.gateway.operations.OperationChainManager
-	c21120:p -> c21115:p [dir=back,arrowtail=empty,style=dashed];
+	c21096:p -> c21094:p [dir=back,arrowtail=empty,style=dashed];
+	//org.universAAL.ri.gateway.operations.DenyDefault implements org.universAAL.ri.gateway.operations.OperationChainManager
+	c21096:p -> c21095:p [dir=back,arrowtail=empty,style=dashed];
+	//org.universAAL.ri.gateway.configuration.TurtleFileSecurityDefinition implements org.universAAL.ri.gateway.operations.OperationChainManager
+	c21096:p -> c21107:p [dir=back,arrowtail=empty,style=dashed];
+	//org.universAAL.ri.gateway.configuration.NoSecurityDefinition implements org.universAAL.ri.gateway.operations.OperationChainManager
+	c21096:p -> c21109:p [dir=back,arrowtail=empty,style=dashed];
+	//org.universAAL.ri.gateway.configuration.Configuration implements org.universAAL.ri.gateway.operations.OperationChainManager
+	c21096:p -> c21111:p [dir=back,arrowtail=empty,style=dashed];
 }
 

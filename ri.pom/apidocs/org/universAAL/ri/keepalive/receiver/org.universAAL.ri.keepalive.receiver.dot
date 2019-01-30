@@ -9,12 +9,12 @@ digraph G {
 	node [fontname="Helvetica",fontsize=10,shape=plaintext];
 	nodesep=0.25;
 	ranksep=0.5;
-	// org.universAAL.ri.keepalive.receiver.SendMail
-	c6874 [label=<<table title="org.universAAL.ri.keepalive.receiver.SendMail" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SendMail.html">
+	// org.universAAL.ri.keepalive.receiver.Checker
+	c6874 [label=<<table title="org.universAAL.ri.keepalive.receiver.Checker" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Checker.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
-<tr><td align="center" balign="center"> SendMail </td></tr>
+<tr><td align="center" balign="center"> Checker </td></tr>
 		</table></td></tr>
-		</table>>, URL="./SendMail.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
+		</table>>, URL="./Checker.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// org.universAAL.ri.keepalive.receiver.Activator
 	c6875 [label=<<table title="org.universAAL.ri.keepalive.receiver.Activator" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Activator.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
@@ -27,11 +27,11 @@ digraph G {
 <tr><td align="center" balign="center"> CSubscriber </td></tr>
 		</table></td></tr>
 		</table>>, URL="./CSubscriber.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
-	// org.universAAL.ri.keepalive.receiver.Checker
-	c6877 [label=<<table title="org.universAAL.ri.keepalive.receiver.Checker" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Checker.html">
+	// org.universAAL.ri.keepalive.receiver.SendMail
+	c6877 [label=<<table title="org.universAAL.ri.keepalive.receiver.SendMail" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SendMail.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
-<tr><td align="center" balign="center"> Checker </td></tr>
+<tr><td align="center" balign="center"> SendMail </td></tr>
 		</table></td></tr>
-		</table>>, URL="./Checker.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
+		</table>>, URL="./SendMail.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 }
 

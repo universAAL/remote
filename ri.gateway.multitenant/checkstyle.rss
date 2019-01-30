@@ -23,7 +23,7 @@ under the License.
     <link>http://remote/ri.gateway.multitenant/</link>
     <description>universAAL Remote Interoperability Space Gateway - Checkstyle report</description>
     <language>en-us</language>
-    <copyright>&#169;2018 universAAL Consortium</copyright>
+    <copyright>&#169;2019 universAAL Consortium</copyright>
     <item>
       <title>File: 62,
              Errors: 853,
@@ -66,7 +66,7 @@ under the License.
                   2
                 </td>
                 <td>
-                  1
+                  0
                 </td>
                 <td>
                   23
@@ -80,7 +80,7 @@ under the License.
                   9
                 </td>
                 <td>
-                  10
+                  9
                 </td>
                 <td>
                   40
@@ -122,7 +122,7 @@ under the License.
                   0
                 </td>
                 <td>
-                  0
+                  1
                 </td>
                 <td>
                   14
@@ -164,7 +164,7 @@ under the License.
                   0
                 </td>
                 <td>
-                  1
+                  0
                 </td>
                 <td>
                   12
@@ -220,7 +220,7 @@ under the License.
                   12
                 </td>
                 <td>
-                  2
+                  1
                 </td>
                 <td>
                   11
@@ -262,7 +262,7 @@ under the License.
                   3
                 </td>
                 <td>
-                  0
+                  1
                 </td>
                 <td>
                   5
@@ -290,7 +290,7 @@ under the License.
                   0
                 </td>
                 <td>
-                  1
+                  0
                 </td>
                 <td>
                   5
@@ -304,7 +304,7 @@ under the License.
                   2
                 </td>
                 <td>
-                  2
+                  3
                 </td>
                 <td>
                   8
@@ -360,7 +360,7 @@ under the License.
                   0
                 </td>
                 <td>
-                  0
+                  1
                 </td>
                 <td>
                   2
@@ -382,6 +382,20 @@ under the License.
               </tr>
                           <tr>
                 <td>
+                  <a href="http://remote/ri.gateway.multitenant//checkstyle.html#org.universAAL.ri.gateway.operations.AllowDefault.java">org/universAAL/ri/gateway/operations/AllowDefault.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  8
+                </td>
+              </tr>
+                          <tr>
+                <td>
                   <a href="http://remote/ri.gateway.multitenant//checkstyle.html#org.universAAL.ri.gateway.SessionEventListener.java">org/universAAL/ri/gateway/SessionEventListener.java</a>
                 </td>
                 <td>
@@ -396,27 +410,13 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="http://remote/ri.gateway.multitenant//checkstyle.html#org.universAAL.ri.gateway.operations.AllowDefault.java">org/universAAL/ri/gateway/operations/AllowDefault.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  1
-                </td>
-                <td>
-                  8
-                </td>
-              </tr>
-                          <tr>
-                <td>
                   <a href="http://remote/ri.gateway.multitenant//checkstyle.html#org.universAAL.ri.gateway.protocol.ErrorMessage.java">org/universAAL/ri/gateway/protocol/ErrorMessage.java</a>
                 </td>
                 <td>
                   0
                 </td>
                 <td>
-                  1
+                  0
                 </td>
                 <td>
                   5
@@ -458,7 +458,7 @@ under the License.
                   0
                 </td>
                 <td>
-                  0
+                  1
                 </td>
                 <td>
                   23
@@ -472,10 +472,24 @@ under the License.
                   3
                 </td>
                 <td>
-                  0
+                  1
                 </td>
                 <td>
                   19
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://remote/ri.gateway.multitenant//checkstyle.html#org.universAAL.ri.gateway.log.LoggerFactory.java">org/universAAL/ri/gateway/log/LoggerFactory.java</a>
+                </td>
+                <td>
+                  1
+                </td>
+                <td>
+                  2
+                </td>
+                <td>
+                  28
                 </td>
               </tr>
                           <tr>
@@ -494,27 +508,13 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="http://remote/ri.gateway.multitenant//checkstyle.html#org.universAAL.ri.gateway.log.LoggerFactory.java">org/universAAL/ri/gateway/log/LoggerFactory.java</a>
-                </td>
-                <td>
-                  1
-                </td>
-                <td>
-                  1
-                </td>
-                <td>
-                  28
-                </td>
-              </tr>
-                          <tr>
-                <td>
                   <a href="http://remote/ri.gateway.multitenant//checkstyle.html#org.universAAL.ri.gateway.communication.cipher.ClearTextCipher.java">org/universAAL/ri/gateway/communication/cipher/ClearTextCipher.java</a>
                 </td>
                 <td>
                   2
                 </td>
                 <td>
-                  1
+                  0
                 </td>
                 <td>
                   10
@@ -570,7 +570,7 @@ under the License.
                   1
                 </td>
                 <td>
-                  1
+                  0
                 </td>
                 <td>
                   2
@@ -598,7 +598,7 @@ under the License.
                   0
                 </td>
                 <td>
-                  0
+                  1
                 </td>
                 <td>
                   5
@@ -612,7 +612,7 @@ under the License.
                   0
                 </td>
                 <td>
-                  1
+                  0
                 </td>
                 <td>
                   10
@@ -634,20 +634,6 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="http://remote/ri.gateway.multitenant//checkstyle.html#org.universAAL.ri.gateway.communication.cipher.LegacyBlowfishCipher.java">org/universAAL/ri/gateway/communication/cipher/LegacyBlowfishCipher.java</a>
-                </td>
-                <td>
-                  6
-                </td>
-                <td>
-                  1
-                </td>
-                <td>
-                  20
-                </td>
-              </tr>
-                          <tr>
-                <td>
                   <a href="http://remote/ri.gateway.multitenant//checkstyle.html#org.universAAL.ri.gateway.communicator.service.impl.ClientSocketCommunicationHandler.java">org/universAAL/ri/gateway/communicator/service/impl/ClientSocketCommunicationHandler.java</a>
                 </td>
                 <td>
@@ -662,13 +648,27 @@ under the License.
               </tr>
                           <tr>
                 <td>
+                  <a href="http://remote/ri.gateway.multitenant//checkstyle.html#org.universAAL.ri.gateway.communication.cipher.LegacyBlowfishCipher.java">org/universAAL/ri/gateway/communication/cipher/LegacyBlowfishCipher.java</a>
+                </td>
+                <td>
+                  6
+                </td>
+                <td>
+                  1
+                </td>
+                <td>
+                  20
+                </td>
+              </tr>
+                          <tr>
+                <td>
                   <a href="http://remote/ri.gateway.multitenant//checkstyle.html#org.universAAL.ri.gateway.Exporter.java">org/universAAL/ri/gateway/Exporter.java</a>
                 </td>
                 <td>
                   17
                 </td>
                 <td>
-                  2
+                  1
                 </td>
                 <td>
                   54
@@ -696,7 +696,7 @@ under the License.
                   0
                 </td>
                 <td>
-                  0
+                  1
                 </td>
                 <td>
                   2
@@ -710,7 +710,7 @@ under the License.
                   0
                 </td>
                 <td>
-                  0
+                  1
                 </td>
                 <td>
                   3
@@ -850,24 +850,10 @@ under the License.
                   0
                 </td>
                 <td>
-                  0
+                  1
                 </td>
                 <td>
                   5
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://remote/ri.gateway.multitenant//checkstyle.html#org.universAAL.ri.gateway.communication.cipher.StreamCipher.java">org/universAAL/ri/gateway/communication/cipher/StreamCipher.java</a>
-                </td>
-                <td>
-                  2
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  14
                 </td>
               </tr>
                           <tr>
@@ -886,13 +872,27 @@ under the License.
               </tr>
                           <tr>
                 <td>
+                  <a href="http://remote/ri.gateway.multitenant//checkstyle.html#org.universAAL.ri.gateway.communication.cipher.StreamCipher.java">org/universAAL/ri/gateway/communication/cipher/StreamCipher.java</a>
+                </td>
+                <td>
+                  2
+                </td>
+                <td>
+                  1
+                </td>
+                <td>
+                  14
+                </td>
+              </tr>
+                          <tr>
+                <td>
                   <a href="http://remote/ri.gateway.multitenant//checkstyle.html#org.universAAL.ri.gateway.configuration.Configuration.java">org/universAAL/ri/gateway/configuration/Configuration.java</a>
                 </td>
                 <td>
                   14
                 </td>
                 <td>
-                  1
+                  0
                 </td>
                 <td>
                   5

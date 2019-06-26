@@ -139,6 +139,44 @@ public class Subscribers {
 		}
 
 	}
+	
+	@POST
+	@Consumes("application/ld+json")
+	public Response addSubscriberResourceJsonLD(@PathParam("id") String id, Subscriber sub) throws URISyntaxException {
+		Activator.logI("Subscribers.addSubscriberResource", "POST host:port/uaal/spaces/X/context/subscribers");
+		if(sub.getId().isEmpty()) return Response.status(Status.BAD_REQUEST).build();
+		// The sub generated from the POST body does not contain any "link"
+		// elements, but I wouldnt have allowed it anyway
+		// Set the links manually, like in the sub constructor
+		sub.setSelf(Link.fromPath("/uaal/spaces/" + id + "/context/subscribers/" + sub.getId()).rel("self").build());
+		SpaceWrapper tenant = UaalWrapper.getInstance().getTenant(id);
+		if (tenant != null) {
+			if (Activator.getParser() != null) {
+				if (sub.getPattern() != null) {
+					ContextEventPattern cep = (ContextEventPattern) Activator.getParser().deserialize(sub.getPattern());
+					if (cep != null) {
+						if(tenant.getContextSubscriber(sub.getId())!=null){ //Already exists 409
+						    return Response.status(Status.CONFLICT).build();
+						}
+						tenant.addContextSubscriber(new SubscriberWrapper(Activator.getContext(),
+								new ContextEventPattern[] { cep }, sub, id));
+						Activator.getPersistence().storeSubscriber(id, sub);
+						return Response.created(new URI("uaal/spaces/" + id + "/context/subscribers/" + sub.getId()))
+								.build();
+					} else {
+						return Response.status(Status.BAD_REQUEST).build();
+					}
+				} else {
+					return Response.status(Status.BAD_REQUEST).build();
+				}
+			} else {
+				return Response.serverError().build();
+			}
+		} else {
+			return Response.status(Status.NOT_FOUND).build();
+		}
+
+	}
 
 	@Path("/{subid}")
 	@Produces(Activator.TYPES)

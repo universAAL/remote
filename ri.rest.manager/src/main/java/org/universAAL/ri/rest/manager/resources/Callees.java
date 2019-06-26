@@ -139,6 +139,43 @@ public class Callees {
 		}
 	}
 
+	@POST
+	@Consumes("application/ld+json")
+	public Response addCalleeResourceJsonLD(@PathParam("id") String id, Callee cee) throws URISyntaxException {
+		Activator.logI("Callees.addCalleeResource", "POST host:port/uaal/spaces/X/service/callees");
+		if(cee.getId().isEmpty()) return Response.status(Status.BAD_REQUEST).build();
+		// The cee generated from the POST body does not contain any "link"
+		// elements, but I wouldnt have allowed it anyway
+		// Set the links manually, like in the cee constructor
+		cee.setSelf(Link.fromPath("/uaal/spaces/" + id + "/service/callees/" + cee.getId()).rel("self").build());
+		SpaceWrapper tenant = UaalWrapper.getInstance().getTenant(id);
+		if (tenant != null) {
+			if (Activator.getParser() != null) {
+				if (cee.getProfile() != null) {
+					ServiceProfile sp = (ServiceProfile) Activator.getParser().deserialize(cee.getProfile());
+					if (sp != null) {
+						if(tenant.getServiceCallee(cee.getId())!=null){ //Already exists 409
+						    return Response.status(Status.CONFLICT).build();
+						}
+						tenant.addServiceCallee(
+								new CalleeWrapper(Activator.getContext(), new ServiceProfile[] { sp }, cee, id));
+						Activator.getPersistence().storeCallee(id, cee);
+						return Response.created(new URI("uaal/spaces/" + id + "/service/callees/" + cee.getId()))
+								.build();
+					} else {
+						return Response.status(Status.BAD_REQUEST).build();
+					}
+				} else {
+					return Response.status(Status.BAD_REQUEST).build();
+				}
+			} else {
+				return Response.serverError().build();
+			}
+		} else {
+			return Response.status(Status.NOT_FOUND).build();
+		}
+	}
+	
 	@Path("/{subid}")
 	@Produces(Activator.TYPES)
 	public Callee getCalleeResourceLocator() {

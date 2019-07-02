@@ -46,9 +46,9 @@ public class Activator implements BundleActivator {
 	private static ModuleContext mContext = null;
 	private static Persistence persistence;
 
-	private SerializerListener serializerListener;
+	private static SerializerListener serializerListener;
+	private static SerializerListener serializerJSONLDListener;
 	private ServiceReference[] referencesSerializer;
-	private static MessageContentSerializerEx parser;
 
 	private TenantListener tenantListener = null;
 	private ServiceReference[] tenantRefs;
@@ -80,6 +80,16 @@ public class Activator implements BundleActivator {
 			serializerListener.serviceChanged(new ServiceEvent(ServiceEvent.REGISTERED, referencesSerializer[i]));
 		}
 
+		//for jsonLD
+		serializerJSONLDListener = new SerializerListener();
+		String filterJSONLD = "(objectclass=" + MessageContentSerializerEx.class.getName() + ", application/ld+json)";
+		osgiContext.addServiceListener(serializerJSONLDListener, filterJSONLD);
+		referencesSerializer = osgiContext.getServiceReferences((String) null, filterJSONLD);
+		for (int i = 0; referencesSerializer != null && i < referencesSerializer.length; i++) {
+			serializerListener.serviceChanged(new ServiceEvent(ServiceEvent.REGISTERED, referencesSerializer[i]));
+		}
+		
+		
 		// Instance persistence DB and before it is public in servlet
 		try {
 			persistence = (Persistence) Class.forName(Configuration.getDBClass()).getConstructor(new Class[] {})
@@ -131,6 +141,8 @@ public class Activator implements BundleActivator {
 	}
 
 	private class SerializerListener implements ServiceListener {
+		private MessageContentSerializerEx parser;
+
 		public void serviceChanged(ServiceEvent event) {
 			switch (event.getType()) {
 			case ServiceEvent.REGISTERED:
@@ -144,12 +156,19 @@ public class Activator implements BundleActivator {
 				break;
 			}
 		}
+
+		public MessageContentSerializerEx getParser() {
+			// TODO Auto-generated method stub
+			return parser;
+		}
 	}
 
 	public static MessageContentSerializerEx getParser() {
-		return parser;
+		return serializerListener.getParser();
 	}
-
+	public static MessageContentSerializerEx getParserLD() {
+		return serializerJSONLDListener.getParser();
+	}
 	public static TenantManager getTenantMngr() {
 		return tenantMngr;
 	}

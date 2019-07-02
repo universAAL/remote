@@ -153,7 +153,7 @@ public class Publishers {
 		if (tenant != null) {
 			if (Activator.getParser() != null) {
 				if (pub.getProviderinfo() != null) {
-					ContextProvider cp = (ContextProvider) Activator.getParser().deserialize(pub.getProviderinfo());
+					ContextProvider cp = (ContextProvider) Activator.getParserLD().deserialize(pub.getProviderinfo());
 					if(tenant.getContextPublisher(pub.getId())!=null){ //Already exists 409
 					    return Response.status(Status.CONFLICT).build();
 					}

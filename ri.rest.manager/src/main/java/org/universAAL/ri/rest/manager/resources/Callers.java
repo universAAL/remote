@@ -123,7 +123,7 @@ public class Callers {
 		}
 	}
 	@POST
-	@Consumes("application/ld+json")
+	@Consumes(Activator.TYPES_JSONLD)
 	public Response addCallerResourceJsonLD(@PathParam("id") String id, Caller cer) throws URISyntaxException {
 		Activator.logI("Callers.addCallerResource", "POST host:port/uaal/spaces/X/service/callers");
 		if(cer.getId().isEmpty()) return Response.status(Status.BAD_REQUEST).build();

@@ -141,7 +141,7 @@ public class Subscribers {
 	}
 	
 	@POST
-	@Consumes("application/ld+json")
+	@Consumes(Activator.TYPES_JSONLD)
 	public Response addSubscriberResourceJsonLD(@PathParam("id") String id, Subscriber sub) throws URISyntaxException {
 		Activator.logI("Subscribers.addSubscriberResource", "POST host:port/uaal/spaces/X/context/subscribers");
 		if(sub.getId().isEmpty()) return Response.status(Status.BAD_REQUEST).build();

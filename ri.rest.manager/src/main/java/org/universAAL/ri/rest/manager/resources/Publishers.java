@@ -141,7 +141,7 @@ public class Publishers {
 
 	
 	@POST
-	@Consumes("application/ld+json")
+	@Consumes(Activator.TYPES_JSONLD)
 	public Response addPublisherResourceJsonLD(@PathParam("id") String id, Publisher pub) throws URISyntaxException {
 		Activator.logI("Publishers.addPublisherResource", "POST host:port/uaal/spaces/X/context/publishers");
 		if(pub.getId().isEmpty()) return Response.status(Status.BAD_REQUEST).build();

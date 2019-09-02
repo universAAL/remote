@@ -135,7 +135,7 @@ public class Spaces {
 	}
 
 	@POST // POST localhost:9000/uaal/spaces <Body: Space>
-	@Consumes("application/ld+json")
+	@Consumes(Activator.TYPES_JSONLD)
 	public Response addSpaceResourceJsonLD(Space space, @javax.ws.rs.core.Context SecurityContext security) throws URISyntaxException {
 		Activator.logI("Spaces.addSpaceResource", "POST host:port/uaal/spaces ");
 		if(space.getId().isEmpty()) return Response.status(Status.BAD_REQUEST).build(); //TODO use validators everywhere?

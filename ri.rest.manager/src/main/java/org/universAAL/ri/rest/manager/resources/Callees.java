@@ -140,7 +140,7 @@ public class Callees {
 	}
 
 	@POST
-	@Consumes("application/ld+json")
+	@Consumes(Activator.TYPES_JSONLD)
 	public Response addCalleeResourceJsonLD(@PathParam("id") String id, Callee cee) throws URISyntaxException {
 		Activator.logI("Callees.addCalleeResource", "POST host:port/uaal/spaces/X/service/callees");
 		if(cee.getId().isEmpty()) return Response.status(Status.BAD_REQUEST).build();

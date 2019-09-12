@@ -33,6 +33,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Link;
 import javax.ws.rs.core.Link.JaxbAdapter;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
@@ -135,7 +136,7 @@ public class Spaces {
 	}
 
 	@POST // POST localhost:9000/uaal/spaces <Body: Space>
-	@Consumes("application/ld+json")
+	@Consumes(MediaType.APPLICATION_JSON)
 	public Response addSpaceResourceJsonLD(Space space, @javax.ws.rs.core.Context SecurityContext security) throws URISyntaxException {
 		Activator.logI("Spaces.addSpaceResource", "POST host:port/uaal/spaces ");
 		if(space.getId().isEmpty()) return Response.status(Status.BAD_REQUEST).build(); //TODO use validators everywhere?

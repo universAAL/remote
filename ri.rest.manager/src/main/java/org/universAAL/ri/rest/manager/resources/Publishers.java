@@ -34,6 +34,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Link;
 import javax.ws.rs.core.Link.JaxbAdapter;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -141,7 +142,7 @@ public class Publishers {
 
 	
 	@POST
-	@Consumes("application/ld+json")
+	@Consumes(MediaType.APPLICATION_JSON)
 	public Response addPublisherResourceJsonLD(@PathParam("id") String id, Publisher pub) throws URISyntaxException {
 		Activator.logI("Publishers.addPublisherResource", "POST host:port/uaal/spaces/X/context/publishers");
 		if(pub.getId().isEmpty()) return Response.status(Status.BAD_REQUEST).build();

@@ -34,6 +34,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Link;
 import javax.ws.rs.core.Link.JaxbAdapter;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -123,8 +124,8 @@ public class Callers {
 		}
 	}
 	@POST
-	@Consumes("application/ld+json")
-	public Response addCallerResourceJsonLD(@PathParam("id") String id, Caller cer) throws URISyntaxException {
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response addCallerResourceJson(@PathParam("id") String id, Caller cer) throws URISyntaxException {
 		Activator.logI("Callers.addCallerResource", "POST host:port/uaal/spaces/X/service/callers");
 		if(cer.getId().isEmpty()) return Response.status(Status.BAD_REQUEST).build();
 		// The cer generated from the POST body does not contain any "link"

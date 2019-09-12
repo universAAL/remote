@@ -34,6 +34,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Link;
 import javax.ws.rs.core.Link.JaxbAdapter;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -141,7 +142,7 @@ public class Subscribers {
 	}
 	
 	@POST
-	@Consumes("application/ld+json")
+	@Consumes(MediaType.APPLICATION_JSON)
 	public Response addSubscriberResourceJsonLD(@PathParam("id") String id, Subscriber sub) throws URISyntaxException {
 		Activator.logI("Subscribers.addSubscriberResource", "POST host:port/uaal/spaces/X/context/subscribers");
 		if(sub.getId().isEmpty()) return Response.status(Status.BAD_REQUEST).build();

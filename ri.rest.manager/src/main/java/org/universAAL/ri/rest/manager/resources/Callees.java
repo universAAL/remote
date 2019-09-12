@@ -34,6 +34,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Link;
 import javax.ws.rs.core.Link.JaxbAdapter;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -140,8 +141,8 @@ public class Callees {
 	}
 
 	@POST
-	@Consumes("application/ld+json")
-	public Response addCalleeResourceJsonLD(@PathParam("id") String id, Callee cee) throws URISyntaxException {
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response addCalleeResourceJson(@PathParam("id") String id, Callee cee) throws URISyntaxException {
 		Activator.logI("Callees.addCalleeResource", "POST host:port/uaal/spaces/X/service/callees");
 		if(cee.getId().isEmpty()) return Response.status(Status.BAD_REQUEST).build();
 		// The cee generated from the POST body does not contain any "link"

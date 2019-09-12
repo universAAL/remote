@@ -43,6 +43,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
+import org.universAAL.middleware.rdf.Resource;
 import org.universAAL.middleware.service.owls.profile.ServiceProfile;
 import org.universAAL.ri.rest.manager.Activator;
 import org.universAAL.ri.rest.manager.wrappers.CalleeWrapper;
@@ -154,7 +155,8 @@ public class Callees {
 			if (Activator.hasJsonParser()) {
 				Activator.logI("Callees.addCalleeResource", "POST host:port/uaal/spaces/X/service/callees. Registered parser "+ Activator.getJsonParser().getContentType() );
 				if (cee.getProfile() != null) {
-					ServiceProfile sp = (ServiceProfile) Activator.getJsonParser().deserialize(cee.getProfile());
+					Resource r = (Resource)Activator.getJsonParser().deserialize(cee.getProfile());
+					ServiceProfile sp = (ServiceProfile) r;
 					if (sp != null) {
 						if(tenant.getServiceCallee(cee.getId())!=null){ //Already exists 409
 						    return Response.status(Status.CONFLICT).build();

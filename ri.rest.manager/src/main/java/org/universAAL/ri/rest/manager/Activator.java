@@ -55,8 +55,9 @@ public class Activator implements BundleActivator {
 	private static TenantManager tenantMngr = null;
 	private static boolean logDebug = Configuration.getLogDebug();
 
-	public static final String TYPES = "application/json, application/xml;charset=UTF-8;version=1, text/xml;charset=UTF-8;version=1, application/octet-stream";
+	public static final String TYPES = "application/xml;charset=UTF-8;version=1, text/xml;charset=UTF-8;version=1, application/octet-stream";
 	public static final String TYPES_TXT = "text/plain;charset=UTF-8";
+
 
 	public void start(BundleContext bcontext) throws Exception {
 		Activator.osgiContext = bcontext;
@@ -80,16 +81,16 @@ public class Activator implements BundleActivator {
 			serializerListener.serviceChanged(new ServiceEvent(ServiceEvent.REGISTERED, referencesSerializer[i]));
 		}
 
-		//for jsonLD
-		serializerJSONLDListener = new SerializerListener();
-		String filterJSONLD = "(objectclass=" + MessageContentSerializerEx.class.getName() + ", application/ld+json)";
-		osgiContext.addServiceListener(serializerJSONLDListener, filterJSONLD);
-		referencesSerializer = osgiContext.getServiceReferences((String) null, filterJSONLD);
-		for (int i = 0; referencesSerializer != null && i < referencesSerializer.length; i++) {
-			serializerListener.serviceChanged(new ServiceEvent(ServiceEvent.REGISTERED, referencesSerializer[i]));
-		}
-		
-		
+//		//for jsonLD
+//		serializerJSONLDListener = new SerializerListener();
+//		String filterJSONLD = "(objectclass=" + MessageContentSerializerEx.class.getName() + ", application/ld+json)";
+//		osgiContext.addServiceListener(serializerJSONLDListener, filterJSONLD);
+//		referencesSerializer = osgiContext.getServiceReferences((String) null, filterJSONLD);
+//		for (int i = 0; referencesSerializer != null && i < referencesSerializer.length; i++) {
+//			serializerListener.serviceChanged(new ServiceEvent(ServiceEvent.REGISTERED, referencesSerializer[i]));
+//		}
+//		
+//		
 		// Instance persistence DB and before it is public in servlet
 		try {
 			persistence = (Persistence) Class.forName(Configuration.getDBClass()).getConstructor(new Class[] {})

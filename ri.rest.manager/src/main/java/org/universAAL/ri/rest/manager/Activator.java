@@ -21,6 +21,10 @@
  */
 package org.universAAL.ri.rest.manager;
 
+import java.util.HashMap;
+
+import javax.ws.rs.core.MediaType;
+
 import org.apache.cxf.binding.BindingFactoryManager;
 import org.apache.cxf.jaxrs.JAXRSBindingFactory;
 import org.apache.cxf.jaxrs.JAXRSServerFactoryBean;
@@ -143,12 +147,13 @@ public class Activator implements BundleActivator {
 
 	private class SerializerListener implements ServiceListener {
 		private MessageContentSerializerEx parser;
-
+		HashMap<String, MessageContentSerializerEx> parsers = new HashMap<String, MessageContentSerializerEx>();
 		public void serviceChanged(ServiceEvent event) {
 			switch (event.getType()) {
 			case ServiceEvent.REGISTERED:
 			case ServiceEvent.MODIFIED:
 				parser = (MessageContentSerializerEx) osgiContext.getService(event.getServiceReference());
+				parsers.put(parser.getContentType(), parser);
 				break;
 			case ServiceEvent.UNREGISTERING:
 				parser = null;
@@ -178,6 +183,17 @@ public class Activator implements BundleActivator {
 		return mContext;
 	}
 
+	
+	public static MessageContentSerializerEx getJsonParser() {
+		return serializerListener.parsers.get(MediaType.APPLICATION_JSON);
+	}
+	
+	
+	public static boolean hasJsonParser() {
+		return serializerListener.parsers.containsKey(MediaType.APPLICATION_JSON);
+		
+	}
+	
 	public static Persistence getPersistence() {
 		return persistence;
 	}

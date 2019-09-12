@@ -45,9 +45,9 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import org.universAAL.middleware.context.ContextEventPattern;
 import org.universAAL.ri.rest.manager.Activator;
-import org.universAAL.ri.rest.manager.wrappers.UaalWrapper;
-import org.universAAL.ri.rest.manager.wrappers.SubscriberWrapper;
 import org.universAAL.ri.rest.manager.wrappers.SpaceWrapper;
+import org.universAAL.ri.rest.manager.wrappers.SubscriberWrapper;
+import org.universAAL.ri.rest.manager.wrappers.UaalWrapper;
 
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlRootElement(name = "subscribers")
@@ -152,9 +152,9 @@ public class Subscribers {
 		sub.setSelf(Link.fromPath("/uaal/spaces/" + id + "/context/subscribers/" + sub.getId()).rel("self").build());
 		SpaceWrapper tenant = UaalWrapper.getInstance().getTenant(id);
 		if (tenant != null) {
-			if (Activator.getParser() != null) {
+			if (Activator.hasJsonParser()) {
 				if (sub.getPattern() != null) {
-					ContextEventPattern cep = (ContextEventPattern) Activator.getParser().deserialize(sub.getPattern());
+					ContextEventPattern cep = (ContextEventPattern) Activator.getJsonParser().deserialize(sub.getPattern());
 					if (cep != null) {
 						if(tenant.getContextSubscriber(sub.getId())!=null){ //Already exists 409
 						    return Response.status(Status.CONFLICT).build();

@@ -43,11 +43,12 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
+import org.apache.derby.tools.sysinfo;
 import org.universAAL.middleware.service.owls.profile.ServiceProfile;
 import org.universAAL.ri.rest.manager.Activator;
 import org.universAAL.ri.rest.manager.wrappers.CalleeWrapper;
-import org.universAAL.ri.rest.manager.wrappers.UaalWrapper;
 import org.universAAL.ri.rest.manager.wrappers.SpaceWrapper;
+import org.universAAL.ri.rest.manager.wrappers.UaalWrapper;
 
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlRootElement(name = "callees")
@@ -152,6 +153,8 @@ public class Callees {
 		SpaceWrapper tenant = UaalWrapper.getInstance().getTenant(id);
 		if (tenant != null) {
 			if (Activator.getParser() != null) {
+				Activator.logD("Callees.addCalleeResourceJson", "POST host:port/uaal/spaces/X/service/callees. Registered parser "+Activator.getParser().getContentType());
+				System.out.println("adding calee via JSON endpoint");
 				if (cee.getProfile() != null) {
 					ServiceProfile sp = (ServiceProfile) Activator.getParser().deserialize(cee.getProfile());
 					if (sp != null) {

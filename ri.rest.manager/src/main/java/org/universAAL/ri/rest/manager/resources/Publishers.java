@@ -143,7 +143,7 @@ public class Publishers {
 	
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response addPublisherResourceJsonLD(@PathParam("id") String id, Publisher pub) throws URISyntaxException {
+	public Response addPublisherResourceJson(@PathParam("id") String id, Publisher pub) throws URISyntaxException {
 		Activator.logI("Publishers.addPublisherResource", "POST host:port/uaal/spaces/X/context/publishers");
 		if(pub.getId().isEmpty()) return Response.status(Status.BAD_REQUEST).build();
 		// The pub generated from the POST body does not contain any "link"

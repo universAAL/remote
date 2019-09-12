@@ -143,7 +143,7 @@ public class Subscribers {
 	
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response addSubscriberResourceJsonLD(@PathParam("id") String id, Subscriber sub) throws URISyntaxException {
+	public Response addSubscriberResourceJson(@PathParam("id") String id, Subscriber sub) throws URISyntaxException {
 		Activator.logI("Subscribers.addSubscriberResource", "POST host:port/uaal/spaces/X/context/subscribers");
 		if(sub.getId().isEmpty()) return Response.status(Status.BAD_REQUEST).build();
 		// The sub generated from the POST body does not contain any "link"

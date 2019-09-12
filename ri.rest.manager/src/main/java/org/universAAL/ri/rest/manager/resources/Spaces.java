@@ -125,9 +125,6 @@ public class Spaces {
 		}	
 	}
 
-
-	
-	
 	@Path("/{id}") // GET localhost:9000/uaal/spaces/123 (Redirects to Space class)
 	@Produces(Activator.TYPES)
 	public Space getSpaceResourceLocator() {
@@ -137,8 +134,9 @@ public class Spaces {
 
 	@POST // POST localhost:9000/uaal/spaces <Body: Space>
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response addSpaceResourceJsonLD(Space space, @javax.ws.rs.core.Context SecurityContext security) throws URISyntaxException {
-		Activator.logI("Spaces.addSpaceResource", "POST host:port/uaal/spaces ");
+	public Response addSpaceResourceJson(Space space, @javax.ws.rs.core.Context SecurityContext security) throws URISyntaxException {
+		Activator.logI("Spaces.addSpaceResourceJson", "POST host:port/uaal/spaces ");
+		Activator.logD("Spaces.addSpaceResourceJson", "POST host:port/uaal/spaces adding new space");
 		if(space.getId().isEmpty()) return Response.status(Status.BAD_REQUEST).build(); //TODO use validators everywhere?
 		// The space generated from the POST body does not contain any "link"
 		// elements, but I wouldnt have allowed it anyway

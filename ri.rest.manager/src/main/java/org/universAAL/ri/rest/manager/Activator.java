@@ -59,7 +59,7 @@ public class Activator implements BundleActivator {
 	private static TenantManager tenantMngr = null;
 	private static boolean logDebug = Configuration.getLogDebug();
 
-	public static final String TYPES = "application/xml;charset=UTF-8;version=1, text/xml;charset=UTF-8;version=1, application/octet-stream";
+	public static final String TYPES = "application/json, application/xml;charset=UTF-8;version=1, text/xml;charset=UTF-8;version=1, application/octet-stream";
 	public static final String TYPES_TXT = "text/plain;charset=UTF-8";
 
 
@@ -187,6 +187,15 @@ public class Activator implements BundleActivator {
 	public static MessageContentSerializerEx getJsonParser() {
 		return serializerListener.parsers.get(MediaType.APPLICATION_JSON);
 	}
+	
+	public static MessageContentSerializerEx getTurtleParser() {
+		return serializerListener.parsers.get("text/turtle");
+	}
+	
+	
+
+
+
 	
 	
 	public static boolean hasJsonParser() {

@@ -107,6 +107,7 @@ public class Publishers {
 	@Consumes(Activator.TYPES)
 	public Response addPublisherResource(@PathParam("id") String id, Publisher pub) throws URISyntaxException {
 		Activator.logI("Publishers.addPublisherResource", "POST host:port/uaal/spaces/X/context/publishers");
+		System.out.println("post Publishers "+pub.getProviderinfo());
 		if(pub.getId().isEmpty()) return Response.status(Status.BAD_REQUEST).build();
 		// The pub generated from the POST body does not contain any "link"
 		// elements, but I wouldnt have allowed it anyway
@@ -116,16 +117,21 @@ public class Publishers {
 		if (tenant != null) {
 			if (Activator.getParser() != null) {
 				if (pub.getProviderinfo() != null) {
-					ContextProvider cp = (ContextProvider) Activator.getParser().deserialize(pub.getProviderinfo());
+					ContextProvider cp = (ContextProvider) Activator.getTurtleParser().deserialize(pub.getProviderinfo());
+					if(cp == null) {
+						Activator.logD("Publishers.addPublisherResource", "POST host:port/uaal/spaces/X/context/publishers cant serialize with turtle, trying with Json");
+						cp = (ContextProvider) Activator.getJsonParser().deserialize(pub.getProviderinfo());	
+					}
+
 					if(tenant.getContextPublisher(pub.getId())!=null){ //Already exists 409
 					    return Response.status(Status.CONFLICT).build();
 					}
 					if (cp != null) {
 						tenant.addContextPublisher(new PublisherWrapper(Activator.getContext(), cp, pub));
 						Activator.getPersistence().storePublisher(id, pub);
-						return Response.created(new URI("uaal/spaces/" + id + "/context/publishers/" + pub.getId()))
-								.build();
+						return Response.created(new URI("uaal/spaces/" + id + "/context/publishers/" + pub.getId())).build();
 					} else {
+						Activator.logD("Publishers.addPublisherResource", "POST host:port/uaal/spaces/X/context/publishers cant serialize with Json. returning "+Status.BAD_REQUEST);
 						return Response.status(Status.BAD_REQUEST).build();
 					}
 				} else {
@@ -140,43 +146,7 @@ public class Publishers {
 
 	}
 
-	
-	@POST
-	@Consumes(MediaType.APPLICATION_JSON)
-	public Response addPublisherResourceJson(@PathParam("id") String id, Publisher pub) throws URISyntaxException {
-		Activator.logI("Publishers.addPublisherResource", "POST host:port/uaal/spaces/X/context/publishers");
-		if(pub.getId().isEmpty()) return Response.status(Status.BAD_REQUEST).build();
-		// The pub generated from the POST body does not contain any "link"
-		// elements, but I wouldnt have allowed it anyway
-		// Set the links manually, like in the pub constructor
-		pub.setSelf(Link.fromPath("/uaal/spaces/" + id + "/context/publishers/" + pub.getId()).rel("self").build());
-		SpaceWrapper tenant = UaalWrapper.getInstance().getTenant(id);
-		if (tenant != null) {
-			if (Activator.hasJsonParser()) {
-				if (pub.getProviderinfo() != null) {
-					ContextProvider cp = (ContextProvider) Activator.getJsonParser().deserialize(pub.getProviderinfo());
-					if(tenant.getContextPublisher(pub.getId())!=null){ //Already exists 409
-					    return Response.status(Status.CONFLICT).build();
-					}
-					if (cp != null) {
-						tenant.addContextPublisher(new PublisherWrapper(Activator.getContext(), cp, pub));
-						Activator.getPersistence().storePublisher(id, pub);
-						return Response.created(new URI("uaal/spaces/" + id + "/context/publishers/" + pub.getId()))
-								.build();
-					} else {
-						return Response.status(Status.BAD_REQUEST).build();
-					}
-				} else {
-					return Response.status(Status.BAD_REQUEST).build();
-				}
-			} else {
-				return Response.serverError().build();
-			}
-		} else {
-			return Response.status(Status.NOT_FOUND).build();
-		}
 
-	}
 	@Path("/{subid}")
 	@Produces(Activator.TYPES)
 	public Publisher getPublisherResourceLocator() {

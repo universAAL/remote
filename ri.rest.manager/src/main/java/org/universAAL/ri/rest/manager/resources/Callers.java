@@ -123,27 +123,7 @@ public class Callers {
 			return Response.status(Status.NOT_FOUND).build();
 		}
 	}
-	@POST
-	@Consumes(MediaType.APPLICATION_JSON)
-	public Response addCallerResourceJson(@PathParam("id") String id, Caller cer) throws URISyntaxException {
-		Activator.logI("Callers.addCallerResource", "POST host:port/uaal/spaces/X/service/callers");
-		if(cer.getId().isEmpty()) return Response.status(Status.BAD_REQUEST).build();
-		// The cer generated from the POST body does not contain any "link"
-		// elements, but I wouldnt have allowed it anyway
-		// Set the links manually, like in the cer constructor
-		cer.setSelf(Link.fromPath("/uaal/spaces/" + id + "/service/callers/" + cer.getId()).rel("self").build());
-		SpaceWrapper tenant = UaalWrapper.getInstance().getTenant(id);
-		if (tenant != null) {
-			if(tenant.getServiceCaller(cer.getId())!=null){ //Already exists 409
-			    return Response.status(Status.CONFLICT).build();
-			}
-			tenant.addServiceCaller(new CallerWrapper(Activator.getContext(), cer));
-			Activator.getPersistence().storeCaller(id, cer);
-			return Response.created(new URI("uaal/spaces/" + id + "/service/callers/" + cer.getId())).build();
-		} else {
-			return Response.status(Status.NOT_FOUND).build();
-		}
-	}
+
 	@Path("/{subid}")
 	@Produces(Activator.TYPES)
 	public Caller getCallerResourceLocator() {

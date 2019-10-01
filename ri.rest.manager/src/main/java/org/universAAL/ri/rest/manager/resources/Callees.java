@@ -117,7 +117,11 @@ public class Callees {
 		if (tenant != null) {
 			if (Activator.getParser() != null) {
 				if (cee.getProfile() != null) {
-					ServiceProfile sp = (ServiceProfile) Activator.getParser().deserialize(cee.getProfile());
+					ServiceProfile sp = (ServiceProfile) Activator.getTurtleParser().deserialize(cee.getProfile());
+					if(sp == null)
+						Activator.logD("Publishers.addPublisherResource", "POST host:port/uaal/spaces/X/context/publishers cant serialize with turtle. trying with json");
+						sp = (ServiceProfile) Activator.getJsonParser().deserialize(cee.getProfile());
+
 					if (sp != null) {
 						if(tenant.getServiceCallee(cee.getId())!=null){ //Already exists 409
 						    return Response.status(Status.CONFLICT).build();
@@ -128,6 +132,7 @@ public class Callees {
 						return Response.created(new URI("uaal/spaces/" + id + "/service/callees/" + cee.getId()))
 								.build();
 					} else {
+						Activator.logD("Publishers.addPublisherResource", "POST host:port/uaal/spaces/X/context/publishers cant serialize with Json. returning "+Status.BAD_REQUEST);
 						return Response.status(Status.BAD_REQUEST).build();
 					}
 				} else {
@@ -141,44 +146,7 @@ public class Callees {
 		}
 	}
 
-	@POST
-	@Consumes(MediaType.APPLICATION_JSON)
-	public Response addCalleeResourceJson(@PathParam("id") String id, Callee cee) throws URISyntaxException {
-		Activator.logI("Callees.addCalleeResource", "POST host:port/uaal/spaces/X/service/callees");
-		if(cee.getId().isEmpty()) return Response.status(Status.BAD_REQUEST).build();
-		// The cee generated from the POST body does not contain any "link"
-		// elements, but I wouldnt have allowed it anyway
-		// Set the links manually, like in the cee constructor
-		cee.setSelf(Link.fromPath("/uaal/spaces/" + id + "/service/callees/" + cee.getId()).rel("self").build());
-		SpaceWrapper tenant = UaalWrapper.getInstance().getTenant(id);
-		if (tenant != null) {
-			if (Activator.hasJsonParser()) {
-				Activator.logI("Callees.addCalleeResource", "POST host:port/uaal/spaces/X/service/callees. Registered parser "+ Activator.getJsonParser().getContentType() );
-				if (cee.getProfile() != null) {
-					Resource r = (Resource)Activator.getJsonParser().deserialize(cee.getProfile());
-					ServiceProfile sp = (ServiceProfile) r;
-					if (sp != null) {
-						if(tenant.getServiceCallee(cee.getId())!=null){ //Already exists 409
-						    return Response.status(Status.CONFLICT).build();
-						}
-						tenant.addServiceCallee(
-								new CalleeWrapper(Activator.getContext(), new ServiceProfile[] { sp }, cee, id));
-						Activator.getPersistence().storeCallee(id, cee);
-						return Response.created(new URI("uaal/spaces/" + id + "/service/callees/" + cee.getId()))
-								.build();
-					} else {
-						return Response.status(Status.BAD_REQUEST).build();
-					}
-				} else {
-					return Response.status(Status.BAD_REQUEST).build();
-				}
-			} else {
-				return Response.serverError().build();
-			}
-		} else {
-			return Response.status(Status.NOT_FOUND).build();
-		}
-	}
+
 	
 	@Path("/{subid}")
 	@Produces(Activator.TYPES)

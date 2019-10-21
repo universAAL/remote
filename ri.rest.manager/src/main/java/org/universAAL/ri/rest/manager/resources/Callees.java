@@ -119,7 +119,6 @@ public class Callees {
 				if (cee.getProfile() != null) {
 					ServiceProfile sp = (ServiceProfile) Activator.getTurtleParser().deserialize(cee.getProfile());
 					if(sp == null)
-						Activator.logD("Publishers.addPublisherResource", "POST host:port/uaal/spaces/X/context/publishers cant serialize with turtle. trying with json");
 						sp = (ServiceProfile) Activator.getJsonParser().deserialize(cee.getProfile());
 
 					if (sp != null) {

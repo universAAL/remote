@@ -119,10 +119,8 @@ public class Publishers {
 				if (pub.getProviderinfo() != null) {
 					ContextProvider cp = (ContextProvider) Activator.getTurtleParser().deserialize(pub.getProviderinfo());
 					if(cp == null) {
-						Activator.logD("Publishers.addPublisherResource", "POST host:port/uaal/spaces/X/context/publishers cant serialize with turtle, trying with Json");
 						cp = (ContextProvider) Activator.getJsonParser().deserialize(pub.getProviderinfo());	
 					}
-
 					if(tenant.getContextPublisher(pub.getId())!=null){ //Already exists 409
 					    return Response.status(Status.CONFLICT).build();
 					}

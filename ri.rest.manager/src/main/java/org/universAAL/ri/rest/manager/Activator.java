@@ -172,9 +172,7 @@ public class Activator implements BundleActivator {
 	public static MessageContentSerializerEx getParser() {
 		return serializerListener.getParser();
 	}
-	public static MessageContentSerializerEx getParserLD() {
-		return serializerJSONLDListener.getParser();
-	}
+	
 	public static TenantManager getTenantMngr() {
 		return tenantMngr;
 	}

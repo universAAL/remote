@@ -150,11 +150,14 @@ public class Callee {
 		if (tenant != null) {
 			CalleeWrapper ceewrap = tenant.getServiceCallee(subid);
 			if (ceewrap != null) {
-				ServiceResponse sr = (ServiceResponse) Activator.getParser().deserialize(sresp);
+				ServiceResponse sr = (ServiceResponse) Activator.getTurtleParser().deserialize(sresp);
+				if(sr == null)
+					sr = (ServiceResponse) Activator.getJsonParser().deserialize(sresp);
 				if (sr != null) {
 					ceewrap.handleResponse(sr, origin);
 					return Response.ok().build();
 				} else {
+					Activator.logD("Callee.executeCalleeResponse", "POST host:port/uaal/spaces/X/service/callees/Y cant parse given Calee with JsonParser and TurtleParser");
 					return Response.status(Status.BAD_REQUEST).build();
 				}
 			} else {

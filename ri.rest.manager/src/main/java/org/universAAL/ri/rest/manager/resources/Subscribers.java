@@ -118,7 +118,6 @@ public class Subscribers {
 				if (sub.getPattern() != null) {
 					ContextEventPattern cep = (ContextEventPattern) Activator.getTurtleParser().deserialize(sub.getPattern());
 					if(cep ==null)
-						Activator.logD("Publishers.addPublisherResource", "POST host:port/uaal/spaces/X/context/publishers cant serialize with turtle, trying with Json");
 						cep = (ContextEventPattern) Activator.getJsonParser().deserialize(sub.getPattern());
 					if (cep != null) {
 						if(tenant.getContextSubscriber(sub.getId())!=null){ //Already exists 409

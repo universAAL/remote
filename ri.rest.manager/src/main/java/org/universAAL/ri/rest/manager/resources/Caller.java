@@ -125,7 +125,9 @@ public class Caller {
 		if (tenant != null) {
 			CallerWrapper cerwrap = tenant.getServiceCaller(subid);
 			if (cerwrap != null) {
-				ServiceRequest sreq = (ServiceRequest) Activator.getParser().deserialize(call);
+				ServiceRequest sreq = (ServiceRequest) Activator.getTurtleParser().deserialize(call);
+				if(sreq ==null)
+					 sreq = (ServiceRequest) Activator.getJsonParser().deserialize(call);
 				if (sreq != null) {
 					ServiceResponse sr = cerwrap.call(sreq);
 					return Response.ok(Activator.getParser().serialize(sr)).build();

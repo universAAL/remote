@@ -177,7 +177,9 @@ public class Callee {
 		if (tenant != null) {
 			if (Activator.getParser() != null) {
 				if (cee.getProfile() != null) {
-					ServiceProfile sp = (ServiceProfile) Activator.getParser().deserialize(cee.getProfile());
+					ServiceProfile sp = (ServiceProfile) Activator.getTurtleParser().deserialize(cee.getProfile());
+					if(sp == null)
+						sp = (ServiceProfile) Activator.getJsonParser().deserialize(cee.getProfile());
 					if (sp != null) { // Just check that they are OK
 						if (!subid.equals(cee.id)) {// Do not allow id different than URI
 							return Response.notModified().build();

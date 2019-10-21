@@ -148,7 +148,9 @@ public class Subscriber {
 		if (tenant != null) {
 			if (Activator.getParser()!=null) {
 				if (sub.getPattern() != null) {
-					ContextEventPattern cep = (ContextEventPattern) Activator.getParser().deserialize(sub.getPattern());
+					ContextEventPattern cep = (ContextEventPattern) Activator.getTurtleParser().deserialize(sub.getPattern());
+					if(cep ==null )
+						cep = (ContextEventPattern) Activator.getJsonParser().deserialize(sub.getPattern());
 					if (cep != null) { // Just check that they are OK
 						if (!subid.equals(sub.id)) {// Do not allow changes to id
 						    return Response.notModified().build();

@@ -33,6 +33,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Link;
 import javax.ws.rs.core.Link.JaxbAdapter;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
@@ -124,9 +125,6 @@ public class Spaces {
 		}	
 	}
 
-
-	
-	
 	@Path("/{id}") // GET localhost:9000/uaal/spaces/123 (Redirects to Space class)
 	@Produces(Activator.TYPES)
 	public Space getSpaceResourceLocator() {
@@ -134,6 +132,7 @@ public class Spaces {
 		return new Space();
 	}
 
+<<<<<<< HEAD
 	@POST // POST localhost:9000/uaal/spaces <Body: Space>
 	@Consumes(Activator.TYPES_JSONLD)
 	public Response addSpaceResourceJsonLD(Space space, @javax.ws.rs.core.Context SecurityContext security) throws URISyntaxException {
@@ -158,5 +157,7 @@ public class Spaces {
 		    return Response.created(new URI("uaal/spaces/" + space.getId())).build();
 		}	
 	}
+=======
+>>>>>>> refs/remotes/origin/jsonld-endpoints
 	
 }

@@ -150,11 +150,14 @@ public class Callee {
 		if (tenant != null) {
 			CalleeWrapper ceewrap = tenant.getServiceCallee(subid);
 			if (ceewrap != null) {
-				ServiceResponse sr = (ServiceResponse) Activator.getParser().deserialize(sresp);
+				ServiceResponse sr = (ServiceResponse) Activator.getTurtleParser().deserialize(sresp);
+				if(sr == null)
+					sr = (ServiceResponse) Activator.getJsonParser().deserialize(sresp);
 				if (sr != null) {
 					ceewrap.handleResponse(sr, origin);
 					return Response.ok().build();
 				} else {
+					Activator.logD("Callee.executeCalleeResponse", "POST host:port/uaal/spaces/X/service/callees/Y cant parse given Calee with JsonParser and TurtleParser");
 					return Response.status(Status.BAD_REQUEST).build();
 				}
 			} else {
@@ -174,7 +177,9 @@ public class Callee {
 		if (tenant != null) {
 			if (Activator.getParser() != null) {
 				if (cee.getProfile() != null) {
-					ServiceProfile sp = (ServiceProfile) Activator.getParser().deserialize(cee.getProfile());
+					ServiceProfile sp = (ServiceProfile) Activator.getTurtleParser().deserialize(cee.getProfile());
+					if(sp == null)
+						sp = (ServiceProfile) Activator.getJsonParser().deserialize(cee.getProfile());
 					if (sp != null) { // Just check that they are OK
 						if (!subid.equals(cee.id)) {// Do not allow id different than URI
 							return Response.notModified().build();

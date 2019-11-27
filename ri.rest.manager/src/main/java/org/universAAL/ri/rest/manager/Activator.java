@@ -21,6 +21,10 @@
  */
 package org.universAAL.ri.rest.manager;
 
+import java.util.HashMap;
+
+import javax.ws.rs.core.MediaType;
+
 import org.apache.cxf.binding.BindingFactoryManager;
 import org.apache.cxf.jaxrs.JAXRSBindingFactory;
 import org.apache.cxf.jaxrs.JAXRSServerFactoryBean;
@@ -57,8 +61,13 @@ public class Activator implements BundleActivator {
 
 	public static final String TYPES = "application/json, application/xml;charset=UTF-8;version=1, text/xml;charset=UTF-8;version=1, application/octet-stream";
 	public static final String TYPES_TXT = "text/plain;charset=UTF-8";
+<<<<<<< HEAD
 	public static final String TYPES_JSONLD = "application/ld+json";
 	
+=======
+
+
+>>>>>>> refs/remotes/origin/jsonld-endpoints
 	public void start(BundleContext bcontext) throws Exception {
 		Activator.osgiContext = bcontext;
 		Activator.mContext = OSGiContainer.THE_CONTAINER.registerModule(new Object[] { bcontext });
@@ -81,16 +90,16 @@ public class Activator implements BundleActivator {
 			serializerListener.serviceChanged(new ServiceEvent(ServiceEvent.REGISTERED, referencesSerializer[i]));
 		}
 
-		//for jsonLD
-		serializerJSONLDListener = new SerializerListener();
-		String filterJSONLD = "(objectclass=" + MessageContentSerializerEx.class.getName() + ", application/ld+json)";
-		osgiContext.addServiceListener(serializerJSONLDListener, filterJSONLD);
-		referencesSerializer = osgiContext.getServiceReferences((String) null, filterJSONLD);
-		for (int i = 0; referencesSerializer != null && i < referencesSerializer.length; i++) {
-			serializerListener.serviceChanged(new ServiceEvent(ServiceEvent.REGISTERED, referencesSerializer[i]));
-		}
-		
-		
+//		//for jsonLD
+//		serializerJSONLDListener = new SerializerListener();
+//		String filterJSONLD = "(objectclass=" + MessageContentSerializerEx.class.getName() + ", application/ld+json)";
+//		osgiContext.addServiceListener(serializerJSONLDListener, filterJSONLD);
+//		referencesSerializer = osgiContext.getServiceReferences((String) null, filterJSONLD);
+//		for (int i = 0; referencesSerializer != null && i < referencesSerializer.length; i++) {
+//			serializerListener.serviceChanged(new ServiceEvent(ServiceEvent.REGISTERED, referencesSerializer[i]));
+//		}
+//		
+//		
 		// Instance persistence DB and before it is public in servlet
 		try {
 			persistence = (Persistence) Class.forName(Configuration.getDBClass()).getConstructor(new Class[] {})
@@ -143,12 +152,13 @@ public class Activator implements BundleActivator {
 
 	private class SerializerListener implements ServiceListener {
 		private MessageContentSerializerEx parser;
-
+		HashMap<String, MessageContentSerializerEx> parsers = new HashMap<String, MessageContentSerializerEx>();
 		public void serviceChanged(ServiceEvent event) {
 			switch (event.getType()) {
 			case ServiceEvent.REGISTERED:
 			case ServiceEvent.MODIFIED:
 				parser = (MessageContentSerializerEx) osgiContext.getService(event.getServiceReference());
+				parsers.put(parser.getContentType(), parser);
 				break;
 			case ServiceEvent.UNREGISTERING:
 				parser = null;
@@ -167,9 +177,7 @@ public class Activator implements BundleActivator {
 	public static MessageContentSerializerEx getParser() {
 		return serializerListener.getParser();
 	}
-	public static MessageContentSerializerEx getParserLD() {
-		return serializerJSONLDListener.getParser();
-	}
+	
 	public static TenantManager getTenantMngr() {
 		return tenantMngr;
 	}
@@ -178,6 +186,26 @@ public class Activator implements BundleActivator {
 		return mContext;
 	}
 
+	
+	public static MessageContentSerializerEx getJsonParser() {
+		return serializerListener.parsers.get(MediaType.APPLICATION_JSON);
+	}
+	
+	public static MessageContentSerializerEx getTurtleParser() {
+		return serializerListener.parsers.get("text/turtle");
+	}
+	
+	
+
+
+
+	
+	
+	public static boolean hasJsonParser() {
+		return serializerListener.parsers.containsKey(MediaType.APPLICATION_JSON);
+		
+	}
+	
 	public static Persistence getPersistence() {
 		return persistence;
 	}

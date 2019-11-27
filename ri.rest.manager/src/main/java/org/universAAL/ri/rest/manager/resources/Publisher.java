@@ -165,7 +165,9 @@ public class Publisher {
 				String[] events = bundle.getEvent();
 				int sent=0;
 				for(String event:events){
-        				ContextEvent ev = (ContextEvent) Activator.getParser().deserialize(event);
+        				ContextEvent ev = (ContextEvent) Activator.getTurtleParser().deserialize(event);
+        				if(ev == null)
+        					ev = (ContextEvent) Activator.getJsonParser().deserialize(event);
         				if (ev != null) {
         					pubwrap.publish(ev);
         					sent++;

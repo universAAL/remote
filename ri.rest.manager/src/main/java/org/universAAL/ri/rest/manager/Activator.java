@@ -61,13 +61,7 @@ public class Activator implements BundleActivator {
 
 	public static final String TYPES = "application/json, application/xml;charset=UTF-8;version=1, text/xml;charset=UTF-8;version=1, application/octet-stream";
 	public static final String TYPES_TXT = "text/plain;charset=UTF-8";
-<<<<<<< HEAD
-	public static final String TYPES_JSONLD = "application/ld+json";
-	
-=======
 
-
->>>>>>> refs/remotes/origin/jsonld-endpoints
 	public void start(BundleContext bcontext) throws Exception {
 		Activator.osgiContext = bcontext;
 		Activator.mContext = OSGiContainer.THE_CONTAINER.registerModule(new Object[] { bcontext });

@@ -132,32 +132,5 @@ public class Spaces {
 		return new Space();
 	}
 
-<<<<<<< HEAD
-	@POST // POST localhost:9000/uaal/spaces <Body: Space>
-	@Consumes(Activator.TYPES_JSONLD)
-	public Response addSpaceResourceJsonLD(Space space, @javax.ws.rs.core.Context SecurityContext security) throws URISyntaxException {
-		Activator.logI("Spaces.addSpaceResource", "POST host:port/uaal/spaces ");
-		if(space.getId().isEmpty()) return Response.status(Status.BAD_REQUEST).build(); //TODO use validators everywhere?
-		// The space generated from the POST body does not contain any "link"
-		// elements, but I wouldnt have allowed it anyway
-		// Set the links manually, like in the space constructor
-		space.setSelf(Link.fromPath("/uaal/spaces/" + space.getId()).rel("self").build());
-		space.setContext(Link.fromPath("/uaal/spaces/" + space.getId() + "/context").rel("context").build());
-		space.setService(Link.fromPath("/uaal/spaces/" + space.getId() + "/service").rel("service").build());
-		if(UaalWrapper.getInstance().getTenant(space.getId())!=null){
-		    // Already exists. Say it is OK but do nothing, not 409, for security reasons
-		    return Response.ok().build(); 
-		}else{
-		    UaalWrapper.getInstance().addTenant(new SpaceWrapper(space));
-		    if (Activator.getTenantMngr() != null) {
-			Activator.getTenantMngr().registerTenant(space.getId(), "SpaceWrapper created through REST interface");
-		    }
-		    String user=security.getUserPrincipal().getName();
-		    Activator.getPersistence().storeSpace(space, (String) null, user);
-		    return Response.created(new URI("uaal/spaces/" + space.getId())).build();
-		}	
-	}
-=======
->>>>>>> refs/remotes/origin/jsonld-endpoints
 	
 }

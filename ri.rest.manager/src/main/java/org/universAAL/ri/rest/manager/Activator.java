@@ -51,7 +51,6 @@ public class Activator implements BundleActivator {
 	private static Persistence persistence;
 
 	private static SerializerListener serializerListener;
-	private static SerializerListener serializerJSONLDListener;
 	private ServiceReference[] referencesSerializer;
 
 	private TenantListener tenantListener = null;
@@ -84,16 +83,7 @@ public class Activator implements BundleActivator {
 			serializerListener.serviceChanged(new ServiceEvent(ServiceEvent.REGISTERED, referencesSerializer[i]));
 		}
 
-//		//for jsonLD
-//		serializerJSONLDListener = new SerializerListener();
-//		String filterJSONLD = "(objectclass=" + MessageContentSerializerEx.class.getName() + ", application/ld+json)";
-//		osgiContext.addServiceListener(serializerJSONLDListener, filterJSONLD);
-//		referencesSerializer = osgiContext.getServiceReferences((String) null, filterJSONLD);
-//		for (int i = 0; referencesSerializer != null && i < referencesSerializer.length; i++) {
-//			serializerListener.serviceChanged(new ServiceEvent(ServiceEvent.REGISTERED, referencesSerializer[i]));
-//		}
-//		
-//		
+	
 		// Instance persistence DB and before it is public in servlet
 		try {
 			persistence = (Persistence) Class.forName(Configuration.getDBClass()).getConstructor(new Class[] {})
@@ -168,8 +158,12 @@ public class Activator implements BundleActivator {
 		}
 	}
 
-	public static MessageContentSerializerEx getParser() {
-		return serializerListener.getParser();
+	//public static MessageContentSerializerEx getParser() {
+	//	return serializerListener.getParser();
+	//}
+	
+	public static boolean hasRegisteredParsers() {
+		return serializerListener.parsers.isEmpty();
 	}
 	
 	public static TenantManager getTenantMngr() {

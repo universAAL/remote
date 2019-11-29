@@ -115,7 +115,7 @@ public class Publishers {
 		pub.setSelf(Link.fromPath("/uaal/spaces/" + id + "/context/publishers/" + pub.getId()).rel("self").build());
 		SpaceWrapper tenant = UaalWrapper.getInstance().getTenant(id);
 		if (tenant != null) {
-			if (Activator.getParser() != null) {
+			if (Activator.hasRegisteredParsers()) {
 				if (pub.getProviderinfo() != null) {
 					ContextProvider cp = (ContextProvider) Activator.getTurtleParser().deserialize(pub.getProviderinfo());
 					if(cp == null) {

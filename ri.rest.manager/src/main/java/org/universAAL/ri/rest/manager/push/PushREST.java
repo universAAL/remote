@@ -47,7 +47,9 @@ public class PushREST {
 
 	public static void pushContextEvent(String callback, ContextEvent event) throws PushException {
 		try {
-			String serial = Activator.getParser().serialize(event);
+			String serial = Activator.getTurtleParser().serialize(event);
+			if(serial == null)
+				serial = Activator.getJsonParser().serialize(event);
 			Activator.logI("PushREST.pushContextEvent",
 					"Attempting to send event " + event.getURI() + " to callback " + callback);
 			send(callback, serial);
@@ -60,7 +62,9 @@ public class PushREST {
 
 	public static void pushServiceCall(String callback, ServiceCall call, String origin) throws PushException {
 		try {
-			String serial = Activator.getParser().serialize(call);
+			String serial = Activator.getTurtleParser().serialize(call);
+			if(serial == null)
+				serial = Activator.getJsonParser().serialize(call);
 			Activator.logI("PushREST.pushServiceCall",
 					"Attempting to send call " + origin + " to callback " + callback);
 			send(callback + "?o=" + origin, serial);

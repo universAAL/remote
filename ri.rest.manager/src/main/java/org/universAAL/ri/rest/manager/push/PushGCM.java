@@ -76,7 +76,9 @@ public class PushGCM {
 		String subject = event.getRDFSubject().toString();
 		String predicate = event.getRDFPredicate();
 		String object = event.getRDFObject().toString();
-		String serial = Activator.getParser().serialize(event);
+		String serial = Activator.getTurtleParser().serialize(event);
+		if(serial==null)
+			serial = Activator.getJsonParser().serialize(event);
 
 		int size = 0; // Find out size of the WHOLE payload
 		StringBuilder combined = new StringBuilder(serial).append(subject).append(predicate).append(object)
@@ -122,7 +124,9 @@ public class PushGCM {
 		boolean test = Configuration.getGCMDry();
 
 		List inputs = (List) call.getProperty(ServiceCall.PROP_OWLS_PERFORM_HAS_DATA_FROM);
-		String serial = Activator.getParser().serialize(call);
+		String serial = Activator.getTurtleParser().serialize(call);
+		if(serial== null)
+			serial = Activator.getJsonParser().serialize(call);
 
 		int size = 0; // Find out size of the WHOLE payload
 		StringBuilder combined = new StringBuilder(serial);

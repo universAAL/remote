@@ -115,7 +115,7 @@ public class Subscribers {
 		sub.setSelf(Link.fromPath("/uaal/spaces/" + id + "/context/subscribers/" + sub.getId()).rel("self").build());
 		SpaceWrapper tenant = UaalWrapper.getInstance().getTenant(id);
 		if (tenant != null) {
-			if (Activator.getParser() != null) {
+			if (Activator.hasRegisteredParsers()) {
 				if (sub.getPattern() != null) {
 					ContextEventPattern cep = (ContextEventPattern) Activator.getTurtleParser().deserialize(sub.getPattern());
 					if(cep ==null)

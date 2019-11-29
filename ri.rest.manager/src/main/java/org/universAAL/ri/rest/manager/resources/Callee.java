@@ -175,7 +175,7 @@ public class Callee {
 		Activator.logI("Callee.putCalleeResource", "PUT host:port/uaal/spaces/X/service/callees/Y");
 		SpaceWrapper tenant = UaalWrapper.getInstance().getTenant(id);
 		if (tenant != null) {
-			if (Activator.getParser() != null) {
+			if (Activator.hasRegisteredParsers()) {
 				if (cee.getProfile() != null) {
 					ServiceProfile sp = (ServiceProfile) Activator.getTurtleParser().deserialize(cee.getProfile());
 					if(sp == null)

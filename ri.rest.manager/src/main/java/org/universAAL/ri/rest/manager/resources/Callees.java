@@ -116,7 +116,7 @@ public class Callees {
 		cee.setSelf(Link.fromPath("/uaal/spaces/" + id + "/service/callees/" + cee.getId()).rel("self").build());
 		SpaceWrapper tenant = UaalWrapper.getInstance().getTenant(id);
 		if (tenant != null) {
-			if (Activator.getParser() != null) {
+			if (Activator.hasRegisteredParsers()) {
 				if (cee.getProfile() != null) {
 					ServiceProfile sp = (ServiceProfile) Activator.getTurtleParser().deserialize(cee.getProfile());
 					if(sp == null)

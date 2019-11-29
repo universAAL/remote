@@ -137,7 +137,7 @@ public class Publisher {
 		if (tenant != null) {
 			PublisherWrapper pubwrap = tenant.getContextPublisher(subid);
 			if (pubwrap != null) {
-				ContextEvent ev = (ContextEvent) Activator.getParser().deserialize(event);
+				ContextEvent ev = (ContextEvent) Activator.getTurtleParser().deserialize(event);
 				if (ev != null) {
 					pubwrap.publish(ev);
 					return Response.ok().build();
@@ -198,9 +198,11 @@ public class Publisher {
 		Activator.logI("Publisher.putPublisherResource", "PUT host:port/uaal/spaces/X/context/publishers/Y");
 		SpaceWrapper tenant = UaalWrapper.getInstance().getTenant(id);
 		if (tenant != null) {
-			if (Activator.getParser() != null) {
+			if (Activator.hasRegisteredParsers()) {
 				if (pub.getProviderinfo() != null) {
-					ContextProvider cp = (ContextProvider) Activator.getParser().deserialize(pub.getProviderinfo());
+					ContextProvider cp = (ContextProvider) Activator.getTurtleParser().deserialize(pub.getProviderinfo());
+					if(cp == null)
+						cp = (ContextProvider) Activator.getJsonParser().deserialize(pub.getProviderinfo());
 					if (cp != null) { // Just check that it is OK
 					    if (!subid.equals(pub.id)) {// Do not allow id different than URI
 						return Response.notModified().build();

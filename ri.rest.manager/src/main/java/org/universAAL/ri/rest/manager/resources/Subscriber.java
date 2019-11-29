@@ -146,7 +146,7 @@ public class Subscriber {
 		Activator.logI("Subscriber.putCalleeResource", "PUT host:port/uaal/spaces/X/context/subscribers/Y");
 		SpaceWrapper tenant = UaalWrapper.getInstance().getTenant(id);
 		if (tenant != null) {
-			if (Activator.getParser()!=null) {
+			if (Activator.hasRegisteredParsers()) {
 				if (sub.getPattern() != null) {
 					ContextEventPattern cep = (ContextEventPattern) Activator.getTurtleParser().deserialize(sub.getPattern());
 					if(cep ==null )

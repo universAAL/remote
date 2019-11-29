@@ -130,7 +130,7 @@ public class Caller {
 					 sreq = (ServiceRequest) Activator.getJsonParser().deserialize(call);
 				if (sreq != null) {
 					ServiceResponse sr = cerwrap.call(sreq);
-					return Response.ok(Activator.getParser().serialize(sr)).build();
+					return Response.ok(Activator.getTurtleParser().serialize(sr)).build();
 				} else {
 					return Response.status(Status.BAD_REQUEST).build();
 				}
@@ -149,7 +149,7 @@ public class Caller {
 		Activator.logI("Caller.putCallerResource", "PUT host:port/uaal/spaces/X/service/callers/Y");
 		SpaceWrapper tenant = UaalWrapper.getInstance().getTenant(id);
 		if (tenant != null) {
-			if (Activator.getParser() != null) {
+			if (Activator.hasRegisteredParsers()) {
 				if (!subid.equals(cer.id)) {// Do not allow id different than URI
 				    return Response.notModified().build();
 				}

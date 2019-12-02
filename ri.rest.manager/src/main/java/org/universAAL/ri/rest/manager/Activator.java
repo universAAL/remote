@@ -156,7 +156,7 @@ public class Activator implements BundleActivator {
 
 	
 	
-	public static boolean hasRegisteredParsers() {
+	public static boolean hasRegisteredSerializers() {
 		return !serializerListener.parsers.isEmpty();
 	}
 	

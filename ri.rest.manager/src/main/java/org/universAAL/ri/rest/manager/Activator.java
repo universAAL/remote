@@ -152,18 +152,12 @@ public class Activator implements BundleActivator {
 			}
 		}
 
-		public MessageContentSerializerEx getParser() {
-			// TODO Auto-generated method stub
-			return parser;
-		}
 	}
 
-	//public static MessageContentSerializerEx getParser() {
-	//	return serializerListener.getParser();
-	//}
+	
 	
 	public static boolean hasRegisteredParsers() {
-		return serializerListener.parsers.isEmpty();
+		return !serializerListener.parsers.isEmpty();
 	}
 	
 	public static TenantManager getTenantMngr() {

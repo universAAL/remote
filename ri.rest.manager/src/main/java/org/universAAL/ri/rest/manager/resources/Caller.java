@@ -149,7 +149,7 @@ public class Caller {
 		Activator.logI("Caller.putCallerResource", "PUT host:port/uaal/spaces/X/service/callers/Y");
 		SpaceWrapper tenant = UaalWrapper.getInstance().getTenant(id);
 		if (tenant != null) {
-			if (Activator.hasRegisteredParsers()) {
+			if (Activator.hasRegisteredSerializers()) {
 				if (!subid.equals(cer.id)) {// Do not allow id different than URI
 				    return Response.notModified().build();
 				}
@@ -172,9 +172,11 @@ public class Caller {
 				    return Response.created(new URI("uaal/spaces/" + id + "/service/callers/" + cer.getId())).build();
 				}
 			} else {
+				Activator.logE("Caller.putCallerResource", "Not registered serializers");
 				return Response.serverError().build();
 			}
 		} else {
+			Activator.logE("Calees.addCalleeResource", "SpaceWrapper null");
 			return Response.status(Status.NOT_FOUND).build();
 		}
 	}

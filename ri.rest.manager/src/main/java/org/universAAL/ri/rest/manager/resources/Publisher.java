@@ -198,7 +198,7 @@ public class Publisher {
 		Activator.logI("Publisher.putPublisherResource", "PUT host:port/uaal/spaces/X/context/publishers/Y");
 		SpaceWrapper tenant = UaalWrapper.getInstance().getTenant(id);
 		if (tenant != null) {
-			if (Activator.hasRegisteredParsers()) {
+			if (Activator.hasRegisteredSerializers()) {
 				if (pub.getProviderinfo() != null) {
 					ContextProvider cp = (ContextProvider) Activator.getTurtleParser().deserialize(pub.getProviderinfo());
 					if(cp == null)
@@ -229,15 +229,19 @@ public class Publisher {
 							    .build();
 						}
 					} else {
+						Activator.logE("Publisher.putPublisherResource", "Cant serialize with registered serializers");
 						return Response.status(Status.BAD_REQUEST).build();
 					}
 				} else {
+					Activator.logE("Publisher.putPublisherResource", "Null Publisher provider info");
 					return Response.status(Status.BAD_REQUEST).build();
 				}
 			} else {
+				Activator.logE("Publisher.putPublisherResource", "Not registered serializers");
 				return Response.serverError().build();
 			}
 		} else {
+			Activator.logE("Publisher.putPublisherResource", "SpaceWrapper null");
 			return Response.status(Status.NOT_FOUND).build();
 		}
 	}

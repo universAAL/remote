@@ -116,12 +116,11 @@ public class Callees {
 		cee.setSelf(Link.fromPath("/uaal/spaces/" + id + "/service/callees/" + cee.getId()).rel("self").build());
 		SpaceWrapper tenant = UaalWrapper.getInstance().getTenant(id);
 		if (tenant != null) {
-			if (Activator.hasRegisteredParsers()) {
+			if (Activator.hasRegisteredSerializers()) {
 				if (cee.getProfile() != null) {
 					ServiceProfile sp = (ServiceProfile) Activator.getTurtleParser().deserialize(cee.getProfile());
 					if(sp == null)
 						sp = (ServiceProfile) Activator.getJsonParser().deserialize(cee.getProfile());
-
 					if (sp != null) {
 						if(tenant.getServiceCallee(cee.getId())!=null){ //Already exists 409
 						    return Response.status(Status.CONFLICT).build();
@@ -132,16 +131,19 @@ public class Callees {
 						return Response.created(new URI("uaal/spaces/" + id + "/service/callees/" + cee.getId()))
 								.build();
 					} else {
-						Activator.logD("Publishers.addPublisherResource", "POST host:port/uaal/spaces/X/context/publishers cant serialize with Json. returning "+Status.BAD_REQUEST);
+						Activator.logE("Calees.addCalleeResource", "Cant serialize Calee profile with the registered serializers");
 						return Response.status(Status.BAD_REQUEST).build();
 					}
 				} else {
+					Activator.logE("Calees.addCalleeResource", "Null Calee profile");
 					return Response.status(Status.BAD_REQUEST).build();
 				}
 			} else {
+				Activator.logE("Calees.addCalleeResource", "Not registered serializers");
 				return Response.serverError().build();
 			}
 		} else {
+			Activator.logE("Calees.addCalleeResource", "SpaceWrapper null");
 			return Response.status(Status.NOT_FOUND).build();
 		}
 	}

@@ -107,7 +107,6 @@ public class Publishers {
 	@Consumes(Activator.TYPES)
 	public Response addPublisherResource(@PathParam("id") String id, Publisher pub) throws URISyntaxException {
 		Activator.logI("Publishers.addPublisherResource", "POST host:port/uaal/spaces/X/context/publishers");
-		System.out.println("post Publishers "+pub.getProviderinfo());
 		if(pub.getId().isEmpty()) return Response.status(Status.BAD_REQUEST).build();
 		// The pub generated from the POST body does not contain any "link"
 		// elements, but I wouldnt have allowed it anyway
@@ -115,7 +114,7 @@ public class Publishers {
 		pub.setSelf(Link.fromPath("/uaal/spaces/" + id + "/context/publishers/" + pub.getId()).rel("self").build());
 		SpaceWrapper tenant = UaalWrapper.getInstance().getTenant(id);
 		if (tenant != null) {
-			if (Activator.hasRegisteredParsers()) {
+			if (Activator.hasRegisteredSerializers()) {
 				if (pub.getProviderinfo() != null) {
 					ContextProvider cp = (ContextProvider) Activator.getTurtleParser().deserialize(pub.getProviderinfo());
 					if(cp == null) {
@@ -129,16 +128,19 @@ public class Publishers {
 						Activator.getPersistence().storePublisher(id, pub);
 						return Response.created(new URI("uaal/spaces/" + id + "/context/publishers/" + pub.getId())).build();
 					} else {
-						Activator.logD("Publishers.addPublisherResource", "POST host:port/uaal/spaces/X/context/publishers cant serialize with Json. returning "+Status.BAD_REQUEST);
+						Activator.logE("Publishers.addPublisherResource", "Cant serialize Publisher provider info with the registered parsers");
 						return Response.status(Status.BAD_REQUEST).build();
 					}
 				} else {
+					Activator.logE("Publishers.addPublisherResource", "Null provider info");
 					return Response.status(Status.BAD_REQUEST).build();
 				}
 			} else {
+				Activator.logE("Publishers.addPublisherResource", "Not registered serializers");
 				return Response.serverError().build();
 			}
 		} else {
+			Activator.logE("Publishers.addPublisherResource", "SpaceWraper null");
 			return Response.status(Status.NOT_FOUND).build();
 		}
 

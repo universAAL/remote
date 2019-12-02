@@ -175,7 +175,7 @@ public class Callee {
 		Activator.logI("Callee.putCalleeResource", "PUT host:port/uaal/spaces/X/service/callees/Y");
 		SpaceWrapper tenant = UaalWrapper.getInstance().getTenant(id);
 		if (tenant != null) {
-			if (Activator.hasRegisteredParsers()) {
+			if (Activator.hasRegisteredSerializers()) {
 				if (cee.getProfile() != null) {
 					ServiceProfile sp = (ServiceProfile) Activator.getTurtleParser().deserialize(cee.getProfile());
 					if(sp == null)
@@ -206,15 +206,19 @@ public class Callee {
 							    .build();
 						}
 					} else {
+						Activator.logE("Calee.putCalleeResource", "Cant serialize Calee profile with registered parsers");
 						return Response.status(Status.BAD_REQUEST).build();
 					}
 				} else {
+					Activator.logE("Calee.putCalleeResource", "Null Calee profile");
 					return Response.status(Status.BAD_REQUEST).build();
 				}
 			} else {
+				Activator.logE("Calee.putCalleeResource", "Not registered serializers");
 				return Response.serverError().build();
 			}
 		} else {
+			Activator.logE("Calee.putCalleeResource", "SpaceWrapper null");
 			return Response.status(Status.NOT_FOUND).build();
 		}
 	}

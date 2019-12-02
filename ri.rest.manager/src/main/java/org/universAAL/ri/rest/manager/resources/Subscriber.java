@@ -146,7 +146,7 @@ public class Subscriber {
 		Activator.logI("Subscriber.putCalleeResource", "PUT host:port/uaal/spaces/X/context/subscribers/Y");
 		SpaceWrapper tenant = UaalWrapper.getInstance().getTenant(id);
 		if (tenant != null) {
-			if (Activator.hasRegisteredParsers()) {
+			if (Activator.hasRegisteredSerializers()) {
 				if (sub.getPattern() != null) {
 					ContextEventPattern cep = (ContextEventPattern) Activator.getTurtleParser().deserialize(sub.getPattern());
 					if(cep ==null )
@@ -177,15 +177,19 @@ public class Subscriber {
 							    .build();
 						}
 					} else {
+						Activator.logE("Subscriber.putCalleeResource", "Cant serialize Subscriber pattern with the registered parsers");
 						return Response.status(Status.BAD_REQUEST).build();
 					}
 				} else {
+					Activator.logE("Subscriber.putCalleeResource", "Null Subscriber pattern");
 					return Response.status(Status.BAD_REQUEST).build();
 				}
 			} else {
+				Activator.logE("Subscriber.putCalleeResource", "Not registered serializers");
 				return Response.serverError().build();
 			}
 		} else {
+			Activator.logE("Subscriber.putCalleeResource", "SpaceWrapper null");
 			return Response.status(Status.NOT_FOUND).build();
 		}
 	}

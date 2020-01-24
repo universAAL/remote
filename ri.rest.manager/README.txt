@@ -8,7 +8,7 @@ The latest version of CXF requires osgi packages version > 1.6.0, so Karaf 2.X d
 Also, binaries of Karaf 3.X versions outside that range are corrupted in Karaf download page
 
 2-In Karaf, install the CXF feature repo (check if there are newer versions than 3.0.2)
-feature:repo-add http://repo1.maven.org/maven2/org/apache/cxf/karaf/apache-cxf/3.0.2/apache-cxf-3.0.2-features.xml
+feature:repo-add https://repo1.maven.org/maven2/org/apache/cxf/karaf/apache-cxf/3.0.2/apache-cxf-3.0.2-features.xml
 
 3-Install the feature cxf-jaxrs
 feature:install cxf-jaxrs

@@ -78,7 +78,7 @@ public class Spaces {
 	// ===============REST METHODS===============
 
 	@GET // GET localhost:9000/uaal/spaces (redirected from Uaal class)
-	@Produces(Activator.TYPES)
+	@Produces(Activator.TYPES_JSON_XML)
 	public Spaces getSpacesResource() {
 		Activator.logI("Spaces.getSpacesResource", "GET host:port/uaal/spaces ");
 		Spaces allspaces = new Spaces();
@@ -101,7 +101,7 @@ public class Spaces {
 	}
 
 	@POST // POST localhost:9000/uaal/spaces <Body: Space>
-	@Consumes(Activator.TYPES)
+	@Consumes(Activator.TYPES_JSON_XML)
 	public Response addSpaceResource(Space space, @javax.ws.rs.core.Context SecurityContext security) throws URISyntaxException {
 		Activator.logI("Spaces.addSpaceResource", "POST host:port/uaal/spaces ");
 		if(space.getId().isEmpty()) return Response.status(Status.BAD_REQUEST).build(); //TODO use validators everywhere?
@@ -126,7 +126,7 @@ public class Spaces {
 	}
 
 	@Path("/{id}") // GET localhost:9000/uaal/spaces/123 (Redirects to Space class)
-	@Produces(Activator.TYPES)
+	@Produces(Activator.TYPES_JSON_XML)
 	public Space getSpaceResourceLocator() {
 		Activator.logI("Spaces.getSpaceResourceLocator", ">>>GET host:port/uaal/spaces/X ");
 		return new Space();

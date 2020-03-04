@@ -48,8 +48,9 @@ public class PushREST {
 	public static void pushContextEvent(String callback, ContextEvent event) throws PushException {
 		try {
 			String serial = Activator.getTurtleParser().serialize(event);
+			//TODO This is never going to happen. We could introduce an option to choose format though.
 			if(serial == null)
-				serial = Activator.getJsonParser().serialize(event);
+				serial = Activator.getJsonldParser().serialize(event);
 			Activator.logI("PushREST.pushContextEvent",
 					"Attempting to send event " + event.getURI() + " to callback " + callback);
 			send(callback, serial);
@@ -63,8 +64,9 @@ public class PushREST {
 	public static void pushServiceCall(String callback, ServiceCall call, String origin) throws PushException {
 		try {
 			String serial = Activator.getTurtleParser().serialize(call);
+			//TODO This is never going to happen. We could introduce an option to choose format though.
 			if(serial == null)
-				serial = Activator.getJsonParser().serialize(call);
+				serial = Activator.getJsonldParser().serialize(call);
 			Activator.logI("PushREST.pushServiceCall",
 					"Attempting to send call " + origin + " to callback " + callback);
 			send(callback + "?o=" + origin, serial);

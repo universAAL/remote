@@ -84,7 +84,7 @@ public class Publishers {
 	// ===============REST METHODS===============
 
 	@GET
-	@Produces(Activator.TYPES)
+	@Produces(Activator.TYPES_JSON_XML)
 	public Publishers getPublishersResource(@PathParam("id") String id) {
 		Activator.logI("Publishers.getPublishersResource", "GET host:port/uaal/spaces/X/context/publishers");
 		Publishers allpubs = new Publishers();
@@ -104,7 +104,7 @@ public class Publishers {
 	}
 
 	@POST
-	@Consumes(Activator.TYPES)
+	@Consumes(Activator.TYPES_JSON_XML)
 	public Response addPublisherResource(@PathParam("id") String id, Publisher pub) throws URISyntaxException {
 		Activator.logI("Publishers.addPublisherResource", "POST host:port/uaal/spaces/X/context/publishers");
 		if(pub.getId().isEmpty()) return Response.status(Status.BAD_REQUEST).build();
@@ -118,7 +118,7 @@ public class Publishers {
 				if (pub.getProviderinfo() != null) {
 					ContextProvider cp = (ContextProvider) Activator.getTurtleParser().deserialize(pub.getProviderinfo());
 					if(cp == null) {
-						cp = (ContextProvider) Activator.getJsonParser().deserialize(pub.getProviderinfo());	
+						cp = (ContextProvider) Activator.getJsonldParser().deserialize(pub.getProviderinfo());	
 					}
 					if(tenant.getContextPublisher(pub.getId())!=null){ //Already exists 409
 					    return Response.status(Status.CONFLICT).build();
@@ -146,13 +146,12 @@ public class Publishers {
 
 	}
 
-
 	@Path("/{subid}")
-	@Produces(Activator.TYPES)
+	@Produces(Activator.TYPES_JSON_XML)
 	public Publisher getPublisherResourceLocator() {
 		Activator.logI("Publishers.getPublisherResourceLocator", ">>>GET host:port/uaal/spaces/X/context/publishers/Y");
 		return new Publisher();
 	}
 
-	}
+}
 

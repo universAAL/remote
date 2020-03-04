@@ -86,7 +86,7 @@ public class Callees {
 	// ===============REST METHODS===============
 
 	@GET
-	@Produces(Activator.TYPES)
+	@Produces(Activator.TYPES_JSON_XML)
 	public Callees getCalleesResource(@PathParam("id") String id) {
 		Activator.logI("Callees.getCalleesResource", "GET host:port/uaal/spaces/X/service/callees");
 		Callees allcees = new Callees();
@@ -106,7 +106,7 @@ public class Callees {
 	}
 
 	@POST
-	@Consumes(Activator.TYPES)
+	@Consumes(Activator.TYPES_JSON_XML)
 	public Response addCalleeResource(@PathParam("id") String id, Callee cee) throws URISyntaxException {
 		Activator.logI("Callees.addCalleeResource", "POST host:port/uaal/spaces/X/service/callees");
 		if(cee.getId().isEmpty()) return Response.status(Status.BAD_REQUEST).build();
@@ -120,7 +120,7 @@ public class Callees {
 				if (cee.getProfile() != null) {
 					ServiceProfile sp = (ServiceProfile) Activator.getTurtleParser().deserialize(cee.getProfile());
 					if(sp == null)
-						sp = (ServiceProfile) Activator.getJsonParser().deserialize(cee.getProfile());
+						sp = (ServiceProfile) Activator.getJsonldParser().deserialize(cee.getProfile());
 					if (sp != null) {
 						if(tenant.getServiceCallee(cee.getId())!=null){ //Already exists 409
 						    return Response.status(Status.CONFLICT).build();
@@ -148,10 +148,8 @@ public class Callees {
 		}
 	}
 
-
-	
 	@Path("/{subid}")
-	@Produces(Activator.TYPES)
+	@Produces(Activator.TYPES_JSON_XML)
 	public Callee getCalleeResourceLocator() {
 		Activator.logI("Callees.getCalleeResourceLocator", ">>>GET host:port/uaal/spaces/X/service/callees/Y");
 		return new Callee();

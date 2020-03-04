@@ -58,8 +58,9 @@ public class Activator implements BundleActivator {
 	private static TenantManager tenantMngr = null;
 	private static boolean logDebug = Configuration.getLogDebug();
 
-	public static final String TYPES = "application/json, application/xml;charset=UTF-8;version=1, text/xml;charset=UTF-8;version=1, application/octet-stream";
-	public static final String TYPES_TXT = "text/plain;charset=UTF-8";
+	public static final String TYPES_JSON_XML = "application/json, application/xml;charset=UTF-8;version=1, text/xml;charset=UTF-8;version=1, application/octet-stream";
+	public static final String TYPES_TURTLE = "text/turtle;charset=UTF-8";
+	public static final String TYPES_JSONLD = "application/ld+json";
 
 	public void start(BundleContext bcontext) throws Exception {
 		Activator.osgiContext = bcontext;
@@ -154,8 +155,6 @@ public class Activator implements BundleActivator {
 
 	}
 
-	
-	
 	public static boolean hasRegisteredSerializers() {
 		return !serializerListener.parsers.isEmpty();
 	}
@@ -168,24 +167,12 @@ public class Activator implements BundleActivator {
 		return mContext;
 	}
 
-	
-	public static MessageContentSerializerEx getJsonParser() {
+	public static MessageContentSerializerEx getJsonldParser() {
 		return serializerListener.parsers.get(MediaType.APPLICATION_JSON);
 	}
 	
 	public static MessageContentSerializerEx getTurtleParser() {
 		return serializerListener.parsers.get("text/turtle");
-	}
-	
-	
-
-
-
-	
-	
-	public static boolean hasJsonParser() {
-		return serializerListener.parsers.containsKey(MediaType.APPLICATION_JSON);
-		
 	}
 	
 	public static Persistence getPersistence() {

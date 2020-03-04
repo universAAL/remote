@@ -45,6 +45,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import org.universAAL.middleware.context.ContextEvent;
 import org.universAAL.middleware.context.owl.ContextProvider;
+import org.universAAL.middleware.serialization.MessageContentSerializer;
 import org.universAAL.ri.rest.manager.Activator;
 import org.universAAL.ri.rest.manager.wrappers.UaalWrapper;
 import org.universAAL.ri.rest.manager.wrappers.PublisherWrapper;
@@ -103,7 +104,7 @@ public class Publisher {
 	// ===============REST METHODS===============
 
 	@GET
-	@Produces(Activator.TYPES)
+	@Produces(Activator.TYPES_JSON_XML)
 	public Publisher getPublisherResource(@PathParam("id") String id, @PathParam("subid") String subid) {
 		Activator.logI("Publisher.getPublisherResource", "GET host:port/uaal/spaces/X/context/publishers/Y");
 		SpaceWrapper tenant = UaalWrapper.getInstance().getTenant(id);
@@ -129,15 +130,27 @@ public class Publisher {
 	}
 
 	@POST
-	@Consumes(Activator.TYPES_TXT)
-	public Response executePublisherPublish(@PathParam("id") String id, @PathParam("subid") String subid,
+	@Consumes(Activator.TYPES_TURTLE)
+	public Response executePublisherPublishTurtle(@PathParam("id") String id, @PathParam("subid") String subid,
 			String event) {
-		Activator.logI("Publisher.executePublisherPublish", "POST host:port/uaal/spaces/X/context/publishers/Y");
+		Activator.logI("Publisher.executePublisherPublish", "POST host:port/uaal/spaces/X/context/publishers/Y TURTLE");
+		return executePublisherPublish(id, subid, event, Activator.getTurtleParser());
+	}
+	
+	@POST
+	@Consumes(Activator.TYPES_JSONLD)
+	public Response executePublisherPublishJsonld(@PathParam("id") String id, @PathParam("subid") String subid,
+			String event) {
+		Activator.logI("Publisher.executePublisherPublish", "POST host:port/uaal/spaces/X/context/publishers/Y JSONLD");
+		return executePublisherPublish(id, subid, event, Activator.getJsonldParser());
+	}
+	
+	public Response executePublisherPublish(String id, String subid, String event, MessageContentSerializer parser) {
 		SpaceWrapper tenant = UaalWrapper.getInstance().getTenant(id);
 		if (tenant != null) {
 			PublisherWrapper pubwrap = tenant.getContextPublisher(subid);
 			if (pubwrap != null) {
-				ContextEvent ev = (ContextEvent) Activator.getTurtleParser().deserialize(event);
+				ContextEvent ev = (ContextEvent) parser.deserialize(event);
 				if (ev != null) {
 					pubwrap.publish(ev);
 					return Response.ok().build();
@@ -153,7 +166,7 @@ public class Publisher {
 	}
 	
 	@POST
-	@Consumes(Activator.TYPES)
+	@Consumes(Activator.TYPES_JSON_XML)
 	public Response executePublisherPublishMany(@PathParam("id") String id, @PathParam("subid") String subid,
 			EventBundle bundle) {
 		Activator.logI("Publisher.executePublisherPublishMany", "POST host:port/uaal/spaces/X/context/publishers/Y");
@@ -167,7 +180,7 @@ public class Publisher {
 				for(String event:events){
         				ContextEvent ev = (ContextEvent) Activator.getTurtleParser().deserialize(event);
         				if(ev == null)
-        					ev = (ContextEvent) Activator.getJsonParser().deserialize(event);
+        					ev = (ContextEvent) Activator.getJsonldParser().deserialize(event);
         				if (ev != null) {
         					pubwrap.publish(ev);
         					sent++;
@@ -192,7 +205,7 @@ public class Publisher {
 	}
 
 	@PUT
-	@Consumes(Activator.TYPES)
+	@Consumes(Activator.TYPES_JSON_XML)
 	public Response putPublisherResource(@PathParam("id") String id, @PathParam("subid") String subid, Publisher pub)
 			throws URISyntaxException {
 		Activator.logI("Publisher.putPublisherResource", "PUT host:port/uaal/spaces/X/context/publishers/Y");
@@ -202,7 +215,7 @@ public class Publisher {
 				if (pub.getProviderinfo() != null) {
 					ContextProvider cp = (ContextProvider) Activator.getTurtleParser().deserialize(pub.getProviderinfo());
 					if(cp == null)
-						cp = (ContextProvider) Activator.getJsonParser().deserialize(pub.getProviderinfo());
+						cp = (ContextProvider) Activator.getJsonldParser().deserialize(pub.getProviderinfo());
 					if (cp != null) { // Just check that it is OK
 					    if (!subid.equals(pub.id)) {// Do not allow id different than URI
 						return Response.notModified().build();

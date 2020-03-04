@@ -83,7 +83,7 @@ public class Callers {
 	// ===============REST METHODS===============
 
 	@GET
-	@Produces(Activator.TYPES)
+	@Produces(Activator.TYPES_JSON_XML)
 	public Callers getCallersResource(@PathParam("id") String id) {
 		Activator.logI("Callers.getCallersResource", "GET host:port/uaal/spaces/X/service/callers");
 		Callers allcers = new Callers();
@@ -103,7 +103,7 @@ public class Callers {
 	}
 
 	@POST
-	@Consumes(Activator.TYPES)
+	@Consumes(Activator.TYPES_JSON_XML)
 	public Response addCallerResource(@PathParam("id") String id, Caller cer) throws URISyntaxException {
 		Activator.logI("Callers.addCallerResource", "POST host:port/uaal/spaces/X/service/callers");
 		if(cer.getId().isEmpty()) return Response.status(Status.BAD_REQUEST).build();
@@ -125,7 +125,7 @@ public class Callers {
 	}
 
 	@Path("/{subid}")
-	@Produces(Activator.TYPES)
+	@Produces(Activator.TYPES_JSON_XML)
 	public Caller getCallerResourceLocator() {
 		Activator.logI("Callers.getCallerResourceLocator", ">>>GET host:port/uaal/spaces/X/service/callers/Y");
 		return new Caller();

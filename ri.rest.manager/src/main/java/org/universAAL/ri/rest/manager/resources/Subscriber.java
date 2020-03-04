@@ -114,7 +114,7 @@ public class Subscriber {
 	// ===============REST METHODS===============
 
 	@GET
-	@Produces(Activator.TYPES)
+	@Produces(Activator.TYPES_JSON_XML)
 	public Subscriber getSubscriberResource(@PathParam("id") String id, @PathParam("subid") String subid) {
 		Activator.logI("Subscriber.getSubscriberResource", "GET host:port/uaal/spaces/X/context/subscribers/Y");
 		SpaceWrapper tenant = UaalWrapper.getInstance().getTenant(id);
@@ -140,7 +140,7 @@ public class Subscriber {
 	}
 
 	@PUT
-	@Consumes(Activator.TYPES)
+	@Consumes(Activator.TYPES_JSON_XML)
 	public Response putCalleeResource(@PathParam("id") String id, @PathParam("subid") String subid, Subscriber sub)
 			throws URISyntaxException {
 		Activator.logI("Subscriber.putCalleeResource", "PUT host:port/uaal/spaces/X/context/subscribers/Y");
@@ -150,7 +150,7 @@ public class Subscriber {
 				if (sub.getPattern() != null) {
 					ContextEventPattern cep = (ContextEventPattern) Activator.getTurtleParser().deserialize(sub.getPattern());
 					if(cep ==null )
-						cep = (ContextEventPattern) Activator.getJsonParser().deserialize(sub.getPattern());
+						cep = (ContextEventPattern) Activator.getJsonldParser().deserialize(sub.getPattern());
 					if (cep != null) { // Just check that they are OK
 						if (!subid.equals(sub.id)) {// Do not allow changes to id
 						    return Response.notModified().build();

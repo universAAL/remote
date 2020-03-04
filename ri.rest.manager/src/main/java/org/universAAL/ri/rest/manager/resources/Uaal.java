@@ -79,8 +79,7 @@ public class Uaal {
 		return new Uaal();
 	}
 
-	@Path("/spaces") // GET localhost:9000/uaal/spaces (redirects to Spaces
-						// class)
+	@Path("/spaces") // GET localhost:9000/uaal/spaces (redirects to Spaces class)
 	@Produces("application/xml;charset=UTF-8;version=1")
 	public Spaces getSpacesResourceLocator() {
 		Activator.logI("Uaal.getSpacesResourceLocator", ">>>GET host:port/uaal/spaces");

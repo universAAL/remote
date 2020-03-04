@@ -44,6 +44,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
+import org.universAAL.middleware.serialization.MessageContentSerializer;
 import org.universAAL.middleware.service.ServiceResponse;
 import org.universAAL.middleware.service.owls.profile.ServiceProfile;
 import org.universAAL.ri.rest.manager.Activator;
@@ -116,7 +117,7 @@ public class Callee {
 	// ===============REST METHODS===============
 
 	@GET
-	@Produces(Activator.TYPES)
+	@Produces(Activator.TYPES_JSON_XML)
 	public Callee getCalleeResource(@PathParam("id") String id, @PathParam("subid") String subid) {
 		Activator.logI("Callee.getCalleeResource", "GET host:port/uaal/spaces/X/service/callees/Y");
 		SpaceWrapper tenant = UaalWrapper.getInstance().getTenant(id);
@@ -142,17 +143,27 @@ public class Callee {
 	}
 
 	@POST
-	@Consumes(Activator.TYPES_TXT)
-	public Response executeCalleeResponse(@PathParam("id") String id, @PathParam("subid") String subid,
+	@Consumes(Activator.TYPES_TURTLE)
+	public Response executeCalleeResponseTurtle(@PathParam("id") String id, @PathParam("subid") String subid,
 			@QueryParam("o") String origin, String sresp) {
-		Activator.logI("Callee.executeCalleeResponse", "POST host:port/uaal/spaces/X/service/callees/Y");
+		Activator.logI("Callee.executeCalleeResponse", "POST host:port/uaal/spaces/X/service/callees/Y TURTLE");
+		return executeCalleeResponse(id, subid, origin, sresp, Activator.getTurtleParser());
+	}
+	
+	@POST
+	@Consumes(Activator.TYPES_JSONLD)
+	public Response executeCalleeResponseJsonld(@PathParam("id") String id, @PathParam("subid") String subid,
+			@QueryParam("o") String origin, String sresp) {
+		Activator.logI("Callee.executeCalleeResponse", "POST host:port/uaal/spaces/X/service/callees/Y JSONLD");
+		return executeCalleeResponse(id, subid, origin, sresp, Activator.getJsonldParser());
+	}
+	
+	public Response executeCalleeResponse(String id, String subid, String origin, String sresp, MessageContentSerializer parser) {
 		SpaceWrapper tenant = UaalWrapper.getInstance().getTenant(id);
 		if (tenant != null) {
 			CalleeWrapper ceewrap = tenant.getServiceCallee(subid);
 			if (ceewrap != null) {
-				ServiceResponse sr = (ServiceResponse) Activator.getTurtleParser().deserialize(sresp);
-				if(sr == null)
-					sr = (ServiceResponse) Activator.getJsonParser().deserialize(sresp);
+				ServiceResponse sr = (ServiceResponse) parser.deserialize(sresp);
 				if (sr != null) {
 					ceewrap.handleResponse(sr, origin);
 					return Response.ok().build();
@@ -169,7 +180,7 @@ public class Callee {
 	}
 
 	@PUT
-	@Consumes(Activator.TYPES)
+	@Consumes(Activator.TYPES_JSON_XML)
 	public Response putCalleeResource(@PathParam("id") String id, @PathParam("subid") String subid, Callee cee)
 			throws URISyntaxException {
 		Activator.logI("Callee.putCalleeResource", "PUT host:port/uaal/spaces/X/service/callees/Y");
@@ -179,7 +190,7 @@ public class Callee {
 				if (cee.getProfile() != null) {
 					ServiceProfile sp = (ServiceProfile) Activator.getTurtleParser().deserialize(cee.getProfile());
 					if(sp == null)
-						sp = (ServiceProfile) Activator.getJsonParser().deserialize(cee.getProfile());
+						sp = (ServiceProfile) Activator.getJsonldParser().deserialize(cee.getProfile());
 					if (sp != null) { // Just check that they are OK
 						if (!subid.equals(cee.id)) {// Do not allow id different than URI
 							return Response.notModified().build();

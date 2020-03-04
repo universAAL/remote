@@ -77,8 +77,9 @@ public class PushGCM {
 		String predicate = event.getRDFPredicate();
 		String object = event.getRDFObject().toString();
 		String serial = Activator.getTurtleParser().serialize(event);
+		//TODO This is never going to happen. We could introduce an option to choose format though.
 		if(serial==null)
-			serial = Activator.getJsonParser().serialize(event);
+			serial = Activator.getJsonldParser().serialize(event);
 
 		int size = 0; // Find out size of the WHOLE payload
 		StringBuilder combined = new StringBuilder(serial).append(subject).append(predicate).append(object)
@@ -125,8 +126,9 @@ public class PushGCM {
 
 		List inputs = (List) call.getProperty(ServiceCall.PROP_OWLS_PERFORM_HAS_DATA_FROM);
 		String serial = Activator.getTurtleParser().serialize(call);
+		//TODO This is never going to happen. We could introduce an option to choose format though.
 		if(serial== null)
-			serial = Activator.getJsonParser().serialize(call);
+			serial = Activator.getJsonldParser().serialize(call);
 
 		int size = 0; // Find out size of the WHOLE payload
 		StringBuilder combined = new StringBuilder(serial);

@@ -127,7 +127,7 @@ public class Space {
 	// ===============REST METHODS===============
 
 	@GET // GET localhost:9000/uaal/spaces/123 (Redirected from Spaces class)
-	@Produces(Activator.TYPES)
+	@Produces(Activator.TYPES_JSON_XML)
 	public Space getSpaceResource(
 			@PathParam("id") String id/* , @javax.ws.rs.core.Context SecurityContext ctxt */) {
 		Activator.logI("Space.getSpaceResource", "GET host:port/uaal/spaces/X ");
@@ -151,7 +151,7 @@ public class Space {
 	}
 
 	@PUT // PUT localhost:9000/uaal/spaces/123 <Body: Space>
-	@Consumes(Activator.TYPES)
+	@Consumes(Activator.TYPES_JSON_XML)
 	public Response putSpaceResource(@PathParam("id") String id, Space space, @javax.ws.rs.core.Context SecurityContext security) throws URISyntaxException {
 		Activator.logI("Space.putSpaceResource", "PUT host:port/uaal/spaces/X ");
 		if (id.equals(space.id)) {// Do not allow changes to id
@@ -179,17 +179,15 @@ public class Space {
 		}
 	}
 
-	@Path("/context") // GET localhost:9000/uaal/spaces/123/context (Redirects
-						// to Context class)
-	@Produces(Activator.TYPES)
+	@Path("/context") // GET localhost:9000/uaal/spaces/123/context (Redirects to Context class)
+	@Produces(Activator.TYPES_JSON_XML)
 	public Context getContextResource() {
 		Activator.logI("Space.getContextResource", ">>>GET host:port/uaal/spaces/X/context ");
 		return new Context();
 	}
 
-	@Path("/service") // GET localhost:9000/uaal/spaces/123/service (Redirects
-						// to Service class)
-	@Produces(Activator.TYPES)
+	@Path("/service") // GET localhost:9000/uaal/spaces/123/service (Redirects to Service class)
+	@Produces(Activator.TYPES_JSON_XML)
 	public Service getServiceResource() {
 		Activator.logI("Space.getServiceResource", ">>>GET host:port/uaal/spaces/X/service ");
 		return new Service();

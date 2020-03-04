@@ -43,6 +43,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
+import org.universAAL.middleware.serialization.MessageContentSerializer;
 import org.universAAL.middleware.service.ServiceRequest;
 import org.universAAL.middleware.service.ServiceResponse;
 import org.universAAL.ri.rest.manager.Activator;
@@ -91,7 +92,7 @@ public class Caller {
 	// ===============REST METHODS===============
 
 	@GET
-	@Produces(Activator.TYPES)
+	@Produces(Activator.TYPES_JSON_XML)
 	public Caller getCallerResource(@PathParam("id") String id, @PathParam("subid") String subid) {
 		Activator.logI("Caller.getCallerResource", "GET host:port/uaal/spaces/X/service/callers/Y");
 		SpaceWrapper tenant = UaalWrapper.getInstance().getTenant(id);
@@ -117,20 +118,30 @@ public class Caller {
 	}
 
 	@POST
-	@Consumes(Activator.TYPES_TXT)
-	@Produces(Activator.TYPES_TXT)
-	public Response executeCallerCall(@PathParam("id") String id, @PathParam("subid") String subid, String call) {
-		Activator.logI("Caller.executeCallerCall", "POST host:port/uaal/spaces/X/service/callers/Y");
+	@Consumes(Activator.TYPES_TURTLE)
+	@Produces(Activator.TYPES_TURTLE)
+	public Response executeCallerCallTurtle(@PathParam("id") String id, @PathParam("subid") String subid, String call) {
+		Activator.logI("Caller.executeCallerCall", "POST host:port/uaal/spaces/X/service/callers/Y TURTLE");
+		return executeCallerCall(id, subid, call, Activator.getTurtleParser());
+	}
+	
+	@POST
+	@Consumes(Activator.TYPES_JSONLD)
+	@Produces(Activator.TYPES_JSONLD)
+	public Response executeCallerCallJsonld(@PathParam("id") String id, @PathParam("subid") String subid, String call) {
+		Activator.logI("Caller.executeCallerCall", "POST host:port/uaal/spaces/X/service/callers/Y JSONLD");
+		return executeCallerCall(id, subid, call, Activator.getJsonldParser());
+	}
+	
+	public Response executeCallerCall(String id, String subid, String call, MessageContentSerializer parser) {
 		SpaceWrapper tenant = UaalWrapper.getInstance().getTenant(id);
 		if (tenant != null) {
 			CallerWrapper cerwrap = tenant.getServiceCaller(subid);
 			if (cerwrap != null) {
-				ServiceRequest sreq = (ServiceRequest) Activator.getTurtleParser().deserialize(call);
-				if(sreq ==null)
-					 sreq = (ServiceRequest) Activator.getJsonParser().deserialize(call);
+				ServiceRequest sreq = (ServiceRequest) parser.deserialize(call);
 				if (sreq != null) {
 					ServiceResponse sr = cerwrap.call(sreq);
-					return Response.ok(Activator.getTurtleParser().serialize(sr)).build();
+					return Response.ok(parser.serialize(sr)).build();
 				} else {
 					return Response.status(Status.BAD_REQUEST).build();
 				}
@@ -143,7 +154,7 @@ public class Caller {
 	}
 
 	@PUT
-	@Consumes(Activator.TYPES)
+	@Consumes(Activator.TYPES_JSON_XML)
 	public Response putCallerResource(@PathParam("id") String id, @PathParam("subid") String subid, Caller cer)
 			throws URISyntaxException {
 		Activator.logI("Caller.putCallerResource", "PUT host:port/uaal/spaces/X/service/callers/Y");

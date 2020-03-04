@@ -89,21 +89,21 @@ public class Context {
 	// ===============REST METHODS===============
 
 	@GET
-	@Produces(Activator.TYPES)
+	@Produces(Activator.TYPES_JSON_XML)
 	public Context getContextResource(@PathParam("id") String id) {
 		Activator.logI("Context.getContextResource", "GET host:port/uaal/spaces/X/context");
 		return new Context(id);
 	}
 
 	@Path("/publishers")
-	@Produces(Activator.TYPES)
+	@Produces(Activator.TYPES_JSON_XML)
 	public Publishers getPublishersResource() {
 		Activator.logI("Context.getPublishersResource", ">>>GET host:port/uaal/spaces/X/context/publishers");
 		return new Publishers();
 	}
 
 	@Path("/subscribers")
-	@Produces(Activator.TYPES)
+	@Produces(Activator.TYPES_JSON_XML)
 	public Subscribers getSubscribersResource() {
 		Activator.logI("Context.getSubscribersResource", ">>>GET host:port/uaal/spaces/X/context/subscribers");
 		return new Subscribers();

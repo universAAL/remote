@@ -85,7 +85,7 @@ public class Subscribers {
 	// ===============REST METHODS===============
 
 	@GET
-	@Produces(Activator.TYPES)
+	@Produces(Activator.TYPES_JSON_XML)
 	public Subscribers getSubscribersResource(@PathParam("id") String id) {
 		Activator.logI("Subscribers.getSubscribersResource", "GET host:port/uaal/spaces/X/context/subscribers");
 		Subscribers allsubs = new Subscribers();
@@ -105,7 +105,7 @@ public class Subscribers {
 	}
 
 	@POST
-	@Consumes(Activator.TYPES)
+	@Consumes(Activator.TYPES_JSON_XML)
 	public Response addSubscriberResource(@PathParam("id") String id, Subscriber sub) throws URISyntaxException {
 		Activator.logI("Subscribers.addSubscriberResource", "POST host:port/uaal/spaces/X/context/subscribers");
 		if(sub.getId().isEmpty()) return Response.status(Status.BAD_REQUEST).build();
@@ -119,7 +119,7 @@ public class Subscribers {
 				if (sub.getPattern() != null) {
 					ContextEventPattern cep = (ContextEventPattern) Activator.getTurtleParser().deserialize(sub.getPattern());
 					if(cep ==null)
-						cep = (ContextEventPattern) Activator.getJsonParser().deserialize(sub.getPattern());
+						cep = (ContextEventPattern) Activator.getJsonldParser().deserialize(sub.getPattern());
 					if (cep != null) {
 						if(tenant.getContextSubscriber(sub.getId())!=null){ //Already exists 409
 						    return Response.status(Status.CONFLICT).build();
@@ -150,7 +150,7 @@ public class Subscribers {
 
 
 	@Path("/{subid}")
-	@Produces(Activator.TYPES)
+	@Produces(Activator.TYPES_JSON_XML)
 	public Subscriber getSubscriberResourceLocator() {
 		Activator.logI("Subscribers.getSubscriberResourceLocator",
 				">>>GET host:port/uaal/spaces/X/context/subscribers/Y");

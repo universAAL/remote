@@ -386,7 +386,7 @@ public class PersistenceDerby implements Persistence {
 				if (id != null && subid != null && serial != null) {
 					ContextEventPattern cep = (ContextEventPattern) Activator.getTurtleParser().deserialize(serial);
 					if(cep == null)
-						cep = (ContextEventPattern) Activator.getJsonParser().deserialize(serial);
+						cep = (ContextEventPattern) Activator.getJsonldParser().deserialize(serial);
 					UaalWrapper.getInstance().getTenant(id).addContextSubscriber(
 							new SubscriberWrapper(Activator.getContext(), new ContextEventPattern[] { cep },
 									new Subscriber(id, subid, callback, serial), id));
@@ -402,7 +402,7 @@ public class PersistenceDerby implements Persistence {
 				if (id != null && subid != null && serial != null) {
 					ServiceProfile sp = (ServiceProfile) Activator.getTurtleParser().deserialize(serial);
 					if(sp == null)
-						sp = (ServiceProfile) Activator.getJsonParser().deserialize(serial);
+						sp = (ServiceProfile) Activator.getJsonldParser().deserialize(serial);
 					UaalWrapper.getInstance().getTenant(id)
 							.addServiceCallee(new CalleeWrapper(Activator.getContext(), new ServiceProfile[] { sp },
 									new Callee(id, subid, callback, serial), id));
@@ -427,7 +427,7 @@ public class PersistenceDerby implements Persistence {
 				if (id != null && subid != null && serial != null) {
 					ContextProvider cp = (ContextProvider) Activator.getTurtleParser().deserialize(serial);
 					if(cp == null)
-						 cp = (ContextProvider) Activator.getJsonParser().deserialize(serial);
+						 cp = (ContextProvider) Activator.getJsonldParser().deserialize(serial);
 					UaalWrapper.getInstance().getTenant(id).addContextPublisher(
 							new PublisherWrapper(Activator.getContext(), cp, new Publisher(id, subid, serial)));
 				}

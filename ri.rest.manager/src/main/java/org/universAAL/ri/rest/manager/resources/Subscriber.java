@@ -148,34 +148,42 @@ public class Subscriber {
 		if (tenant != null) {
 			if (Activator.hasRegisteredSerializers()) {
 				if (sub.getPattern() != null) {
-					ContextEventPattern cep = (ContextEventPattern) Activator.getTurtleParser().deserialize(sub.getPattern());
-					if(cep ==null )
-						cep = (ContextEventPattern) Activator.getJsonldParser().deserialize(sub.getPattern());
-					if (cep != null) { // Just check that they are OK
-						if (!subid.equals(sub.id)) {// Do not allow changes to id
-						    return Response.notModified().build();
-						}
-						// The sub generated from the PUT body does not contain any "link"
-						// elements, but I wouldnt have allowed it anyway
-						sub.setSelf(Link.fromPath("/uaal/spaces/" + id + "/service/callees/" + sub.getId()).rel("self").build());
-						SubscriberWrapper original = tenant.getContextSubscriber(subid);
-						if (original != null) {// Already exists > change
-							original.setResource(sub);
-							if (tenant.updateContextSubscriber(original)) {
-								Activator.getPersistence().storeSubscriber(id, sub);
-								return Response
-										.created(new URI("uaal/spaces/" + id + "/service/callees/" + sub.getId()))
-										.build();
-							} else {
-								return Response.notModified().build();
+					ContextEventPattern cep = null;
+					Object deserialized = Activator.getTurtleParser().deserialize(sub.getPattern());
+					if(deserialized ==null )
+						deserialized = Activator.getJsonldParser().deserialize(sub.getPattern());
+					if (deserialized != null) { // Just check that they are OK
+						if(deserialized instanceof ContextEventPattern) {
+							cep = (ContextEventPattern)deserialized;
+							if (!subid.equals(sub.id)) {// Do not allow changes to id
+							    return Response.notModified().build();
 							}
-						} else { // New one > create like in POST
-						    tenant.addContextSubscriber(new SubscriberWrapper(Activator.getContext(),
-							    new ContextEventPattern[] { cep }, sub, id));
-						    Activator.getPersistence().storeSubscriber(id, sub);
-						    return Response.created(new URI("uaal/spaces/" + id + "/context/subscribers/" + sub.getId()))
-							    .build();
+							// The sub generated from the PUT body does not contain any "link"
+							// elements, but I wouldnt have allowed it anyway
+							sub.setSelf(Link.fromPath("/uaal/spaces/" + id + "/service/callees/" + sub.getId()).rel("self").build());
+							SubscriberWrapper original = tenant.getContextSubscriber(subid);
+							if (original != null) {// Already exists > change
+								original.setResource(sub);
+								if (tenant.updateContextSubscriber(original)) {
+									Activator.getPersistence().storeSubscriber(id, sub);
+									return Response
+											.created(new URI("uaal/spaces/" + id + "/service/callees/" + sub.getId()))
+											.build();
+								} else {
+									return Response.notModified().build();
+								}
+							} else { // New one > create like in POST
+							    tenant.addContextSubscriber(new SubscriberWrapper(Activator.getContext(),
+								    new ContextEventPattern[] { cep }, sub, id));
+							    Activator.getPersistence().storeSubscriber(id, sub);
+							    return Response.created(new URI("uaal/spaces/" + id + "/context/subscribers/" + sub.getId()))
+								    .build();
+							}
+						}else {
+							Activator.logE("Subscriber.putCalleeResource", "PUT host:port/uaal/spaces/X/context/subscribers/Y Resource type mismatch. Expected ContextEventPattern");
+							return Response.status(Status.BAD_REQUEST).build();
 						}
+						
 					} else {
 						Activator.logE("Subscriber.putCalleeResource", "Cant serialize Subscriber pattern with the registered parsers");
 						return Response.status(Status.BAD_REQUEST).build();

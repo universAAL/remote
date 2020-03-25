@@ -117,18 +117,25 @@ public class Subscribers {
 		if (tenant != null) {
 			if (Activator.hasRegisteredSerializers()) {
 				if (sub.getPattern() != null) {
-					ContextEventPattern cep = (ContextEventPattern) Activator.getTurtleParser().deserialize(sub.getPattern());
-					if(cep ==null)
-						cep = (ContextEventPattern) Activator.getJsonldParser().deserialize(sub.getPattern());
-					if (cep != null) {
-						if(tenant.getContextSubscriber(sub.getId())!=null){ //Already exists 409
-						    return Response.status(Status.CONFLICT).build();
+					ContextEventPattern cep =null;
+					Object deserialized = Activator.getTurtleParser().deserialize(sub.getPattern());
+					if(deserialized==null)
+						deserialized = Activator.getJsonldParser().deserialize(sub.getPattern());
+					if (deserialized != null) {
+						if(deserialized instanceof ContextEventPattern) {
+							if(tenant.getContextSubscriber(sub.getId())!=null){ //Already exists 409
+							    return Response.status(Status.CONFLICT).build();
+							}
+							tenant.addContextSubscriber(new SubscriberWrapper(Activator.getContext(),
+									new ContextEventPattern[] { cep }, sub, id));
+							Activator.getPersistence().storeSubscriber(id, sub);
+							return Response.created(new URI("uaal/spaces/" + id + "/context/subscribers/" + sub.getId()))
+									.build();
+						}else {
+							Activator.logE("Subscribers.addSubscriberResource", "POST host:port/uaal/spaces/X/context/subscribers Resource type mismatch. Expected ContextEventPattern");
+							return Response.status(Status.BAD_REQUEST).build();
 						}
-						tenant.addContextSubscriber(new SubscriberWrapper(Activator.getContext(),
-								new ContextEventPattern[] { cep }, sub, id));
-						Activator.getPersistence().storeSubscriber(id, sub);
-						return Response.created(new URI("uaal/spaces/" + id + "/context/subscribers/" + sub.getId()))
-								.build();
+			
 					} else {
 						Activator.logE("Subscribers.addSubscriberResource", "Cant serialize Subscriber pattern with the registered parsers");
 						return Response.status(Status.BAD_REQUEST).build();

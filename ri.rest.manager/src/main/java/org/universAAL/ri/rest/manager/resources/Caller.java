@@ -138,10 +138,19 @@ public class Caller {
 		if (tenant != null) {
 			CallerWrapper cerwrap = tenant.getServiceCaller(subid);
 			if (cerwrap != null) {
-				ServiceRequest sreq = (ServiceRequest) parser.deserialize(call);
-				if (sreq != null) {
-					ServiceResponse sr = cerwrap.call(sreq);
-					return Response.ok(parser.serialize(sr)).build();
+				ServiceRequest sreq = null;
+				Object deserialized = parser.deserialize(call);
+
+				if (deserialized != null) {
+					if(deserialized instanceof ServiceRequest) {
+						sreq = (ServiceRequest)deserialized;
+						ServiceResponse sr = cerwrap.call(sreq);
+						return Response.ok(parser.serialize(sr)).build();	
+					}else {
+						Activator.logE("Caller.executeCallerCallJsonld", "POST host:port/uaal/spaces/X/context/publishers/Y Resource type mismatch. Expected ServiceRequest");
+						return Response.status(Status.BAD_REQUEST).build();
+					}
+					
 				} else {
 					Activator.logE("Caller.executeCallerCall", "POST POST host:port/uaal/spaces/X/service/callers/Y cant parse Caller with selected parser");
 					return Response.status(Status.BAD_REQUEST).build();

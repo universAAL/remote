@@ -154,7 +154,7 @@ public class Publisher {
 				ContextEvent ev=null;
 				if(o != null) {
 					if(o instanceof ContextEvent) {
-						ev = (ContextEvent) parser.deserialize(event);
+						ev = (ContextEvent)o;
 						pubwrap.publish(ev);
 						return Response.ok().build();
 					}else {

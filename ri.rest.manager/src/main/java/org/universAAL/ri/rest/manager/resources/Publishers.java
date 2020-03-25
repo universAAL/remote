@@ -116,17 +116,25 @@ public class Publishers {
 		if (tenant != null) {
 			if (Activator.hasRegisteredSerializers()) {
 				if (pub.getProviderinfo() != null) {
-					ContextProvider cp = (ContextProvider) Activator.getTurtleParser().deserialize(pub.getProviderinfo());
-					if(cp == null) {
-						cp = (ContextProvider) Activator.getJsonldParser().deserialize(pub.getProviderinfo());	
+					ContextProvider cp=null;
+					Object deserialized =  Activator.getTurtleParser().deserialize(pub.getProviderinfo());
+					if(deserialized == null) {
+						deserialized = Activator.getJsonldParser().deserialize(pub.getProviderinfo());	
 					}
 					if(tenant.getContextPublisher(pub.getId())!=null){ //Already exists 409
 					    return Response.status(Status.CONFLICT).build();
 					}
-					if (cp != null) {
-						tenant.addContextPublisher(new PublisherWrapper(Activator.getContext(), cp, pub));
-						Activator.getPersistence().storePublisher(id, pub);
-						return Response.created(new URI("uaal/spaces/" + id + "/context/publishers/" + pub.getId())).build();
+					if (deserialized  != null) {
+						if(deserialized instanceof ContextProvider) {
+							cp=(ContextProvider)deserialized;
+							tenant.addContextPublisher(new PublisherWrapper(Activator.getContext(), cp, pub));
+							Activator.getPersistence().storePublisher(id, pub);
+							return Response.created(new URI("uaal/spaces/" + id + "/context/publishers/" + pub.getId())).build();	
+						}else {
+							Activator.logE("Publishers.addPublisherResource", "POST host:port/uaal/spaces/X/context/publishers Resource type mismatch. Expected ContextProvider");
+							return Response.status(Status.BAD_REQUEST).build();
+						}
+						
 					} else {
 						Activator.logE("Publishers.addPublisherResource", "Cant serialize Publisher providerinfo with the registered parsers");
 						return Response.status(Status.BAD_REQUEST).build();

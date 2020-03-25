@@ -118,18 +118,27 @@ public class Callees {
 		if (tenant != null) {
 			if (Activator.hasRegisteredSerializers()) {
 				if (cee.getProfile() != null) {
-					ServiceProfile sp = (ServiceProfile) Activator.getTurtleParser().deserialize(cee.getProfile());
-					if(sp == null)
-						sp = (ServiceProfile) Activator.getJsonldParser().deserialize(cee.getProfile());
-					if (sp != null) {
-						if(tenant.getServiceCallee(cee.getId())!=null){ //Already exists 409
-						    return Response.status(Status.CONFLICT).build();
+					ServiceProfile sp =null;
+					Object deserialized =  Activator.getTurtleParser().deserialize(cee.getProfile());
+					if(deserialized == null)
+						deserialized = Activator.getJsonldParser().deserialize(cee.getProfile());
+					if (deserialized != null) {
+						if(deserialized instanceof ServiceProfile) {
+							sp = (ServiceProfile)deserialized;
+							if(tenant.getServiceCallee(cee.getId())!=null){ //Already exists 409
+							    return Response.status(Status.CONFLICT).build();
+							}
+							tenant.addServiceCallee(
+									new CalleeWrapper(Activator.getContext(), new ServiceProfile[] { sp }, cee, id));
+							Activator.getPersistence().storeCallee(id, cee);
+							return Response.created(new URI("uaal/spaces/" + id + "/service/callees/" + cee.getId()))
+									.build();
+						}else {
+							Activator.logE("Calees.addCalleeResource", "POST host:port/uaal/spaces/X/service/callees Resource type mismatch. Expecting ServiceProfile");
+							return Response.status(Status.BAD_REQUEST).build();
 						}
-						tenant.addServiceCallee(
-								new CalleeWrapper(Activator.getContext(), new ServiceProfile[] { sp }, cee, id));
-						Activator.getPersistence().storeCallee(id, cee);
-						return Response.created(new URI("uaal/spaces/" + id + "/service/callees/" + cee.getId()))
-								.build();
+						
+
 					} else {
 						Activator.logE("Calees.addCalleeResource", "Cant serialize Calee profile with the registered serializers");
 						return Response.status(Status.BAD_REQUEST).build();

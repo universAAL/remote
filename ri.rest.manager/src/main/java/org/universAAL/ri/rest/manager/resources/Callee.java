@@ -24,6 +24,7 @@ package org.universAAL.ri.rest.manager.resources;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import javax.crypto.spec.DESedeKeySpec;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -163,10 +164,18 @@ public class Callee {
 		if (tenant != null) {
 			CalleeWrapper ceewrap = tenant.getServiceCallee(subid);
 			if (ceewrap != null) {
-				ServiceResponse sr = (ServiceResponse) parser.deserialize(sresp);
-				if (sr != null) {
-					ceewrap.handleResponse(sr, origin);
-					return Response.ok().build();
+				Object o = parser.deserialize(sresp);
+				ServiceResponse sr = null;
+				if (o != null) {
+					if(o instanceof ServiceResponse) {
+						sr=(ServiceResponse)o;
+						ceewrap.handleResponse(sr, origin);
+						return Response.ok().build();
+					}else {
+						Activator.logE("Publisher.executePublisherPublish", "POST host:port/uaal/spaces/X/context/publishers/Y Resource type mismatch. Expected ServiceResponse");
+						return Response.status(Status.BAD_REQUEST).build();
+					}
+					
 				} else {
 					Activator.logE("Callee.executeCalleeResponse", "POST host:port/uaal/spaces/X/service/callees/Y cant parse given Calee with selected parser");
 					return Response.status(Status.BAD_REQUEST).build();
@@ -188,33 +197,41 @@ public class Callee {
 		if (tenant != null) {
 			if (Activator.hasRegisteredSerializers()) {
 				if (cee.getProfile() != null) {
-					ServiceProfile sp = (ServiceProfile) Activator.getTurtleParser().deserialize(cee.getProfile());
-					if(sp == null)
-						sp = (ServiceProfile) Activator.getJsonldParser().deserialize(cee.getProfile());
-					if (sp != null) { // Just check that they are OK
-						if (!subid.equals(cee.id)) {// Do not allow id different than URI
-							return Response.notModified().build();
-						}
-						// The cee generated from the PUT body does not contain any "link"
-						// elements, but I wouldnt have allowed it anyway
-						cee.setSelf(Link.fromPath("/uaal/spaces/" + id + "/service/callees/" + cee.getId()).rel("self").build());
-						CalleeWrapper original = tenant.getServiceCallee(subid);
-						if (original != null) {// Already exists > modify
-							original.setResource(cee);
-							if (tenant.updateServiceCallee(original)) {
-								Activator.getPersistence().storeCallee(id, cee);
-								return Response
-										.created(new URI("uaal/spaces/" + id + "/service/callees/" + cee.getId()))
-										.build();
-							} else {
+					ServiceProfile sp = null;
+					Object deserialized = Activator.getTurtleParser().deserialize(cee.getProfile());
+					if(deserialized == null)
+						deserialized =  Activator.getJsonldParser().deserialize(cee.getProfile());
+					if (deserialized != null) { // Just check that they are OK
+						if(deserialized instanceof ServiceProfile) {
+							sp = (ServiceProfile)deserialized;
+							if (!subid.equals(cee.id)) {// Do not allow id different than URI
 								return Response.notModified().build();
 							}
-						} else { // New one > create like in POST
-						    tenant.addServiceCallee(
-							    new CalleeWrapper(Activator.getContext(), new ServiceProfile[] { sp }, cee, id));
-						    Activator.getPersistence().storeCallee(id, cee);
-						    return Response.created(new URI("uaal/spaces/" + id + "/service/callees/" + cee.getId()))
-							    .build();
+							// The cee generated from the PUT body does not contain any "link"
+							// elements, but I wouldnt have allowed it anyway
+							cee.setSelf(Link.fromPath("/uaal/spaces/" + id + "/service/callees/" + cee.getId()).rel("self").build());
+							CalleeWrapper original = tenant.getServiceCallee(subid);
+							if (original != null) {// Already exists > modify
+								original.setResource(cee);
+								if (tenant.updateServiceCallee(original)) {
+									Activator.getPersistence().storeCallee(id, cee);
+									return Response
+											.created(new URI("uaal/spaces/" + id + "/service/callees/" + cee.getId()))
+											.build();
+								} else {
+									return Response.notModified().build();
+								}
+							} else { // New one > create like in POST
+							    tenant.addServiceCallee(
+								    new CalleeWrapper(Activator.getContext(), new ServiceProfile[] { sp }, cee, id));
+							    Activator.getPersistence().storeCallee(id, cee);
+							    return Response.created(new URI("uaal/spaces/" + id + "/service/callees/" + cee.getId()))
+								    .build();
+							}
+								
+						}else {
+							Activator.logD("Callee.putCalleeResource", "PUT host:port/uaal/spaces/X/service/callees/Y Resource type mismatch. Expected ServiceProfile");
+							return Response.status(Status.BAD_REQUEST).build();
 						}
 					} else {
 						Activator.logE("Calee.putCalleeResource", "Cant serialize Calee profile with registered parsers");

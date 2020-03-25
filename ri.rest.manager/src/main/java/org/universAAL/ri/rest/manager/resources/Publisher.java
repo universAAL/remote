@@ -150,14 +150,22 @@ public class Publisher {
 		if (tenant != null) {
 			PublisherWrapper pubwrap = tenant.getContextPublisher(subid);
 			if (pubwrap != null) {
-				ContextEvent ev = (ContextEvent) parser.deserialize(event);
-				if (ev != null) {
-					pubwrap.publish(ev);
-					return Response.ok().build();
-				} else {
+				Object o =parser.deserialize(event);
+				ContextEvent ev=null;
+				if(o != null) {
+					if(o instanceof ContextEvent) {
+						ev = (ContextEvent) parser.deserialize(event);
+						pubwrap.publish(ev);
+						return Response.ok().build();
+					}else {
+						Activator.logE("Publisher.executePublisherPublish", "POST host:port/uaal/spaces/X/context/publishers/Y Resource type mismatch. Expected ContextEvent");
+						return Response.status(Status.BAD_REQUEST).build();
+					}
+				}else {
 					Activator.logE("Publisher.executePublisherPublish", "POST host:port/uaal/spaces/X/context/publishers/Y cant deserialize given ContextEvent with selected parser");
 					return Response.status(Status.BAD_REQUEST).build();
 				}
+				
 			} else {
 				return Response.status(Status.NOT_FOUND).build();
 			}

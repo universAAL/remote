@@ -155,6 +155,7 @@ public class Publisher {
 					pubwrap.publish(ev);
 					return Response.ok().build();
 				} else {
+					Activator.logE("Publisher.executePublisherPublish", "POST host:port/uaal/spaces/X/context/publishers/Y cant deserialize given ContextEvent with selected parser");
 					return Response.status(Status.BAD_REQUEST).build();
 				}
 			} else {

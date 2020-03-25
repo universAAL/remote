@@ -143,6 +143,7 @@ public class Caller {
 					ServiceResponse sr = cerwrap.call(sreq);
 					return Response.ok(parser.serialize(sr)).build();
 				} else {
+					Activator.logE("Caller.executeCallerCall", "POST POST host:port/uaal/spaces/X/service/callers/Y cant parse Caller with selected parser");
 					return Response.status(Status.BAD_REQUEST).build();
 				}
 			} else {

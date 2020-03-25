@@ -168,7 +168,7 @@ public class Callee {
 					ceewrap.handleResponse(sr, origin);
 					return Response.ok().build();
 				} else {
-					Activator.logD("Callee.executeCalleeResponse", "POST host:port/uaal/spaces/X/service/callees/Y cant parse given Calee with JsonParser and TurtleParser");
+					Activator.logE("Callee.executeCalleeResponse", "POST host:port/uaal/spaces/X/service/callees/Y cant parse given Calee with selected parser");
 					return Response.status(Status.BAD_REQUEST).build();
 				}
 			} else {

@@ -128,7 +128,7 @@ public class Publishers {
 						Activator.getPersistence().storePublisher(id, pub);
 						return Response.created(new URI("uaal/spaces/" + id + "/context/publishers/" + pub.getId())).build();
 					} else {
-						Activator.logE("Publishers.addPublisherResource", "Cant serialize Publisher provider info with the registered parsers");
+						Activator.logE("Publishers.addPublisherResource", "Cant serialize Publisher providerinfo with the registered parsers");
 						return Response.status(Status.BAD_REQUEST).build();
 					}
 				} else {

@@ -26,6 +26,7 @@ import java.util.HashMap;
 import javax.ws.rs.core.MediaType;
 
 import org.apache.cxf.binding.BindingFactoryManager;
+import org.apache.cxf.endpoint.Server;
 import org.apache.cxf.jaxrs.JAXRSBindingFactory;
 import org.apache.cxf.jaxrs.JAXRSServerFactoryBean;
 import org.apache.cxf.jaxrs.lifecycle.SingletonResourceProvider;
@@ -55,6 +56,7 @@ public class Activator implements BundleActivator {
 
 	private TenantListener tenantListener = null;
 	private ServiceReference[] tenantRefs;
+	private Server server;
 	private static TenantManager tenantMngr = null;
 	private static boolean logDebug = Configuration.getLogDebug();
 
@@ -109,7 +111,7 @@ public class Activator implements BundleActivator {
 		JAXRSBindingFactory factory = new JAXRSBindingFactory();
 		factory.setBus(sf.getBus());
 		manager.registerBindingFactory(JAXRSBindingFactory.JAXRS_BINDING_ID, factory);
-		sf.create();
+		server=sf.create();
 	}
 
 	public void stop(BundleContext arg0) throws Exception {
@@ -117,6 +119,7 @@ public class Activator implements BundleActivator {
 			tenantListener.serviceChanged(new ServiceEvent(ServiceEvent.UNREGISTERING, tenantRefs[i]));
 		}
 		UaalWrapper.getInstance().close();
+		server.stop();
 	}
 
 	private class TenantListener implements ServiceListener {

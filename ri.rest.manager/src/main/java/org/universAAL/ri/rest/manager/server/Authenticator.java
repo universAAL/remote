@@ -75,6 +75,7 @@ public class Authenticator implements ContainerRequestFilter {
 	}
 
 	private boolean isAuthenticated(String username, String password) {
+	    if (username!=null && !username.isEmpty() && password!=null && !password.isEmpty()){
 		// TODO Evaluate if it is worth it to have an in-memory user-pass list
 		// to ease the pressure on the DB, if that means implementing additional
 		// managing features to keep it sync with the DB.
@@ -95,6 +96,9 @@ public class Authenticator implements ContainerRequestFilter {
 			return true;
 			// New users are always welcome
 		}
+	    }else{
+		return false;
+	    }
 	}
 
     private boolean isAuthorized(String username, String p) {
